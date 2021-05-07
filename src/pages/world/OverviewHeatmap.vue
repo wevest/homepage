@@ -77,18 +77,7 @@ export default {
 
         update: function(data) {
     
-            //var new_data = CommonFunc.sortArray(data,'yymm','a');
-            //console.log('overviewHeatmap.update = ',data);
-            
             let yymms = this.extractColumnValue(data.asset['NYSE'].values,5,0);
-            //console.log('overviewHeatmap.yymms = ',yymms);
-            /*
-            this.chartOptions = {
-                xaxis: {
-                    categories: yymms
-                }
-            };
-            */
             let series = [];
             for (var a_asset in data.asset) {
                 //console.log('a_asset=',a_asset);

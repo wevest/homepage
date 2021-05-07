@@ -30,28 +30,6 @@
       </div>
     </div>
 
-<!--    
-  <v-card>
-    <v-card-title>
-      Rank List
-      <v-spacer></v-spacer>
-    </v-card-title>
-    
-    <v-data-table
-        :headers="headers"
-        :items="items"
-    >
-      <template v-slot:items="props">
-        <td> <a href="#" @click="showSectorChart(props.item.category)">{{ props.item.category }}</a> </td>
-        <td class="text-xs-right">{{ Number(props.item.d1).toLocaleString() }}</td>        
-        <td class="text-xs-right">{{ Number(props.item.w1).toLocaleString() }}</td>        
-        <td class="text-xs-right">{{ Number(props.item.m1).toLocaleString() }}</td>        
-        <td class="text-xs-right">{{ Number(props.item.m3).toLocaleString() }}</td>        
-      </template>
-    </v-data-table>
-  </v-card>
--->
-
 </template>
 
 

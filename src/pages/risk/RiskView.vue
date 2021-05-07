@@ -52,24 +52,11 @@ export default {
         g_market_overview: null,
     }),
 
-
-    created: function () {
-        //console.log("HomeView.created");
-    },
     mounted: function() {
         //console.log("HomeView.mounted - ");
         this.refresh();
     },
-    updated: function() {
-        //console.log("HomeView.updated");
-    },
-    
     methods: {
-        test: function() {
-            logger.log.debug("HomeView.test=");
-            this.showChart('A051910');
-            //this.getFilteredData('A051910');
-        },
 
         
         updateWidget: function(ntype,data) {
@@ -165,33 +152,11 @@ export default {
         },
 
 
-        navSector: function(category) {
-            logger.log.debug("SearchAnalyst.navSector - ",category);
-            CommonFunc.navSector(this,category);
-        },
-
-        navInstrument: function(asset,date,category,name,price) {
-            logger.log.debug("SearchAnalyst.navInstrument - ",category);
-            let a_data = {asset:asset, jw52_date:date, name:name, category:category, jw52_price:price};
-            CommonFunc.setAppData('asset',a_data);
-            CommonFunc.navInstrument(this,asset);
-        },
-
-
         onUpdateWidget: function(ntype,data) {
             console.log('onUpdateWidget - ',ntype,data);
             this.updateWidget(ntype,data);
         },
 
-        onLoad: function(progress) {
-            console.log('onLoad - ',progress);
-        },
-
-        onKeypressSearch: function(event) {
-            const _this = this;
-            let a_author = event.target.value;
-            this.search(a_author);
-        },
     },
 
 }

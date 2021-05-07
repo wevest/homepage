@@ -62,14 +62,7 @@ export default {
         loadMarketEvent: function(ioffset=360) 
         {
             const _this = this;
-/*
-            let a_data = CommonFunc.getAppData('chartEvent');
-            if (a_data) {
-              this.g_data = a_data;
-              this.showEventChart(this.g_data);
-              return;
-            }
-*/
+
             return new Promise(function(resolve,reject) {
               let a_today = CommonFunc.getToday(false);
               let a_start_date = CommonFunc.addDays(a_today, ioffset*-1 );
@@ -96,15 +89,6 @@ export default {
         loadMarketRisk: function(ioffset=720) 
         {
             const _this = this;
-
-            /*
-            let a_data = CommonFunc.getAppData('chartRisk');
-            if (a_data) {
-              this.g_data = a_data;
-              this.showChart(this.g_data);
-              return;
-            }
-*/
 
             return new Promise(function(resolve,rejec) {
               let a_today = CommonFunc.getToday(false);
@@ -235,22 +219,11 @@ export default {
             const a_size = 6;
             const start_index = 0;
 
-            //let data_vix = this.getKvixData(data['U545'],'close');
-            //let data_vix_ema = this.getKvixData(data['U545'],'close_ema');
-            //let data_vix_z = this.getKvixData(data['U545'],'close_z');
-            //let data_vix = CommonFunc.getChartData()
             let data_kospi = CommonFunc.getChartData(data,'U001','close','date',false,0);
             let data_kvix = CommonFunc.getChartData(data,'U545','close','date',false,0);
             let data_kvix_ema = CommonFunc.getChartData(data,'U545','close_ema','date',false,0);
             let data_kvix_z = CommonFunc.getChartData(data,'U545','close_z','date',false,0);
             let data_vix = CommonFunc.getChartData(data,'vix','close','date',false,0);
-            /*
-            let data_future = this.getEventData(data,'FOREIGN_future_z',thresh_up,thresh_down,a_size,'#1e90ff',start_index);            
-            let data_call = this.getEventData(data,'FOREIGN_call_z',thresh_up,thresh_down,a_size,'#00ff00',start_index);
-            let data_put = this.getEventData(data,'FOREIGN_put_z',thresh_up,thresh_down,a_size,'#8b0000',start_index);
-
-            let data_points = [].concat(data_future,data_krx,data_call,data_put);
-            */
 
             console.log("showKvixChart : data_vix =",data_vix.data);            
 
@@ -294,19 +267,6 @@ export default {
                           }
                       }
                   },
-/*                  
-                  states: {
-                      hover: {
-                          marker: {
-                              enabled: false
-                          }
-                      }
-                  },
-                  tooltip: {
-                      headerFormat: '<b>{series.name}</b><br>',
-                      pointFormat: '{point.x} cm, {point.y} kg'
-                  }
-*/                  
               }
             };
             

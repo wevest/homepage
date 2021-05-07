@@ -69,27 +69,10 @@ export default {
         //console.log("HomeView.created");
     },
     mounted: function() {
-        //console.log("HomeView.mounted - ");
-/*
-        let a_selected = CommonFunc.getAppData('crypto_selected');
-        console.log("InstrumentView.mounted - ",a_selected);
-        if (a_selected)  {
-            //this.showChart(a_selected,[],'');
-        }
-*/
         this.refresh();
-    },
-    updated: function() {
-        //console.log("HomeView.updated");
     },
     
     methods: {
-        test: function() {
-            logger.log.debug("HomeView.test=");
-            this.showChart('A051910');
-            //this.getFilteredData('A051910');
-        },
-
         refresh: function() {
             const _this = this;
         
