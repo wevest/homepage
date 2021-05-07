@@ -132,7 +132,6 @@ export default {
         },
 
 
-
         onClickTab:function(value) {
           console.log('CTopTable.onClick - ',value);
           this.showReportList(this.g_exchange,this.g_sector,value);

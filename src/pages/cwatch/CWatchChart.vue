@@ -1,15 +1,9 @@
 <template>
     <div class="example">
-<!--
-        <highcharts :constructorType="'stockChart'" class="hc" :options="chartOptions" ref="chart"></highcharts>
--->        
 
         <div class="row">
             <q-input outlined v-model="g_field" label="Field" :dense="dense" />
             <q-input outlined v-model="g_thresh" label="Threshold" :dense="dense" />
-<!--
-            <q-space />
--->            
             <q-btn color="primary" label="Refresh" @click='onClickRefresh' /> 
         </div>
 
@@ -26,7 +20,6 @@
 
 <script>
 import CommonFunc from 'src/util/CommonFunc';
-//import MoaBackendAPI from '@/services/apiService';
 import logger from 'src/error/Logger';
 
 import CTitle from 'src/components/CTitle';
@@ -102,21 +95,9 @@ export default {
 
             this.g_data = json_data;
             this.updateIndexChart(json_data);            
-            //this.updateTickTrinChart(json_data,'Buying Power');
-            //this.updateMarketPowerChart(json_data,'Market Power Chart');
-            
-            //this.updateRSChart(json_data,category,category + ' Rank Chart');
         },
 
         onClickRefresh: function() {
-            //let a_date = moment('2021-04-22 09:00:00Z');
-            //let a_date2 = a_date.format('YYYY-MM-DD HH:mm');
-            //let a_timestamp = a_date.tz("Asia/Seoul").format('YYYY-MM-DD HH:mm');
-
-            //const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
-            //const kr_curr = new Date(a_timestamp + KR_TIME_DIFF);
-            //console.log('date=',a_date,a_date2, a_timestamp);
-
             this.updateIndexChart(this.g_data);
         }
     }
