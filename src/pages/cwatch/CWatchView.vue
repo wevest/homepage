@@ -1,0 +1,225 @@
+<template>
+    
+    <div class="q-pa-md">
+      
+      <div class="row q-gutter-md">
+        <div class="col-12 col-md">
+          <CBigLabel ref='label_btc_up' title="btc_up"></CBigLabel>
+        </div>
+        <div class="col-12 col-md">
+          <CBigLabel ref='label_btc_down' title="abc"></CBigLabel>
+        </div>
+        <div class="col-12 col-md">
+          <CBigLabel ref='label_eth_up' title="abc"></CBigLabel>
+        </div>
+        <div class="col-12 col-md">
+          <CBigLabel ref='label_eth_down' title="abc"></CBigLabel>
+        </div>
+      </div>
+
+
+      <div class="row">
+            <div class="col">
+                <CTitle ttype='title' :title="$t('chart.home_scaled.title')"></CTitle>          
+                <ChartTimeframe period='daily' :onclick="onClickTimeframe" :selected='g_timeframe'></ChartTimeframe>          
+                <CWatchChart ref='cwatchChart'></CWatchChart>
+            </div>      
+      </div>
+
+
+  </div> 
+
+
+</template>
+
+<script>
+import { MoaConfig } from 'src/data/MoaConfig';
+import { CONST } from 'src/data/const';
+import CommonFunc from 'src/util/CommonFunc';
+import logger from 'src/error/Logger';
+import MoaBackendAPI from 'src/services/apiService';
+import { LoadingBar } from 'quasar';
+
+import CTitle from 'components/CTitle';
+import CBigLabel from 'components/CBigLabel';
+import ChartTimeframe from 'components/ChartTimeframe';
+import CWatchChart from 'pages/cwatch/CWatchChart';
+
+
+export default {
+  name: 'PageCWatch',
+  components: {
+      CTitle,
+      CBigLabel,
+      ChartTimeframe,
+      CWatchChart,
+  },
+
+  data: function () {
+    return {
+      g_timeframe: 'm1',
+    }
+  },
+    created: function () {
+        //console.log("HomeView.created");
+    },
+    mounted: function() {
+        //console.log("HomeView.mounted - ");
+        this.refresh();
+    },
+    updated: function() {
+        //console.log("HomeView.updated");
+    },
+    
+    methods: {
+        test: function() {
+            logger.log.debug("HomeView.test=");
+            this.showChart('A051910');
+            //this.getFilteredData('A051910');
+        },
+
+        refresh: function() {
+            const _this = this;
+        
+            LoadingBar.start();
+            let funcs = [            
+                //this.loadCalendarEffectData('1h'),
+                this.loadCryptoWatchData(),
+                //this.loadCryptoTopAssetData('1h')
+            ];
+            Promise.all(funcs).then(function() {
+                LoadingBar.stop();
+            });
+
+        },
+        
+
+        loadCryptoWatchData: function(ioffset=30) {
+            const _this = this;
+
+            return new Promise(function(resolve,reject) {
+                let a_today = CommonFunc.getToday(false);
+                //logger.log.debug("HomeView.loadjw52 - today=",a_today);
+                let a_start_date = CommonFunc.addDays(a_today, ioffset*-1 );
+                //let a_end_date = CommonFunc.addDays(a_today, 1 );
+                
+                let dic_param = { freq:'1H',start_date:a_start_date, symbol:'BTC', itype:'overall' };
+                logger.log.debug("CWatchView.loadCryptoWatchData - dic_param=",dic_param);
+
+                MoaBackendAPI.getCryptoWatchData(dic_param,function(response) {
+                    _this.g_data = response.data.data;
+                    logger.log.debug("CWatchView.loadCryptoWatchData - response",_this.g_data);
+                    
+                    _this.updateWidget(_this.g_data);
+                    _this.updateCwatchChart(_this.g_data);
+                    //logger.log.debug("CWatchView.loadCryptoWatchData - response",_this.g_data);
+                    //_this.updateExchangeWidget(_this.g_data,_this.tab);
+                    //_this.updateExchangeIndexChart(_this.g_data,_this.tab);
+                    //_this.$refs.sectorTable.update(_this.g_data,_this.tab);
+                    resolve();
+                },function(err) {
+                    logger.log.error("HomeView.loadOverviewData - error",err);
+                    reject();
+                });
+            });            
+        },
+        
+
+
+        updateWidget: function(data,n_recent=3) {
+
+            let dic_columns = CommonFunc.getColumnDic(data['BTC'].columns,[],[]);            
+            let n_count = data['BTC'].values.length;
+            
+            let dic_count = {'BTC':{'up':0,'down':0},'ETH':{'up':0,'down':0}};
+
+            for (let asset in dic_count) {                
+                for (let index=n_count-n_recent;index<n_count;index++) {
+                    if (data[asset].values[index][dic_columns['short_usd_z']]>this.g_thresh) {
+                        dic_count[asset]['up'] +=  1;
+                    } 
+                    if (data[asset].values[index][dic_columns['long_usd_z']]>this.g_thresh) {
+                        dic_count[asset]['down'] +=  1;
+                    } 
+                }
+                //let a_index = data[a_exchange][a_category].values[data[a_exchange][a_category].values.length-1][column_price];
+                //let a_ret = data[a_exchange][a_category].values[data[a_exchange][a_category].values.length-1][column_ret];                
+            }
+
+            for (let a_asset in dic_count) {
+                for (let a_key in dic_count[a_asset]) { 
+                    let a_ret = 0.01;
+                    if (dic_count[a_asset][a_key]>0) {
+                        a_ret = -0.01;
+                    }
+                    //console.log('name=','label_'+a_asset.toLowerCase()+'_'+a_key);
+
+                    let a_label = {title:this.$t('name.'+a_asset+a_key), value:dic_count[a_asset][a_key], value_pct_change: a_ret};
+                    this.$refs['label_'+a_asset.toLowerCase()+'_'+a_key].update(a_label);                
+                }
+
+            }
+            console.log('updateWidget:',dic_count);
+
+            
+        },
+
+        updateExchangeWidget: function(data,exchange) {
+            let dic_columns = CommonFunc.getColumnDic(data[exchange]['overall'].columns,[],[]);            
+            let column_ret = dic_columns['index_ret'];
+            let column_price = dic_columns['price_avg'];
+            
+            for (let index=0; index<MoaConfig.general.SECTORS.length;index++) {
+                let a_sector = MoaConfig.general.SECTORS[index];
+                //console.log('sector=',a_sector);
+                let a_index = data[exchange][a_sector].values[data[exchange][a_sector].values.length-1][column_price];
+                let a_ret = data[exchange][a_sector].values[data[exchange][a_sector].values.length-1][column_ret];
+
+                let a_label = {title:this.$t('category.'+a_sector), value:a_index, value_pct_change: a_ret};
+                this.$refs['label_'+a_sector].update(a_label);
+            }
+        },
+
+        updateCwatchChart: function(data) {
+            logger.log.debug("updateCwatchChart");
+            this.$refs.cwatchChart.update(data);
+        },
+
+        updateExchangeIndexChart: function(data,exchange) {
+            if (! data.hasOwnProperty('binance')) {
+              return
+            }
+            this.$refs.exchangeChart.update(data,exchange);
+        },
+
+        updateTopTable: function(data,exchange) {
+            console.log('HomeView.updateTopTable=',data);
+            if (CommonFunc.isEmptyObject(data)) {
+                return;
+            }
+            this.$refs.exchangeTop.update(data,exchange,'overall','ret');
+        },
+
+        showChart: function(asset,dates,a_date) {
+            console.log('HomeView.showChart=',asset);        
+            //this.items_52w = json_list;
+            this.$refs.chartWinner.update('gaia_crypto_trend_upbit',asset,dates);
+        },
+
+
+        onLoad: function(progress) {
+            console.log('onLoad - ',progress);
+        },
+
+
+        onClickTimeframe: function(offset,timeframe) {
+            //let ioffset = CONST.timeframe[this.g_timeframe];
+            console.log('onClickTimeframe.ioffset=',offset);
+
+            this.loadCryptoWatchData(offset);
+        },
+
+    }
+
+};
+</script>
