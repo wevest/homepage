@@ -4,13 +4,14 @@ node_modules
 
 # Quasar core related directories
 .quasar
+.vscode
 /dist
 
 /src/pages/kbeater
 /src/pages/kstockw
 /src/pages/kstockd
 /src/pages/instrument
-/src/data
+/src/data/MoaConfig.js
 
 # Cordova related directories and files
 /src-cordova/node_modules
