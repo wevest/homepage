@@ -1,6 +1,6 @@
-# Quasar App (moa)
+# Moa v2 Frontend
 
-A Quasar Framework app
+MoA is a crypto asset management platform 
 
 ## Install the dependencies
 ```bash
@@ -21,6 +21,3 @@ yarn run lint
 ```bash
 quasar build
 ```
-
-### Customize the configuration
-See [Configuring quasar.conf.js](https://v1.quasar.dev/quasar-cli/quasar-conf-js).
