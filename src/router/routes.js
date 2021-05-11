@@ -10,6 +10,8 @@ const routes = [
       { path: 'sector', component: () => import('pages/sector/SectorView.vue') },
       { path: 'asset', component: () => import('pages/asset/AssetView.vue') },
       { path: 'risk', component: () => import('pages/risk/RiskView.vue') },
+      { path: 'cryptovc', component: () => import('pages/cryptovc/CryptovcView.vue') },
+
       { path: 'kbeater', component: () => import('pages/kbeater/BeaterView.vue') },
       { path: 'kinstrument', component: () => import('pages/instrument/InstrumentView.vue') },
       { path: 'wkospi', component: () => import('pages/kstockw/WeeklyView.vue') },

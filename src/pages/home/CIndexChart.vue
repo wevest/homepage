@@ -64,7 +64,7 @@ export default {
             let a_option = CommonFunc.getChartOption(series);
             
             let a_minmax = CommonFunc.getMinMaxExt([data_kimchi.data]);
-            a_option.yAxis[1] = {min: 0.8, max:a_minmax.max, show:true, opposite:true, gridLineWidth:0};
+            a_option.yAxis[1] = {min: 0.9, max:a_minmax.max, show:true, opposite:true, gridLineWidth:0};
             this.g_chart['chart1'] = a_option;
         },
 

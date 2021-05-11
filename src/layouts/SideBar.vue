@@ -57,6 +57,12 @@ const linkCrypto = [
     icon: 'rss_feed',
     link: '#/asset',
   },
+  {
+    title: 'Crypto VC',
+    caption: 'CryptoVC',
+    icon: 'rss_feed',
+    link: '#/cryptovc',
+  },
 ];
 
 

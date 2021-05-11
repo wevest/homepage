@@ -568,4 +568,37 @@ export default class MoaBackendAPI{
     });
   }
 
+  static getCryptovcData(reqParam,func,funcErr) {
+    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa,"/api/cryptovc");
+    callAPI("POST",url,{},reqParam)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
+  static getCryptoBaseinfo(reqParam,func,funcErr) {
+    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa,"/api/crypto/baseinfo");
+    callAPI("POST",url,{},reqParam)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
+  static getCryptoPriceHistory(reqParam,func,funcErr) {
+    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa,"/api/crypto/asset");
+    callAPI("POST",url,{},reqParam)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
 }

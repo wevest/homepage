@@ -52,6 +52,20 @@
             </q-toolbar>
         </div>
 
+        <div v-if="period==='all'">
+            <q-toolbar class="text-primary">
+                <q-tabs v-model="tab" shrink align="left">
+                    <q-tab name="d1" :label="$t('name.d1')" @click="onClickTab('d1')"/>
+                    <q-tab name="w1" :label="$t('name.w1')" @click="onClickTab('w1')"/>
+                    <q-tab name="m1" :label="$t('name.m1')" @click="onClickTab('m1')"/>
+                    <q-tab name="m3" :label="$t('name.m3')" @click="onClickTab('m3')"/>
+                    <q-tab name="y1" :label="$t('name.y1')" @click="onClickTab('y1')"/>
+                    <q-tab name="all" :label="$t('name.all')" @click="onClickTab('all')"/>
+                </q-tabs>
+                <q-space />
+            </q-toolbar>
+        </div>
+
   </div>
 
 </template>

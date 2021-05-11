@@ -34,10 +34,11 @@
 
         <div class="row">
             <div class="col">
+                <ChartTimeframe period='all' :onclick="onClickTimeframe" selected='y1'></ChartTimeframe>
                 <CAssetChart ref="assetChart"></CAssetChart>
             </div>
             <div class="col">
-                <CAssetTable ref="scTable"></CAssetTable>
+                <CAssetTable ref="assetTable"></CAssetTable>
             </div>
         </div>
 
@@ -103,6 +104,7 @@ import DataService from 'src/services/dataService';
 import logger from "src/error/Logger";
 
 import CTitle from 'components/CTitle';
+import ChartTimeframe from 'components/ChartTimeframe';
 import CAssetChart from 'src/pages/asset/CAssetChart';
 import CSectorSummaryTable from 'src/pages/sector/CSectorSummaryTable';
 import CAssetTable from 'src/pages/asset/CAssetTable';
@@ -116,6 +118,7 @@ const stringOptions = [
 export default {
     components: {
         CTitle,
+        ChartTimeframe,
         CAssetChart,
         CSectorSummaryTable,
         CAssetTable,
@@ -128,7 +131,8 @@ export default {
         g_data: null,
         g_period: 30,
         g_asset: null,       
-        
+        g_freq: 'y1',
+
         options: stringOptions,
 
     }),
@@ -169,7 +173,8 @@ export default {
         
             //CommonFunc.getAppData('spinner').show();
             let funcs = [
-                this.loadDailyOverviewData()
+                this.loadCryptoBaseinfo('BTC'),
+                this.loadCryptoPriceHistory('BTC'),
             ];
             Promise.all(funcs).then(function() {
                 //CommonFunc.getAppData('spinner').hide();
@@ -177,34 +182,54 @@ export default {
 
         },
 
-        loadDailyOverviewData: function() {
+        loadCryptoBaseinfo: function(symbol) {
+            const _this = this;
+
+            return new Promise(function(resolve,reject) {
+                
+                let dic_param = {symbol:symbol};
+                logger.log.debug("AssetView.loadCryptoBaseinfo - dic_param=",dic_param);
+
+                MoaBackendAPI.getCryptoBaseinfo(dic_param,function(response) {
+                    _this.g_data = response.data.data;
+                    logger.log.debug("AssetView.loadCryptoBaseinfo - response",_this.g_data);
+                    _this.$refs.assetTable.update(_this.g_data);
+                    resolve();
+                },function(err) {
+                    logger.log.error("AssetView.loadCryptoBaseinfo - error",err);
+                    reject();
+                });
+            });            
+        },
+
+        loadCryptoPriceHistory: function(symbol) {
             const _this = this;
 
             return new Promise(function(resolve,reject) {
                 let a_today = CommonFunc.getToday(false);
                 //logger.log.debug("HomeView.loadjw52 - today=",a_today);
-                let a_start_date = CommonFunc.addDays(a_today, 190*-1 );
+                let a_start_date = CommonFunc.addDays(a_today, -360 );
                 let a_end_date = CommonFunc.addDays(a_today, 1 );
                 
-                let dic_param = {start_date:a_start_date, end_date:a_end_date, freq:'d'};
-                logger.log.debug("SectorView.loadDailyOverviewData - dic_param=",dic_param);
+                let a_freq = 'd';
+                if ( (_this.g_freq=='d7') || (_this.g_freq=='d1')) {
+                    a_freq = 'm';
+                }
+                let dic_param = {symbol:symbol,freq:a_freq,start_date:a_start_date, end_date:a_end_date, exchange:'cc',quote:'USD' };
+                logger.log.debug("AssetView.loadCryptoPriceHistory - dic_param=",dic_param);
 
-                MoaBackendAPI.getCryptoIndexData(dic_param,function(response) {
-                    _this.g_data = response.data.data;
-                    logger.log.debug("SectorView.loadDailyOverviewData - response",_this.g_data);
-                    //logger.log.debug("HomeView.search - json_data",_this.g_json_data);
-                    //_this.updateWidget('g_widget_overall',_this.g_data,'binance');
-                    //_this.updateWidget('g_widget_upbit',_this.g_data,'upbit');
-                    //_this.updateWidget('g_widget_bithumb',_this.g_data,'bithumb');
-                    //_this.$refs.dailyIndexChart.update(_this.g_data);
-                    _this.$refs.sectorTable.update(_this.g_data,'upbit');
+                MoaBackendAPI.getCryptoPriceHistory(dic_param,function(response) {
+                    _this.g_data_price = response.data.data;
+                    logger.log.debug("AssetView.loadCryptoPriceHistory - response",_this.g_data_price);
+                    _this.$refs.assetChart.update(_this.g_data_price);
                     resolve();
                 },function(err) {
-                    logger.log.error("SectorView.loadDailyOverviewData - error",err);
+                    logger.log.error("AssetView.loadCryptoPriceHistory - error",err);
                     reject();
                 });
             });            
         },
+
 
         loadSectorAssetData: function(exchange,sector) {
             const _this = this;
@@ -236,6 +261,12 @@ export default {
             this.$refs.momentumTable.update('D',asset,100);
 
             this.heading = 'Upbit Market Winner - ' + a_date + ' , ' + asset;
+        },
+
+        onClickTimeframe: function(offset,timeframe) {
+            console.log('CTrendView.onClickTimeframe - ',offset,timeframe);
+            this.g_timeframe = timeframe;
+            //this.$parent.reload(offset);
         },
 
         onClickExchange:function(value) {
