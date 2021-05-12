@@ -37,20 +37,22 @@
                 
                 <div class="row">
                     <div class="col-3">
-                        <p>{{ g_price['price'] }}</p>                        
+                        <p class="price_big">{{ g_price['price'] }}</p>                        
                     </div>
                     <div class="col-9">
                         <q-markup-table>
                             <tbody>
                             <tr>
-                                <td class="text-left"> {{ $t('name.price_prev') }} {{ g_price['price_prev'] }}</td>
-                                <td class="text-left"> {{ $t('name.price_high') }} {{ g_price['price_high'] }}</td>
-                                <td class="text-left"> {{ $t('name.price_volume') }} {{ g_price['volume'] }}</td>
+                                <td class="text-left"> 
+                                    <span class="price_label">{{ $t('name.price_prev') }}</span>  <span class="price_tag">{{ g_price['price_prev'] }}</span>
+                                </td>
+                                <td class="text-left price_tag"> {{ $t('name.price_high') }} {{ g_price['price_high'] }}</td>
+                                <td class="text-left price_tag"> {{ $t('name.volume') }} {{ g_price['volume'] }}</td>
                             </tr>
                             <tr>
-                                <td class="text-left">{{ $t('name.price_open') }} {{ g_price['price_open'] }}</td>
-                                <td class="text-left">{{ $t('name.price_low') }} {{ g_price['price_low'] }}</td>
-                                <td class="text-left">{{ $t('name.price_tv') }} {{ g_price['tv'] }}</td>
+                                <td class="text-left price_tag">{{ $t('name.price_open') }} {{ g_price['price_open'] }}</td>
+                                <td class="text-left price_tag">{{ $t('name.price_low') }} {{ g_price['price_low'] }}</td>
+                                <td class="text-left price_tag">{{ $t('name.tv') }} {{ g_price['tv'] }}</td>
                             </tr>
                             </tbody>
                         </q-markup-table>
@@ -205,6 +207,20 @@ export default {
             });
 
         },
+        
+        updatePriceTable: function(json_data) {
+            const dic_columns = CommonFunc.getColumnDic(json_data['overall'].columns,[],[]);
+            this.g_price['price'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceClose']],2);
+            this.g_price['price_prev'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-2 ][dic_columns['priceClose']],2);
+            this.g_price['price_low'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceLow']],2);
+            this.g_price['price_high'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceHigh']],2);
+            this.g_price['price_open'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceOpen']],2);
+            this.g_price['volume'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['total_volume_total']],0);
+            
+            let a_tv = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['total_volume_total']] * json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceClose']];
+            this.g_price['tv'] = CommonFunc.formatNumber(a_tv,0);
+
+        },
 
         loadCryptoBaseinfo: function(symbol) {
             const _this = this;
@@ -245,7 +261,8 @@ export default {
                 MoaBackendAPI.getCryptoPriceHistory(dic_param,function(response) {
                     _this.g_data_price = response.data.data;
                     logger.log.debug("AssetView.loadCryptoPriceHistory - response",_this.g_data_price);
-                    _this.$refs.assetChart.update(_this.g_data_price);
+                    _this.updatePriceTable(_this.g_data_price);
+                    _this.$refs.assetChart.update(_this.g_data_price);                    
                     resolve();
                 },function(err) {
                     logger.log.error("AssetView.loadCryptoPriceHistory - error",err);
@@ -312,5 +329,26 @@ export default {
 
 }
 
-
 </script>
+
+
+
+<style scoped>
+
+.price_big {
+    font-size:1.2em;
+    color:brown;
+}
+
+.price_label {
+    font-size:1.2em;
+    color:black;
+    padding-right:5px;
+}
+
+.price_tag {
+    font-size:1.2em;
+    color:brown;
+}
+
+</style>

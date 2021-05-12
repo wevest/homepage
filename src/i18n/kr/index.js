@@ -31,6 +31,11 @@ export default {
     kpremium:'김치프리미엄',
     tv:'거래대금',
     alt:'알트코인',
+    price_prev:'전일',
+    price_high:'고가',
+    price_low:'저가',
+    price_open:'시가',
+    volume:'거래량',
   },
   asset: {
   },
