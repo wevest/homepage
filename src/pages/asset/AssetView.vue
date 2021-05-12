@@ -33,7 +33,7 @@
         </div>
 
         <div class="row">
-            <div class="col">
+            <div class="col-9">
                 
                 <div class="row">
                     <div class="col-3">
@@ -62,32 +62,21 @@
                 <ChartTimeframe period='all' :onclick="onClickTimeframe" selected='y1'></ChartTimeframe>
                 <CAssetChart ref="assetChart"></CAssetChart>
             </div>
-            <div class="col">
+            <div class="col-3">
                 <CAssetTable ref="assetTable"></CAssetTable>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col">
-                <CSectorSummaryTable ref="sectorTable"></CSectorSummaryTable>
-            </div>
-        </div>
 
         <div class="row">
             <div class="col">
-<!--                
-                <CTitle title="sector_details"></CTitle> 
-                <CSectorChart ref="sectorChart"></CSectorChart>
--->                
-                <CTitle ttype='subtitle' title="sector_details"></CTitle> 
-                <CSectorCryptoTable ref="scTable"></CSectorCryptoTable>
+                <CAssetInfoTable ref="assetinfoTable"></CAssetInfoTable>
             </div>
         </div>
-
+    
     </div>
 
-
-
+    
 <!--        
         <page-title :heading=heading :subheading=subheading></page-title>
 
@@ -125,15 +114,15 @@
 <script>
 import CommonFunc from 'src/util/CommonFunc';
 import MoaBackendAPI from 'src/services/apiService';
-import DataService from 'src/services/dataService';
+import Services from 'src/services/services';
 import logger from "src/error/Logger";
 
 import CTitle from 'components/CTitle';
 import ChartTimeframe from 'components/ChartTimeframe';
 import CAssetChart from 'src/pages/asset/CAssetChart';
-import CSectorSummaryTable from 'src/pages/sector/CSectorSummaryTable';
+import CAssetInfoTable from 'src/pages/asset/CAssetInfoTable';
 import CAssetTable from 'src/pages/asset/CAssetTable';
-import CSectorCryptoTable from 'src/components/CSectorCryptoTable';
+//import CSectorCryptoTable from 'src/components/CSectorCryptoTable';
 
 
 const stringOptions = [
@@ -145,15 +134,15 @@ export default {
         CTitle,
         ChartTimeframe,
         CAssetChart,
-        CSectorSummaryTable,
+        CAssetInfoTable,
         CAssetTable,
-        CSectorCryptoTable
     },
     props: {
     },
 
     data: () => ({
         g_data: null,
+        g_vc: null,
         g_period: 30,
         g_asset: null,       
         g_freq: 'y1',
@@ -196,15 +185,22 @@ export default {
 
         refresh: function() {
             const _this = this;
-        
-            //CommonFunc.getAppData('spinner').show();
-            let funcs = [
-                this.loadCryptoBaseinfo('BTC'),
-                this.loadCryptoPriceHistory('BTC'),
-            ];
-            Promise.all(funcs).then(function() {
-                //CommonFunc.getAppData('spinner').hide();
+
+            Services.loadCryptovcData().then(function(json_data) {
+                _this.g_vc = json_data;
+                logger.log.debug('vc=',_this.g_vc);
+
+                let funcs = [
+                    _this.loadCryptoBaseinfo('BTC'),
+                    _this.loadCryptoPriceHistory('BTC'),
+                ];
+                Promise.all(funcs).then(function() {
+                    //CommonFunc.getAppData('spinner').hide();
+                });
+
             });
+
+            //CommonFunc.getAppData('spinner').show();
 
         },
         
@@ -234,6 +230,7 @@ export default {
                     _this.g_data = response.data.data;
                     logger.log.debug("AssetView.loadCryptoBaseinfo - response",_this.g_data);
                     _this.$refs.assetTable.update(_this.g_data);
+                    _this.$refs.assetinfoTable.update(_this.g_data,_this.g_vc);
                     resolve();
                 },function(err) {
                     logger.log.error("AssetView.loadCryptoBaseinfo - error",err);

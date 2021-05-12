@@ -1,14 +1,12 @@
 <template>
 
-
   <div class="q-pa-md">
     <div class="row">
       <div class="col">
 
           <q-tabs v-model="tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
-            <q-tab name="intro" label="$t('name.intro')" @click="onClickTab('intro')" />
-            <q-tab name="fundamental" label="$t('name.fundamental')" @click="onClickTab('base')" />
-            <q-tab name="price" label="$t('name.price')" @click="onClickTab('price')" />
+            <q-tab name="fundamental" :label="$t('name.fundamental')" @click="onClickTab('base')" />
+            <q-tab name="price" :label="$t('name.price')" @click="onClickTab('price')" />
           </q-tabs>
 
           <q-tab-panels
@@ -19,21 +17,6 @@
             transition-prev="jump-up"
             transition-next="jump-up"
           >
-            <q-tab-panel name="intro">
-              <q-card flat bordered class="my-card">
-                <q-card-section>
-                  <div class="text-h6">{{g_symbol}}</div>
-                </q-card-section>
-
-                <q-separator dark inset />
-
-                <q-card-section>
-                  {{ g_description }}
-                </q-card-section>
-              </q-card>
-
-            </q-tab-panel>
-
             <q-tab-panel name="fundamental">
 
               <q-markup-table>
@@ -87,7 +70,7 @@ import logger from "src/error/Logger";
 export default {
     data () {
       return {
-        tab: 'intro',
+        tab: 'fundamental',
         g_data: null,
         g_description: null,
         g_symbol: null,
@@ -120,8 +103,8 @@ export default {
             const dic_columns = CommonFunc.getColumnDic(json_data.columns,[],[]);
             logger.log.debug('items=',dic_columns);
 
-            this.g_symbol = json_data['values'][0][dic_columns['symbol']];
-            this.g_description = json_data['values'][0][dic_columns['description']];
+            //this.g_symbol = json_data['values'][0][dic_columns['symbol']];
+            //this.g_description = json_data['values'][0][dic_columns['description']];
 
             let items = [];
             items.push( {column:'symbol', type:1, desc:json_data['values'][0][dic_columns['symbol']]} );

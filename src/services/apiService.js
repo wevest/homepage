@@ -1,6 +1,6 @@
 //import api from '@/services/api'
-import {callAPI, callPostAPI, callJsonRPC} from '../util/Http';
-import {MoaConfig} from '../data/MoaConfig';
+import {callAPI, callGetAPI, callPostAPI, callJsonRPC} from 'src/util/Http';
+import {MoaConfig} from 'src/data/MoaConfig';
 //import logger from "@/error/Logger";
 
 
@@ -593,6 +593,18 @@ export default class MoaBackendAPI{
   static getCryptoPriceHistory(reqParam,func,funcErr) {
     let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa,"/api/crypto/asset");
     callAPI("POST",url,{},reqParam)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
+
+  static getGithubData(reqParam,func,funcErr) {
+    let url = MoaBackendAPI.getUrl(MoaConfig.urls.github,"/repos/"+reqParam.owner+"/"+reqParam.repo);
+    callJsonRPC("GET",url,{},reqParam)
     .then( (response) => {
         func(response);
     })

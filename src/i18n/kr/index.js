@@ -15,6 +15,7 @@ export default {
     y3:'3년',
     y5:'5년',
     y10:'10년',    
+    all:'전체',
     sector:'섹터',
     coin:'코인',
     gold: '금',
@@ -36,6 +37,9 @@ export default {
     price_low:'저가',
     price_open:'시가',
     volume:'거래량',
+    intro:'개요',
+    fundamental:'기본정보',
+    price:'가격정보'
   },
   asset: {
   },

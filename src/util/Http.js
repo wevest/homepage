@@ -139,6 +139,34 @@ export const callAPI = async(call_method,url,config,req_params) => {
 
 };
 
+export const callGetAPI = async(call_method,url,config,req_params) => {
+    return new Promise(function(resolve,reject) {
+        if (Object.keys(config).length === 0) {        
+            config = {
+                mode: 'no-cors',
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+                },
+                withCredentials: false,
+                //credentials: 'same-origin', 
+            };
+        }
+
+        logger.log.debug('callPostAPI',config);           
+
+        axios(config)
+        .then(function(response) {
+            resolve(response);
+        })
+        .catch(function(error) {
+            reject(error);
+        });        
+    });
+
+};
+
 export const callPostAPI = async(call_method,url,config,req_params) => {
     return new Promise(function(resolve,reject) {
         if (Object.keys(config).length === 0) {        
