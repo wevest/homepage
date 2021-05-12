@@ -149,6 +149,7 @@ export default {
 
     data: () => ({
         g_data: null,
+        g_data_commit: null,
         g_vc: null,
         g_period: 30,
         g_asset: null,       
@@ -198,8 +199,9 @@ export default {
                 logger.log.debug('vc=',_this.g_vc);
 
                 let funcs = [
+                    _this.loadCommitData('BTC'),
                     _this.loadCryptoBaseinfo('BTC'),
-                    _this.loadCryptoPriceHistory('BTC'),
+                    _this.loadCryptoPriceHistory('BTC')                    
                 ];
                 Promise.all(funcs).then(function() {
                     //CommonFunc.getAppData('spinner').hide();
@@ -222,7 +224,6 @@ export default {
             
             let a_tv = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['total_volume_total']] * json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceClose']];
             this.g_price['tv'] = CommonFunc.formatNumber(a_tv,0);
-
         },
 
         loadCryptoBaseinfo: function(symbol) {
@@ -245,6 +246,7 @@ export default {
                 });
             });            
         },
+
 
         loadCryptoPriceHistory: function(symbol) {
             const _this = this;
@@ -276,24 +278,18 @@ export default {
         },
 
 
-        loadSectorAssetData: function(exchange,sector) {
+        loadCommitData: function(symbol) {
             const _this = this;
 
             return new Promise(function(resolve,reject) {
-                let a_today = CommonFunc.getToday(false);
-                let a_start_date = CommonFunc.addDays(a_today, 100*-1 );
-                let a_end_date = CommonFunc.addDays(a_today, 1 );
-                
-                let dic_param = {start_date:a_start_date, end_date:a_end_date, freq:'d', exchange:exchange, sector:sector};
-                logger.log.debug("SectorView.loadSectorAssetData - dic_param=",dic_param);
-
-                MoaBackendAPI.getSectorAssetData(dic_param,function(response) {
-                    _this.g_data_asset = response.data.data;
-                    logger.log.debug("SectorView.loadSectorAssetData - response",_this.g_data_asset);                                        
-                    _this.$refs.scTable.update(_this.g_data_asset);
+                let dic_param = {symbol:symbol};
+                MoaBackendAPI.getCommitData(dic_param,function(response) {
+                    _this.g_data_commit = response.data.data;
+                    logger.log.debug("AssetView.loadCommitData - response",_this.g_data_commit);                                        
+                    _this.$refs.assetinfoTable.updateChart(_this.g_data_commit);
                     resolve();
                 },function(err) {
-                    logger.log.error("SectorView.loadDailyOverviewData - error",err);
+                    logger.log.error("AssetView.loadCommitData - error",err);
                     reject();
                 });
             });            

@@ -95,12 +95,20 @@
 
               <q-markup-table>
                 <tbody>
-                  <tr v-for="a_item in items2">
-                    <td class="text-left">{{ a_item['column'] }}</td>
-                    <td class="text-left">{{ a_item['desc'] }}</td>
+                  <tr>
+                    <td class="text-left">{{ $t('name.commit_count')}} {{ g_commit_item['github_commit_count'] }}</td>                    
+                    <td class="text-left">{{ $t('name.created_at')}} {{ g_commit_item['github_created_at'] }}</td>
+                    <td class="text-left">{{ $t('name.pushed_at')}} {{ g_commit_item['github_pushed_at'] }}</td>
+                    <td class="text-left">{{ $t('name.subscriber_count')}} {{ g_commit_item['github_subscribers_count'] }}</td>
+                    <td class="text-left">{{ $t('name.watcher_count')}} {{ g_commit_item['github_watchers_count'] }}</td>
+                    <td class="text-left">{{ $t('name.forks_count')}} {{ g_commit_item['github_forks_count'] }}</td>
+                    <td class="text-left">{{ $t('name.language') }} {{ g_commit_item['github_language'] }}</td>
                   </tr>
                 </tbody>
               </q-markup-table>
+
+              <CTitle ttype='subtitle' :title="$t('crypto.chart.github.title')"></CTitle>
+              <highcharts class="hc" :options="g_chart['chart1']" ref="chart1"></highcharts>
 
             </q-tab-panel>
 
@@ -125,15 +133,30 @@ import CommonFunc from 'src/util/CommonFunc';
 import MoaBackendAPI from 'src/services/apiService';
 import logger from "src/error/Logger";
 
+import CTitle from 'src/components/CTitle';
+
 
 export default {
+    components: {
+        CTitle,
+    },
     data () {
       return {
         tab: 'intro',
         g_data: null,
         g_data_vc:null,
+        g_data_commit: null,
         g_description: null,
         g_symbol: null,
+                
+        g_chart: {
+            'chart1': {series: []},
+            'chart2': {series: []},
+        },
+
+        g_commit_item: {'github_created_at':'','github_pushed_at':'','github_language':'',
+          'github_subscribers_count':0,'github_watchers_count':0, 'github_commit_count':0,'github_forks_count':0,
+        },
 
         items: [],
         items_info: [],
@@ -143,8 +166,6 @@ export default {
     },
 
     methods: {
-
-
         getPriceDate: function(json_data,dic_columns,column) {
           let a_value = "$ " + CommonFunc.formatNumber(json_data['values'][0][dic_columns[column]],2) + " (" + json_data['values'][0][dic_columns[column+'_date']] + ')';
           return a_value;
@@ -221,9 +242,22 @@ export default {
           
             this.items_price = items2;
 
+
+
             logger.log.debug('items=',items);
 
             //this.items = items;
+        },
+        
+        updateDevWidget: function(data_base) {
+          const dic_columns = CommonFunc.getColumnDic(data_base.columns,[],[]);          
+          this.g_commit_item['github_created_at'] = data_base['values'][0][dic_columns['github_created_at']];
+          this.g_commit_item['github_pushed_at'] = data_base['values'][0][dic_columns['github_pushed_at']];
+          this.g_commit_item['github_forks_count'] = data_base['values'][0][dic_columns['github_forks_count']];
+          this.g_commit_item['github_commit_count'] = data_base['values'][0][dic_columns['github_commit_count']];
+          this.g_commit_item['github_watchers_count'] = data_base['values'][0][dic_columns['github_watchers_count']];
+          this.g_commit_item['github_subscribers_count'] = data_base['values'][0][dic_columns['github_subscribers_count']];
+          this.g_commit_item['github_language'] = data_base['values'][0][dic_columns['github_language']];
         },
 
         update: function(data_base,data_vc) {
@@ -232,46 +266,32 @@ export default {
             this.g_data_vc = data_vc;
             
             this.updateTable(this.g_data,this.g_data_vc);
+            this.updateDevWidget(this.g_data);
         },
 
 
-        loadGithubData: function(data) {
-            const _this = this;
+        updateCommitChart: function(json_data) {
+            let data_count = CommonFunc.getChartData(json_data,'commit','commit_count','time',false,0);
 
-            const dic_columns = CommonFunc.getColumnDic(data.columns,[],[]);
-            let a_github = data.values[0][dic_columns['source_code']];
-            if ( (a_github.length==0) || (a_github.search('github')==-1)) {
-              logger.log.error('Github not found');
-              return;
-            }
-            let tokens = a_github.split("/");
-            logger.log.debug("tokens=",tokens);
-            if (tokens.length!=5) {
-              logger.log.error('Github url format is wrong!!!',a_github);
-              return;
-            }
+            let series = [
+                { name: this.$t("name.count"),type: 'column', yAxis:0, data: data_count.data},
+            ];
 
-            let a_owner = tokens[3];
-            let a_repo = tokens[4];
+            let a_option = CommonFunc.getChartOption(series);
+            this.g_chart['chart1'] = a_option;
+        },
 
-            return new Promise(function(resolve,reject) {
-                let dic_param = {repo:a_repo, owner:a_owner};
-                MoaBackendAPI.getGithubData(dic_param,function(response) {
-                    logger.log.debug("AssetView.loadGithubData - response",response);
-                    //_this.updatePriceTable(_this.g_data_price);
-                    //_this.$refs.assetChart.update(_this.g_data_price);                    
-                    resolve();
-                },function(err) {
-                    logger.log.error("AssetView.loadGithubData - error",err);
-                    reject();
-                });
-            });            
+
+        updateChart: function(data_commit) {
+            console.log('CAssetInfoTable.updateChart - ',data_commit);
+            this.g_data_commit = data_commit;
+            this.updateCommitChart(data_commit);
         },
 
         onClickTab:function(value) {
           console.log('CAssetInfo.onClick - ',value);
           //this.updateTable(this.g_data,value);
-          this.loadGithubData(this.g_data);
+          //this.loadGithubData(this.g_data);
         }
     }
 }

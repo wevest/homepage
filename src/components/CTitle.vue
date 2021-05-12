@@ -54,7 +54,7 @@ export default {
     -webkit-box-flex: 1;
     flex: 1 1 auto;
     -ms-flex: 1 1 auto;
-    
+    */
 }
 
 .title {

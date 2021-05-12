@@ -602,9 +602,9 @@ export default class MoaBackendAPI{
   }
 
 
-  static getGithubData(reqParam,func,funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.github,"/repos/"+reqParam.owner+"/"+reqParam.repo);
-    callJsonRPC("GET",url,{},reqParam)
+  static getCommitData(reqParam,func,funcErr) {
+    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa,"/api/crypto/commit");
+    callAPI("POST",url,{},reqParam)
     .then( (response) => {
         func(response);
     })

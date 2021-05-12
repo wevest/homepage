@@ -6,9 +6,10 @@
         <CTitle ttype='subtitle' title="시장강도"></CTitle>
         <highcharts class="hc" :options="g_chart['chart1']" ref="chart1"></highcharts>
 
-        
+<!--        
         <CTitle ttype='subtitle' title="시장강도"></CTitle>
         <highcharts class="hc" :options="g_chart['chart2']" ref="chart2"></highcharts>
+-->
 
     </div>
 
