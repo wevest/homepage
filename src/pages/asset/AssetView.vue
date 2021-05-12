@@ -34,6 +34,29 @@
 
         <div class="row">
             <div class="col">
+                
+                <div class="row">
+                    <div class="col-3">
+                        <p>{{ g_price['price'] }}</p>                        
+                    </div>
+                    <div class="col-9">
+                        <q-markup-table>
+                            <tbody>
+                            <tr>
+                                <td class="text-left"> {{ $t('name.price_prev') }} {{ g_price['price_prev'] }}</td>
+                                <td class="text-left"> {{ $t('name.price_high') }} {{ g_price['price_high'] }}</td>
+                                <td class="text-left"> {{ $t('name.price_volume') }} {{ g_price['volume'] }}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-left">{{ $t('name.price_open') }} {{ g_price['price_open'] }}</td>
+                                <td class="text-left">{{ $t('name.price_low') }} {{ g_price['price_low'] }}</td>
+                                <td class="text-left">{{ $t('name.price_tv') }} {{ g_price['tv'] }}</td>
+                            </tr>
+                            </tbody>
+                        </q-markup-table>
+                    </div>
+                </div>
+
                 <ChartTimeframe period='all' :onclick="onClickTimeframe" selected='y1'></ChartTimeframe>
                 <CAssetChart ref="assetChart"></CAssetChart>
             </div>
@@ -132,6 +155,7 @@ export default {
         g_period: 30,
         g_asset: null,       
         g_freq: 'y1',
+        g_price: {'price_prev':0, 'price_low':0, 'price_high':0, 'price_open':0, 'price':0, 'volume':0, 'tv':0},
 
         options: stringOptions,
 
@@ -265,8 +289,8 @@ export default {
 
         onClickTimeframe: function(offset,timeframe) {
             console.log('CTrendView.onClickTimeframe - ',offset,timeframe);
-            this.g_timeframe = timeframe;
-            //this.$parent.reload(offset);
+            this.g_freq = timeframe;
+            this.loadCryptoPriceHistory(this.g_symbol);
         },
 
         onClickExchange:function(value) {
