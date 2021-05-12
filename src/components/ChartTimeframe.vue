@@ -139,5 +139,7 @@ export default {
 
 
 <style scoped>
-
+.q-pa-xs {
+    background-color: #f1f2f5;
+}
 </style>
