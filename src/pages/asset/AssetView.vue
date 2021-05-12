@@ -7,33 +7,6 @@
             </div>
         </div>
 
-<!--
-        <div class="row">
-            <div class="col">
-
-                <q-select
-                    filled
-                    v-model="g_asset"
-                    use-input
-                    hide-selected
-                    fill-input
-                    input-debounce="0"
-                    :options="options"
-                    @filter="filterFn"
-                    hint="Minimum 2 characters to trigger filtering"
-                >
-                    <template v-slot:no-option>
-                    <q-item>
-                        <q-item-section class="text-grey">
-                        No results
-                        </q-item-section>
-                    </q-item>
-                    </template>
-                </q-select>
-            </div>
-        </div>
--->
-
         <div class="row">
             <div class="col-3">
                 <p class="price_big">{{ g_price['price'] }}</p>                        
@@ -131,11 +104,6 @@ import CAssetInfoTable from 'src/pages/asset/CAssetInfoTable';
 import CAssetTable from 'src/pages/asset/CAssetTable';
 //import CSectorCryptoTable from 'src/components/CSectorCryptoTable';
 
-
-const stringOptions = [
-  '김치', '라면', '삼성', 'Apple', 'Oracle'
-]
-
 export default {
     components: {
         CTitle,
@@ -156,7 +124,7 @@ export default {
         g_freq: 'y1',
         g_price: {'price_prev':0, 'price_low':0, 'price_high':0, 'price_open':0, 'price':0, 'volume':0, 'tv':0},
 
-        options: stringOptions,
+        
 
     }),
 
@@ -180,17 +148,6 @@ export default {
     },
     
     methods: {
-        filterFn (val, update, abort) {
-            if (val.length < 2) {
-                abort()
-                return
-            }
-            update(() => {
-                const needle = val.toLowerCase()
-                this.options = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
-            })            
-        },
-
         refresh: function() {
             const _this = this;
 

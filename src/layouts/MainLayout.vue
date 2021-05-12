@@ -12,15 +12,38 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
 
-        <q-toolbar-title>
+        <q-toolbar-title shrink>
           MoA.Finance
         </q-toolbar-title>
 
-        <div class="q-pa-md">
-          <q-select v-model="language" :options="langs" label="Language" style="width: 100px"
-             behavior="menu" transition-show="flip-up" transition-hide="flip-down" @input="onChangeLang"/>
+        <q-select
+            class="fit"
+            filled
+            v-model="g_asset"
+            use-input
+            hide-selected
+            fill-input
+            input-debounce="0"
+            :options="options"
+            @filter="filterFn"
+            hint="Minimum 2 characters to trigger filtering"            
+        >
+            <template v-slot:no-option>
+            <q-item>
+                <q-item-section class="text-grey">
+                No results
+                </q-item-section>
+            </q-item>
+            </template>
+        </q-select>
 
-        </div>
+        <q-space />
+
+        <q-select v-model="language" :options="langs" 
+          class="box_language" label="Language" 
+          behavior="menu" transition-show="flip-up" transition-hide="flip-down" 
+          @input="onChangeLang"/>
+
 
       </q-toolbar>
     </q-header>
@@ -60,6 +83,9 @@ import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 
 
+const stringOptions = [
+  '김치', '라면', '삼성', 'Apple', 'Oracle'
+]
 
 export default {
   name: 'MainLayout',
@@ -69,11 +95,13 @@ export default {
   },
   data() {
     return {
+      g_asset:null,
       leftDrawerOpen: false,
       language:"한글",
       langs: [
         'English', '한글'
       ],
+      options: stringOptions,
       //lang: this.$i18n.locale,
     };
   },
@@ -92,6 +120,17 @@ export default {
       })
     },
 
+    filterFn (val, update, abort) {
+        if (val.length < 2) {
+            abort()
+            return
+        }
+        update(() => {
+            const needle = val.toLowerCase()
+            this.options = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+        })            
+    },
+
     onChangeLang: function() {
       console.log('onChangeLang=',this.language);
       if (this.language=="English") {
@@ -105,3 +144,18 @@ export default {
 
 };
 </script>
+
+<style scoped>
+
+.box_language {
+    width: 150px;
+    padding: 0.9rem;   
+    /* 
+    border-bottom: 1px solid #ccc;
+    -webkit-box-flex: 1;
+    flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    */
+}
+
+</style>
