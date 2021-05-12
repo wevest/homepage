@@ -47,12 +47,12 @@ export default {
 .ctitle {
     margin-bottom: 0.0rem;    
     padding: 0.0rem;        
-    /* 
+    
     border-bottom: 1px solid #ccc;
     -webkit-box-flex: 1;
     flex: 1 1 auto;
     -ms-flex: 1 1 auto;
-    */
+    
 }
 
 .ctitle, .title {
