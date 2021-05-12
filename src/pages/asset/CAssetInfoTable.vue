@@ -6,6 +6,7 @@
 
           <q-tabs v-model="tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
             <q-tab name="intro" :label="$t('name.intro')" @click="onClickTab('intro')" />
+            <q-tab name="info" :label="$t('name.info')" @click="onClickTab('info')" />
             <q-tab name="investor" :label="$t('name.investor')" @click="onClickTab('base')" />
             <q-tab name="development" :label="$t('name.development')" @click="onClickTab('price')" />
           </q-tabs>
@@ -30,6 +31,34 @@
                   {{ g_description }}
                 </q-card-section>
               </q-card>
+
+            </q-tab-panel>
+
+            <q-tab-panel name="info">
+              <div class="row">
+                <div class="col">
+                  <q-markup-table>
+                    <tbody>
+                      <tr v-for="a_item in items_info">
+                        <td class="text-left">{{ a_item['column'] }}</td>
+                        <td class="text-left" v-if="a_item['type']==0">
+                          <a :href="a_item['desc']" target="_blank"> {{ a_item['desc'] }}</a></td>
+                        <td class="text-left" v-else>{{ a_item['desc'] }}</td>
+                      </tr>
+                    </tbody>
+                  </q-markup-table>            
+                </div>            
+                <div class="col">
+                  <q-markup-table>
+                    <tbody>
+                      <tr v-for="a_item in items_price">
+                        <td class="text-left">{{ a_item['column'] }}</td>
+                        <td class="text-left">{{ a_item['desc'] }}</td>
+                      </tr>
+                    </tbody>
+                  </q-markup-table>
+                </div>
+              </div>
 
             </q-tab-panel>
 
@@ -62,7 +91,7 @@
 
             </q-tab-panel>
 
-            <q-tab-panel name="twitter">
+            <q-tab-panel name="development">
 
               <q-markup-table>
                 <tbody>
@@ -107,6 +136,8 @@ export default {
         g_symbol: null,
 
         items: [],
+        items_info: [],
+        items_price: [],
         items2: [],
       }
     },
@@ -137,6 +168,59 @@ export default {
             }
 
             this.items = items;
+            logger.log.debug('items=',items);
+
+            this.updateInfoTable(data_base);
+            //this.items = items;
+        },
+
+
+        getFirstLink: function(json_data,dic_columns,column) {
+          let a_links = json_data['values'][0][dic_columns[column]];          
+          if (a_links.length==0) {
+            return '';
+          }
+          return a_links.split(',')[0];
+        },
+
+        updateInfoTable: function(json_data) {
+            const dic_columns = CommonFunc.getColumnDic(json_data.columns,[],[]);
+            logger.log.debug('items=',dic_columns);
+
+            //this.g_symbol = json_data['values'][0][dic_columns['symbol']];
+            //this.g_description = json_data['values'][0][dic_columns['description']];
+
+            let items = [];
+            items.push( {column:'symbol', type:1, desc:json_data['values'][0][dic_columns['symbol']]} );
+            items.push( {column:'name', type:1, desc:json_data['values'][0][dic_columns['name']]} );            
+            items.push( {column:'token_address', type:1, desc:json_data['values'][0][dic_columns['token_address']]} );
+            items.push( {column:'date_added', type:1,desc:json_data['values'][0][dic_columns['date_added']]} );
+            items.push( {column:'max_supply', type:1, desc:CommonFunc.formatNumber(json_data['values'][0][dic_columns['max_supply']],0,true)} );
+            items.push( {column:'total_supply', type:1,desc:CommonFunc.formatNumber(json_data['values'][0][dic_columns['total_supply']],0,true)} );
+            items.push( {column:'circulating_supply', type:1, desc:CommonFunc.formatNumber(json_data['values'][0][dic_columns['circulating_supply']],0,true)} );
+            items.push( {column:'website', type:0, desc:json_data['values'][0][dic_columns['website']] } );
+            items.push( {column:'github', type:0, desc:json_data['values'][0][dic_columns['source_code']]} );
+            items.push( {column:'announcement', type:0, desc:json_data['values'][0][dic_columns['announcement']]} );
+            items.push( {column:'source_code', type:0, desc:json_data['values'][0][dic_columns['source_code']]} );
+            items.push( {column:'twitter', type:0, desc:json_data['values'][0][dic_columns['twitter']]} );
+            items.push( {column:'chat', type:0, desc:json_data['values'][0][dic_columns['chat']]} );
+            items.push( {column:'explorer', type:0, desc:this.getFirstLink(json_data,dic_columns,'explorer')} );
+
+            this.items_info = items;
+
+
+            let items2 = [];
+              
+            items2.push( {column:'symbol', desc:json_data['values'][0][dic_columns['symbol']]} );
+            items2.push( {column:'first traded date', desc:json_data['values'][0][dic_columns['date_added']]} );
+            
+            items2.push( {column:'alltime_high', desc:this.getPriceDate(json_data,dic_columns,'alltime_high')} );              
+            items2.push( {column:'alltime_low', desc:this.getPriceDate(json_data,dic_columns,'alltime_low')} );              
+            items2.push( {column:'w52_high', desc:this.getPriceDate(json_data,dic_columns,'w52_high')} );              
+            items2.push( {column:'w52_low', desc:this.getPriceDate(json_data,dic_columns,'w52_low')} );
+          
+            this.items_price = items2;
+
             logger.log.debug('items=',items);
 
             //this.items = items;

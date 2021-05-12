@@ -7,6 +7,7 @@
             </div>
         </div>
 
+<!--
         <div class="row">
             <div class="col">
 
@@ -31,55 +32,46 @@
                 </q-select>
             </div>
         </div>
+-->
 
-<<<<<<< HEAD
         <div class="row">
+            <div class="col-3">
+                <p class="price_big">{{ g_price['price'] }}</p>                        
+            </div>
             <div class="col-9">
-=======
-        <div class="row ">
+                <q-markup-table>
+                    <tbody>
+                    <tr>
+                        <td class="text-left"> 
+                            <span class="price_label">{{ $t('name.price_prev') }}</span>  <span class="price_tag">{{ g_price['price_prev'] }}</span>
+                        </td>
+                        <td class="text-left"> 
+                            <span class="price_label">{{ $t('name.price_high') }}</span> <span class="price_tag">{{ g_price['price_high'] }}</span>
+                        </td>
+                        <td class="text-left"> 
+                            <span class="price_label">{{ $t('name.volume') }}</span> <span class="price_tag padding1">{{ g_price['volume'] }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-left">
+                            <span class="price_label">{{ $t('name.price_open') }}</span> <span class="price_tag">{{ g_price['price_open'] }}</span>
+                        </td>
+                        <td class="text-left">
+                            <span class="price_label">{{ $t('name.price_low') }}</span> <span class="price_tag">{{ g_price['price_low'] }}</span>
+                        </td>
+                        <td class="text-left">
+                            <span class="price_label">{{ $t('name.tv') }}</span> <span class="price_tag">{{ g_price['tv'] }}</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </q-markup-table>
+            </div>
+        </div>
+        <div class="row">
             <div class="col">
->>>>>>> e610f27dbb90454eeb5366adaf186967fbc5881d
-                
-                <div class="row">
-                    <div class="col-3">
-                        <p class="price_big">{{ g_price['price'] }}</p>                        
-                    </div>
-                    <div class="col-9">
-                        <q-markup-table>
-                            <tbody>
-                            <tr>
-                                <td class="text-left"> 
-                                    <span class="price_label">{{ $t('name.price_prev') }}</span>  <span class="price_tag">{{ g_price['price_prev'] }}</span>
-                                </td>
-                                <td class="text-left"> 
-                                    <span class="price_label">{{ $t('name.price_high') }}</span> <span class="price_tag">{{ g_price['price_high'] }}</span>
-                                </td>
-                                <td class="text-left"> 
-                                    <span class="price_label">{{ $t('name.volume') }}</span> <span class="price_tag padding1">{{ g_price['volume'] }}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-left">
-                                    <span class="price_label">{{ $t('name.price_open') }}</span> <span class="price_tag">{{ g_price['price_open'] }}</span>
-                                </td>
-                                <td class="text-left">
-                                    <span class="price_label">{{ $t('name.price_low') }}</span> <span class="price_tag">{{ g_price['price_low'] }}</span>
-                                </td>
-                                <td class="text-left">
-                                    <span class="price_label">{{ $t('name.tv') }}</span> <span class="price_tag">{{ g_price['tv'] }}</span>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </q-markup-table>
-                    </div>
-                </div>
-
                 <ChartTimeframe period='all' :onclick="onClickTimeframe" selected='y1'></ChartTimeframe>
                 <CAssetChart ref="assetChart"></CAssetChart>
-            </div>
-            <div class="col-3">
-                <CAssetTable ref="assetTable"></CAssetTable>
-            </div>
+            </div>            
         </div>
 
 
@@ -244,7 +236,7 @@ export default {
                 MoaBackendAPI.getCryptoBaseinfo(dic_param,function(response) {
                     _this.g_data = response.data.data;
                     logger.log.debug("AssetView.loadCryptoBaseinfo - response",_this.g_data);
-                    _this.$refs.assetTable.update(_this.g_data);
+                    //_this.$refs.assetTable.update(_this.g_data);
                     _this.$refs.assetinfoTable.update(_this.g_data,_this.g_vc);
                     resolve();
                 },function(err) {
