@@ -41,9 +41,9 @@
                     <tbody>
                       <tr v-for="a_item in items_info">
                         <td class="text-left">{{ a_item['column'] }}</td>
-                        <td class="text-left" v-if="a_item['type']==0">
+                        <td class="text-right" v-if="a_item['type']==0">
                           <a :href="a_item['desc']" target="_blank"> {{ a_item['desc'] }}</a></td>
-                        <td class="text-left" v-else>{{ a_item['desc'] }}</td>
+                        <td class="text-right" v-else>{{ a_item['desc'] }}</td>
                       </tr>
                     </tbody>
                   </q-markup-table>            
@@ -53,7 +53,7 @@
                     <tbody>
                       <tr v-for="a_item in items_price">
                         <td class="text-left">{{ a_item['column'] }}</td>
-                        <td class="text-left">{{ a_item['desc'] }}</td>
+                        <td class="text-right">{{ a_item['desc'] }}</td>
                       </tr>
                     </tbody>
                   </q-markup-table>
@@ -67,7 +67,7 @@
               <q-markup-table>
                 <thead>
                   <tr>
-                    <th>{{ $t('name.name') }}</th>
+                    <th class="investor_name">{{ $t('name.name') }}</th>
                     <th>{{ $t('name.roi') }}</th>
                     <th>{{ $t('name.total_return') }}</th>
                     <th>{{ $t('name.homepage') }}</th>
@@ -96,13 +96,13 @@
               <q-markup-table>
                 <tbody>
                   <tr>
-                    <td class="text-left">{{ $t('name.commit_count')}} {{ g_commit_item['github_commit_count'] }}</td>                    
-                    <td class="text-left">{{ $t('name.created_at')}} {{ g_commit_item['github_created_at'] }}</td>
-                    <td class="text-left">{{ $t('name.pushed_at')}} {{ g_commit_item['github_pushed_at'] }}</td>
-                    <td class="text-left">{{ $t('name.subscriber_count')}} {{ g_commit_item['github_subscribers_count'] }}</td>
-                    <td class="text-left">{{ $t('name.watcher_count')}} {{ g_commit_item['github_watchers_count'] }}</td>
-                    <td class="text-left">{{ $t('name.forks_count')}} {{ g_commit_item['github_forks_count'] }}</td>
-                    <td class="text-left">{{ $t('name.language') }} {{ g_commit_item['github_language'] }}</td>
+                    <td class="text-left">{{ $t('name.commit_count')}}</td> <td class="dev_value">{{ g_commit_item['github_commit_count'] }}</td>                   
+                    <td class="text-left">{{ $t('name.created_at')}}</td> <td class="dev-value">{{ g_commit_item['github_created_at'] }}</td>
+                    <td class="text-left">{{ $t('name.pushed_at')}}</td> <td class="dev_value">{{ g_commit_item['github_pushed_at'] }}</td>
+                    <td class="text-left">{{ $t('name.subscriber_count')}}</td> <td class="dev_value">{{ g_commit_item['github_subscribers_count'] }}</td>
+                    <td class="text-left">{{ $t('name.watcher_count')}}</td> <td class="dev_value">{{ g_commit_item['github_watchers_count'] }}</td>
+                    <td class="text-left">{{ $t('name.forks_count')}}</td> <td class="dev_value">{{ g_commit_item['github_forks_count'] }}</td>
+                    <td class="text-left">{{ $t('name.language') }}</td> <td class="dev_value">{{ g_commit_item['github_language'] }}</td>
                   </tr>
                 </tbody>
               </q-markup-table>
@@ -305,7 +305,15 @@ export default {
     word-break: break-all;
     word-wrap: break-word;    
 }
+.text-left {
+  color: #848484;
+  font-weight:500;
+}
 
+.text-right {
+  color:#464646;
+  font-weight: bold;
+}
 
 </style>
 

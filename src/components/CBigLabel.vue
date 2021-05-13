@@ -8,11 +8,11 @@
         </div>
 -->            
         <div class="widget-title text-white">
-            <span>{{title}}</span>            
+            <span class="label-name">{{title}}</span>            
             <q-badge :color="badge_color" class="badge text-black" v-if="tag">
                 <q-icon
                     name="warning"
-                    size="14px"
+                    size="24px"
                     class="q-ml-xs"
                 />&nbsp;          
                 {{tag}}
@@ -103,21 +103,21 @@ export default {
 .widget-box-border {
     -webkit-box-shadow: 0 0 0 transparent;
     box-shadow: 0 0 0 transparent;
-    border-width: 1px;
+    border-width: 1.0px;
 }
 
 .widget-biglabel {
     text-align: center;
-    padding: 1rem;
+    padding: 0.2rem;
     position: relative;
-}
+    }
 
 .widget-biglabel .widget-value {
     font-weight: bold;
-    font-size: 2.5rem;
+    font-size: 1.4rem;
     display: block;
-    line-height: 0.5;
-    margin: 1rem auto;
+    line-height: 0.9em;
+    margin: 0.05rem auto;
 }
 
 .widget-biglabel .widget-title {
@@ -136,7 +136,8 @@ export default {
 }
 
 .pl-1, .px-1 {
-    padding-left: 0.25rem !important;
+    padding-left: 0.09rem !important;
+    font-size:0.9rem;
 }
 
 
@@ -147,8 +148,13 @@ export default {
 
 
 .widget-biglabel .widget-value-icon {
-    font-size: 2rem;
-    margin: -0.2rem 0 0;     
+    font-size: 1.5rem;
+    margin: 0.1rem 0 0;   
 }
+
+.label-name {
+    font-size:1.0rem;
+}
+
 
 </style>
