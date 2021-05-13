@@ -96,16 +96,39 @@
               <q-markup-table>
                 <tbody>
                   <tr>
-                    <td class="text-left">{{ $t('name.commit_count')}}</td> <td class="dev_value">{{ g_commit_item['github_commit_count'] }}</td>                   
-                    <td class="text-left">{{ $t('name.created_at')}}</td> <td class="dev-value">{{ g_commit_item['github_created_at'] }}</td>
-                    <td class="text-left">{{ $t('name.pushed_at')}}</td> <td class="dev_value">{{ g_commit_item['github_pushed_at'] }}</td>
+                    <td>                      
+                      <p>
+                        <h6>{{ $t('name.commit_count')}}</h6>
+                        <h7>{{ g_commit_item['github_commit_count'] }}</h7>
+                      </p>
+                    </td> 
+                    <td>
+                      <p>
+                        <h6>{{ $t('name.created_at')}}</h6>
+                        <h7>{{ g_commit_item['github_created_at'] }}</h7>
+                      </p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <p>
+                        <h6>{{ $t('name.pushed_at')}}</h6>
+                        <h7>{{ g_commit_item['github_pushed_at'] }}</h7>
+                      </p>
+                    </td>
                     <td class="text-left">{{ $t('name.subscriber_count')}}</td> <td class="dev_value">{{ g_commit_item['github_subscribers_count'] }}</td>
+                  </tr>
+                  <tr>
                     <td class="text-left">{{ $t('name.watcher_count')}}</td> <td class="dev_value">{{ g_commit_item['github_watchers_count'] }}</td>
                     <td class="text-left">{{ $t('name.forks_count')}}</td> <td class="dev_value">{{ g_commit_item['github_forks_count'] }}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-left">{{ $t('name.language') }}</td> <td class="dev_value">{{ g_commit_item['github_language'] }}</td>
                     <td class="text-left">{{ $t('name.language') }}</td> <td class="dev_value">{{ g_commit_item['github_language'] }}</td>
                   </tr>
                 </tbody>
               </q-markup-table>
+
 
               <CTitle ttype='subtitle' :title="$t('crypto.chart.github.title')"></CTitle>
               <highcharts class="hc" :options="g_chart['chart1']" ref="chart1"></highcharts>
