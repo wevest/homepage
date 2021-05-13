@@ -8,7 +8,7 @@ const routes = [
       { path: 'cwatch', component: () => import('pages/cwatch/CWatchView.vue') },
       { path: 'world', component: () => import('pages/world/WorldView.vue') },
       { path: 'sector', component: () => import('pages/sector/SectorView.vue') },
-      { path: 'asset', component: () => import('pages/asset/AssetView.vue') },
+      { path: 'asset', name:'asset', component: () => import('pages/asset/AssetView.vue') },
       { path: 'risk', component: () => import('pages/risk/RiskView.vue') },
       { path: 'cryptovc', component: () => import('pages/cryptovc/CryptovcView.vue') },
 
