@@ -54,6 +54,8 @@ export default {
     name:'이름',
     roi:'투자수익율',
     total_return:'총수익율',
+    avg_roi:'평균 투자수익율',
+    avg_total_return:'평균 총수익율',
     homepage:'홈페이지',
     count:'횟수'
   },

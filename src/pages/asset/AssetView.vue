@@ -3,7 +3,7 @@
     <div class="q-pa-md">
         <div class="row">
             <div class="col">
-                <CTitle ttype='title' :title="$t('page.asset.title')" :desc="$t('page.asset.desc')"></CTitle>          
+                <CTitle ttype='title' :title="v_title.title" :desc="v_title.desc"></CTitle>          
             </div>
         </div>
 
@@ -130,6 +130,8 @@ export default {
         g_asset: null,       
         g_freq: 'y1',
         g_price: {'price_prev':0, 'price_low':0, 'price_high':0, 'price_open':0, 'price':0, 'volume':0, 'tv':0},    
+
+        v_title: {title:'Crypto Asset', desc:''}
     }),
 
 
@@ -194,6 +196,14 @@ export default {
             this.g_price['tv'] = CommonFunc.formatNumber(a_tv,0);
         },
 
+        updatePageHeader: function(symbol,json_data) {            
+            const dic_columns = CommonFunc.getColumnDic(json_data['overall'].columns,[],[]);
+            let a_date = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['time']];
+
+            this.v_title.title = symbol;
+            this.v_title.desc = a_date;
+        },
+
         loadCryptoBaseinfo: function(symbol) {
             const _this = this;
 
@@ -235,6 +245,7 @@ export default {
                 MoaBackendAPI.getCryptoPriceHistory(dic_param,function(response) {
                     _this.g_data_price = response.data.data;
                     logger.log.debug("AssetView.loadCryptoPriceHistory - response",_this.g_data_price);
+                    _this.updatePageHeader(symbol,_this.g_data_price);
                     _this.updatePriceTable(_this.g_data_price);
                     _this.$refs.assetChart.update(_this.g_data_price);                    
                     resolve();

@@ -1067,6 +1067,19 @@ export default class CommonFunc {
     static isUpperCase(str) {
         return str === str.toUpperCase();
     }
+
     
+    static formatArrayToJson(data) {
+        let items = [];
+        for (let index=0;index<data['values'].length;index++) {
+            let a_item = {};
+            for (let index2=0;index2<data['columns'].length;index2++) {
+                a_item[data['columns'][index2]] = data['values'][index][index2];
+            }
+            items.push(a_item);
+        }
+        return items;
+    }
+
 }
 

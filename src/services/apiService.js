@@ -613,4 +613,17 @@ export default class MoaBackendAPI{
     });
   }
 
+
+  static getCryptoVCPerformanceData(reqParam,func,funcErr) {
+    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa,"/api/cryptovc/performance");
+    callAPI("POST",url,{},reqParam)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
+  
 }

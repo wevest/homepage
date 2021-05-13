@@ -1,63 +1,66 @@
 <template>
     
     <div class="q-pa-md">
-      
+
+        <div class="row">
+            <div class="col">
+                <CTitle ttype='title' :title="$t('chart.home_scaled.title')"></CTitle>      
+            </div>
+        </div>
+        
+        <div class="row q-gutter-md">
+            <div class="col-12 col-md">
+                <CBigLabel ref='label_roi' title="abc"></CBigLabel>
+            </div>
+            <div class="col-12 col-md">
+                <CBigLabel ref='label_total' title="abc"></CBigLabel>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col">
+                <CTitle ttype='subtitle' title="시장강도"></CTitle>
+                <highcharts class="hc" height="600" :options="g_chart['chart1']" ref="chart1"></highcharts>
+            </div>
+        </div>
+
         <div class="row q-gutter-md"> 
+            <div class="col">
 
-            <q-list bordered class="rounded-borders">
-                <q-item-label header>Google Inbox style</q-item-label>
+                <q-table
+                title=""
+                hide-bottom
+                :data="items"
+                :columns="headers"
+                row-key="name"
+                :rows-per-page-options="[50]"
+                >
+                    <template v-slot:body="props">
 
-                <q-item v-for="item in g_items">
-                    <q-item-section avatar top>
-                        <q-icon name="account_tree" color="black" size="34px" />
-                    </q-item-section>
+                        <q-tr :props="props">
+                            <q-td key="rank" :props="props">{{ props.row.rank+1 }}</q-td>
+                            <q-td key="name" :props="props">
+                                <a href="#" @click="onClickVC(props.row.name)">{{ props.row.name }}</a>
+                            </q-td>
+                            <q-td key="avg_roi" :props="props">{{ Number(props.row.avg_roi).toLocaleString() }}</q-td>
+                            <q-td key="total_ret" :props="props">{{ Number(props.row.total_ret).toLocaleString() }}</q-td>
+                            <q-td key="homepage" :props="props">
+                                <a :href="props.row.homepage" target="_blank"> {{ props.row.homepage }}</a>
+                            </q-td>
+                            <q-td key="description" :props="props">{{ props.row.description }}</q-td>
+                        </q-tr>            
 
-                    <q-item-section top class="col-2 gt-sm">
-                        <q-item-label class="q-mt-sm">{{item['name']}}</q-item-label>
-                    </q-item-section>
+                    </template>
 
-                    <q-item-section top>
-                        <q-item-label lines="1">
-                            <span class="text-grey-8"> {{item['description']}} </span>
-                            <!--
-                            <span class="text-weight-medium">[quasarframework/quasar]</span>
-                            <span class="text-grey-8"> - GitHub repository</span>
-                            -->
-                        </q-item-label>
-                    </q-item-section>
-
-                    <q-item-section top class="col-2 gt-sm">
-                        <q-item-label class="q-mt-sm">{{item['avg_roi']}}</q-item-label>
-                    </q-item-section>
-
-                    <q-item-section top class="col-2 gt-sm">
-                        <q-item-label class="q-mt-sm">{{item['total_ret']}}</q-item-label>
-                    </q-item-section>
-
-                    <!--
-                    <q-item-section top side>
-                        <div class="text-grey-8 q-gutter-xs">
-                            <q-btn class="gt-xs" size="12px" flat dense round icon="delete" />
-                            <q-btn class="gt-xs" size="12px" flat dense round icon="done" />
-                            <q-btn size="12px" flat dense round icon="more_vert" />
-                        </div>
-                    </q-item-section>
-                    -->
-
-                </q-item>
-
-                <q-separator spaced />
-
-            </q-list>
-
+                </q-table>
+            </div>
         </div>
 
 
       <div class="row">
             <div class="col">
-                <CTitle ttype='title' :title="$t('chart.home_scaled.title')"></CTitle>          
-                <ChartTimeframe period='daily' :onclick="onClickTimeframe" :selected='g_timeframe'></ChartTimeframe>          
-                <CWatchChart ref='cwatchChart'></CWatchChart>
+                <CTitle ttype='subtitle' :title="v_portfolio['title']" :desc="v_portfolio['desc']"></CTitle>          
+                <PortfolioTable ref='portfolioTable'></PortfolioTable>
             </div>      
       </div>
 
@@ -78,7 +81,7 @@ import { LoadingBar } from 'quasar';
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
 import ChartTimeframe from 'components/ChartTimeframe';
-import CWatchChart from 'pages/cwatch/CWatchChart';
+import PortfolioTable from 'pages/cryptovc/PortfolioTable';
 
 
 export default {
@@ -87,14 +90,34 @@ export default {
       CTitle,
       CBigLabel,
       ChartTimeframe,
-      CWatchChart,
+      PortfolioTable,
   },
 
   data: function () {
     return {
-      g_data: '',
-      g_items: [{'name':'test', 'description':'afadsfsfasfsdfsdf'}],
+        g_data: '',
+        g_items: [{'name':'test', 'description':'afadsfsfasfsdfsdf'}],
 
+        g_chart: {
+            'chart1': { series: [], },
+            'chart2': { series: [], },
+        },
+        v_portfolio: {title:this.$t('name.portfolio'), desc:''},
+
+        headers: [
+            { name:'rank', label: this.$t('name.rank'), field: 'rank', sortable:true },
+            { name:'name', label: this.$t('name.name'), field: 'name' },
+            { name:'avg_roi', label: this.$t('name.roi')+'(%)', sortable:true,  field: 'avg_roi' ,
+              format: (val, row) => `${Number(val).toLocaleString()}`, 
+            },
+            { name:'total_ret', label: this.$t('name.total_return')+'(%)', sortable:true, field: 'total_ret',
+              format: (val, row) => `${Number(val).toLocaleString()}`,
+            },
+            { name:'homepage', label: this.$t('name.homepage'), field: 'homepage'},
+            { name:'description', label: this.$t('name.description'), field: 'description'},
+        ],
+
+        items: [],
     }
   },
     created: function () {
@@ -130,20 +153,30 @@ export default {
 
         },
         
-        convertToJson:function(data) {
-            let items = [];
-            for (let index=0;index<data['values'].length;index++) {
-                let a_item = {};
-                for (let index2=0;index2<data['columns'].length;index2++) {
-                    a_item[data['columns'][index2]] = data['values'][index][index2];
-                }
-                items.push(a_item);
+        getMean: function(data,column) {
+            let dic_columns = CommonFunc.getColumnDic(data.columns,[],[]);
+            let a_sum = 0;
+            for (let index=0;index<data.values.length;index++) {
+                a_sum = a_sum + data.values[index][dic_columns[column]];
             }
-            return items;
+            return a_sum/data.values.length;
+        },
+
+        updateWidget: function(data) {            
+            logger.log.debug('data=',data);
+
+            const a_roi = this.getMean(data,'avg_roi');
+            const a_total = this.getMean(data,'total_ret');
+
+            let a_label = {title:this.$t('name.avg_roi')+"(%)", value:a_roi, value_pct_change: 0};            
+            this.$refs['label_roi'].update(a_label);                
+
+            a_label = {title:this.$t('name.avg_total_return')+"(%)", value:a_total, value_pct_change: 0};            
+            this.$refs['label_total'].update(a_label);                            
         },
 
         updateListData:function(data) {
-            this.g_items = this.convertToJson(data);
+            this.items = CommonFunc.formatArrayToJson(data);
         },
 
         loadCryptovcData: function() {
@@ -155,7 +188,9 @@ export default {
                 MoaBackendAPI.getCryptovcData({},function(response) {
                     _this.g_data = response.data.data;
                     logger.log.debug("CWatchView.loadCryptovcData - response",_this.g_data);
+                    _this.updateWidget(_this.g_data);
                     _this.updateListData(_this.g_data);
+                    _this.updateVCChart(_this.g_data);
                     //logger.log.debug("CWatchView.loadCryptoWatchData - response",_this.g_data);
                     resolve();
                 },function(err) {
@@ -166,17 +201,51 @@ export default {
         },
         
 
+        updateVCChart: function(data) {
+
+            let dic_columns = CommonFunc.getColumnDic(data.columns,[],[]);
+            let items = [];
+            for (let index=0;index<data.values.length;index++) {
+                items.push( [data.values[index][dic_columns['name']],data.values[index][dic_columns['avg_roi']]] ); ;
+            }
+
+            let series = [
+                { name: this.$t('name.investor'),type: 'bar', yAxis:0, data: items,
+                    dataLabels: { 
+                       enabled: true, rotation: -90,format: '{point.y:.0f}', y: 10,
+                    }
+                },
+            ];
+
+            //console.log("updateVCChart : data=",items);
+
+            let a_option = CommonFunc.getChartOption(series);
+            a_option.xAxis.type = 'category';
+            a_option.xAxis.labels = {rotation: -90};
+            a_option.legend = { enabled:false };
+            //a_option.yAxis[1] = {mshow:true, opposite:true, gridLineWidth:0};
+            this.g_chart['chart1'] = a_option;
+        },
+
+        updatePortfolioTitle: function(vc) {
+            this.v_portfolio.title = vc;
+            this.v_portfolio.desc = this.$t('name.portfolio_desction');
+        },
+
+        navAsset:function(symbol) {
+          let dic_param = { name:'asset', params:{ symbol:symbol } };
+          this.$router.push(dic_param);
+        },
+
         onLoad: function(progress) {
-            console.log('onLoad - ',progress);
+            logger.log.debug('onLoad - ',progress);
         },
 
-
-        onClickTimeframe: function(offset,timeframe) {
-            //let ioffset = CONST.timeframe[this.g_timeframe];
-            console.log('onClickTimeframe.ioffset=',offset);
-
-            this.loadCryptoWatchData(offset);
-        },
+        onClickVC: function(vc) {
+            logger.log.debug('onClickVC - ',vc);
+            this.updatePortfolioTitle(vc);
+            this.$refs.portfolioTable.update(vc);
+        }
 
     }
 
