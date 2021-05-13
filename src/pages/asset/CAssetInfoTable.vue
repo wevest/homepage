@@ -95,36 +95,61 @@
 
               <q-markup-table>
                 <tbody>
-                  <tr>
+                  <tr class="develop-low">
                     <td>                      
                       <p>
-                        <h6>{{ $t('name.commit_count')}}</h6>
-                        <h7>{{ g_commit_item['github_commit_count'] }}</h7>
+                        <h6 class="develop-name">{{ $t('name.commit_count')}}</h6>
+                        <h7 class="develop-value">{{ g_commit_item['github_commit_count'] }}</h7>
                       </p>
                     </td> 
                     <td>
                       <p>
-                        <h6>{{ $t('name.created_at')}}</h6>
-                        <h7>{{ g_commit_item['github_created_at'] }}</h7>
+                        <h6 class="develop-name">{{ $t('name.created_at')}}</h6>
+                        <h7 class="develop-value">{{ g_commit_item['github_created_at'] }}</h7>
                       </p>
                     </td>
                   </tr>
-                  <tr>
+                  <tr class="develop-low">
                     <td>
                       <p>
-                        <h6>{{ $t('name.pushed_at')}}</h6>
-                        <h7>{{ g_commit_item['github_pushed_at'] }}</h7>
+                        <h6 class="develop-name">{{ $t('name.pushed_at')}}</h6>
+                        <h7 class="develop-value">{{ g_commit_item['github_pushed_at'] }}</h7>
                       </p>
                     </td>
-                    <td class="text-left">{{ $t('name.subscriber_count')}}</td> <td class="dev_value">{{ g_commit_item['github_subscribers_count'] }}</td>
+                    <td>
+                      <p>
+                        <h6 class="develop-name">{{ $t('name.subscriber_count')}}</h6>
+                        <h7 class="develop-value">{{ g_commit_item['github_subscribers_count'] }}</h7>
+                      </p> 
+                    </td>
                   </tr>
-                  <tr>
-                    <td class="text-left">{{ $t('name.watcher_count')}}</td> <td class="dev_value">{{ g_commit_item['github_watchers_count'] }}</td>
-                    <td class="text-left">{{ $t('name.forks_count')}}</td> <td class="dev_value">{{ g_commit_item['github_forks_count'] }}</td>
+                  <tr class="develop-low">
+                    <td>
+                      <p>
+                        <h6 class="develop-name">{{ $t('name.watcher_count')}}</h6>
+                        <h7 class="develop-value">{{ g_commit_item['github_watchers_count'] }}</h7>
+                      </p>    
+                    </td>
+                    <td>
+                      <p>
+                        <h6 class="develop-name">{{ $t('name.forks_count')}}</h6> 
+                        <h7 class="develop-value">{{ g_commit_item['github_forks_count'] }}</h7>
+                      </p>
+                    </td>
                   </tr>
-                  <tr>
-                    <td class="text-left">{{ $t('name.language') }}</td> <td class="dev_value">{{ g_commit_item['github_language'] }}</td>
-                    <td class="text-left">{{ $t('name.language') }}</td> <td class="dev_value">{{ g_commit_item['github_language'] }}</td>
+                  <tr class="develop-low">
+                    <td>
+                      <p>
+                        <h6 class="develop-name">{{ $t('name.language') }}</h6>
+                        <h7 class="develop-value">{{ g_commit_item['github_language'] }}</h7>
+                      </p>    
+                    </td>
+                    <td>
+                      <p>
+                        <h6 class="develop-name">{{ $t('name.language') }}</h6>
+                        <h7 class="develop-value">{{ g_commit_item['github_language'] }}</h7>
+                      </p>
+                    </td>    
                   </tr>
                 </tbody>
               </q-markup-table>
@@ -338,5 +363,21 @@ export default {
   font-weight: bold;
 }
 
+
+.develop-low {
+line-height:0.0rem;
+}
+.develop-name {
+  color:#848484;
+  font-size: 0.9rem;
+  margin:0.3rem;
+}
+
+.develop-value {
+ color:#464646;
+ font-size: 1.3rem;
+ margin:0.3rem;
+ font-weight:bold;
+}
 </style>
 
