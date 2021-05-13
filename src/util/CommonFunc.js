@@ -1063,5 +1063,10 @@ export default class CommonFunc {
         a_this.visible = false;
         a_this.showSimulatedReturnData = true;
     }
+
+    static isUpperCase(str) {
+        return str === str.toUpperCase();
+    }
+    
 }
 

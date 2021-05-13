@@ -9,7 +9,9 @@
 
         <div class="row">
             <div class="col-3">
-                <p class="price_big">{{ g_price['price'] }}</p>                        
+                <p class="price_big">
+                    {{ g_price['price'] }}
+                </p>
             </div>
             <div class="col-9">
                 <q-markup-table>
@@ -105,6 +107,7 @@ import CAssetTable from 'src/pages/asset/CAssetTable';
 //import CSectorCryptoTable from 'src/components/CSectorCryptoTable';
 
 export default {
+    name:'assetView',
     components: {
         CTitle,
         ChartTimeframe,
@@ -113,6 +116,10 @@ export default {
         CAssetTable,
     },
     props: {
+        symbol: {
+            type: String,
+            default: 'BTC'
+        }
     },
 
     data: () => ({
@@ -122,10 +129,7 @@ export default {
         g_period: 30,
         g_asset: null,       
         g_freq: 'y1',
-        g_price: {'price_prev':0, 'price_low':0, 'price_high':0, 'price_open':0, 'price':0, 'volume':0, 'tv':0},
-
-        
-
+        g_price: {'price_prev':0, 'price_low':0, 'price_high':0, 'price_open':0, 'price':0, 'volume':0, 'tv':0},    
     }),
 
 
@@ -133,7 +137,7 @@ export default {
         //console.log("HomeView.created");
     },
     mounted: function() {
-        //console.log("HomeView.mounted - ");
+        console.log("AssetView.mounted - symbol=",this.symbol);
 /*
         let a_selected = CommonFunc.getAppData('crypto_selected');
         console.log("InstrumentView.mounted - ",a_selected);
@@ -141,24 +145,31 @@ export default {
             //this.showChart(a_selected,[],'');
         }
 */
-        this.refresh();
+        this.g_asset = this.symbol;
+        this.refresh(this.g_asset);
     },
     updated: function() {
-        //console.log("HomeView.updated");
+        console.log("AssetView.updated - symbol=",this.symbol,this.$router.currentRoute);
+        
+        this.g_asset = this.symbol;
+        CommonFunc.setAppData('onSearchEvent',this.onSearchEvent);
     },
     
     methods: {
-        refresh: function() {
-            const _this = this;
+        refresh: function(symbol) {
+            if ( (symbol.length)==0 ) {
+                return
+            }
 
+            const _this = this;
             Services.loadCryptovcData().then(function(json_data) {
                 _this.g_vc = json_data;
                 logger.log.debug('vc=',_this.g_vc);
 
                 let funcs = [
-                    _this.loadCommitData('BTC'),
-                    _this.loadCryptoBaseinfo('BTC'),
-                    _this.loadCryptoPriceHistory('BTC')                    
+                    _this.loadCommitData(symbol),
+                    _this.loadCryptoBaseinfo(symbol),
+                    _this.loadCryptoPriceHistory(symbol)                    
                 ];
                 Promise.all(funcs).then(function() {
                     //CommonFunc.getAppData('spinner').hide();
@@ -281,6 +292,13 @@ export default {
             console.log('CTopTable.onClickSectorChart - ',sector);            
             this.$refs.sectorChart.update(this.g_data,'upbit',sector);
             this.loadSectorAssetData('upbit',sector);
+        },
+
+        onSearchEvent: function(value) {
+            logger.log.debug('AssetView.onSearchEvent - ',value);       
+            
+            this.g_asset = value;
+            this.refresh(this.g_asset);
         }
     },
 

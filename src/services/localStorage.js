@@ -53,6 +53,37 @@ export default class LocalStorageService{
         });
     }
 
+    static loadCoinCodes(force=false) {
+        const a_code = LocalStorageService.load(MoaConfig.general.COINCODE);
+        //console.log("localStorage.getCode=",a_code);
+
+        if ((! force) && ( a_code)) {
+            //console.log("localStorage.getCode2=",a_code);            
+            return a_code;
+        }        
+        
+        return new Promise(function(resolve,reject) {
+            const dic_param = {'type':'simple'};
+
+            MoaBackendAPI.getCryptoBaseinfo(dic_param,function(response) {
+                let g_code = response.data.data.values;
+
+                logger.log.debug("LocalStorageService.loadCoinCodes - response",g_code);                                
+                
+                LocalStorageService.save(MoaConfig.general.COINCODE,g_code);
+                resolve(g_code);
+
+            },function(err) {
+                logger.log.error("LocalStorageService.loadCoinCodes - error",err);
+                reject();
+            });
+        });
+    }
+
+    static getCoinCode() {
+        return LocalStorageService.load(MoaConfig.general.COINCODE);    
+    }
+
     static getCode() {
         return LocalStorageService.load(MoaConfig.general.KCODE);    
     }

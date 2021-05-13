@@ -15,6 +15,7 @@ export default {
       console.log("App.created");
       
       LocalStorageService.loadKCodes();
+      LocalStorageService.loadCoinCodes(false);
   },
   
 
