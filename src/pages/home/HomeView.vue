@@ -1,22 +1,26 @@
 <template>
     
-    <div class="q-pa-md">
+  <div class="q-pa-md">
       
-      <div class="row q-gutter-md">
-        <div class="col-12 col-md">
-          <CBigLabel ref='label_btc' title="abc"></CBigLabel>
+        <div class="row q-gutter-sm">
+            <div class="col q-mt-md">
+                <CBigLabel ref='label_btc' title="abc"></CBigLabel>
+            </div>
+            <div class="col q-mt-md">
+                <CBigLabel ref='label_binance' title="abc"></CBigLabel>
+            </div>
+        
         </div>
-        <div class="col-12 col-md">
-          <CBigLabel ref='label_binance' title="abc"></CBigLabel>
-        </div>
-        <div class="col-12 col-md">
-          <CBigLabel ref='label_upbit' title="abc" :onclick="onClickUpbit"></CBigLabel>
-        </div>
-        <div class="col-12 col-md">
-          <CBigLabel ref='label_bithumb' title="abc"></CBigLabel>
-        </div>
-      </div>
 
+        <div class="row q-gutter-sm">
+            <div class="col q-mt-md">
+                <CBigLabel ref='label_upbit' title="abc" :onclick="onClickUpbit"></CBigLabel>
+            </div>
+            <div class="col q-mt-md">
+                <CBigLabel ref='label_bithumb' title="abc"></CBigLabel>
+            </div>
+        </div>
+    
 
       <div class="row">
         <div class="col">
@@ -44,14 +48,16 @@
           <div class="col q-mt-md">
               <CBigLabel ref='label_korean' title="abc"></CBigLabel>                
           </div>
+       </div> 
+      <div class="row q-gutter-sm">
           <div class="col q-mt-md">
               <CBigLabel ref='label_chinese' title="abc"></CBigLabel>
           </div>
-      </div>
-      <div class="row q-gutter-sm">    
           <div class="col q-mt-md">
               <CBigLabel ref='label_nft' title="abc"></CBigLabel>
           </div>
+      </div>    
+      <div class="row q-gutter-sm">    
           <div class="col q-mt-md">
               <CBigLabel ref='label_defi' title="abc"></CBigLabel>
           </div>
