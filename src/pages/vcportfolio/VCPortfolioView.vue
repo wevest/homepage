@@ -20,7 +20,7 @@
 
         <div class="row  q-gutter-md">
             <div class="col">
-                <CTitle ttype='subtitle' :title="v_portfolio['title']" :desc="v_portfolio['desc']"></CTitle>          
+                <CTitle ttype='subtitle' :title="v_portfolio['title']" :desc="v_portfolio['desc']"></CTitle>
                 <VCPortfolioTable ref='portfolioTable'></VCPortfolioTable>
             </div>      
         </div>
@@ -28,6 +28,7 @@
 
         <div class="row q-gutter-md"> 
             <div class="col">
+                <CTitle ttype='subtitle' :title="v_portfolio['title']" :desc="v_portfolio['desc']"></CTitle>
 
                 <q-table
                 title=""

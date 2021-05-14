@@ -74,12 +74,12 @@ export default {
 
         updateTable: function(json_data) {
           let items = CommonFunc.formatArrayToJson(json_data);
-          logger.log.debug('items=',items);
+          //logger.log.debug('items=',items);
           for (var index=0; index<items.length; index++) {
             let tokens = items[index]['cryptovc'].split(",");
             items[index]['cryptovc'] = tokens;
           }
-          logger.log.debug('items2=',items);
+          //logger.log.debug('items2=',items);
           this.items = items;
         },
 
