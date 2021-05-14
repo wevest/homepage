@@ -158,9 +158,9 @@ export default {
         onClickAsset: function(symbol) {
           logger.log.debug('PortfolioValue.onClickAsset - ',symbol);
           
-          this.$parent.navAsset(symbol);
-          //let dic_param = { name:'asset', params:{ symbol:symbol } };
-          //this.$router.push(dic_param);
+          //this.$parent.navAsset(symbol);
+          let dic_param = { name:'asset', params:{ symbol:symbol } };
+          this.$router.replace(dic_param);
         }
     }
 }

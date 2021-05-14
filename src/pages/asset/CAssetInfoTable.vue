@@ -99,13 +99,13 @@
                     <td>                      
                       <p>
                         <h6>{{ $t('name.commit_count')}}</h6>
-                        <h7>{{ g_commit_item['github_commit_count'] }}</h7>
+                        <h6>{{ g_commit_item['github_commit_count'] }}</h6>
                       </p>
                     </td> 
                     <td>
                       <p>
                         <h6>{{ $t('name.created_at')}}</h6>
-                        <h7>{{ g_commit_item['github_created_at'] }}</h7>
+                        <h6>{{ g_commit_item['github_created_at'] }}</h6>
                       </p>
                     </td>
                   </tr>
@@ -113,7 +113,7 @@
                     <td>
                       <p>
                         <h6>{{ $t('name.pushed_at')}}</h6>
-                        <h7>{{ g_commit_item['github_pushed_at'] }}</h7>
+                        <h6>{{ g_commit_item['github_pushed_at'] }}</h6>
                       </p>
                     </td>
                     <td class="text-left">{{ $t('name.subscriber_count')}}</td> <td class="dev_value">{{ g_commit_item['github_subscribers_count'] }}</td>
