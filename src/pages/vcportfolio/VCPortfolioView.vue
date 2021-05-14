@@ -4,7 +4,7 @@
 
         <div class="row">
             <div class="col">
-                <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>      
+                <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>          
             </div>
         </div>
         
@@ -16,13 +16,15 @@
                 <CBigLabel ref='label_total' title="abc"></CBigLabel>
             </div>
         </div>
-        
-        <div class="row">
+
+
+        <div class="row  q-gutter-md">
             <div class="col">
-                <CTitle ttype='subtitle' title="시장강도"></CTitle>
-                <highcharts class="hc" height="600" :options="g_chart['chart1']" ref="chart1"></highcharts>
-            </div>
+                <CTitle ttype='subtitle' :title="v_portfolio['title']" :desc="v_portfolio['desc']"></CTitle>          
+                <VCPortfolioTable ref='portfolioTable'></VCPortfolioTable>
+            </div>      
         </div>
+
 
         <div class="row q-gutter-md"> 
             <div class="col">
@@ -56,15 +58,6 @@
             </div>
         </div>
 
-
-      <div class="row">
-            <div class="col">
-                <CTitle ttype='subtitle' :title="v_portfolio['title']" :desc="v_portfolio['desc']"></CTitle>          
-                <PortfolioTable ref='portfolioTable'></PortfolioTable>
-            </div>      
-      </div>
-
-
   </div> 
 
 
@@ -81,7 +74,7 @@ import { LoadingBar } from 'quasar';
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
 import ChartTimeframe from 'components/ChartTimeframe';
-import PortfolioTable from 'pages/cryptovc/PortfolioTable';
+import VCPortfolioTable from 'pages/vcportfolio/VCPortfolioTable';
 
 
 export default {
@@ -89,8 +82,7 @@ export default {
   components: {
       CTitle,
       CBigLabel,
-      ChartTimeframe,
-      PortfolioTable,
+      VCPortfolioTable,
   },
 
   data: function () {
@@ -102,9 +94,8 @@ export default {
             'chart1': { series: [], },
             'chart2': { series: [], },
         },
-        
-        v_page: {title:this.$t('page.cryptovc.title'), desc:''},
-        v_portfolio: {title:this.$t('name.cryptovc'), desc:''},
+        v_portfolio: {title:this.$t('name.portfolio'), desc:''},
+        v_page: {title: this.$t('page.vcportfolio.title'), desc:'' },
 
         headers: [
             { name:'rank', label: this.$t('name.rank'), field: 'rank', sortable:true },
@@ -134,14 +125,13 @@ export default {
     },
     
     methods: {
+
         refresh: function() {
             const _this = this;
         
             LoadingBar.start();
             let funcs = [            
-                //this.loadCalendarEffectData('1h'),
-                this.loadCryptovcData(),
-                //this.loadCryptoTopAssetData('1h')
+                this.loadCryptovcPortfolioData(),            
             ];
             Promise.all(funcs).then(function() {
                 LoadingBar.stop();
@@ -175,26 +165,25 @@ export default {
             this.items = CommonFunc.formatArrayToJson(data);
         },
 
-        loadCryptovcData: function() {
+        loadCryptovcPortfolioData: function() {
             const _this = this;
 
             return new Promise(function(resolve,reject) {
                 //logger.log.debug("CWatchView.loadCryptoWatchData - dic_param=",dic_param);
-
-                MoaBackendAPI.getCryptovcData({},function(response) {
+                let dic_param = {vc:''};
+                MoaBackendAPI.getCryptoVCPortfolioData(dic_param,function(response) {
                     _this.g_data = response.data.data;
-                    logger.log.debug("CWatchView.loadCryptovcData - response",_this.g_data);
-                    _this.updateWidget(_this.g_data);
-                    _this.updateListData(_this.g_data);
-                    _this.updateVCChart(_this.g_data);
+                    logger.log.debug("PortfolioTable.loadCryptovcPortfolioData - response",_this.g_data);
+                    _this.$refs.portfolioTable.update(_this.g_data);
                     //logger.log.debug("CWatchView.loadCryptoWatchData - response",_this.g_data);
                     resolve();
                 },function(err) {
-                    logger.log.error("CryptovcView.loadCryptovcData - error",err);
+                    logger.log.error("PortfolioTable.loadCryptovcPerformanceData - error",err);
                     reject();
                 });
             });            
         },
+
         
 
         updateVCChart: function(data) {

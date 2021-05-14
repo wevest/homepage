@@ -51,13 +51,18 @@
             </q-item>
           </template>
 
-            <template v-slot:no-option>
-              <q-item>
-                  <q-item-section class="text-grey">
-                  No results
-                  </q-item-section>
-              </q-item>
-            </template>
+          <template v-slot:append>
+            <q-icon name="search" @click.stop />
+          </template>
+
+          <template v-slot:no-option>
+            <q-item>
+                <q-item-section class="text-grey">
+                No results
+                </q-item-section>
+            </q-item>
+          </template>
+
         </q-select>
 
         <q-space />

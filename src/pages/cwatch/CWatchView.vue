@@ -20,7 +20,7 @@
 
       <div class="row">
             <div class="col">
-                <CTitle ttype='title' :title="$t('chart.home_scaled.title')"></CTitle>          
+                <CTitle ttype='title' :title="v_page['title']" :desc="v_page['desc']" ></CTitle>          
                 <ChartTimeframe period='daily' :onclick="onClickTimeframe" :selected='g_timeframe'></ChartTimeframe>          
                 <CWatchChart ref='cwatchChart'></CWatchChart>
             </div>      
@@ -58,6 +58,8 @@ export default {
   data: function () {
     return {
       g_timeframe: 'm1',
+
+      v_page: {title: this.$t('page.cwatch.title'), desc:'' }
     }
   },
     created: function () {
@@ -72,11 +74,12 @@ export default {
     },
     
     methods: {
-        test: function() {
-            logger.log.debug("HomeView.test=");
-            this.showChart('A051910');
-            //this.getFilteredData('A051910');
+        updatePageHeader: function(json_data) {
+            const dic_columns = CommonFunc.getColumnDic(json_data['BTC'].columns,[],[]);
+            let watch_date = json_data['BTC'].values[json_data['BTC'].values.length-1][dic_columns['utc_trade_date']];
+            this.v_page.desc = watch_date;
         },
+
 
         refresh: function() {
             const _this = this;
@@ -110,10 +113,11 @@ export default {
                     _this.g_data = response.data.data;
                     logger.log.debug("CWatchView.loadCryptoWatchData - response",_this.g_data);
                     
+                    _this.updatePageHeader(_this.g_data);
                     _this.updateWidget(_this.g_data);
                     _this.updateCwatchChart(_this.g_data);
                     //logger.log.debug("CWatchView.loadCryptoWatchData - response",_this.g_data);
-                    //_this.updateExchangeWidget(_this.g_data,_this.tab);
+                    
                     //_this.updateExchangeIndexChart(_this.g_data,_this.tab);
                     //_this.$refs.sectorTable.update(_this.g_data,_this.tab);
                     resolve();

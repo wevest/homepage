@@ -5,7 +5,7 @@
 
         <div class="row">
             <div class="col">
-                <CTitle ttype='title' :title="$t('page.sector.title')" :desc="$t('page.sector.desc')"></CTitle> 
+                <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle> 
                 <q-tabs v-model="tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
                     <q-tab name="upbit" :label="$t('name.upbit')" @click="onClickTab('upbit')" />
                     <q-tab name="bithumb" :label="$t('name.bithumb')" @click="onClickTab('bithumb')" />
@@ -53,17 +53,18 @@ export default {
         CSectorSummaryTable,
         CSectorCryptoTable
     },
-    props: {
+    props: {},
+
+    data: function() {
+        return {
+            g_data: null,
+            g_period: 30,
+            
+            g_sector: '',
+            tab:'upbit',        
+            v_page: {title:this.$t('page.sector.title'), desc:''}
+        }
     },
-
-    data: () => ({
-        g_data: null,
-        g_period: 30,
-        
-        g_sector: '',
-        tab:'upbit',        
-    }),
-
 
     created: function () {
         //console.log("HomeView.created");
@@ -73,6 +74,13 @@ export default {
     },
     
     methods: {
+
+        updatePageHeader: function(json_data) {
+            const dic_columns = CommonFunc.getColumnDic(json_data['upbit']['btc'].columns,[],[]);
+            let watch_date = json_data['upbit']['btc'].values[json_data['upbit']['btc'].values.length-1][dic_columns['trade_date']];
+            this.v_page.desc = watch_date;
+        },
+
         refresh: function() {
             const _this = this;
         
@@ -106,8 +114,8 @@ export default {
                     //_this.updateWidget('g_widget_upbit',_this.g_data,'upbit');
                     //_this.updateWidget('g_widget_bithumb',_this.g_data,'bithumb');
                     //_this.$refs.dailyIndexChart.update(_this.g_data);
-                    //_this.$refs.sectorTable.update(_this.g_data,_this.tab);
                     
+                    _this.updatePageHeader(_this.g_data);                    
                     _this.updateSectorSummaryTable(_this.g_data,_this.tab);
                     _this.updateSectorChart('korean');
 

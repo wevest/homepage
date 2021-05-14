@@ -24,7 +24,7 @@
 
       <div class="row">
         <div class="col">
-          <CTitle ttype='title' :title="$t('chart.home_scaled.title')"></CTitle>          
+          <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>          
           <CIndexChart ref='indexChart'></CIndexChart>
         </div>      
       </div>
@@ -108,6 +108,8 @@ export default {
   data: function () {
     return {
       tab:'upbit',
+
+      v_page: {title:this.$t('page.home.title'), desc:''}
     }
   },
     created: function () {
@@ -122,23 +124,10 @@ export default {
     },
     
     methods: {
-        test: function() {
-            logger.log.debug("HomeView.test=");
-            this.showChart('A051910');
-            //this.getFilteredData('A051910');
-        },
-
-        scrollToElement:function (ref) {
-            const scrollArea = this.$refs[ref];
-            const scrollTarget = scrollArea.getScrollTarget();
-            const duration = 300; // ms - use 0 to instant scroll
-            scrollArea.setScrollPosition(scrollTarget.scrollHeight, duration);
-            /*
-            const target = getScrollTarget(el)
-            const offset = el.offsetTop
-            const duration = 1000
-            setScrollPosition(target, offset, duration)
-            */
+        updatePageHeader: function(json_data) {
+            const dic_columns = CommonFunc.getColumnDic(json_data['upbit']['btc'].columns,[],[]);
+            let watch_date = json_data['upbit']['btc'].values[json_data['upbit']['btc'].values.length-1][dic_columns['trade_date']];
+            this.v_page.desc = watch_date;
         },
 
         refresh: function() {
@@ -197,6 +186,7 @@ export default {
                     _this.g_data = response.data.data;
                     logger.log.debug("HomeView.getCryptoIndexData - response",_this.g_data);
                     
+                    _this.updatePageHeader(_this.g_data);
                     _this.updateWidget(_this.g_data);
                     _this.updateIndexChart(_this.g_data);
 

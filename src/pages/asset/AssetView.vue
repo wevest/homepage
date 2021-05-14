@@ -3,7 +3,7 @@
     <div class="q-pa-md">
         <div class="row">
             <div class="col">
-                <CTitle ttype='title' :title="v_title.title" :desc="v_title.desc"></CTitle>          
+                <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>          
             </div>
         </div>
 
@@ -35,7 +35,8 @@
                             <span class="price_label">{{ $t('name.price_low') }}</span> <span class="price_tag">{{ g_price['price_low'] }}</span>
                         </td>
                         <td class="text-left">
-                            <span class="price_label">{{ $t('name.tv') }}</span> <span class="price_tag">{{ g_price['tv'] }}</span>
+                            <span class="price_label">{{ $t('name.tv') }}</span> 
+                            <span class="price_tag">{{ Number(g_price['tv']).toLocaleString() }}</span>
                         </td>
                     </tr>
                     </tbody>
@@ -115,31 +116,27 @@ export default {
         CAssetInfoTable,
         CAssetTable,
     },
-    props: {
-        symbol: {
-            type: String,
-            default: 'BTC'
+    props: ['symbol'],
+
+    data: function() {
+        return {
+            g_data: null,
+            g_data_commit: null,
+            g_vc: null,
+            g_period: 30,
+            g_asset: null,       
+            g_freq: 'y1',
+            g_price: {'price_prev':0, 'price_low':0, 'price_high':0, 'price_open':0, 'price':0, 'volume':0, 'tv':0},    
+
+            v_page: {title:this.$t('page.asset.title'), desc:''}
         }
     },
-
-    data: () => ({
-        g_data: null,
-        g_data_commit: null,
-        g_vc: null,
-        g_period: 30,
-        g_asset: null,       
-        g_freq: 'y1',
-        g_price: {'price_prev':0, 'price_low':0, 'price_high':0, 'price_open':0, 'price':0, 'volume':0, 'tv':0},    
-
-        v_title: {title:'Crypto Asset', desc:''}
-    }),
-
 
     created: function () {
         //console.log("HomeView.created");
     },
     mounted: function() {
-        console.log("AssetView.mounted - symbol=",this.symbol);
+        console.log("AssetView.mounted - symbol=",this.symbol,this.$route.params);
 /*
         let a_selected = CommonFunc.getAppData('crypto_selected');
         console.log("InstrumentView.mounted - ",a_selected);
@@ -147,19 +144,19 @@ export default {
             //this.showChart(a_selected,[],'');
         }
 */
-        this.g_asset = this.symbol;
+        this.g_asset = this.$route.params.symbol;
         this.refresh(this.g_asset);
     },
     updated: function() {
-        console.log("AssetView.updated - symbol=",this.symbol,this.$router.currentRoute);
+        console.log("AssetView.updated - symbol=",this.symbol,this.$route.params);
         
-        this.g_asset = this.symbol;
+        this.g_asset = this.$route.params.symbol;
         CommonFunc.setAppData('onSearchEvent',this.onSearchEvent);
     },
     
     methods: {
         refresh: function(symbol) {
-            if ( (symbol.length)==0 ) {
+            if ( (!symbol) || ( (symbol.length)==0 ) ) {
                 return
             }
 
@@ -184,6 +181,8 @@ export default {
         },
         
         updatePriceTable: function(json_data) {
+            logger.log.debug("data=",json_data);
+
             const dic_columns = CommonFunc.getColumnDic(json_data['overall'].columns,[],[]);
             this.g_price['price'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceClose']],2);
             this.g_price['price_prev'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-2 ][dic_columns['priceClose']],2);
@@ -239,7 +238,7 @@ export default {
                 if ( (_this.g_freq=='d7') || (_this.g_freq=='d1')) {
                     a_freq = 'm';
                 }
-                let dic_param = {symbol:symbol,freq:a_freq,start_date:a_start_date, end_date:a_end_date, exchange:'cc',quote:'USD' };
+                let dic_param = {symbol:symbol,quote:'USD',freq:a_freq,start_date:a_start_date, end_date:a_end_date, exchange:'cc',quote:'USD' };
                 logger.log.debug("AssetView.loadCryptoPriceHistory - dic_param=",dic_param);
 
                 MoaBackendAPI.getCryptoPriceHistory(dic_param,function(response) {

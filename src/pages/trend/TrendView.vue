@@ -4,7 +4,7 @@
 
       <div class="row">
         <div class="col">
-            <CTitle title="trend_trend_chart"></CTitle>          
+            <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>          
             <CTrendChart ref='indexTrendChart'></CTrendChart>
         </div>      
       </div>
@@ -14,12 +14,6 @@
 </template>
 
 <script>
-/*
-import CSectorTable from '@/view/component/crypto/CSectorTable';
-import CAssetTable from '@/view/component/crypto/CAssetTable';
-import CSectorChart from '@/view/component/crypto/CSectorChart';
-*/
-
 import CommonFunc from 'src/util/CommonFunc';
 import MoaBackendAPI from 'src/services/apiService';
 import logger from "src/error/Logger";
@@ -35,59 +29,49 @@ export default {
         LoadingBar,
         CTrendChart
     },
-    props: {
-        param_author: {
-            type: String,
-            default: ''
-        }
-        
-    },
-    watch: {
-        '$route': 'onLoad'
-    },
+    data: function() {
+        return {
+            g_data: null,
+            g_data_summary: null,
+            g_period: 30,
 
-    data: () => ({
-        heading: 'Crypto Daily Trend',
-        subheading: 'The v-autocomplete component offers simple and flexible type-ahead functionality. This is useful when searching large sets of data or even dynamically requesting information from an API.',
-        icon: 'pe-7s-plane icon-gradient bg-tempting-azure',
-
-        g_data: null,
-        g_data_summary: null,
-        g_period: 30,
-        g_author: '',
-        g_widget_overall: {
-            'overall': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'Crypto', arrow:'angle-up' },
-            'btc': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'BTC', arrow:'angle-up' },
-            'alt': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'ALT', arrow:'angle-up' },
-        },
-        g_widget_exchange: {
-            'upbit': {
-                'major': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'Major', arrow:'angle-up' },            
-                'korean': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'한국코인', arrow:'angle-up' },
-                'chinese': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'중국코인', arrow:'angle-up' },                        
-                'defi': { color:'bg-primary', startVal:0, endVal:0, label:'DEFI', arrow:'angle-up' },
-                'misc': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'잡코인', arrow:'angle-up' },
-                'nft': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'NFT', arrow:'angle-up' },
+            g_widget_overall: {
+                'overall': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'Crypto', arrow:'angle-up' },
+                'btc': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'BTC', arrow:'angle-up' },
+                'alt': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'ALT', arrow:'angle-up' },
             },
-            'bithumb': {
-                'major': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'Major', arrow:'angle-up' },            
-                'korean': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'한국코인', arrow:'angle-up' },
-                'chinese': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'중국코인', arrow:'angle-up' },                        
-                'defi': { color:'bg-primary', startVal:0, endVal:0, label:'DEFI', arrow:'angle-up' },
-                'misc': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'잡코인', arrow:'angle-up' },
-                'nft': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'NFT', arrow:'angle-up' },
-            }
-        },
-        g_options: {
-            useEasing: true,
-            useGrouping: true,
-            separator: ',',
-            decimal: '.',
-            prefix: '',
-            suffix: '%'
+            g_widget_exchange: {
+                'upbit': {
+                    'major': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'Major', arrow:'angle-up' },            
+                    'korean': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'한국코인', arrow:'angle-up' },
+                    'chinese': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'중국코인', arrow:'angle-up' },                        
+                    'defi': { color:'bg-primary', startVal:0, endVal:0, label:'DEFI', arrow:'angle-up' },
+                    'misc': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'잡코인', arrow:'angle-up' },
+                    'nft': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'NFT', arrow:'angle-up' },
+                },
+                'bithumb': {
+                    'major': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'Major', arrow:'angle-up' },            
+                    'korean': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'한국코인', arrow:'angle-up' },
+                    'chinese': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'중국코인', arrow:'angle-up' },                        
+                    'defi': { color:'bg-primary', startVal:0, endVal:0, label:'DEFI', arrow:'angle-up' },
+                    'misc': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'잡코인', arrow:'angle-up' },
+                    'nft': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'NFT', arrow:'angle-up' },
+                }
+            },
+            g_options: {
+                useEasing: true,
+                useGrouping: true,
+                separator: ',',
+                decimal: '.',
+                prefix: '',
+                suffix: '%'
+            },
+            
+            v_page: {title: this.$t('page.trend.title'), desc:'' }
+            
         }
 
-    }),
+    },
 
 
     created: function () {
@@ -102,10 +86,10 @@ export default {
     },
     
     methods: {
-        test: function() {
-            logger.log.debug("HomeView.test=");
-            this.showChart('A051910');
-            //this.getFilteredData('A051910');
+        updatePageHeader: function(json_data) {
+            const dic_columns = CommonFunc.getColumnDic(json_data['upbit']['btc'].columns,[],[]);
+            let watch_date = json_data['upbit']['btc'].values[json_data['upbit']['btc'].values.length-1][dic_columns['trade_date']];
+            this.v_page.desc = watch_date;
         },
 
         refresh: function() {
@@ -144,7 +128,7 @@ export default {
                     //logger.log.debug("HomeView.search - json_data",_this.g_json_data);
                     //_this.updateWidget('g_widget_overall',_this.g_data,'binance');
                     //_this.updateWidget('g_widget_upbit',_this.g_data,'upbit');
-                    //_this.updateWidget('g_widget_bithumb',_this.g_data,'bithumb');
+                    _this.updatePageHeader(_this.g_data);
                     _this.$refs.indexTrendChart.update(_this.g_data);
                     //_this.$refs.sectorTable.update(_this.g_data);
                     resolve();

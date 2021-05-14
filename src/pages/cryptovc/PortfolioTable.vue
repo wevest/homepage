@@ -72,13 +72,7 @@
       </div>
     </div>
 
-
-    <div class="row">
-      <div class="col">
-      </div>
-    </div>
   </div>
-
 </template>
 
 
@@ -97,8 +91,6 @@ export default {
         g_description: null,
         g_symbol: null,
         
-        items2: [],
-
 
         headers: [
             { name:'rank', label: this.$t('name.rank'), field: 'rank', sortable:true },
@@ -113,7 +105,9 @@ export default {
             { name:'homepage', label: this.$t('name.homepage'), field: 'homepage'},            
         ],
 
-        items: [],        
+
+        items: [],      
+        items2: [],  
       }
     },
 
@@ -158,9 +152,9 @@ export default {
         onClickAsset: function(symbol) {
           logger.log.debug('PortfolioValue.onClickAsset - ',symbol);
           
-          this.$parent.navAsset(symbol);
-          //let dic_param = { name:'asset', params:{ symbol:symbol } };
-          //this.$router.push(dic_param);
+          //this.$parent.navAsset(symbol);
+          let dic_param = { name:'asset', params:{ symbol:symbol } };
+          this.$router.replace(dic_param);
         }
     }
 }
