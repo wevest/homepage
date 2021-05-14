@@ -59,6 +59,15 @@ export default {
     homepage:'홈페이지',
     count:'횟수'
   },
+  page: {
+    home: { title:'오늘의 크립토마켓', desc:'' },
+    cwatch: { title:'크립토마켓 와치', desc:'' },
+    trend: { title:'크립토마켓 동향', desc:'' },
+    sector: { title:'크립토마켓 섹터별 동향', desc:'' },
+    asset: { title:'크립토에셋', desc:'' },
+    cryptovc: { title:'크립토VC', desc:'' },
+    vcportfolio: { title:'크립토VC 포트폴리오', desc:'' },
+  },
   asset: {
   },
   category: {

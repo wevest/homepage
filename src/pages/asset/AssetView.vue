@@ -3,7 +3,7 @@
     <div class="q-pa-md">
         <div class="row">
             <div class="col">
-                <CTitle ttype='title' :title="v_title.title" :desc="v_title.desc"></CTitle>          
+                <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>          
             </div>
         </div>
 
@@ -119,18 +119,19 @@ export default {
     },
     props: ['symbol'],
 
-    data: () => ({
-        g_data: null,
-        g_data_commit: null,
-        g_vc: null,
-        g_period: 30,
-        g_asset: null,       
-        g_freq: 'y1',
-        g_price: {'price_prev':0, 'price_low':0, 'price_high':0, 'price_open':0, 'price':0, 'volume':0, 'tv':0},    
+    data: function() {
+        return {
+            g_data: null,
+            g_data_commit: null,
+            g_vc: null,
+            g_period: 30,
+            g_asset: null,       
+            g_freq: 'y1',
+            g_price: {'price_prev':0, 'price_low':0, 'price_high':0, 'price_open':0, 'price':0, 'volume':0, 'tv':0},    
 
-        v_title: {title:'Crypto Asset', desc:''}
-    }),
-
+            v_page: {title:this.$t('page.asset.title'), desc:''}
+        }
+    },
 
     created: function () {
         //console.log("HomeView.created");

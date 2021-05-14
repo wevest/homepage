@@ -72,13 +72,7 @@
       </div>
     </div>
 
-
-    <div class="row">
-      <div class="col">
-      </div>
-    </div>
   </div>
-
 </template>
 
 
@@ -97,8 +91,6 @@ export default {
         g_description: null,
         g_symbol: null,
         
-        items2: [],
-
 
         headers: [
             { name:'rank', label: this.$t('name.rank'), field: 'rank', sortable:true },
@@ -113,7 +105,9 @@ export default {
             { name:'homepage', label: this.$t('name.homepage'), field: 'homepage'},            
         ],
 
-        items: [],        
+
+        items: [],      
+        items2: [],  
       }
     },
 

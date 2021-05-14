@@ -155,6 +155,14 @@ const linksMenu = [
         link: '#/cryptovc',
         level: 1,
         children: []        
+      },
+      {
+        title: 'VC Portfolio',
+        caption: 'CryptoVC Portfolio',
+        icon: 'rss_feed',
+        link: '#/vcportfolio',
+        level: 1,
+        children: []        
       }
     ]
   },
