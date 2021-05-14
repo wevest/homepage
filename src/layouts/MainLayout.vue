@@ -2,78 +2,72 @@
   <q-layout view="lHh Lpr lFf">
     
     <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          ref="mainMenuButton"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
 
-        <q-toolbar-title shrink>
-          MoA.Finance
-        </q-toolbar-title>
+      <div class="row no-wrap">
+        <q-toolbar class="col-1">
+          <q-btn flat dense round icon="menu" aria-label="Menu" ref="mainMenuButton"
+            @click="leftDrawerOpen = !leftDrawerOpen"/>
 
-        <q-select
-            class="fit"
-            ref="assetSearch"
-            filled
-            v-model="g_asset"
-            use-input
-            fill-input
-            hide-selected
-            input-debounce="0"
-            :options="v_options"
-            @filter="filterFn"
-            @input="onSearchInput"
-            @input-value="onSearchChange"
-            @new-value="onSearch"
-            @keyup.enter.native="onSearchEnter"
-            behavior="menu"
-        >
-          <template v-slot:option="scope">
-            <q-item
-              v-bind="scope.itemProps"
-              v-on="scope.itemEvents"
+          <q-toolbar-title shrink>
+            MoA
+          </q-toolbar-title>
+        </q-toolbar>
+        <q-toolbar class="col-9">                        
+            <q-select        
+              class="full-width"
+                ref="assetSearch"              
+                v-model="g_asset" use-input fill-input hide-selected filled
+                input-debounce="0"
+                :options="v_options"
+                @filter="filterFn"
+                @input="onSearchInput"
+                @input-value="onSearchChange"
+                @new-value="onSearch"
+                @keyup.enter.native="onSearchEnter"
+                behavior="menu"
             >
-<!--              
-              <q-item-section avatar>
-                <q-icon :name="scope.opt.icon" />
-              </q-item-section>
--->              
-              <q-item-section>
-                <q-item-label v-html="scope.opt.label" />
-                <q-item-label caption>{{ scope.opt.value }}</q-item-label>
-              </q-item-section>
-            </q-item>
-          </template>
+              <template v-slot:option="scope">
+                <q-item
+                  v-bind="scope.itemProps"
+                  v-on="scope.itemEvents"
+                >
+    <!--              
+                  <q-item-section avatar>
+                    <q-icon :name="scope.opt.icon" />
+                  </q-item-section>
+    -->              
+                  <q-item-section>
+                    <q-item-label v-html="scope.opt.label" />
+                    <q-item-label caption>{{ scope.opt.value }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </template>
 
-          <template v-slot:append>
-            <q-icon name="search" @click.stop />
-          </template>
+              <template v-slot:append>
+                <q-icon name="search" @click.stop />
+              </template>
 
-          <template v-slot:no-option>
-            <q-item>
-                <q-item-section class="text-grey">
-                No results
-                </q-item-section>
-            </q-item>
-          </template>
+              <template v-slot:no-option>
+                <q-item>
+                    <q-item-section class="text-grey">
+                    No results
+                    </q-item-section>
+                </q-item>
+              </template>
 
-        </q-select>
+            </q-select>
+          </q-toolbar>
 
-        <q-space />
+          <q-toolbar class="col-2 bg-primary text-white">          
+            <q-select             
+              class="full-width"
+              v-model="language" :options="langs" dense
+              label="Language" 
+              behavior="menu" transition-show="flip-up" transition-hide="flip-down" 
+              @input="onChangeLang"/>
 
-        <q-select v-model="language" :options="langs" 
-          class="box_language" label="Language" 
-          behavior="menu" transition-show="flip-up" transition-hide="flip-down" 
-          @input="onChangeLang"/>
-
-
-      </q-toolbar>
+          </q-toolbar>
+        </div>
     </q-header>
 
     <q-drawer
@@ -245,8 +239,9 @@ export default {
 
 <style scoped>
 
+
 .box_language {
-    width: 150px;
+    min-width: 150px;
     padding: 0.9rem;   
     /* 
     border-bottom: 1px solid #ccc;
@@ -256,4 +251,7 @@ export default {
     */
 }
 
+.toolbar_title {
+  width:100px !important;
+}
 </style>
