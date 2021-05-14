@@ -4,19 +4,19 @@
     <q-header elevated>
 
       <div class="row no-wrap">
-        <q-toolbar class="col-1">
-          <q-btn flat dense round icon="menu" aria-label="Menu" ref="mainMenuButton"
+        <q-toolbar class="col-3 bg-white text-black">
+          <q-btn flat dense round color="black" icon="menu" aria-label="Menu" ref="mainMenuButton"
             @click="leftDrawerOpen = !leftDrawerOpen"/>
 
           <q-toolbar-title shrink>
             MoA
-          </q-toolbar-title>
+          </q-toolbar-title> 
         </q-toolbar>
-        <q-toolbar class="col-9">                        
+        <q-toolbar class="col-7 bg-white">                        
             <q-select        
               class="full-width"
-                ref="assetSearch"              
-                v-model="g_asset" use-input fill-input hide-selected filled
+                ref="assetSearch"          
+                v-model="g_asset" use-input fill-input hide-selected borderless
                 input-debounce="0"
                 :options="v_options"
                 @filter="filterFn"
@@ -58,11 +58,11 @@
             </q-select>
           </q-toolbar>
 
-          <q-toolbar class="col-2 bg-primary text-white">          
+          <q-toolbar class="col-2 bg-white text-black">          
             <q-select             
               class="full-width"
               v-model="language" :options="langs" dense
-              label="Language" 
+              label=""
               behavior="menu" transition-show="flip-up" transition-hide="flip-down" 
               @input="onChangeLang"/>
 
@@ -250,6 +250,7 @@ export default {
     -ms-flex: 1 1 auto;
     */
 }
+
 
 .toolbar_title {
   width:100px !important;

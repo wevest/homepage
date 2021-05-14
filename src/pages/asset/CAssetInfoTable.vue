@@ -97,18 +97,6 @@
                 <tbody>
                   <tr class="develop-low">
                     <td>                      
-<<<<<<< HEAD
-                      <p>
-                        <h6>{{ $t('name.commit_count')}}</h6>
-                        <h6>{{ g_commit_item['github_commit_count'] }}</h6>
-                      </p>
-                    </td> 
-                    <td>
-                      <p>
-                        <h6>{{ $t('name.created_at')}}</h6>
-                        <h6>{{ g_commit_item['github_created_at'] }}</h6>
-                      </p>
-=======
                       <div>
                         <h6 class="develop-name">{{ $t('name.commit_count')}}</h6>
                         <h7 class="develop-value">{{ g_commit_item['github_commit_count'] }}</h7>
@@ -119,26 +107,20 @@
                         <h6 class="develop-name">{{ $t('name.created_at')}}</h6>
                         <h7 class="develop-value">{{ g_commit_item['github_created_at'] }}</h7>
                       </div>
->>>>>>> b3f633a582f500cf64d832820e3693fe9fe5df58
                     </td>
                   </tr>
                   <tr class="develop-low">
                     <td>
-                      <p>
-<<<<<<< HEAD
-                        <h6>{{ $t('name.pushed_at')}}</h6>
-                        <h6>{{ g_commit_item['github_pushed_at'] }}</h6>
-=======
+                      <div>
                         <h6 class="develop-name">{{ $t('name.pushed_at')}}</h6>
                         <h7 class="develop-value">{{ g_commit_item['github_pushed_at'] }}</h7>
->>>>>>> b3f633a582f500cf64d832820e3693fe9fe5df58
-                      </p>
+                      </div>
                     </td>
                     <td>
-                      <p>
+                      <div>
                         <h6 class="develop-name">{{ $t('name.subscriber_count')}}</h6>
                         <h7 class="develop-value">{{ g_commit_item['github_subscribers_count'] }}</h7>
-                      </p> 
+                      </div> 
                     </td>
                   </tr>
                   <tr class="develop-low">
