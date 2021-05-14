@@ -140,6 +140,8 @@ export default {
 
 <style scoped>
 .q-pa-xs {
-    background-color: #f1f2f5;
+    font-size: 15px;
+    background-color: #F7F7F7;
 }
+
 </style>

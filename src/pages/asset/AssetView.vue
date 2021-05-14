@@ -24,8 +24,7 @@
                             <span class="price_label">{{ $t('name.price_high') }}</span> <span class="price_tag">{{ g_price['price_high'] }}</span>
                         </td>
                         <td class="text-left"> 
-                            <span class="price_label">{{ $t('name.volume') }}</span> 
-                            <span class="price_tag padding1">{{ Number(g_price['volume']).toLocaleString()  }}</span>
+                            <span class="price_label">{{ $t('name.volume') }}</span> <span class="price_tag price_tag padding1">{{ g_price['volume'] }}</span>
                         </td>
                     </tr>
                     <tr>
@@ -325,25 +324,25 @@ export default {
     margin-top: 1.2em;
     margin-left: 0.4em;
     font-size:1.8em;
-    color:#e01415;
+    color:#E71915;
     font-weight: bold;
 }
 
 .price_label {
-    font-size:1.2em;
-    color:#555555;
+    font:12px;
+    color:#464646;
     font-weight: bold;
     padding-right:5px;
 }
 
 .price_tag {
-    font-size:1.2em;
-    color:#e01415;
+    font-size:12px;
+    color:#E71915;
     margin-left:0.3em;
 }
 
 .padding1 {
-    padding-left: 1.0em;
+    padding-left: 0.8em;
 }
 
 </style>

@@ -66,12 +66,12 @@
 
               <q-markup-table>
                 <thead>
-                  <tr>
+                  <tr class="investor">
                     <th class="investor_name">{{ $t('name.name') }}</th>
-                    <th>{{ $t('name.roi') }}</th>
-                    <th>{{ $t('name.total_return') }}</th>
-                    <th>{{ $t('name.homepage') }}</th>
-                    <th>{{ $t('name.description') }}</th>
+                    <th class="roi">{{ $t('name.roi') }}</th>
+                    <th class="total_return">{{ $t('name.total_return') }}</th>
+                    <th class="homepage">{{ $t('name.homepage') }}</th>
+                    <th class="description">{{ $t('name.description') }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -95,8 +95,9 @@
 
               <q-markup-table>
                 <tbody>
-                  <tr>
+                  <tr class="develop-low">
                     <td>                      
+<<<<<<< HEAD
                       <p>
                         <h6>{{ $t('name.commit_count')}}</h6>
                         <h6>{{ g_commit_item['github_commit_count'] }}</h6>
@@ -107,24 +108,66 @@
                         <h6>{{ $t('name.created_at')}}</h6>
                         <h6>{{ g_commit_item['github_created_at'] }}</h6>
                       </p>
+=======
+                      <div>
+                        <h6 class="develop-name">{{ $t('name.commit_count')}}</h6>
+                        <h7 class="develop-value">{{ g_commit_item['github_commit_count'] }}</h7>
+                      </div>
+                    </td> 
+                    <td>
+                      <div>
+                        <h6 class="develop-name">{{ $t('name.created_at')}}</h6>
+                        <h7 class="develop-value">{{ g_commit_item['github_created_at'] }}</h7>
+                      </div>
+>>>>>>> b3f633a582f500cf64d832820e3693fe9fe5df58
                     </td>
                   </tr>
-                  <tr>
+                  <tr class="develop-low">
                     <td>
                       <p>
+<<<<<<< HEAD
                         <h6>{{ $t('name.pushed_at')}}</h6>
                         <h6>{{ g_commit_item['github_pushed_at'] }}</h6>
+=======
+                        <h6 class="develop-name">{{ $t('name.pushed_at')}}</h6>
+                        <h7 class="develop-value">{{ g_commit_item['github_pushed_at'] }}</h7>
+>>>>>>> b3f633a582f500cf64d832820e3693fe9fe5df58
                       </p>
                     </td>
-                    <td class="text-left">{{ $t('name.subscriber_count')}}</td> <td class="dev_value">{{ g_commit_item['github_subscribers_count'] }}</td>
+                    <td>
+                      <p>
+                        <h6 class="develop-name">{{ $t('name.subscriber_count')}}</h6>
+                        <h7 class="develop-value">{{ g_commit_item['github_subscribers_count'] }}</h7>
+                      </p> 
+                    </td>
                   </tr>
-                  <tr>
-                    <td class="text-left">{{ $t('name.watcher_count')}}</td> <td class="dev_value">{{ g_commit_item['github_watchers_count'] }}</td>
-                    <td class="text-left">{{ $t('name.forks_count')}}</td> <td class="dev_value">{{ g_commit_item['github_forks_count'] }}</td>
+                  <tr class="develop-low">
+                    <td>
+                      <div>
+                        <h6 class="develop-name">{{ $t('name.watcher_count')}}</h6>
+                        <h7 class="develop-value">{{ g_commit_item['github_watchers_count'] }}</h7>
+                      </div>    
+                    </td>
+                    <td>
+                      <div>
+                        <h6 class="develop-name">{{ $t('name.forks_count')}}</h6> 
+                        <h7 class="develop-value">{{ g_commit_item['github_forks_count'] }}</h7>
+                      </div>
+                    </td>
                   </tr>
-                  <tr>
-                    <td class="text-left">{{ $t('name.language') }}</td> <td class="dev_value">{{ g_commit_item['github_language'] }}</td>
-                    <td class="text-left">{{ $t('name.language') }}</td> <td class="dev_value">{{ g_commit_item['github_language'] }}</td>
+                  <tr class="develop-low">
+                    <td>
+                      <div>
+                        <h6 class="develop-name">{{ $t('name.language') }}</h6>
+                        <h7 class="develop-value">{{ g_commit_item['github_language'] }}</h7>
+                      </div>    
+                    </td>
+                    <td>
+                      <div>
+                        <h6 class="develop-name">{{ $t('name.language') }}</h6>
+                        <h7 class="develop-value">{{ g_commit_item['github_language'] }}</h7>
+                      </div>
+                    </td>    
                   </tr>
                 </tbody>
               </q-markup-table>
@@ -329,14 +372,45 @@ export default {
     word-wrap: break-word;    
 }
 .text-left {
-  color: #848484;
+  color: #464646;
+  font-size: 12px;
   font-weight:500;
 }
 
 .text-right {
-  color:#464646;
-  font-weight: bold;
+  color:#5F5F5F;
+  font-size:12px;
+  font-weight: 700;
 }
 
+
+.investor {
+  text-align: left;
+  color:#464646;
+}
+
+
+.investor_name {
+  text-align: left;
+  font-size:12px;
+}
+
+
+.develop-low {
+line-height:0.2rem;
+}
+
+.develop-name {
+  color:#464646;
+  font-size: 12px;
+  margin-top:-0.6rem;
+  margin-bottom:0.0rem;
+}
+
+.develop-value {
+ color:#5F5F5F;
+ font-size: 12px;
+ font-weight:bold;
+}
 </style>
 
