@@ -4,6 +4,8 @@
     <q-header elevated>
       <q-toolbar>
         <q-btn
+          text-color="black"
+          color="black"
           flat
           dense
           round
@@ -13,12 +15,12 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
 
-        <q-toolbar-title shrink>
-          <span class="main_title">MoA.Finance</span>
+        <q-toolbar-title class="main_title">
+          <span class="main_title_name">MoA.Finance</span>
         </q-toolbar-title>
 
         <q-select
-            class="fit"
+          
             ref="assetSearch"
             filled
             v-model="g_asset"
@@ -256,5 +258,21 @@ export default {
     */
 }
 
+.menu_btn {
+  color:#111;
+}
+.main_title_name {
+  color: #111;
+  font-weight:700;
+}
 
+.q-toolbar {
+  background-color:orange;
+  /* FFFFFF */
+
+}
+
+.q-btn__content {
+  color:#111
+}
 </style>
