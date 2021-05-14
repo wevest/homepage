@@ -391,7 +391,7 @@ line-height:0.2rem;
 
 .develop-value {
  color:#5F5F5F;
- font-size: 12px;
+ font-size: 16px;
  font-weight:bold;
 }
 </style>

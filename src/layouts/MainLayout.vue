@@ -14,7 +14,7 @@
         />
 
         <q-toolbar-title shrink>
-          MoA.Finance
+          <span class="main_title">MoA.Finance</span>
         </q-toolbar-title>
 
         <q-select
@@ -250,5 +250,6 @@ export default {
     -ms-flex: 1 1 auto;
     */
 }
+
 
 </style>
