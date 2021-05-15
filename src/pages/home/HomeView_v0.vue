@@ -3,140 +3,75 @@
   <div class="q-pa-md">
         <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>
         
-        <div class="row q-gutter-sm flex">
-            <CBigLabel ref='label_btc' title="abc" style="width:24%;" :onclick="onClickTrend"></CBigLabel>
-            <CBigLabel ref='label_binance' title="abc" style="width:24%;" :onclick="onClickTrend"></CBigLabel>
-            <CBigLabel ref='label_upbit' title="abc" style="width:24%;" :onclick="onClickTrend"></CBigLabel>
-            <CBigLabel ref='label_bithumb' title="abc" style="width:24%;" :onclick="onClickTrend"></CBigLabel>
+        <div class="row q-gutter-sm">
+            <div class="col q-mt-md">
+                <CBigLabel ref='label_btc' title="abc"></CBigLabel>
+            </div>
+            <div class="col q-mt-md">
+                <CBigLabel ref='label_binance' title="abc"></CBigLabel>
+            </div>
+        
+        </div>
+
+        <div class="row q-gutter-sm">
+            <div class="col q-mt-md">
+                <CBigLabel ref='label_upbit' title="abc" :onclick="onClickUpbit"></CBigLabel>
+            </div>
+            <div class="col q-mt-md">
+                <CBigLabel ref='label_bithumb' title="abc"></CBigLabel>
+            </div>
         </div>
     
-        <div class="row q-gutter-sm">
-            <div class="col">
-                <CIndexChart ref='indexChart'></CIndexChart>
-            </div>      
+
+      <div class="row q-gutter-sm">
+        <div class="col">
+          <CIndexChart ref='indexChart'></CIndexChart>
+        </div>      
+      </div>
+
+
+      <div class="row">
+          <div class="col">
+              <CTitle :title="$t('page.home_exchange.title')" :desc="$t('page.home_exchange.desc')"></CTitle>          
+
+              <q-tabs v-model="tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
+                <q-tab name="upbit" :label="$t('name.upbit')" @click="onClickTab('upbit')" />
+                <q-tab name="bithumb" :label="$t('name.bithumb')" @click="onClickTab('bithumb')" />
+              </q-tabs>              
+          </div>
+      </div>
+
+      <div class="row q-gutter-sm">
+          <div class="col q-mt-md">
+              <CBigLabel ref='label_major' title="abc"></CBigLabel>
+          </div>
+          <div class="col q-mt-md">
+              <CBigLabel ref='label_korean' title="abc"></CBigLabel>                
+          </div>
+       </div> 
+      <div class="row q-gutter-sm">
+          <div class="col q-mt-md">
+              <CBigLabel ref='label_chinese' title="abc"></CBigLabel>
+          </div>
+          <div class="col q-mt-md">
+              <CBigLabel ref='label_nft' title="abc"></CBigLabel>
+          </div>
+      </div>    
+      <div class="row q-gutter-sm">    
+          <div class="col q-mt-md">
+              <CBigLabel ref='label_defi' title="abc"></CBigLabel>
+          </div>
+          <div class="col q-mt-md">
+              <CBigLabel ref='label_misc' title="abc"></CBigLabel>
+          </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <CExchangeIndexChart ref="exchangeChart"></CExchangeIndexChart>            
+          <CTopTable ref="exchangeTop"></CTopTable>
         </div>
-
-        <div class="row q-gutter-sm">
-            <div class="col">
-                <CTitle ttype='subtitle' :title="v_page.title" :desc="v_page.desc"></CTitle>
-                 <div class="q-pa-md flex flex-center">
-                    <q-knob
-                        show-value
-                        font-size="16px"
-                        class="text-red q-ma-md"
-                        v-model="v_risk.btc"
-                        size="60px"
-                        :thickness="0.05"
-                        color="red"
-                        track-color="grey-3"
-                        >
-                        <q-icon name="volume_up" class="q-mr-xs" />
-                        {{ v_risk.btc }}
-                    </q-knob>
-
-                    <q-knob
-                        show-value
-                        font-size="16px"
-                        class="text-red q-ma-md"
-                        v-model="v_risk.eth"
-                        size="60px"
-                        :thickness="0.05"
-                        color="red"
-                        track-color="grey-3"
-                        >
-                        <q-icon name="volume_up" class="q-mr-xs" />
-                        {{ v_risk.eth }}
-                    </q-knob>
-
-                </div>
-            </div>      
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <CTitle :title="$t('page.home.toplist.title')" :desc="$t('page.home.toplist.desc')"></CTitle>
-
-                <q-virtual-scroll
-                    :items="v_toplist"
-                    virtual-scroll-horizontal
-                >
-                    <template v-slot="{ item, index }">
-                        <div
-                            :key="index"
-                            class='q-pa-md self-center bg-grey-2 text-black'
-                            @click="onClickToplist(item.value)"
-                        >
-                            {{ item.label }}
-                        </div>
-                    </template>
-                </q-virtual-scroll>
-                                
-  <!--
-                <q-toggle v-model="visible" label="Visible image" class="q-mb-md" />
--->
-                <q-slide-transition>
-                    <div v-show="v_toplist_visible">
-                        <CTopTable ref="exchangeTop"></CTopTable>                        
-                    </div>
-                </q-slide-transition>
-  
-                                                
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col q-gutter-sm">
-                <CTitle :title="$t('page.home.eureka.title')" :desc="$t('page.home.eureka.desc')"></CTitle>
-
-                <q-card class="my-card " v-for="(a_eureka,index) in v_eureka" :key="index">
-                    <q-card-section @click="onClickEureka(a_eureka.link)">
-                        <div class="text-h6">{{ a_eureka.title }}</div>
-                        <div class="text-subtitle2">{{ a_eureka.subtitle }}</div>
-                    </q-card-section>
-
-                    <q-card-section>
-                        {{ a_eureka.desc }}
-                    </q-card-section>
-
-                    <q-separator />
-<!--
-                    <q-card-actions>
-                        <q-btn flat>Action 1</q-btn>
-                        <q-btn flat>Action 2</q-btn>
-                    </q-card-actions>
--->                    
-                </q-card>
-                                
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <CTitle ttype="title" :title="$t('page.home.category.title')" :desc="$t('page.home.category.desc')"></CTitle>
-
-                <q-tabs v-model="v_tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
-                    <q-tab name="upbit" :label="$t('name.upbit')" @click="onClickTabCategory('upbit')" />
-                    <q-tab name="bithumb" :label="$t('name.bithumb')" @click="onClickTabCategory('bithumb')" />
-                </q-tabs>              
-
-                <div class="row q-gutter-sm flex">
-                    <CBigLabel style="width:200px;" ref='label_major' title="abc" :onclick="onClickCategory"></CBigLabel>
-                    <CBigLabel ref='label_korean' title="abc" :onclick="onClickCategory"></CBigLabel>                
-                    <CBigLabel ref='label_chinese' title="abc" :onclick="onClickCategory"></CBigLabel>
-                    <CBigLabel ref='label_nft' title="abc" :onclick="onClickCategory"></CBigLabel>
-
-                    <CBigLabel ref='label_defi' title="abc" :onclick="onClickCategory"></CBigLabel>
-                    <CBigLabel ref='label_misc' title="abc" :onclick="onClickCategory"></CBigLabel>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col">
-                <CTitle :title="$t('page.home.mustknow.title')" :desc="$t('page.home.mustknow.desc')"></CTitle>
-            </div>
-        </div>
+      </div>
 
   </div> 
 
@@ -172,22 +107,9 @@ export default {
 
   data: function () {
     return {
-        v_risk: {
-            btc:56, eth:54,
-        },
-        v_tab:'upbit',      
-        v_toplist_visible:false,  
-        v_page: {title:this.$t('page.home.title'), desc:''},
-        v_toplist:[
-            {label:this.$t('name.price_surge'),value:'ret'},
-            {label:this.$t('name.yester_ret'),value:'yester_ret'},
-            {label:this.$t('name.volume_surge'),value:'volume'},
-            {label:this.$t('name.volume_change'),value:'tvz'},            
-        ],
-        v_eureka:[
-            {title:'Crypto VC 그들의 투자성적은?', subtitle:'전문적인 식견을 가진 그들의 겅과는?', desc:'그들로부터 배울것이 있는가?', link:'cryptovc'},
-            {title:'Crypto VC이 사랑한 프로젝트들?', subtitle:'전문적인 식견을 가진 그들의 겅과는?', desc:'그들로부터 배울것이 있는가?', link:'vcportfolio'},
-        ],
+      tab:'upbit',
+
+      v_page: {title:this.$t('page.home.title'), desc:''}
     }
   },
     created: function () {
@@ -268,8 +190,8 @@ export default {
                     _this.updateWidget(_this.g_data);
                     _this.updateIndexChart(_this.g_data);
 
-                    _this.updateExchangeWidget(_this.g_data,_this.v_tab);
-                    //_this.updateExchangeIndexChart(_this.g_data,_this.tab);
+                    _this.updateExchangeWidget(_this.g_data,_this.tab);
+                    _this.updateExchangeIndexChart(_this.g_data,_this.tab);
                     //_this.$refs.sectorTable.update(_this.g_data,_this.tab);
                     resolve();
                 },function(err) {
@@ -296,7 +218,7 @@ export default {
                     _this.g_data_top = response.data.data;
                     //logger.log.debug("HomeView.loadCryptoTopAssetData - response",response.data);
                     logger.log.debug("HomeView.loadCryptoTopAssetData - response",_this.g_data_top);
-                    _this.updateTopTable(_this.g_data_top,_this.v_tab,'ret');
+                    _this.updateTopTable(_this.g_data_top,_this.tab);
                     resolve();
                 },function(err) {
                     logger.log.error("HomeView.loadCryptoTopAssetData - error",err);
@@ -369,12 +291,12 @@ export default {
             this.$refs.exchangeChart.update(data,exchange);
         },
 
-        updateTopTable: function(data,exchange,target) {
+        updateTopTable: function(data,exchange) {
             console.log('HomeView.updateTopTable=',data);
             if (CommonFunc.isEmptyObject(data)) {
                 return;
             }
-            this.$refs.exchangeTop.update(data,exchange,'overall',target);
+            this.$refs.exchangeTop.update(data,exchange,'overall','ret');
         },
 
         showChart: function(asset,dates,a_date) {
@@ -388,46 +310,23 @@ export default {
             console.log('onLoad - ',progress);
         },
 
-        onClickCategory: function() {
-            logger.log.debug('onClickCategory - ');
-            
-            let dic_param = { name:'sector', path:'sector', params:{} };
-            this.$router.push(dic_param);
+        onClickTab: function(exchange) {
+          this.updateExchangeWidget(this.g_data,this.tab);
+          this.updateExchangeIndexChart(this.g_data,this.tab);
+          this.updateTopTable(this.g_data_top,this.tab); 
         },
 
-        onClickTrend: function() {
-            logger.log.debug('onClickTrend - ');
-
-            let dic_param = { name:'trend', path:'trend', params:{} };
-            this.$router.push(dic_param);            
+        onClickCategory: function(category) {
+            //console.log('onClickCategory - ',category);
+            this.$refs.csectorChart.update(this.g_data,category);
         },
 
-        onClickToplist:function(value) {
-            logger.log.debug('onClickToplist - ',value);
-            this.v_toplist_visible = true;
-
-            this.updateTopTable(this.g_data_top,'upbit',value); 
-            //_this.updateTopTable(_this.g_data_top,_this.v_tab,'ret');
-
-        },
-
-        onClickEureka: function(link) {
-            logger.log.debug('onClickEureka - ',link);
-
-            let dic_param = { name:link, path:link, params:{} };
-            this.$router.push(dic_param);            
-        },
-
-        onClickTabCategory: function(exchange) {
-            logger.log.debug('onClickTabCategory - ',exchange);
-            this.updateExchangeWidget(this.g_data,this.v_tab);
+        onClickUpbit: function() {
+            console.log('onClickUpbit - ');
+            this.scrollToElement('label_major');
         },
 
     }
 
 };
 </script>
-
-<style scoped>
-
-</style>

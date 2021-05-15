@@ -6,16 +6,16 @@
 -->        
         <CTitle ttype='subtitle' :title="$t('chart.home_scaled.title')" :desc="$t('chart.home_scaled.desc')"></CTitle>
         <highcharts class="hc" :options="g_chart['chart1']" ref="chart1"></highcharts>
-        
+<!--        
         <CTitle ttype='subtitle' :title="$t('chart.home_tick.title')" :desc="$t('chart.home_tick.desc')"></CTitle>        
         <highcharts class="hc" :options="g_chart['chart2']" ref="chart2"></highcharts>
-
+-->
     </div>
 
 </template>
 
-
 <script>
+
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 
@@ -43,7 +43,7 @@ export default {
 
     methods: {
     
-        updateIndexChart: function(json_data,title) {
+        updateIndexChart: function(json_data) {
             let data_binance = CommonFunc.getChartData(json_data['binance'],'overall','index_cumsum','trade_date',false,0);
             let data_upbit = CommonFunc.getChartData(json_data['upbit'],'overall','index_cumsum','trade_date',false,0);
             let data_bithumb = CommonFunc.getChartData(json_data['bithumb'],'overall','index_cumsum','trade_date',false,0);
@@ -64,7 +64,7 @@ export default {
             let a_option = CommonFunc.getChartOption(series);
             
             let a_minmax = CommonFunc.getMinMaxExt([data_kimchi.data]);
-            a_option.yAxis[1] = {min: 0.9, max:a_minmax.max, show:true, opposite:true, gridLineWidth:0};
+            a_option.yAxis[1] = {min: 0.9, max:a_minmax.max, show:true, opposite:true, gridLineWidth:0, title:{text:''},};
             this.g_chart['chart1'] = a_option;
         },
 
@@ -106,8 +106,8 @@ export default {
         update: function(json_data) {
             logger.log.debug('CIndexChart.update : =',json_data);
 
-            this.updateIndexChart(json_data,'Scaled Index Chart ');            
-            this.updateTickTrinChart(json_data,'Buying Power');
+            this.updateIndexChart(json_data);
+            //this.updateTickTrinChart(json_data,'Buying Power');
         }
     }
   }

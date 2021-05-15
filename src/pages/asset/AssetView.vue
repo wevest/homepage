@@ -199,8 +199,8 @@ export default {
             const dic_columns = CommonFunc.getColumnDic(json_data['overall'].columns,[],[]);
             let a_date = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['time']];
 
-            this.v_title.title = symbol;
-            this.v_title.desc = a_date;
+            this.v_page.title = symbol;
+            this.v_page.desc = a_date;
         },
 
         loadCryptoBaseinfo: function(symbol) {

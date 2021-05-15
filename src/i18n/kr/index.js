@@ -57,10 +57,19 @@ export default {
     avg_roi:'평균 투자수익율',
     avg_total_return:'평균 총수익율',
     homepage:'홈페이지',
-    count:'횟수'
+    count:'횟수',
+    price_surge:'가격급상승',
+    volume_surge:'거래량급상승',
+    volume_change:'거래량변화율',
   },
   page: {
-    home: { title:'오늘의 크립토마켓', desc:'' },
+    home: { 
+      title:'오늘의 크립토마켓', desc:'',
+      toplist: { title:'관심을 가져야 할 탑리스트', desc:'' },
+      eureka:  { title:'운좋은 발견!!!', desc:'' },
+      category: { title:'가격 상승하는 토큰 카테코리는?', desc:'' },
+      mustknow: { title:'반드시 알아야 하는 것들', desc:'' },
+    },
     cwatch: { title:'크립토마켓 와치', desc:'' },
     trend: { title:'크립토마켓 동향', desc:'' },
     sector: { title:'크립토마켓 섹터별 동향', desc:'' },

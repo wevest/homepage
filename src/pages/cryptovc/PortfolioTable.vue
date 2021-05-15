@@ -14,6 +14,7 @@
             animated
             swipeable
             vertical
+            keep-alive
             transition-prev="jump-up"
             transition-next="jump-up"
           >

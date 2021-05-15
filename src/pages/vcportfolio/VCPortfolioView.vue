@@ -8,56 +8,95 @@
             </div>
         </div>
         
-        <div class="row q-gutter-md">
-            <div class="col-12 col-md">
-                <CBigLabel ref='label_roi' title="abc"></CBigLabel>
-            </div>
-            <div class="col-12 col-md">
-                <CBigLabel ref='label_total' title="abc"></CBigLabel>
-            </div>
-        </div>
-
-
         <div class="row  q-gutter-md">
             <div class="col">
                 <CTitle ttype='subtitle' :title="v_portfolio['title']" :desc="v_portfolio['desc']"></CTitle>
-                <VCPortfolioTable ref='portfolioTable'></VCPortfolioTable>
+                <VCPortfolioTable ref='portfolioTable' @onClickVC="onClickVC"></VCPortfolioTable>
+
+<!--
+                <q-tabs v-model="v_tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
+                    <q-tab name="portfolio" :label="$t('name.portfolio')" @click="onClickTab('portfolio')" />
+                    <q-tab name="cryptovc" :label="$t('name.cryptovc')" @click="onClickTab('cryptovc')" />
+                </q-tabs>
+
+                <q-tab-panels
+                v-model="v_tab"
+                animated
+                swipeable
+                vertical
+                keep-alive
+                transition-prev="jump-up"
+                transition-next="jump-up"
+                >
+                    <q-tab-panel name="portfolio">
+
+                        <VCPortfolioTable ref='portfolioTable' @onClickVC="onClickVC"></VCPortfolioTable>
+
+                    </q-tab-panel>
+
+                    <q-tab-panel name="cryptovc">
+        
+                        <div class="row q-gutter-md">
+                        <div class="col-6 col-md">
+                            <CBigLabel ref='label_roi' title="abc"></CBigLabel>
+                        </div>
+                        <div class="col-6 col-md">
+                            <CBigLabel ref='label_total' title="abc"></CBigLabel>
+                        </div>
+                        </div>
+
+                        <q-card flat bordered class="my-card">
+                        <q-card-section>
+                            <div class="text-h6">{{v_cryptovc.name}}</div>
+                        </q-card-section>
+
+                        <q-separator dark inset />
+
+                        <q-card-section>
+                            {{ v_cryptovc.desc }}
+                        </q-card-section>
+                        </q-card>
+
+                        <PortfolioTable ref='vcportTable'></PortfolioTable>
+                            
+                    </q-tab-panel>
+
+                </q-tab-panels>
+-->
+
             </div>      
         </div>
 
+        <q-dialog v-model="v_dialog" persistent transition-show="scale" transition-hide="scale">
+            <q-card class="bg-teal text-white" style="width: 300px">
+                <q-card-section>
+                    <div class="text-h6">{{v_cryptovc.name}}</div>
+                </q-card-section>
 
-        <div class="row q-gutter-md"> 
-            <div class="col">
-                <CTitle ttype='subtitle' :title="v_portfolio['title']" :desc="v_portfolio['desc']"></CTitle>
+                <q-card-section class="q-pt-none">
 
-                <q-table
-                title=""
-                hide-bottom
-                :data="items"
-                :columns="headers"
-                row-key="name"
-                :rows-per-page-options="[50]"
-                >
-                    <template v-slot:body="props">
+                    <div class="row q-gutter-md">
+                        <div class="col-6 col-md">
+                            <CBigLabel ref='label_roi' title="abc"></CBigLabel>
+                        </div>
+                        <div class="col-6 col-md">
+                            <CBigLabel ref='label_total' title="abc"></CBigLabel>
+                        </div>
+                    </div>
+            
+                    <div class="row q-gutter-md">
+                        <div class="col">
+                            {{ v_cryptovc.desc }}
+                        </div>
+                    </div>
 
-                        <q-tr :props="props">
-                            <q-td key="rank" :props="props">{{ props.row.rank+1 }}</q-td>
-                            <q-td key="name" :props="props">
-                                <a href="#" @click="onClickVC(props.row.name)">{{ props.row.name }}</a>
-                            </q-td>
-                            <q-td key="avg_roi" :props="props">{{ Number(props.row.avg_roi).toLocaleString() }}</q-td>
-                            <q-td key="total_ret" :props="props">{{ Number(props.row.total_ret).toLocaleString() }}</q-td>
-                            <q-td key="homepage" :props="props">
-                                <a :href="props.row.homepage" target="_blank"> {{ props.row.homepage }}</a>
-                            </q-td>
-                            <q-td key="description" :props="props">{{ props.row.description }}</q-td>
-                        </q-tr>            
+                </q-card-section>
 
-                    </template>
-
-                </q-table>
-            </div>
-        </div>
+                <q-card-actions align="right" class="bg-white text-teal">
+                    <q-btn flat label="OK" v-close-popup />
+                </q-card-actions>
+            </q-card>
+        </q-dialog>
 
   </div> 
 
@@ -74,15 +113,16 @@ import { LoadingBar } from 'quasar';
 
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
-import ChartTimeframe from 'components/ChartTimeframe';
+import PortfolioTable from 'components/PortfolioTable';
 import VCPortfolioTable from 'pages/vcportfolio/VCPortfolioTable';
-
+import ChartTimeframe from 'components/ChartTimeframe';
 
 export default {
   name: 'PageCWatch',
   components: {
       CTitle,
       CBigLabel,
+      PortfolioTable,
       VCPortfolioTable,
   },
 
@@ -98,6 +138,10 @@ export default {
         v_portfolio: {title:this.$t('name.portfolio'), desc:''},
         v_page: {title: this.$t('page.vcportfolio.title'), desc:'' },
 
+        v_tab:'portfolio',
+        v_cryptovc:{name:'asd', desc:'asd'},
+        v_dialog: false,
+
         headers: [
             { name:'rank', label: this.$t('name.rank'), field: 'rank', sortable:true },
             { name:'name', label: this.$t('name.name'), field: 'name' },
@@ -112,8 +156,8 @@ export default {
         ],
 
         items: [],
-    }
-  },
+        }
+    },
     created: function () {
         //console.log("HomeView.created");
     },
@@ -174,7 +218,7 @@ export default {
                 let dic_param = {vc:''};
                 MoaBackendAPI.getCryptoVCPortfolioData(dic_param,function(response) {
                     _this.g_data = response.data.data;
-                    logger.log.debug("PortfolioTable.loadCryptovcPortfolioData - response",_this.g_data);
+                    logger.log.debug("VCPortfolioView.loadCryptovcPortfolioData - response",_this.g_data);
                     _this.$refs.portfolioTable.update(_this.g_data);
                     //logger.log.debug("CWatchView.loadCryptoWatchData - response",_this.g_data);
                     resolve();
@@ -227,10 +271,17 @@ export default {
             logger.log.debug('onLoad - ',progress);
         },
 
+
+        onClickTab:function(value) {
+            logger.log.debug('PortfolioValue.onClick - ',value);
+            //this.updateTable(this.g_data,value);
+        },
+
         onClickVC: function(vc) {
-            logger.log.debug('onClickVC - ',vc);
-            this.updatePortfolioTitle(vc);
-            this.$refs.portfolioTable.update(vc);
+            logger.log.debug('VCPortfolioView.onClickVC - ',vc,this.$refs);
+            //this.updatePortfolioTitle(vc);
+            //this.v_tab = 'v_tab';
+            //this.$refs.vcportTable.update(vc);
         }
 
     }

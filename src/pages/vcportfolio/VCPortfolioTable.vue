@@ -1,41 +1,33 @@
 <template>
 
+  <q-table
+  title=""
+  :data="items"
+  :columns="headers"
+  row-key="name"
+  :rows-per-page-options="[20]"
+  >
+    <template v-slot:body="props">
 
-  <div class="q-pa-md">
-    <div class="row">
-      <div class="col">
+        <q-tr :props="props">
+            <q-td key="symbol" :props="props">{{ props.row.symbol }}</q-td>
+            <q-td key="name" :props="props">
+                <a href="#" @click="onClickAsset(props.row.symbol)">{{ props.row.name }}</a>
+            </q-td>
+            <q-td key="ret" :props="props">{{ Number(props.row.ret).toLocaleString() }}</q-td>
+            <q-td key="date_added" :props="props">{{ props.row.date_added.substring(0,10) }}</q-td>
+            <q-td key="first_price" :props="props">{{ Number(props.row.first_price).toLocaleString() }}</q-td>
+            <q-td key="cryptovc" :props="props">
+              
+              <a v-for="a_item in props.row.cryptovc" href="#" @click="onClickVC(a_item)" class="link_vc">
+                {{ a_item }}
+              </a>&nbsp;
+            </q-td>
+        </q-tr>            
 
-        <q-table
-        title=""
-        :data="items"
-        :columns="headers"
-        row-key="name"
-        :rows-per-page-options="[20]"
-        >
-          <template v-slot:body="props">
+    </template>
 
-              <q-tr :props="props">
-                  <q-td key="symbol" :props="props">{{ props.row.symbol }}</q-td>
-                  <q-td key="name" :props="props">
-                      <a href="#" @click="onClickAsset(props.row.symbol)">{{ props.row.name }}</a>
-                  </q-td>
-                  <q-td key="ret" :props="props">{{ Number(props.row.ret).toLocaleString() }}</q-td>
-                  <q-td key="date_added" :props="props">{{ props.row.date_added.substring(0,10) }}</q-td>
-                  <q-td key="first_price" :props="props">{{ Number(props.row.first_price).toLocaleString() }}</q-td>
-                  <q-td key="cryptovc" :props="props">
-                    
-                    <a v-for="a_item in props.row.cryptovc" href="#" @click="onClickVC(a_item)" class="link_vc">
-                      {{ a_item }}
-                    </a>&nbsp;
-                  </q-td>
-              </q-tr>            
-
-          </template>
-
-        </q-table>
-      </div>
-    </div>
-  </div>
+  </q-table>            
 
 </template>
 
@@ -45,17 +37,14 @@ import CommonFunc from 'src/util/CommonFunc';
 import MoaBackendAPI from 'src/services/apiService';
 import logger from "src/error/Logger";
 
-
 export default {
-    data () {
-      return {
-        g_data: null,
-        g_data_portfolio: null,
-        g_description: null,
-        g_symbol: null,
-        
-        items2: [],
+  components: {
+  },
 
+  data: function () {
+    return {
+        g_data: null,
+        
         headers: [
             { name:'symbol', label: this.$t('name.symbol'),align:'left', field: 'symbol' },
             { name:'name', label: this.$t('name.name'),align:'left', field: 'name' },
@@ -68,10 +57,17 @@ export default {
         items: [],        
       }
     },
+    created: function () {
+        //logger.log.debug("VCPortfolioTable.created");
+    },
+    mounted: function() {
+        //logger.log.debug("VCPortfolioTable.mounted");
+    },
+    updated: function() {
+        //logger.log.debug("VCPortfolioTable.updated");
+    },
 
     methods: {
-
-
         updateTable: function(json_data) {
           let items = CommonFunc.formatArrayToJson(json_data);
           //logger.log.debug('items=',items);
@@ -89,11 +85,6 @@ export default {
             this.updateTable(this.g_data);
         },
 
-        onClickTab:function(value) {
-          logger.log.debug('PortfolioValue.onClick - ',value);
-          //this.updateTable(this.g_data,value);
-        },
-
         onClickAsset: function(symbol) {
           logger.log.debug('PortfolioValue.onClickAsset - ',symbol);
           
@@ -102,11 +93,8 @@ export default {
         },
 
         onClickVC: function(vc) {
-          logger.log.debug('PortfolioValue.onClickVC - ',vc);
-          
-          //this.$parent.navAsset(symbol);
-          //let dic_param = { name:'asset', params:{ symbol:symbol } };
-          //this.$router.replace(dic_param);
+          logger.log.debug('VCPortfolioTable.onClickVC - ',vc);
+          this.$emit('onClickVC',vc);
         }
     }
 }

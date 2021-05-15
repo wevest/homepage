@@ -636,4 +636,16 @@ export default class MoaBackendAPI{
     });
   }
 
+
+  static getCryptoOracleData(reqParam,func,funcErr) {
+    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa,"/api/crypto/oracle");
+    callAPI("POST",url,{},reqParam)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
 }

@@ -4,15 +4,22 @@
     <q-header elevated>
 
       <div class="row no-wrap">
-        <q-toolbar class="col-3 bg-white text-black">
+        <q-toolbar class="col bg-white text-black">
           <q-btn flat dense round color="black" icon="menu" aria-label="Menu" ref="mainMenuButton"
             @click="leftDrawerOpen = !leftDrawerOpen"/>
 
-          <q-toolbar-title shrink>
+          <div class="toolbar_title">
+            MoA
+          </div> 
+
+<!--
+          <q-toolbar-title class="toolbar_title">
             MoA
           </q-toolbar-title> 
+
         </q-toolbar>
-        <q-toolbar class="col-7 bg-white">                        
+        <q-toolbar class="col-7 bg-white">                       
+-->          
             <q-select        
               class="full-width"
                 ref="assetSearch"          
@@ -56,17 +63,18 @@
               </template>
 
             </q-select>
-          </q-toolbar>
-
-          <q-toolbar class="col-2 bg-white text-black">          
+            <q-space/>
             <q-select             
-              class="full-width"
+              class="toolbar_language"
               v-model="language" :options="langs" dense
               label=""
               behavior="menu" transition-show="flip-up" transition-hide="flip-down" 
               @input="onChangeLang"/>
 
           </q-toolbar>
+<!--
+          <q-toolbar class="col-2 bg-white text-black">          
+-->            
         </div>
     </q-header>
 
@@ -240,9 +248,9 @@ export default {
 <style scoped>
 
 
-.box_language {
-    min-width: 150px;
-    padding: 0.9rem;   
+.toolbar_language {
+    width: 100px;
+    padding-left: 0.5rem;   
     /* 
     border-bottom: 1px solid #ccc;
     -webkit-box-flex: 1;
@@ -251,8 +259,13 @@ export default {
     */
 }
 
-
 .toolbar_title {
-  width:100px !important;
+  width:70px; 
+  font-size: 1.5em;
+  font-weight: bolder;
+  /* 
+  text-overflow: none !important;
+  width:100%; */
 }
+
 </style>

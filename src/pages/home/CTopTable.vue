@@ -1,53 +1,43 @@
 <template>
+  <div>
+    <q-tabs v-model="v_tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
+      <q-tab name="upbit" :label="$t('name.upbit')" @click="onClickExchange('upbit')" />
+      <q-tab name="bithumb" :label="$t('name.bithumb')" @click="onClickExchange('bithumb')" />
+      <q-tab name="binance" :label="$t('name.binance')" @click="onClickExchange('binance')" />      
+    </q-tabs>
 
+    <q-table      
+      title=""
+      class="my-sticky-header-column-table"
+      :data="items"
+      :columns="headers"
+      row-key="name"
+      :rows-per-page-options="[10]"
+    >
+      <template v-slot:body="props">
 
-  <div class="q-pa-md">
-    <div class="row">
-      <div class="col">
-        <q-tabs v-model="tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
-          <q-tab name="ret" label="가격급등" @click="onClickTab('ret')" />
-          <q-tab name="rret" label="가격급락" @click="onClickTab('rret')" />
-          <q-tab name="yester_ret" label="전일대비 가격급등" @click="onClickTab('yester_ret')" />
-          <q-tab name="yester_rret" label="전일대비 가격급락" @click="onClickTab('yester_rret')" />          
-          <q-tab name="volume" label="거래량상위"  @click="onClickTab('volume')" />
-          <q-tab name="tvz" label="거래량급증"  @click="onClickTab('tvz')" />
-        </q-tabs>
-      </div>
-    </div>
+        <q-tr :props="props">
+          <q-td key="rank" :props="props">{{ props.row.rank }}</q-td>
+          <q-td key="asset" :props="props">
+            <a href="#" @click="onClickAsset(props.row.asset)">{{ props.row.asset }}</a>
+          </q-td>
+          <q-td key="price" :props="props">{{ Number(props.row.price).toLocaleString() }}</q-td>
+          <q-td key="volume" :props="props">{{ Number(props.row.volume).toLocaleString() }}</q-td>
+          <q-td key="price_ret" :props="props" :class="(props.row.price_ret>0)?'text-red':'text-green'">
+            {{ Number(props.row.price_ret).toLocaleString() }}
+          </q-td>
+          <q-td key="price_yret" :props="props" :class="(props.row.price_yret>0)?'text-red':'text-green'">
+            {{ Number(props.row.price_yret).toLocaleString() }}
+          </q-td>
 
+        </q-tr>            
 
-    <div class="row">
-      <div class="col">
-        <q-table
-          dense
-          title=""
-          :data="items"
-          :columns="headers"
-          row-key="name"
-          :rows-per-page-options="[10]"
-        >
-          <template v-slot:body="props">
+      </template>
 
-            <q-tr :props="props">
-              <q-td key="rank" :props="props">{{ props.row.rank }}</q-td>
-              <q-td key="asset" :props="props">{{ props.row.asset }}</q-td>
-              <q-td key="price" :props="props">{{ Number(props.row.price).toLocaleString() }}</q-td>
-              <q-td key="volume" :props="props">{{ Number(props.row.volume).toLocaleString() }}</q-td>
-              <q-td key="price_ret" :props="props" :class="(props.row.price_ret>0)?'text-red':'text-green'">
-                {{ Number(props.row.price_ret).toLocaleString() }}
-              </q-td>
-              <q-td key="price_yret" :props="props" :class="(props.row.price_yret>0)?'text-red':'text-green'">
-                {{ Number(props.row.price_yret).toLocaleString() }}
-              </q-td>
+    </q-table>
 
-            </q-tr>            
-
-          </template>
-
-        </q-table>
-      </div>
-    </div>
-  </div>
+  </div>  
+  
 
 </template>
 
@@ -61,15 +51,14 @@ import logger from "src/error/Logger";
 export default {
     data () {
       return {
-        tab: 'ret',
-        g_period: 5,
+        v_tab: 'upbit',
         g_data: null,
         g_exchange: null,
         g_sector: null,
 
         headers: [
-            { name:'rank', label: '순위', field: 'rank' },
-            { name:'asset', label: '코인', field: 'asset' },
+            { name:'rank', label: '순위', field: 'rank', required:true  },
+            { name:'asset', label: '코인', field: 'asset', required:true },
             { name:'price', label: '가격', field: 'price',
               format: (val, row) => `${Number(val).toLocaleString()}`, 
             },
@@ -122,7 +111,8 @@ export default {
             this.g_data = data;
             this.g_exchange = exchange;
             this.g_sector = sector;
-            
+            this.g_category = category;
+
             this.showReportList(exchange,sector,category);
         },
 
@@ -131,11 +121,57 @@ export default {
             this.$parent.onClickCategory(category);
         },
 
+        onClickAsset: function(symbol) {
+          let dic_param = { name:'asset', path:'asset', params:{ symbol:symbol } };
+          this.$router.push(dic_param);
+        },
 
-        onClickTab:function(value) {
-          console.log('CTopTable.onClick - ',value);
-          this.showReportList(this.g_exchange,this.g_sector,value);
+        onClickExchange:function(exchange) {
+          console.log('CTopTable.onClickExchange - ',exchange);
+          this.g_exchange = exchange;
+          this.showReportList(this.g_exchange,this.g_sector,this.g_category);
         }
     }
 }
 </script>
+
+<style lang="sass">
+.my-sticky-header-column-table
+  /* height or max-height is important */
+  /* height: 310px */
+
+  /* specifying max-width so the example can
+    highlight the sticky column on any browser window */
+  /* max-width: 600px */
+
+  td:first-child
+    /* bg color is important for td; just specify one */
+    background-color: #c1f4cd !important
+
+  tr th
+    position: sticky
+    /* higher than z-index for td below */
+    z-index: 2
+    /* bg color is important; just specify one */
+    background: #fff
+
+  /* this will be the loading indicator */
+  thead tr:last-child th
+    /* height of all previous header rows */
+    top: 48px
+    /* highest z-index */
+    z-index: 3
+  thead tr:first-child th
+    top: 0
+    z-index: 1
+  tr:first-child th:first-child
+    /* highest z-index */
+    z-index: 3
+
+  td:first-child
+    z-index: 1
+
+  td:first-child, th:first-child
+    position: sticky
+    left: 0
+</style>

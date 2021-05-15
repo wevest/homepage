@@ -4,16 +4,16 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/home/HomeView.vue') },
-      { path: 'trend', component: () => import('pages/trend/TrendView.vue') },
+      { name:'trend', path: 'trend', component: () => import('pages/trend/TrendView.vue') },
       { path: 'cwatch', component: () => import('pages/cwatch/CWatchView.vue') },
       { path: 'world', component: () => import('pages/world/WorldView.vue') },
-      { path: 'sector', component: () => import('pages/sector/SectorView.vue') },
-      { path: '/asset', name:'asset', component: () => import('pages/asset/AssetView.vue') },
+      { name:'sector', path: 'sector', component: () => import('pages/sector/SectorView.vue') },
+      { name:'asset', path: '/asset', component: () => import('pages/asset/AssetView.vue') },
       { path: 'risk', component: () => import('pages/risk/RiskView.vue') },
       
       //research menus
-      { path: 'cryptovc', component: () => import('pages/cryptovc/CryptovcView.vue') },
-      { path: 'vcportfolio', component: () => import('pages/vcportfolio/VCPortfolioView.vue') },
+      { name:'cryptovc', path: 'cryptovc', component: () => import('pages/cryptovc/CryptovcView.vue') },
+      { name: 'vcportfolio', path: 'vcportfolio', component: () => import('pages/vcportfolio/VCPortfolioView.vue') },
 
       //kstock menus
       { path: 'kbeater', component: () => import('pages/kbeater/BeaterView.vue') },

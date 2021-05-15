@@ -55,13 +55,15 @@ export default {
       CWatchChart,
   },
 
-  data: function () {
-    return {
-      g_timeframe: 'm1',
+    data: function () {
+        return {
+            g_data:null,
+            g_data_oracle:null,
+            g_timeframe: 'm1',
 
-      v_page: {title: this.$t('page.cwatch.title'), desc:'' }
-    }
-  },
+            v_page: {title: this.$t('page.cwatch.title'), desc:'' }
+        }
+    },
     created: function () {
         //console.log("HomeView.created");
     },
@@ -88,7 +90,7 @@ export default {
             let funcs = [            
                 //this.loadCalendarEffectData('1h'),
                 this.loadCryptoWatchData(),
-                //this.loadCryptoTopAssetData('1h')
+                this.loadCryptoOracleData(30),
             ];
             Promise.all(funcs).then(function() {
                 LoadingBar.stop();
@@ -129,6 +131,30 @@ export default {
         },
         
 
+        loadCryptoOracleData: function(ioffset=100) {
+            const _this = this;
+
+            return new Promise(function(resolve,reject) {
+                let a_today = CommonFunc.getToday(false);
+                let a_start_date = CommonFunc.addDays(a_today, ioffset*-1 );
+                //let a_end_date = CommonFunc.addDays(a_today, 1 );
+                
+                let dic_param = { freq:'1H',start_date:a_start_date, thresh:'3' };
+                logger.log.debug("CWatchView.loadCryptoOracleData - dic_param=",dic_param);
+
+                MoaBackendAPI.getCryptoOracleData(dic_param,function(response) {
+                    _this.g_data_oracle = response.data.data;
+                    logger.log.debug("CWatchView.loadCryptoOracleData - response",_this.g_data_oracle);
+                    
+                    _this.updateOracleChart(_this.g_data_oracle);
+                    resolve();
+                },function(err) {
+                    logger.log.error("HomeView.loadCryptoOracleData - error",err);
+                    reject();
+                });
+            });            
+        },
+        
 
         updateWidget: function(data,n_recent=3) {
 
@@ -189,25 +215,8 @@ export default {
             this.$refs.cwatchChart.update(data);
         },
 
-        updateExchangeIndexChart: function(data,exchange) {
-            if (! data.hasOwnProperty('binance')) {
-              return
-            }
-            this.$refs.exchangeChart.update(data,exchange);
-        },
-
-        updateTopTable: function(data,exchange) {
-            console.log('HomeView.updateTopTable=',data);
-            if (CommonFunc.isEmptyObject(data)) {
-                return;
-            }
-            this.$refs.exchangeTop.update(data,exchange,'overall','ret');
-        },
-
-        showChart: function(asset,dates,a_date) {
-            console.log('HomeView.showChart=',asset);        
-            //this.items_52w = json_list;
-            this.$refs.chartWinner.update('gaia_crypto_trend_upbit',asset,dates);
+        updateOracleChart: function(data) {
+            this.$refs.cwatchChart.updateOracle(data);
         },
 
 

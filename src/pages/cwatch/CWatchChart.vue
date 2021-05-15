@@ -9,9 +9,13 @@
 
         <CTitle ttype='subtitle' :title="$t('chart.home_scaled.title')" :desc="$t('chart.home_scaled.desc')"></CTitle>
         <highcharts class="hc" :options="g_chart['chart1']" ref="chart1"></highcharts>
-        
+
+        <CTitle ttype='subtitle' :title="$t('chart.home_tick.title')" :desc="$t('chart.home_tick.desc')"></CTitle>
+        <highcharts class="hc" :options="g_chart['chart3']" ref="chart3"></highcharts>
+
         <CTitle ttype='subtitle' :title="$t('chart.home_tick.title')" :desc="$t('chart.home_tick.desc')"></CTitle>        
         <highcharts class="hc" :options="g_chart['chart2']" ref="chart2"></highcharts>
+
 
     </div>
 
@@ -45,6 +49,7 @@ export default {
             g_chart: {
                 'chart1': { series: [], },
                 'chart2': { series: [], },
+                'chart3': { series: [], },
             },
         }
     },
@@ -71,6 +76,8 @@ export default {
             
             //let a_minmax = CommonFunc.getMinMaxExt([data_kimchi.data]);
 
+            //console.log("updateRiskChart.data_price=",data_price.data);
+
             let series = [
                 { name: this.$t('name.price'),type: 'line', yAxis:0, data: data_price.data},
                 { name: this.$t('name.short'),type: 'scatter', yAxis:0, data: data_risk1_thresh},
@@ -89,12 +96,36 @@ export default {
             this.updateRiskChart('chart2',json_data,'ETH',this.g_field,this.g_thresh);
         },
 
+        updateOracleChart: function(json_data,freq) {
+            let data_long = CommonFunc.getChartData(json_data,freq,'long_count','utctime',false,0);
+            let data_short = CommonFunc.getChartData(json_data,freq,'short_count','utctime',false,0);
+            
+            //let a_minmax = CommonFunc.getMinMaxExt([data_kimchi.data]);
+
+            let series = [
+                { name: this.$t('name.short'),type: 'scatter', yAxis:0, data: data_short.data},
+                { name: this.$t('name.long'),type: 'scatter', yAxis:0, data: data_long.data},
+            ];
+
+            console.log("updateOracleChart : data_price=",data_long.data);
+
+            let a_option = CommonFunc.getChartOption(series);
+            //a_option.yAxis[1] = {mshow:true, opposite:true, gridLineWidth:0};
+            this.g_chart['chart3'] = a_option;
+        },
 
         update: function(json_data) {
             logger.log.debug('CWatchChart.update : =',json_data);
 
             this.g_data = json_data;
             this.updateIndexChart(json_data);            
+        },
+
+        updateOracle: function(json_data) {
+            logger.log.debug('CWatchChart.updateOracle : =',json_data);
+
+            this.g_data_oracle = json_data;
+            this.updateOracleChart(json_data,'1H');
         },
 
         onClickRefresh: function() {

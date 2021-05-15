@@ -1,14 +1,14 @@
 <template>
-    
-    <div class="row">        
-        <div class="col">        
-            <div class="ctitle" v-if="ttype==='title'">
-                <h5 class="title">{{ title }} <span class="desc">{{ desc }} </span></h5> 
-            </div>
-            <div class="ctitle" v-if="ttype==='subtitle'">
-                <h6 class="subtitle">{{ title }} &nbsp; <span class="desc">{{ desc }} </span></h6> 
-            </div>
+
+    <div>
+
+        <div class="ctitle" v-if="ttype==='title'">
+            <h5 class="title">{{ title }} <span class="desc">{{ desc }} </span></h5> 
         </div>
+        <div class="ctitle" v-if="ttype==='subtitle'">
+            <h6 class="subtitle">{{ title }} &nbsp; <span class="desc">{{ desc }} </span></h6> 
+        </div>
+
     </div>
 
 </template>
@@ -47,9 +47,11 @@ export default {
 
 .ctitle {
     text-transform: uppercase;
-    margin-bottom: 0.0rem;    
-    padding: 0.9rem;   
+    margin-top: 1.5rem;    
+    margin-bottom: 1.0rem; 
+
     /* 
+    padding: 0.0rem;       
     border-bottom: 1px solid #ccc;
     -webkit-box-flex: 1;
     flex: 1 1 auto;
@@ -60,10 +62,12 @@ export default {
 .title {
     font-weight: bold;
     color:#343434;
-    margin : 0.9rem 0 0.5rem 0;
+    margin-block-start:0.5rem;
+    margin-block-end:0.2rem;
     border-bottom: 3px solid #333333; 
 
     /* 
+        margin : 0.1rem 0 0.1rem 0;    
         font-size: 1.0rem; 
         color: rgba(13, 27, 62, 0.7);        
     */
@@ -72,8 +76,12 @@ export default {
 .subtitle {
     font-weight: bold;
     color:343434;
-    padding-top: 1rem;
-    /* font-weight: bold; */
+    margin-block-start:0.5rem;
+    margin-block-end:0.5rem;
+    /* 
+    font-weight: bold; 
+    margin-top: 0.5rem;     
+    */
 }
 
 .desc {
