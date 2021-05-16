@@ -100,6 +100,18 @@ const linksKstock = [
 ];
 
 
+const linksAdmin = [
+  {
+    title: 'Asset Form',
+    caption: 'Asset',
+    icon: 'record_voice_over',
+    link: '#/admin/asset_form',
+    level:1,
+    children: []
+  },
+];
+
+
 const linksMenu = [
   {
     title: 'Home',
@@ -173,7 +185,14 @@ const linksMenu = [
     link: '#',
     level:0,
     children: linksKstock
-
+  },
+  {
+    title: 'Admin',
+    caption: 'Admin',
+    icon: 'rss_feed',
+    link: '#',
+    level:0,
+    children: linksAdmin
   },
 ];
 

@@ -67,8 +67,10 @@ export default {
                 suffix: '%'
             },
             
-            v_page: {title: this.$t('page.trend.title'), desc:'' }
+            v_page: {title: this.$t('page.trend.title'), desc:'' },
             
+            v_visible_table: false,
+
         }
 
     },

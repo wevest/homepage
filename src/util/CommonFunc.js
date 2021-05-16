@@ -537,14 +537,14 @@ export default class CommonFunc {
     }
 
 
-    static navAuthor(a_this,author) {
-        logger.log.debug("CommonFunc.navAuthor - ",author);
+    
+    static navAsset(a_this,symbol) {
+        logger.log.debug("CommonFunc.navAsset - ",symbol);
 
-        CommonFunc.setAppData('selected_author',author);
-
-        let dic_param = {name:'analyst', params:{ param_author:author }};
+        //CommonFunc.setAppData('selected_author',author);
+        let dic_param = { name:'asset', path:'asset', params:{ symbol:symbol } };
         a_this.$router.push(dic_param);
-    }
+      }
 
     static navInstrument(a_this,asset) {
         logger.log.debug("CommonFunc.navInstrument - ",asset);
@@ -1079,6 +1079,13 @@ export default class CommonFunc {
             items.push(a_item);
         }
         return items;
+    }
+
+    static safeGetJsonValue(data,row_index,col_index) {
+        if (row_index>=data.length) {
+            return null;
+        }
+        return data[row_index][col_index];
     }
 
 }

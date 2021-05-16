@@ -13,7 +13,11 @@
           <template v-slot:body="props">
 
             <q-tr :props="props">
-              <q-td key="asset" align="left" :props="props" @click="showSectorChart(props.row.asset)">{{ props.row.asset }}</q-td>
+              <q-td key="asset" align="left" :props="props">
+                <a href='#' @click="onClickAsset(props.row.asset)">
+                  {{ props.row.asset }}
+                </a>
+              </q-td>
               <q-td key="d1" :props="props" :class="(props.row.d1>0)?'text-red':'text-green'">{{ Number(props.row.d1).toLocaleString() }}</q-td>
               <q-td key="w1" :props="props" :class="(props.row.w1>0)?'text-red':'text-green'">{{ Number(props.row.w1).toLocaleString() }}</q-td>
               <q-td key="m1" :props="props" :class="(props.row.m1>0)?'text-red':'text-green'">{{ Number(props.row.m1).toLocaleString() }}</q-td>
@@ -126,9 +130,9 @@ export default {
             this.showReportList(data);
         },
 
-        navAsset: function(category) {
-            console.log('CSectorTable.navAsset - ',category);
-            //this.$parent.onClickCategory(category);
+        onClickAsset: function(symbol) {
+            console.log('CSectorTable.navAsset - ',symbol);
+            CommonFunc.navAsset(this,symbol);
         },
 
     }

@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col">
                 <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle> 
-                <q-tabs v-model="tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
+                <q-tabs v-model="v_tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
                     <q-tab name="upbit" :label="$t('name.upbit')" @click="onClickTab('upbit')" />
                     <q-tab name="bithumb" :label="$t('name.bithumb')" @click="onClickTab('bithumb')" />
                 </q-tabs>              
@@ -61,7 +61,7 @@ export default {
             g_period: 30,
             
             g_sector: '',
-            tab:'upbit',        
+            v_tab:'upbit',        
             v_page: {title:this.$t('page.sector.title'), desc:''}
         }
     },
@@ -69,24 +69,30 @@ export default {
     created: function () {
         //console.log("HomeView.created");
     },
-    mounted: function() {
-        this.refresh();
+    mounted: function() {                
+        this.g_sector = this.$route.params.sector;
+        if (this.$route.params.exchange) {
+            this.v_tab = this.$route.params.exchange;
+        }
+        logger.log.debug("SectorView.mounted - params",this.$route.params);
+
+        this.refresh(this.g_sector);
     },
     
     methods: {
 
         updatePageHeader: function(json_data) {
-            const dic_columns = CommonFunc.getColumnDic(json_data['upbit']['btc'].columns,[],[]);
-            let watch_date = json_data['upbit']['btc'].values[json_data['upbit']['btc'].values.length-1][dic_columns['trade_date']];
+            const dic_columns = CommonFunc.getColumnDic(json_data[this.v_tab]['btc'].columns,[],[]);
+            let watch_date = json_data[this.v_tab]['btc'].values[json_data[this.v_tab]['btc'].values.length-1][dic_columns['trade_date']];
             this.v_page.desc = watch_date;
         },
 
-        refresh: function() {
+        refresh: function(sector) {
             const _this = this;
         
             //CommonFunc.getAppData('spinner').show();
             let funcs = [
-                this.loadDailyOverviewData()
+                this.loadDailyOverviewData(sector,200)
             ];
             Promise.all(funcs).then(function() {
                 //CommonFunc.getAppData('spinner').hide();
@@ -94,7 +100,7 @@ export default {
 
         },
 
-        loadDailyOverviewData: function(ioffset=360) {
+        loadDailyOverviewData: function(sector,ioffset=360) {
             const _this = this;
 
             return new Promise(function(resolve,reject) {
@@ -116,8 +122,8 @@ export default {
                     //_this.$refs.dailyIndexChart.update(_this.g_data);
                     
                     _this.updatePageHeader(_this.g_data);                    
-                    _this.updateSectorSummaryTable(_this.g_data,_this.tab);
-                    _this.updateSectorChart('korean');
+                    _this.updateSectorSummaryTable(_this.g_data,_this.v_tab);
+                    _this.updateSectorChart(_this.g_data,_this.v_tab,sector);
 
                     resolve();
                 },function(err) {
@@ -157,21 +163,28 @@ export default {
         },
 
         updateSectorSummaryTable: function(json_data,exchange) {
+            logger.log.debug('UpbitWinnerView.updateSectorSummaryTable=',exchange,json_data);
             this.$refs.sectorTable.update(json_data,exchange);
         },
 
         showChart: function(asset,dates,a_date) {
-            console.log('UpbitWinnerView.showChart=',asset);
+            logger.log.debug('UpbitWinnerView.showChart=',asset);
             this.$refs.chartWinner.update(this.g_table,asset,dates);
             this.$refs.momentumTable.update('D',asset,100);
 
             this.heading = 'Upbit Market Winner - ' + a_date + ' , ' + asset;
         },
 
-        updateSectorChart: function(sector) {
+        updateSectorChart: function(json_data,exchange,sector) {
+            if (! sector) {
+                sector = "korean";
+            }
+            
+            logger.log.debug('SectorView.updateSectorChart - ',exchange,sector);
+
             this.g_sector = this.$t('category.'+sector);
-            this.$refs.sectorChart.update(this.g_data,this.tab,sector);
-            this.loadSectorAssetData(this.tab,sector);
+            this.$refs.sectorChart.update(json_data,exchange,sector);
+            this.loadSectorAssetData(exchange,sector);
         },
 
         onClickExchange:function(value) {

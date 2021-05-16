@@ -61,6 +61,7 @@ export default {
     price_surge:'가격급상승',
     volume_surge:'거래량급상승',
     volume_change:'거래량변화율',
+    index:'지수',
   },
   page: {
     home: { 

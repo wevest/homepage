@@ -197,8 +197,7 @@ export default {
         return;
       }
       
-      let dic_param = { name:'asset', path:'asset', params:{ symbol:symbol } };
-      this.$router.push(dic_param);
+      CommonFunc.navAsset(this,symbol);
     },
 
     onChangeLang: function() {

@@ -10,11 +10,54 @@
         <CTitle ttype='subtitle' :title="$t('chart.home_scaled.title')" :desc="$t('chart.home_scaled.desc')"></CTitle>
         <highcharts class="hc" :options="g_chart['chart1']" ref="chart1"></highcharts>
 
+
+        <q-table
+        title=""
+        row-key="name"        
+        :data="v_items.BTC"
+        :columns="v_headers"
+        :pagination.sync="v_pagination"
+        :rows-per-page-options="[50]"
+        >
+            <template v-slot:body="props">
+
+                <q-tr :props="props">
+                    <q-td key="utc_trade_date" :props="props">{{ props.row.utc_trade_date }}</q-td>
+                    <q-td key="index" :props="props">{{ Number(props.row.index).toLocaleString() }}</q-td>
+                    <q-td key="short" :props="props">{{ Number(props.row.short).toLocaleString() }}</q-td>
+                    <q-td key="long" :props="props">{{ Number(props.row.long).toLocaleString() }}</q-td>
+                </q-tr>            
+
+            </template>
+
+        </q-table>
+
         <CTitle ttype='subtitle' :title="$t('chart.home_tick.title')" :desc="$t('chart.home_tick.desc')"></CTitle>
         <highcharts class="hc" :options="g_chart['chart3']" ref="chart3"></highcharts>
 
         <CTitle ttype='subtitle' :title="$t('chart.home_tick.title')" :desc="$t('chart.home_tick.desc')"></CTitle>        
         <highcharts class="hc" :options="g_chart['chart2']" ref="chart2"></highcharts>
+
+        <q-table
+        title=""
+        row-key="name"        
+        :data="v_items.ETH"
+        :columns="v_headers"
+        :pagination.sync="v_pagination"
+        :rows-per-page-options="[50]"
+        >
+            <template v-slot:body="props">
+
+                <q-tr :props="props">
+                    <q-td key="utc_trade_date" :props="props">{{ props.row.utc_trade_date }}</q-td>
+                    <q-td key="index" :props="props">{{ Number(props.row.index).toLocaleString() }}</q-td>
+                    <q-td key="short" :props="props">{{ Number(props.row.short).toLocaleString() }}</q-td>
+                    <q-td key="long" :props="props">{{ Number(props.row.long).toLocaleString() }}</q-td>
+                </q-tr>            
+
+            </template>
+
+        </q-table>
 
 
     </div>
@@ -51,6 +94,18 @@ export default {
                 'chart2': { series: [], },
                 'chart3': { series: [], },
             },
+
+            v_headers: [
+                { name:'utc_trade_date', label: '시간', field: 'utc_trade_date', align:'left', required:true, sortable:true  },
+                { name:'index', label: this.$t('name.index'), field: 'index', sortable:true},
+                { name:'short', label: this.$t('name.short'), field: 'short', sortable:true},
+                { name:'long', label: this.$t('name.long'), field: 'long', sortable:true},
+            ],
+            v_pagination: {
+                sortBy: 'utc_trade_date',
+                descending: true,
+            },
+            v_items: {BTC: [], ETH:[]},
         }
     },
 
@@ -64,6 +119,25 @@ export default {
                 }
             }
             return items;
+        },
+
+
+        updateRiskTable: function(json_data,symbol) {
+            let dic_column = CommonFunc.getColumnDic( json_data[symbol].columns ,[],[]);
+
+            let items = [];            
+            for (let index=0;index<json_data[symbol].values.length;index++) {
+                
+                let a_item = {
+                    utc_trade_date: CommonFunc.safeGetJsonValue(json_data[symbol].values,index,dic_column['utc_trade_date']),
+                    index: CommonFunc.safeGetJsonValue(json_data[symbol].values,index,dic_column['priceClose']),
+                    short: CommonFunc.safeGetJsonValue(json_data[symbol].values,index,dic_column['short_usd_z']),
+                    long: CommonFunc.safeGetJsonValue(json_data[symbol].values,index,dic_column['long_usd_z']),
+                };
+                items.push(a_item);
+            }
+            logger.log.debug('items=',items);
+            this.v_items[symbol] = items;
         },
 
         updateRiskChart: function(chart,json_data,symbol,field,thresh) {
@@ -118,7 +192,9 @@ export default {
             logger.log.debug('CWatchChart.update : =',json_data);
 
             this.g_data = json_data;
-            this.updateIndexChart(json_data);            
+            this.updateIndexChart(this.g_data);    
+            this.updateRiskTable(this.g_data,'BTC');
+            this.updateRiskTable(this.g_data,'ETH');
         },
 
         updateOracle: function(json_data) {

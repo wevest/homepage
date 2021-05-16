@@ -11,7 +11,11 @@ node_modules
 /src/pages/kstockw
 /src/pages/kstockd
 /src/pages/instrument
+/src/pages/admin
 /src/data
+/src/admin
+/src/services/adminService.js
+
 
 # Cordova related directories and files
 /src-cordova/node_modules

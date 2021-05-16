@@ -4,12 +4,43 @@
 <!--
         <highcharts :constructorType="'stockChart'" class="hc" :options="chartOptions" ref="chart"></highcharts>
 -->        
-        <CTitle ttype='subtitle' :title="$t('chart.home_scaled.title')" :desc="$t('chart.home_scaled.desc')"></CTitle>
         <highcharts class="hc" :options="g_chart['chart1']" ref="chart1"></highcharts>
+
+        <q-toggle v-model="v_visible_table" label="Show Table" class="q-mb-md center" />
+
+        <q-slide-transition>
+            <div v-show="v_visible_table">
+
+                <q-table
+                title=""
+                hide-bottom
+                :data="v_items"
+                :columns="v_headers"
+                row-key="name"
+                :rows-per-page-options="[50]"
+                >
+                    <template v-slot:body="props">
+
+                        <q-tr :props="props">
+                            <q-td key="trade_date" :props="props">{{ props.row.trade_date }}</q-td>
+                            <q-td key="binance" :props="props">{{ Number(props.row.binance).toLocaleString() }}</q-td>
+                            <q-td key="upbit" :props="props">{{ Number(props.row.upbit).toLocaleString() }}</q-td>
+                            <q-td key="bithumb" :props="props">{{ Number(props.row.bithumb).toLocaleString() }}</q-td>
+                            <q-td key="kpremium" :props="props">{{ Number(props.row.kpremium).toLocaleString() }}</q-td>
+                        </q-tr>            
+
+                    </template>
+
+                </q-table>
+                
+            </div>
+        </q-slide-transition>
+
 <!--        
         <CTitle ttype='subtitle' :title="$t('chart.home_tick.title')" :desc="$t('chart.home_tick.desc')"></CTitle>        
         <highcharts class="hc" :options="g_chart['chart2']" ref="chart2"></highcharts>
 -->
+
     </div>
 
 </template>
@@ -38,11 +69,42 @@ export default {
                 'chart1': { series: [], },
                 'chart2': { series: [], },
             },
+
+            v_visible_table: false,
+            v_headers: [
+                { name:'trade_date', label: '시간', field: 'trade_date', align:'left', required:true  },
+                { name:'upbit', label: this.$t('name.upbit'), field: 'upbit'},
+                { name:'bithumb', label: this.$t('name.upbit'), field: 'bithumb'},
+                { name:'binance', label: this.$t('name.binance'), field: 'binance'},                
+                { name:'kpremium', label: this.$t('name.kpremium'), field: 'kpremium'},
+            ],
+            v_items: [],         
+
         }
     },
 
     methods: {
-    
+
+        updateIndexTable: function(json_data) {
+            
+            let dic_column = CommonFunc.getColumnDic( json_data['upbit']['overall'].columns ,[],[]);
+
+            let items = [];            
+            for (let index=0;index<json_data['upbit']['overall'].values.length;index++) {
+                
+                let a_item = {
+                    trade_date: CommonFunc.safeGetJsonValue(json_data.upbit.overall.values,index,dic_column['trade_date']),
+                    upbit: CommonFunc.safeGetJsonValue(json_data.upbit.overall.values,index,dic_column['index_cumsum']),
+                    bithumb: CommonFunc.safeGetJsonValue(json_data.bithumb.overall.values,index,dic_column['index_cumsum']),
+                    binance: CommonFunc.safeGetJsonValue(json_data.binance.overall.values,index,dic_column['index_cumsum']),
+                    kpremium: CommonFunc.safeGetJsonValue(json_data.kpremium.overall.values,index,dic_column['price_avg'])
+                };
+                items.push(a_item);
+            }
+            logger.log.debug('items=',items);
+            this.v_items = items;
+        },
+
         updateIndexChart: function(json_data) {
             let data_binance = CommonFunc.getChartData(json_data['binance'],'overall','index_cumsum','trade_date',false,0);
             let data_upbit = CommonFunc.getChartData(json_data['upbit'],'overall','index_cumsum','trade_date',false,0);
@@ -107,6 +169,7 @@ export default {
             logger.log.debug('CIndexChart.update : =',json_data);
 
             this.updateIndexChart(json_data);
+            this.updateIndexTable(json_data);
             //this.updateTickTrinChart(json_data,'Buying Power');
         }
     }

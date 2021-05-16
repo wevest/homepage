@@ -12,42 +12,48 @@
     
         <div class="row q-gutter-sm">
             <div class="col">
+                <CTitle ttype='subtitle' :title="$t('page.home.index.title')" :desc="$t('page.home.index.desc')"></CTitle>                
                 <CIndexChart ref='indexChart'></CIndexChart>
             </div>      
         </div>
 
         <div class="row q-gutter-sm">
             <div class="col">
-                <CTitle ttype='subtitle' :title="v_page.title" :desc="v_page.desc"></CTitle>
+                <CTitle ttype='subtitle' :title="v_subpage.cwatch.title" :desc="v_subpage.cwatch.desc"></CTitle>
                  <div class="q-pa-md flex flex-center">
-                    <q-knob
-                        show-value
-                        font-size="16px"
-                        class="text-red q-ma-md"
-                        v-model="v_risk.btc"
-                        size="60px"
-                        :thickness="0.05"
-                        color="red"
-                        track-color="grey-3"
+                    <div class="col-4">
+                        <span>BTC</span>
+                        <q-knob
+                            show-value font-size="16px" class="text-red q-ma-md"
+                            v-model="v_risk.btc" size="60px" :thickness="0.05"
+                            color="red" track-color="grey-3"
                         >
-                        <q-icon name="volume_up" class="q-mr-xs" />
-                        {{ v_risk.btc }}
-                    </q-knob>
-
-                    <q-knob
-                        show-value
-                        font-size="16px"
-                        class="text-red q-ma-md"
-                        v-model="v_risk.eth"
-                        size="60px"
-                        :thickness="0.05"
-                        color="red"
-                        track-color="grey-3"
+                            <q-icon name="volume_up" class="q-mr-xs" />
+                            {{ v_risk.btc }}
+                        </q-knob>
+                    </div>
+                    <div class="col-4">
+                        <span>BTC</span>
+                        <q-knob
+                            show-value font-size="16px" class="text-red q-ma-md"
+                            v-model="v_risk.btc" size="60px" :thickness="0.05"
+                            color="red" track-color="grey-3"
                         >
-                        <q-icon name="volume_up" class="q-mr-xs" />
-                        {{ v_risk.eth }}
-                    </q-knob>
-
+                            <q-icon name="volume_up" class="q-mr-xs" />
+                            {{ v_risk.btc }}
+                        </q-knob>
+                    </div>
+                    <div class="col-4">
+                        <span>KPremium</span>
+                        <q-knob
+                            show-value font-size="16px" class="text-red q-ma-md"
+                            v-model="v_risk.btc" size="60px" :thickness="0.05"
+                            color="red" track-color="grey-3"
+                        >
+                            <q-icon name="volume_up" class="q-mr-xs" />
+                            {{ v_risk.btc }}
+                        </q-knob>
+                    </div>
                 </div>
             </div>      
         </div>
@@ -178,6 +184,10 @@ export default {
         v_tab:'upbit',      
         v_toplist_visible:false,  
         v_page: {title:this.$t('page.home.title'), desc:''},
+        v_subpage: { 
+            cwatch: { title:this.$t('page.home.cwatch.title'), desc:''} 
+        },
+            
         v_toplist:[
             {label:this.$t('name.price_surge'),value:'ret'},
             {label:this.$t('name.yester_ret'),value:'yester_ret'},
@@ -350,7 +360,7 @@ export default {
                 let a_index = data[exchange][a_sector].values[data[exchange][a_sector].values.length-1][column_price];
                 let a_ret = data[exchange][a_sector].values[data[exchange][a_sector].values.length-1][column_ret];
 
-                let a_label = {title:this.$t('category.'+a_sector), value:a_index, value_pct_change: a_ret};
+                let a_label = {title:this.$t('category.'+a_sector), value:a_index, value_pct_change: a_ret, field:a_sector};
                 this.$refs['label_'+a_sector].update(a_label);
             }
         },
@@ -388,10 +398,10 @@ export default {
             console.log('onLoad - ',progress);
         },
 
-        onClickCategory: function() {
-            logger.log.debug('onClickCategory - ');
+        onClickCategory: function(sector) {
+            logger.log.debug('onClickCategory - ',sector);
             
-            let dic_param = { name:'sector', path:'sector', params:{} };
+            let dic_param = { name:'sector', path:'sector', params:{exchange:this.v_tab, sector:sector} };
             this.$router.push(dic_param);
         },
 

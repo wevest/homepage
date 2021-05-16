@@ -20,6 +20,9 @@ const routes = [
       { path: 'kinstrument', component: () => import('pages/instrument/InstrumentView.vue') },
       { path: 'wkospi', component: () => import('pages/kstockw/WeeklyView.vue') },
       { path: 'dkospi', component: () => import('pages/kstockd/DailyView.vue') },
+
+      //admin menus
+      { name:'asset_form', path: 'admin/asset_form', component: () => import('pages/admin/assetForm/assetFormView.vue') },
     ],    
   },
 
