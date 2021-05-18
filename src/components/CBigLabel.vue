@@ -110,7 +110,7 @@ export default {
 
 .widget-biglabel {
     text-align: center;
-    padding: 0.2rem;
+    padding: 0.3rem;
     position: relative;
     }
 
