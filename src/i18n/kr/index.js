@@ -66,16 +66,41 @@ export default {
   page: {
     home: { 
       title:'오늘의 크립토마켓', desc:'',
-      toplist: { title:'관심을 가져야 할 탑리스트', desc:'' },
+      index: { title:'지난 24시간 거래소별 상승율은?', desc:'' },
+      cwatch: { title:'시장 급락 가능성은?', desc:'' },
+      toplist: { title:'관심을 가져볼만한 토큰들', desc:'' },
       eureka:  { title:'운좋은 발견!!!', desc:'' },
-      category: { title:'가격 상승하는 토큰 카테코리는?', desc:'' },
+      category: { title:'가격이 상승하는 토큰 섹터는?', desc:'' },
       mustknow: { title:'반드시 알아야 하는 것들', desc:'' },
     },
-    cwatch: { title:'크립토마켓 와치', desc:'' },
-    trend: { title:'크립토마켓 동향', desc:'' },
-    sector: { title:'크립토마켓 섹터별 동향', desc:'' },
-    asset: { title:'크립토에셋', desc:'' },
-    cryptovc: { title:'크립토VC', desc:'' },
+    cwatch: { 
+      title:'크립토마켓 와치', desc:'' ,
+      btc: { title:'BTC Watch', desc:'' },
+      eth: { title:'ETH Watch', desc:'' },
+    },
+    trend: { 
+      title:'크립토마켓 동향', desc:'',
+      index: { title:'지수의 흐름은 어떤가?', desc:'' },
+      dominance: { title:'비트코인의 시장지배력은?', desc:'' },      
+      kpremium: { title:'김치프리미엄의 흐름은?', desc:'' },      
+      sector: { title:'토큰 섹터별 지수 흐름은?', desc:'' },
+      sectortv: { title:'토큰 섹터별 거래대금의 흐름은?', desc:'' },
+    },
+    sector: { 
+      title:'크립토마켓 섹터별 동향', desc:'' ,
+      index: { title:'섹터 지수의 흐름은?', desc:'' },
+      asset: { title:'섹터에 속한 토큰 리스트', desc:'' },
+    },
+    asset: { 
+      title:'크립토에셋', desc:'',
+      price: { title:'가격 차트', desc:'' },
+      github: { title:'일별 소스코드 업데이트 차트', desc:'' },
+    },
+    cryptovc: { 
+      title:'크립토VC', desc:'',
+      roi: {title:'크립토VC 수익율 차트', desc:''},
+      portfolio: {title:'크립토VC가 투자한 토큰 리스트', desc:''},
+    },
     vcportfolio: { title:'크립토VC 포트폴리오', desc:'' },
   },
   asset: {

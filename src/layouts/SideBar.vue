@@ -10,33 +10,6 @@
           v-bind="link"
         />
 
-<!--
-        <EssentialLink
-          v-for="link in linksCrypto"
-          :key="link.title"
-          v-bind="link"
-        />
-        <q-expansion-item
-            expand-separator
-            icon="mail"
-            :label="$t('name.research')"
-            :caption="$t('name.research')"
-            :header-inset-level="level"
-            default-closed>
-
-          <EssentialLink
-            v-for="link in linksResearch"
-            :key="link.title"
-            v-bind="link">
-          </EssentialLink>
-        </q-expansion-item>
-
-        <EssentialLink
-          v-for="link in linksKstock"
-          :key="link.title"
-          v-bind="link"
-        />
--->
       </q-list>
 
 </template>
@@ -45,71 +18,6 @@
 
 <script>
 import EssentialLink from 'components/EssentialLink.vue';
-
-
-
-const linksKstock = [
-  {
-    title: 'World View',
-    caption: '전세계 동향',
-    icon: 'record_voice_over',
-    link: '#/world',
-    level:1,
-    children: []
-  },
-  {
-    title: 'Market Risk',
-    caption: 'Market Risk',
-    icon: 'public',
-    link: '#/risk',
-    level:1,
-    children: []
-  },
-  {
-    title: 'KStock Weekly',
-    caption: 'Market Weekly',
-    icon: 'favorite',
-    link: '#/wkospi',
-    level:1,
-    children: []
-  },
-  {
-    title: 'KStock Daily',
-    caption: 'Market Daily',
-    icon: 'favorite',
-    link: '#/dkospi',
-    level:1,
-    children: []
-  },
-  {
-    title: 'KStock Beater',
-    caption: 'Market Beater',
-    icon: 'favorite',
-    link: '#/kbeater',
-    level:1,
-    children: []
-  },
-  {
-    title: 'KStock Instrument',
-    caption: 'Instrument',
-    icon: 'favorite',
-    link: '#/kinstrument',
-    level:1,
-    children: []
-  },
-];
-
-
-const linksAdmin = [
-  {
-    title: 'Asset Form',
-    caption: 'Asset',
-    icon: 'record_voice_over',
-    link: '#/admin/asset_form',
-    level:1,
-    children: []
-  },
-];
 
 
 const linksMenu = [
@@ -154,6 +62,22 @@ const linksMenu = [
     children: []
   },
   {
+    title: 'World View',
+    caption: '전세계 동향',
+    icon: 'record_voice_over',
+    link: '#/world',
+    level:0,
+    children: []
+  },  
+  {
+    title: 'Risk',
+    caption: 'Market Risk',
+    icon: 'record_voice_over',
+    link: '#/risk',
+    level:0,
+    children: []
+  },  
+  {
     title: 'Research',
     caption: 'Research',
     icon: 'rss_feed',
@@ -163,7 +87,7 @@ const linksMenu = [
       {
         title: 'Crypto VC',
         caption: 'CryptoVC',
-        icon: 'rss_feed',
+        icon: '',
         link: '#/cryptovc',
         level: 1,
         children: []        
@@ -171,29 +95,21 @@ const linksMenu = [
       {
         title: 'VC Portfolio',
         caption: 'CryptoVC Portfolio',
-        icon: 'rss_feed',
+        icon: '',
         link: '#/vcportfolio',
+        level: 1,
+        children: []        
+      },
+      {
+        title: 'Oracle',
+        caption: 'Oracle',
+        icon: '',
+        link: '#/oracle',
         level: 1,
         children: []        
       }
     ]
-  },
-  {
-    title: 'KStock',
-    caption: 'KStock',
-    icon: 'rss_feed',
-    link: '#',
-    level:0,
-    children: linksKstock
-  },
-  {
-    title: 'Admin',
-    caption: 'Admin',
-    icon: 'rss_feed',
-    link: '#',
-    level:0,
-    children: linksAdmin
-  },
+  }
 ];
 
 

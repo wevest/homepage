@@ -3,8 +3,8 @@
 <!--
         <highcharts :constructorType="'stockChart'" class="hc" :options="chartOptions" ref="chart"></highcharts>
 -->                
-        <CTitle ttype='subtitle' title="시장강도"></CTitle>
-        <highcharts class="hc" :options="g_chart['chart1']" ref="chart1"></highcharts>
+        <CTitle ttype='subtitle' :title="$t('page.asset.price.title')" :desc="$t('page.asset.price.desc')"></CTitle>
+        <highcharts class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
 
 <!--        
         <CTitle ttype='subtitle' title="시장강도"></CTitle>
@@ -48,9 +48,9 @@ export default {
     methods: {
     
         updateChart: function(json_data) {
-            let data_price = CommonFunc.getChartData(json_data,'overall','priceClose','time',false,0);
-            let data_volume = CommonFunc.getChartData(json_data,'overall','total_volume_total','time',false,0);
-            let data_volume_top = CommonFunc.getChartData(json_data,'overall','top_tier_volume_total','time',false,0);
+            let data_price = CommonFunc.getChartData(json_data,'overall','priceClose','trade_date',false,0);
+            let data_volume = CommonFunc.getChartData(json_data,'overall','volume','trade_date',false,0);
+            let data_volume_top = CommonFunc.getChartData(json_data,'overall','top_tier_volume_total','trade_date',false,0);
 
             let series = [
                 { name: 'price',type: 'line', yAxis:0, data: data_price.data},

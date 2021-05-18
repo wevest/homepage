@@ -867,7 +867,7 @@ export default class CommonFunc {
         return heading;
     }
 
-    static getChartData(json_data,a_asset,column='',column_date='trade_date',is_float=true,dtype=0) {
+    static getChartData(json_data,a_asset,column='',column_date='trade_date',is_float=true,dtype=0,idecimal=3) {
                 
         let data_price = [];
         let values = [];
@@ -887,7 +887,7 @@ export default class CommonFunc {
                 a_value = a_value - 0.5;
             }
             
-            a_value = CommonFunc.round(a_value,3);
+            a_value = CommonFunc.round(a_value,idecimal);
 
             if (dtype==2) {
                 if (a_value==0) {

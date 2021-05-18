@@ -36,8 +36,8 @@
                           <q-td key="name" :props="props">
                               <a href="#" @click="onClickAsset(props.row.symbol)">{{ props.row.name }}</a>
                           </q-td>
-                          <q-td key="ret" :props="props">{{ Number(props.row.ret).toLocaleString() }}</q-td>
-                          <q-td key="first_date" :props="props">{{ props.row.first_date.substring(0,10) }}</q-td>
+                          <q-td key="ret" class="text-red text-weight-bolder" :props="props">{{ Number(props.row.ret).toLocaleString() }}</q-td>
+                          <q-td key="first_date" class="text-black text-weight-medium" :props="props">{{ props.row.first_date.substring(0,10) }}</q-td>
                           <q-td key="openPrice" :props="props">{{ Number(props.row.openPrice).toLocaleString() }}</q-td>
                           <q-td key="last_date" :props="props">{{ props.row.last_date }}</q-td>
                           <q-td key="closePrice" :props="props">{{ Number(props.row.closePrice).toLocaleString() }}</q-td>
@@ -95,7 +95,7 @@ export default {
 
         headers: [
             { name:'rank', label: this.$t('name.rank'), field: 'rank', sortable:true },
-            { name:'symbol', label: this.$t('name.symbol'), field: 'symbol' },
+            { name:'symbol', label: this.$t('name.symbol'), field: 'symbol', align:'left',  },
             { name:'name', label: this.$t('name.name'), field: 'name' },
             { name:'ret', label: this.$t('name.roi')+'(%)', sortable:true,  field: 'ret' ,
               format: (val, row) => `${Number(val).toLocaleString()}`, 
@@ -103,7 +103,7 @@ export default {
             { name:'first_date', label: this.$t('name.listed_date'), sortable:true, field: 'first_date' },
             { name:'openPrice', label: this.$t('name.listed_price'), field: 'openPrice'},
             { name:'closePrice', label: this.$t('name.last_price'), field: 'closePrice'},
-            { name:'homepage', label: this.$t('name.homepage'), field: 'homepage'},            
+            { name:'homepage', label: this.$t('name.homepage'), align:'left', field: 'homepage'},            
         ],
 
 

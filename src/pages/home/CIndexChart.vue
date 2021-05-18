@@ -1,10 +1,17 @@
 <template>
 
-    <div class="example">
+    <div>
 <!--
         <highcharts :constructorType="'stockChart'" class="hc" :options="chartOptions" ref="chart"></highcharts>
+        <q-skeleton height="200px" /> 
 -->        
-        <highcharts class="hc" :options="g_chart['chart1']" ref="chart1"></highcharts>
+
+        
+        <div>
+            
+            <highcharts class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
+
+        </div>
 
         <q-toggle v-model="v_visible_table" label="Show Table" class="q-mb-md center" />
 
@@ -17,6 +24,7 @@
                 :data="v_items"
                 :columns="v_headers"
                 row-key="name"
+                :pagination.sync="v_pagination"
                 :rows-per-page-options="[50]"
                 >
                     <template v-slot:body="props">
@@ -24,9 +32,9 @@
                         <q-tr :props="props">
                             <q-td key="trade_date" :props="props">{{ props.row.trade_date }}</q-td>
                             <q-td key="binance" :props="props">{{ Number(props.row.binance).toLocaleString() }}</q-td>
-                            <q-td key="upbit" :props="props">{{ Number(props.row.upbit).toLocaleString() }}</q-td>
+                            <q-td key="upbit" class="text-red text-weight-bold" :props="props">{{ Number(props.row.upbit).toLocaleString() }}</q-td>
                             <q-td key="bithumb" :props="props">{{ Number(props.row.bithumb).toLocaleString() }}</q-td>
-                            <q-td key="kpremium" :props="props">{{ Number(props.row.kpremium).toLocaleString() }}</q-td>
+                            <q-td key="kpremium" class="text-red text-weight-bold" :props="props">{{ Number(props.row.kpremium).toLocaleString() }}</q-td>
                         </q-tr>            
 
                     </template>
@@ -70,6 +78,7 @@ export default {
                 'chart2': { series: [], },
             },
 
+            v_loading: true,
             v_visible_table: false,
             v_headers: [
                 { name:'trade_date', label: '시간', field: 'trade_date', align:'left', required:true  },
@@ -78,6 +87,10 @@ export default {
                 { name:'binance', label: this.$t('name.binance'), field: 'binance'},                
                 { name:'kpremium', label: this.$t('name.kpremium'), field: 'kpremium'},
             ],
+            v_pagination: {
+                sortBy: 'trade_date',
+                descending: true,
+            },
             v_items: [],         
 
         }
@@ -175,3 +188,6 @@ export default {
     }
   }
 </script>
+
+<style scoped>
+</style>

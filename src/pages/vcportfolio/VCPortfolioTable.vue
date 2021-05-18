@@ -2,10 +2,11 @@
 
   <q-table
   title=""
-  :data="items"
-  :columns="headers"
+  :data="v_items"
+  :columns="v_headers"
   row-key="name"
   :rows-per-page-options="[20]"
+  :pagination.sync="v_pagination"
   >
     <template v-slot:body="props">
 
@@ -16,7 +17,7 @@
             </q-td>
             <q-td key="ret" :props="props">{{ Number(props.row.ret).toLocaleString() }}</q-td>
             <q-td key="date_added" :props="props">{{ props.row.date_added.substring(0,10) }}</q-td>
-            <q-td key="first_price" :props="props">{{ Number(props.row.first_price).toLocaleString() }}</q-td>
+            <q-td key="first_price" class="text-red text-weight-bold" :props="props">{{ Number(props.row.first_price).toLocaleString() }}</q-td>
             <q-td key="cryptovc" :props="props">
               
               <a v-for="a_item in props.row.cryptovc" href="#" @click="onClickVC(a_item)" class="link_vc">
@@ -45,16 +46,20 @@ export default {
     return {
         g_data: null,
         
-        headers: [
-            { name:'symbol', label: this.$t('name.symbol'),align:'left', field: 'symbol' },
-            { name:'name', label: this.$t('name.name'),align:'left', field: 'name' },
+        v_headers: [
+            { name:'symbol', label: this.$t('name.symbol'),align:'left', field: 'symbol', sortable:true },
+            { name:'name', label: this.$t('name.name'),align:'left', field: 'name', sortable:true },
             { name:'date_added', label: this.$t('name.listed_date'),align:'left', sortable:true, field: 'date_added' },
             { name:'first_price', label: this.$t('name.first_price')+'($)', sortable:true,  field: 'first_price' ,
               format: (val, row) => `${Number(val).toLocaleString()}`, 
             },
             { name:'cryptovc', label: this.$t('name.cryptovc'), field: 'cryptovc' ,align:'left'},
         ],
-        items: [],        
+        v_pagination: {
+            sortBy: 'date_added',
+            descending: true,
+        },
+        v_items: [],        
       }
     },
     created: function () {
@@ -76,7 +81,7 @@ export default {
             items[index]['cryptovc'] = tokens;
           }
           //logger.log.debug('items2=',items);
-          this.items = items;
+          this.v_items = items;
         },
 
         update: function(json_data) {

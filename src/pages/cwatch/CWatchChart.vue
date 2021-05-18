@@ -7,9 +7,9 @@
             <q-btn color="primary" label="Refresh" @click='onClickRefresh' /> 
         </div>
 
-        <CTitle ttype='subtitle' :title="$t('chart.home_scaled.title')" :desc="$t('chart.home_scaled.desc')"></CTitle>
-        <highcharts class="hc" :options="g_chart['chart1']" ref="chart1"></highcharts>
-
+        <CTitle ttype='subtitle' :title="$t('page.cwatch.btc.title')" :desc="$t('page.cwatch.btc.desc')"></CTitle>
+        
+        <highcharts class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>        
 
         <q-table
         title=""
@@ -17,7 +17,31 @@
         :data="v_items.BTC"
         :columns="v_headers"
         :pagination.sync="v_pagination"
-        :rows-per-page-options="[50]"
+        :rows-per-page-options="[20]"
+        >
+            <template v-slot:body="props">
+
+                <q-tr :props="props">
+                    <q-td key="utc_trade_date" :props="props">{{ props.row.utc_trade_date }}</q-td>
+                    <q-td key="index" :props="props">{{ Number(props.row.index).toLocaleString() }}</q-td>
+                    <q-td key="short" :props="props">{{ Number(props.row.short).toLocaleString() }}</q-td>
+                    <q-td key="long" :props="props">{{ Number(props.row.long).toLocaleString() }}</q-td>
+                </q-tr>            
+
+            </template>
+
+        </q-table>
+
+        <CTitle ttype='subtitle' :title="$t('page.cwatch.eth.title')" :desc="$t('page.cwatch.eth.desc')"></CTitle>
+        <highcharts class="hc box_chart" :options="g_chart['chart2']" ref="chart2"></highcharts>
+
+        <q-table
+        title=""
+        row-key="name"        
+        :data="v_items.ETH"
+        :columns="v_headers"
+        :pagination.sync="v_pagination"
+        :rows-per-page-options="[20]"
         >
             <template v-slot:body="props">
 
@@ -33,32 +57,7 @@
         </q-table>
 
         <CTitle ttype='subtitle' :title="$t('chart.home_tick.title')" :desc="$t('chart.home_tick.desc')"></CTitle>
-        <highcharts class="hc" :options="g_chart['chart3']" ref="chart3"></highcharts>
-
-        <CTitle ttype='subtitle' :title="$t('chart.home_tick.title')" :desc="$t('chart.home_tick.desc')"></CTitle>        
-        <highcharts class="hc" :options="g_chart['chart2']" ref="chart2"></highcharts>
-
-        <q-table
-        title=""
-        row-key="name"        
-        :data="v_items.ETH"
-        :columns="v_headers"
-        :pagination.sync="v_pagination"
-        :rows-per-page-options="[50]"
-        >
-            <template v-slot:body="props">
-
-                <q-tr :props="props">
-                    <q-td key="utc_trade_date" :props="props">{{ props.row.utc_trade_date }}</q-td>
-                    <q-td key="index" :props="props">{{ Number(props.row.index).toLocaleString() }}</q-td>
-                    <q-td key="short" :props="props">{{ Number(props.row.short).toLocaleString() }}</q-td>
-                    <q-td key="long" :props="props">{{ Number(props.row.long).toLocaleString() }}</q-td>
-                </q-tr>            
-
-            </template>
-
-        </q-table>
-
+        <highcharts class="hc box_chart" :options="g_chart['chart3']" ref="chart3"></highcharts>
 
     </div>
 
@@ -136,7 +135,7 @@ export default {
                 };
                 items.push(a_item);
             }
-            logger.log.debug('items=',items);
+            //logger.log.debug('items=',items);
             this.v_items[symbol] = items;
         },
 

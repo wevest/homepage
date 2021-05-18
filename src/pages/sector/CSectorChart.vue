@@ -1,8 +1,8 @@
 <template>
     <div class="example">
-        <CTitle ttype='subtitle' :title="$t('chart.sector_index.title')"></CTitle> 
+        <CTitle ttype='subtitle' :title="$t('page.sector.index.title')" :desc="$t('page.sector.index.desc')"></CTitle> 
         <ChartTimeframe period='monthly' :onclick="onClickTimeframe" selected='m6'></ChartTimeframe>
-        <highcharts class="hc" :options="g_chart['chart1']" ref="chart1"></highcharts>
+        <highcharts class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
 
         <q-table
         title=""
@@ -113,8 +113,8 @@ export default {
             this.updateCategoryTable(json_data,exchange,category);
         },
 
-        onClickTimeframe: function(value) {
-            this.$parent.onClickChartTimeframe(value);
+        onClickTimeframe: function(offset,timeframe) {
+            this.$parent.onClickChartTimeframe(offset);
         }
     }
   }

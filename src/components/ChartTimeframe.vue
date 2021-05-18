@@ -90,6 +90,13 @@ export default {
             default: 'd1'
         }
     },
+    watch: { 
+      	selected: function(newVal, oldVal) { // watch it
+          //logger.log.debug('Prop changed: ', newVal, ' | was: ', oldVal);
+          this.tab = newVal;
+        }
+    },
+
     data: function () {
         return {
             tab: this.selected,
@@ -98,6 +105,11 @@ export default {
 
     methods: {
         update: function(json_label) {
+        },
+
+        setTimeframe: function(timeframe) {
+            this.selected = timeframe;
+            this.tab = timeframe;
         },
 
         getOffset: function(value) {

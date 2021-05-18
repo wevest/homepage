@@ -95,60 +95,60 @@
             <q-tab-panel name="development">
 
               <q-markup-table>
-                <tbody>
-                  <tr class="develop-low">
+                <tbody class="develop-low">
+                  <tr>
                     <td>                      
                       <div>
-                        <h6 class="develop-name">{{ $t('name.commit_count')}}</h6>
-                        <h7 class="develop-value">{{ g_commit_item['github_commit_count'] }}</h7>
+                        <h5>{{ $t('name.commit_count')}}</h5>
+                        <h6>{{ g_commit_item['github_commit_count'] }}</h6>
                       </div>
                     </td> 
                     <td>
                       <div>
-                        <h6 class="develop-name">{{ $t('name.created_at')}}</h6>
-                        <h7 class="develop-value">{{ g_commit_item['github_created_at'] }}</h7>
+                        <h5>{{ $t('name.created_at')}}</h5>
+                        <h6>{{ g_commit_item['github_created_at'] }}</h6>
                       </div>
                     </td>
                   </tr>
-                  <tr class="develop-low">
+                  <tr>
                     <td>
                       <div>
-                        <h6 class="develop-name">{{ $t('name.pushed_at')}}</h6>
-                        <h7 class="develop-value">{{ g_commit_item['github_pushed_at'] }}</h7>
+                        <h5>{{ $t('name.pushed_at')}}</h5>
+                        <h6>{{ g_commit_item['github_pushed_at'] }}</h6>
                       </div>
                     </td>
                     <td>
                       <div>
-                        <h6 class="develop-name">{{ $t('name.subscriber_count')}}</h6>
-                        <h7 class="develop-value">{{ g_commit_item['github_subscribers_count'] }}</h7>
+                        <h5>{{ $t('name.subscriber_count')}}</h5>
+                        <h6>{{ g_commit_item['github_subscribers_count'] }}</h6>
                       </div> 
                     </td>
                   </tr>
-                  <tr class="develop-low">
+                  <tr>
                     <td>
                       <div>
-                        <h6 class="develop-name">{{ $t('name.watcher_count')}}</h6>
-                        <h7 class="develop-value">{{ g_commit_item['github_watchers_count'] }}</h7>
+                        <h5>{{ $t('name.watcher_count')}}</h5>
+                        <h6>{{ g_commit_item['github_watchers_count'] }}</h6>
                       </div>    
                     </td>
                     <td>
                       <div>
-                        <h6 class="develop-name">{{ $t('name.forks_count')}}</h6> 
-                        <h7 class="develop-value">{{ g_commit_item['github_forks_count'] }}</h7>
+                        <h5>{{ $t('name.forks_count')}}</h5> 
+                        <h6>{{ g_commit_item['github_forks_count'] }}</h6>
                       </div>
                     </td>
                   </tr>
-                  <tr class="develop-low">
+                  <tr>
                     <td>
                       <div>
-                        <h6 class="develop-name">{{ $t('name.language') }}</h6>
-                        <h7 class="develop-value">{{ g_commit_item['github_language'] }}</h7>
+                        <h5>{{ $t('name.language') }}</h5>
+                        <h6>{{ g_commit_item['github_language'] }}</h6>
                       </div>    
                     </td>
                     <td>
                       <div>
-                        <h6 class="develop-name">{{ $t('name.language') }}</h6>
-                        <h7 class="develop-value">{{ g_commit_item['github_language'] }}</h7>
+                        <h5>{{ $t('name.language') }}</h5>
+                        <h6>{{ g_commit_item['github_language'] }}</h6>
                       </div>
                     </td>    
                   </tr>
@@ -156,8 +156,8 @@
               </q-markup-table>
 
 
-              <CTitle ttype='subtitle' :title="$t('crypto.chart.github.title')"></CTitle>
-              <highcharts class="hc" :options="g_chart['chart1']" ref="chart1"></highcharts>
+              <CTitle ttype='subtitle' :title="$t('page.asset.github.title')" :desc="$t('page.asset.github.desc')"></CTitle>
+              <highcharts class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
 
             </q-tab-panel>
 
@@ -167,11 +167,6 @@
       </div>
     </div>
 
-
-    <div class="row">
-      <div class="col">
-      </div>
-    </div>
   </div>
 
 </template>
@@ -380,20 +375,22 @@ export default {
 
 
 .develop-low {
-line-height:0.2rem;
+  line-height:0.2rem;
 }
 
-.develop-name {
+.develop-low h5 {
   color:#464646;
   font-size: 12px;
   margin-top:-0.6rem;
   margin-bottom:0.0rem;
 }
 
-.develop-value {
- color:#5F5F5F;
- font-size: 16px;
- font-weight:bold;
+.develop-low h6 {
+  color:#5F5F5F;
+  font-size: 16px;
+  font-weight:bold;
+  margin-top:-0.6rem;
+  margin-bottom:0.0rem;
 }
 </style>
 

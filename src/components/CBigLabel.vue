@@ -45,7 +45,7 @@ export default {
     },
     data: function () {
         return {
-            title:'dsfsdfsdfd',
+            title:'',
             field:null,
             tag:null,
             value:0,

@@ -21,10 +21,10 @@
 
         <div class="row">
             <div class="col">
-                <CTitle :title="g_sector" desc=''></CTitle> 
+                <CTitle :title="$t('category.'+g_sector)" desc=''></CTitle> 
                 <CSectorChart ref="sectorChart"></CSectorChart>
 
-                <CTitle ttype='subtitle' title="sector_details"></CTitle> 
+                <CTitle ttype='subtitle' :title="$t('page.sector.asset.title')" :desc="$t('page.sector.asset.desc')"></CTitle> 
                 <CSectorCryptoTable ref="scTable"></CSectorCryptoTable>
             </div>
         </div>
@@ -182,7 +182,7 @@ export default {
             
             logger.log.debug('SectorView.updateSectorChart - ',exchange,sector);
 
-            this.g_sector = this.$t('category.'+sector);
+            this.g_sector = sector; //this.$t('category.'+sector);
             this.$refs.sectorChart.update(json_data,exchange,sector);
             this.loadSectorAssetData(exchange,sector);
         },
@@ -197,19 +197,19 @@ export default {
           //this.showReportList(this.g_exchange,this.g_sector,value);
         },
 
-        onClickChartTimeframe: function(value) {
-            console.log('CTopTable.onClickChartTimeframe - ',value);      
-            this.loadDailyOverviewData(value);
+        onClickChartTimeframe: function(offset) {
+            console.log('CTopTable.onClickChartTimeframe - ',offset); 
+            this.loadDailyOverviewData(this.g_sector,offset);
         },
 
         onClickSectorChart: function(sector) {
             console.log('CTopTable.onClickSectorChart - ',sector);      
-            this.updateSectorChart(sector);
+            this.updateSectorChart(this.g_data,this.v_tab,sector);
         },
 
         onClickTab: function(exchange) {
-            this.updateSectorSummaryTable(this.g_data,this.tab);
-            this.updateSectorChart('korean');
+            this.updateSectorSummaryTable(this.g_data,exchange);
+            this.updateSectorChart(this.g_data,exchange,'korean');
         }
     },
 

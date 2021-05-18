@@ -12,6 +12,7 @@ node_modules
 /src/pages/kstockd
 /src/pages/instrument
 /src/pages/admin
+/src/pages/oracle
 /src/data
 /src/admin
 /src/services/adminService.js

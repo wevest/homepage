@@ -62,6 +62,20 @@
             <div class="col">
                 <CTitle :title="$t('page.home.toplist.title')" :desc="$t('page.home.toplist.desc')"></CTitle>
 
+                <q-tabs
+                    v-model="v_tab_toplist"
+                    inline-label
+                    outside-arrows
+                    mobile-arrows
+                    class="bg-primary text-white shadow-2"
+                    @click="onClickToplist"
+                >
+                    <q-tab name="ret" icon="mail" :label="$t('name.price_surge')" />
+                    <q-tab name="yester_ret" icon="alarm" :label="$t('name.yester_ret')" />
+                    <q-tab name="volume" icon="movie" :label="$t('name.volume')" />
+                    <q-tab name="tvz" icon="photo" :label="$t('name.volume_change')" />
+                </q-tabs>
+<!--
                 <q-virtual-scroll
                     :items="v_toplist"
                     virtual-scroll-horizontal
@@ -76,7 +90,7 @@
                         </div>
                     </template>
                 </q-virtual-scroll>
-                                
+-->                                
   <!--
                 <q-toggle v-model="visible" label="Visible image" class="q-mb-md" />
 -->
@@ -126,13 +140,12 @@
                 </q-tabs>              
 
                 <div class="row q-gutter-sm flex">
-                    <CBigLabel style="width:200px;" ref='label_major' title="abc" :onclick="onClickCategory"></CBigLabel>
-                    <CBigLabel ref='label_korean' title="abc" :onclick="onClickCategory"></CBigLabel>                
-                    <CBigLabel ref='label_chinese' title="abc" :onclick="onClickCategory"></CBigLabel>
-                    <CBigLabel ref='label_nft' title="abc" :onclick="onClickCategory"></CBigLabel>
-
-                    <CBigLabel ref='label_defi' title="abc" :onclick="onClickCategory"></CBigLabel>
-                    <CBigLabel ref='label_misc' title="abc" :onclick="onClickCategory"></CBigLabel>
+                    <CBigLabel class="col-4" ref='label_major' title="abc" :onclick="onClickCategory"></CBigLabel>
+                    <CBigLabel class="col-4" ref='label_korean' title="abc" :onclick="onClickCategory"></CBigLabel>                
+                    <CBigLabel class="col-4" ref='label_chinese' title="abc" :onclick="onClickCategory"></CBigLabel>
+                    <CBigLabel class="col-4" ref='label_nft' title="abc" :onclick="onClickCategory"></CBigLabel>
+                    <CBigLabel class="col-4" ref='label_defi' title="abc" :onclick="onClickCategory"></CBigLabel>
+                    <CBigLabel class="col-4" ref='label_misc' title="abc" :onclick="onClickCategory"></CBigLabel>
                 </div>
             </div>
         </div>
@@ -181,7 +194,8 @@ export default {
         v_risk: {
             btc:56, eth:54,
         },
-        v_tab:'upbit',      
+        v_tab:'upbit',     
+        v_tab_toplist:'ret' ,
         v_toplist_visible:false,  
         v_page: {title:this.$t('page.home.title'), desc:''},
         v_subpage: { 
@@ -412,13 +426,12 @@ export default {
             this.$router.push(dic_param);            
         },
 
-        onClickToplist:function(value) {
-            logger.log.debug('onClickToplist - ',value);
+        onClickToplist:function() {
+            logger.log.debug('onClickToplist - ');
             this.v_toplist_visible = true;
 
-            this.updateTopTable(this.g_data_top,'upbit',value); 
+            this.updateTopTable(this.g_data_top,this.v_tab,this.v_tab_toplist); 
             //_this.updateTopTable(_this.g_data_top,_this.v_tab,'ret');
-
         },
 
         onClickEureka: function(link) {

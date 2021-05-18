@@ -1,8 +1,8 @@
 <template>
     <div class="example">     
-        <CTitle ttype='subtitle' title="trend_chart"></CTitle>          
-        <ChartTimeframe period="monthly" :onclick="onClickTimeframe" selected='m6'></ChartTimeframe>
-        <highcharts class="hc" :options="g_chart['chart1']" ref="chart1"></highcharts>
+        <CTitle ttype='subtitle' :title="$t('page.trend.index.title')" :desc="$t('page.trend.index.desc')"></CTitle>          
+        <ChartTimeframe period="monthly" :onclick="onClickTimeframe" :selected='v_timeframe' ref='tfIndex'></ChartTimeframe>
+        <highcharts class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
         
         <q-table
         title=""
@@ -27,9 +27,9 @@
 
         </q-table>
                 
-        <CTitle ttype='subtitle' title="trend_btc_dominance_chart"></CTitle>          
-        <ChartTimeframe period="monthly" :onclick="onClickTimeframe" selected='m6'></ChartTimeframe>
-        <highcharts class="hc" :options="g_chart['chart2']" ref="chart2"></highcharts>
+        <CTitle ttype='subtitle' :title="$t('page.trend.dominance.title')" :desc="$t('page.trend.dominance.desc')"></CTitle>
+        <ChartTimeframe period="monthly" :onclick="onClickTimeframe" :selected='v_timeframe' ref='tfDominance'></ChartTimeframe>
+        <highcharts class="hc box_chart" :options="g_chart['chart2']" ref="chart2"></highcharts>
 
         <q-table
         title=""
@@ -53,9 +53,9 @@
         </q-table>
                         
 
-        <CTitle ttype='subtitle' :title="$t('page.trend.chart.kpremium.title')" :desc="$t('page.trend.chart.kpremium.desc')"></CTitle>
-        <ChartTimeframe period="monthly" :onclick="onClickTimeframe" selected='m6'></ChartTimeframe>
-        <highcharts class="hc" :options="g_chart['chart3']" ref="chart3"></highcharts>
+        <CTitle ttype='subtitle' :title="$t('page.trend.kpremium.title')" :desc="$t('page.trend.kpremium.desc')"></CTitle>
+        <ChartTimeframe period="monthly" :onclick="onClickTimeframe" :selected='v_timeframe' ref='tfKpremium'></ChartTimeframe>
+        <highcharts class="hc box_chart" :options="g_chart['chart3']" ref="chart3"></highcharts>
 
         <q-table
         title=""
@@ -80,14 +80,15 @@
                         
         
 
+        <CTitle ttype='subtitle' :title="$t('page.trend.sector.title')" :desc="$t('page.trend.sector.desc')"></CTitle>
+        
         <q-tabs v-model="v_tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
           <q-tab name="upbit" :label="tab_upbit" @click="onClickTab('upbit')" />
           <q-tab name="bithumb" :label="tab_bithumb" @click="onClickTab('bithumb')" />
         </q-tabs>
 
-        <CTitle ttype='subtitle' :title="$t('chart.trend_sector.title')"></CTitle>   
-        <ChartTimeframe period="monthly" :onclick="onClickTimeframe" selected='m6'></ChartTimeframe>       
-        <highcharts class="hc" :options="g_chart['chart4']" ref="chart4"></highcharts>
+        <ChartTimeframe period="monthly" :onclick="onClickTimeframe" :selected='v_timeframe' ref='tfSector'></ChartTimeframe>       
+        <highcharts class="hc box_chart" :options="g_chart['chart4']" ref="chart4"></highcharts>
 
         <q-table
         title=""
@@ -113,9 +114,9 @@
 
         </q-table>
 
-        <CTitle ttype='subtitle' :title="$t('page.trend.chart.sector_tv.title')"></CTitle>          
-        <ChartTimeframe period="monthly" :onclick="onClickTimeframe" selected='m6'></ChartTimeframe>
-        <highcharts class="hc" :options="g_chart['chart5']" ref="chart5"></highcharts>
+        <CTitle ttype='subtitle' :title="$t('page.trend.sectortv.title')" :desc="$t('page.trend.sectortv.desc')"></CTitle>
+        <ChartTimeframe period="monthly" :onclick="onClickTimeframe" :selected='v_timeframe' ref='tfSectortv'></ChartTimeframe>
+        <highcharts class="hc box_chart" :options="g_chart['chart5']" ref="chart5"></highcharts>
 
         <q-table
         title=""
@@ -151,6 +152,7 @@ import logger from 'src/error/Logger';
 import CTitle from 'components/CTitle';
 import ChartTimeframe from 'components/ChartTimeframe';
 
+
 export default {
     name: 'CTrendChart',
     components: {
@@ -164,6 +166,7 @@ export default {
             g_height: "500",
 
             v_tab:'upbit',
+            v_timeframe:'m6',
             tab_upbit: this.$t('name.upbit'),
             tab_bithumb: this.$t('name.bithumb'),
 
@@ -316,15 +319,18 @@ export default {
         },
 
         updateDominanceTable: function(json_data) {            
-            let dic_column = CommonFunc.getColumnDic( json_data['upbit']['overall'].columns ,[],[]);
+            let dic_column = CommonFunc.getColumnDic( json_data['binance']['overall'].columns ,[],[]);
 
             let data = this.getDominanceData(json_data);
+            
+            //logger.log.debug('dic_column=',dic_column);
+            //logger.log.debug('data=',data);
 
             let items = [];            
             for (let index=0;index<data.tv.length;index++) {
                 
                 let a_item = {
-                    trade_date: json_data.upbit.overall.values[index][dic_column['trade_date']],
+                    trade_date: json_data.binance.overall.values[index][dic_column['trade_date']],
                     //trade_date: CommonFunc.unixToDatetime(data.tv[index].x),
                     ratio_btc: data.ratio_btc[index].y,
                     btc_tv: data.btc_tv[index].y,
@@ -332,7 +338,7 @@ export default {
                 };
                 items.push(a_item);
             }
-            logger.log.debug('items=',items);
+            //logger.log.debug('items=',items);
             this.v_items_dominance = items;
         },
 
@@ -475,6 +481,7 @@ export default {
 
         update: function(json_data) {
             logger.log.debug('CTrendChart.update : =',json_data);
+            this.g_data = json_data;
 
             this.updateIndexChart(json_data);
             this.updateIndexTable(json_data);
@@ -495,16 +502,24 @@ export default {
         onClickTab:function(exchange) {
             console.log('CTrendView.onClick - ',exchange);
 
-            this.updateSectorChart(json_data,exchange,'index_cumsum');
-            this.updateSectorTable('index',json_data,exchange,'index_cumsum');
+            this.updateSectorChart(this.g_data,exchange,'index_cumsum');
+            this.updateSectorTable('index',this.g_data,exchange,'index_cumsum');
 
-            this.updateSectorTVChart(json_data,exchange,'index_tv');
-            this.updateSectorTable('tv',json_data,exchange,'index_tv');
+            this.updateSectorTVChart(this.g_data,exchange,'index_tv');
+            this.updateSectorTable('tv',this.g_data,exchange,'index_tv');
         },
 
-        onClickTimeframe: function(value) {
-            console.log('CTrendView.onClickTimeframe - ',value);
-            this.$parent.onClickTimeframe('trend',value);            
+        onClickTimeframeIndex:function(value) {
+            logger.log.debug('CTrendView.onClickTimeframeIndex - ',value);
+            //this.updateIndexChart(this.g_data);
+            //this.updateIndexTable(this.g_data);
+        },
+
+        onClickTimeframe: function(offset,timeframe) {
+            logger.log.debug('CTrendView.onClickTimeframe - ',timeframe);
+            
+            this.v_timeframe = timeframe;
+            this.$parent.onClickTimeframe('trend',offset);
         },
 
     }

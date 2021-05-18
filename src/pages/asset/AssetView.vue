@@ -47,6 +47,34 @@
             <div class="col">
                 <ChartTimeframe period='all' :onclick="onClickTimeframe" selected='y1'></ChartTimeframe>
                 <CAssetChart ref="assetChart"></CAssetChart>
+
+                <q-toggle v-model="v_visible_table" label="Show Table" class="q-mb-md center" />
+
+                <q-slide-transition>
+                    <div v-show="v_visible_table">
+
+                        <q-table
+                        title=""
+                        :data="v_items"
+                        :columns="v_headers"
+                        row-key="name"
+                        :pagination.sync="v_pagination"
+                        :rows-per-page-options="[20]"
+                        >
+                            <template v-slot:body="props">
+
+                                <q-tr :props="props">
+                                    <q-td key="trade_date" :props="props">{{ props.row.trade_date }}</q-td>
+                                    <q-td key="price" :props="props">{{ Number(props.row.price).toLocaleString() }}</q-td>
+                                    <q-td key="volume" :props="props">{{ Number(props.row.volume).toLocaleString() }}</q-td>
+                                </q-tr>            
+
+                            </template>
+
+                        </q-table>
+                        
+                    </div>
+                </q-slide-transition>                
             </div>            
         </div>
 
@@ -128,7 +156,20 @@ export default {
             g_freq: 'y1',
             g_price: {'price_prev':0, 'price_low':0, 'price_high':0, 'price_open':0, 'price':0, 'volume':0, 'tv':0},    
 
-            v_page: {title:this.$t('page.asset.title'), desc:''}
+            
+            v_page: {title:this.$t('page.asset.title'), desc:''},
+            v_visible_table:false,
+            v_headers: [
+                { name:'trade_date', label: this.$t('name.trade_date'), field: 'trade_date', align:'left', required:true  },
+                { name:'price', label: this.$t('name.price'), field: 'price'},
+                { name:'volume', label: this.$t('name.volume'), field: 'volume'},
+            ],
+            v_pagination: {
+                sortBy: 'trade_date',
+                descending: true,
+            },
+            v_items: [],         
+
         }
     },
 
@@ -150,12 +191,17 @@ export default {
     updated: function() {
         console.log("AssetView.updated - symbol=",this.symbol,this.$route.params);
         
-        this.g_asset = this.$route.params.symbol;
+        if (this.$route.params.symbol) {
+            this.g_asset = this.$route.params.symbol;
+        }
+        
         CommonFunc.setAppData('onSearchEvent',this.onSearchEvent);
     },
     
     methods: {
-        refresh: function(symbol) {
+        refresh: function(symbol,offset=360) {
+            logger.log.debug('Refresh - ',symbol,offset);
+
             if ( (!symbol) || ( (symbol.length)==0 ) ) {
                 return
             }
@@ -168,7 +214,7 @@ export default {
                 let funcs = [
                     _this.loadCommitData(symbol),
                     _this.loadCryptoBaseinfo(symbol),
-                    _this.loadCryptoPriceHistory(symbol)                    
+                    _this.loadCryptoPriceHistory(symbol,offset)                    
                 ];
                 Promise.all(funcs).then(function() {
                     //CommonFunc.getAppData('spinner').hide();
@@ -180,7 +226,7 @@ export default {
 
         },
         
-        updatePriceTable: function(json_data) {
+        updatePriceWiget: function(json_data) {
             logger.log.debug("data=",json_data);
 
             const dic_columns = CommonFunc.getColumnDic(json_data['overall'].columns,[],[]);
@@ -189,10 +235,27 @@ export default {
             this.g_price['price_low'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceLow']],2);
             this.g_price['price_high'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceHigh']],2);
             this.g_price['price_open'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceOpen']],2);
-            this.g_price['volume'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['total_volume_total']],0);
+            this.g_price['volume'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['volume']],0);
             
-            let a_tv = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['total_volume_total']] * json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceClose']];
+            let a_tv = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['volume']] * json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceClose']];
             this.g_price['tv'] = CommonFunc.formatNumber(a_tv,0);
+        },
+
+        updatePriceTable: function(json_data) {            
+            let dic_column = CommonFunc.getColumnDic( json_data['overall'].columns ,[],[]);
+
+            let items = [];            
+            for (let index=0;index<json_data['overall'].values.length;index++) {
+                
+                let a_item = {
+                    trade_date: CommonFunc.safeGetJsonValue(json_data.overall.values,index,dic_column['trade_date']),
+                    price: CommonFunc.safeGetJsonValue(json_data.overall.values,index,dic_column['priceClose']),
+                    volume: CommonFunc.safeGetJsonValue(json_data.overall.values,index,dic_column['volume']),
+                };
+                items.push(a_item);
+            }
+            //logger.log.debug('items=',items);
+            this.v_items = items;
         },
 
         updatePageHeader: function(symbol,json_data) {            
@@ -225,13 +288,16 @@ export default {
         },
 
 
-        loadCryptoPriceHistory: function(symbol) {
+        loadCryptoPriceHistory: function(symbol,offset=360) {
             const _this = this;
 
             return new Promise(function(resolve,reject) {
                 let a_today = CommonFunc.getToday(false);
                 //logger.log.debug("HomeView.loadjw52 - today=",a_today);
-                let a_start_date = CommonFunc.addDays(a_today, -360 );
+                if (offset==0) {
+                    offset = 3000;
+                }
+                let a_start_date = CommonFunc.addDays(a_today, offset*-1 );
                 let a_end_date = CommonFunc.addDays(a_today, 1 );
                 
                 let a_freq = 'd';
@@ -245,6 +311,7 @@ export default {
                     _this.g_data_price = response.data.data;
                     logger.log.debug("AssetView.loadCryptoPriceHistory - response",_this.g_data_price);
                     _this.updatePageHeader(symbol,_this.g_data_price);
+                    _this.updatePriceWiget(_this.g_data_price);
                     _this.updatePriceTable(_this.g_data_price);
                     _this.$refs.assetChart.update(_this.g_data_price);                    
                     resolve();
@@ -274,32 +341,24 @@ export default {
         },
 
 
-        showChart: function(asset,dates,a_date) {
-            console.log('UpbitWinnerView.showChart=',asset);
-            this.$refs.chartWinner.update(this.g_table,asset,dates);
-            this.$refs.momentumTable.update('D',asset,100);
-
-            this.heading = 'Upbit Market Winner - ' + a_date + ' , ' + asset;
-        },
-
         onClickTimeframe: function(offset,timeframe) {
-            console.log('CTrendView.onClickTimeframe - ',offset,timeframe);
+            console.log('AssetView.onClickTimeframe - ',offset,timeframe);
             this.g_freq = timeframe;
-            this.loadCryptoPriceHistory(this.g_symbol);
+            this.refresh(this.g_asset,offset);
         },
 
         onClickExchange:function(value) {
-          console.log('CTopTable.onClick - ',value);
+          console.log('AssetView.onClick - ',value);
           //this.showReportList(this.g_exchange,this.g_sector,value);
         },
 
         onClickSector:function(value) {
-          console.log('CTopTable.onClick - ',value);
+          console.log('AssetView.onClick - ',value);
           //this.showReportList(this.g_exchange,this.g_sector,value);
         },
 
         onClickSectorChart: function(sector) {
-            console.log('CTopTable.onClickSectorChart - ',sector);            
+            console.log('AssetView.onClickSectorChart - ',sector);            
             this.$refs.sectorChart.update(this.g_data,'upbit',sector);
             this.loadSectorAssetData('upbit',sector);
         },
