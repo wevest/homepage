@@ -14,27 +14,27 @@
                 </p>
             </div>
             <div class="col-9">
-                <q-markup-table>
+                <q-markup-table class="price_table">
                     <tbody>
                     <tr>
-                        <td class="text-left"> 
+                        <td> 
                             <span class="price_label">{{ $t('name.price_prev') }}</span>  <span class="price_tag">{{ g_price['price_prev'] }}</span>
                         </td>
-                        <td class="text-left"> 
+                        <td> 
                             <span class="price_label">{{ $t('name.price_high') }}</span> <span class="price_tag">{{ g_price['price_high'] }}</span>
                         </td>
-                        <td class="text-left"> 
+                        <td> 
                             <span class="price_label">{{ $t('name.volume') }}</span> <span class="price_tag price_tag padding1">{{ g_price['volume'] }}</span>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left">
+                        <td>
                             <span class="price_label">{{ $t('name.price_open') }}</span> <span class="price_tag">{{ g_price['price_open'] }}</span>
                         </td>
-                        <td class="text-left">
+                        <td>
                             <span class="price_label">{{ $t('name.price_low') }}</span> <span class="price_tag">{{ g_price['price_low'] }}</span>
                         </td>
-                        <td class="text-left">
+                        <td>
                             <span class="price_label">{{ $t('name.tv') }}</span> 
                             <span class="price_tag">{{ Number(g_price['tv']).toLocaleString() }}</span>
                         </td>
@@ -402,6 +402,14 @@ export default {
 
 .padding1 {
     padding-left: 0.8em;
+}
+
+.price_table {
+    
+}
+
+.price_table td {
+    text-align:left;
 }
 
 </style>

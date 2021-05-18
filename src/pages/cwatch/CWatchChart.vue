@@ -1,10 +1,21 @@
 <template>
     <div class="example">
 
-        <div class="row">
+        <div class="row q-pa-md">
+<!--            
             <q-input outlined v-model="g_field" label="Field" :dense="dense" />
             <q-input outlined v-model="g_thresh" label="Threshold" :dense="dense" />
             <q-btn color="primary" label="Refresh" @click='onClickRefresh' /> 
+-->
+            <span>Change Probability</span>
+            <q-slider
+                v-model="g_thresh"
+                :min="0.9"
+                :max="1.0"
+                :step="0.01"
+                label label-always
+                @change="onChangeProb"
+                color="light-green" />
         </div>
 
         <CTitle ttype='subtitle' :title="$t('page.cwatch.btc.title')" :desc="$t('page.cwatch.btc.desc')"></CTitle>
@@ -24,8 +35,10 @@
                 <q-tr :props="props">
                     <q-td key="utc_trade_date" :props="props">{{ props.row.utc_trade_date }}</q-td>
                     <q-td key="index" :props="props">{{ Number(props.row.index).toLocaleString() }}</q-td>
-                    <q-td key="short" :props="props">{{ Number(props.row.short).toLocaleString() }}</q-td>
-                    <q-td key="long" :props="props">{{ Number(props.row.long).toLocaleString() }}</q-td>
+                    <q-td key="fall" :props="props">{{ Number(props.row.fall).toLocaleString() }}</q-td>
+                    <q-td key="rise" :props="props">{{ Number(props.row.rise).toLocaleString() }}</q-td>
+                    <q-td key="fall_prob" :props="props">{{ Number(props.row.fall_prob).toLocaleString() }}</q-td>
+                    <q-td key="rise_prob" :props="props">{{ Number(props.row.rise_prob).toLocaleString() }}</q-td>
                 </q-tr>            
 
             </template>
@@ -48,8 +61,10 @@
                 <q-tr :props="props">
                     <q-td key="utc_trade_date" :props="props">{{ props.row.utc_trade_date }}</q-td>
                     <q-td key="index" :props="props">{{ Number(props.row.index).toLocaleString() }}</q-td>
-                    <q-td key="short" :props="props">{{ Number(props.row.short).toLocaleString() }}</q-td>
-                    <q-td key="long" :props="props">{{ Number(props.row.long).toLocaleString() }}</q-td>
+                    <q-td key="fall" :props="props">{{ Number(props.row.fall).toLocaleString() }}</q-td>
+                    <q-td key="rise" :props="props">{{ Number(props.row.rise).toLocaleString() }}</q-td>
+                    <q-td key="fall_prob" :props="props">{{ Number(props.row.fall_prob).toLocaleString() }}</q-td>
+                    <q-td key="rise_prob" :props="props">{{ Number(props.row.rise_prob).toLocaleString() }}</q-td>
                 </q-tr>            
 
             </template>
@@ -85,7 +100,7 @@ export default {
             g_period: 200,
             g_height: "500",
             
-            g_thresh: 2, 
+            g_thresh: 0.95, 
             g_field: 'z',
 
             g_chart: {
@@ -97,8 +112,10 @@ export default {
             v_headers: [
                 { name:'utc_trade_date', label: '시간', field: 'utc_trade_date', align:'left', required:true, sortable:true  },
                 { name:'index', label: this.$t('name.index'), field: 'index', sortable:true},
-                { name:'short', label: this.$t('name.short'), field: 'short', sortable:true},
-                { name:'long', label: this.$t('name.long'), field: 'long', sortable:true},
+                { name:'fall', label: this.$t('name.fall'), field: 'fall', sortable:true},
+                { name:'rise', label: this.$t('name.rise'), field: 'rise', sortable:true},
+                { name:'fall_prob', label: this.$t('name.rise_prob'), field: 'fall_prob', sortable:true},
+                { name:'rise_prob', label: this.$t('name.fall_prob'), field: 'rise_prob', sortable:true},
             ],
             v_pagination: {
                 sortBy: 'utc_trade_date',
@@ -113,7 +130,7 @@ export default {
         filterData: function(prices,series,thresh) {
             let items =[];
             for (let index=0;index<series.length;index++) {
-                if (series[index].y>thresh) {
+                if (Math.abs(series[index].y)>thresh) {
                     items.push( prices[index] );
                 }
             }
@@ -130,31 +147,32 @@ export default {
                 let a_item = {
                     utc_trade_date: CommonFunc.safeGetJsonValue(json_data[symbol].values,index,dic_column['utc_trade_date']),
                     index: CommonFunc.safeGetJsonValue(json_data[symbol].values,index,dic_column['priceClose']),
-                    short: CommonFunc.safeGetJsonValue(json_data[symbol].values,index,dic_column['short_usd_z']),
-                    long: CommonFunc.safeGetJsonValue(json_data[symbol].values,index,dic_column['long_usd_z']),
+                    fall: CommonFunc.safeGetJsonValue(json_data[symbol].values,index,dic_column['fall']),
+                    rise: CommonFunc.safeGetJsonValue(json_data[symbol].values,index,dic_column['rise']),
+                    fall_prob: CommonFunc.safeGetJsonValue(json_data[symbol].values,index,dic_column['fall_prob']),
+                    rise_prob: CommonFunc.safeGetJsonValue(json_data[symbol].values,index,dic_column['rise_prob']),
                 };
                 items.push(a_item);
             }
-            //logger.log.debug('items=',items);
+            //logger.log.debug('updateRiskTable.items=',symbol,items);
             this.v_items[symbol] = items;
         },
 
         updateRiskChart: function(chart,json_data,symbol,field,thresh) {
             let data_price = CommonFunc.getChartData(json_data,symbol,'priceClose','utc_trade_date',false,0);
-            let data_risk1 = CommonFunc.getChartData(json_data,symbol,'short_usd_'+field,'utc_trade_date',false,0);
-            let data_risk2 = CommonFunc.getChartData(json_data,symbol,'long_usd_'+field,'utc_trade_date',false,0);
+            let data_risk1 = CommonFunc.getChartData(json_data,symbol,'fall_prob','utc_trade_date',false,0);
+            let data_risk2 = CommonFunc.getChartData(json_data,symbol,'rise_prob','utc_trade_date',false,0);
 
             let data_risk1_thresh = this.filterData(data_price.data,data_risk1.data,thresh);
             let data_risk2_thresh = this.filterData(data_price.data,data_risk2.data,thresh);
             
             //let a_minmax = CommonFunc.getMinMaxExt([data_kimchi.data]);
-
             //console.log("updateRiskChart.data_price=",data_price.data);
 
             let series = [
                 { name: this.$t('name.price'),type: 'line', yAxis:0, data: data_price.data},
-                { name: this.$t('name.short'),type: 'scatter', yAxis:0, data: data_risk1_thresh},
-                { name: this.$t('name.long'),type: 'scatter', yAxis:0, data: data_risk2_thresh},
+                { name: this.$t('name.rise'),type: 'scatter', yAxis:0, data: data_risk1_thresh},
+                { name: this.$t('name.fall'),type: 'scatter', yAxis:0, data: data_risk2_thresh},
             ];
 
             //console.log("updateRiskChart : data_price=",data_price.data);
@@ -203,7 +221,13 @@ export default {
             this.updateOracleChart(json_data,'1H');
         },
 
+
         onClickRefresh: function() {
+            this.updateIndexChart(this.g_data);
+        },
+
+        onChangeProb: function(value) {
+            logger.log.debug('CWatchChart.onChangeProb : =',value);            
             this.updateIndexChart(this.g_data);
         }
     }

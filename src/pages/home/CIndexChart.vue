@@ -13,7 +13,7 @@
 
         </div>
 
-        <q-toggle v-model="v_visible_table" label="Show Table" class="q-mb-md center" />
+        <q-toggle v-model="v_visible_table" label="Show Table" class="q-mb-md flex-center" />
 
         <q-slide-transition>
             <div v-show="v_visible_table">

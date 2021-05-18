@@ -3,13 +3,15 @@
   <div class="q-pa-md">
         <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>
         
-        <div class="row q-gutter-sm flex">
-            <CBigLabel ref='label_btc' title="abc" style="width:24%;" :onclick="onClickTrend"></CBigLabel>
-            <CBigLabel ref='label_binance' title="abc" style="width:24%;" :onclick="onClickTrend"></CBigLabel>
-            <CBigLabel ref='label_upbit' title="abc" style="width:24%;" :onclick="onClickTrend"></CBigLabel>
-            <CBigLabel ref='label_bithumb' title="abc" style="width:24%;" :onclick="onClickTrend"></CBigLabel>
+        <div class="row q-gutter-sm">
+            <CBigLabel ref='label_btc' title="abc" class="col-6" :onclick="onClickTrend"></CBigLabel>
+            <CBigLabel ref='label_binance' title="abc" class="col-6" :onclick="onClickTrend"></CBigLabel>
         </div>
-    
+        <div class="row">
+            <CBigLabel ref='label_upbit' title="abc" class="col-6" :onclick="onClickTrend"></CBigLabel>
+            <CBigLabel ref='label_bithumb' title="abc" class="col-6" :onclick="onClickTrend"></CBigLabel>
+        </div>
+
         <div class="row q-gutter-sm">
             <div class="col">
                 <CTitle ttype='subtitle' :title="$t('page.home.index.title')" :desc="$t('page.home.index.desc')"></CTitle>                

@@ -33,6 +33,11 @@
                 @keyup.enter.native="onSearchEnter"
                 behavior="menu"
             >
+
+              <template v-slot:prepend>
+                <q-icon name="search" @click.stop />
+              </template>
+
               <template v-slot:option="scope">
                 <q-item
                   v-bind="scope.itemProps"
@@ -50,10 +55,6 @@
                 </q-item>
               </template>
 
-              <template v-slot:append>
-                <q-icon name="search" @click.stop />
-              </template>
-
               <template v-slot:no-option>
                 <q-item>
                     <q-item-section class="text-grey">
@@ -63,7 +64,7 @@
               </template>
 
             </q-select>
-            
+
             <q-space/>
             <q-select             
               class="toolbar_language"
