@@ -45,7 +45,8 @@ export default {
     },
     data: function () {
         return {
-            title:'dsfsdfsdfd',
+            title:'',
+            field:null,
             tag:null,
             value:0,
             value_pct_change:0,
@@ -62,6 +63,7 @@ export default {
             //widget[a_exchange]['endVal'] = parseFloat(CommonFunc.formatNumber(a_ret*100,2));
 
             this.title = json_label.title;
+            this.field = json_label.field;
             this.tag = json_label.tag;
             this.value = CommonFunc.formatNumber(json_label.value,2);            
             this.value_pct_change = CommonFunc.formatNumber(json_label.value_pct_change*100,2);
@@ -80,7 +82,7 @@ export default {
                 return;
             }
             
-            this.onclick();
+            this.onclick(this.field);
         }
 
     }

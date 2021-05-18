@@ -1,8 +1,29 @@
 <template>
-  <div class="example">
-    <CTitle ttype='subtitle' :title="$t('chart.sector_index.title')"></CTitle> 
-    <ChartTimeframe period='monthly' :onclick="onClickTimeframe" selected='m6'></ChartTimeframe>
-    <highcharts class="hc" :options="g_chart['chart1']" ref="chart1"></highcharts>
+    <div class="example">
+        <CTitle ttype='subtitle' :title="$t('page.sector.index.title')" :desc="$t('page.sector.index.desc')"></CTitle> 
+        <ChartTimeframe period='monthly' :onclick="onClickTimeframe" selected='m6'></ChartTimeframe>
+        <highcharts class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
+
+        <q-table
+        title=""
+        :data="v_items"
+        :columns="v_headers"
+        row-key="name"
+        :pagination.sync="v_pagination"
+        :rows-per-page-options="[20]"
+        >
+            <template v-slot:body="props">
+
+                <q-tr :props="props">
+                    <q-td key="trade_date" :props="props">{{ props.row.trade_date }}</q-td>
+                    <q-td key="index" :props="props">{{ Number(props.row.index).toLocaleString() }}</q-td>
+                    <q-td key="tv" :props="props">{{ Number(props.row.tv).toLocaleString() }}</q-td>
+                </q-tr>            
+
+            </template>
+
+        </q-table>    
+
     </div>
 
 </template>
@@ -28,20 +49,46 @@ export default {
             g_height: "500",
 
             g_chart: {
-                'chart1': {
-                    series: [],                  
-                },
-                'chart2': {
-                    series: [],                  
-                },
+                'chart1': { series: [],  },
+                'chart2': { series: [],},
             },
+
+            v_headers: [
+                { name:'trade_date', label: '시간', field: 'trade_date', align:'left', sortable:true  },
+                { name:'index', label: this.$t('name.index'), field: 'index'},
+                { name:'tv', label: this.$t('name.tv'), field: 'tv'},
+            ],
+            v_items: [],         
+            v_pagination: {
+                sortBy: 'trade_date',
+                descending: true,
+            },
+
 
         }
     },
 
     methods: {
   
-        updateCategoryChart: function(json_data,exchange,category,title) {
+
+        updateCategoryTable: function(json_data,exchange,category) {            
+            let dic_column = CommonFunc.getColumnDic( json_data[exchange][category].columns ,[],[]);
+
+            let items = [];            
+            for (let index=0;index<json_data[exchange][category].values.length;index++) {
+                
+                let a_item = {
+                    trade_date: CommonFunc.safeGetJsonValue(json_data[exchange][category].values,index,dic_column['trade_date']),
+                    index: CommonFunc.safeGetJsonValue(json_data[exchange][category].values,index,dic_column['index_cumsum']),
+                    tv: CommonFunc.safeGetJsonValue(json_data[exchange][category].values,index,dic_column['index_tv']),
+                };
+                items.push(a_item);
+            }
+            logger.log.debug('items=',items);
+            this.v_items = items;
+        },
+
+        updateCategoryChart: function(json_data,exchange,category) {
             let data_index = CommonFunc.getChartData(json_data[exchange],category,'index_cumsum','trade_date',false,0);
             let data_category = CommonFunc.getChartData(json_data[exchange],'overall','index_cumsum','trade_date',false);
             let data_tv = CommonFunc.getChartData(json_data[exchange],category,'index_tv','trade_date',false,0);
@@ -62,11 +109,12 @@ export default {
         update: function(json_data,exchange,category) {
             logger.log.debug('CSectorChart.update : =',category,json_data);
 
-            this.updateCategoryChart(json_data,exchange,category,'Index vs '+category);            
+            this.updateCategoryChart(json_data,exchange,category);
+            this.updateCategoryTable(json_data,exchange,category);
         },
 
-        onClickTimeframe: function(value) {
-            this.$parent.onClickChartTimeframe(value);
+        onClickTimeframe: function(offset,timeframe) {
+            this.$parent.onClickChartTimeframe(offset);
         }
     }
   }

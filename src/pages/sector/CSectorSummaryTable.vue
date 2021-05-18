@@ -110,7 +110,7 @@ export default {
         },
 
         update: function(data,exchange) {
-            console.log('CSectorTable.update - ',data);
+            console.log('CSectorTable.update - ',exchange,data);
             this.g_data = data;
             
             this.showReportList(data,exchange);

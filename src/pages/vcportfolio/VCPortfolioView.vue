@@ -67,7 +67,7 @@
             </div>      
         </div>
 
-        <q-dialog v-model="v_dialog" persistent transition-show="scale" transition-hide="scale">
+        <q-dialog v-model="v_dialog" persistent position="bottom">
             <q-card class="bg-teal text-white" style="width: 300px">
                 <q-card-section>
                     <div class="text-h6">{{v_cryptovc.name}}</div>
@@ -76,11 +76,12 @@
                 <q-card-section class="q-pt-none">
 
                     <div class="row q-gutter-md">
-                        <div class="col-6 col-md">
-                            <CBigLabel ref='label_roi' title="abc"></CBigLabel>
+                        <div class="col-3 col-md">
+                            <h6>{{ Number(v_cryptovc.avg_roi).toLocaleString() }}</h6>
+                            <a :href="v_cryptovc.homepage" target="_blank">{{ v_cryptovc.homepage}}</a>
                         </div>
-                        <div class="col-6 col-md">
-                            <CBigLabel ref='label_total' title="abc"></CBigLabel>
+                        <div class="col-9 col-md">
+                            <q-input type="textarea" :value="v_cryptovc.description"  />
                         </div>
                     </div>
             
@@ -129,6 +130,8 @@ export default {
   data: function () {
     return {
         g_data: '',
+        g_data_vc:null,
+
         g_items: [{'name':'test', 'description':'afadsfsfasfsdfsdf'}],
 
         g_chart: {
@@ -139,7 +142,7 @@ export default {
         v_page: {title: this.$t('page.vcportfolio.title'), desc:'' },
 
         v_tab:'portfolio',
-        v_cryptovc:{name:'asd', desc:'asd'},
+        v_cryptovc:{name:'asd', description:'asd', homepage:'', avg_roi:''},
         v_dialog: false,
 
         headers: [
@@ -175,7 +178,8 @@ export default {
             const _this = this;
         
             LoadingBar.start();
-            let funcs = [            
+            let funcs = [           
+                this.loadCryptovcData(),
                 this.loadCryptovcPortfolioData(),            
             ];
             Promise.all(funcs).then(function() {
@@ -229,32 +233,18 @@ export default {
             });            
         },
 
-        
-
-        updateVCChart: function(data) {
-
-            let dic_columns = CommonFunc.getColumnDic(data.columns,[],[]);
-            let items = [];
-            for (let index=0;index<data.values.length;index++) {
-                items.push( [data.values[index][dic_columns['name']],data.values[index][dic_columns['avg_roi']]] ); ;
-            }
-
-            let series = [
-                { name: this.$t('name.investor'),type: 'bar', yAxis:0, data: items,
-                    dataLabels: { 
-                       enabled: true, rotation: -90,format: '{point.y:.0f}', y: 10,
-                    }
-                },
-            ];
-
-            //console.log("updateVCChart : data=",items);
-
-            let a_option = CommonFunc.getChartOption(series);
-            a_option.xAxis.type = 'category';
-            a_option.xAxis.labels = {rotation: -90};
-            a_option.legend = { enabled:false };
-            //a_option.yAxis[1] = {mshow:true, opposite:true, gridLineWidth:0};
-            this.g_chart['chart1'] = a_option;
+        loadCryptovcData: function() {
+            const _this = this;
+            return new Promise(function(resolve,reject) {
+                MoaBackendAPI.getCryptovcData({},function(response) {
+                    _this.g_data_vc = response.data.data;
+                    logger.log.debug("VCPortfolioView.loadCryptovcData - response",_this.g_data_vc);
+                    resolve();
+                },function(err) {
+                    logger.log.error("VCPortfolio.loadCryptovcData - error",err);
+                    reject();
+                });
+            });            
         },
 
         updatePortfolioTitle: function(vc) {
@@ -266,6 +256,33 @@ export default {
           let dic_param = { name:'asset', params:{ symbol:symbol } };
           this.$router.push(dic_param);
         },
+
+        showCryptovc: function(vc) {
+            logger.log.debug('showCryptovc - ',vc);
+
+            let found_vc = null;
+            let dic_columns = CommonFunc.getColumnDic(this.g_data_vc.columns,[],[]);
+            for (let index=0;index<this.g_data_vc.values.length;index++ ) {
+                if (this.g_data_vc.values[index][dic_columns['name']]==vc) {
+                    found_vc = this.g_data_vc.values[index];
+                    break;
+                }
+            }
+
+            if (! found_vc) {
+                return;
+            }
+
+            this.v_cryptovc = {
+                name: vc, 
+                homepage:found_vc[dic_columns['homepage']],
+                description:found_vc[dic_columns['description']],
+                avg_roi:found_vc[dic_columns['avg_roi']],
+            };
+            this.v_dialog = true;
+        },
+
+
 
         onLoad: function(progress) {
             logger.log.debug('onLoad - ',progress);
@@ -279,7 +296,7 @@ export default {
 
         onClickVC: function(vc) {
             logger.log.debug('VCPortfolioView.onClickVC - ',vc,this.$refs);
-            //this.updatePortfolioTitle(vc);
+            this.showCryptovc(vc);
             //this.v_tab = 'v_tab';
             //this.$refs.vcportTable.update(vc);
         }

@@ -19,8 +19,8 @@
         
         <div class="row">
             <div class="col">
-                <CTitle ttype='subtitle' title="시장강도"></CTitle>
-                <highcharts class="hc" height="600" :options="g_chart['chart1']" ref="chart1"></highcharts>
+                <CTitle ttype='subtitle' :title="$t('page.cryptovc.roi.title')"  :desc="$t('page.cryptovc.roi.desc')"></CTitle>
+                <highcharts class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
             </div>
         </div>
 
@@ -42,7 +42,7 @@
                             <q-td key="name" :props="props">
                                 <a href="#" @click="onClickVC(props.row.name)">{{ props.row.name }}</a>
                             </q-td>
-                            <q-td key="avg_roi" :props="props">{{ Number(props.row.avg_roi).toLocaleString() }}</q-td>
+                            <q-td key="avg_roi" class="text-red text-weight-bolder" :props="props">{{ Number(props.row.avg_roi).toLocaleString() }}</q-td>
                             <q-td key="total_ret" :props="props">{{ Number(props.row.total_ret).toLocaleString() }}</q-td>
                             <q-td key="homepage" :props="props">
                                 <a :href="props.row.homepage" target="_blank"> {{ props.row.homepage }}</a>
@@ -104,7 +104,7 @@ export default {
         },
         
         v_page: {title:this.$t('page.cryptovc.title'), desc:''},
-        v_portfolio: {title:this.$t('name.cryptovc'), desc:''},
+        v_portfolio: {title:this.$t('page.cryptovc.portfolio.title'), desc:''},
 
         headers: [
             { name:'rank', label: this.$t('name.rank'), field: 'rank', sortable:true },
@@ -115,8 +115,8 @@ export default {
             { name:'total_ret', label: this.$t('name.total_return')+'(%)', sortable:true, field: 'total_ret',
               format: (val, row) => `${Number(val).toLocaleString()}`,
             },
-            { name:'homepage', label: this.$t('name.homepage'), field: 'homepage'},
-            { name:'description', label: this.$t('name.description'), field: 'description'},
+            { name:'homepage', label: this.$t('name.homepage'), align:'left', field: 'homepage'},
+            { name:'description', label: this.$t('name.description'), align:'left', field: 'description'},
         ],
 
         items: [],

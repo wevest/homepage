@@ -537,14 +537,14 @@ export default class CommonFunc {
     }
 
 
-    static navAuthor(a_this,author) {
-        logger.log.debug("CommonFunc.navAuthor - ",author);
+    
+    static navAsset(a_this,symbol) {
+        logger.log.debug("CommonFunc.navAsset - ",symbol);
 
-        CommonFunc.setAppData('selected_author',author);
-
-        let dic_param = {name:'analyst', params:{ param_author:author }};
+        //CommonFunc.setAppData('selected_author',author);
+        let dic_param = { name:'asset', path:'asset', params:{ symbol:symbol } };
         a_this.$router.push(dic_param);
-    }
+      }
 
     static navInstrument(a_this,asset) {
         logger.log.debug("CommonFunc.navInstrument - ",asset);
@@ -867,7 +867,7 @@ export default class CommonFunc {
         return heading;
     }
 
-    static getChartData(json_data,a_asset,column='',column_date='trade_date',is_float=true,dtype=0) {
+    static getChartData(json_data,a_asset,column='',column_date='trade_date',is_float=true,dtype=0,idecimal=3) {
                 
         let data_price = [];
         let values = [];
@@ -887,7 +887,7 @@ export default class CommonFunc {
                 a_value = a_value - 0.5;
             }
             
-            a_value = CommonFunc.round(a_value,3);
+            a_value = CommonFunc.round(a_value,idecimal);
 
             if (dtype==2) {
                 if (a_value==0) {
@@ -1079,6 +1079,13 @@ export default class CommonFunc {
             items.push(a_item);
         }
         return items;
+    }
+
+    static safeGetJsonValue(data,row_index,col_index) {
+        if (row_index>=data.length) {
+            return null;
+        }
+        return data[row_index][col_index];
     }
 
 }

@@ -14,12 +14,7 @@ const routes = [
       //research menus
       { name:'cryptovc', path: 'cryptovc', component: () => import('pages/cryptovc/CryptovcView.vue') },
       { name: 'vcportfolio', path: 'vcportfolio', component: () => import('pages/vcportfolio/VCPortfolioView.vue') },
-
-      //kstock menus
-      { path: 'kbeater', component: () => import('pages/kbeater/BeaterView.vue') },
-      { path: 'kinstrument', component: () => import('pages/instrument/InstrumentView.vue') },
-      { path: 'wkospi', component: () => import('pages/kstockw/WeeklyView.vue') },
-      { path: 'dkospi', component: () => import('pages/kstockd/DailyView.vue') },
+      { name: 'oracle', path: 'oracle', component: () => import('pages/oracle/COracleView.vue') },
     ],    
   },
 
