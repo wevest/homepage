@@ -38,6 +38,7 @@ import { CONST } from 'src/data/const';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import MoaBackendAPI from 'src/services/apiService';
+import DataService from 'src/services/dataService';
 import { LoadingBar } from 'quasar';
 
 import CTitle from 'components/CTitle';
@@ -90,7 +91,7 @@ export default {
             let funcs = [            
                 //this.loadCalendarEffectData('1h'),
                 this.loadCryptoWatchData(),
-                this.loadCryptoOracleData(30),
+                //this.loadCryptoOracleData(30),
             ];
             Promise.all(funcs).then(function() {
                 LoadingBar.stop();
@@ -102,6 +103,14 @@ export default {
         loadCryptoWatchData: function(ioffset=30) {
             const _this = this;
 
+            DataService.loadCryptoWatchData(ioffset).then(function(data) {
+                _this.g_data = data;
+                _this.updatePageHeader(_this.g_data);
+                _this.updateWidget(_this.g_data);
+                _this.updateCwatchChart(_this.g_data);
+            });
+
+/*
             return new Promise(function(resolve,reject) {
                 let a_today = CommonFunc.getToday(false);
                 //logger.log.debug("HomeView.loadjw52 - today=",a_today);
@@ -127,7 +136,8 @@ export default {
                     logger.log.error("HomeView.loadOverviewData - error",err);
                     reject();
                 });
-            });            
+            });           
+*/             
         },
         
 

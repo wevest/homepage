@@ -23,37 +23,26 @@
             <div class="col">
                 <CTitle ttype='subtitle' :title="v_subpage.cwatch.title" :desc="v_subpage.cwatch.desc"></CTitle>
                  <div class="q-pa-md flex flex-center">
-                    <div class="col-4">
+                    <div class="col-6" @click="onClickKnob">
                         <span>BTC</span>
                         <q-knob
-                            show-value font-size="16px" class="text-red q-ma-md"
-                            v-model="v_risk.btc" size="60px" :thickness="0.05"
-                            color="red" track-color="grey-3"
-                        >
+                            show-value readonly font-size="16px" class="text-red q-ma-md"
+                            :min="0" :max="10"
+                            v-model="v_risk.btc.value" size="80px" :thickness="0.05"                            
+                            :color="v_risk.btc.color" track-color="grey-3">
                             <q-icon name="volume_up" class="q-mr-xs" />
-                            {{ v_risk.btc }}
+                            {{ v_risk.btc.value }}
                         </q-knob>
                     </div>
-                    <div class="col-4">
-                        <span>BTC</span>
+                    <div class="col-6" @click="onClickKnob">
+                        <span>ETH</span>
                         <q-knob
-                            show-value font-size="16px" class="text-red q-ma-md"
-                            v-model="v_risk.btc" size="60px" :thickness="0.05"
-                            color="red" track-color="grey-3"
-                        >
+                            show-value readonly font-size="16px" class="text-red q-ma-md"
+                            :min="0" :max="10"
+                            v-model="v_risk.eth.value" size="80px" :thickness="0.05"                            
+                            :color="v_risk.eth.color" track-color="grey-3">
                             <q-icon name="volume_up" class="q-mr-xs" />
-                            {{ v_risk.btc }}
-                        </q-knob>
-                    </div>
-                    <div class="col-4">
-                        <span>KPremium</span>
-                        <q-knob
-                            show-value font-size="16px" class="text-red q-ma-md"
-                            v-model="v_risk.btc" size="60px" :thickness="0.05"
-                            color="red" track-color="grey-3"
-                        >
-                            <q-icon name="volume_up" class="q-mr-xs" />
-                            {{ v_risk.btc }}
+                            {{ v_risk.eth.value }}
                         </q-knob>
                     </div>
                 </div>
@@ -64,6 +53,7 @@
             <div class="col">
                 <CTitle :title="$t('page.home.toplist.title')" :desc="$t('page.home.toplist.desc')"></CTitle>
 
+<!--
                 <q-tabs
                     v-model="v_tab_toplist"
                     inline-label
@@ -77,7 +67,8 @@
                     <q-tab name="volume" icon="movie" :label="$t('name.volume')" />
                     <q-tab name="tvz" icon="photo" :label="$t('name.volume_change')" />
                 </q-tabs>
-<!--
+-->                
+
                 <q-virtual-scroll
                     :items="v_toplist"
                     virtual-scroll-horizontal
@@ -92,7 +83,7 @@
                         </div>
                     </template>
                 </q-virtual-scroll>
--->                                
+
   <!--
                 <q-toggle v-model="visible" label="Visible image" class="q-mb-md" />
 -->
@@ -101,7 +92,6 @@
                         <CTopTable ref="exchangeTop"></CTopTable>                        
                     </div>
                 </q-slide-transition>
-  
                                                 
             </div>
         </div>
@@ -169,10 +159,9 @@ import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import MoaBackendAPI from 'src/services/apiService';
+import DataService from 'src/services/dataService';
 import { LoadingBar } from 'quasar';
 
-import { scroll } from 'quasar';
-const { getScrollTarget, setScrollPosition } = scroll;
 
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
@@ -193,8 +182,11 @@ export default {
 
   data: function () {
     return {
+        g_data_watch: null,
+
         v_risk: {
-            btc:56, eth:54,
+            btc: {value:56, color:'red'},
+            eth: {value:56, color:'red'},
         },
         v_tab:'upbit',     
         v_tab_toplist:'ret' ,
@@ -234,6 +226,37 @@ export default {
             this.v_page.desc = watch_date;
         },
 
+        getWatchValueAndColor: function(value) {
+            let a_value = Math.round(value*100) - 90;
+            let a_color="green";
+
+            if (a_value<0) {
+                a_value = 1;
+                a_color = "green";
+            } else if (a_value>5) {
+                a_color = "red";
+            }
+            return {value:a_value, color:a_color};
+        },
+
+        updateAlert: function(data) {
+            logger.log.debug('updteAlert - ',data);
+            this.g_data_watch = data;
+
+            let dic_columns = CommonFunc.getColumnDic(data['BTC'].columns,[],[]);            
+            this.v_subpage.cwatch.desc = 'UTC ' + data['BTC'].values[data['BTC'].values.length-1][dic_columns['utc_trade_date']];
+
+            let btc_value = this.getWatchValueAndColor(data['BTC'].values[data['BTC'].values.length-1][dic_columns['rise_prob']]);
+            this.v_risk.btc.value = btc_value.value;
+            this.v_risk.btc.color = btc_value.color;
+
+            logger.log.debug('updteAlert - ',btc_value);
+
+            let eth_value = this.getWatchValueAndColor(data['ETH'].values[data['ETH'].values.length-1][dic_columns['rise_prob']]);
+            this.v_risk.eth.value = eth_value.value;
+            this.v_risk.eth.color = eth_value.color;
+        },
+
         refresh: function() {
             const _this = this;
         
@@ -241,7 +264,10 @@ export default {
             let funcs = [            
                 //this.loadCalendarEffectData('1h'),
                 this.loadIndexData(),
-                this.loadCryptoTopAssetData('1h')
+                this.loadCryptoTopAssetData('1h'),
+                DataService.loadCryptoWatchData(30).then(function(data) {
+                    _this.updateAlert(data);
+                }),
             ];
             Promise.all(funcs).then(function() {
                 LoadingBar.stop();
@@ -428,11 +454,11 @@ export default {
             this.$router.push(dic_param);            
         },
 
-        onClickToplist:function() {
+        onClickToplist:function(value) {
             logger.log.debug('onClickToplist - ');
             this.v_toplist_visible = true;
 
-            this.updateTopTable(this.g_data_top,this.v_tab,this.v_tab_toplist); 
+            this.updateTopTable(this.g_data_top,this.v_tab,value); 
             //_this.updateTopTable(_this.g_data_top,_this.v_tab,'ret');
         },
 
@@ -446,6 +472,12 @@ export default {
         onClickTabCategory: function(exchange) {
             logger.log.debug('onClickTabCategory - ',exchange);
             this.updateExchangeWidget(this.g_data,this.v_tab);
+        },
+
+        onClickKnob: function() {
+            logger.log.debug('onClickKnob');
+            let dic_param = { name:'cwatch', path:'cwatch', params:{} };
+            this.$router.push(dic_param);            
         },
 
     }

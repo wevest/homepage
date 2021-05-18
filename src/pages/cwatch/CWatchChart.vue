@@ -71,9 +71,10 @@
 
         </q-table>
 
+<!--
         <CTitle ttype='subtitle' :title="$t('chart.home_tick.title')" :desc="$t('chart.home_tick.desc')"></CTitle>
         <highcharts class="hc box_chart" :options="g_chart['chart3']" ref="chart3"></highcharts>
-
+-->
     </div>
 
 </template>

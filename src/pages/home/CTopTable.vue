@@ -8,7 +8,7 @@
 
     <q-table      
       title=""
-      class="my-sticky-header-column-table"
+      class="sticky-column-table"
       :data="items"
       :columns="headers"
       row-key="name"
@@ -17,10 +17,10 @@
       <template v-slot:body="props">
 
         <q-tr :props="props">
-          <q-td key="rank" :props="props">{{ props.row.rank }}</q-td>
           <q-td key="asset" :props="props">
             <a href="#" @click="onClickAsset(props.row.asset)">{{ props.row.asset }}</a>
           </q-td>
+          <q-td key="rank" :props="props">{{ props.row.rank }}</q-td>
           <q-td key="price" :props="props">{{ Number(props.row.price).toLocaleString() }}</q-td>
           <q-td key="volume" :props="props">{{ Number(props.row.volume).toLocaleString() }}</q-td>
           <q-td key="price_ret" :props="props" :class="(props.row.price_ret>0)?'text-red':'text-green'">
@@ -57,8 +57,8 @@ export default {
         g_sector: null,
 
         headers: [
+            { name:'asset', label: '코인', field: 'asset', required:true },          
             { name:'rank', label: '순위', field: 'rank', required:true  },
-            { name:'asset', label: '코인', field: 'asset', required:true },
             { name:'price', label: '가격', field: 'price',
               format: (val, row) => `${Number(val).toLocaleString()}`, 
             },
@@ -135,43 +135,6 @@ export default {
 }
 </script>
 
+
 <style lang="sass">
-.my-sticky-header-column-table
-  /* height or max-height is important */
-  /* height: 310px */
-
-  /* specifying max-width so the example can
-    highlight the sticky column on any browser window */
-  /* max-width: 600px */
-
-  td:first-child
-    /* bg color is important for td; just specify one */
-    background-color: #c1f4cd !important
-
-  tr th
-    position: sticky
-    /* higher than z-index for td below */
-    z-index: 2
-    /* bg color is important; just specify one */
-    background: #fff
-
-  /* this will be the loading indicator */
-  thead tr:last-child th
-    /* height of all previous header rows */
-    top: 48px
-    /* highest z-index */
-    z-index: 3
-  thead tr:first-child th
-    top: 0
-    z-index: 1
-  tr:first-child th:first-child
-    /* highest z-index */
-    z-index: 3
-
-  td:first-child
-    z-index: 1
-
-  td:first-child, th:first-child
-    position: sticky
-    left: 0
 </style>

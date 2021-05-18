@@ -100,14 +100,6 @@ const linksMenu = [
         level: 1,
         children: []        
       },
-      {
-        title: 'Oracle',
-        caption: 'Oracle',
-        icon: '',
-        link: '#/oracle',
-        level: 1,
-        children: []        
-      }
     ]
   }
 ];

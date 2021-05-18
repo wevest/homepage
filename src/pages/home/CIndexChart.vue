@@ -7,20 +7,17 @@
 -->        
 
         
-        <div>
-            
-            <highcharts class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
+        <highcharts class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
 
-        </div>
-
-        <q-toggle v-model="v_visible_table" label="Show Table" class="q-mb-md flex-center" />
+        <q-toggle v-model="v_visible_table" label="Show Table" class="q-mb-md center" />
 
         <q-slide-transition>
             <div v-show="v_visible_table">
 
                 <q-table
                 title=""
-                hide-bottom
+                class="sticky-column-table"
+                hide-bottom desnse
                 :data="v_items"
                 :columns="v_headers"
                 row-key="name"
