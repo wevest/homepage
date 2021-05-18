@@ -1,8 +1,7 @@
 <template>
 
-  <div class="q-pa-md">
     <div class="row">
-      <div class="col">
+      <div class="col q-gutter-sm">
 
           <q-tabs v-model="tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
             <q-tab name="intro" :label="$t('name.intro')" @click="onClickTab('intro')" />
@@ -65,6 +64,34 @@
 
             <q-tab-panel name="investor">
 
+              <q-table
+                title=""
+                class="sticky-column-table"
+                hide-bottom
+                :data="v_items_vc"
+                :columns="v_headers_vc"
+                row-key="name"
+                :rows-per-page-options="[50]"
+                >
+                    <template v-slot:body="props">
+
+                        <q-tr :props="props">
+                            <q-td key="name" :props="props">
+                                <a href="#" @click="onClickVC(props.row.name)">{{ props.row.name }}</a>
+                            </q-td>
+                            <q-td key="avg_roi" class="text-red text-weight-bolder" :props="props">{{ Number(props.row.avg_roi).toLocaleString() }}</q-td>
+                            <q-td key="total_ret" :props="props">{{ Number(props.row.total_ret).toLocaleString() }}</q-td>
+                            <q-td key="homepage" :props="props">
+                                <a :href="props.row.homepage" target="_blank"> {{ props.row.homepage }}</a>
+                            </q-td>
+                            <q-td key="description" :props="props">{{ props.row.description }}</q-td>
+                        </q-tr>            
+
+                    </template>
+
+                </q-table>
+
+<!--
               <q-markup-table>
                 <thead>
                   <tr class="investor">
@@ -89,7 +116,7 @@
                   </tr>
                 </tbody>
               </q-markup-table>
-
+-->
             </q-tab-panel>
 
             <q-tab-panel name="development">
@@ -163,11 +190,8 @@
 
           </q-tab-panels>
 
-
       </div>
     </div>
-
-  </div>
 
 </template>
 
@@ -206,6 +230,21 @@ export default {
         items_info: [],
         items_price: [],
         items2: [],
+
+
+        v_headers_vc: [
+            { name:'name', label: this.$t('name.name'), field: 'name' },
+            { name:'avg_roi', label: this.$t('name.roi')+'(%)', sortable:true,  field: 'avg_roi' ,
+              format: (val, row) => `${Number(val).toLocaleString()}`, 
+            },
+            { name:'total_ret', label: this.$t('name.total_return')+'(%)', sortable:true, field: 'total_ret',
+              format: (val, row) => `${Number(val).toLocaleString()}`,
+            },
+            { name:'homepage', label: this.$t('name.homepage'), align:'left', field: 'homepage'},
+            { name:'description', label: this.$t('name.description'), align:'left', field: 'description'},
+        ],
+
+        v_items_vc: [],        
       }
     },
 
@@ -215,14 +254,39 @@ export default {
           return a_value;
         },
 
+        filterVCData: function(items,column,vcs) {
+          let new_items = [];
+          let cryptovc = vcs.split(',');
+          if (cryptovc.length==0) {
+            return new_items;
+          }
+
+          for (let index=0;index<items.length;index++) {
+            if (cryptovc.includes(items[index][column])) {
+              new_items.push(items[index]);
+            }
+          }
+          return new_items;
+        },
+
+
         updateTable: function(data_base,data_vc) {
             const dic_columns = CommonFunc.getColumnDic(data_base.columns,[],[]);
             const dic_columns_vc = CommonFunc.getColumnDic(data_vc.columns,[],[]);
-            logger.log.debug('items=',dic_columns);
+            let a_vc = data_base['values'][0][dic_columns['cryptovc']];
+            logger.log.debug('items=',a_vc, dic_columns,);
 
             this.g_symbol = data_base['values'][0][dic_columns['symbol']];
             this.g_description = data_base['values'][0][dic_columns['description']];
 
+            let items = CommonFunc.formatArrayToJson(data_vc);
+            let items_vc = this.filterVCData(items,'name',a_vc);
+            this.v_items_vc = items_vc;
+
+
+            this.updateInfoTable(data_base);
+
+/*
             let items = [];
             for (let index=0;index<data_vc['values'].length;index++) {
               let a_item = {};
@@ -235,8 +299,9 @@ export default {
             this.items = items;
             logger.log.debug('items=',items);
 
-            this.updateInfoTable(data_base);
-            //this.items = items;
+            //this.items = items;            
+*/
+            
         },
 
 
@@ -333,9 +398,15 @@ export default {
         },
 
         onClickTab:function(value) {
-          console.log('CAssetInfo.onClick - ',value);
+          logger.log.debug('CAssetInfo.onClick - ',value);
           //this.updateTable(this.g_data,value);
           //this.loadGithubData(this.g_data);
+        },
+
+        onClickVC: function(vc) {
+          logger.log.debug('CAssetInfo.onClick - ',vc);
+          let dic_param = { name:'cryptovc', params:{} };
+          this.$router.push(dic_param);
         }
     }
 }

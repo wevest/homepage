@@ -6,6 +6,7 @@
 
         <q-table
         title=""
+        class="sticky-column-table"
         :data="v_items"
         :columns="v_headers"
         row-key="name"

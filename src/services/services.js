@@ -111,22 +111,4 @@ export default class Services{
 
     }
 
-    static loadCryptovcData() {
-            
-        return new Promise(function(resolve,reject) {        
-
-            let dic_param = {};
-            MoaBackendAPI.getCryptovcData(dic_param,function(response) {
-                let g_data = response.data.data;
-                //CommonFunc.setAppData('winnerData',g_data);
-                logger.log.debug("Services.loadCryptovcData - response",g_data);                
-                resolve(g_data);
-
-            },function(err) {
-                logger.log.error("Services.loadCryptovcData - error",err);
-                reject();
-            });
-        });
-
-    }
 }

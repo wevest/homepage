@@ -55,6 +55,7 @@
 
                         <q-table
                         title=""
+                        class="sticky-column-table"
                         :data="v_items"
                         :columns="v_headers"
                         row-key="name"
@@ -125,7 +126,7 @@
 <script>
 import CommonFunc from 'src/util/CommonFunc';
 import MoaBackendAPI from 'src/services/apiService';
-import Services from 'src/services/services';
+import DataService from 'src/services/dataService';
 import logger from "src/error/Logger";
 
 import CTitle from 'components/CTitle';
@@ -207,7 +208,7 @@ export default {
             }
 
             const _this = this;
-            Services.loadCryptovcData().then(function(json_data) {
+            DataService.loadCryptovcData().then(function(json_data) {
                 _this.g_vc = json_data;
                 logger.log.debug('vc=',_this.g_vc);
 

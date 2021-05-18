@@ -4,6 +4,7 @@
       <div class="col">
         <q-table          
           title=""
+          class="sticky-column-table"
           :data="items"
           :columns="headers"
           row-key="name"

@@ -24,6 +24,7 @@
 
         <q-table
         title=""
+        class="sticky-column-table"
         row-key="name"        
         :data="v_items.BTC"
         :columns="v_headers"
@@ -50,6 +51,7 @@
 
         <q-table
         title=""
+        class="sticky-column-table"
         row-key="name"        
         :data="v_items.ETH"
         :columns="v_headers"

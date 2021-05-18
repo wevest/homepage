@@ -3,12 +3,12 @@
         <CTitle ttype='subtitle' :title="$t('page.trend.index.title')" :desc="$t('page.trend.index.desc')"></CTitle>          
         <div class="row">
             <ChartTimeframe period="monthly" :onclick="onClickTimeframe" :selected='v_timeframe' ref='tfIndex'></ChartTimeframe>
-            <q-btn>test</q-btn>
         </div>
         <highcharts class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
         
         <q-table
         title=""
+        class="sticky-column-table"        
         :data="v_items_index"
         :columns="v_headers_index"
         row-key="name"
@@ -36,6 +36,7 @@
 
         <q-table
         title=""
+        class="sticky-column-table"
         :data="v_items_dominance"
         :columns="v_headers_dominance"
         row-key="name"
@@ -62,6 +63,7 @@
 
         <q-table
         title=""
+        class="sticky-column-table"
         :data="v_items_kpremium"
         :columns="v_headers_kpremium"
         row-key="name"
@@ -95,6 +97,7 @@
 
         <q-table
         title=""
+        class="sticky-column-table"
         :data="v_items_sector"
         :columns="v_headers_sector"
         row-key="name"
@@ -123,6 +126,7 @@
 
         <q-table
         title=""
+        class="sticky-column-table"
         :data="v_items_sectortv"
         :columns="v_headers_sectortv"
         row-key="name"

@@ -21,7 +21,7 @@
 
         <CTitle ttype='title' :title="v_page['title']" :desc="v_page['desc']" ></CTitle>          
 
-        <div class="row q-pa-md flex flex-center">
+        <div class="row">
             <div class="col-3" v-for="(a_item,index) in v_risk">
                 <span>{{ a_item.label }}</span><br>
                 <q-knob
