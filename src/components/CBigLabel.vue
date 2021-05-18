@@ -12,7 +12,7 @@
             <q-badge :color="badge_color" class="badge text-black" v-if="tag">
                 <q-icon
                     name="warning"
-                    size="24px"
+                    size="14px"
                     class="q-ml-xs"
                 />&nbsp;          
                 {{tag}}
