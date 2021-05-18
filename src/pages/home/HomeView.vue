@@ -4,12 +4,20 @@
         <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>
         
         <div class="row q-gutter-sm">
-            <CBigLabel ref='label_btc' title="abc" class="col-6" :onclick="onClickTrend"></CBigLabel>
-            <CBigLabel ref='label_binance' title="abc" class="col-6" :onclick="onClickTrend"></CBigLabel>
+            <span class="col q-gutter-sm">
+            <CBigLabel ref='label_btc' title="abc" :onclick="onClickTrend"></CBigLabel>
+            </span>
+            <span class="col q-gutter-sm">
+            <CBigLabel ref='label_binance' title="abc" :onclick="onClickTrend"></CBigLabel>
+            </span>
         </div>
-        <div class="row">
-            <CBigLabel ref='label_upbit' title="abc" class="col-6" :onclick="onClickTrend"></CBigLabel>
-            <CBigLabel ref='label_bithumb' title="abc" class="col-6" :onclick="onClickTrend"></CBigLabel>
+        <div class="row q-gutter-sm">
+            <span class="col q-gutter-sm">
+            <CBigLabel ref='label_upbit' title="abc" :onclick="onClickTrend"></CBigLabel>
+            </span>
+            <span class="col q-gutter-sm">
+            <CBigLabel ref='label_bithumb' title="abc"  :onclick="onClickTrend"></CBigLabel>
+            </span>
         </div>
 
         <div class="row q-gutter-sm">
@@ -23,26 +31,37 @@
             <div class="col">
                 <CTitle ttype='subtitle' :title="v_subpage.cwatch.title" :desc="v_subpage.cwatch.desc"></CTitle>
                  <div class="q-pa-md flex flex-center">
-                    <div class="col-6" @click="onClickKnob">
+                    <div class="col-s">
                         <span>BTC</span>
                         <q-knob
-                            show-value readonly font-size="16px" class="text-red q-ma-md"
-                            :min="0" :max="10"
-                            v-model="v_risk.btc.value" size="80px" :thickness="0.05"                            
-                            :color="v_risk.btc.color" track-color="grey-3">
-                            <q-icon name="volume_up" class="q-mr-xs" />
-                            {{ v_risk.btc.value }}
+                            show-value font-size="18px" class="text-red q-ma-md"
+                            v-model="v_risk.btc" size="60px" :thickness="0.32"
+                            color="red" track-color="grey-3"                        
+                        >
+                            <q-icon class="q-mr-xs" />
+                            {{ v_risk.btc }}%
                         </q-knob>
                     </div>
-                    <div class="col-6" @click="onClickKnob">
-                        <span>ETH</span>
+                    <div class="col-4">
+                        <span>BTC</span>
                         <q-knob
-                            show-value readonly font-size="16px" class="text-red q-ma-md"
-                            :min="0" :max="10"
-                            v-model="v_risk.eth.value" size="80px" :thickness="0.05"                            
-                            :color="v_risk.eth.color" track-color="grey-3">
+                            show-value font-size="16px" class="text-red q-ma-md"
+                            v-model="v_risk.btc" size="60px" :thickness="0.15"
+                            color="red" track-color="grey-3"
+                        >
                             <q-icon name="volume_up" class="q-mr-xs" />
-                            {{ v_risk.eth.value }}
+                            {{ v_risk.btc }}%
+                        </q-knob>
+                    </div>
+                    <div class="col-4">
+                        <span>KPremium</span>
+                        <q-knob
+                            show-value font-size="16px" class="text-red q-ma-md"
+                            v-model="v_risk.btc" size="60px" :thickness="0.05"
+                            color="red" track-color="grey-3"
+                        >
+                            <q-icon name="volume_up" class="q-mr-xs" />
+                            {{ v_risk.btc }}%
                         </q-knob>
                     </div>
                 </div>
@@ -53,7 +72,6 @@
             <div class="col">
                 <CTitle :title="$t('page.home.toplist.title')" :desc="$t('page.home.toplist.desc')"></CTitle>
 
-<!--
                 <q-tabs
                     v-model="v_tab_toplist"
                     inline-label
@@ -62,13 +80,13 @@
                     class="bg-primary text-white shadow-2"
                     @click="onClickToplist"
                 >
-                    <q-tab name="ret" icon="mail" :label="$t('name.price_surge')" />
-                    <q-tab name="yester_ret" icon="alarm" :label="$t('name.yester_ret')" />
-                    <q-tab name="volume" icon="movie" :label="$t('name.volume')" />
-                    <q-tab name="tvz" icon="photo" :label="$t('name.volume_change')" />
+                    <q-tab name="ret" icon="alarm":label="$t('name.price_surge')" />
+                    <q-tab name="yester_ret" :label="$t('name.yester_ret')" />
+                    <q-tab name="volume" :label="$t('name.volume')" />
+                    <q-tab name="tvz" :label="$t('name.volume_change')" />
                 </q-tabs>
--->                
-
+                <!-- icon="alarm" icon="movie" icon="movie"-->
+<!--
                 <q-virtual-scroll
                     :items="v_toplist"
                     virtual-scroll-horizontal
@@ -83,7 +101,7 @@
                         </div>
                     </template>
                 </q-virtual-scroll>
-
+-->                                
   <!--
                 <q-toggle v-model="visible" label="Visible image" class="q-mb-md" />
 -->
@@ -92,6 +110,7 @@
                         <CTopTable ref="exchangeTop"></CTopTable>                        
                     </div>
                 </q-slide-transition>
+  
                                                 
             </div>
         </div>
@@ -131,14 +150,30 @@
                     <q-tab name="bithumb" :label="$t('name.bithumb')" @click="onClickTabCategory('bithumb')" />
                 </q-tabs>              
 
-                <div class="row q-gutter-sm flex">
-                    <CBigLabel class="col-4" ref='label_major' title="abc" :onclick="onClickCategory"></CBigLabel>
-                    <CBigLabel class="col-4" ref='label_korean' title="abc" :onclick="onClickCategory"></CBigLabel>                
-                    <CBigLabel class="col-4" ref='label_chinese' title="abc" :onclick="onClickCategory"></CBigLabel>
-                    <CBigLabel class="col-4" ref='label_nft' title="abc" :onclick="onClickCategory"></CBigLabel>
-                    <CBigLabel class="col-4" ref='label_defi' title="abc" :onclick="onClickCategory"></CBigLabel>
-                    <CBigLabel class="col-4" ref='label_misc' title="abc" :onclick="onClickCategory"></CBigLabel>
+                <div class="row q-gutter-sm">
+                    <span class="col q-gutter-sm">
+                        <CBigLabel class="col-4" ref='label_major' title="abc" :onclick="onClickCategory"></CBigLabel>
+                    </span>
+                    <span class="col q-gutter-sm">
+                        <CBigLabel class="col-4" ref='label_korean' title="abc" :onclick="onClickCategory"></CBigLabel>                
+                    </span>
                 </div>
+                <div class="row q-gutter-sm">
+                    <span class="col q-gutter-sm">
+                        <CBigLabel class="col-4" ref='label_chinese' title="abc" :onclick="onClickCategory"></CBigLabel>
+                    </span>
+                    <span class="col q-gutter-sm">
+                        <CBigLabel class="col-4" ref='label_nft' title="abc" :onclick="onClickCategory"></CBigLabel>
+                    </span>
+                </div>
+                <div class="row q-gutter-sm">
+                    <span class="col q-gutter-sm">
+                        <CBigLabel class="col-4" ref='label_defi' title="abc" :onclick="onClickCategory"></CBigLabel>
+                    </span>
+                    <span class="col q-gutter-sm">
+                        <CBigLabel class="col-4" ref='label_misc' title="abc" :onclick="onClickCategory"></CBigLabel>
+                    </span>
+                </div>    
             </div>
         </div>
 
@@ -159,9 +194,10 @@ import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import MoaBackendAPI from 'src/services/apiService';
-import DataService from 'src/services/dataService';
 import { LoadingBar } from 'quasar';
 
+import { scroll } from 'quasar';
+const { getScrollTarget, setScrollPosition } = scroll;
 
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
@@ -182,11 +218,8 @@ export default {
 
   data: function () {
     return {
-        g_data_watch: null,
-
         v_risk: {
-            btc: {value:56, color:'red'},
-            eth: {value:56, color:'red'},
+            btc:56, eth:54,
         },
         v_tab:'upbit',     
         v_tab_toplist:'ret' ,
@@ -253,10 +286,7 @@ export default {
             let funcs = [            
                 //this.loadCalendarEffectData('1h'),
                 this.loadIndexData(),
-                this.loadCryptoTopAssetData('1h'),
-                DataService.loadCryptoWatchData(30).then(function(data) {
-                    _this.updateAlert(data);
-                }),
+                this.loadCryptoTopAssetData('1h')
             ];
             Promise.all(funcs).then(function() {
                 LoadingBar.stop();
@@ -443,11 +473,11 @@ export default {
             this.$router.push(dic_param);            
         },
 
-        onClickToplist:function(value) {
+        onClickToplist:function() {
             logger.log.debug('onClickToplist - ');
             this.v_toplist_visible = true;
 
-            this.updateTopTable(this.g_data_top,this.v_tab,value); 
+            this.updateTopTable(this.g_data_top,this.v_tab,this.v_tab_toplist); 
             //_this.updateTopTable(_this.g_data_top,_this.v_tab,'ret');
         },
 
@@ -463,17 +493,14 @@ export default {
             this.updateExchangeWidget(this.g_data,this.v_tab);
         },
 
-        onClickKnob: function() {
-            logger.log.debug('onClickKnob');
-            let dic_param = { name:'cwatch', path:'cwatch', params:{} };
-            this.$router.push(dic_param);            
-        },
-
     }
 
 };
 </script>
 
 <style scoped>
+.q-pa-md {
+    margin-right:9px;
+}
 
 </style>

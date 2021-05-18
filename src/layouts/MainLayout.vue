@@ -5,7 +5,7 @@
 
       <div class="row no-wrap">
         <q-toolbar class="col bg-white text-black">
-          <q-btn flat dense round color="black" icon="menu" aria-label="Menu" ref="mainMenuButton"
+          <q-btn flat dense round color="black" align="centered" icon="menu" aria-label="Menu" ref="mainMenuButton"
             @click="leftDrawerOpen = !leftDrawerOpen"/>
 
           <div class="toolbar_title">
@@ -21,7 +21,7 @@
         <q-toolbar class="col-7 bg-white">                       
 -->          
             <q-select        
-              class="full-width"
+              class="full-width" style="max-width:170px"
                 ref="assetSearch"          
                 v-model="g_asset" use-input fill-input hide-selected borderless
                 input-debounce="0"
@@ -67,8 +67,8 @@
 
             <q-space/>
             <q-select             
-              class="toolbar_language"
-              v-model="language" :options="langs" dense
+              class="toolbar_language" style="max-width:80px"
+              v-model="language" :options="langs" dense borderless
               label=""
               behavior="menu" transition-show="flip-up" transition-hide="flip-down" 
               @input="onChangeLang"/>
