@@ -1,7 +1,8 @@
 <template>
     
     <div class="q-pa-md">
-      
+
+<!--      
       <div class="row q-gutter-md">
         <div class="col-12 col-md">
           <CBigLabel ref='label_btc_up' title="btc_up"></CBigLabel>
@@ -16,16 +17,31 @@
           <CBigLabel ref='label_eth_down' title="abc"></CBigLabel>
         </div>
       </div>
+-->
 
+        <CTitle ttype='title' :title="v_page['title']" :desc="v_page['desc']" ></CTitle>          
 
-      <div class="row">
+        <div class="row q-pa-md flex flex-center">
+            <div class="col-3" v-for="(a_item,index) in v_risk">
+                <span>{{ a_item.label }}</span><br>
+                <q-knob
+                    show-value readonly font-size="16px" class="text-red q-ma-md"
+                    :min="0" :max="10"
+                    :v-model="a_item.value" size="80px" :thickness="0.05"                            
+                    :color="a_item.color" track-color="grey-3">
+                    <q-icon name="volume_up" class="q-mr-xs" />
+                    {{ a_item.value }}
+                </q-knob>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col">
-                <CTitle ttype='title' :title="v_page['title']" :desc="v_page['desc']" ></CTitle>          
+                <CTitle ttype='subtitle' :title="v_page['title']" :desc="v_page['desc']" ></CTitle>          
                 <ChartTimeframe period='daily' :onclick="onClickTimeframe" :selected='g_timeframe'></ChartTimeframe>          
                 <CWatchChart ref='cwatchChart'></CWatchChart>
             </div>      
       </div>
-
 
   </div> 
 
@@ -62,7 +78,13 @@ export default {
             g_data_oracle:null,
             g_timeframe: 'm1',
 
-            v_page: {title: this.$t('page.cwatch.title'), desc:'' }
+            v_page: {title: this.$t('page.cwatch.title'), desc:'' },
+            v_risk: [
+                {label:'BTC_UP', value:0, color:'green'},
+                {label:'BTC_DOWN', value:0, color:'green'},
+                {label:'ETH_UP', value:0, color:'green'},
+                {label:'ETH_DOWN', value:0, color:'green'},
+            ]
         }
     },
     created: function () {
@@ -83,6 +105,25 @@ export default {
             this.v_page.desc = watch_date;
         },
 
+
+
+        updateAlert: function(data) {
+            logger.log.debug('updteAlert - ',data);
+            this.g_data_watch = data;
+
+            let dic_columns = CommonFunc.getColumnDic(data['BTC'].columns,[],[]);            
+            let btc_down = CommonFunc.getCWatchValueAndColor(data['BTC'].values[data['BTC'].values.length-1][dic_columns['rise_prob']]);
+            let eth_down = CommonFunc.getCWatchValueAndColor(data['ETH'].values[data['ETH'].values.length-1][dic_columns['rise_prob']]);
+            let btc_up = CommonFunc.getCWatchValueAndColor(data['BTC'].values[data['BTC'].values.length-1][dic_columns['fall_prob']]);
+            let eth_up = CommonFunc.getCWatchValueAndColor(data['ETH'].values[data['ETH'].values.length-1][dic_columns['fall_prob']]);
+
+            this.v_risk = [
+                {label:'BTC_UP', value:btc_up.value, color:btc_up.color},
+                {label:'ETH_UP', value:eth_up.value, color:eth_up.color},
+                {label:'BTC_DOWN', value:btc_down.value, color:btc_down.color},
+                {label:'ETH_DOWN', value:eth_down.value, color:eth_down.color},
+            ];
+        },
 
         refresh: function() {
             const _this = this;
@@ -106,38 +147,10 @@ export default {
             DataService.loadCryptoWatchData(ioffset).then(function(data) {
                 _this.g_data = data;
                 _this.updatePageHeader(_this.g_data);
-                _this.updateWidget(_this.g_data);
+                //_this.updateWidget(_this.g_data);
                 _this.updateCwatchChart(_this.g_data);
+                _this.updateAlert(_this.g_data);
             });
-
-/*
-            return new Promise(function(resolve,reject) {
-                let a_today = CommonFunc.getToday(false);
-                //logger.log.debug("HomeView.loadjw52 - today=",a_today);
-                let a_start_date = CommonFunc.addDays(a_today, ioffset*-1 );
-                //let a_end_date = CommonFunc.addDays(a_today, 1 );
-                
-                let dic_param = { freq:'1H',start_date:a_start_date, symbol:'BTC', itype:'overall' };
-                logger.log.debug("CWatchView.loadCryptoWatchData - dic_param=",dic_param);
-
-                MoaBackendAPI.getCryptoWatchData(dic_param,function(response) {
-                    _this.g_data = response.data.data;
-                    logger.log.debug("CWatchView.loadCryptoWatchData - response",_this.g_data);
-                    
-                    _this.updatePageHeader(_this.g_data);
-                    _this.updateWidget(_this.g_data);
-                    _this.updateCwatchChart(_this.g_data);
-                    //logger.log.debug("CWatchView.loadCryptoWatchData - response",_this.g_data);
-                    
-                    //_this.updateExchangeIndexChart(_this.g_data,_this.tab);
-                    //_this.$refs.sectorTable.update(_this.g_data,_this.tab);
-                    resolve();
-                },function(err) {
-                    logger.log.error("HomeView.loadOverviewData - error",err);
-                    reject();
-                });
-            });           
-*/             
         },
         
 

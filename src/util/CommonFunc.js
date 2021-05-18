@@ -1088,5 +1088,18 @@ export default class CommonFunc {
         return data[row_index][col_index];
     }
 
+    static getCWatchValueAndColor(value) {
+        let a_value = Math.round(value*100) - 90;
+        let a_color="green";
+
+        if (a_value<0) {
+            a_value = 1;
+            a_color = "green";
+        } else if (a_value>5) {
+            a_color = "red";
+        }
+        return {value:a_value, color:a_color};
+    }
+
 }
 

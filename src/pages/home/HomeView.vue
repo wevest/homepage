@@ -226,18 +226,7 @@ export default {
             this.v_page.desc = watch_date;
         },
 
-        getWatchValueAndColor: function(value) {
-            let a_value = Math.round(value*100) - 90;
-            let a_color="green";
 
-            if (a_value<0) {
-                a_value = 1;
-                a_color = "green";
-            } else if (a_value>5) {
-                a_color = "red";
-            }
-            return {value:a_value, color:a_color};
-        },
 
         updateAlert: function(data) {
             logger.log.debug('updteAlert - ',data);
@@ -246,13 +235,13 @@ export default {
             let dic_columns = CommonFunc.getColumnDic(data['BTC'].columns,[],[]);            
             this.v_subpage.cwatch.desc = 'UTC ' + data['BTC'].values[data['BTC'].values.length-1][dic_columns['utc_trade_date']];
 
-            let btc_value = this.getWatchValueAndColor(data['BTC'].values[data['BTC'].values.length-1][dic_columns['rise_prob']]);
+            let btc_value = CommonFunc.getCWatchValueAndColor(data['BTC'].values[data['BTC'].values.length-1][dic_columns['rise_prob']]);
             this.v_risk.btc.value = btc_value.value;
             this.v_risk.btc.color = btc_value.color;
 
             logger.log.debug('updteAlert - ',btc_value);
 
-            let eth_value = this.getWatchValueAndColor(data['ETH'].values[data['ETH'].values.length-1][dic_columns['rise_prob']]);
+            let eth_value = CommonFunc.getCWatchValueAndColor(data['ETH'].values[data['ETH'].values.length-1][dic_columns['rise_prob']]);
             this.v_risk.eth.value = eth_value.value;
             this.v_risk.eth.color = eth_value.color;
         },

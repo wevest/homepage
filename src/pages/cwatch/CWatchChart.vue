@@ -7,12 +7,12 @@
             <q-input outlined v-model="g_thresh" label="Threshold" :dense="dense" />
             <q-btn color="primary" label="Refresh" @click='onClickRefresh' /> 
 -->
-            <span>Change Probability</span>
+            <span>Change Probability Level</span>
             <q-slider
                 v-model="g_thresh"
-                :min="0.9"
-                :max="1.0"
-                :step="0.01"
+                :min="1"
+                :max="10"
+                :step="1"
                 label label-always
                 @change="onChangeProb"
                 color="light-green" />
@@ -101,8 +101,7 @@ export default {
             g_period: 200,
             g_height: "500",
             
-            g_thresh: 0.95, 
-            g_field: 'z',
+            g_thresh: 5, 
 
             g_chart: {
                 'chart1': { series: [], },
@@ -138,6 +137,10 @@ export default {
             return items;
         },
 
+        getProbThresh: function() {
+            let a_thresh = (90+this.g_thresh)/100;
+            return a_thresh;
+        },
 
         updateRiskTable: function(json_data,symbol) {
             let dic_column = CommonFunc.getColumnDic( json_data[symbol].columns ,[],[]);
@@ -159,7 +162,10 @@ export default {
             this.v_items[symbol] = items;
         },
 
-        updateRiskChart: function(chart,json_data,symbol,field,thresh) {
+        updateRiskChart: function(chart,json_data,symbol) {
+
+            let thresh = this.getProbThresh();
+
             let data_price = CommonFunc.getChartData(json_data,symbol,'priceClose','utc_trade_date',false,0);
             let data_risk1 = CommonFunc.getChartData(json_data,symbol,'fall_prob','utc_trade_date',false,0);
             let data_risk2 = CommonFunc.getChartData(json_data,symbol,'rise_prob','utc_trade_date',false,0);
@@ -168,7 +174,7 @@ export default {
             let data_risk2_thresh = this.filterData(data_price.data,data_risk2.data,thresh);
             
             //let a_minmax = CommonFunc.getMinMaxExt([data_kimchi.data]);
-            //console.log("updateRiskChart.data_price=",data_price.data);
+            //console.log("updateRiskChart.thresh=",thresh);
 
             let series = [
                 { name: this.$t('name.price'),type: 'line', yAxis:0, data: data_price.data},
@@ -184,8 +190,8 @@ export default {
         },
 
         updateIndexChart: function(json_data) {
-            this.updateRiskChart('chart1',json_data,'BTC',this.g_field,this.g_thresh);
-            this.updateRiskChart('chart2',json_data,'ETH',this.g_field,this.g_thresh);
+            this.updateRiskChart('chart1',json_data,'BTC');
+            this.updateRiskChart('chart2',json_data,'ETH');
         },
 
         updateOracleChart: function(json_data,freq) {
