@@ -69,11 +69,17 @@
                     <template v-slot="{ item, index }">
                         <div
                             :key="index"
-                            class='q-pa-md self-center bg-grey-2 text-black'
+                            class='box_hotlist'
                             @click="onClickToplist(item.value)"
                         >
-                            {{ item.label }}
-                        </div>
+                            <div>
+                                <q-icon name="volume_up" />
+                            </div>
+                            <div>
+                                <h6>{{ item.label }}</h6>
+                            </div>
+                        </div
+                        >
                     </template>
                 </q-virtual-scroll>
             
@@ -490,4 +496,10 @@ export default {
     margin-bottom:1px;
 }
 
+.box_hotlist {
+    border:1px solid #c0c0c0;
+    margin-right:10px;
+    width:150px;
+    text-align:center;
+}
 </style>

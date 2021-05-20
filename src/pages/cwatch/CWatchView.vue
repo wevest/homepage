@@ -27,7 +27,7 @@
                 <q-knob
                     show-value readonly font-size="16px" class="text-red q-ma-md"
                     :min="0" :max="10"
-                    :v-model="a_item.value" size="80px" :thickness="0.05"                            
+                    v-model="a_item.value" size="80px" :thickness="0.05"                            
                     :color="a_item.color" track-color="grey-3">
                     <q-icon name="volume_up" class="q-mr-xs" />
                     {{ a_item.value }}

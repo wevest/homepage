@@ -3,7 +3,7 @@
     
     <q-header elevated>
 
-      <div class="row no-wrap">
+      <div class="row">
         <q-toolbar class="col bg-white text-black">
           <q-btn flat dense round color="black" align="centered" icon="menu" aria-label="Menu" ref="mainMenuButton"
             @click="leftDrawerOpen = !leftDrawerOpen"/>
@@ -20,8 +20,9 @@
         </q-toolbar>
         <q-toolbar class="col-7 bg-white">                       
 -->          
-            <q-select        
-              class="full-width" style="max-width:170px"
+          
+            <q-select                
+                class="full-widthxxxx"
                 ref="assetSearch"          
                 v-model="g_asset" use-input fill-input hide-selected borderless
                 input-debounce="0"
@@ -65,13 +66,35 @@
 
             </q-select>
 
-            <q-space/>
-            <q-select             
-              class="toolbar_language" style="max-width:80px"
-              v-model="language" :options="langs" dense borderless
-              label=""
-              behavior="menu" transition-show="flip-up" transition-hide="flip-down" 
-              @input="onChangeLang"/>
+
+            <q-space/>      
+            
+            <div class="toolbar_language">
+              <q-select                             
+                v-model="language" :options="langs" borderless dense
+                label="" behavior="menu" 
+                @input="onChangeLang"/>
+            </div>
+
+<!--
+            <q-btn color="indigo" label="Max Menu">            
+             <q-menu max-width="80px">
+              <q-list style="min-width: 100px">
+                  <q-item clickable>
+                    <q-item-section>
+                      <q-item-label lines="1">New tab</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item clickable>
+                    <q-item-section>
+                      <q-item-label lines="1">New incognito tab</q-item-label>
+                    </q-item-section>
+                  </q-item>               
+              </q-list>
+             </q-menu>
+            </q-btn>
+-->
+
 
           </q-toolbar>
 <!--
@@ -250,9 +273,13 @@ export default {
 
 
 .toolbar_language {
-    width: 100px;
-    padding-left: 0.5rem;   
+    min-width: 150px !important;
+    box-sizing:unset;
+    margin-right: 1.5rem;   
     /* 
+    width: 100px !important;    
+    left: 0px;
+    padding-left: 0.5rem;   
     border-bottom: 1px solid #ccc;
     -webkit-box-flex: 1;
     flex: 1 1 auto;
