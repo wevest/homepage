@@ -17,7 +17,9 @@
             </q-td>
             <q-td key="ret" :props="props">{{ Number(props.row.ret).toLocaleString() }}</q-td>
             <q-td key="date_added" :props="props">{{ props.row.date_added.substring(0,10) }}</q-td>
-            <q-td key="first_price" class="text-red text-weight-bold" :props="props">{{ Number(props.row.first_price).toLocaleString() }}</q-td>
+            <q-td key="first_price" class="text-red text-weight-bold" :props="props">
+              {{ Number(props.row.first_price).toLocaleString( 'en-IN', { maximumFractionDigits: 6 } ) }}
+            </q-td>
             <q-td key="cryptovc" :props="props">
               
               <a v-for="a_item in props.row.cryptovc" href="#" @click="onClickVC(a_item)" class="link_vc">

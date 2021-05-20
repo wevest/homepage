@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col q-gutter-sm">
 
-          <q-tabs v-model="tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
+          <q-tabs v-model="tab" class="text-grey q-gutter-sm" active-color="primary" indicated-color="primary" align="justify">
             <q-tab name="intro" :label="$t('name.intro')" @click="onClickTab('intro')" />
             <q-tab name="info" :label="$t('name.info')" @click="onClickTab('info')" />
             <q-tab name="investor" :label="$t('name.investor')" @click="onClickTab('base')" />
@@ -12,14 +12,14 @@
 
           <q-tab-panels
             v-model="tab"
-            animated
-            swipeable
+            animated            
             vertical
             keep-alive
+            
             transition-prev="jump-up"
             transition-next="jump-up"
           >
-            <q-tab-panel name="intro">
+            <q-tab-panel name="intro" class="q-gutter-sm">
               <q-card flat bordered class="my-card">
                 <q-card-section>
                   <div class="text-h6">{{g_symbol}}</div>
@@ -35,19 +35,7 @@
             </q-tab-panel>
 
             <q-tab-panel name="info">
-              <div class="row">
-                <div class="col">
-                  <q-markup-table>
-                    <tbody>
-                      <tr v-for="a_item in items_info">
-                        <td class="text-left">{{ a_item['column'] }}</td>
-                        <td class="text-right" v-if="a_item['type']==0">
-                          <a :href="a_item['desc']" target="_blank"> {{ a_item['desc'] }}</a></td>
-                        <td class="text-right" v-else>{{ a_item['desc'] }}</td>
-                      </tr>
-                    </tbody>
-                  </q-markup-table>            
-                </div>            
+              <div class="row">   
                 <div class="col">
                   <q-markup-table>
                     <tbody>
@@ -60,6 +48,20 @@
                 </div>
               </div>
 
+              <div class="row">
+                <div class="col">
+                  <q-markup-table>
+                    <tbody>
+                      <tr v-for="a_item in items_info">
+                        <td class="text-left">{{ a_item['column'] }}</td>
+                        <td class="text-left" v-if="a_item['type']==0">
+                          <a :href="a_item['desc']" target="_blank"> {{ a_item['desc'] }}</a></td>
+                        <td class="text-left" v-else>{{ a_item['desc'] }}</td>
+                      </tr>
+                    </tbody>
+                  </q-markup-table>            
+                </div>         
+              </div>
             </q-tab-panel>
 
             <q-tab-panel name="investor">
@@ -67,7 +69,7 @@
               <q-table
                 title=""
                 class="sticky-column-table"
-                hide-bottom
+                
                 :data="v_items_vc"
                 :columns="v_headers_vc"
                 row-key="name"
@@ -91,32 +93,6 @@
 
                 </q-table>
 
-<!--
-              <q-markup-table>
-                <thead>
-                  <tr class="investor">
-                    <th class="investor_name">{{ $t('name.name') }}</th>
-                    <th class="roi">{{ $t('name.roi') }}</th>
-                    <th class="total_return">{{ $t('name.total_return') }}</th>
-                    <th class="homepage">{{ $t('name.homepage') }}</th>
-                    <th class="description">{{ $t('name.description') }}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="a_item in items">
-                    <td class="text-left">{{ a_item['name'] }}</td>
-                    <td class="text-right">{{ Number(a_item['avg_roi']).toLocaleString() }}</td>
-                    <td class="text-right">{{ Number(a_item['total_ret']).toLocaleString() }}</td>
-                    <td class="text-left">
-                      <a :href="a_item['homepage']" target="_blank"> {{ a_item['homepage'] }}</a>
-                    </td>
-                    <td class="text-left">
-                      <p class="vc_desc">{{ a_item['description'] }}</p>                      
-                    </td>
-                  </tr>
-                </tbody>
-              </q-markup-table>
--->
             </q-tab-panel>
 
             <q-tab-panel name="development">
@@ -127,14 +103,14 @@
                     <td>                      
                       <div>
                         <h5>{{ $t('name.commit_count')}}</h5>
-                        <h6>{{ g_commit_item['github_commit_count'] }}</h6>
+                        <h6>{{ Number( g_commit_item['github_commit_count'] ).toLocaleString() }}</h6>                        
                       </div>
                     </td> 
                     <td>
                       <div>
-                        <h5>{{ $t('name.created_at')}}</h5>
-                        <h6>{{ g_commit_item['github_created_at'] }}</h6>
-                      </div>
+                        <h5>{{ $t('name.watcher_count')}}</h5>
+                        <h6>{{ Number( g_commit_item['github_watchers_count'] ).toLocaleString() }}</h6>
+                      </div>    
                     </td>
                   </tr>
                   <tr>
@@ -146,38 +122,24 @@
                     </td>
                     <td>
                       <div>
-                        <h5>{{ $t('name.subscriber_count')}}</h5>
-                        <h6>{{ g_commit_item['github_subscribers_count'] }}</h6>
-                      </div> 
+                        <h5>{{ $t('name.created_at')}}</h5>
+                        <h6>{{ g_commit_item['github_created_at'] }}</h6>
+                      </div>
                     </td>
                   </tr>
                   <tr>
-                    <td>
-                      <div>
-                        <h5>{{ $t('name.watcher_count')}}</h5>
-                        <h6>{{ g_commit_item['github_watchers_count'] }}</h6>
-                      </div>    
-                    </td>
                     <td>
                       <div>
                         <h5>{{ $t('name.forks_count')}}</h5> 
-                        <h6>{{ g_commit_item['github_forks_count'] }}</h6>
+                        <h6>{{ Number( g_commit_item['github_forks_count'] ).toLocaleString() }}</h6>
                       </div>
                     </td>
-                  </tr>
-                  <tr>
                     <td>
                       <div>
                         <h5>{{ $t('name.language') }}</h5>
                         <h6>{{ g_commit_item['github_language'] }}</h6>
                       </div>    
                     </td>
-                    <td>
-                      <div>
-                        <h5>{{ $t('name.language') }}</h5>
-                        <h6>{{ g_commit_item['github_language'] }}</h6>
-                      </div>
-                    </td>    
                   </tr>
                 </tbody>
               </q-markup-table>
@@ -360,8 +322,11 @@ export default {
         
         updateDevWidget: function(data_base) {
           const dic_columns = CommonFunc.getColumnDic(data_base.columns,[],[]);          
-          this.g_commit_item['github_created_at'] = data_base['values'][0][dic_columns['github_created_at']];
-          this.g_commit_item['github_pushed_at'] = data_base['values'][0][dic_columns['github_pushed_at']];
+          let a_crated_date = data_base['values'][0][dic_columns['github_created_at']].split('T');
+          let a_updated_date = data_base['values'][0][dic_columns['github_pushed_at']].split('T');
+
+          this.g_commit_item['github_created_at'] = a_crated_date[0];
+          this.g_commit_item['github_pushed_at'] = a_updated_date[0];
           this.g_commit_item['github_forks_count'] = data_base['values'][0][dic_columns['github_forks_count']];
           this.g_commit_item['github_commit_count'] = data_base['values'][0][dic_columns['github_commit_count']];
           this.g_commit_item['github_watchers_count'] = data_base['values'][0][dic_columns['github_watchers_count']];

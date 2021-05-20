@@ -3,23 +3,14 @@
     
     <q-header elevated>
 
-      <div class="row">
-        <q-toolbar class="col bg-white text-black">
+      <div class="row flex">
+        <q-toolbar class="col-9 bg-white text-black">
           <q-btn flat dense round color="black" align="centered" icon="menu" aria-label="Menu" ref="mainMenuButton"
             @click="leftDrawerOpen = !leftDrawerOpen"/>
 
           <div class="toolbar_title">
             MoA
           </div> 
-
-<!--
-          <q-toolbar-title class="toolbar_title">
-            MoA
-          </q-toolbar-title> 
-
-        </q-toolbar>
-        <q-toolbar class="col-7 bg-white">                       
--->          
           
             <q-select                
                 class="full-width"
@@ -65,35 +56,16 @@
               </template>
 
             </q-select>
-
-
-            <q-space/>      
-            
-            <div class="toolbar_language">
+          </q-toolbar>
+          
+          <q-toolbar class="col-3 bg-white text-black">            
+            <q-space />
+            <div class="toolbar_language full-width">
               <q-select                             
                 v-model="language" :options="langs" borderless dense
                 label="" behavior="menu" 
                 @input="onChangeLang"/>
             </div>
-
-<!--
-            <q-btn color="indigo" label="Max Menu">            
-             <q-menu max-width="80px">
-              <q-list style="min-width: 100px">
-                  <q-item clickable>
-                    <q-item-section>
-                      <q-item-label lines="1">New tab</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable>
-                    <q-item-section>
-                      <q-item-label lines="1">New incognito tab</q-item-label>
-                    </q-item-section>
-                  </q-item>               
-              </q-list>
-             </q-menu>
-            </q-btn>
--->
 
 
           </q-toolbar>
@@ -273,10 +245,11 @@ export default {
 
 
 .toolbar_language {
-    min-width: 150px !important;
+    width: 60px !important;
     box-sizing:unset;
-    margin-right: 1.5rem;   
+    
     /* 
+    margin-right: 1.5rem;   
     width: 100px !important;    
     left: 0px;
     padding-left: 0.5rem;   
@@ -288,7 +261,11 @@ export default {
 }
 
 .toolbar_title {
+<<<<<<< HEAD
   width:70px;
+=======
+  
+>>>>>>> 86f8827dc5002a3fc0309afdf7635b84e111f18f
   font-size: 1.5em;
   font-weight: bolder;
   /* 
