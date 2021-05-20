@@ -62,24 +62,23 @@
             <div class="col">
                 <CTitle :title="$t('page.home.toplist.title')" :desc="$t('page.home.toplist.desc')"></CTitle>
 
-                <q-virtual-scroll
+                <q-virtual-scroll 
                     :items="v_toplist"
-                    virtual-scroll-horizontal
+                    virtual-scroll-horizontal                   
                 >
                     <template v-slot="{ item, index }">
-                        <div
+                        <div 
                             :key="index"
-                            class='box_hotlist'
+                            class='box_hotlist text-center'
                             @click="onClickToplist(item.value)"
                         >
                             <div>
-                                <q-icon name="volume_up" />
+                                <q-icon name="auto_awesome" class="hotlist-icon"/>
                             </div>
                             <div>
-                                <h6>{{ item.label }}</h6>
-                            </div>
-                        </div
-                        >
+                                <h6 class="hotlist-name"> {{ item.label }}</h6>
+                            </div>                            
+                        </div>
                     </template>
                 </q-virtual-scroll>
             
@@ -497,14 +496,38 @@ export default {
 }
 
 .btc-eth {
-    font-color: #111111;
+    color: #111111;
     font-size: 18px;
     font-weight: 700;
 }
 
 .box_knob {
-    font-size:20px;
+    font-size:25px;
     
 }
 
+.box_hotlist {
+    border: 2px solid #BBBBBB; 
+    border-radius:8px; 
+    border-width: 2px;
+    background:greenyellow;
+    height:auto;
+    width:200px;
+    margin:0px 8px 22px;
+}
+
+.hotlist-icon {
+    
+    color:gold;
+    font-size:40px;
+    position:relative; top:30px;
+}
+.hotlist-name {
+    color:#111111;
+    font-size:20px;
+    font-weight:800;
+    position:relative; top:10px;
+
+
+}
 </style>

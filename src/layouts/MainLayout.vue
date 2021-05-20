@@ -288,7 +288,7 @@ export default {
 }
 
 .toolbar_title {
-  width:70px; 
+  width:70px;
   font-size: 1.5em;
   font-weight: bolder;
   /* 
