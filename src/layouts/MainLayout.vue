@@ -22,7 +22,7 @@
 -->          
           
             <q-select                
-                class="full-widthxxxx"
+                class="full-width"
                 ref="assetSearch"          
                 v-model="g_asset" use-input fill-input hide-selected borderless
                 input-debounce="0"

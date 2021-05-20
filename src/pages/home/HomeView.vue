@@ -31,27 +31,27 @@
         <div class="row q-gutter-sm">
             <div class="col">
                 <CTitle ttype='subtitle' :title="v_subpage.cwatch.title" :desc="v_subpage.cwatch.desc"></CTitle>
-                 <div class="q-pa-md flex flex-center">
+                 <div class="q-pa-md flex flex-center text-center">
                     <div class="col-6" @click="onClickKnob">
-                        <span>BTC</span>
+                        <span class="btc-eth">BTC</span><br>
                         <q-knob
-                            show-value readonly font-size="16px" class="text-red q-ma-md"
+                            show-value readonly class="text-red q-ma-md box_knob"
                             :min="0" :max="10"
-                            v-model="v_risk.btc.value" size="80px" :thickness="0.05"                            
+                            v-model="v_risk.btc.value" size="120px" :thickness="0.30"                            
                             :color="v_risk.btc.color" track-color="grey-3">
-                            <q-icon name="volume_up" class="q-mr-xs" />
-                            {{ v_risk.btc.value }}
+                            <q-icon name="warning" class="q-mr-xs box_knob"/>
+                            <span class="box_knob">{{ v_risk.btc.value }}</span>
                         </q-knob>
                     </div>
                     <div class="col-6" @click="onClickKnob">
-                        <span>ETH</span>
+                        <span class="btc-eth">ETH</span><br>
                         <q-knob
-                            show-value readonly font-size="16px" class="text-red q-ma-md"
+                            show-value readonly  class="text-red q-ma-md box_knob"
                             :min="0" :max="10"
-                            v-model="v_risk.eth.value" size="80px" :thickness="0.05"                            
+                            v-model="v_risk.eth.value" size="120px" :thickness="0.30"                            
                             :color="v_risk.eth.color" track-color="grey-3">
-                            <q-icon name="volume_up" class="q-mr-xs" />
-                            {{ v_risk.eth.value }}
+                            <q-icon name="warning" class="q-mr-xs box_knob" color="orange"/>
+                            <span class="box_knob">{{ v_risk.eth.value }}</span>
                         </q-knob>
                     </div>
                 </div>
@@ -131,29 +131,29 @@
                     <q-tab name="bithumb" :label="$t('name.bithumb')" @click="onClickTabCategory('bithumb')" />
                 </q-tabs>              
 
-                <div class="row q-gutter-sm">
-                    <span class="col q-gutter-sm">
+                <div class="row q-gutter-sm box_label">
+                    <div class="col">
                         <CBigLabel class="col-4" ref='label_major' title="abc" :onclick="onClickCategory"></CBigLabel>
-                    </span>
-                    <span class="col q-gutter-sm">
+                    </div>
+                    <div class="col">
                         <CBigLabel class="col-4" ref='label_korean' title="abc" :onclick="onClickCategory"></CBigLabel>                
-                    </span>
+                    </div>
                 </div>
-                <div class="row q-gutter-sm">
-                    <span class="col q-gutter-sm">
+                <div class="row q-gutter-sm box_label">
+                    <div class="col">
                         <CBigLabel class="col-4" ref='label_chinese' title="abc" :onclick="onClickCategory"></CBigLabel>
-                    </span>
-                    <span class="col q-gutter-sm">
+                    </div>
+                    <div class="col">
                         <CBigLabel class="col-4" ref='label_nft' title="abc" :onclick="onClickCategory"></CBigLabel>
-                    </span>
+                    </div>
                 </div>
-                <div class="row q-gutter-sm">
-                    <span class="col q-gutter-sm">
+                <div class="row q-gutter-sm box_label">
+                    <div class="col">
                         <CBigLabel class="col-4" ref='label_defi' title="abc" :onclick="onClickCategory"></CBigLabel>
-                    </span>
-                    <span class="col q-gutter-sm">
+                    </div>
+                    <div class="col">
                         <CBigLabel class="col-4" ref='label_misc' title="abc" :onclick="onClickCategory"></CBigLabel>
-                    </span>
+                    </div>
                 </div>    
             </div>
         </div>
@@ -496,10 +496,15 @@ export default {
     margin-bottom:1px;
 }
 
-.box_hotlist {
-    border:1px solid #c0c0c0;
-    margin-right:10px;
-    width:150px;
-    text-align:center;
+.btc-eth {
+    font-color: #111111;
+    font-size: 18px;
+    font-weight: 700;
 }
+
+.box_knob {
+    font-size:20px;
+    
+}
+
 </style>
