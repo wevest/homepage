@@ -477,7 +477,7 @@ export default {
 
         onClickTabCategory: function(exchange) {
             logger.log.debug('onClickTabCategory - ',exchange);
-            this.updateExchangeWidget(this.g_data,this.v_tab);
+            this.updateExchangeWidget(this.g_data,exchange);
         },
 
         onClickKnob: function() {

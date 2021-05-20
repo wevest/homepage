@@ -286,8 +286,6 @@ export default {
             this.v_score['price'] = this.getScore(json_data.values[ json_data.values.length-1 ][dic_columns['price_ret_rank']]);
             this.v_score['volume'] = this.getScore(json_data.values[ json_data.values.length-1 ][dic_columns['volume_sum_rank']]);
             this.v_score['vc'] = a_vc.split(",").length;
-            
-
         },
 
         updatePriceWiget: function(json_data) {
@@ -325,6 +323,7 @@ export default {
         updatePageHeader: function(symbol,json_data) {            
             const dic_columns = CommonFunc.getColumnDic(json_data['overall'].columns,[],[]);
             let a_date = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['time']];
+            //let a_name = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['name']];
 
             this.v_page.title = symbol;
             this.v_page.desc = a_date;

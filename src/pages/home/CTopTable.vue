@@ -57,7 +57,7 @@ export default {
         g_sector: null,
 
         headers: [
-            { name:'asset', label: '코인', field: 'asset', required:true },          
+            { name:'asset', label: '코인', field: 'asset', align:'left', required:true },          
             { name:'rank', label: '순위', field: 'rank', required:true  },
             { name:'price', label: '가격', field: 'price',
               format: (val, row) => `${Number(val).toLocaleString()}`, 
