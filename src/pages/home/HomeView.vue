@@ -35,22 +35,22 @@
                     <div class="col-6" @click="onClickKnob">
                         <span class="btc-eth">BTC</span><br>
                         <q-knob
-                            show-value readonly class="text-red q-ma-md box_knob"
+                            show-value readonly class="text-green q-ma-md box_knob"
                             :min="0" :max="10"
-                            v-model="v_risk.btc.value" size="120px" :thickness="0.30"                            
+                            v-model="v_risk.btc.value" size="110px" :thickness="0.30"                            
                             :color="v_risk.btc.color" track-color="grey-3">
-                            <q-icon name="warning" class="q-mr-xs box_knob"/>
+                            <q-icon :name="v_risk.btc.icon" class="q-mr-xs box_knob"  />
                             <span class="box_knob">{{ v_risk.btc.value }}</span>
                         </q-knob>
                     </div>
                     <div class="col-6" @click="onClickKnob">
                         <span class="btc-eth">ETH</span><br>
                         <q-knob
-                            show-value readonly  class="text-red q-ma-md box_knob"
+                            show-value readonly  class="text-green q-ma-md box_knob"
                             :min="0" :max="10"
-                            v-model="v_risk.eth.value" size="120px" :thickness="0.30"                            
+                            v-model="v_risk.eth.value" size="110px" :thickness="0.30"                            
                             :color="v_risk.eth.color" track-color="grey-3">
-                            <q-icon name="warning" class="q-mr-xs box_knob" color="orange"/>
+                            <q-icon :name="v_risk.eth.icon" class="q-mr-xs box_knob" />
                             <span class="box_knob">{{ v_risk.eth.value }}</span>
                         </q-knob>
                     </div>
@@ -254,12 +254,13 @@ export default {
             let btc_value = CommonFunc.getCWatchValueAndColor(data['BTC'].values[data['BTC'].values.length-1][dic_columns['rise_prob']]);
             this.v_risk.btc.value = btc_value.value;
             this.v_risk.btc.color = btc_value.color;
-
+            this.v_risk.btc.icon = btc_value.icon;
             logger.log.debug('updteAlert - ',btc_value);
 
             let eth_value = CommonFunc.getCWatchValueAndColor(data['ETH'].values[data['ETH'].values.length-1][dic_columns['rise_prob']]);
             this.v_risk.eth.value = eth_value.value;
             this.v_risk.eth.color = eth_value.color;
+            this.v_risk.eth.icon = eth_value.icon;
         },
 
 
@@ -503,8 +504,7 @@ export default {
 }
 
 .box_knob {
-    font-size:20px;
-    
+    font-size:20px;    
 }
 
 </style>

@@ -6,8 +6,37 @@
                 <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>          
             </div>
         </div>
+        
+        <div class="row q-pa-md">
+            <div class="col">
+                
+                <q-markup-table class="score_table">
+                    <tbody>
+                        <tr>
+                            <td> 
+                                <span class="price_label">{{ $t('name.dev_score') }}</span> 
+                                <br><span>{{ v_score.dev }}</span>
+                            </td>
+                            <td> 
+                                <span class="price_label">{{ $t('name.price_score') }}</span> 
+                                <br><span class="price_tag">{{ v_score.price }}</span>
+                            </td>
+                            <td> 
+                                <span class="price_label">{{ $t('name.volume_score') }}</span> 
+                                <br><span class="price_tag">{{ v_score.volume }}</span>
+                            </td>
+                            <td> 
+                                <span class="price_label">{{ $t('name.cryptovc') }}</span> 
+                                <br><span class="price_tag">{{ v_score.vc }}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </q-markup-table>
 
-        <div class="row">
+            </div>
+        </div>
+
+        <div class="row q-pa-md">
             <div class="col-3">
                 <p class="price_big">
                     {{ g_price['price'] }}
@@ -18,25 +47,30 @@
                     <tbody>
                     <tr>
                         <td> 
-                            <span class="price_label">{{ $t('name.price_prev') }}</span>  <span class="price_tag">{{ g_price['price_prev'] }}</span>
+                            <span class="price_label">{{ $t('name.price_prev') }}</span>  
+                            <br><span class="price_tag">{{ g_price['price_prev'] }}</span>
                         </td>
                         <td> 
-                            <span class="price_label">{{ $t('name.price_high') }}</span> <span class="price_tag">{{ g_price['price_high'] }}</span>
+                            <span class="price_label">{{ $t('name.price_high') }}</span>
+                            <br><span class="price_tag">{{ g_price['price_high'] }}</span>
                         </td>
                         <td> 
-                            <span class="price_label">{{ $t('name.volume') }}</span> <span class="price_tag price_tag padding1">{{ g_price['volume'] }}</span>
+                            <span class="price_label">{{ $t('name.volume') }}</span>
+                            <br><span class="price_tag price_tag padding1">{{ g_price['volume'] }}</span>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <span class="price_label">{{ $t('name.price_open') }}</span> <span class="price_tag">{{ g_price['price_open'] }}</span>
+                            <span class="price_label">{{ $t('name.price_open') }}</span>
+                            <br><span class="price_tag">{{ g_price['price_open'] }}</span>
                         </td>
                         <td>
-                            <span class="price_label">{{ $t('name.price_low') }}</span> <span class="price_tag">{{ g_price['price_low'] }}</span>
+                            <span class="price_label">{{ $t('name.price_low') }}</span> 
+                            <br><span class="price_tag">{{ g_price['price_low'] }}</span>
                         </td>
                         <td>
                             <span class="price_label">{{ $t('name.tv') }}</span> 
-                            <span class="price_tag">{{ Number(g_price['tv']).toLocaleString() }}</span>
+                            <br><span class="price_tag">{{ Number(g_price['tv']).toLocaleString() }}</span>
                         </td>
                     </tr>
                     </tbody>
@@ -159,6 +193,8 @@ export default {
 
             
             v_page: {title:this.$t('page.asset.title'), desc:''},
+            v_score: {dev:'A', price:'A', volume:'A', vc:0},
+
             v_visible_table:false,
             v_headers: [
                 { name:'trade_date', label: this.$t('name.trade_date'), field: 'trade_date', align:'left', required:true  },
@@ -227,6 +263,33 @@ export default {
 
         },
         
+        getScore: function(value) {
+            if (value>0.8) {
+                return 'A';
+            } else if (value>0.6) {
+                return 'B';
+            } else if (value>0.4) {
+                return 'C';
+            } else if (value>0.2) {
+                return 'D';
+            } else {
+                return 'F';
+            }
+        },
+
+        updateScoreWidget: function(json_data) { 
+            logger.log.debug("updateScoreWidget.data=",json_data);
+            const dic_columns = CommonFunc.getColumnDic(json_data.columns,[],[]);
+            let a_vc = json_data.values[ json_data.values.length-1 ][dic_columns['cryptovc']];
+            
+            this.v_score['dev'] = this.getScore(json_data.values[ json_data.values.length-1 ][dic_columns['commit_count_rank']]);
+            this.v_score['price'] = this.getScore(json_data.values[ json_data.values.length-1 ][dic_columns['price_ret_rank']]);
+            this.v_score['volume'] = this.getScore(json_data.values[ json_data.values.length-1 ][dic_columns['volume_sum_rank']]);
+            this.v_score['vc'] = a_vc.split(",").length;
+            
+
+        },
+
         updatePriceWiget: function(json_data) {
             logger.log.debug("data=",json_data);
 
@@ -279,7 +342,9 @@ export default {
                     _this.g_data = response.data.data;
                     logger.log.debug("AssetView.loadCryptoBaseinfo - response",_this.g_data);
                     //_this.$refs.assetTable.update(_this.g_data);
+                    _this.updateScoreWidget(_this.g_data);
                     _this.$refs.assetinfoTable.update(_this.g_data,_this.g_vc);
+                    
                     resolve();
                 },function(err) {
                     logger.log.error("AssetView.loadCryptoBaseinfo - error",err);
@@ -406,11 +471,15 @@ export default {
 }
 
 .price_table {
-    
+    /* text-align:center; */
 }
 
 .price_table td {
     text-align:left;
+}
+
+.score_table {
+    text-align:center;
 }
 
 </style>

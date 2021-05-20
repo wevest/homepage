@@ -1091,14 +1091,16 @@ export default class CommonFunc {
     static getCWatchValueAndColor(value) {
         let a_value = Math.round(value*100) - 90;
         let a_color="green";
-
+        let a_icon="info";
         if (a_value<0) {
             a_value = 1;
             a_color = "green";
         } else if (a_value>5) {
             a_color = "red";
+            a_icon = "warning";
         }
-        return {value:a_value, color:a_color};
+        
+        return {value:a_value, color:a_color, icon:a_icon};
     }
 
 }
