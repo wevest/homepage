@@ -3,21 +3,21 @@
   <div class="q-pa-md">
         <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>
         
-        <div class="row q-gutter-sm">
-            <span class="col q-gutter-sm">
-            <CBigLabel ref='label_btc' title="abc" :onclick="onClickTrend"></CBigLabel>
-            </span>
-            <span class="col q-gutter-sm">
-            <CBigLabel ref='label_binance' title="abc" :onclick="onClickTrend"></CBigLabel>
-            </span>
+        <div class="row q-gutter-sm box_label">
+            <div class="col">
+                <CBigLabel ref='label_btc' title="abc" :onclick="onClickTrend"></CBigLabel>
+            </div>
+            <div class="col">
+                <CBigLabel ref='label_binance' title="abc" :onclick="onClickTrend"></CBigLabel>
+            </div>
         </div>
-        <div class="row q-gutter-sm">
-            <span class="col q-gutter-sm">
-            <CBigLabel ref='label_upbit' title="abc" :onclick="onClickTrend"></CBigLabel>
-            </span>
-            <span class="col q-gutter-sm">
-            <CBigLabel ref='label_bithumb' title="abc"  :onclick="onClickTrend"></CBigLabel>
-            </span>
+        <div class="row q-gutter-sm box_label">
+            <div class="col">
+                <CBigLabel ref='label_upbit' title="abc" :onclick="onClickTrend"></CBigLabel>
+            </div>
+            <div class="col">
+                <CBigLabel ref='label_bithumb' title="abc"  :onclick="onClickTrend"></CBigLabel>
+            </div>
         </div>
 
         <div class="row q-gutter-sm">
@@ -27,41 +27,31 @@
             </div>      
         </div>
 
+
         <div class="row q-gutter-sm">
             <div class="col">
                 <CTitle ttype='subtitle' :title="v_subpage.cwatch.title" :desc="v_subpage.cwatch.desc"></CTitle>
                  <div class="q-pa-md flex flex-center">
-                    <div class="col-s">
+                    <div class="col-6" @click="onClickKnob">
                         <span>BTC</span>
                         <q-knob
-                            show-value font-size="18px" class="text-red q-ma-md"
-                            v-model="v_risk.btc" size="60px" :thickness="0.32"
-                            color="red" track-color="grey-3"                        
-                        >
-                            <q-icon class="q-mr-xs" />
-                            {{ v_risk.btc }}%
+                            show-value readonly font-size="16px" class="text-red q-ma-md"
+                            :min="0" :max="10"
+                            v-model="v_risk.btc.value" size="80px" :thickness="0.05"                            
+                            :color="v_risk.btc.color" track-color="grey-3">
+                            <q-icon name="volume_up" class="q-mr-xs" />
+                            {{ v_risk.btc.value }}
                         </q-knob>
                     </div>
-                    <div class="col-4">
-                        <span>BTC</span>
+                    <div class="col-6" @click="onClickKnob">
+                        <span>ETH</span>
                         <q-knob
-                            show-value font-size="16px" class="text-red q-ma-md"
-                            v-model="v_risk.btc" size="60px" :thickness="0.15"
-                            color="red" track-color="grey-3"
-                        >
+                            show-value readonly font-size="16px" class="text-red q-ma-md"
+                            :min="0" :max="10"
+                            v-model="v_risk.eth.value" size="80px" :thickness="0.05"                            
+                            :color="v_risk.eth.color" track-color="grey-3">
                             <q-icon name="volume_up" class="q-mr-xs" />
-                            {{ v_risk.btc }}%
-                        </q-knob>
-                    </div>
-                    <div class="col-4">
-                        <span>KPremium</span>
-                        <q-knob
-                            show-value font-size="16px" class="text-red q-ma-md"
-                            v-model="v_risk.btc" size="60px" :thickness="0.05"
-                            color="red" track-color="grey-3"
-                        >
-                            <q-icon name="volume_up" class="q-mr-xs" />
-                            {{ v_risk.btc }}%
+                            {{ v_risk.eth.value }}
                         </q-knob>
                     </div>
                 </div>
@@ -72,21 +62,6 @@
             <div class="col">
                 <CTitle :title="$t('page.home.toplist.title')" :desc="$t('page.home.toplist.desc')"></CTitle>
 
-                <q-tabs
-                    v-model="v_tab_toplist"
-                    inline-label
-                    outside-arrows
-                    mobile-arrows
-                    class="bg-primary text-white shadow-2"
-                    @click="onClickToplist"
-                >
-                    <q-tab name="ret" icon="alarm":label="$t('name.price_surge')" />
-                    <q-tab name="yester_ret" :label="$t('name.yester_ret')" />
-                    <q-tab name="volume" :label="$t('name.volume')" />
-                    <q-tab name="tvz" :label="$t('name.volume_change')" />
-                </q-tabs>
-                <!-- icon="alarm" icon="movie" icon="movie"-->
-<!--
                 <q-virtual-scroll
                     :items="v_toplist"
                     virtual-scroll-horizontal
@@ -101,7 +76,7 @@
                         </div>
                     </template>
                 </q-virtual-scroll>
--->                                
+            
   <!--
                 <q-toggle v-model="visible" label="Visible image" class="q-mb-md" />
 -->
@@ -194,6 +169,7 @@ import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import MoaBackendAPI from 'src/services/apiService';
+import DataService from 'src/services/dataService';
 import { LoadingBar } from 'quasar';
 
 import { scroll } from 'quasar';
@@ -219,7 +195,8 @@ export default {
   data: function () {
     return {
         v_risk: {
-            btc:56, eth:54,
+            btc: {value:56, color:'red'}, 
+            eth: {value:56, color:'green'}, 
         },
         v_tab:'upbit',     
         v_tab_toplist:'ret' ,
@@ -279,6 +256,7 @@ export default {
             this.v_risk.eth.color = eth_value.color;
         },
 
+
         refresh: function() {
             const _this = this;
         
@@ -286,14 +264,16 @@ export default {
             let funcs = [            
                 //this.loadCalendarEffectData('1h'),
                 this.loadIndexData(),
-                this.loadCryptoTopAssetData('1h')
+                this.loadCryptoTopAssetData('1h'),
+                DataService.loadCryptoWatchData(30).then(function(data) {
+                    _this.updateAlert(data);
+                }),
             ];
             Promise.all(funcs).then(function() {
                 LoadingBar.stop();
             });
-
         },
-        
+
         loadCalendarEffectData: function(freq) {
             const _this = this;
 
@@ -493,14 +473,21 @@ export default {
             this.updateExchangeWidget(this.g_data,this.v_tab);
         },
 
+        onClickKnob: function() {
+            logger.log.debug('onClickKnob');
+            let dic_param = { name:'cwatch', path:'cwatch', params:{} };
+            this.$router.push(dic_param);            
+        },
     }
 
 };
 </script>
 
 <style scoped>
-.q-pa-md {
-    margin-right:9px;
+
+.box_label {
+    margin-top:1px;
+    margin-bottom:1px;
 }
 
 </style>
