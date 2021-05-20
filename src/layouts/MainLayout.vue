@@ -8,7 +8,7 @@
           <q-btn flat dense round color="black" align="centered" icon="menu" aria-label="Menu" ref="mainMenuButton"
             @click="leftDrawerOpen = !leftDrawerOpen"/>
 
-          <div class="toolbar_title">
+          <div class="toolbar_title head_title">
             MoA
           </div> 
 
@@ -21,7 +21,7 @@
         <q-toolbar class="col-7 bg-white">                       
 -->          
             <q-select        
-              class="full-width" style="max-width:170px"
+              class="full-width search-bar" 
                 ref="assetSearch"          
                 v-model="g_asset" use-input fill-input hide-selected borderless
                 input-debounce="0"
@@ -35,7 +35,7 @@
             >
 
               <template v-slot:prepend>
-                <q-icon name="search" @click.stop />
+                <q-icon class="search-arrow" name="search" @click.stop />
               </template>
 
               <template v-slot:option="scope">
@@ -67,7 +67,7 @@
 
             <q-space/>
             <q-select             
-              class="toolbar_language" style="max-width:80px"
+              class="toolbar_language head_language"
               v-model="language" :options="langs" dense borderless
               label=""
               behavior="menu" transition-show="flip-up" transition-hide="flip-down" 
@@ -259,6 +259,17 @@ export default {
     -ms-flex: 1 1 auto;
     */
 }
+
+.head_title {
+  padding-right: 9px;
+}
+
+
+.head_language
+ {
+  padding-bottom:10px;
+  width:110px;
+  }
 
 .toolbar_title {
   width:70px; 
