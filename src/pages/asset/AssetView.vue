@@ -83,32 +83,32 @@
                     <tbody>
                     <tr>
                         <td> 
-                            <span class="price_label">{{ $t('name.price_prev') }}</span>  
-                            <br><span class="price_tag">{{ g_price['price_prev'] }}</span>
+                            <span class="price_label caption_color">{{ $t('name.price_prev') }}</span>  
+                            <span class="price_tag value_color">{{ g_price['price_prev'] }}</span>
                         </td>
                         <td> 
-                            <span class="price_label">{{ $t('name.price_high') }}</span>
-                            <br><span class="price_tag">{{ g_price['price_high'] }}</span>
+                            <span class="price_label caption_color">{{ $t('name.price_high') }}</span>
+                            <span class="price_tag value_color">{{ g_price['price_high'] }}</span>
                         </td>
                     </tr>
                     <tr>
                         <td> 
-                            <span class="price_label">{{ $t('name.volume') }}</span>
-                            <br><span class="price_tag price_tag padding1">{{ g_price['volume'] }}</span>
+                            <span class="price_label caption_color">{{ $t('name.volume') }}</span>
+                            <span class="price_tag value_color padding1">{{ g_price['volume'] }}</span>
                         </td>
                         <td>
-                            <span class="price_label">{{ $t('name.price_open') }}</span>
-                            <br><span class="price_tag">{{ g_price['price_open'] }}</span>
+                            <span class="price_label caption_color">{{ $t('name.price_open') }}</span>
+                            <span class="price_tag value_color">{{ g_price['price_open'] }}</span>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <span class="price_label">{{ $t('name.price_low') }}</span> 
-                            <br><span class="price_tag">{{ g_price['price_low'] }}</span>
+                            <span class="price_label caption_color">{{ $t('name.price_low') }}</span> 
+                            <span class="price_tag value_color">{{ g_price['price_low'] }}</span>
                         </td>
                         <td>
-                            <span class="price_label">{{ $t('name.tv') }}</span> 
-                            <br><span class="price_tag">{{ Number(g_price['tv']).toLocaleString() }}</span>
+                            <span class="price_label caption_color">{{ $t('name.tv') }}</span> 
+                            <span class="price_tag value-color">{{ Number(g_price['tv']).toLocaleString() }}</span>
                         </td>
                     </tr>
                     </tbody>
@@ -541,7 +541,9 @@ export default {
 
 .price_table {
     /* text-align:center; */
+
 }
+
 
 .price_table td {
     text-align:left;
