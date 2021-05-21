@@ -509,7 +509,7 @@ export default {
 .box_hotlist {
     border: 2px solid #BBBBBB; 
     border-radius:8px; 
-    border-width: 2px;
+    border-width: 1px;
     height:auto;
     width:200px;
     margin:0px 8px 22px;
