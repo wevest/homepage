@@ -510,7 +510,6 @@ export default {
     border: 2px solid #BBBBBB; 
     border-radius:8px; 
     border-width: 2px;
-    background:greenyellow;
     height:auto;
     width:200px;
     margin:0px 8px 22px;
