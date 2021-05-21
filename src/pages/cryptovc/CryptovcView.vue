@@ -20,7 +20,8 @@
         <div class="row">
             <div class="col">
                 <CTitle ttype='subtitle' :title="$t('page.cryptovc.roi.title')"  :desc="$t('page.cryptovc.roi.desc')"></CTitle>
-                <highcharts class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
+                <q-skeleton v-if="!v_chart_loaded" animation="fade" square height="450px" />
+                <highcharts v-show="v_chart_loaded" class="box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
             </div>
         </div>
 
@@ -105,6 +106,7 @@ export default {
         
         v_page: {title:this.$t('page.cryptovc.title'), desc:''},
         v_portfolio: {title:this.$t('page.cryptovc.portfolio.title'), desc:''},
+        v_chart_loaded: false,
 
         headers: [
             { name:'rank', label: this.$t('name.rank'), field: 'rank', sortable:true },
@@ -221,6 +223,8 @@ export default {
             a_option.legend = { enabled:false };
             //a_option.yAxis[1] = {mshow:true, opposite:true, gridLineWidth:0};
             this.g_chart['chart1'] = a_option;
+
+            this.v_chart_loaded = true;
         },
 
         updatePortfolioTitle: function(vc) {

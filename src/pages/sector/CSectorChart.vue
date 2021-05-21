@@ -2,7 +2,9 @@
     <div class="example">
         <CTitle ttype='subtitle' :title="$t('page.sector.index.title')" :desc="$t('page.sector.index.desc')"></CTitle> 
         <ChartTimeframe period='monthly' :onclick="onClickTimeframe" selected='m6'></ChartTimeframe>
-        <highcharts class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
+        
+        <q-skeleton v-show="!v_chart_loaded" height="450px" square animation="fade" /> 
+        <highcharts v-show="v_chart_loaded" class="box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
 
         <q-table
         title=""
@@ -64,7 +66,7 @@ export default {
                 sortBy: 'trade_date',
                 descending: true,
             },
-
+            v_chart_loaded: false,
 
         }
     },
@@ -112,6 +114,7 @@ export default {
 
             this.updateCategoryChart(json_data,exchange,category);
             this.updateCategoryTable(json_data,exchange,category);
+            this.v_chart_loaded = true;
         },
 
         onClickTimeframe: function(offset,timeframe) {

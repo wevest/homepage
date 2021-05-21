@@ -1103,5 +1103,13 @@ export default class CommonFunc {
         return {value:a_value, color:a_color, icon:a_icon};
     }
 
+    static safeSplit(value,needle) {
+        if (value.length==0) {
+            return [''];
+        }
+
+        return value.split(needle);
+    }
+    
 }
 

@@ -7,7 +7,8 @@
 -->        
 
         
-        <highcharts class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
+        <highcharts v-show="v_chart_loaded" class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
+        <q-skeleton v-if="!v_chart_loaded" animation="fade" square height="450px" />
 
         <q-toggle v-model="v_visible_table" label="Show Table" class="q-mb-md center" />
 
@@ -77,6 +78,7 @@ export default {
 
             v_loading: true,
             v_visible_table: false,
+            v_chart_loaded: false,
             v_headers: [
                 { name:'trade_date', label: '시간', field: 'trade_date', align:'left', required:true  },
                 { name:'upbit', label: this.$t('name.upbit'), field: 'upbit'},
@@ -181,6 +183,7 @@ export default {
             this.updateIndexChart(json_data);
             this.updateIndexTable(json_data);
             //this.updateTickTrinChart(json_data,'Buying Power');
+            this.v_chart_loaded = true;
         }
     }
   }

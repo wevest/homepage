@@ -109,24 +109,6 @@
                     </div>
                 </div>
 
-<!--
-                <q-card class="my-card " v-for="(a_eureka,index) in v_eureka" :key="index">
-                    <q-card-section @click="onClickEureka(a_eureka.link)" horizontal>
-                        <q-icon name="lightbulb" class="q-mr-xs"  />
-                        <div class="text-h6">{{ a_eureka.title }}</div>
-                        <div class="text-subtitle2">{{ a_eureka.subtitle }}</div>
-                    </q-card-section>
-
-                    <q-separator />
-
-                    <q-card-actions>
-                        <q-btn flat>Action 1</q-btn>
-                        <q-btn flat>Action 2</q-btn>
-                    </q-card-actions>
-                   
-                </q-card>
---> 
-
             </div>
         </div>
 
@@ -134,7 +116,7 @@
             <div class="col">
                 <CTitle ttype="title" :title="$t('page.home.category.title')" :desc="$t('page.home.category.desc')"></CTitle>
 
-                <q-tabs v-model="v_tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
+                <q-tabs v-model="v_tab" class="text-grey tab_bgcolor" active-color="primary" indicated-color="primary" align="justify">
                     <q-tab name="upbit" :label="$t('name.upbit')" @click="onClickTabCategory('upbit')" />
                     <q-tab name="bithumb" :label="$t('name.bithumb')" @click="onClickTabCategory('bithumb')" />
                 </q-tabs>              
@@ -513,7 +495,7 @@ export default {
 }
 
 .box_eureka .box_eureka_icon {
-    width:80px;
+    min-width:80px;
 }
 .box_eureka_text {
 
@@ -532,7 +514,7 @@ export default {
 .box_hotlist {
     border: 1px solid #BBBBBB; 
     border-radius:8px; 
-    height:150px;
+    height:130px;
     width:200px;
     margin:10px 20px 10px 0px;
 }

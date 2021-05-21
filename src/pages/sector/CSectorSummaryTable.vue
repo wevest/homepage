@@ -2,8 +2,11 @@
 
     <div class="row">
       <div class="col">
+        <q-skeleton v-show="!v_chart_loaded" height="450px" square animation="fade" /> 
+
         <q-table          
           title=""
+          v-show="v_chart_loaded"
           class="sticky-column-table"
           :data="items"
           :columns="headers"
@@ -46,6 +49,7 @@ export default {
         search: '',
         g_period: 5,
         g_data: null,
+        v_chart_loaded: false,
 
         headers: [
             { name:'category', align:'left', label: this.$t('name.sector'), field: 'category', sortable:true, format: (val, row) => `${ this.$t('category.'+val)}` },
@@ -115,6 +119,7 @@ export default {
             this.g_data = data;
             
             this.showReportList(data,exchange);
+            this.v_chart_loaded = true;
         },
 
         showSectorChart: function(category) {

@@ -62,6 +62,9 @@ export default {
     volume_surge:'거래량급상승',
     volume_change:'거래량변화율',
     index:'지수',
+    dev_score:'개발',
+    price_score:'가격',
+    volume_score:'거래량',
   },
   page: {
     home: { 

@@ -1,6 +1,9 @@
 <template>
 
-    <div class="widget-box widget-biglabel" :class="bg_color" @click="onClick">
+    <div v-if="!v_loaded">
+        <q-skeleton height="100px" square animation="fade" />
+    </div>
+    <div v-else class="widget-box widget-biglabel" :class="bg_color" @click="onClick" >
 <!--
         <div class="icon-wrapper rounded-circle">
             <div class="icon-wrapper-bg bg-primary"></div>
@@ -55,6 +58,8 @@ export default {
             text_color:'text-white',
             badge_color:'yellow-9',
             icon:'arrow_drop_down',
+
+            v_loaded: false
         }
     },
 
@@ -75,6 +80,7 @@ export default {
                 this.bg_color = 'bg-negative';
                 this.icon = "arrow_drop_down";
             }
+            this.v_loaded = true;
         },
 
         onClick: function() {
