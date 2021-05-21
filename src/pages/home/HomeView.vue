@@ -73,10 +73,10 @@
                             @click="onClickToplist(item.value)"
                         >
                             <div>
-                                <q-icon name="auto_awesome" class="hotlist-icon"/>
+                                <q-icon :name="item.icon" class="hotlist-icon"/>
                             </div>
                             <div>
-                                <h6 class="hotlist-name"> {{ item.label }}</h6>
+                                <span class="hotlist-name"> {{ item.label }}</span>
                             </div>                            
                         </div>
                     </template>
@@ -99,25 +99,34 @@
             <div class="col q-gutter-sm">
                 <CTitle :title="$t('page.home.eureka.title')" :desc="$t('page.home.eureka.desc')"></CTitle>
 
+                <div class="row box_eureka" v-for="(a_eureka,index) in v_eureka" :key="index">
+                    <div class="box_eureka_icon">
+                        <q-icon name="lightbulb" class="q-mr-xs"  />
+                    </div>
+                    <div class="box_eureka_text">
+                        <div class="text-h6">{{ a_eureka.title }}</div>
+                        <div class="text-subtitle2">{{ a_eureka.subtitle }}</div>
+                    </div>
+                </div>
+
+<!--
                 <q-card class="my-card " v-for="(a_eureka,index) in v_eureka" :key="index">
-                    <q-card-section @click="onClickEureka(a_eureka.link)">
+                    <q-card-section @click="onClickEureka(a_eureka.link)" horizontal>
+                        <q-icon name="lightbulb" class="q-mr-xs"  />
                         <div class="text-h6">{{ a_eureka.title }}</div>
                         <div class="text-subtitle2">{{ a_eureka.subtitle }}</div>
                     </q-card-section>
 
-                    <q-card-section>
-                        {{ a_eureka.desc }}
-                    </q-card-section>
-
                     <q-separator />
-<!--
+
                     <q-card-actions>
                         <q-btn flat>Action 1</q-btn>
                         <q-btn flat>Action 2</q-btn>
                     </q-card-actions>
--->                    
+                   
                 </q-card>
-                                
+--> 
+
             </div>
         </div>
 
@@ -212,10 +221,10 @@ export default {
         },
             
         v_toplist:[
-            {label:this.$t('name.price_surge'),value:'ret'},
-            {label:this.$t('name.yester_ret'),value:'yester_ret'},
-            {label:this.$t('name.volume_surge'),value:'volume'},
-            {label:this.$t('name.volume_change'),value:'tvz'},            
+            {label:this.$t('name.price_surge'),value:'ret', icon:"auto_awesome"},
+            {label:this.$t('name.yester_ret'),value:'yester_ret', icon:"auto_graph"},
+            {label:this.$t('name.volume_surge'),value:'volume', icon:"signal_cellular_alt"},
+            {label:this.$t('name.volume_change'),value:'tvz', icon:"insert_chart"},            
         ],
         v_eureka:[
             {title:'Crypto VC 그들의 투자성적은?', subtitle:'전문적인 식견을 가진 그들의 겅과는?', desc:'그들로부터 배울것이 있는가?', link:'cryptovc'},
@@ -496,6 +505,20 @@ export default {
     margin-bottom:1px;
 }
 
+.box_eureka {
+    border: 1px solid #BBBBBB;
+    border-radius:8px; 
+    padding: 15px;
+    margin:10px 8px 22px;
+}
+
+.box_eureka .box_eureka_icon {
+    width:80px;
+}
+.box_eureka_text {
+
+}
+
 .btc-eth {
     color: #111111;
     font-size: 18px;
@@ -507,26 +530,25 @@ export default {
 }
 
 .box_hotlist {
-    border: 2px solid #BBBBBB; 
+    border: 1px solid #BBBBBB; 
     border-radius:8px; 
-    border-width: 1px;
-    height:auto;
+    height:150px;
     width:200px;
-    margin:0px 8px 22px;
+    margin:10px 20px 10px 0px;
 }
 
-.hotlist-icon {
-    
+.hotlist-icon {    
     color:gold;
     font-size:40px;
-    position:relative; top:30px;
+    padding:20px;
+    /* position:relative; top:30px; */
 }
+
 .hotlist-name {
     color:#111111;
     font-size:20px;
     font-weight:800;
-    position:relative; top:10px;
-
-
+    padding:20px;
+    /* position:relative; top:10px; */
 }
 </style>
