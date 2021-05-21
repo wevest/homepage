@@ -1,6 +1,6 @@
 <template>
     
-    <div class="q-pa-md">
+    <div class="q-ma-md">
 
         <div class="row">
             <div class="col">
@@ -8,11 +8,11 @@
             </div>
         </div>
         
-        <div class="row q-gutter-md">
-            <div class="col-12 col-md">
+        <div class="row q-gutter-sm">
+            <div class="col">
                 <CBigLabel ref='label_roi' title="abc"></CBigLabel>
             </div>
-            <div class="col-12 col-md">
+            <div class="col">
                 <CBigLabel ref='label_total' title="abc"></CBigLabel>
             </div>
         </div>
@@ -30,7 +30,8 @@
 
                 <q-table
                 title=""
-                hide-bottom
+
+                hide-bottom flat 
                 :data="items"
                 :columns="headers"
                 row-key="name"
@@ -39,10 +40,12 @@
                     <template v-slot:body="props">
 
                         <q-tr :props="props">
-                            <q-td key="rank" :props="props">{{ props.row.rank+1 }}</q-td>
                             <q-td key="name" :props="props">
-                                <a href="#" @click="onClickVC(props.row.name)">{{ props.row.name }}</a>
+                                <div class="column_vc_name">
+                                    <a href="#" @click="onClickVC(props.row.name)">{{ props.row.name }}</a>
+                                </div>
                             </q-td>
+                            <q-td key="rank" :props="props">{{ props.row.rank+1 }}</q-td>
                             <q-td key="avg_roi" class="text-red text-weight-bolder" :props="props">{{ Number(props.row.avg_roi).toLocaleString() }}</q-td>
                             <q-td key="total_ret" :props="props">{{ Number(props.row.total_ret).toLocaleString() }}</q-td>
                             <q-td key="homepage" :props="props">
@@ -109,8 +112,9 @@ export default {
         v_chart_loaded: false,
 
         headers: [
+            { name:'name', label: this.$t('name.name'), field: 'name', sortable:true, align:'left',
+                classes:'column_vc_name', headerClasses:'column_vc_name'},
             { name:'rank', label: this.$t('name.rank'), field: 'rank', sortable:true },
-            { name:'name', label: this.$t('name.name'), field: 'name' },
             { name:'avg_roi', label: this.$t('name.roi')+'(%)', sortable:true,  field: 'avg_roi' ,
               format: (val, row) => `${Number(val).toLocaleString()}`, 
             },
@@ -251,3 +255,14 @@ export default {
 
 };
 </script>
+
+
+<style scoped>
+
+.column_vc_name {
+    width:80px;
+    /* word-break: keep-all; */
+    /* word-wrap: break-word;  */
+}
+
+</style>

@@ -9,7 +9,8 @@
 <!--
         <ChartTimeframe :onclick="onClickTimeframe" selected='y1' period='yearly'></ChartTimeframe>
 -->        
-        <highcharts class="hc" :options="g_chart['chart3']" ref="chart3"></highcharts>        
+        <q-skeleton v-if="!v_chart_loaded" height="450px" square animation="fade" />
+        <highcharts v-show="v_chart_loaded" class="box_chart" :options="g_chart['chart3']" ref="chart3"></highcharts>        
 
         <CTitle ttype="subtitle" :title="$t('chart.world_scaled.title')" :desc="$t('chart.world_scaled.desc')"></CTitle>
         <ChartTimeframe period='yearly' :onclick="onClickTimeframe" :selected='g_timeframe'></ChartTimeframe>
@@ -18,7 +19,9 @@
 
         <div class="row">
             <div class="col">
-                <q-tabs v-model="tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
+                <CTitle ttype="subtitle" :title="$t('chart.world_asset_price.title')" :desc="$t('chart.world_asset_price.desc')"></CTitle>
+
+                <q-tabs v-model="tab" class="text-grey tab_bgcolor" active-color="primary" indicated-color="primary" align="justify">
                 <q-tab name="btc" :label="$t('name.btc')" @click="onClickTab('btc')" />
                 <q-tab name="nyse" :label="$t('name.nyse')" @click="onClickTab('nyse')" />
                 <q-tab name="gold" :label="$t('name.gold')" @click="onClickTab('gold')" />
@@ -28,12 +31,12 @@
                 </q-tabs>
             </div>
         </div>
-        
-        <CTitle ttype="subtitle" :title="$t('chart.world_asset_price.title')" :desc="$t('chart.world_asset_price.desc')"></CTitle>
+                
 <!--
         <ChartTimeframe period='yearly' :onclick="onClickTimeframe" :selected='g_timeframe'></ChartTimeframe>
 -->        
-        <highcharts height="500" class="hc" :options="g_chart['chart4']" ref="chart4"></highcharts>
+        <q-skeleton v-if="!v_chart_loaded" height="450px" square animation="fade" />
+        <highcharts v-show="v_chart_loaded" height="500" class="box_chart" :options="g_chart['chart4']" ref="chart4"></highcharts>
   </div>
 
 </template>
@@ -80,6 +83,7 @@ export default {
                 },
             },
 
+            v_chart_loaded: false,
         }        
     },
 
@@ -247,6 +251,7 @@ export default {
             this.updateChangeChart(data,-5);
             this.updateAssetChart(this.g_data,this.tab);
             //this.updateWeeklyRetChart(data);
+            this.v_chart_loaded = true;
         },
 
         onClickTab: function(atype) {

@@ -15,6 +15,7 @@
 
         <div class="row">
             <div class="col">
+                <CTitle :title="$t('page.risk.title')" :desc="$t('page.risk.desc')"></CTitle>
                 <RiskChart ref="riskChart" v-on:notify="onUpdateWidget"></RiskChart>
             </div>
         </div>

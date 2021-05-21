@@ -99,7 +99,7 @@
             <div class="col q-gutter-sm">
                 <CTitle :title="$t('page.home.eureka.title')" :desc="$t('page.home.eureka.desc')"></CTitle>
 
-                <div class="row box_eureka float" v-for="(a_eureka,index) in v_eureka" :key="index">
+                <div class="row box_eureka" :style="a_eureka.color" v-for="(a_eureka,index) in v_eureka" :key="index">
                     <div class="box_eureka_icon">
                         <q-icon name="lightbulb" />
                     </div>
@@ -209,8 +209,15 @@ export default {
             {label:this.$t('name.volume_change'),value:'tvz', icon:"insert_chart"},            
         ],
         v_eureka:[
-            {title:'Crypto VC 그들의 투자성적은?', subtitle:'전문적인 식견을 가진 그들의 성과는?', desc:'그들로부터 배울것이 있는가?', link:'cryptovc'},
-            {title:'Crypto VC이 사랑한 프로젝트들?', subtitle:'전문적인 식견을 가진 그들의 성과는?', desc:'그들로부터 배울것이 있는가?', link:'vcportfolio'},
+            {
+                title:'Crypto VC 그들의 투자성적은?', 
+                subtitle:'전문적인 식견을 가진 그들의 성과는?', desc:'그들로부터 배울것이 있는가?', 
+                color: 'background:#FFDC46;', link:'cryptovc'
+            },
+            {
+                title:'Crypto VC이 사랑한 프로젝트들?', subtitle:'전문적인 식견을 가진 그들의 성과는?', desc:'그들로부터 배울것이 있는가?', 
+                color:'background:#D7F1FA;', link:'vcportfolio'
+            },
         ],
     }
   },
@@ -480,36 +487,39 @@ export default {
 };
 </script>
 
-<style scoped>
 
+<style scoped>
 .box_label {
     margin-top:1px;
     margin-bottom:1px;
 }
 
 .box_eureka {
+
+    display: grid;
+    grid-template-columns: minmax(55px, 55px) 1fr;
+
     border: 1px solid #BBBBBB;
     /*background:#D7F1FA; blue*/
     /*background:#FFDC46; yellow*/ 
     /*background:#B4B4FF; purple */
     background:#FFE150;
     border-radius:8px; 
-    padding: 15px;
+    padding: 15px; 
     /* margin:10px 8px 22px; */
-    margin: 10px -8px 10px 8px;    
+    margin: 20px 0px 20px 0px;    
 }
 
 .box_eureka_icon {
-    width:80px;
+    /*width:80px;
+    */
     font-size:40px;
     color:#EB5A5A;
-    margin:-5px 0px 10px -15px;
-    padding-left:10px;
+    margin:-8px 0px 0px 0px;
+    /*padding-left:10px;*/
 }
 .box_eureka_text {    
     font-size: 13px;
-    margin-left:50px;
-    margin-top:0px;
 }
 
 .btc-eth {

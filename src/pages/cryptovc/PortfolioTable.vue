@@ -1,81 +1,39 @@
 <template>
 
-  <div class="q-pa-md">
-    <div class="row">
-      <div class="col">
+    <q-table
+    title=""
+    class="sticky-column-table"
+    hide-bottom flat
+    :data="items"
+    :columns="headers"
+    row-key="name"
+    :rows-per-page-options="[50]"
+    >
+      <template v-slot:body="props">
 
-          <q-tabs v-model="tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
-            <q-tab name="fundamental" :label="$t('name.fundamental')" @click="onClickTab('base')" />
-            <q-tab name="price" :label="$t('name.price')" @click="onClickTab('price')" />
-          </q-tabs>
+          <q-tr :props="props">
+              <q-td key="symbol" :props="props">{{ props.row.symbol }}</q-td>
+              <q-td key="rank" :props="props">{{ props.row.rank+1 }}</q-td>
+              <q-td key="name" :props="props">
+                  <a href="#" @click="onClickAsset(props.row.symbol)">{{ props.row.name }}</a>
+              </q-td>
+              <q-td key="ret" class="text-red text-weight-bolder" :props="props">{{ Number(props.row.ret).toLocaleString() }}</q-td>
+              <q-td key="first_date" class="text-black text-weight-medium" :props="props">{{ props.row.first_date.substring(0,10) }}</q-td>
+              <q-td key="openPrice" :props="props">
+                {{ Number(props.row.openPrice).toLocaleString( 'en-IN', { maximumFractionDigits: 6 } ) }}
+              </q-td>
+              <q-td key="last_date" :props="props">{{ props.row.last_date }}</q-td>
+              <q-td key="closePrice" :props="props">{{ Number(props.row.closePrice).toLocaleString() }}</q-td>
+              <q-td key="homepage" :props="props">
+                <a :href="props.row.website" target="_blank"> {{ props.row.website }}</a>
+              </q-td>
+              <q-td key="description" :props="props">{{ props.row.description }}</q-td>
+          </q-tr>            
 
-          <q-tab-panels
-            v-model="tab"
-            animated
-            swipeable
-            vertical
-            keep-alive
-            transition-prev="jump-up"
-            transition-next="jump-up"
-          >
-            <q-tab-panel name="fundamental">
+      </template>
 
-                <q-table
-                title=""
-                hide-bottom
-                :data="items"
-                :columns="headers"
-                row-key="name"
-                :rows-per-page-options="[50]"
-                >
-                  <template v-slot:body="props">
+    </q-table>
 
-                      <q-tr :props="props">
-                          <q-td key="rank" :props="props">{{ props.row.rank+1 }}</q-td>
-                          <q-td key="symbol" :props="props">{{ props.row.symbol }}</q-td>
-                          <q-td key="name" :props="props">
-                              <a href="#" @click="onClickAsset(props.row.symbol)">{{ props.row.name }}</a>
-                          </q-td>
-                          <q-td key="ret" class="text-red text-weight-bolder" :props="props">{{ Number(props.row.ret).toLocaleString() }}</q-td>
-                          <q-td key="first_date" class="text-black text-weight-medium" :props="props">{{ props.row.first_date.substring(0,10) }}</q-td>
-                          <q-td key="openPrice" :props="props">
-                            {{ Number(props.row.openPrice).toLocaleString( 'en-IN', { maximumFractionDigits: 6 } ) }}
-                          </q-td>
-                          <q-td key="last_date" :props="props">{{ props.row.last_date }}</q-td>
-                          <q-td key="closePrice" :props="props">{{ Number(props.row.closePrice).toLocaleString() }}</q-td>
-                          <q-td key="homepage" :props="props">
-                            <a :href="props.row.website" target="_blank"> {{ props.row.website }}</a>
-                          </q-td>
-                          <q-td key="description" :props="props">{{ props.row.description }}</q-td>
-                      </q-tr>            
-
-                  </template>
-
-                </q-table>
-
-
-            </q-tab-panel>
-
-            <q-tab-panel name="price">
-
-              <q-markup-table>
-                <tbody>
-                  <tr v-for="a_item in items2">
-                    <td class="text-left">{{ a_item['column'] }}</td>
-                    <td class="text-left">{{ a_item['desc'] }}</td>
-                  </tr>
-                </tbody>
-              </q-markup-table>
-
-            </q-tab-panel>
-
-          </q-tab-panels>
-
-
-      </div>
-    </div>
-
-  </div>
 </template>
 
 
@@ -96,8 +54,8 @@ export default {
         
 
         headers: [
-            { name:'rank', label: this.$t('name.rank'), field: 'rank', sortable:true },
             { name:'symbol', label: this.$t('name.symbol'), field: 'symbol', align:'left',  },
+            { name:'rank', label: this.$t('name.rank'), field: 'rank', sortable:true },
             { name:'name', label: this.$t('name.name'), field: 'name' },
             { name:'ret', label: this.$t('name.roi')+'(%)', sortable:true,  field: 'ret' ,},
             { name:'first_date', label: this.$t('name.listed_date'), sortable:true, field: 'first_date' },
@@ -105,7 +63,6 @@ export default {
             { name:'closePrice', label: this.$t('name.last_price'), field: 'closePrice'},
             { name:'homepage', label: this.$t('name.homepage'), align:'left', field: 'homepage'},            
         ],
-
 
         items: [],      
         items2: [],  

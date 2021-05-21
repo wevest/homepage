@@ -27,7 +27,7 @@
 
         <div class="row">
             <div class="col">
-                <CTitle title="trend_trend_chart"></CTitle>
+                <CTitle :title="$t('page.world.title')" :desc="$t('page.world.desc')"></CTitle>
                 <OverviewScaledChart ref="overviewScaledChart"></OverviewScaledChart>
             </div>
         </div>

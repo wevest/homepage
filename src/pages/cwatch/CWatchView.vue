@@ -21,15 +21,15 @@
 
         <CTitle ttype='title' :title="v_page['title']" :desc="v_page['desc']" ></CTitle>          
 
-        <div class="row">
-            <div class="col-3" v-for="(a_item,index) in v_risk">
-                <span>{{ a_item.label }}</span><br>
+        <div class="row text-center">
+            <div class="col box_knob" v-for="(a_item,index) in v_risk">
+                <div class="knob_title">{{ a_item.label }}</div>
                 <q-knob
-                    show-value readonly font-size="16px" class="text-red q-ma-md"
+                    show-value readonly font-size="16px" class="text-red"
                     :min="0" :max="10"
-                    v-model="a_item.value" size="80px" :thickness="0.05"                            
+                    v-model="a_item.value" size="80px" :thickness="0.3"                            
                     :color="a_item.color" track-color="grey-3">
-                    <q-icon name="volume_up" class="q-mr-xs" />
+                    <q-icon :name="a_item.icon" class="q-mr-xs box_knob" />
                     {{ a_item.value }}
                 </q-knob>
             </div>
@@ -118,10 +118,10 @@ export default {
             let eth_up = CommonFunc.getCWatchValueAndColor(data['ETH'].values[data['ETH'].values.length-1][dic_columns['fall_prob']]);
 
             this.v_risk = [
-                {label:'BTC_UP', value:btc_up.value, color:btc_up.color},
-                {label:'ETH_UP', value:eth_up.value, color:eth_up.color},
-                {label:'BTC_DOWN', value:btc_down.value, color:btc_down.color},
-                {label:'ETH_DOWN', value:eth_down.value, color:eth_down.color},
+                {label:'BTC_UP', value:btc_up.value, color:btc_up.color, icon:btc_up.icon},
+                {label:'ETH_UP', value:eth_up.value, color:eth_up.color, icon:eth_up.icon},
+                {label:'BTC_DOWN', value:btc_down.value, color:btc_down.color, icon:btc_down.icon},
+                {label:'ETH_DOWN', value:eth_down.value, color:eth_down.color, icon:eth_down.icon},
             ];
         },
 
@@ -259,3 +259,19 @@ export default {
 
 };
 </script>
+
+<style scoped>
+
+.box_knob {
+    font-size:25px; 
+    /*margin-bottom:30px;*/
+}
+
+.knob_title {
+    color: #111111;
+    font-size: 18px;
+    font-weight: bold;    
+    margin-bottom:10px;
+}
+
+</style>

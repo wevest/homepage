@@ -5,9 +5,9 @@
         <CTitle ttype='subtitle' :title="$t('page.asset.price.title')" :desc="$t('page.asset.price.desc')"></CTitle>        
         <highcharts class="box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
 -->     
-                     
+        <q-skeleton v-if="!v_chart_loaded" animation="fade" square height="450px" />             
         <highcharts v-show="v_chart_loaded" class="box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
-        <q-skeleton v-if="!v_chart_loaded" animation="fade" square height="450px" />
+        
     
 <!--    
 
