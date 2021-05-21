@@ -32,7 +32,7 @@
                                 </tr>
                                 <tr>
                                     <td class="box_score_table_column"> 
-                                        <span class="price_label">{{ $t('name.price_score') }}</span> 
+                                        <span class="price_label caption_color">{{ $t('name.price_score') }}</span> 
                                     </td>
                                     <td>
                                         <q-slider
@@ -43,7 +43,7 @@
                                 </tr>
                                 <tr>
                                     <td class="box_score_table_column"> 
-                                        <span class="price_label">{{ $t('name.volume_score') }}</span> 
+                                        <span class="price_label caption_color">{{ $t('name.volume_score') }}</span> 
                                     </td>
                                     <td>
                                         <q-slider
@@ -66,15 +66,15 @@
         </div>
 
         <div class="row q-pa-md">            
-            <div class="col-3">
+            <div class="col-3 price_box">
                 <div class="price_big">
                     <span>{{ g_price['price'] }}</span>
                     <div :class="g_price.class">
-                        <span>
-                            <q-icon class="widget-value-icon" :name="g_price.icon"/>
-                            {{ g_price['price_ret'] }} %
+                        <span class="percent_below">
+                            <q-icon class="widget-value-icon percent_icon" :name="g_price.icon"/>
+                            <span>{{ g_price['price_ret'] }}%</span>
                         </span>
-                        <br><span>{{ g_price['updated_date'] }}</span>
+                        <br><span class="price_date">{{ g_price['updated_date'] }}</span>
                     </div>
                 </div>
             </div>
@@ -84,31 +84,31 @@
                     <tr>
                         <td> 
                             <span class="price_label caption_color">{{ $t('name.price_prev') }}</span>  
-                            <span class="price_tag value_color">{{ g_price['price_prev'] }}</span>
+                            <br><span class="price_tag value_color">{{ g_price['price_prev'] }}</span>
                         </td>
                         <td> 
                             <span class="price_label caption_color">{{ $t('name.price_high') }}</span>
-                            <span class="price_tag value_color">{{ g_price['price_high'] }}</span>
+                            <br><span class="price_tag value_color">{{ g_price['price_high'] }}</span>
                         </td>
                     </tr>
                     <tr>
                         <td> 
                             <span class="price_label caption_color">{{ $t('name.volume') }}</span>
-                            <span class="price_tag value_color padding1">{{ g_price['volume'] }}</span>
+                            <br><span class="price_tag value_color">{{ g_price['volume'] }}</span>
                         </td>
                         <td>
                             <span class="price_label caption_color">{{ $t('name.price_open') }}</span>
-                            <span class="price_tag value_color">{{ g_price['price_open'] }}</span>
+                            <br><span class="price_tag value_color">{{ g_price['price_open'] }}</span>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <span class="price_label caption_color">{{ $t('name.price_low') }}</span> 
-                            <span class="price_tag value_color">{{ g_price['price_low'] }}</span>
+                            <br><span class="price_tag value_color">{{ g_price['price_low'] }}</span>
                         </td>
                         <td>
                             <span class="price_label caption_color">{{ $t('name.tv') }}</span> 
-                            <span class="price_tag value-color">{{ Number(g_price['tv']).toLocaleString() }}</span>
+                            <br><span class="price_tag value_color">{{ Number(g_price['tv']).toLocaleString() }}</span>
                         </td>
                     </tr>
                     </tbody>
@@ -511,14 +511,31 @@ export default {
 
 <style scoped>
 
-.price_big {
-    margin-top: 1.2em;
-    margin-left: 0.4em;
-    font-size:1.8em;
-    color:#E71915;
-    font-weight: bold;
+.price_box {
+    width:90px;
+    text-align:center;
+    margin-top:40px;
+    margin-left:-10px;
+
 }
 
+.price_big {
+    font-size:30px;
+    font-weight: bold;
+    color:#111111;
+}    
+
+.percent_below {
+    font-size:13px;
+    vertical-align:top;
+}
+
+
+.price_date {
+    vertical-align:top;
+    font-size:10px;
+    color:#BBBBBB;
+}
 /*
 .price_label {
     font:12px;
@@ -529,20 +546,7 @@ export default {
 */
 
 
-.price_tag {
-    font-size:12px;
-    color:#E71915;
-    margin-left:0.3em;
-}
 
-.padding1 {
-    padding-left: 0.8em;
-}
-
-.price_table {
-    /* text-align:center; */
-
-}
 
 
 .price_table td {
@@ -556,12 +560,9 @@ export default {
 .box_score {
     display: grid;
     grid-template-columns: minmax(80px, 80px) 1fr;
+    ;
 }
 
-.box_score_porint {
-    
-    
-}
 .box_score_table {
     margin-top:0px;
 }
@@ -571,14 +572,30 @@ export default {
     padding-bottom:10px;
 }
 
-
 .box_score_table tr {
     height:60px;
     vertical-align: bottom;
 }
 
-.box_score_point .score_point {
-    font-size:30px;
-    font-weight: bolder;
+.box_score_point {
+    text-align:center;
+    margin-top:30px;
 }
+
+.score_point {
+    font-size:38px;
+    font-weight:bolder; 
+}
+
+.score_label {
+    font-size:18px;
+    color:#000000;
+}
+
+.price_tag {
+    line-height:40px;
+    font-size:16px;
+    color:#E71915;
+}
+
 </style>

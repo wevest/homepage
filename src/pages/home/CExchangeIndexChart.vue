@@ -12,9 +12,7 @@
 <!--
     <apexchart ref="chart3" :height="g_height" type="line" :options="chartOptions3" :series="series3"></apexchart>    
     <apexchart ref="chart4" :height="g_height" type="line" :options="chartOptions4" :series="series4"></apexchart>        
--->    
-    </div>
-
+-->  
 </template>
 
 
