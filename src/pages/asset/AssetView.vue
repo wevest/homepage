@@ -14,8 +14,8 @@
                     <tbody>
                         <tr>
                             <td> 
-                                <span class="price_label">{{ $t('name.dev_score') }}</span> 
-                                <br><span>{{ v_score.dev }}</span>
+                                <span class="caption_color">{{ $t('name.dev_score') }}</span> 
+                                <br><span class="value_color">{{ v_score.dev }}</span>
                             </td>
                             <td> 
                                 <span class="price_label">{{ $t('name.price_score') }}</span> 
@@ -452,12 +452,15 @@ export default {
     font-weight: bold;
 }
 
+/*
 .price_label {
     font:12px;
     color:#464646;
     font-weight: bold;
     padding-right:5px;
 }
+*/
+
 
 .price_tag {
     font-size:12px;

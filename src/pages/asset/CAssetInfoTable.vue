@@ -78,7 +78,7 @@
                     <template v-slot:body="props">
 
                         <q-tr :props="props">
-                            <q-td key="name" :props="props">
+                            <q-td key="name" :props="props" class="caption_color">
                                 <a href="#" @click="onClickVC(props.row.name)">{{ props.row.name }}</a>
                             </q-td>
                             <q-td key="avg_roi" class="text-red text-weight-bolder" :props="props">{{ Number(props.row.avg_roi).toLocaleString() }}</q-td>
