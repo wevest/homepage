@@ -99,9 +99,9 @@
             <div class="col q-gutter-sm">
                 <CTitle :title="$t('page.home.eureka.title')" :desc="$t('page.home.eureka.desc')"></CTitle>
 
-                <div class="row box_eureka" v-for="(a_eureka,index) in v_eureka" :key="index">
+                <div class="row box_eureka float" v-for="(a_eureka,index) in v_eureka" :key="index">
                     <div class="box_eureka_icon">
-                        <q-icon name="lightbulb" class="q-mr-xs"  />
+                        <q-icon name="lightbulb" />
                     </div>
                     <div class="box_eureka_text">
                         <div class="text-h6">{{ a_eureka.title }}</div>
@@ -495,12 +495,10 @@ export default {
     background:#FFE150;
     border-radius:8px; 
     padding: 15px;
-    margin:10px 8px 22px;
+    /* margin:10px 8px 22px; */
+    margin: 10px -8px 10px 8px;    
 }
 
-.box_eureka {
-    margin: 10px -8px 10px 8px;
-} 
 .box_eureka_icon {
     width:80px;
     font-size:40px;
@@ -508,11 +506,10 @@ export default {
     margin:-5px 0px 10px -15px;
     padding-left:10px;
 }
-.box_eureka_text {
-    width:280px;
+.box_eureka_text {    
     font-size: 13px;
     margin-left:50px;
-    margin-top:-60px;
+    margin-top:0px;
 }
 
 .btc-eth {
