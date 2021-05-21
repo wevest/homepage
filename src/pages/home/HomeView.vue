@@ -503,12 +503,7 @@ export default {
 }
 
 .box_knob {
-<<<<<<< HEAD
-    font-size:25px;
-    
-=======
-    font-size:20px;    
->>>>>>> 86f8827dc5002a3fc0309afdf7635b84e111f18f
+    font-size:25px; 
 }
 
 .box_hotlist {
