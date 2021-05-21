@@ -1110,6 +1110,42 @@ export default class CommonFunc {
 
         return value.split(needle);
     }
+
+
+    static milifyNumber(x) {
+        
+        if (isNaN(x)) {
+            return x;
+        }
+            
+        console.log("milify=",x);
+
+        let a_value = null;
+
+        if(x < 9999) {            
+            return CommonFunc.formatNumber(x,0);
+        }
     
+        if(x < 1000000) {            
+            a_value = Math.round(x/1000);
+            return CommonFunc.formatNumber(a_value,0) + "K";
+        }
+        if( x < (1000*1000*100)) {
+            a_value = x/1000000;
+            return CommonFunc.formatNumber(a_value,2) + "M";
+        }
+
+        if (x < (1000*1000*1000*100)) {
+            a_value = x/(1000*1000*1000);
+            return CommonFunc.formatNumber(a_value,2) + "B";
+        }
+
+        console.log("milify--1",x);
+
+        a_value = x/(1000*1000*1000*1000);
+        a_value = CommonFunc.formatNumber(a_value,2) + "T";
+        //console.log("milify--2",a_value);
+        return a_value;
+    }    
 }
 

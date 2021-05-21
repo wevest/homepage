@@ -17,16 +17,16 @@
                         <br><span class="price_tag">{{ v_score.vc }}</span>
                     </div>
                     <div>
-                        <q-markup-table flat class="box_score_table">
+                        <q-markup-table flat dense class="box_score_table">
                             <tbody>
                                 <tr>
                                     <td class="box_score_table_column"> 
                                         <span class="caption_color">{{ $t('name.dev_score') }}</span> 
                                     </td>
-                                    <td>
+                                    <td style="padding-top:30px;">
                                         <q-slider
-                                            v-model="v_score.dev" :min="0" :max="5" :step="1"
-                                            label :label-value="v_score.dev"  readonly dense
+                                            v-model="v_score.dev" :min="0" :max="5" :step="1"                                            
+                                            label :label-value="v_score.dev" readonly dense
                                             label-always color="purple" />
                                     </td>
                                 </tr>
@@ -65,8 +65,8 @@
             </div>
         </div>
 
-        <div class="row q-pa-md">            
-            <div class="col-3 price_box">
+        <div class="row box_price">            
+            <div class="price_box">
                 <div class="price_big">
                     <span>{{ g_price['price'] }}</span>
                     <div :class="g_price.class">
@@ -78,7 +78,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-9">
+            <div>
                 <q-markup-table flat class="price_table">
                     <tbody>
                     <tr>
@@ -108,7 +108,7 @@
                         </td>
                         <td>
                             <span class="price_label caption_color">{{ $t('name.tv') }}</span> 
-                            <br><span class="price_tag value_color">{{ Number(g_price['tv']).toLocaleString() }}</span>
+                            <br><span class="price_tag value_color">{{ g_price['tv'] }}</span>
                         </td>
                     </tr>
                     </tbody>
@@ -348,7 +348,7 @@ export default {
             this.g_price['price_low'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceLow']],2);
             this.g_price['price_high'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceHigh']],2);
             this.g_price['price_open'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceOpen']],2);
-            this.g_price['volume'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['volume']],0);
+            this.g_price['volume'] = CommonFunc.milifyNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['volume']]);
 
 
             let a_ret = ((a_price-a_price_prev)/a_price)*100;
@@ -366,7 +366,7 @@ export default {
             this.g_price['price_ret'] = CommonFunc.formatNumber(a_ret,2);
 
             let a_tv = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['volume']] * json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceClose']];
-            this.g_price['tv'] = CommonFunc.formatNumber(a_tv,0);
+            this.g_price['tv'] = CommonFunc.milifyNumber(a_tv);
             this.g_price['updated_date'] = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['trade_date']];
         },
 
@@ -511,12 +511,13 @@ export default {
 
 <style scoped>
 
-.price_box {
-    width:90px;
-    text-align:center;
-    margin-top:40px;
-    margin-left:-10px;
+.box_price {
+    display: grid;
+    grid-template-columns: minmax(90px, 90px) 1fr;
+}
 
+.price_box {
+    text-align:center;    
 }
 
 .price_big {
@@ -533,7 +534,7 @@ export default {
 
 .price_date {
     vertical-align:top;
-    font-size:10px;
+    font-size:8px;
     color:#BBBBBB;
 }
 /*
@@ -559,8 +560,7 @@ export default {
 
 .box_score {
     display: grid;
-    grid-template-columns: minmax(80px, 80px) 1fr;
-    ;
+    grid-template-columns: minmax(90px, 90px) 1fr;
 }
 
 .box_score_table {
@@ -579,7 +579,7 @@ export default {
 
 .box_score_point {
     text-align:center;
-    margin-top:30px;
+    padding-top:13px;
 }
 
 .score_point {
