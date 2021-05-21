@@ -7,72 +7,108 @@
             </div>
         </div>
         
-        <div class="row q-pa-md">
+        <div class="row">
             <div class="col">
-                
-                <q-markup-table class="score_table">
-                    <tbody>
-                        <tr>
-                            <td> 
-                                <span class="caption_color">{{ $t('name.dev_score') }}</span> 
-                                <br><span class="value_color">{{ v_score.dev }}</span>
-                            </td>
-                            <td> 
-                                <span class="price_label">{{ $t('name.price_score') }}</span> 
-                                <br><span class="price_tag">{{ v_score.price }}</span>
-                            </td>
-                            <td> 
-                                <span class="price_label">{{ $t('name.volume_score') }}</span> 
-                                <br><span class="price_tag">{{ v_score.volume }}</span>
-                            </td>
-                            <td> 
-                                <span class="price_label">{{ $t('name.cryptovc') }}</span> 
-                                <br><span class="price_tag">{{ v_score.vc }}</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </q-markup-table>
-
+                <CTitle ttype='subtitle' title="Ratings and Score" desc=""></CTitle>          
+                <div class="box_score">
+                    <div class="box_score_point">
+                        <span class="score_point"> {{ v_score.avg }} </span>
+                        <br><span class="price_label">{{ $t('name.cryptovc') }}</span> 
+                        <br><span class="price_tag">{{ v_score.vc }}</span>
+                    </div>
+                    <div>
+                        <q-markup-table flat class="box_score_table">
+                            <tbody>
+                                <tr>
+                                    <td class="box_score_table_column"> 
+                                        <span class="caption_color">{{ $t('name.dev_score') }}</span> 
+                                    </td>
+                                    <td>
+                                        <q-slider
+                                            v-model="v_score.dev" :min="0" :max="5" :step="1"
+                                            label :label-value="v_score.dev"  readonly dense
+                                            label-always color="purple" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="box_score_table_column"> 
+                                        <span class="price_label caption_color">{{ $t('name.price_score') }}</span> 
+                                    </td>
+                                    <td>
+                                        <q-slider
+                                            v-model="v_score.price" :min="0" :max="5" :step="1"
+                                            label :label-value="v_score.price"   readonly dense
+                                            label-always color="purple" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="box_score_table_column"> 
+                                        <span class="price_label caption_color">{{ $t('name.volume_score') }}</span> 
+                                    </td>
+                                    <td>
+                                        <q-slider
+                                            v-model="v_score.volume" :min="0" :max="5" :step="1"
+                                            label :label-value="v_score.volume"  readonly dense
+                                            label-always color="purple" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </q-markup-table>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="row q-pa-md">
-            <div class="col-4">
-                <p class="price_big">
-                    {{ g_price['price'] }}
-                </p>
+        <div class="row">
+            <div class="col">
+                <CTitle ttype='subtitle' title="Ratings and Score" desc=""></CTitle>                      
             </div>
-            <div class="col-8">
-                <q-markup-table class="price_table">
+        </div>
+
+        <div class="row q-pa-md">            
+            <div class="col-3 price_box">
+                <div class="price_big">
+                    <span>{{ g_price['price'] }}</span>
+                    <div :class="g_price.class">
+                        <span class="percent_below">
+                            <q-icon class="widget-value-icon percent_icon" :name="g_price.icon"/>
+                            <span>{{ g_price['price_ret'] }}%</span>
+                        </span>
+                        <br><span class="price_date">{{ g_price['updated_date'] }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-9">
+                <q-markup-table flat class="price_table">
                     <tbody>
                     <tr>
                         <td> 
                             <span class="price_label caption_color">{{ $t('name.price_prev') }}</span>  
-                            <span class="price_tag value_color">{{ g_price['price_prev'] }}</span>
+                            <br><span class="price_tag value_color">{{ g_price['price_prev'] }}</span>
                         </td>
                         <td> 
                             <span class="price_label caption_color">{{ $t('name.price_high') }}</span>
-                            <span class="price_tag value_color">{{ g_price['price_high'] }}</span>
+                            <br><span class="price_tag value_color">{{ g_price['price_high'] }}</span>
                         </td>
                     </tr>
-                    <tr>    
+                    <tr>
                         <td> 
                             <span class="price_label caption_color">{{ $t('name.volume') }}</span>
-                            <span class="price_tag value_color padding1">{{ g_price['volume'] }}</span>
+                            <br><span class="price_tag value_color">{{ g_price['volume'] }}</span>
                         </td>
                         <td>
                             <span class="price_label caption_color">{{ $t('name.price_open') }}</span>
-                            <span class="price_tag value_color">{{ g_price['price_open'] }}</span>
+                            <br><span class="price_tag value_color">{{ g_price['price_open'] }}</span>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <span class="price_label caption_color">{{ $t('name.price_low') }}</span> 
-                            <span class="price_tag value_color">{{ g_price['price_low'] }}</span>
+                            <br><span class="price_tag value_color">{{ g_price['price_low'] }}</span>
                         </td>
                         <td>
                             <span class="price_label caption_color">{{ $t('name.tv') }}</span> 
-                            <span class="price_tag value-color">{{ Number(g_price['tv']).toLocaleString() }}</span>
+                            <br><span class="price_tag value_color">{{ Number(g_price['tv']).toLocaleString() }}</span>
                         </td>
                     </tr>
                     </tbody>
@@ -191,11 +227,13 @@ export default {
             g_period: 30,
             g_asset: null,       
             g_freq: 'y1',
-            g_price: {'price_prev':0, 'price_low':0, 'price_high':0, 'price_open':0, 'price':0, 'volume':0, 'tv':0},    
-
+            
+            g_price: {'price_prev':0, 'price_low':0, 'price_high':0, 'price_open':0, 
+                'price':0, 'price_ret':0, 'volume':0, 'tv':0, 
+                'updated_date':'', 'icon':'arrow_drop_up', class:'text-red'},    
             
             v_page: {title:this.$t('page.asset.title'), desc:''},
-            v_score: {dev:'A', price:'A', volume:'A', vc:0},
+            v_score: {dev:5, price:5, volume:5, vc:0, avg:5},
 
             v_visible_table:false,
             v_headers: [
@@ -266,16 +304,23 @@ export default {
         },
         
         getScore: function(value) {
-            if (value>0.8) {
-                return 'A';
+            if (value>0.8) {                
+                //return 'A';
+                return 5;
             } else if (value>0.6) {
-                return 'B';
+                return 4;
+                //return 'B';
             } else if (value>0.4) {
-                return 'C';
+                return 3;
+                //return 'C';
             } else if (value>0.2) {
-                return 'D';
+                return 2;
+                //return 'D';
+            } else if (value==0) { 
+                return 0;
             } else {
-                return 'F';
+                return 1;
+                //return 'F';
             }
         },
 
@@ -288,21 +333,41 @@ export default {
             this.v_score['price'] = this.getScore(json_data.values[ json_data.values.length-1 ][dic_columns['price_ret_rank']]);
             this.v_score['volume'] = this.getScore(json_data.values[ json_data.values.length-1 ][dic_columns['volume_sum_rank']]);
             this.v_score['vc'] = a_vc.split(",").length;
+            this.v_score['avg'] = CommonFunc.formatNumber( (this.v_score['dev']+this.v_score['price']+this.v_score['volume'])/3,2);
         },
 
         updatePriceWiget: function(json_data) {
             logger.log.debug("data=",json_data);
 
             const dic_columns = CommonFunc.getColumnDic(json_data['overall'].columns,[],[]);
-            this.g_price['price'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceClose']],2);
-            this.g_price['price_prev'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-2 ][dic_columns['priceClose']],2);
+            const a_price = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceClose']];
+            const a_price_prev = json_data['overall'].values[ json_data['overall'].values.length-2 ][dic_columns['priceClose']];
+
+            this.g_price['price'] = CommonFunc.formatNumber(a_price,2);
+            this.g_price['price_prev'] = CommonFunc.formatNumber(a_price_prev,2);
             this.g_price['price_low'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceLow']],2);
             this.g_price['price_high'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceHigh']],2);
             this.g_price['price_open'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceOpen']],2);
             this.g_price['volume'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['volume']],0);
+
+
+            let a_ret = ((a_price-a_price_prev)/a_price)*100;
             
+            let a_class = 'text-red';
+            let a_icon = 'arrow_drop_down';
+            if (a_ret>0) {
+                a_class = 'text-green'
+                a_icon = 'arrow_drop_up';
+            }
+            
+            this.g_price.icon = a_icon;
+            this.g_price.class = a_class;
+            this.g_price['price_diff'] = CommonFunc.formatNumber(a_ret,2);
+            this.g_price['price_ret'] = CommonFunc.formatNumber(a_ret,2);
+
             let a_tv = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['volume']] * json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceClose']];
             this.g_price['tv'] = CommonFunc.formatNumber(a_tv,0);
+            this.g_price['updated_date'] = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['trade_date']];
         },
 
         updatePriceTable: function(json_data) {            
@@ -446,14 +511,31 @@ export default {
 
 <style scoped>
 
-.price_big {
-    margin-top: 1.2em;
-    margin-left: 0.4em;
-    font-size:1.8em;
-    color:#E71915;
-    font-weight: bold;
+.price_box {
+    width:90px;
+    text-align:center;
+    margin-top:40px;
+    margin-left:-10px;
+
 }
 
+.price_big {
+    font-size:30px;
+    font-weight: bold;
+    color:#111111;
+}    
+
+.percent_below {
+    font-size:13px;
+    vertical-align:top;
+}
+
+
+.price_date {
+    vertical-align:top;
+    font-size:10px;
+    color:#BBBBBB;
+}
 /*
 .price_label {
     font:12px;
@@ -464,20 +546,7 @@ export default {
 */
 
 
-.price_tag {
-    font-size:12px;
-    color:#E71915;
-    margin-left:0.3em;
-}
 
-.padding1 {
-    padding-left: 0.8em;
-}
-
-.price_table {
-    /* text-align:center; */
-
-}
 
 
 .price_table td {
@@ -486,6 +555,47 @@ export default {
 
 .score_table {
     text-align:center;
+}
+
+.box_score {
+    display: grid;
+    grid-template-columns: minmax(80px, 80px) 1fr;
+    ;
+}
+
+.box_score_table {
+    margin-top:0px;
+}
+
+.box_score_table .box_score_table_column {
+    width:20px;
+    padding-bottom:10px;
+}
+
+.box_score_table tr {
+    height:60px;
+    vertical-align: bottom;
+}
+
+.box_score_point {
+    text-align:center;
+    margin-top:30px;
+}
+
+.score_point {
+    font-size:38px;
+    font-weight:bolder; 
+}
+
+.score_label {
+    font-size:18px;
+    color:#000000;
+}
+
+.price_tag {
+    line-height:40px;
+    font-size:16px;
+    color:#E71915;
 }
 
 </style>

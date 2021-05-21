@@ -19,8 +19,8 @@
         </div>
 
         <CTitle ttype='subtitle' :title="$t('page.cwatch.btc.title')" :desc="$t('page.cwatch.btc.desc')"></CTitle>
-        
-        <highcharts class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>        
+        <q-skeleton v-if="!v_chart_loaded" height="450px" square animation="fade" />
+        <highcharts v-show="v_chart_loaded" class="box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
 
         <q-table
         title=""
@@ -47,7 +47,8 @@
         </q-table>
 
         <CTitle ttype='subtitle' :title="$t('page.cwatch.eth.title')" :desc="$t('page.cwatch.eth.desc')"></CTitle>
-        <highcharts class="hc box_chart" :options="g_chart['chart2']" ref="chart2"></highcharts>
+        <q-skeleton v-if="!v_chart_loaded" height="450px" square animation="fade" />
+        <highcharts v-show="v_chart_loaded" class="box_chart" :options="g_chart['chart2']" ref="chart2"></highcharts>
 
         <q-table
         title=""
@@ -124,6 +125,7 @@ export default {
                 descending: true,
             },
             v_items: {BTC: [], ETH:[]},
+            v_chart_loaded: false,
         }
     },
 
@@ -221,6 +223,7 @@ export default {
             this.updateIndexChart(this.g_data);    
             this.updateRiskTable(this.g_data,'BTC');
             this.updateRiskTable(this.g_data,'ETH');
+            this.v_chart_loaded = true;
         },
 
         updateOracle: function(json_data) {

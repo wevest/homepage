@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col">
                 <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle> 
-                <q-tabs v-model="v_tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
+                <q-tabs v-model="v_tab" class="text-grey tab_bgcolor" active-color="primary" indicated-color="primary" align="justify">
                     <q-tab name="upbit" :label="$t('name.upbit')" @click="onClickTab('upbit')" />
                     <q-tab name="bithumb" :label="$t('name.bithumb')" @click="onClickTab('bithumb')" />
                 </q-tabs>              

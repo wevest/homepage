@@ -1,12 +1,16 @@
 <template>
-    <div class="example">
+    <div style="margin:0px;padding:0px;">
 <!--
         <highcharts :constructorType="'stockChart'" class="hc" :options="chartOptions" ref="chart"></highcharts>
--->                
-        <CTitle ttype='subtitle' :title="$t('page.asset.price.title')" :desc="$t('page.asset.price.desc')"></CTitle>
-        <highcharts class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
+        <CTitle ttype='subtitle' :title="$t('page.asset.price.title')" :desc="$t('page.asset.price.desc')"></CTitle>        
+        <highcharts class="box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
+-->     
+                     
+        <highcharts v-show="v_chart_loaded" class="box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
+        <q-skeleton v-if="!v_chart_loaded" animation="fade" square height="450px" />
+    
+<!--    
 
-<!--        
         <CTitle ttype='subtitle' title="시장강도"></CTitle>
         <highcharts class="hc" :options="g_chart['chart2']" ref="chart2"></highcharts>
 -->
@@ -42,6 +46,8 @@ export default {
                 'chart1': {series: []},
                 'chart2': {series: []},
             },
+
+            v_chart_loaded: false,
         }
     },
 
@@ -60,9 +66,8 @@ export default {
 
             let a_option = CommonFunc.getChartOption(series);
             this.g_chart['chart1'] = a_option;
-
+            this.v_chart_loaded = true;
         },
-
 
         update: function(json_data) {
             logger.log.debug('CAssetChart.update : =',json_data);

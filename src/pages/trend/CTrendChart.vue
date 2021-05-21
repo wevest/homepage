@@ -1,10 +1,10 @@
 <template>
     <div class="example">     
         <CTitle ttype='subtitle' :title="$t('page.trend.index.title')" :desc="$t('page.trend.index.desc')"></CTitle>          
-        <div class="row">
-            <ChartTimeframe period="monthly" :onclick="onClickTimeframe" :selected='v_timeframe' ref='tfIndex'></ChartTimeframe>
-        </div>
-        <highcharts class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
+        <ChartTimeframe period="monthly" :onclick="onClickTimeframe" :selected='v_timeframe' ref='tfIndex'></ChartTimeframe>
+        
+        <q-skeleton v-if="!v_chart_loaded" height="450px" square animation="fade" />
+        <highcharts v-show="v_chart_loaded" class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
         
         <q-table
         title=""
@@ -32,7 +32,8 @@
                 
         <CTitle ttype='subtitle' :title="$t('page.trend.dominance.title')" :desc="$t('page.trend.dominance.desc')"></CTitle>
         <ChartTimeframe period="monthly" :onclick="onClickTimeframe" :selected='v_timeframe' ref='tfDominance'></ChartTimeframe>
-        <highcharts class="hc box_chart" :options="g_chart['chart2']" ref="chart2"></highcharts>
+        <q-skeleton v-if="!v_chart_loaded" height="450px" square animation="fade" />
+        <highcharts  v-show="v_chart_loaded" class="box_chart" :options="g_chart['chart2']" ref="chart2"></highcharts>
 
         <q-table
         title=""
@@ -59,7 +60,8 @@
 
         <CTitle ttype='subtitle' :title="$t('page.trend.kpremium.title')" :desc="$t('page.trend.kpremium.desc')"></CTitle>
         <ChartTimeframe period="monthly" :onclick="onClickTimeframe" :selected='v_timeframe' ref='tfKpremium'></ChartTimeframe>
-        <highcharts class="hc box_chart" :options="g_chart['chart3']" ref="chart3"></highcharts>
+        <q-skeleton v-if="!v_chart_loaded" height="450px" square animation="fade" />
+        <highcharts  v-show="v_chart_loaded" class="hc box_chart" :options="g_chart['chart3']" ref="chart3"></highcharts>
 
         <q-table
         title=""
@@ -93,7 +95,8 @@
         </q-tabs>
 
         <ChartTimeframe period="monthly" :onclick="onClickTimeframe" :selected='v_timeframe' ref='tfSector'></ChartTimeframe>       
-        <highcharts class="hc box_chart" :options="g_chart['chart4']" ref="chart4"></highcharts>
+        <q-skeleton v-if="!v_chart_loaded" height="450px" square animation="fade" />
+        <highcharts  v-show="v_chart_loaded" class="hc box_chart" :options="g_chart['chart4']" ref="chart4"></highcharts>
 
         <q-table
         title=""
@@ -122,7 +125,8 @@
 
         <CTitle ttype='subtitle' :title="$t('page.trend.sectortv.title')" :desc="$t('page.trend.sectortv.desc')"></CTitle>
         <ChartTimeframe period="monthly" :onclick="onClickTimeframe" :selected='v_timeframe' ref='tfSectortv'></ChartTimeframe>
-        <highcharts class="hc box_chart" :options="g_chart['chart5']" ref="chart5"></highcharts>
+        <q-skeleton v-if="!v_chart_loaded" height="450px" square animation="fade" />
+        <highcharts  v-show="v_chart_loaded" class="hc box_chart" :options="g_chart['chart5']" ref="chart5"></highcharts>
 
         <q-table
         title=""
@@ -256,6 +260,7 @@ export default {
                 descending: true,
             },
 
+            v_chart_loaded: false,
         }
     },
 
@@ -504,6 +509,8 @@ export default {
 
             this.updateSectorTVChart(json_data,'upbit','index_tv');
             this.updateSectorTable('tv',json_data,'upbit','index_tv');
+
+            this.v_chart_loaded = true;
         },
 
         onClickTab:function(exchange) {

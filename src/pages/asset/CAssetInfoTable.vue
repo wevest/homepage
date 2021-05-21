@@ -1,9 +1,9 @@
 <template>
 
     <div class="row">
-      <div class="col q-gutter-sm">
+      <div class="col">
 
-          <q-tabs v-model="tab" class="text-grey q-gutter-sm" active-color="primary" indicated-color="primary" align="justify">
+          <q-tabs v-model="tab" class="text-black tab_bgcolor" active-color="primary" indicated-color="primary" align="justify" dense>
             <q-tab name="intro" :label="$t('name.intro')" @click="onClickTab('intro')" />
             <q-tab name="info" :label="$t('name.info')" @click="onClickTab('info')" />
             <q-tab name="investor" :label="$t('name.investor')" @click="onClickTab('base')" />
@@ -12,14 +12,13 @@
 
           <q-tab-panels
             v-model="tab"
-            animated            
+            animated dense           
             vertical
-            keep-alive
-            
+            keep-alive            
             transition-prev="jump-up"
             transition-next="jump-up"
           >
-            <q-tab-panel name="intro" class="q-gutter-sm">
+            <q-tab-panel name="intro" class="q-pa-none">
               <q-card flat bordered class="my-card">
                 <q-card-section>
                   <div class="text-h6">{{g_symbol}}</div>
@@ -34,12 +33,13 @@
 
             </q-tab-panel>
 
-            <q-tab-panel name="info">
+            <q-tab-panel name="info" class="q-pa-none">
+<!--
               <div class="row">   
                 <div class="col">
-                  <q-markup-table>
+                  <q-markup-table flat>
                     <tbody>
-                      <tr v-for="a_item in items_price">
+                      <tr v-for="a_item in v_items_info">
                         <td class="text-left">{{ a_item['column'] }}</td>
                         <td class="text-right">{{ a_item['desc'] }}</td>
                       </tr>
@@ -47,12 +47,12 @@
                   </q-markup-table>
                 </div>
               </div>
-
+-->
               <div class="row">
                 <div class="col">
-                  <q-markup-table>
+                  <q-markup-table flat>
                     <tbody>
-                      <tr v-for="a_item in items_info">
+                      <tr v-for="a_item in v_items_info">
                         <td class="text-left">{{ a_item['column'] }}</td>
                         <td class="text-left" v-if="a_item['type']==0">
                           <a :href="a_item['desc']" target="_blank"> {{ a_item['desc'] }}</a></td>
@@ -61,15 +61,15 @@
                     </tbody>
                   </q-markup-table>            
                 </div>         
-              </div>
+              </div>              
             </q-tab-panel>
 
-            <q-tab-panel name="investor">
+            <q-tab-panel name="investor" class="q-pa-none">
 
               <q-table
                 title=""
                 class="sticky-column-table"
-                
+                flat
                 :data="v_items_vc"
                 :columns="v_headers_vc"
                 row-key="name"
@@ -95,9 +95,9 @@
 
             </q-tab-panel>
 
-            <q-tab-panel name="development">
+            <q-tab-panel name="development" class="q-pa-none">
 
-              <q-markup-table>
+              <q-markup-table flat>
                 <tbody class="develop-low">
                   <tr>
                     <td>                      
@@ -193,6 +193,7 @@ export default {
         items_price: [],
         items2: [],
 
+        v_items_info: [],
 
         v_headers_vc: [
             { name:'name', label: this.$t('name.name'), field: 'name' },
@@ -283,10 +284,15 @@ export default {
             //this.g_description = json_data['values'][0][dic_columns['description']];
 
             let items = [];
-            items.push( {column:'symbol', type:1, desc:json_data['values'][0][dic_columns['symbol']]} );
-            items.push( {column:'name', type:1, desc:json_data['values'][0][dic_columns['name']]} );            
-            items.push( {column:'token_address', type:1, desc:json_data['values'][0][dic_columns['token_address']]} );
-            items.push( {column:'date_added', type:1,desc:json_data['values'][0][dic_columns['date_added']]} );
+
+            //items.push( {column:'symbol', type:1, desc:json_data['values'][0][dic_columns['symbol']]} );
+            //items.push( {column:'name', type:1, desc:json_data['values'][0][dic_columns['name']]} );            
+
+            items.push( {column:'alltime_high', desc:this.getPriceDate(json_data,dic_columns,'alltime_high')} );              
+            items.push( {column:'alltime_low', desc:this.getPriceDate(json_data,dic_columns,'alltime_low')} );              
+            items.push( {column:'w52_high', desc:this.getPriceDate(json_data,dic_columns,'w52_high')} );              
+            items.push( {column:'w52_low', desc:this.getPriceDate(json_data,dic_columns,'w52_low')} );
+
             items.push( {column:'max_supply', type:1, desc:CommonFunc.formatNumber(json_data['values'][0][dic_columns['max_supply']],0,true)} );
             items.push( {column:'total_supply', type:1,desc:CommonFunc.formatNumber(json_data['values'][0][dic_columns['total_supply']],0,true)} );
             items.push( {column:'circulating_supply', type:1, desc:CommonFunc.formatNumber(json_data['values'][0][dic_columns['circulating_supply']],0,true)} );
@@ -297,9 +303,11 @@ export default {
             items.push( {column:'twitter', type:0, desc:json_data['values'][0][dic_columns['twitter']]} );
             items.push( {column:'chat', type:0, desc:json_data['values'][0][dic_columns['chat']]} );
             items.push( {column:'explorer', type:0, desc:this.getFirstLink(json_data,dic_columns,'explorer')} );
+            items.push( {column:'token_address', type:1, desc:json_data['values'][0][dic_columns['token_address']]} );
+            items.push( {column:'date_added', type:1,desc:json_data['values'][0][dic_columns['date_added']]} );
 
+/*
             this.items_info = items;
-
 
             let items2 = [];
               
@@ -312,21 +320,20 @@ export default {
             items2.push( {column:'w52_low', desc:this.getPriceDate(json_data,dic_columns,'w52_low')} );
           
             this.items_price = items2;
-
-
+*/
 
             logger.log.debug('items=',items);
 
-            //this.items = items;
+            this.v_items_info = items;
         },
         
         updateDevWidget: function(data_base) {
           const dic_columns = CommonFunc.getColumnDic(data_base.columns,[],[]);          
-          let a_crated_date = data_base['values'][0][dic_columns['github_created_at']].split('T');
-          let a_updated_date = data_base['values'][0][dic_columns['github_pushed_at']].split('T');
+          let a_crated_date = data_base['values'][0][dic_columns['github_created_at']];
+          let a_updated_date = data_base['values'][0][dic_columns['github_pushed_at']];
 
-          this.g_commit_item['github_created_at'] = a_crated_date[0];
-          this.g_commit_item['github_pushed_at'] = a_updated_date[0];
+          this.g_commit_item['github_created_at'] = CommonFunc.safeSplit(a_crated_date,'T')[0];
+          this.g_commit_item['github_pushed_at'] = CommonFunc.safeSplit(a_updated_date,'T')[0];
           this.g_commit_item['github_forks_count'] = data_base['values'][0][dic_columns['github_forks_count']];
           this.g_commit_item['github_commit_count'] = data_base['values'][0][dic_columns['github_commit_count']];
           this.g_commit_item['github_watchers_count'] = data_base['values'][0][dic_columns['github_watchers_count']];

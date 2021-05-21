@@ -1,69 +1,54 @@
 <template>
 
-  <div class="q-pa-xs">
+  <div class="tab_bgcolor">
         <div v-if="period==='daily'">
-            <q-toolbar class="text-primary">
-                <q-tabs v-model="tab" shrink align="left">
-                    <q-tab name="d1" :label="$t('name.d1')" @click="onClickTab('d1')"/>
-                    <q-tab name="w1" :label="$t('name.w1')" @click="onClickTab('w1')"/>
-                    <q-tab name="m1" :label="$t('name.m1')" @click="onClickTab('m1')"/>
-                    <q-tab name="m3" :label="$t('name.m3')" @click="onClickTab('m3')"/>
-                    <q-tab name="y1" :label="$t('name.y1')" @click="onClickTab('y1')"/>
-                </q-tabs>
-                <q-space />
-            </q-toolbar>
+            <q-tabs v-model="tab" active-color="primary" shrink  dense align="left">
+                <q-tab name="d1" :label="$t('name.d1')" @click="onClickTab('d1')"/>
+                <q-tab name="w1" :label="$t('name.w1')" @click="onClickTab('w1')"/>
+                <q-tab name="m1" :label="$t('name.m1')" @click="onClickTab('m1')"/>
+                <q-tab name="m3" :label="$t('name.m3')" @click="onClickTab('m3')"/>
+                <q-tab name="y1" :label="$t('name.y1')" @click="onClickTab('y1')"/>
+            </q-tabs>
         </div>
 
         <div v-if="period==='weekly'">
-            <q-toolbar class="text-primary">
-                <q-tabs v-model="tab" shrink align="left">
-                    <q-tab name="w1" :label="$t('name.w1')" @click="onClickTab('w1')"/>
-                    <q-tab name="m1" :label="$t('name.m1')" @click="onClickTab('m1')"/>
-                    <q-tab name="m3" :label="$t('name.m3')" @click="onClickTab('m3')"/>
-                    <q-tab name="y1" :label="$t('name.y1')" @click="onClickTab('y1')"/>
-                </q-tabs>
-                <q-space />
-            </q-toolbar>
+            <q-tabs v-model="tab" active-color="primary" shrink dense align="left">
+                <q-tab name="w1" :label="$t('name.w1')" @click="onClickTab('w1')"/>
+                <q-tab name="m1" :label="$t('name.m1')" @click="onClickTab('m1')"/>
+                <q-tab name="m3" :label="$t('name.m3')" @click="onClickTab('m3')"/>
+                <q-tab name="y1" :label="$t('name.y1')" @click="onClickTab('y1')"/>
+            </q-tabs>
         </div>
 
         <div v-if="period==='monthly'">
-            <q-toolbar class="text-primary">
-                <q-tabs v-model="tab" shrink align="left">
-                    <q-tab name="m1" :label="$t('name.m1')" @click="onClickTab('m1')"/>
-                    <q-tab name="m3" :label="$t('name.m3')" @click="onClickTab('m3')"/>
-                    <q-tab name="m6" :label="$t('name.m6')" @click="onClickTab('m6')"/>
-                    <q-tab name="y1" :label="$t('name.y1')" @click="onClickTab('y1')"/>                    
-                </q-tabs>
-                <q-space />
-            </q-toolbar>
+            <q-tabs v-model="tab" shrink dense  active-color="primary" align="left">
+                <q-tab name="m1" :label="$t('name.m1')" @click="onClickTab('m1')"/>
+                <q-tab name="m3" :label="$t('name.m3')" @click="onClickTab('m3')"/>
+                <q-tab name="m6" :label="$t('name.m6')" @click="onClickTab('m6')"/>
+                <q-tab name="y1" :label="$t('name.y1')" @click="onClickTab('y1')"/>                    
+            </q-tabs>
         </div>
 
         <div v-if="period==='yearly'">
-            <q-toolbar class="text-primary">
-                <q-tabs v-model="tab" shrink align="left">
-                    <q-tab name="m3" :label="$t('name.m3')" @click="onClickTab('m3')"/>
-                    <q-tab name="m6" :label="$t('name.m6')" @click="onClickTab('m6')"/>
-                    <q-tab name="y1" :label="$t('name.y1')" @click="onClickTab('y1')"/>                    
-                    <q-tab name="y3" :label="$t('name.y3')" @click="onClickTab('y3')"/>                    
-                    <q-tab name="y5" :label="$t('name.y5')" @click="onClickTab('y5')"/>
-                    <q-tab name="y10" :label="$t('name.y10')" @click="onClickTab('y10')"/>
-                </q-tabs>
-                <q-space />
-            </q-toolbar>
+            <q-tabs v-model="tab" shrink dense  active-color="primary" align="left">
+                <q-tab name="m3" :label="$t('name.m3')" @click="onClickTab('m3')"/>
+                <q-tab name="m6" :label="$t('name.m6')" @click="onClickTab('m6')"/>
+                <q-tab name="y1" :label="$t('name.y1')" @click="onClickTab('y1')"/>                    
+                <q-tab name="y3" :label="$t('name.y3')" @click="onClickTab('y3')"/>                    
+                <q-tab name="y5" :label="$t('name.y5')" @click="onClickTab('y5')"/>
+                <q-tab name="y10" :label="$t('name.y10')" @click="onClickTab('y10')"/>
+            </q-tabs>
         </div>
 
         <div v-if="period==='all'">
-            <q-toolbar class="text-primary">
-                <q-tabs v-model="tab" shrink align="left">
-                    <q-tab name="d1" :label="$t('name.d1')" @click="onClickTab('d1')"/>
-                    <q-tab name="w1" :label="$t('name.w1')" @click="onClickTab('w1')"/>
-                    <q-tab name="m1" :label="$t('name.m1')" @click="onClickTab('m1')"/>
-                    <q-tab name="m3" :label="$t('name.m3')" @click="onClickTab('m3')"/>
-                    <q-tab name="y1" :label="$t('name.y1')" @click="onClickTab('y1')"/>
-                    <q-tab name="all" :label="$t('name.all')" @click="onClickTab('all')"/>
-                </q-tabs>
-                <q-space />
-            </q-toolbar>
+            <q-tabs v-model="tab" shrink dense align="left"  active-color="primary">
+                <q-tab name="d1" :label="$t('name.d1')" @click="onClickTab('d1')"/>
+                <q-tab name="w1" :label="$t('name.w1')" @click="onClickTab('w1')"/>
+                <q-tab name="m1" :label="$t('name.m1')" @click="onClickTab('m1')"/>
+                <q-tab name="m3" :label="$t('name.m3')" @click="onClickTab('m3')"/>
+                <q-tab name="y1" :label="$t('name.y1')" @click="onClickTab('y1')"/>
+                <q-tab name="all" :label="$t('name.all')" @click="onClickTab('all')"/>
+            </q-tabs>
         </div>
 
   </div>
@@ -151,8 +136,5 @@ export default {
 
 
 <style scoped>
-.q-pa-xs {
-    background-color: #F7F7F7;
-}
 
 </style>

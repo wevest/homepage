@@ -99,33 +99,15 @@
             <div class="col q-gutter-sm">
                 <CTitle :title="$t('page.home.eureka.title')" :desc="$t('page.home.eureka.desc')"></CTitle>
 
-                <div class="row box_eureka" v-for="(a_eureka,index) in v_eureka" :key="index">
+                <div class="row box_eureka float" v-for="(a_eureka,index) in v_eureka" :key="index">
                     <div class="box_eureka_icon">
-                        <q-icon name="lightbulb" class="q-mr-xs"  />
+                        <q-icon name="lightbulb" />
                     </div>
                     <div class="box_eureka_text">
                         <div class="text-h6">{{ a_eureka.title }}</div>
                         <div class="text-subtitle2">{{ a_eureka.subtitle }}</div>
                     </div>
                 </div>
-
-<!--
-                <q-card class="my-card " v-for="(a_eureka,index) in v_eureka" :key="index">
-                    <q-card-section @click="onClickEureka(a_eureka.link)" horizontal>
-                        <q-icon name="lightbulb" class="q-mr-xs"  />
-                        <div class="text-h6">{{ a_eureka.title }}</div>
-                        <div class="text-subtitle2">{{ a_eureka.subtitle }}</div>
-                    </q-card-section>
-
-                    <q-separator />
-
-                    <q-card-actions>
-                        <q-btn flat>Action 1</q-btn>
-                        <q-btn flat>Action 2</q-btn>
-                    </q-card-actions>
-                   
-                </q-card>
---> 
 
             </div>
         </div>
@@ -134,7 +116,7 @@
             <div class="col">
                 <CTitle ttype="title" :title="$t('page.home.category.title')" :desc="$t('page.home.category.desc')"></CTitle>
 
-                <q-tabs v-model="v_tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
+                <q-tabs v-model="v_tab" class="text-grey tab_bgcolor" active-color="primary" indicated-color="primary" align="justify">
                     <q-tab name="upbit" :label="$t('name.upbit')" @click="onClickTabCategory('upbit')" />
                     <q-tab name="bithumb" :label="$t('name.bithumb')" @click="onClickTabCategory('bithumb')" />
                 </q-tabs>              
@@ -513,12 +495,10 @@ export default {
     background:#FFE150;
     border-radius:8px; 
     padding: 15px;
-    margin:10px 8px 22px;
+    /* margin:10px 8px 22px; */
+    margin: 10px -8px 10px 8px;    
 }
 
-.box_eureka {
-    margin: 10px -8px 10px 8px;
-} 
 .box_eureka_icon {
     width:80px;
     font-size:40px;
@@ -526,11 +506,10 @@ export default {
     margin:-5px 0px 10px -15px;
     padding-left:10px;
 }
-.box_eureka_text {
-    width:280px;
+.box_eureka_text {    
     font-size: 13px;
     margin-left:50px;
-    margin-top:-60px;
+    margin-top:0px;
 }
 
 .btc-eth {
@@ -546,7 +525,7 @@ export default {
 .box_hotlist {
     border: 1px solid #BBBBBB; 
     border-radius:8px; 
-    height:150px;
+    height:130px;
     width:200px;
     margin:10px 20px 10px 0px;
 }
