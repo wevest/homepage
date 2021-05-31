@@ -135,7 +135,7 @@ export default {
 
   mounted: function () {
     CommonFunc.setAppData('spinner',this.$refs.loading);
-    this.loadCoinCodes();
+    //this.loadCoinCodes();
   },
 
   methods: {

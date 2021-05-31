@@ -119,12 +119,6 @@ export default {
     tv:'거래대금',
     volume:'거래량',
   },
-  title: {
-    
-  },
-  subtitle: {
-    market_power:'시장강도123'
-  },
   chart: {
     world_scaled: {
       title:'주간 주요 상품 가격 비교 그래프',

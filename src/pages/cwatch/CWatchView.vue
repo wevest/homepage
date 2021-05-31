@@ -37,6 +37,12 @@
 
         <div class="row">
             <div class="col">
+                <q-separator class="sector_seperator" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
                 <CTitle ttype='subtitle' :title="v_page['title']" :desc="v_page['desc']" ></CTitle>          
                 <ChartTimeframe period='daily' :onclick="onClickTimeframe" :selected='g_timeframe'></ChartTimeframe>          
                 <CWatchChart ref='cwatchChart'></CWatchChart>

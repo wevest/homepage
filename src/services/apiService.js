@@ -648,4 +648,16 @@ export default class MoaBackendAPI{
     });
   }
 
+
+  static getBlogData(reqParam,func,funcErr) {
+    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa,"/api/blog/posts/");
+    callAPI("GET",url,{},reqParam)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
 }

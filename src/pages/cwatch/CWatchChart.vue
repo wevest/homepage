@@ -23,7 +23,7 @@
         <highcharts v-show="v_chart_loaded" class="box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
 
         <q-table
-        title=""
+        title="" flat
         class="sticky-column-table"
         row-key="name"        
         :data="v_items.BTC"
@@ -51,7 +51,7 @@
         <highcharts v-show="v_chart_loaded" class="box_chart" :options="g_chart['chart2']" ref="chart2"></highcharts>
 
         <q-table
-        title=""
+        title="" flat
         class="sticky-column-table"
         row-key="name"        
         :data="v_items.ETH"

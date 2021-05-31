@@ -1,4 +1,9 @@
 // app global css in SCSS form
+
+.moa_container {
+  background-color: #cdcdcd;
+}
+
 .box_chart {
     margin-left:-16px;
     margin-right:-16px;
@@ -21,6 +26,12 @@
   background-color: #F7F7F7;
 }
 
+.sector_seperator {
+  height:5px;
+  border:0px solid #cdcdcd;
+  background-color: #F7F7F7;  
+  margin:16px -16px 16px -16px;
+}
 
 .sticky-column-table {
   /* height or max-height is important */

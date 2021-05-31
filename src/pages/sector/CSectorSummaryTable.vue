@@ -5,7 +5,7 @@
         <q-skeleton v-show="!v_chart_loaded" height="450px" square animation="fade" /> 
 
         <q-table          
-          title=""
+          title="" flat
           v-show="v_chart_loaded"
           class="sticky-column-table"
           :data="items"

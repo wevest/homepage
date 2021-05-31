@@ -9,13 +9,19 @@
                 <q-tabs v-model="v_tab" class="text-grey tab_bgcolor" active-color="primary" indicated-color="primary" align="justify">
                     <q-tab name="upbit" :label="$t('name.upbit')" @click="onClickTab('upbit')" />
                     <q-tab name="bithumb" :label="$t('name.bithumb')" @click="onClickTab('bithumb')" />
-                </q-tabs>              
+                </q-tabs>                
             </div>
         </div>
 
         <div class="row">
             <div class="col">                
                 <CSectorSummaryTable ref="sectorTable"></CSectorSummaryTable>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col">
+                <q-separator class="sector_seperator" />
             </div>
         </div>
 
@@ -186,6 +192,8 @@ export default {
             this.$refs.sectorChart.update(json_data,exchange,sector);
             this.loadSectorAssetData(exchange,sector);
         },
+
+
 
         onClickExchange:function(value) {
           console.log('CTopTable.onClick - ',value);

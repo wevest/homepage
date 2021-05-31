@@ -21,13 +21,13 @@
             <q-tab-panel name="intro" class="q-pa-none">
               <q-card flat bordered class="my-card">
                 <q-card-section>
-                  <div class="text-h6">{{g_symbol}}</div>
+                  <div class="text-h6">{{v_info.symbol}}</div>
                 </q-card-section>
 
                 <q-separator dark inset />
 
                 <q-card-section>
-                  {{ g_description }}
+                  {{ v_info.description }}
                 </q-card-section>
               </q-card>
 
@@ -176,8 +176,7 @@ export default {
         g_data: null,
         g_data_vc:null,
         g_data_commit: null,
-        g_description: null,
-        g_symbol: null,
+        v_info: {symbol:null, description:null},
                 
         g_chart: {
             'chart1': {series: []},
@@ -237,10 +236,19 @@ export default {
             const dic_columns = CommonFunc.getColumnDic(data_base.columns,[],[]);
             const dic_columns_vc = CommonFunc.getColumnDic(data_vc.columns,[],[]);
             let a_vc = data_base['values'][0][dic_columns['cryptovc']];
-            logger.log.debug('items=',a_vc, dic_columns,);
+            //logger.log.debug('items=',a_vc, dic_columns,);
+            logger.log.debug('locale=',this.$i18n.locale);
 
-            this.g_symbol = data_base['values'][0][dic_columns['symbol']];
-            this.g_description = data_base['values'][0][dic_columns['description']];
+            this.v_info.symbol = data_base['values'][0][dic_columns['symbol']];    
+            
+            let a_desc = data_base['values'][0][dic_columns['description']];
+            if (this.$i18n.locale=='kr') {
+              if (data_base['values'][0][dic_columns['description_kr']].length>20) {
+                a_desc = data_base['values'][0][dic_columns['description_kr']];
+              }
+            }
+                        
+            this.v_info.description = a_desc;
 
             let items = CommonFunc.formatArrayToJson(data_vc);
             let items_vc = this.filterVCData(items,'name',a_vc);

@@ -7,7 +7,7 @@
         <highcharts v-show="v_chart_loaded" class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
         
         <q-table
-        title=""
+        title="" flat
         class="sticky-column-table"        
         :data="v_items_index"
         :columns="v_headers_index"
@@ -36,7 +36,7 @@
         <highcharts  v-show="v_chart_loaded" class="box_chart" :options="g_chart['chart2']" ref="chart2"></highcharts>
 
         <q-table
-        title=""
+        title="" flat
         class="sticky-column-table"
         :data="v_items_dominance"
         :columns="v_headers_dominance"
@@ -99,7 +99,7 @@
         <highcharts  v-show="v_chart_loaded" class="hc box_chart" :options="g_chart['chart4']" ref="chart4"></highcharts>
 
         <q-table
-        title=""
+        title="" flat
         class="sticky-column-table"
         :data="v_items_sector"
         :columns="v_headers_sector"
@@ -129,7 +129,7 @@
         <highcharts  v-show="v_chart_loaded" class="hc box_chart" :options="g_chart['chart5']" ref="chart5"></highcharts>
 
         <q-table
-        title=""
+        title="" flat
         class="sticky-column-table"
         :data="v_items_sectortv"
         :columns="v_headers_sectortv"

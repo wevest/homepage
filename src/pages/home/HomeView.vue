@@ -1,8 +1,12 @@
 <template>
     
   <div class="q-pa-md">
-        <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>
-        
+        <div class="row">
+            <div class="col">
+                <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>
+            </div>
+        </div>
+
         <div class="row q-gutter-sm box_label">
             <div class="col">
                 <CBigLabel ref='label_btc' title="abc" :onclick="onClickTrend"></CBigLabel>
@@ -19,14 +23,25 @@
                 <CBigLabel ref='label_bithumb' title="abc"  :onclick="onClickTrend"></CBigLabel>
             </div>
         </div>
-
-        <div class="row q-gutter-sm">
+        
+        <div class="row">
             <div class="col">
                 <CTitle ttype='subtitle' :title="$t('page.home.index.title')" :desc="$t('page.home.index.desc')"></CTitle>                
                 <CIndexChart ref='indexChart'></CIndexChart>
             </div>      
         </div>
 
+        <div class="row">
+            <div class="col">
+                <BlogList ref='blogList'></BlogList>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <q-separator class="sector_seperator" />
+            </div>
+        </div>
 
         <div class="row q-gutter-sm">
             <div class="col">
@@ -56,6 +71,12 @@
                     </div>
                 </div>
             </div>      
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <q-separator class="sector_seperator" />
+            </div>
         </div>
 
         <div class="row">
@@ -96,6 +117,12 @@
         </div>
 
         <div class="row">
+            <div class="col">
+                <q-separator class="sector_seperator" />
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col q-gutter-sm">
                 <CTitle :title="$t('page.home.eureka.title')" :desc="$t('page.home.eureka.desc')"></CTitle>
 
@@ -103,12 +130,18 @@
                     <div class="box_eureka_icon">
                         <q-icon name="lightbulb" />
                     </div>
-                    <div class="box_eureka_text">
+                    <div class="box_eureka_text" @click="onClickEureka(a_eureka.link)">
                         <div class="text-h6">{{ a_eureka.title }}</div>
                         <div class="text-subtitle2">{{ a_eureka.subtitle }}</div>
                     </div>
                 </div>
 
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <q-separator class="sector_seperator" />
             </div>
         </div>
 
@@ -148,6 +181,11 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col">
+                <q-separator class="sector_seperator" />
+            </div>
+        </div>
 
         <div class="row">
             <div class="col">
@@ -166,13 +204,10 @@ import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import MoaBackendAPI from 'src/services/apiService';
 import DataService from 'src/services/dataService';
-import { LoadingBar } from 'quasar';
-
-import { scroll } from 'quasar';
-const { getScrollTarget, setScrollPosition } = scroll;
 
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
+import BlogList from 'components/BlogList';
 import CTopTable from 'pages/home/CTopTable';
 import CIndexChart from 'pages/home/CIndexChart';
 import CExchangeIndexChart from 'pages/home/CExchangeIndexChart';
@@ -185,7 +220,8 @@ export default {
       CBigLabel,
       CTopTable,
       CIndexChart,
-      CExchangeIndexChart
+      CExchangeIndexChart,
+      BlogList
   },
 
   data: function () {
@@ -264,18 +300,24 @@ export default {
         refresh: function() {
             const _this = this;
         
-            LoadingBar.start();
             let funcs = [            
                 //this.loadCalendarEffectData('1h'),
+                this.loadBlogList(),
+                /*
                 this.loadIndexData(),
                 this.loadCryptoTopAssetData('1h'),
                 DataService.loadCryptoWatchData(30).then(function(data) {
                     _this.updateAlert(data);
                 }),
+                */
             ];
             Promise.all(funcs).then(function() {
-                LoadingBar.stop();
+
             });
+        },
+
+        loadBlogList: function() {
+            this.$refs.blogList.update('test');
         },
 
         loadCalendarEffectData: function(freq) {

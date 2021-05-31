@@ -7,7 +7,7 @@
         <highcharts v-show="v_chart_loaded" class="box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
 
         <q-table
-        title=""
+        title="" flat
         class="sticky-column-table"
         :data="v_items"
         :columns="v_headers"
