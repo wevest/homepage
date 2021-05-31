@@ -11,8 +11,10 @@
                     class="text-grey"
                     active-color="primary"
                     indicator-color="primary"
-                    align="justify"
+                    align="center"
                     narrow-indicator
+                    items-center
+                    style
                 >
                     <q-tab name="signin" label="Sign In" />
                     <q-tab name="signup" label="Sign Up" />
@@ -23,7 +25,7 @@
                         <q-form
                             @submit="onSubmitSignin"
                             @reset="onResetSignin"
-                            class="q-gutter-md"
+                            class="q-gutter-md col-width"
                         >
                             <q-input
                                 filled lazy-rules
@@ -54,7 +56,7 @@
                             <q-input
                                 filled lazy-rules
                                 v-model="v_user.username"
-                                label="Username " hint="Name and surname" 
+                                label="Username" hint="Name and surname" 
                                 :rules="[ val => val && val.length > 0 || 'Please type something']"
                             />
 
@@ -167,3 +169,12 @@ export default {
 
 
 </script>
+
+<style scope> 
+.col-width {
+  min-width: 300px;
+  max-width: 300px;
+  justify-content: center;
+    
+}
+</style>
