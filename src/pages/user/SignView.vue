@@ -25,19 +25,21 @@
                         <q-form
                             @submit="onSubmitSignin"
                             @reset="onResetSignin"
-                            class="q-gutter-md col-width"
+                            class="q-gutter-y-md q-field--with-bottom col-width"
                         >
                             <q-input
                                 filled lazy-rules
                                 v-model="v_user.username"
                                 label="Username" hint="Name and surname" 
                                 :rules="[ val => val && val.length > 0 || 'Please type something']"
+                                
                             />
 
                             <q-input
                                 filled type="password"
                                 v-model="v_user.password"
-                                label="password"
+                                label="Password"
+        
                             />
                             <q-checkbox v-model="v_user.stay_loggedin" label="Stay signed-in" />
 
@@ -51,31 +53,31 @@
                         <q-form
                             @submit="onSubmitSignup"
                             @reset="onResetSignup"
-                            class="q-gutter-md"
+                            class="q-gutter-y-md q-field--with-bottom col-width"
                         >
-                            <q-input
+                            <q-input 
                                 filled lazy-rules
                                 v-model="v_user.username"
                                 label="Username" hint="Name and surname" 
-                                :rules="[ val => val && val.length > 0 || 'Please type something']"
+                                :rules="[ val => val && val.length > 0 || 'Please type something']"                                
                             />
 
                             <q-input
                                 filled type="email"
                                 v-model="v_user.email"
-                                label="Email" hint="Your email" 
+                                label="Email" hint="Your email"                                
                             />
 
                             <q-input
                                 filled type="password"
                                 v-model="v_user.password"
-                                label="password"
+                                label="Password"                
                             />
 
                             <q-input
                                 filled type="password"
                                 v-model="v_user.password"
-                                label="confirm password"
+                                label="Confirm password"                                
                             />
 
                             <div>
@@ -172,9 +174,12 @@ export default {
 
 <style scope> 
 .col-width {
-  min-width: 300px;
-  max-width: 300px;
-  justify-content: center;
-    
+  /* width: 550px;   */
+  /* min-width: 500px; */
+  max-width: 500px;
+  width: auto;
+  margin:0 auto;
+  padding-bottom: 20px;
+  
 }
 </style>
