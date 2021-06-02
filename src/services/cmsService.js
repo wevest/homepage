@@ -71,8 +71,23 @@ export default class CMSAPI{
     });
   }
 
+  static postCommentFeedback(dic_param,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/comments/api/feedback/");
+    callCMSAPI("POST",url,{},dic_param)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
   static getComments(dic_param,func,funcErr) {
-    let a_method = "/comments/api/"+dic_param.content_type+"/"+dic_param.id+"/";
+    let a_method = "/comments/api/"+dic_param.content_type+"/"+dic_param.id+"/";  
+    if (dic_param.limit) {
+      a_method = a_method + "?limit=" + dic_param.limit + "&offset=" + dic_param.offset;
+    }
+    
     let url = CMSAPI.getUrl(MoaConfig.urls.cms,a_method);
     callCMSAPI("GET",url,{},dic_param)
     .then( (response) => {

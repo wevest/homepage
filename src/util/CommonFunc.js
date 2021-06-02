@@ -1148,5 +1148,15 @@ export default class CommonFunc {
             color: 'green-4', textColor: 'white', icon: 'cloud_done',message: msg
         });
     }
+
+    static getURLQuery(url) {
+        var qs = url.substring(url.indexOf('?') + 1).split('&');
+        for(var i = 0, result = {}; i < qs.length; i++){
+            qs[i] = qs[i].split('=');
+            result[qs[i][0]] = decodeURIComponent(qs[i][1]);
+        }
+        return result;
+    }
+
 }
 

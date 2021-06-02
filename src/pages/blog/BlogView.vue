@@ -12,14 +12,22 @@
             <div class="col">
                 <div>
                     <h5>{{v_post.title}}</h5>
+                </div>
+                <div>
                     <p>{{v_post.pub_date}}</p>
+                </div>
+                <div>
+                    
                     <p> 
                         <span>like count {{v_post.like_count}} </span>
                         <span>dislike count {{v_post.dislike_count}} </span>
                         <span>read count {{v_post.read_count}} </span>
                     </p>
-                    <q-btn label="Write" @click="onClickWrite" />
-                    <q-btn label="test" @click="onClickTest" />
+                    <q-space />
+                    <div class="items-end">
+                        <q-btn label="Write" @click="onClickWrite" />
+                        <q-btn label="test" @click="onClickTest" />
+                    </div>
                 </div>
 
             </div>
@@ -36,17 +44,30 @@
                     height="200px"
                 />
                 <p> {{ v_post.tags }} </p>
-                <div>
-                    <q-btn label="Like" @click="onClickRate('like')"/>
-                    <q-btn label="Dislike"  @click="onClickRate('dislike')" />    
-                </div>
             </div>
         </div>
 
         <div class="row">
             <div class="col">
+                <q-btn label="Like" @click="onClickRate('like')"/>
+                <q-btn label="Dislike"  @click="onClickRate('dislike')" />    
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+<!--                
                 <q-btn label="comment" @click="onClickComment" />
                 <q-input v-model="v_post.comment" label="Comments" />
+-->                
+                <div> Comments : {{v_comments_count}} </div>
+
+                <CommentForm ref="commentForm" @onClickCommentSave="onClickCommentSave" />
+                <CommentTree ref="commentTree" :data-list="v_comments" 
+                    @onClickCommentReply="onClickCommentReply"
+                    @onClickLoadMore="onClickLoadMore"
+                     @onClickRate="onClickRate"
+                />
 <!--
                 <comment-list
                     :commentableId="tmp"
@@ -74,7 +95,8 @@ import CMSAPI from 'src/services/cmsService';
 
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
-import CommentList from "components/comments/comment-list.vue";
+import CommentForm from "components/comments/comment-form.vue";
+import CommentTree from "components/comments/comment-tree.vue";
 
 
 export default {
@@ -83,41 +105,45 @@ export default {
       CTitle,
       CBigLabel,
       Viewer,
-      CommentList
+      CommentTree,
+      CommentForm
   },
 
-  data: function () {
-    return {
-        g_data:null,
-        g_page_id: null,
-        
-        v_post: {            
-            title:'Title', text:'body text', tags:'crypto,btc,eth', category:'1', comment:'comments',
-            like_count:0, dislike_count:0, read_count:0
-        },
-                  
-        v_page: {title:this.$t('page.cryptovc.title'), desc:''},
-        //v_post: {title:null,header_image_url:null, pub_date:null},
-        
-        v_comments: [],
-        v_comments_readonly:false,
+    data: function () {
+        return {
+            g_data:null,
+            g_page_id: null,
+            g_data_comments: null,
 
-        editorOptions: {
-            hideModeSwitch: true,
-            initialValue: 'This is initialValue.',            
-            hooks:{      
-                addImageBlobHook: (blob, callback) => {
-                    const uploadedImageURL = this.uploadImage(blob);
-                    callback(uploadedImageURL, "alt text");
-                    return false;
+            v_post: {            
+                title:'Title', text:'body text', tags:'crypto,btc,eth', category:'1', comment:'comments',
+                like_count:0, dislike_count:0, read_count:0
+            },
+                    
+            v_page: {title:this.$t('page.cryptovc.title'), desc:''},
+            //v_post: {title:null,header_image_url:null, pub_date:null},
+            
+            v_comments: [],
+            v_comments_readonly:false,
+            v_comments_count: 0,
+
+            editorOptions: {
+                hideModeSwitch: true,
+                initialValue: 'This is initialValue.',            
+                hooks:{      
+                    addImageBlobHook: (blob, callback) => {
+                        const uploadedImageURL = this.uploadImage(blob);
+                        callback(uploadedImageURL, "alt text");
+                        return false;
+                    }
                 }
-            }
-        },
-        editorHtml: 'asdklfhjasdljfasdlkjfasdl;',
-        editorVisible: true,
-    }
-  },
-    created: function () {
+            },
+            editorHtml: 'asdklfhjasdljfasdlkjfasdl;',
+            editorVisible: true,            
+        }
+    },
+
+    created: function() {
         console.log("BlogView.created");
     },
     mounted: function() {        
@@ -129,6 +155,8 @@ export default {
             this.refresh(this.g_page_id);
         }
         */
+
+        //this.$refs.commentTree.showEditor();
 
         this.g_page_id=4;
         this.refresh(this.g_page_id);                        
@@ -142,40 +170,18 @@ export default {
             this.$refs.toastViewer.invoke('setMarkdown', content);
         },
 
-        buildTree: function(comments,id=null,link='parent_id') {
-            let data = comments.filter(item => item[link] === id).map(item => ({ ...item, children: nest(items, item.id) }));
-            console.log("buildTree=",data);
-            return data;
-        },
-
-        unflatten: function( array, parent, tree ){
-            tree = typeof tree !== 'undefined' ? tree : [];
-            parent = typeof parent !== 'undefined' ? parent : { id: 0 };
-                
-            var children = _.filter( array, function(child){ return child.parent_id == parent.id; });
-            
-            if( !_.isEmpty( children )  ){
-                if( parent.id == 0 ){
-                tree = children;   
-                }else{
-                parent['children'] = children
-                }
-                _.each( children, function( child ){ unflatten( array, child ) } );                    
-            }
-            
-            return tree;
-        },
-
-        buildTree2: function(flat) {
+        toTreeData: function(flat) {
             // Create root for top-level node(s)
             let root = [];
             // Cache found parent index
             let map = {};
 
             flat.forEach(node => {
-                console.log("node=",node);
+                //console.log("node=",node);
                 // No parentId means top level
-                if (!node.parent_id) {
+                node.level = 1;
+                if ( (!node.parent_id) || (node.id==node.parent_id) ) {
+                    node.level = 0;
                     return root.push(node);
                 }
                 
@@ -193,24 +199,10 @@ export default {
                 flat[parentIndex].children.push(node);
             });
             
-            console.log("buildTree2=",root);
+            console.log("toTreeData=",root);
             return root;
         },
 
-        makeTree: function(nodes, parentId) {
-            return nodes
-                .filter((node) => node.parent_id === parentId)
-                .reduce(
-                (tree, node) => [
-                    ...tree,
-                    {
-                    ...node,
-                    children: makeTree(nodes, node.id),
-                    },
-                ],
-                [],
-                )
-        },
 
         refresh: function(page_id) {
             const _this = this;
@@ -253,17 +245,16 @@ export default {
             });            
         },
         
-        loadBlogComments: function(page_id) {
+        loadBlogComments: function(page_id,limit=null,offset=null) {
             const _this = this;
 
             return new Promise(function(resolve,reject) {
                 //logger.log.debug("CWatchView.loadCryptoWatchData - dic_param=",dic_param);
-                let dic_config = {content_type:'blog-postpage' , id:page_id};
+                let dic_config = {content_type:'blog-postpage' , id:page_id, limit:limit, offset:offset};
                 CMSAPI.getComments(dic_config,function(response) {
+                    logger.log.debug("BlogView.loadBlogComments - response",response.data);                    
                     _this.g_data_comments = response.data;
-                    logger.log.debug("BlogView.loadBlogComments - response",_this.g_data_comments);
-                    let nodes = _this.makeTree(_this.g_data_comments.results,null);
-                    console.log("nodes=",nodes);
+                    _this.handleComments(_this.g_data_comments);
                     resolve();
                 },function(err) {
                     logger.log.error("BlogView.loadBlogComments - error",err);
@@ -272,6 +263,19 @@ export default {
             });            
         },
         
+        handleComments: function(json_data) {
+            //console.log("nodes=",nodes);
+            if (! CommonFunc.isEmptyObject(json_data.next)) {
+                this.$refs.commentTree.showLoadMore();
+            } else {
+                this.$refs.commentTree.hideLoadMore();
+            }
+            this.v_comments_count = json_data.count;
+            
+            let comments = this.toTreeData(json_data.results);            
+            this.v_comments = this.v_comments.concat(comments); 
+        },
+
         uploadImage:function(blob) {
             // check the following link
             // https://solve-programming.tistory.com/29    
@@ -322,6 +326,63 @@ export default {
           this.$router.push(dic_param);
         },
 
+        appendComments: function(dic_param,response) {
+            logger.log.debug("appendComments=",response);
+
+            
+            let a_comment = {
+                allow_reply:true, 
+                comment:response.data.comment, 
+                flags:[],
+                id:response.data.id,
+                is_removed:false,
+                level:0,
+                permalink:'',
+                submit_date:response.data.timestamp,
+                user_avatar:'',
+                user_moderator:'',
+                user_name:dic_param.username,
+                user_url:'',
+            };
+
+            //is it reply?
+            if (dic_param.reply_to==0) {
+                a_comment.parent_id = response.data.id;
+                this.v_comments.unshift(a_comment);
+                return;
+            } 
+            
+            let v_comments = [...this.v_comments];
+            for (let index=0; index<v_comments.length;index++) {
+                if (v_comments[index].id==a_comment.parent_id) {
+                    
+                    let a_item = v_comments[index];
+                    if (! a_item.hasOwnProperty("children")) {
+                        a_item.children = [];
+                    }
+
+                    a_comment.parent_id = dic_param.reply_to;
+                    a_comment.level = 1;
+
+                    a_item.children.unshift(a_comment);
+                    v_comments[index] = a_item;
+                    this.v_comments = v_comments;
+                    break;
+                }
+            }
+        },
+
+        postComment: function(dic_param) {
+            const _this = this;
+
+            CMSAPI.postBlogComment(dic_param,function(response) {
+                logger.log.debug("postComment=",response);
+                CommonFunc.showOkMessage(_this,'comments posted');
+                _this.appendComments(dic_param,response);
+            }, function(err) {
+                console.log("error-",err);
+            });
+        },
 
         onClickRate: function(rate) {
             const _this = this;
@@ -394,8 +455,8 @@ export default {
             logger.log.debug('onClickComment - ');
             let dic_param = {content_type:"blog.postpage",
                 object_pk:this.v_post.id, token:MoaConfig.auth.token,
-                name:MoaConfig.auth.username,  email:'', followup:'FALSE', reply_to:0,
-                comment:'This is comment222',                
+                name:MoaConfig.auth.username,  email:'', followup:'FALSE', reply_to:2,
+                comment:'This is reply2',                
             };
 
             logger.log.debug('onClickComment - ',dic_param);
@@ -409,7 +470,57 @@ export default {
         onClickWrite: function() {
             logger.log.debug('onClickWrite - ');
             this.$refs.blogEditor.show();
+        },
+
+        onClickCommentSave: function(payload) {            
+            let dic_param = {content_type:"blog.postpage",
+                object_pk:this.v_post.id, token:MoaConfig.auth.token,
+                name:MoaConfig.auth.username,  email:'', followup:'FALSE', reply_to:0,
+                comment:payload.comments,                
+            };
+
+            logger.log.debug('onClickCommentSave - ',payload,dic_param);
+            this.postComment(dic_param);
+        },
+
+        onClickCommentReply: function(payload) {
+            let dic_param = {content_type:"blog.postpage",
+                object_pk:this.v_post.id, token:MoaConfig.auth.token,
+                name:MoaConfig.auth.username,  email:'', followup:'FALSE', reply_to:payload.data.id,
+                comment:payload.comments,                
+            };
+
+            logger.log.debug('onClickCommentReply - ',payload,dic_param);
+            this.postComment(dic_param);
+        },
+
+        onClickLoadMore: function() {
+            logger.log.debug("BlogPage.onClickLoadMore!!!",this.g_data_comments.next);
+            
+            if (! this.g_data_comments.next) {
+                return;
+            }
+
+            const dic_query = CommonFunc.getURLQuery(this.g_data_comments.next);
+            this.loadBlogComments(this.g_page_id,dic_query.limit,dic_query.offset);
+        },
+
+        
+        onClickRate: function(dic_payload) {
+            const _this = this;
+            logger.log.debug("BlogPage.onClickRate=",dic_payload);
+
+            let dic_param = {comment: dic_payload.data.id, flag:dic_payload.rate, token:MoaConfig.auth.token};
+            CMSAPI.postCommentFeedback(dic_param,function(response) {
+                CommonFunc.showOkMessage(_this,'Comments rate updated');
+
+                
+
+            }, function(response) {
+
+            });            
         }
+
     }
 
 };

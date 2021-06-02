@@ -1,24 +1,22 @@
 <template>
 
-    <div>
+     <div class="message-editor" v-show="visible">
         <q-input
-            :label="`Add ${this.parentId ? 'reply' : 'comment'}`"
-            :value="value_.comment"
-            @input="handleInput('comment', $event)"
+            label="Please type your comments"
+            v-model="v_comments"
+            @focus="$emit('editor-focus',$event)"
             autogrow
-            hide-details
-            multi-line
-            ref="input"
-            rows="1"
             type="textarea"
+            id="contentInput"
+            ref="contentInput"            
+            :error="v_error.error"
+            :error-message="v_error.msg"
         />
 
         <q-btn
-            :class="[saveButtonIsDisabled ? 'grey--text text--darken-2' : 'primary--text']"
-            :disabled="saveButtonIsDisabled"
-            @click.stop="submit"
+            label="save"
+            @click.stop="onClickSubmit"
             v-if="showSaveButton">
-        {{ saving ? 'Saving...' : 'Save' }}
         </q-btn>
         
     </div>
@@ -27,18 +25,15 @@
 
 
 <script>
-import _get from "lodash.get";
-
-// Models
-import Comment from "src/store/Comment";
-
-// Mixins
-import hasComments from "components/comments/mixins/hasComments";
+import { MoaConfig } from 'src/data/MoaConfig';
+import CommonFunc from 'src/util/CommonFunc';
+import logger from 'src/error/Logger';
+import CMSAPI from 'src/services/cmsService';
 
 
 export default {
   name: "comment-form",
-  mixins: [hasComments],
+  //mixins: [hasComments],
   props: {
     /**
      * Whether to show the save button.
@@ -48,93 +43,91 @@ export default {
       default: true
     },
 
-    /**
-     * The parent comment
-     */
-    parent: [Object, Comment],
-
-    /**
-     * The current value of the comment
-     */
-    value: [Object, Comment]
+    type: {
+      validator(value) {
+        return ['comment', 'reply'].includes(value)
+      },
+      default: 'comment'
+    },
+    visible: {
+      type: Boolean,
+      default: true
+    },
   },
 
   data() {
     return {
-      saving: false
+      saving: false,
+      ownerMessage: null,
+      v_comments: null,
+      v_error: { 
+          error:false, msg:'',
+      }
     };
   },
 
   computed: {
-    /**
-     * The parent comment's ID
-     */
-    parentId() {
-      return _get(this.parent, "id", null);
-    },
-
-    /**
-     * Disable the save button when the field is empty or already saving
-     */
-    saveButtonIsDisabled() {
-      return !Boolean(this.value_.comment) || this.saving;
-    },
-
-    /**
-     * Prevent mutating state by using a instance of `value`, and emit any changes.
-     * @returns {Array}
-     * @see this.value
-     */
-    value_: {
-      get() {
-        if (!this.value) return this.getNewComment();
-        return this.value;
-      },
-
-      set(value) {
-        this.$emit("input", value);
-      }
+    editorLabelTitle() {
+      return this.type === 'comment'
+        ? 'Comments'
+        : this.type === 'reply'
+        ? 'Reply'
+        : 'Comments'
     }
   },
 
   methods: {
-    /**
-     * Initialize a blank comment
-     * @returns {Comment}
-     */
-    getNewComment() {
-      const idPrefix = ["tmp"];
-      if (this.parentId) {
-        idPrefix.push(this.parentId);
+    show() {
+      // this.visible = true
+      this.$emit('update:visible', true)
+    },
+    hide() {
+      this.$emit('update:visible', false)
+    },
+    remove() {
+      this.$el.remove()
+    },
+    setOwnerMessage(data)     {
+      console.log("CommentForm.setOwnerMessage=",data);
+      this.ownerMessage = data;
+    },
+    activate() {
+      // await this.$nextTick()
+      if (this.$refs.contentInput) {
+        this.$refs.contentInput.focus()
+      } else if (this.$el.querySelector('#contentInput')) {
+        this.$el.querySelector('#contentInput').focus()
       }
-      const id = idPrefix.join("_");
-      const currentUser = this.$store.getters["entities/users/currentUser"];
-
-      return new Comment({
-        id,
-        commentable_id: this.commentableId,
-        commentable_type: this.commentableType,
-        user_id: currentUser.id,
-        user: currentUser,
-        parent_id: this.parentId,
-        parent: this.parent
-      });
     },
 
-    /**
-     * On input, update the local value and emit the change
-     * @prop {string} key - The property of the value to change
-     * @prop {string} value - The new value of that property
-     */
-    handleInput(key, value) {
-      this.$set(this.value_, key, value);
+
+    validate() {       
+      if (CommonFunc.isEmptyObject(this.v_comments)) {
+        //return this.$message.warning('请输入内容')
+        this.v_error.error = true;
+        this.v_error.msg = "Please type something";
+        return;
+      }
+    
+      console.log("CommentForm.validate = owner : ", this.ownerMessage);
+
+      let dic_payload = {"comments":this.v_comments};
+      if (this.type === 'reply') {
+        dic_payload.data = this.ownerMessage;
+      }
+
+      //console.log("CommentForm.validate = ",dic_payload, this.type);
+
+      this.$emit('onClickCommentSave', dic_payload);
     },
 
     /**
      * Save the new comment and reset the form states
      * @returns {Promise<Comment>}
      */
-    submit() {
+    onClickSubmit() {
+      this.validate();
+/*      
       this.saving = true;
 
       return new Promise((resolve, reject) => {
@@ -149,21 +142,33 @@ export default {
             this.saving = false;
           });
       });
+*/      
     }
   },
 
   mounted() {
     // Emit initial values of local properties
-    this.$emit("update:saving", this.saving);
+    //this.$emit("update:saving", this.saving);
   },
 
   /**
    * Emit changes to local properties
    */
   watch: {
-    saving(newVal, oldVal) {
-      this.$emit("update:saving", newVal);
-    }
   }
 };
 </script>
+
+
+<style scoped>
+
+.inline-items-wrapper {
+  display: flex;
+  > div {
+    width: 50%;
+  }
+  .email-item {
+    margin-right: 10px;
+  }
+}
+</style>

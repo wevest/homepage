@@ -1,166 +1,64 @@
 <template>
-    <div>
-        <comment-form
-            :showSaveButton="commentableId !== null"
-            :value="getComment('tmp')"
-            @input="editComment($event)"
-            v-if="!isReadOnly"
-        />
 
-    <!---
-        <comment-form
-            :showSaveButton="commentableId !== null"
-            :value="getComment('tmp')"
-            @input="editComment($event)"
-            class="flex xs12"
-            v-bind="{commentableId, commentableType}"
-            v-if="!isReadOnly"
-        />
+    <div class="comment-list">
+        <ul>
+            <li v-for="(item,index) in dataList" :key="index">
+                <comment-item :data="item"></comment-item>
+            </li>
+        </ul>
 
-        <v-flex xs12>
-        <v-container fluid grid-list-lg class="px-0">
-            <v-layout row wrap tag="ul">
-            <comment-details
-                :activeReply.sync="activeReply"
-                :key="[$options.name, comment.id].join('_')"
-                :newCommentMap.sync="value_"
-                @input="editComment($event)"
-                class="flex xs12"
-                showReplies
-                v-bind="{comment, isReadOnly}"
-                v-for="comment in comments"
-            />
-            </v-layout>
-        </v-container>
-        </v-flex>
-    -->
-
+        <div class="loading-more" @click="onClickLoadMore" v-if="v_visible_loadmore">Load More</div>        
     </div>
+
+    
 
 </template>
 
 
 <script>
-// Mixins
-import { validationMixin } from "vuelidate";
-
 // Components
-import commentDetails from "components/comments/comment-details";
-import commentForm from "components/comments/comment-form.vue";
-
-import hasComments from "components/comments/mixins/hasComments";
-
-// Models
-import Comment from "src/store/Comment";
 
 export default {
-    name: "comment-list",
+    name: "CommentList",
     components: {
-        commentDetails,
-        commentForm
+        //CommentItem
+         CommentItem: () => import('components/comments/comment-item')
     },
-
-    mixins: [hasComments, validationMixin],
 
     props: {
-        /**
-         * Whether to disable comment actions
-         */
-        isReadOnly: Boolean,
-
-        /**
-         * The current list of new comments
-         */
-        value: Array
-    },
-
-    watch: {
-        dirty(newVal, oldVal) {
-        this.$emit("update:dirty", newVal);
-        }
-    },
-
-    computed: {
-        /**
-         * All existing comments for the related entity
-         * @returns {Array<Comment>}
-         */
-        comments() {
-            return Comment.query()
-                .withAllRecursive()
-                .where("commentable_id", this.commentableId)
-                .where("commentable_type", this.commentableType)
-                .hasNot("parent_id") // Exclude children, as they will be populated as relationships within their parent
-                .orderBy("modified_date", "asc")
-                .get()
-                .reverse();
-        },
-
-        newCommentsWithValues() {
-            // Return only comments with values
-            return Array.from(this.value_.values()).filter(comment =>
-                Boolean(comment.comment)
-            );
-        },
-
-        /**
-         * Whether the form has any unsaved comments
-         * @returns {boolean}
-         */
-        dirty() {
-            return this.newCommentsWithValues.length > 0;
-        },
-
-        /**
-         * Prevent mutating state by using a instance of `value`, and emit any changes.
-         * @returns {Array}
-         * @see this.value
-         */
-        value_: {
-            get() {
-                if (this.value) return this.value;
-
-                return [];
-            },
-
-            set(value) {
-                console.log(this.$options.name, "value_/set", value);
-                this.$emit("input", value);
-            }
+        dataList: {
+            type: Array,
+            default: []
         }
     },
     data() {
         return {
-            /**
-             * The ID of the comment to which the user is currently replying
-             */
-            activeReply: null
-        };
-    },
-
-    mounted() {
-        this.$emit("update:dirty", this.dirty);
+            v_visible_loadmore:false,
+        }        
     },
     methods: {
-        /**
-         * Replace the Map on edit, since any updates to Maps are not inherently reactive
-         */
-        editComment(comment) {
-            let valueClone = JSON.parse(JSON.stringify(this.value_));
-            let index = valueClone.findIndex(v => v.id === comment.id);
-
-            if (index === -1) {
-                valueClone.push(comment);
-            } else {
-                this.$set(valueClone, index, comment);
-            }
-
-            this.value_ = valueClone;
+        showLoadmore: function() {
+            this.v_visible_loadmore = true;
+        },
+        hideLoadmore: function() {
+            this.v_visible_loadmore = false;
         },
 
-        getComment(id) {
-            return this.value_.find(comment => comment.id === id);
+        onClickLoadMore: function() {
+            console.log("onClickLoadMore");
+            this.$emit("onClickMore",{});
         }
-    },
+    }
 };
+
 </script>
+
+
+<style>
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+</style>
