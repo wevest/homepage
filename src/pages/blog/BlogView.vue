@@ -47,14 +47,14 @@
             <div class="col">
                 <q-btn label="comment" @click="onClickComment" />
                 <q-input v-model="v_post.comment" label="Comments" />
-<!--
+
                 <comment-list
-                    :commentableId="launch.id"
                     commentableType="launches"
+                    :commentableId="launch.id"
                     :isReadOnly="isReadOnly"
                     v-model="v_comments"
                 />                
--->
+
             </div>
         </div>
 
@@ -174,7 +174,9 @@ export default {
             flat.forEach(node => {
                 console.log("node=",node);
                 // No parentId means top level
-                if (!node.parent_id) return root.push(node);
+                if (!node.parent_id) {
+                    return root.push(node);
+                }
                 
                 // Insert node as child of parent in flat array
                 let parentIndex = map[node.parent_id];
@@ -192,6 +194,21 @@ export default {
             
             console.log("buildTree2=",root);
             return root;
+        },
+
+        makeTree: function(nodes, parentId) {
+            return nodes
+                .filter((node) => node.parent_id === parentId)
+                .reduce(
+                (tree, node) => [
+                    ...tree,
+                    {
+                    ...node,
+                    children: makeTree(nodes, node.id),
+                    },
+                ],
+                [],
+                )
         },
 
         refresh: function(page_id) {
@@ -244,7 +261,8 @@ export default {
                 CMSAPI.getComments(dic_config,function(response) {
                     _this.g_data_comments = response.data;
                     logger.log.debug("BlogView.loadBlogComments - response",_this.g_data_comments);
-                    _this.buildTree2(_this.g_data_comments.results);
+                    let nodes = _this.makeTree(_this.g_data_comments.results,null);
+                    console.log("nodes=",nodes);
                     resolve();
                 },function(err) {
                     logger.log.error("BlogView.loadBlogComments - error",err);

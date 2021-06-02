@@ -9,6 +9,7 @@
       v-if="!isReadOnly"
     />
 
+<!---
     <v-flex xs12>
       <v-container fluid grid-list-lg class="px-0">
         <v-layout row wrap tag="ul">
@@ -25,6 +26,8 @@
         </v-layout>
       </v-container>
     </v-flex>
+-->
+    
   </v-layout>
 </template>
 
