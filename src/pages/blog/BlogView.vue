@@ -47,14 +47,14 @@
             <div class="col">
                 <q-btn label="comment" @click="onClickComment" />
                 <q-input v-model="v_post.comment" label="Comments" />
-
+<!--
                 <comment-list
-                    commentableType="launches"
-                    :commentableId="launch.id"
-                    :isReadOnly="isReadOnly"
+                    :commentableId="tmp"
+                    :commentableType="test"
+                    :isReadOnly="v_comments_readonly"
                     v-model="v_comments"
                 />                
-
+-->
             </div>
         </div>
 
@@ -100,6 +100,7 @@ export default {
         //v_post: {title:null,header_image_url:null, pub_date:null},
         
         v_comments: [],
+        v_comments_readonly:false,
 
         editorOptions: {
             hideModeSwitch: true,

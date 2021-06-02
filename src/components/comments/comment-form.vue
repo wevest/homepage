@@ -1,27 +1,28 @@
 <template>
-  <v-layout row align-end tag="form">
-    <v-flex class="mr-4">
-      <v-text-field
-        :label="`Add ${this.parentId ? 'reply' : 'comment'}`"
-        :value="value_.comment"
-        @input="handleInput('comment', $event)"
-        auto-grow
-        hide-details
-        multi-line
-        ref="input"
-        rows="1"
-      />
-    </v-flex>
 
-    <v-flex shrink v-if="showSaveButton">
-      <button
-        :class="[saveButtonIsDisabled ? 'grey--text text--darken-2' : 'primary--text']"
-        :disabled="saveButtonIsDisabled"
-        @click.stop="submit"
-        type="button"
-      >{{ saving ? 'Saving...' : 'Save' }}</button>
-    </v-flex>
-  </v-layout>
+    <div>
+        <q-input
+            :label="`Add ${this.parentId ? 'reply' : 'comment'}`"
+            :value="value_.comment"
+            @input="handleInput('comment', $event)"
+            autogrow
+            hide-details
+            multi-line
+            ref="input"
+            rows="1"
+            type="textarea"
+        />
+
+        <q-btn
+            :class="[saveButtonIsDisabled ? 'grey--text text--darken-2' : 'primary--text']"
+            :disabled="saveButtonIsDisabled"
+            @click.stop="submit"
+            v-if="showSaveButton">
+        {{ saving ? 'Saving...' : 'Save' }}
+        </q-btn>
+        
+    </div>
+
 </template>
 
 
