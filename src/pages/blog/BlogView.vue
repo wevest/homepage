@@ -11,22 +11,47 @@
         <div class="row">
             <div class="col">
                 <div>
-                    <h5>{{v_post.title}}</h5>
+                    <h5 class=blog-title>{{v_post.title}}</h5>
+                </div>
+                <div class="blog-date">
                     <p>{{v_post.pub_date}}</p>
-                    <p> 
-                        <span>like count {{v_post.like_count}} </span>
-                        <span>dislike count {{v_post.dislike_count}} </span>
-                        <span>read count {{v_post.read_count}} </span>
+                </div>    
+                <div>
+                    <p class="blog-rating"> 
+                        <span class="material-icons thumb_up">thumb_up
+                            <span>{{v_post.like_count}}</span>
+                        </span>
+                        <span class="material-icons thumb_down">
+                            <span>thumb_down{{v_post.dislike_count}}</span>
+                        </span>
+                        <span class="material-icons done_outline">
+                            <span>done_outline{{v_post.read_count}}</span>
+                        </span>
+                    
+                    <span class="q-gutter-sm blog-write">
+                    <q-btn 
+                        outlined
+                        size="9px"
+                        color="primary"
+                        icon="mode"
+                        label="" 
+                        @click="onClickWrite" />
+                    <q-btn 
+                        outlined
+                        size="9px"
+                        color="primary"
+                        icon="checklist"
+                        label="" 
+                        @click="onClickTest" />
+                    </span>
                     </p>
-                    <q-btn label="Write" @click="onClickWrite" />
-                    <q-btn label="test" @click="onClickTest" />
                 </div>
 
             </div>
         </div>
 
         <div class="row">
-            <div class="col">
+            <div class="col body-content">
                 <Viewer 
                     ref="toastViewer"
                     :value="v_post.text"
@@ -36,17 +61,44 @@
                     height="200px"
                 />
                 <p> {{ v_post.tags }} </p>
-                <div>
-                    <q-btn label="Like" @click="onClickRate('like')"/>
-                    <q-btn label="Dislike"  @click="onClickRate('dislike')" />    
+                <div class="boxRate-parent">
+                <div class="q-pa-md q-gutter-sm boxRate">
+                    <q-btn 
+                        push
+                        class="rateButton"
+                        rounded
+                        size="13px"
+                        color="primary" 
+                        icon="thumb_up" 
+                        label="" 
+                        @click="onClickRate('like')"/>
+                    <q-btn
+                        push
+                        class="rateButton"
+                        rounded
+                        size="13px"
+                        color="indigo"
+                        icon="thumb_down"
+                        label=""
+                        @click="onClickRate('dislike')" />
+                </div>
                 </div>
             </div>
         </div>
 
         <div class="row">
             <div class="col">
-                <q-btn label="comment" @click="onClickComment" />
+                <span class="comment-btn">
+                <q-btn
+                    push
+                    color="primary" 
+                    label="등록"
+                    text-color="white"
+                    @click="onClickComment" />
+                </span>
+                <span class="comments-title">
                 <q-input v-model="v_post.comment" label="Comments" />
+                </span>
 <!--
                 <comment-list
                     :commentableId="tmp"
@@ -417,5 +469,73 @@ export default {
 
 
 <style scoped>
+.blog-title {
+    margin:0px auto 1px;
+    color:#000;
+}
 
+.blog-date {
+    color:#888;
+    padding:1px  5px;
+}
+
+.body-content {
+    font-size:17px;
+    color:#888
+}
+.material-icons {
+    font-size: 20px;
+}
+.thumb_up {
+    color:rgb(202, 202, 39);
+}
+.thumb_down {
+    color:darkred;
+}
+.done_outline {
+    color:forestgreen;
+}
+
+
+.blog-write {
+    float:right;
+    color:#202020; 
+    border-radius:3px;
+    font-size:10px;
+    
+}
+.boxRate-parent {
+    text-align:center;
+    margin:0 auto;
+    ;
+}
+
+.boxRate {
+    /* width:400px; */
+    /* margin:0 auto; */
+    display:inline-block;
+    /* text-align:center;  */
+    /* margin:0 auto; */
+    
+}
+
+.rateButton {
+    width:70px;
+}
+
+.comment-btn {
+    float:right;
+    top:4px;
+    /* color:#fff; */
+    /* background:#4978f4; */
+    /* border-radius:3px; */
+    /* font-size:3px; */
+    margin-top:17px;
+}
+.button {
+    font-size:110px;
+}
+.comment-title {
+    
+}
 </style>
