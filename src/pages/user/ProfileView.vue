@@ -25,8 +25,6 @@
 </template>
 
 <script>
-import RiskChart from 'src/pages/risk/RiskChart';
-
 import {MoaConfig} from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import MoaBackendAPI from 'src/services/apiService';

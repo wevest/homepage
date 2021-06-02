@@ -60,6 +60,15 @@
           
           <q-toolbar class="col-3 bg-white text-black">            
             <q-space />
+            
+            
+            <div v-if="v_login==true">
+              <a href='#' @click="onClickSignOut">Logout</a>
+            </div>
+            <div v-else>
+              <a href='#' @click="onClickSignIn">Login</a>
+            </div>
+
             <div class="toolbar_language full-width">
               <q-select                             
                 v-model="language" :options="langs" borderless dense
@@ -104,9 +113,10 @@
 <script>
 import SideBar from './SideBar';
 import Spinner from 'src/components/Spinner';
-//import LoadingSpinner from 'src/components/LoadingSpinner';
 
+import {MoaConfig} from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
+import AuthService from 'src/services/authService';
 import LocalStorageService from 'src/services/localStorage';
 import logger from 'src/error/Logger';
 
@@ -130,12 +140,18 @@ export default {
       g_options: [],
       v_options: [],
       //lang: this.$i18n.locale,
+      v_login: false, 
     };
   },
 
+  updated: function() {
+    this.setSigninMenu();
+  },
   mounted: function () {
-    CommonFunc.setAppData('spinner',this.$refs.loading);
+    //CommonFunc.setAppData('spinner',this.$refs.loading);
     //this.loadCoinCodes();
+    AuthService.loadFromCookie();
+    this.setSigninMenu();
   },
 
   methods: {
@@ -159,6 +175,19 @@ export default {
             const needle = val.toLowerCase();
             this.v_options = this.g_options.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
         })            
+    },
+
+    setSigninMenu: function() {
+      if (CommonFunc.isEmptyObject(MoaConfig.auth)) {
+        this.v_login = false;
+      } else {
+        if (CommonFunc.isEmptyObject(MoaConfig.auth.token)) {
+          this.v_login = false;
+          return;
+        }
+
+        this.v_login = MoaConfig.auth.loggedIn;
+      }
     },
 
     isValidInput: function(value) {
@@ -231,10 +260,38 @@ export default {
       this.g_input = value;
       if (this.isValidInput(this.g_input)) {
         //this.movePage(this.g_input);
-      }
-      
-    }
+      }      
+    },
 
+    onClickSignIn: function() {
+      logger.log.debug('onClickSignIn');
+      let dic_param = { name:'signin', params:{} };
+      this.$router.push(dic_param);
+    },
+
+    onClickSignOut: function() {
+      logger.log.debug('onClickSignOut');
+      
+      const _this = this;
+      let dic_param = {token:MoaConfig.auth.token};
+      AuthService.signOut(dic_param,function(response) {
+          logger.log.debug("signOut.response=",response);
+          
+          AuthService.processLogout();
+          _this.setSigninMenu();
+          
+          _this.$q.notify({
+              color: 'green-4', textColor: 'white', icon: 'cloud_done',
+              message: 'logout'
+          })
+      }, function(response) {
+          logger.log.debug("onClickSignOut.Error - response=",response);
+          if (response.status==400) {
+
+          }
+      });
+
+    },
 
   }
 

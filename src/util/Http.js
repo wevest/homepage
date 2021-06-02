@@ -73,26 +73,12 @@ export const callAPI = async(call_method,url,config,req_params) => {
 
         axios(config)
         .then(function(response) {
-            /*
-            var json_response = response;
-            if ( ! CommonFunc.isJson(response.data) ) {
-                json_response = JSON.parse(response.data);
-            }
-            */
             logger.log.debug("callAPI - 0",response);
-            if (!(CommonFunc.sanityCheck(response.data))) {
-                logger.log.debug("callAPI - 1");
-                ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.ServerResponseError,'',response));
-            } else if (response.data.err_code !== 0) {
-                logger.log.debug("callAPI - 2", json_response.data);                
-                ehandler.throw(Errors.raise(response.data.err_code,'',response));
-            } else {
-                logger.log.debug("callAPI - 3");
-                resolve(response);
-            }
+            resolve(response);            
         })
         .catch(function(error) {
-            logger.log.error('CallAPI - error object',error.response);
+            logger.log.error('CallAPI - error object',error);
+            
             //reject(error);
             if (!(error.response)) {
                 ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.NetworkConnectionError,'',error));
@@ -151,9 +137,10 @@ export const callCMSAPI = async(call_method,url,config,req_params) => {
             headers: {
                 //'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
+                //'Content-Type': 'application/x-www-form-urlencoded',
                 //'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-                'Authorization': MoaConfig.key.comment,
-                'X-CSRFToken': Cookies.get('csrftoken')
+                //'Authorization': 'Token ' + MoaConfig.auth.token,
+                //'X-CSRFToken': Cookies.get('csrftoken')
             },
             timeout: 0,
             maxContentLength: 1024*1024,
@@ -162,73 +149,30 @@ export const callCMSAPI = async(call_method,url,config,req_params) => {
             //credentials: 'include', 
             //json: true
         };
+        
+        if ('token' in req_params) {
+            config.headers['Authorization'] = 'Token ' + MoaConfig.auth.token;
+        }
 
         config['url'] = url;
         config['method'] = call_method;
         config['data'] = req_params;
         //config['data'] = JSON.stringify(req_params);
-        //logger.log.debug('callAPI',config);           
+        logger.log.debug('callCMSAPI',config);           
 
         axios(config)
         .then(function(response) {
-            /*
-            var json_response = response;
-            if ( ! CommonFunc.isJson(response.data) ) {
-                json_response = JSON.parse(response.data);
-            }
-            */
-            //logger.log.debug("callCMSAPI - 0",response);
-            if (!(CommonFunc.sanityCheck(response.data))) {
-                //logger.log.debug("callCMSAPI - 1");
-                ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.ServerResponseError,'',response));
-            } else {
-                //logger.log.debug("callCMSAPI - 3");
-                resolve(response);
-            }
+            resolve(response);
         })
         .catch(function(error) {
-            logger.log.error('CallAPI - error object',error.response);
+            logger.log.error('callCMSAPI - error ',error.response);
             //reject(error);
-            if (!(error.response)) {
-                ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.NetworkConnectionError,'',error));
-            } else if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                //console.log(error.response.data);
-                //console.log(error.response.status);
-                //console.log(error.response.headers);
-                logger.log.error('CallAPI - response',error.response);
-                
-                if (error.response.data.err_code == '-5001') {
-                    ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.AuthTokenExpired,'',error.response));
-                } else if (error.response.data.err_code == '-5004') {
-                    ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.AuthTokenUnauthorized,'',error.response));
-                } else if (error.response.data.err_code == '-10091') {
-                    var jsonmessage = JSON.parse(error.response.data.data.error.data.error.replace('Node error: ',''))
-                    if (jsonmessage.code == '-32000') {
-                        ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.EthereumNetworkError,'',jsonmessage.message,true));
-                    }
-                } else if (error.response.data.err_code == '-10304') {
-                    if (error.response.data.data.error.err_code == '-2005') {
-                        ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.WrongSwapCurrency,'',error.response));
-                    }
-                } else if (error.response.data.err_code == '-10201') {
-                    if (error.response.data.data.error.cause == "priceInvalid") {
-                        ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.PegasusSwapException,'',error.response.data.data.error.msg));
-                    }
-                } else {
-                    //ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.HTTPStatusError,'',error.response));
-                    ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.NotDefined,'',"err_code:"+error.response.data.err_code+" msg:"+error.response.data.data.msg+" => "+error.response.data.data.error));
-                }
-            } else if (error.request) {
-                // The request was made but no response was received
-                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                // http.ClientRequest in node.js
-                ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.NoResponseError,'',error.request));
+            if (error.response.status==400) {
+                reject(error.response);
             } else {
                 // Something happened in setting up the request that triggered an Error
                 //ehandler.throw(new Errors.OtherNetworkError(error=error));
-                ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.OtherNetworkError,'',error));
+                ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.OtherNetworkError,'',error.response));
                 //console.log('Error', error.message);
             }
             //console.log(error.config);            

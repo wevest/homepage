@@ -1004,19 +1004,14 @@ export default class CommonFunc {
         return new_data;
     }
 
-    static isEmptyObject(obj)
+    static isEmptyObject(value)
     {
-        if (!obj)
-        {
+        if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){
             return true;
         }
-    
-        if (!(typeof(obj) === 'number') && !Object.keys(obj).length)
-        {
-            return true;
-        }
-    
+        
         return false;
+
     }    
 
     static getChartOption(series,yaxis=null,height=null) {
@@ -1147,5 +1142,11 @@ export default class CommonFunc {
         //console.log("milify--2",a_value);
         return a_value;
     }    
+
+    static showOkMessage(a_this,msg) {
+        a_this.$q.notify({
+            color: 'green-4', textColor: 'white', icon: 'cloud_done',message: msg
+        });
+    }
 }
 

@@ -25,17 +25,6 @@ export default class CMSAPI{
     });
   }
 
-  static getPostData(page_id,func,funcErr) {
-    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/cms/pages/"+page_id);
-    callCMSAPI("GET",url,{},{})
-    .then( (response) => {
-        func(response);
-    })
-    .catch( (err) => {
-        funcErr(err);
-    });
-  }
-
   static postBlogPost(dic_param,func,funcErr) {
     let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/blog/posts/");
     callCMSAPI("POST",url,{},dic_param)
@@ -47,8 +36,21 @@ export default class CMSAPI{
     });
   }
 
+  static deleteBlogPost(dic_param,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/blog/posts/"+dic_param['id']+'/');
+    //let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/blog/posts/");
+    callCMSAPI("DELETE",url,{},dic_param)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
+
   static likeBlogPost(dic_param,func,funcErr) {
-    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/blog/posts/6/like/");
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/blog/posts/" + dic_param.id + "/" + dic_param.method + "/");
     callCMSAPI("POST",url,{},dic_param)
     .then( (response) => {
         func(response);
@@ -70,9 +72,20 @@ export default class CMSAPI{
   }
 
   static getComments(dic_param,func,funcErr) {
-    let a_method = "/comments/api/"+dic_param.content_type+"/"+dic_param.pk+"/";
+    let a_method = "/comments/api/"+dic_param.content_type+"/"+dic_param.id+"/";
     let url = CMSAPI.getUrl(MoaConfig.urls.cms,a_method);
     callCMSAPI("GET",url,{},dic_param)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
+  static getPostData(page_id,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/cms/pages/"+page_id);
+    callCMSAPI("GET",url,{},{})
     .then( (response) => {
         func(response);
     })
