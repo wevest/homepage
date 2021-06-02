@@ -11,8 +11,10 @@
                     class="text-grey"
                     active-color="primary"
                     indicator-color="primary"
-                    align="justify"
+                    align="center"
                     narrow-indicator
+                    items-center
+                    style
                 >
                     <q-tab name="signin" label="Sign In" />
                     <q-tab name="signup" label="Sign Up" />
@@ -22,7 +24,7 @@
                     <q-tab-panel name="signin">
                         <q-form
                             @submit.prevent="onSignIn"
-                            class="q-gutter-md"
+                            class="q-gutter-y-md q-field--with-bottom col-width"
                         >
                             <q-input
                                 filled lazy-rules
@@ -31,12 +33,13 @@
                                 :error="v_error.username.error"
                                 :error-message="v_error.username.msg"                                
                                 :rules="[ val => val && val.length > 0 || 'Please type something']"
+                                
                             />
 
                             <q-input
                                 filled type="password"
                                 v-model="v_user.password"
-                                label="password"
+                                label="Password"
                                 :error="v_error.password.error"
                                 :error-message="v_error.password.msg"                                
                             />
@@ -51,7 +54,7 @@
                     <q-tab-panel name="signup">
                         <q-form
                             @submit.prevent="onSignUp"
-                            class="q-gutter-md"
+                            class="q-gutter-y-md q-field--with-bottom col-width"
                         >
                             <q-input
                                 filled required bottom-slots type="email" id="email"
@@ -281,3 +284,15 @@ export default {
 
 
 </script>
+
+<style scope> 
+.col-width {
+  /* width: 550px;   */
+  /* min-width: 500px; */
+  max-width: 500px;
+  width: auto;
+  margin:0 auto;
+  padding-bottom: 20px;
+  
+}
+</style>
