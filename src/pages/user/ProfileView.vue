@@ -38,7 +38,6 @@ export default {
     components: {
         CBigLabel,
         CTitle,
-        RiskChart
     },
     props: {
     },
@@ -53,11 +52,9 @@ export default {
 
     mounted: function() {
         //console.log("HomeView.mounted - ");
-        this.refresh();
+        //this.refresh();
     },
-    methods: {
-
-        
+    methods: {        
         updateWidget: function(ntype,data) {
             if (ntype=='crisis') {
                 let data_crisis = DataService.getCrisisData(data);

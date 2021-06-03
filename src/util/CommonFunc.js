@@ -1149,6 +1149,12 @@ export default class CommonFunc {
         });
     }
 
+    static showErrorMessage(a_this,msg) {
+        a_this.$q.notify({
+            color: 'red-4', textColor: 'white', icon: 'warning',message: msg
+        });
+    }
+
     static getURLQuery(url) {
         var qs = url.substring(url.indexOf('?') + 1).split('&');
         for(var i = 0, result = {}; i < qs.length; i++){
@@ -1156,6 +1162,13 @@ export default class CommonFunc {
             result[qs[i][0]] = decodeURIComponent(qs[i][1]);
         }
         return result;
+    }
+
+    static getBucketKey(filename) {
+        var tokens = filename.split(".");
+        var today = new Date();
+        var a_date = tokens[0] + "_" + today.getFullYear()+(today.getMonth()+1)+today.getDate()+"_"+today.getHours()+today.getMinutes()+today.getSeconds()+"."+tokens[1];
+        return a_date;
     }
 
 }

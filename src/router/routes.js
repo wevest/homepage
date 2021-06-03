@@ -8,7 +8,8 @@ const routes = [
       
       // cms related
       { name: 'blog', path: 'blog', component: () => import('pages/blog/BlogView.vue') },
-      { name: 'blog_write', path: 'blog_write', component: () => import('pages/blog/BlogWriteView.vue') },
+      { name: 'blog_writer', path: 'blog_writer', component: () => import('pages/blog/BlogWriterView.vue') },
+      { name: 'profile', path: 'profile', component: () => import('pages/user/ProfileView.vue') },
 
       // market related
       { name: 'trend', path: 'trend', component: () => import('pages/trend/TrendView.vue') },

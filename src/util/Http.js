@@ -151,7 +151,7 @@ export const callCMSAPI = async(call_method,url,config,req_params) => {
         };
         
         if ('token' in req_params) {
-            config.headers['Authorization'] = 'Token ' + MoaConfig.auth.token;
+            config.headers['Authorization'] = 'Token ' + req_params.token;
         }
 
         config['url'] = url;

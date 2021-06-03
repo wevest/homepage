@@ -1,4 +1,4 @@
-import Comment from "src/store/Comment";
+import Comment from "src/store/PostModel";
 
 export default {
   props: {

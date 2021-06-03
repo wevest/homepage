@@ -38,8 +38,18 @@
                             size="9px"
                             color="primary"
                             icon="mode"
-                            label="" 
+                            label="Write" 
                             @click="onClickWrite" />
+
+                        <q-btn 
+                            v-if="v_post.is_owner"
+                            outlined
+                            size="9px"
+                            color="primary"
+                            icon="mode"
+                            label="Update" 
+                            @click="onClickUpdate" />
+
                         <q-btn 
                             outlined
                             size="9px"
@@ -136,15 +146,14 @@ import CommentTree from "components/comments/comment-tree.vue";
 
 
 export default {
-  name: 'PageBlog',
-  components: {
-      CTitle,
-      CBigLabel,
-      Viewer,
-      CommentTree,
-      CommentForm
-  },
-
+    name: 'PageBlog',
+    components: {
+        CTitle,
+        CBigLabel,
+        Viewer,
+        CommentTree,
+        CommentForm
+    },
     data: function () {
         return {
             g_data:null,
@@ -152,8 +161,8 @@ export default {
             g_data_comments: null,
 
             v_post: {            
-                title:'Title', text:'body text', tags:'crypto,btc,eth', category:'1', comment:'comments',
-                like_count:0, dislike_count:0, read_count:0
+                title:'Title', text:'body text', tags:'crypto,btc,eth', category_id:'1', category_name:'',
+                comment:'comments',like_count:0, dislike_count:0, read_count:0, is_owner:false
             },
                     
             v_page: {title:this.$t('page.cryptovc.title'), desc:''},
@@ -194,8 +203,8 @@ export default {
 
         //this.$refs.commentTree.showEditor();
 
-        this.g_page_id=4;
-        this.refresh(this.g_page_id);                        
+        this.g_page_id=12;
+        this.refresh(this.g_page_id);
     },
     updated: function() {
         //console.log("HomeView.updated");
@@ -255,9 +264,24 @@ export default {
 
         },
         
-        updatePost: function(post) {
+        handlePostPage: function(post) {
             this.v_post = post;
             this.v_post.comment = "comments";
+            
+            if (post.owner.id==MoaConfig.auth.id) {
+                this.v_post.is_owner = true;
+            } else {
+                this.v_post.is_owner = false;
+            }
+
+            if (post.api_categories.length==0) {
+                this.v_post.category_id = null;
+                this.v_post.category_name = null;
+            } else {
+                this.v_post.category_id = post.api_categories[0].id;
+                this.v_post.category_name = post.api_categories[0].name;
+            }
+
             this.setContent(this.v_post.body);
         },
 
@@ -272,7 +296,7 @@ export default {
                 CMSAPI.getPostData(page_id,function(response) {
                     _this.g_data = response.data;
                     logger.log.debug("BlogView.loadBlogPost - response",_this.g_data);
-                    _this.updatePost(_this.g_data);
+                    _this.handlePostPage(_this.g_data);
                     resolve();
                 },function(err) {
                     logger.log.error("BlogView.loadBlogPost - error",err);
@@ -312,53 +336,15 @@ export default {
             this.v_comments = this.v_comments.concat(comments); 
         },
 
-        uploadImage:function(blob) {
-            // check the following link
-            // https://solve-programming.tistory.com/29    
-            // https://day0404.tistory.com/entry/Nuxtjs-Toast-Ui-Editor-%EC%A0%81%EC%9A%A9
 
-            console.log("imagehook=",blob);
-
-            let formData = new FormData();
-
-            formData.append('image', blob);
-
-            return axios('http://localhost:3001/imageupload', {
-
-                method: 'POST',
-
-                data: formData,
-
-                headers : {'Content-type' : 'multipart/form-data' }
-
-            }).then(response => {
-
-                if (response.data) {
-
-                if(this.state.thumbnailcheck === 0) {
-
-                    this.setState({
-
-                    thumbnailchekc : 1,
-
-                    thumbnail : response.data
-
-                    })
-
-                }
-
-                    return response.data;
-
-                }
-
-                throw new Error('Server or network error');
-
-            });
-
-        },
-
-        navAsset:function(symbol) {
-          let dic_param = { name:'asset', params:{ symbol:symbol } };
+        navWriter:function(mode) {
+          let params = {category_id:this.v_post.category_id};
+            if (mode=="new") {
+                params.page_id = null;
+            } else {
+                params.page_id = this.v_post.id;
+            }
+          let dic_param = { name:'blog_writer', params:params };
           this.$router.push(dic_param);
         },
 
@@ -419,6 +405,7 @@ export default {
                 console.log("error-",err);
             });
         },
+
 
         onClickBlogRate: function(rate) {
             const _this = this;
@@ -505,7 +492,12 @@ export default {
 
         onClickWrite: function() {
             logger.log.debug('onClickWrite - ');
-            this.$refs.blogEditor.show();
+            this.navWriter("new");
+        },
+
+        onClickUpdate: function() {
+            logger.log.debug("BlogPage.onClickUpdate");
+            this.navWriter("update");
         },
 
         onClickCommentSave: function(payload) {            
@@ -541,7 +533,6 @@ export default {
             this.loadBlogComments(this.g_page_id,dic_query.limit,dic_query.offset);
         },
 
-        
         onClickRate: function(dic_payload) {
             const _this = this;
             logger.log.debug("BlogPage.onClickRate=",dic_payload);
@@ -549,9 +540,7 @@ export default {
             let dic_param = {comment: dic_payload.data.id, flag:dic_payload.rate, token:MoaConfig.auth.token};
             CMSAPI.postCommentFeedback(dic_param,function(response) {
                 CommonFunc.showOkMessage(_this,'Comments rate updated');
-
-                
-
+            
             }, function(response) {
 
             });            
