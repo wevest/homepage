@@ -88,16 +88,17 @@
             
         </dt>
 
-        <!-- <el-divider v-if="level===1"></el-divider> -->
-        <q-expansion-item v-model="isExpanded" v-if="replyCount" label="" dense icon="" expand-icon="1">
-            <dd
-                class="reply-container" ref="messageTreeContainer"
-            >
+        
+        <q-expansion-item v-model="isExpanded" v-if="replyCount" dense dense-toggle label="" label-lines="0"
+            icon="" expand-icon="1" expanded-icon="1" header-class="1" header-style="display:none;">
+
+            <dd class="reply-container" ref="messageTreeContainer">
                 <comment-list :dataList="data.children"></comment-list>
                 <div class="editor-container" ref="editorContainer2"></div>
-
             </dd>
+
         </q-expansion-item>
+        
     </dl>
 </template>
 
@@ -105,6 +106,7 @@
 <script>
 import logger from "src/error/Logger";
 import CommonFunc from 'src/util/CommonFunc';
+
 
 
 function dateFormat(createdDate) {
@@ -138,8 +140,7 @@ function dateFormat(createdDate) {
 export default {
     name: "CommentItem",
     components: {
-        //CommentList,
-        CommentList: () => import("components/comments/comment-list"),
+        CommentList: () => import("components/comments/comment-list"),    
     },
 
     inject: {
@@ -177,7 +178,7 @@ export default {
             this.isExpanded = value > this.level;
         },
         isExpanded(value) {
-            //console.log("watch.value=",value);
+            console.log("watch.value=",value);
             this.$messageTree.$emit("tree-expanded", this.data, value);
             if (!value) {
                 if (! CommonFunc.isEmptyObject(this.$refs.messageTreeContainer)) {
@@ -383,57 +384,82 @@ dd.reply-container {
 .reply_count {
     margin-top:5px;
 }
-/*
-@duration: 300ms;
-dt {
-  display: flex;
-  .avatar-wrapper {
-    margin-right: 8px;
-  }
-  .message-wrapper {
-    width: 100%;
-    font-size: 14px;
-    time {
-      color: #909399;
-      vertical-align: middle;
-    }
-    .footer-action {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      .append-right {
-        .thumb-button {
-          color: #409eff;
-          cursor: pointer;
-        }
-      }
-    }
-  }
+
+.wrap-collabsible {
+  margin-bottom: 1.2rem 0;
 }
-dd.reply-container {
-  background: #fafbfc;
-  padding: 20px;
-  margin-top: 20px;
+
+input[type='checkbox'] {
+  display: none;
 }
-.loading-more {
-  user-select: none;
+
+.lbl-toggle {
+  display: block;
+
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 1.2rem;
+  text-transform: uppercase;
   text-align: center;
-  font-size: 14px;
-  color: #444;
+
+  padding: 1rem;
+
+  color: #A77B0E;
+  background: #FAE042;
+
   cursor: pointer;
+
+  border-radius: 7px;
+  transition: all 0.25s ease-out;
 }
-.message-reply-enter,
-.message-reply-leave-to {
-  transform: translateX(-100%);
+
+.lbl-toggle:hover {
+  color: #7C5A0B;
 }
-.message-reply-active {
-  transition: all @duration;
+
+.lbl-toggle::before {
+  content: ' ';
+  display: inline-block;
+
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid currentColor;
+  vertical-align: middle;
+  margin-right: .7rem;
+  transform: translateY(-2px);
+
+  transition: transform .2s ease-out;
 }
-.message-reply-move {
-  transition: all @duration;
+
+.toggle:checked + .lbl-toggle::before {
+  transform: rotate(90deg) translateX(-3px);
 }
-.message-reply-item {
-  transition: all @duration;
+
+.collapsible-content {
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height .25s ease-in-out;
 }
-*/
+
+.toggle:checked + .lbl-toggle + .collapsible-content {
+  max-height: 100vh;
+}
+
+.toggle:checked + .lbl-toggle {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.collapsible-content .content-inner {
+  background: rgba(250, 224, 66, .2);
+  border-bottom: 1px solid rgba(250, 224, 66, .45);
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+  padding: .5rem 1rem;
+}
+
+.q-item {
+    min-height: 0px;
+    padding:0px;
+}
 </style>
