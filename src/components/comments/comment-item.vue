@@ -1,9 +1,9 @@
 <template>
     <dl>
         <dt>
-            <div class="column">
+            <div class="boxCommentMessage">
               
-                <div class="row">
+                <div class="row q-gutter-sm">
                   <div class="avatar-wrapper">
                       <q-avatar>
                           <img :src="data.user_avatar" />
@@ -69,8 +69,10 @@
                       </div>
                     </div>
                 </div>
+            
+                <div class="editor-container" ref="editorContainer"></div>            
             </div>
-            <div class="editor-container" ref="editorContainer"></div>            
+            
         </dt>
 
         <!-- <el-divider v-if="level===1"></el-divider> -->
@@ -312,6 +314,10 @@ dt {
         }
 
     }
+}
+
+.boxCommentMessage {
+  border-bottom:1px solid #cccccc;
 }
 
 dd.reply-container {

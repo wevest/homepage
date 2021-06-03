@@ -7,7 +7,9 @@
             </li>
         </ul>
 
-        <div class="loading-more" @click="onClickLoadMore" v-if="v_visible_loadmore">Load More</div>        
+        <div class="column" v-if="v_visible_loadmore">
+            <q-btn @click="onClickLoadMore" label="LoadMore" />
+        </div>        
     </div>
 
     
