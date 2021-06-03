@@ -1,27 +1,32 @@
 <template>
     <dl>
         <dt>
-            <div class="avatar-wrapper">
-                <q-avatar>
-                    <img :src="data.user_avatar" />
-                </q-avatar>
-            </div>
-            <div class="message-wrapper">
-                <div class>
-                    <span class="nickname">{{ data.user_name }}</span
-                    >&nbsp;&nbsp;&nbsp;
-                    <time>{{ data.id }} | {{ data.submit_date }}</time>
+            <div class="column">
+              
+                <div class="row">
+                  <div class="avatar-wrapper">
+                      <q-avatar>
+                          <img :src="data.user_avatar" />
+                      </q-avatar>
+                  </div>
+                  <div>
+                      <span class="nickname">{{ data.user_name }}</span>
+                      <br>
+                      <time>{{ data.submit_date }}</time>
+                  </div>
                 </div>
 
-                <p class="content">
-                    {{ data.comment }}
-                    
-                    <span v-if="data.replyToUser">//@{{ data.replyToUser.user_name }}:{{data.replyToUser.comment}}</span>
-                </p>
+                <div class="boxMessage">
 
-                <div class="footer-action">
-                    
-                      <div class="message-statis" v-if="data.level==0">
+                  <p class="content">
+                      {{ data.comment }}                    
+                      <span v-if="data.replyToUser">//@{{ data.replyToUser.user_name }}:{{data.replyToUser.comment}}</span>
+                  </p>
+                </div>
+
+                <div class="boxFooterAction">
+                    <div class="row">
+                      <div v-if="data.level==0">
 
                           <q-btn type="text" @click="replyHandler('editorContainer')" v-if="data.children.length==0">
                             Reply
@@ -45,7 +50,8 @@
                               ></i>
                           </q-btn>
                       </div>
-                      <div class="append-right">
+                      <q-space />
+                      <div>
                           <span class="thumb-button" style="font-size:1.5em;">
                               
                               <q-icon
@@ -63,12 +69,12 @@
                       </div>
                     </div>
                 </div>
-                <div class="editor-container" ref="editorContainer"></div>
             </div>
+            <div class="editor-container" ref="editorContainer"></div>            
         </dt>
 
         <!-- <el-divider v-if="level===1"></el-divider> -->
-        <q-expansion-item v-model="isExpanded" v-if="replyCount" label="" dense>
+        <q-expansion-item v-model="isExpanded" v-if="replyCount" label="" dense icon="" expand-icon="1">
             <dd
                 class="reply-container" ref="messageTreeContainer"
             >
@@ -287,30 +293,24 @@ export default {
 
 
 <style scoped>
-dt {
-    display: flex;
 
+dt {
     .avatar-wrapper {
         margin-right: 8px;
     }
-    .message-wrapper {
+    .boxMessage {
         width: 100%;
         font-size: 14px;
         time {
             color: #909399;
             vertical-align: middle;
         }
-        .footer-action {
-            display: flex;
+
+        .boxFooterAction {
             justify-content: space-between;
             align-items: center;
-            .append-right {
-                .thumb-button {
-                    color: #409eff;
-                    cursor: pointer;
-                }
-            }
         }
+
     }
 }
 

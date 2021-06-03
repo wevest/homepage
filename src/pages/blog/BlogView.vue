@@ -14,37 +14,41 @@
                     <h5 class=blog-title>{{v_post.title}}</h5>
                 </div>
                 <div class="blog-date">
-                    <p>{{v_post.pub_date}}</p>
+                    <span>{{v_post.pub_date}}</span>
                 </div>    
-                <div>
-                    <p class="blog-rating"> 
-                        <span class="material-icons thumb_up">thumb_up
+                <div class="boxRate">
+                    <div class="float-left q-gutter-sm">
+                        <span>
+                            <q-icon name="thumb_up" style="font-size: 2rem;" />
                             <span>{{v_post.like_count}}</span>
                         </span>
-                        <span class="material-icons thumb_down">
-                            <span>thumb_down{{v_post.dislike_count}}</span>
+                        <span>
+                            <q-icon name="thumb_down" style="font-size: 2rem;" />
+                            <span>{{v_post.dislike_count}}</span>
                         </span>
-                        <span class="material-icons done_outline">
-                            <span>done_outline{{v_post.read_count}}</span>
+                        <span>
+                            <q-icon name="thumb_up" style="font-size: 2rem;" />
+                            <span>{{v_post.read_count}}</span>
                         </span>
-                    
-                    <span class="q-gutter-sm blog-write">
-                    <q-btn 
-                        outlined
-                        size="9px"
-                        color="primary"
-                        icon="mode"
-                        label="" 
-                        @click="onClickWrite" />
-                    <q-btn 
-                        outlined
-                        size="9px"
-                        color="primary"
-                        icon="checklist"
-                        label="" 
-                        @click="onClickTest" />
-                    </span>
-                    </p>
+                    </div>
+
+                    <div class="float-right q-gutter-sm">
+                        <q-btn 
+                            outlined
+                            size="9px"
+                            color="primary"
+                            icon="mode"
+                            label="" 
+                            @click="onClickWrite" />
+                        <q-btn 
+                            outlined
+                            size="9px"
+                            color="primary"
+                            icon="checklist"
+                            label="TEst" 
+                            @click="onClickTest" />
+                    </div>
+
                 </div>
 
             </div>
@@ -71,7 +75,7 @@
                         color="primary" 
                         icon="thumb_up" 
                         label="" 
-                        @click="onClickRate('like')"/>
+                        @click="onClickBlogRate('like')"/>
                     <q-btn
                         push
                         class="rateButton"
@@ -80,16 +84,9 @@
                         color="indigo"
                         icon="thumb_down"
                         label=""
-                        @click="onClickRate('dislike')" />
+                        @click="onClickBlogRate('dislike')" />
                 </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <q-btn label="Like" @click="onClickRate('like')"/>
-                <q-btn label="Dislike"  @click="onClickRate('dislike')" />    
             </div>
         </div>
 
@@ -105,7 +102,7 @@
                 <CommentTree ref="commentTree" :data-list="v_comments" 
                     @onClickCommentReply="onClickCommentReply"
                     @onClickLoadMore="onClickLoadMore"
-                     @onClickRate="onClickRate"
+                    @onClickRate="onClickRate"
                 />
 <!--
                 <comment-list
@@ -423,14 +420,14 @@ export default {
             });
         },
 
-        onClickRate: function(rate) {
+        onClickBlogRate: function(rate) {
             const _this = this;
             let dic_param = {id:this.g_data.id, method:rate, token:MoaConfig.auth.token};
             CMSAPI.likeBlogPost(dic_param,function(response) {
-                logger.log.debug('onClickLike - ',response);
+                logger.log.debug('onClickBlogRate - ',response);
                 CommonFunc.showOkMessage(_this,'Liked');
             }, function(err) {
-                logger.log.debug('onClickLike - ',err);
+                logger.log.debug('onClickBlogRate - ',err);
             });          
         },
 
@@ -610,11 +607,10 @@ export default {
 
 .boxRate {
     /* width:400px; */
-    /* margin:0 auto; */
-    display:inline-block;
+    /* margin:0 auto; */    
     /* text-align:center;  */
     /* margin:0 auto; */
-    
+    padding:10px 0px 10px 0px;
 }
 
 .rateButton {

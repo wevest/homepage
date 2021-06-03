@@ -1,24 +1,36 @@
 <template>
 
-     <div class="message-editor" v-show="visible">
-        <q-input
-            label="Please type your comments"
-            v-model="v_comments"
-            @focus="$emit('editor-focus',$event)"
-            autogrow
-            type="textarea"
-            id="contentInput"
-            ref="contentInput"            
-            :error="v_error.error"
-            :error-message="v_error.msg"
-        />
+     <div class="row no-wrap items-center q-pa-md boxEditor" v-show="visible">
+        <div class="col">
+          <div>
+            <q-input
+                label="Please type your comments"
+                filled counter
+                v-model="v_comments"
+                @focus="$emit('editor-focus',$event)"
+                autogrow
+                type="textarea"
+                id="contentInput"
+                ref="contentInput"            
+                input-style=""
+                :error="v_error.error"
+                :error-message="v_error.msg"
+            />
+          </div>
+          
+          
+          
+          <div class="boxEditorCommand" align="right">
+            <q-btn
+              label="save"
+              @click.stop="onClickSubmit"
+              v-if="showSaveButton">
+            </q-btn>
+          
+          </div>        
 
-        <q-btn
-            label="save"
-            @click.stop="onClickSubmit"
-            v-if="showSaveButton">
-        </q-btn>
-        
+      </div>
+
     </div>
 
 </template>
@@ -161,6 +173,20 @@ export default {
 
 
 <style scoped>
+
+.boxEditor {
+  /* padding:10px; */
+  border:1px solid #cccccc;
+  height:250px;
+}
+
+.boxEditorCommand {
+  border-top:1px solid #cccccc;
+}
+
+.boxEditorTextarea {
+  height:150px !important;
+}
 
 .inline-items-wrapper {
   display: flex;
