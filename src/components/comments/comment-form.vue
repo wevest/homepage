@@ -1,6 +1,7 @@
 <template>
 
-     <div class="row no-wrap items-center q-pa-md boxEditor" v-show="visible">
+     <div class="row no-wrap q-pa-md boxEditor" v-show="visible">
+        <!-- items-center-->
         <div class="col">
           <div>
             <q-input
@@ -23,6 +24,8 @@
           <div class="boxEditorCommand" align="right">
             <q-btn
               label="save"
+              size="12px"
+              color="primary"              
               @click.stop="onClickSubmit"
               v-if="showSaveButton">
             </q-btn>
@@ -177,10 +180,11 @@ export default {
 .boxEditor {
   /* padding:10px; */
   border:1px solid #cccccc;
-  height:250px;
+  height:150px;
 }
 
 .boxEditorCommand {
+  padding-top:8px;
   border-top:1px solid #cccccc;
 }
 

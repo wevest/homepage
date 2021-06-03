@@ -5,6 +5,7 @@
               
                 <div class="row q-gutter-sm">
                   <div class="avatar-wrapper">
+                
                       <q-avatar>
                           <img :src="data.user_avatar" />
                       </q-avatar>
@@ -12,7 +13,7 @@
                   <div>
                       <span class="nickname">{{ data.user_name }}</span>
                       <br>
-                      <time>{{ data.submit_date }}</time>
+                      <time class="submit_date">{{ data.submit_date }}</time>
                   </div>
                 </div>
 
@@ -28,10 +29,16 @@
                     <div class="row">
                       <div v-if="data.level==0">
 
-                          <q-btn type="text" @click="replyHandler('editorContainer')" v-if="data.children.length==0">
-                            Reply
+                          <q-btn 
+                                type="text" 
+                                @click="replyHandler('editorContainer')" 
+                                v-if="data.children.length==0">
+                                Reply
                           </q-btn>
                           <q-btn
+                              class="reply_count"   
+                              color="blue-grey-6"
+                              size="12px"                              
                               v-if="data.children && data.children.length"
                               type="text"
                               @click="toggleExpandPanel"
@@ -39,7 +46,7 @@
                               {{
                                   isExpanded
                                       ? `Collapse`
-                                      : `${replyCount}Reply Count`
+                                      : `${replyCount} Reply Count`
                               }}
                               <i
                                   :class="
@@ -52,19 +59,25 @@
                       </div>
                       <q-space />
                       <div>
-                          <span class="thumb-button" style="font-size:1.5em;">
+                          <span class="thumb-button">
                               
                               <q-icon
+                                  class="q-pa-md poll_count"
                                   name="thumb_up"
                                   @click="onClickLike('like',data)"
                               ></q-icon>
-                              {{ likeCount }}
+                              <span class="poll_count">                    
+                                  {{ likeCount }}
+                                </span>
                               
-                              <q-icon
+                              <q-icon 
+                                  class="q-pa-md poll_count"
                                   name="thumb_down"
                                   @click="onClickLike('dislike',data)"
                               ></q-icon>
-                              {{ dislikeCount }}
+                              <span class="poll_count">
+                                  {{ dislikeCount }}
+                                </span>
                           </span>
                       </div>
                     </div>
@@ -304,7 +317,7 @@ dt {
         width: 100%;
         font-size: 14px;
         time {
-            color: #909399;
+            color:#999999;
             vertical-align: middle;
         }
 
@@ -314,6 +327,19 @@ dt {
         }
 
     }
+}
+.nickname {
+    color:#000;
+    font-size:14px;
+    font-weight:500;
+}
+
+.content {
+    margin-top:16px;
+}
+.submit_date {
+     color:#999999;
+    font-size:12px;
 }
 
 .boxCommentMessage {
@@ -347,6 +373,16 @@ dd.reply-container {
     transition: all;
 }
 
+.poll_count {
+    font-size:13px;
+    font-weight:600;
+    color:#777777;
+    padding-right:2px;
+}
+
+.reply_count {
+    margin-top:5px;
+}
 /*
 @duration: 300ms;
 dt {

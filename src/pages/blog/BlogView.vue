@@ -16,19 +16,25 @@
                 <div class="blog-date">
                     <span>{{v_post.pub_date}}</span>
                 </div>    
-                <div class="boxRate">
-                    <div class="float-left q-gutter-sm">
+                <div class="boxRate q-pa-md">
+                    <div class="float-left q-gutter-sm">   
                         <span>
-                            <q-icon name="thumb_up" style="font-size: 2rem;" />
-                            <span>{{v_post.like_count}}</span>
+                            <q-icon 
+                            name="thumb_up"  
+                            size="23px"
+                            color="light-green-14"/>
+                            <span class="poll-number">{{v_post.like_count}}</span>
                         </span>
                         <span>
-                            <q-icon name="thumb_down" style="font-size: 2rem;" />
-                            <span>{{v_post.dislike_count}}</span>
+                            <q-icon 
+                            name="thumb_down"
+                            size="23px"
+                            color="deep-orange-9"/>
+                            <span class="poll-number">{{v_post.dislike_count}}</span>
                         </span>
                         <span>
-                            <q-icon name="thumb_up" style="font-size: 2rem;" />
-                            <span>{{v_post.read_count}}</span>
+                            <q-icon name="thumb_up" style="font-size: 1.5rem;" />
+                            <span class="poll-number">{{v_post.read_count}}</span>
                         </span>
                     </div>
 
@@ -106,7 +112,9 @@
                 <q-btn label="comment" @click="onClickComment" />
                 <q-input v-model="v_post.comment" label="Comments" />
 -->                
-                <div> Comments : {{v_comments_count}} </div>
+                <div class="comments_count"> Comments : {{v_comments_count}}
+                     
+                </div>
 
                 <CommentForm ref="commentForm" @onClickCommentSave="onClickCommentSave" />
                 <CommentTree ref="commentTree" :data-list="v_comments" 
@@ -558,7 +566,12 @@ export default {
     color:#000;
 }
 
+.poll-number {
+    padding-left:5px;
+}
 .blog-date {
+    font-size:11px;
+    font-weight:600;
     color:#888;
     padding:1px  5px;
 }
@@ -621,4 +634,12 @@ export default {
 .comment-title {
     
 }
+
+
+
+.comments_count {
+    font-size:16px;
+    color:#222;
+    font-weight:500;
+} 
 </style>
