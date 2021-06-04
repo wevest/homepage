@@ -344,13 +344,14 @@ dt {
 }
 
 .boxCommentMessage {
+  padding-bottom:10px;
   border-bottom:1px solid #cccccc;
 }
 
 dd.reply-container {
     background: #fafbfc;
-    padding: 20px;
-    margin-top: 20px;
+    padding: 0px 15px 0px 15px;
+    margin-top: 10px;
 }
 
 .loading-more {
@@ -384,6 +385,9 @@ dd.reply-container {
 .reply_count {
     margin-top:5px;
 }
+
+
+/*
 
 .wrap-collabsible {
   margin-bottom: 1.2rem 0;
@@ -462,4 +466,6 @@ input[type='checkbox'] {
     min-height: 0px;
     padding:0px;
 }
+*/
+
 </style>

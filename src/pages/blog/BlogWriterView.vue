@@ -130,6 +130,11 @@ export default {
             this.g_page_id = page_id;
         },
 
+        createThumbnail: function(img) {
+            const resizedImage = CommonFunc.resizeImage(img,MoaConfig.setting.thumbNailWidth, MoaConfig.setting.thumbNailHeight, 0);
+            return resizedImage;
+        },
+
         refresh: function(page_id) {
             const _this = this;
         

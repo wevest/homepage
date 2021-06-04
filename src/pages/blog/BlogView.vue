@@ -112,8 +112,8 @@
                 <q-btn label="comment" @click="onClickComment" />
                 <q-input v-model="v_post.comment" label="Comments" />
 -->                
-                <div class="comments_count"> Comments : {{v_comments_count}}
-                     
+                <div class="boxCommentCount"> 
+                    <span>Comments : {{v_comments_count}}</span>
                 </div>
 
                 <CommentForm ref="commentForm" @onClickCommentSave="onClickCommentSave" />
@@ -580,19 +580,6 @@ export default {
     font-size:17px;
     color:#888
 }
-.material-icons {
-    font-size: 20px;
-}
-.thumb_up {
-    color:rgb(202, 202, 39);
-}
-.thumb_down {
-    color:darkred;
-}
-.done_outline {
-    color:forestgreen;
-}
-
 
 .blog-write {
     float:right;
@@ -603,8 +590,7 @@ export default {
 }
 .boxRate-parent {
     text-align:center;
-    margin:0 auto;
-    ;
+    margin:0 auto;    
 }
 
 .boxRate {
@@ -619,27 +605,14 @@ export default {
     width:70px;
 }
 
-.comment-btn {
-    float:right;
-    top:4px;
-    /* color:#fff; */
-    /* background:#4978f4; */
-    /* border-radius:3px; */
-    /* font-size:3px; */
-    margin-top:17px;
-}
-.button {
-    font-size:110px;
-}
-.comment-title {
-    
-}
-
-
-
-.comments_count {
-    font-size:16px;
-    color:#222;
-    font-weight:500;
+.boxCommentCount {
+    padding:10px;
 } 
+
+.boxCommentCount span {
+    color:#222;
+    font-size:20px;
+    font-weight:500;
+}
+
 </style>

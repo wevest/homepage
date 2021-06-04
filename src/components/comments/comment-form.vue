@@ -13,6 +13,7 @@
                 type="textarea"
                 id="contentInput"
                 ref="contentInput"            
+                input-class="boxMessageTextarea"
                 input-style=""
                 :error="v_error.error"
                 :error-message="v_error.msg"
@@ -178,14 +179,16 @@ export default {
 <style scoped>
 
 .boxEditor {
-  /* padding:10px; */
-  border:1px solid #cccccc;
-  height:150px;
+  /* 
+    padding:10px; 
+  */
+  border:1px solid #cccccc;  
+  height:250px;
 }
 
 .boxEditorCommand {
   padding-top:8px;
-  border-top:1px solid #cccccc;
+  /* border-top:1px solid #cccccc; */
 }
 
 .boxEditorTextarea {
@@ -201,4 +204,13 @@ export default {
     margin-right: 10px;
   }
 }
+
+/* override quasar css */
+.boxMessageTextarea {
+  height:150px !important;
+  max-height:200px;
+}
+
+
+
 </style>
