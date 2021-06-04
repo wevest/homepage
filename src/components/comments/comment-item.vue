@@ -29,16 +29,21 @@
                     <div class="row">
                       <div v-if="data.level==0">
 
-                          <q-btn 
+                          <q-btn
+                                class="reply-btn" 
                                 type="text" 
+                                flat
+                                size="15px"
+                                color="grey-8"
                                 @click="replyHandler('editorContainer')" 
                                 v-if="data.children.length==0">
                                 Reply
                           </q-btn>
                           <q-btn
                               class="reply_count"   
-                              color="blue-grey-6"
-                              size="12px"                              
+                              color="grey-8"
+                              size="15px"                  
+                              flat
                               v-if="data.children && data.children.length"
                               type="text"
                               @click="toggleExpandPanel"
@@ -63,15 +68,19 @@
                               
                               <q-icon
                                   class="q-pa-md poll_count"
+                                  size="18px"
+                                  color="grey-8"
                                   name="thumb_up"
                                   @click="onClickLike('like',data)"
                               ></q-icon>
-                              <span class="poll_count">                    
+                              <span class="poll_count">                                                  
                                   {{ likeCount }}
                                 </span>
                               
                               <q-icon 
                                   class="q-pa-md poll_count"
+                                  size="18px"
+                                  color="grey-8"
                                   name="thumb_down"
                                   @click="onClickLike('dislike',data)"
                               ></q-icon>
@@ -375,16 +384,25 @@ dd.reply-container {
     transition: all;
 }
 
+.thumb-button {
+    height:10px;
+}
+
 .poll_count {
-    font-size:13px;
+    vertical-align:middle;
+    font-size:15px;
     font-weight:600;
     color:#777777;
     padding-right:2px;
 }
 
-.reply_count {
-    margin-top:5px;
+.reply-btn {
+    height:12px;
 }
+
+.reply_count {
+    height:12px;
+    }
 
 
 /*

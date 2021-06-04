@@ -10,10 +10,11 @@
                 </q-item-section>
                 <q-item-section top>
                     <q-item-label lines="1">
-                        <span class="text-weight-medium">{{a_post.title}}</span>
+                        <span 
+                        class="text-weight-medium news-title">{{a_post.title}}</span>
                     </q-item-label>
                     <q-item-label lines="1">
-                        <span class="cursor-pointer">{{a_post.last_published_at}}</span>
+                        <span class="cursor-pointer news-date">{{a_post.last_published_at}}</span>
                     </q-item-label>
                 </q-item-section>
 
@@ -109,4 +110,15 @@ export default {
 
 
 <style lang="sass">
+</style>
+<style scope>
+.news-title {
+    font-size:18px;
+    color:#000000;
+}
+
+.news-date {
+    font-size:10px;
+    color:#888888;
+}
 </style>
