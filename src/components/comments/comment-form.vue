@@ -207,11 +207,6 @@ export default {
 }
 
 
-.boxEditorCommand {
-  /* padding-top:0px; */
-  /* border-top:2px solid #cccccc; */
-}
-
 .boxEditorTextarea {
   height:150px !important;
 }
