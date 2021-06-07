@@ -26,11 +26,11 @@
                 </div>
 
                 <div class="boxFooterAction">
-                    <div class="row">
+                    <div class="row reply-line">
                       <div v-if="data.level==0">
 
                           <q-btn
-                                class="reply-btn" 
+                                class="reply-btn"
                                 type="text" 
                                 flat
                                 size="15px"
@@ -40,12 +40,11 @@
                                 Reply
                           </q-btn>
                           <q-btn
-                              class="reply_count"   
-                              color="grey-8"
-                              size="15px"                  
-                              flat
-                              v-if="data.children && data.children.length"
                               type="text"
+                              flat
+                              size="15px"                  
+                              color="grey-8"
+                              v-if="data.children && data.children.length"
                               @click="toggleExpandPanel"
                           >
                               {{
@@ -92,7 +91,7 @@
                     </div>
                 </div>
             
-                <div class="editor-container" ref="editorContainer"></div>            
+                <div class="editor-container editor-box" ref="editorContainer"></div>            
             </div>
             
         </dt>
@@ -353,7 +352,7 @@ dt {
 }
 
 .boxCommentMessage {
-  padding-bottom:10px;
+  /* padding-bottom:0px; */
   border-bottom:1px solid #cccccc;
 }
 
@@ -397,14 +396,19 @@ dd.reply-container {
 }
 
 .reply-btn {
-    height:12px;
+height:4px;
+}   
+
+/* .reply_count { */
+    
+
+.reply-line {
+    height:30px;
 }
 
-.reply_count {
-    height:12px;
-    }
-
-
+.editor-box {
+    margin-top:15px;
+}
 /*
 
 .wrap-collabsible {

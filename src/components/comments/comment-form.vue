@@ -4,9 +4,9 @@
         <!-- items-center-->
         <div class="col">
           <div>
-            <q-field filled label="Please type your comments" stack-label>            
+            <q-field label="Please type your comments" borderless stack-label>            
               <template v-slot:control>
-                <textarea class="filled self-center full-width no-border" tabindex="0" 
+                <textarea class="self-center full-width boxEditor2" tabindex="0" 
                   v-model="v_comments" :rows="v_rows" @focus="onFocus" @focusout="onFocusOut"></textarea>
               </template>              
             </q-field>
@@ -34,7 +34,8 @@
             <q-btn
               label="save"
               size="12px"
-              color="primary"              
+              color="primary" 
+                           
               @click.stop="onClickSubmit"
               v-if="showSaveButton">
             </q-btn>
@@ -199,17 +200,16 @@ export default {
 <style scoped>
 
 .boxEditor {
-  /* 
-    padding:10px; 
-    height:250px;
-  */
-  border:1px solid #cccccc;  
-  
+  border:1px solid #cccccc;
+ }
+.boxEditor2 {
+  border:1px solid #cccccc;
 }
 
+
 .boxEditorCommand {
-  padding-top:8px;
-  /* border-top:1px solid #cccccc; */
+  /* padding-top:0px; */
+  /* border-top:2px solid #cccccc; */
 }
 
 .boxEditorTextarea {
@@ -231,7 +231,6 @@ export default {
   height:150px !important;
   max-height:200px;
 }
-
 
 
 </style>
