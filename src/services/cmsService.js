@@ -109,4 +109,48 @@ export default class CMSAPI{
     });
   }
 
+  static getAssetPage(reqParam,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/asset/assets/");
+    callCMSAPI("GET",url,{},reqParam)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
+  static getAssetReview(reqParam,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/review/reviews/?object_id="+reqParam.object_id);
+    callCMSAPI("GET",url,{},reqParam)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
+  static postAssetReview(reqParam,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/review/reviews/");
+    callCMSAPI("POST",url,{},reqParam)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
+  static likeAssetReview(dic_param,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/review/reviews/" + dic_param.id + "/" + dic_param.method + "/");
+    callCMSAPI("POST",url,{},dic_param)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
 }

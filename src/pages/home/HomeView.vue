@@ -33,6 +33,14 @@
 
         <div class="row">
             <div class="col">
+                <CTitle ttype='subtitle' :title="$t('page.home.asset.title')" :desc="$t('page.home.asset.desc')"></CTitle>
+                <AssetList ref='assetList' @onClickAsset="onClickAsset"></AssetList>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <CTitle ttype='subtitle' :title="$t('page.home.blog.title')" :desc="$t('page.home.blog.desc')"></CTitle>
                 <BlogList ref='blogList'></BlogList>
             </div>
         </div>
@@ -208,6 +216,7 @@ import DataService from 'src/services/dataService';
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
 import BlogList from 'components/BlogList';
+import AssetList from 'components/AssetList';
 import CTopTable from 'pages/home/CTopTable';
 import CIndexChart from 'pages/home/CIndexChart';
 import CExchangeIndexChart from 'pages/home/CExchangeIndexChart';
@@ -221,7 +230,8 @@ export default {
       CTopTable,
       CIndexChart,
       CExchangeIndexChart,
-      BlogList
+      BlogList,
+      AssetList
   },
 
   data: function () {
@@ -303,6 +313,7 @@ export default {
             let funcs = [            
                 //this.loadCalendarEffectData('1h'),
                 this.loadBlogList(),
+                this.loadAssetList(),
                 /*
                 this.loadIndexData(),
                 this.loadCryptoTopAssetData('1h'),
@@ -318,6 +329,10 @@ export default {
 
         loadBlogList: function() {
             this.$refs.blogList.update('test');
+        },
+
+        loadAssetList: function() {
+            this.$refs.assetList.update();
         },
 
         loadCalendarEffectData: function(freq) {
@@ -524,6 +539,12 @@ export default {
             let dic_param = { name:'cwatch', path:'cwatch', params:{} };
             this.$router.push(dic_param);            
         },
+        
+        onClickAsset: function(dic_param) {
+            logger.log.debug('onClickAsset');
+            this.$router.push(dic_param);
+        },
+
     }
 
 };
