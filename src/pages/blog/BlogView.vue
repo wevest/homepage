@@ -116,11 +116,12 @@
                     <span>Comments : {{v_comments_count}}</span>
                 </div>
 
-                <CommentForm ref="commentForm" @onClickCommentSave="onClickCommentSave" />
+                <CommentForm ref="commentForm" @onClickCommentSave="onClickCommentSave" 
+                    @onEditorFocus="onEditorFocus" @onEditorFocusOut="onEditorFocusOut" />
                 <CommentTree ref="commentTree" :data-list="v_comments" 
                     @onClickCommentReply="onClickCommentReply"
                     @onClickLoadMore="onClickLoadMore"
-                    @onClickRate="onClickRate"
+                    @onClickRate="onClickRate"                    
                 />
 <!--
                 <comment-list
@@ -552,6 +553,20 @@ export default {
             }, function(response) {
 
             });            
+        },
+
+        onEditorFocus: function(event) {
+            logger.log.debug("BlogPage.onEditorFocus=",event);
+            this.$refs.commentForm.v_comments = "";
+            this.$refs.commentForm.v_rows= "5";
+            //contentInput
+        },
+
+        onEditorFocusOut: function(event) {
+            logger.log.debug("BlogPage.onEditorFocusOut=",event);
+            this.$refs.commentForm.v_comments = "";
+            this.$refs.commentForm.v_rows= "1";
+            //contentInput
         }
 
     }

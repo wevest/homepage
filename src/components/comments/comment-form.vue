@@ -4,20 +4,28 @@
         <!-- items-center-->
         <div class="col">
           <div>
+            <q-field filled label="Please type your comments" stack-label>            
+              <template v-slot:control>
+                <textarea class="filled self-center full-width no-border" tabindex="0" 
+                  v-model="v_comments" :rows="v_rows" @focus="onFocus" @focusout="onFocusOut"></textarea>
+              </template>              
+            </q-field>
+<!--              
             <q-input
                 label="Please type your comments"
                 filled counter
                 v-model="v_comments"
-                @focus="$emit('editor-focus',$event)"
+                @focus="onFocus"
                 autogrow
                 type="textarea"
                 id="contentInput"
                 ref="contentInput"            
                 input-class="boxMessageTextarea"
-                input-style=""
+                :input-style="v_style"
                 :error="v_error.error"
                 :error-message="v_error.msg"
             />
+-->            
           </div>
           
           
@@ -76,6 +84,8 @@ export default {
       saving: false,
       ownerMessage: null,
       v_comments: null,
+      v_style:'',
+      v_rows:'1',
       v_error: { 
           error:false, msg:'',
       }
@@ -91,6 +101,16 @@ export default {
         : 'Comments'
     }
   },
+
+  mounted() {
+    // Emit initial values of local properties
+    //this.$emit("update:saving", this.saving);
+  },
+
+  /**
+   * Emit changes to local properties
+   */
+  watch: {},
 
   methods: {
     show() {
@@ -115,7 +135,6 @@ export default {
         this.$el.querySelector('#contentInput').focus()
       }
     },
-
 
     validate() {       
       if (CommonFunc.isEmptyObject(this.v_comments)) {
@@ -159,19 +178,20 @@ export default {
           });
       });
 */      
+    },
+
+    onFocus(event) {
+      logger.log.debug("onFocus=",this.$parent);
+      this.$emit('onEditorFocus',event);
+    },
+    onFocusOut(event) {
+      logger.log.debug("onFocusOut=",this.$parent);
+      this.$emit('onEditorFocusOut',event);
     }
+
+
   },
 
-  mounted() {
-    // Emit initial values of local properties
-    //this.$emit("update:saving", this.saving);
-  },
-
-  /**
-   * Emit changes to local properties
-   */
-  watch: {
-  }
 };
 </script>
 
@@ -181,9 +201,10 @@ export default {
 .boxEditor {
   /* 
     padding:10px; 
+    height:250px;
   */
   border:1px solid #cccccc;  
-  height:250px;
+  
 }
 
 .boxEditorCommand {

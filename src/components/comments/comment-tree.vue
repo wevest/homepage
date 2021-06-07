@@ -3,7 +3,8 @@
     <div class="comment-tree">
         <div class="editor-wrapper" ref="editorEl" v-show="editorVisible">
             <slot name="editor">
-                <comment-form type="reply" ref="commentForm" @onClickCommentSave="onClickCommentSave"> </comment-form>
+                <comment-form type="reply" ref="commentForm" @onClickCommentSave="onClickCommentSave"> 
+                </comment-form>
             </slot>
         </div>
 
@@ -101,9 +102,9 @@ export default {
             return this.$slots.editor ? 'custom' : 'default'
         },
         expandLayer() {
-        return this.defaultExpandLayer > this.renderLayer
-            ? this.renderLayer
-            : this.defaultExpandLayer
+            return this.defaultExpandLayer > this.renderLayer
+                ? this.renderLayer
+                : this.defaultExpandLayer
         },
         renderData() {
             try {
@@ -148,7 +149,8 @@ export default {
         },
         onClickRate: function(dic_payload) {
             logger.log.debug("CommentTree.onClickRate=",dic_payload);
-        }
+        },
+
     }
 }
 </script>
