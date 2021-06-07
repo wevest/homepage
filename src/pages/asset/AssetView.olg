@@ -58,62 +58,154 @@
                 </div>
             </div>
         </div>
-    
 
         <div class="row">
             <div class="col">
-
-                <q-tabs v-model="v_tab" class="text-black tab_bgcolor" active-color="primary" indicated-color="primary" align="justify" dense>
-                    <q-tab name="review" :label="$t('name.review')" @click="onClickTab('review')" />
-                    <q-tab name="info" :label="$t('name.info')" @click="onClickTab('info')" />
-                    <q-tab name="QA" :label="$t('name.qa')" @click="onClickTab('qa')" />
-                </q-tabs>
-
-                <q-tab-panels
-                    v-model="v_tab"
-                    animated dense           
-                    vertical
-                    keep-alive            
-                    transition-prev="jump-up" transition-next="jump-up"
-                >
-                    <q-tab-panel name="review" class="q-pa-none">
-                        
-                        <AssetReviewForm ref="reviewForm" @onClickReviewSave="onClickReviewSave"> </AssetReviewForm>
-
-                        <AssetReviewList ref="reviewList" @onClickRating="onClickReviewRating" @onClickLoadmore="onClickLoadmore"> </AssetReviewList>
-
-                    </q-tab-panel>
-
-                    <q-tab-panel name="info" class="q-pa-none">
-                    </q-tab-panel>
-
-                    <q-tab-panel name="qa" class="q-pa-none">
-                    </q-tab-panel>
-
-                </q-tab-panels>
-
-
-
+                <CTitle ttype='subtitle' title="Ratings and Score" desc=""></CTitle>                      
             </div>
         </div>
 
+        <div class="row box_price">            
+            <div class="price_box">
+                <div class="price_big">
+                    <span>{{ g_price['price'] }}</span>
+                    <div :class="g_price.class">
+                        <span class="percent_below">
+                            <q-icon class="widget-value-icon percent_icon" :name="g_price.icon"/>
+                            <span>{{ g_price['price_ret'] }}%</span>
+                        </span>
+                        <br><span class="price_date">{{ g_price['updated_date'] }}</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <q-markup-table flat class="price_table">
+                    <tbody>
+                    <tr>
+                        <td> 
+                            <span class="price_label caption_color">{{ $t('name.price_prev') }}</span>  
+                            <br><span class="price_tag value_color">{{ g_price['price_prev'] }}</span>
+                        </td>
+                        <td> 
+                            <span class="price_label caption_color">{{ $t('name.price_high') }}</span>
+                            <br><span class="price_tag value_color">{{ g_price['price_high'] }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> 
+                            <span class="price_label caption_color">{{ $t('name.volume') }}</span>
+                            <br><span class="price_tag value_color">{{ g_price['volume'] }}</span>
+                        </td>
+                        <td>
+                            <span class="price_label caption_color">{{ $t('name.price_open') }}</span>
+                            <br><span class="price_tag value_color">{{ g_price['price_open'] }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="price_label caption_color">{{ $t('name.price_low') }}</span> 
+                            <br><span class="price_tag value_color">{{ g_price['price_low'] }}</span>
+                        </td>
+                        <td>
+                            <span class="price_label caption_color">{{ $t('name.tv') }}</span> 
+                            <br><span class="price_tag value_color">{{ g_price['tv'] }}</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </q-markup-table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <ChartTimeframe period='all' :onclick="onClickTimeframe" selected='y1'></ChartTimeframe>
+                <CAssetChart ref="assetChart"></CAssetChart>
+
+                <q-toggle v-model="v_visible_table" label="Show Table" class="q-mb-md center" />
+
+                <q-slide-transition>
+                    <div v-show="v_visible_table">
+
+                        <q-table
+                        title=""
+                        class="sticky-column-table"
+                        :data="v_items"
+                        :columns="v_headers"
+                        row-key="name"
+                        :pagination.sync="v_pagination"
+                        :rows-per-page-options="[20]"
+                        >
+                            <template v-slot:body="props">
+
+                                <q-tr :props="props">
+                                    <q-td key="trade_date" :props="props">{{ props.row.trade_date }}</q-td>
+                                    <q-td key="price" :props="props">{{ Number(props.row.price).toLocaleString() }}</q-td>
+                                    <q-td key="volume" :props="props">{{ Number(props.row.volume).toLocaleString() }}</q-td>
+                                </q-tr>            
+
+                            </template>
+
+                        </q-table>
+                        
+                    </div>
+                </q-slide-transition>                
+            </div>            
+        </div>
+
+
+        <div class="row">
+            <div class="col">
+                <CAssetInfoTable ref="assetinfoTable"></CAssetInfoTable>
+            </div>
+        </div>
+    
     </div>
+
+    
+<!--        
+        <page-title :heading=heading :subheading=subheading></page-title>
+
+        <div class="text-center">
+            <b-form-radio-group id="btnradios"
+                            buttons
+                            class="btn-square btn-outline-2x"
+                            button-variant="outline-primary"
+                            size="lg"
+                            v-model="g_exchange"
+                            :options="g_exchange_options"
+                            @change="onClickExchange"
+                            name="radioBtnOutline"/>
+        </div>
+
+
+        <div class="mb-3 card">
+            <div class="card-body">
+                    <div class="card-header-tab card-header">
+                        <div class="card-header-title font-size-lg text-capitalize font-weight-normal">
+                            <i class="header-icon lnr-charts icon-gradient bg-happy-green"> </i>
+                            Momentum Table
+                        </div>
+                    </div>
+                <div class="widget-chart-wrapper widget-chart-wrapper-lg opacity-10 m-0">
+                    <CSectorCryptoTable ref="scTable"></CSectorCryptoTable>
+                </div>
+            </div>
+        </div>
+-->
+
 
 </template>
 
 <script>
 import CommonFunc from 'src/util/CommonFunc';
-import { MoaConfig } from 'src/data/MoaConfig';
 import MoaBackendAPI from 'src/services/apiService';
-import CMSAPI from 'src/services/cmsService';
+import DataService from 'src/services/dataService';
 import logger from "src/error/Logger";
 
 import CTitle from 'components/CTitle';
 import ChartTimeframe from 'components/ChartTimeframe';
 import CAssetChart from 'src/pages/asset/CAssetChart';
 import CAssetInfoTable from 'src/pages/asset/CAssetInfoTable';
-import AssetReviewForm from 'src/pages/asset/component/AssetReviewForm';
-import AssetReviewList from 'src/pages/asset/component/AssetReviewList';
+import CAssetTable from 'src/pages/asset/CAssetTable';
 //import CSectorCryptoTable from 'src/components/CSectorCryptoTable';
 
 export default {
@@ -123,24 +215,17 @@ export default {
         ChartTimeframe,
         CAssetChart,
         CAssetInfoTable,
-        AssetReviewForm,
-        AssetReviewList
+        CAssetTable,
     },
     props: ['symbol'],
 
     data: function() {
         return {
-            g_data: {
-                base:null,
-                commit: null,
-                review: null,
-                vc: null,
-            },
+            g_data: null,
+            g_data_commit: null,
+            g_vc: null,
             g_period: 30,
-            g_asset: {
-                symbol:null,
-                object_id: null
-            },
+            g_asset: null,       
             g_freq: 'y1',
             
             g_price: {'price_prev':0, 'price_low':0, 'price_high':0, 'price_open':0, 
@@ -148,7 +233,6 @@ export default {
                 'updated_date':'', 'icon':'arrow_drop_up', class:'text-red'},    
             
             v_page: {title:this.$t('page.asset.title'), desc:''},
-            v_tab: 'review',
             v_score: {dev:5, price:5, volume:5, vc:0, avg:5},
 
             v_visible_table:false,
@@ -178,11 +262,7 @@ export default {
             //this.showChart(a_selected,[],'');
         }
 */
-
-        this.g_asset.symbol = this.$route.params.symbol;
-        this.g_asset.symbol = 'BTC';
-        this.g_asset.object_id = 20;
-
+        this.g_asset = this.$route.params.symbol;
         this.refresh(this.g_asset);
     },
     updated: function() {
@@ -203,7 +283,23 @@ export default {
                 return
             }
 
-            this.loadAssetReviewData();
+            const _this = this;
+            DataService.loadCryptovcData().then(function(json_data) {
+                _this.g_vc = json_data;
+                logger.log.debug('vc=',_this.g_vc);
+
+                let funcs = [
+                    _this.loadCommitData(symbol),
+                    _this.loadCryptoBaseinfo(symbol),
+                    _this.loadCryptoPriceHistory(symbol,offset)                    
+                ];
+                Promise.all(funcs).then(function() {
+                    //CommonFunc.getAppData('spinner').hide();
+                });
+
+            });
+
+            //CommonFunc.getAppData('spinner').show();
 
         },
         
@@ -309,7 +405,7 @@ export default {
                 logger.log.debug("AssetView.loadCryptoBaseinfo - dic_param=",dic_param);
 
                 MoaBackendAPI.getCryptoBaseinfo(dic_param,function(response) {
-                    _this.g_data.base = response.data.data;
+                    _this.g_data = response.data.data;
                     logger.log.debug("AssetView.loadCryptoBaseinfo - response",_this.g_data);
                     //_this.$refs.assetTable.update(_this.g_data);
                     _this.updateScoreWidget(_this.g_data);
@@ -344,7 +440,7 @@ export default {
                 logger.log.debug("AssetView.loadCryptoPriceHistory - dic_param=",dic_param);
 
                 MoaBackendAPI.getCryptoPriceHistory(dic_param,function(response) {
-                    _this.g_data.price = response.data.data;
+                    _this.g_data_price = response.data.data;
                     logger.log.debug("AssetView.loadCryptoPriceHistory - response",_this.g_data_price);
                     _this.updatePageHeader(symbol,_this.g_data_price);
                     _this.updatePriceWiget(_this.g_data_price);
@@ -365,27 +461,9 @@ export default {
             return new Promise(function(resolve,reject) {
                 let dic_param = {symbol:symbol};
                 MoaBackendAPI.getCommitData(dic_param,function(response) {
-                    _this.g_data.commit = response.data.data;
-                    logger.log.debug("AssetView.loadCommitData - response",_this.g_data.commit);
-                    _this.$refs.assetinfoTable.updateChart(_this.g_data.commit);
-                    resolve();
-                },function(err) {
-                    logger.log.error("AssetView.loadCommitData - error",err);
-                    reject();
-                });
-            });            
-        },
-
-
-        loadAssetReviewData: function(symbol) {
-            const _this = this;
-            
-            let dic_param = {'object_id':_this.g_asset.object_id};
-            return new Promise(function(resolve,reject) {
-                CMSAPI.getAssetReview(dic_param,function(response) {
-                    _this.g_data.review = response.data;
-                    logger.log.debug("AssetView.loadAssetReviewData - response",_this.g_data.review);
-                    _this.$refs.reviewList.update(_this.g_data.review);
+                    _this.g_data_commit = response.data.data;
+                    logger.log.debug("AssetView.loadCommitData - response",_this.g_data_commit);                                        
+                    _this.$refs.assetinfoTable.updateChart(_this.g_data_commit);
                     resolve();
                 },function(err) {
                     logger.log.error("AssetView.loadCommitData - error",err);
@@ -417,38 +495,12 @@ export default {
             this.loadSectorAssetData('upbit',sector);
         },
 
-        onClickReviewSave: function(dic_param) {
-            logger.log.debug('AssetView.onClickReviewSave - ',dic_param);       
+        onSearchEvent: function(value) {
+            logger.log.debug('AssetView.onSearchEvent - ',value);       
             
-            dic_param.object_id = this.g_asset.object_id;
-            dic_param.token = MoaConfig.auth.token;
-            dic_param.category = this.g_asset.symbol;
-
-            CMSAPI.postAssetReview(dic_param,function(response) {
-                logger.log.debug('AssetView.onClickReviewSave - response = ',response);
-            }, function(err) {
-
-            });
-        },
-
-        onClickReviewRating: function(json_review) {
-            logger.log.debug('AssetView.onClickReviewRating - ',json_review);
-            
-            const _this = this;
-            let dic_param = {id:json_review.obj.id, method:json_review.rtype, token:MoaConfig.auth.token};
-            CMSAPI.likeAssetReview(dic_param,function(response) {
-                logger.log.debug('onClickReviewRating - ',response);
-                CommonFunc.showOkMessage(_this,json_review.rtype);
-            }, function(err) {
-                logger.log.debug('onClickReviewRating - ',err);
-            });          
-        },
-
-        onClickLoadmore: function() {
-            logger.log.debug('AssetView.onClickLoadmore');
+            this.g_asset = value;
+            this.refresh(this.g_asset);
         }
-
-
     },
 
 }
@@ -493,6 +545,10 @@ export default {
     padding-right:5px;
 }
 */
+
+
+
+
 
 .price_table td {
     text-align:left;
@@ -541,4 +597,5 @@ export default {
     font-size:16px;
     color:#E71915;
 }
+
 </style>
