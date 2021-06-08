@@ -613,7 +613,8 @@ export default {
     /* margin:0 auto; */    
     /* text-align:center;  */
     /* margin:0 auto; */
-    padding:10px 0px 10px 0px;
+    padding:15px 0px 15px 0px;
+    
 }
 
 .rateButton {
