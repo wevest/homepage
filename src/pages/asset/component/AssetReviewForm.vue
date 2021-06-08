@@ -4,9 +4,9 @@
         <!-- items-center-->
         <div class="col">
             <div>
-                <q-field filled label="Please type your review" stack-label>            
+                <q-field label="Please type your review" borderless stack-label>            
                     <template v-slot:control>
-                        <textarea class="filled self-center full-width no-border" tabindex="0" 
+                        <textarea class="self-center full-width boxEditor2" tabindex="0" 
                         v-model="v_comments" :rows="v_rows" @focus="onFocus" @focusout="onFocusOut"></textarea>
                     </template>              
                 </q-field>
@@ -14,8 +14,10 @@
           
             <q-rating
                 v-model="v_rating"
-                size="1.5em"
-                icon="thumb_up"
+                size="2.0em"
+                icon="star_border"
+                icon-selected="star"
+                color="amber-9"
             />
 
             <div class="boxEditorCommand" align="right">
@@ -162,6 +164,10 @@ export default {
   
 }
 
+.boxEditor2 {
+  border:1px solid #cccccc;
+}
+
 .boxEditorCommand {
   padding-top:8px;
   /* border-top:1px solid #cccccc; */
@@ -186,7 +192,5 @@ export default {
   height:150px !important;
   max-height:200px;
 }
-
-
 
 </style>
