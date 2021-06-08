@@ -153,4 +153,26 @@ export default class CMSAPI{
     });
   }
 
+  static dislikeAssetReview(dic_param,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/review/reviews/" + dic_param.id + "/" + dic_param.method + "/");
+    callCMSAPI("POST",url,{},dic_param)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
+  static postAssetQA(dic_param,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/qa/qas/");
+    callCMSAPI("POST",url,{},dic_param)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
 }
