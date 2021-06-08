@@ -20,10 +20,10 @@
                         <span class="cursor-pointer">{{a_review.content}}</span>
                     </q-item-label>
                     <q-item-label>
-                        <q-btn label="like" @click="onClickRating('like',a_review)" /> 
-                        <span>{{a_review.like_count}}</span>
-                        <q-btn label="dislike" @click="onClickRating('dislike',a_review)" /> 
-                        <span>{{a_review.dislike_count}}</span>
+                            
+                        <span class="boxReviewBtn"> <q-btn label="like" @click="onClickRating('like',a_review)" />  {{a_review.like_count}}</span>                            
+                        <span class="boxReviewBtn">{{a_review.dislike_count}} <q-btn label="dislike" @click="onClickRating('dislike',a_review)" /> </span>
+                        
                     </q-item-label>
 
                 </q-item-section>
@@ -151,5 +151,9 @@ export default {
 .boxItemList {
     border-bottom:1px solid #cccccc;
     padding: 15px 0px 15px 0px;
+}
+
+.boxReviewBtn {
+    padding:10px;
 }
 </style>
