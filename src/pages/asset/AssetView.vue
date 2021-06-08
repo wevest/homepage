@@ -66,7 +66,7 @@
                 <q-tabs v-model="v_tab" class="text-black tab_bgcolor" active-color="primary" indicated-color="primary" align="justify" dense>
                     <q-tab name="review" :label="$t('name.review')" @click="onClickTab('review')" />
                     <q-tab name="info" :label="$t('name.info')" @click="onClickTab('info')" />
-                    <q-tab name="QA" :label="$t('name.qa')" @click="onClickTab('qa')" />
+                    <q-tab name="qa" :label="$t('name.qa')" @click="onClickTab('qa')" />
                 </q-tabs>
 
                 <q-tab-panels
@@ -88,6 +88,18 @@
                     </q-tab-panel>
 
                     <q-tab-panel name="qa" class="q-pa-none">
+                        
+                        <AssetQuestionList ref="questionList" 
+                            @onClickQuestion="onClickQuestion"
+                            @onClickQuestionRating="onClickQuestionRating"
+                        >
+                        </AssetQuestionList>
+
+
+                        <WEditor ref="weditor" @> </WEditor>
+                        <q-btn label="Save" @click="onClickSaveQuestion" />
+
+
                     </q-tab-panel>
 
                 </q-tab-panels>
@@ -114,7 +126,10 @@ import CAssetChart from 'src/pages/asset/CAssetChart';
 import CAssetInfoTable from 'src/pages/asset/CAssetInfoTable';
 import AssetReviewForm from 'src/pages/asset/component/AssetReviewForm';
 import AssetReviewList from 'src/pages/asset/component/AssetReviewList';
+import AssetQuestionList from 'src/pages/asset/component/AssetQuestionList';
+import WEditor from 'src/pages/asset/component/WEditor';
 //import CSectorCryptoTable from 'src/components/CSectorCryptoTable';
+
 
 export default {
     name:'assetView',
@@ -124,7 +139,9 @@ export default {
         CAssetChart,
         CAssetInfoTable,
         AssetReviewForm,
-        AssetReviewList
+        AssetReviewList,
+        AssetQuestionList,
+        WEditor
     },
     props: ['symbol'],
 
@@ -135,6 +152,7 @@ export default {
                 commit: null,
                 review: null,
                 vc: null,
+                question:null,
             },
             g_period: 30,
             g_asset: {
@@ -148,7 +166,7 @@ export default {
                 'updated_date':'', 'icon':'arrow_drop_up', class:'text-red'},    
             
             v_page: {title:this.$t('page.asset.title'), desc:''},
-            v_tab: 'review',
+            v_tab: 'qa',
             v_score: {dev:5, price:5, volume:5, vc:0, avg:5},
 
             v_visible_table:false,
@@ -203,7 +221,8 @@ export default {
                 return
             }
 
-            this.loadAssetReviewData();
+            //this.loadAssetReviewData();
+            this.loadAssetQuestionData();
 
         },
         
@@ -394,6 +413,22 @@ export default {
             });            
         },
 
+        loadAssetQuestionData: function() {
+            const _this = this;
+            
+            let dic_param = {'parent_id':_this.g_asset.object_id};
+            return new Promise(function(resolve,reject) {
+                CMSAPI.getAssetQuestion(dic_param,function(response) {
+                    _this.g_data.question = response.data;
+                    logger.log.debug("AssetView.loadAssetQuestionData - response",_this.g_data.question);
+                    _this.$refs.questionList.update(_this.g_data.question);
+                    resolve();
+                },function(err) {
+                    logger.log.error("AssetView.loadAssetQuestionData - error",err);
+                    reject();
+                });
+            });            
+        },
 
         onClickTimeframe: function(offset,timeframe) {
             console.log('AssetView.onClickTimeframe - ',offset,timeframe);
@@ -444,10 +479,50 @@ export default {
             });          
         },
 
+        onClickQuestion: function(json_question) {
+            logger.log.debug('AssetView.onClickQuestion - ',json_question);
+            
+            let dic_param = { name:'assetqa', params:json_question };
+            this.$router.push(dic_param);            
+        },
+
+        onClickQuestionRating: function(json_question) {
+            logger.log.debug('AssetView.onClickQuestionRating - ',json_question);
+            
+            const _this = this;
+            let dic_param = {id:json_question.id, value:json_question.value, method:'vote', token:MoaConfig.auth.token};
+            
+            CMSAPI.voteAssetQuestion(dic_param,function(response) {
+                logger.log.debug('onClickQuestionRating - ',response);
+                CommonFunc.showOkMessage(_this,"done");
+            }, function(err) {
+                logger.log.debug('onClickQuestionRating - ',err);
+            });          
+            
+        },
+
+
+
         onClickLoadmore: function() {
             logger.log.debug('AssetView.onClickLoadmore');
-        }
+        },
 
+        onClickSaveQuestion: function() {
+            const _this = this;
+
+            let dic_param = this.$refs.weditor.getText();
+            logger.log.debug('AssetView.onClickSaveQuestion',dic_param);
+
+            dic_param.token = MoaConfig.auth.token;
+            dic_param.parent_page_id = this.g_asset.object_id;
+            CMSAPI.postAssetQuestion(dic_param,function(response) {
+                logger.log.debug('onClickSaveQuestion - ',response);
+                CommonFunc.showOkMessage(_this,response.statusText);
+            }, function(err) {
+                logger.log.debug('onClickSaveQuestion - ',err);
+            });          
+
+        },
 
     },
 

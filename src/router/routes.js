@@ -17,6 +17,7 @@ const routes = [
       { path: 'world', component: () => import('pages/world/WorldView.vue') },
       { name: 'sector', path: 'sector', component: () => import('pages/sector/SectorView.vue') },
       { name: 'asset', path: '/asset', component: () => import('pages/asset/AssetView.vue') },
+      { name: 'assetqa', path: '/assetqa', component: () => import('pages/asset/AssetQAView.vue') },
       { path: 'risk', component: () => import('pages/risk/RiskView.vue') },
       
       //research menus

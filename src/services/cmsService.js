@@ -164,8 +164,96 @@ export default class CMSAPI{
     });
   }
 
-  static postAssetQA(dic_param,func,funcErr) {
-    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/qa/qas/");
+  static getAssetQuestion(dic_param,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/qa/questions/?parent_id="+dic_param.parent_id);
+    callCMSAPI("GET",url,{},dic_param)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
+  static postAssetQuestion(dic_param,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/qa/questions/");
+    callCMSAPI("POST",url,{},dic_param)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
+  static voteAssetQuestion(dic_param,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/qa/questions/"+ dic_param.id + "/" + dic_param.method + "/");
+    callCMSAPI("POST",url,{},dic_param)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
+  static postAssetAnswer(dic_param,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/qa/answers/");
+    callCMSAPI("POST",url,{},dic_param)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
+  static getAssetAnswer(dic_param,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/qa/answers/?question_id="+dic_param.question_id);
+    callCMSAPI("GET",url,{},dic_param)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
+  static voteAssetAnswer(dic_param,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/qa/answers/"+ dic_param.id + "/" + dic_param.method + "/");
+    callCMSAPI("POST",url,{},dic_param)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
+  static getAssetAnswerComment(dic_param,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/qa/acomments/?question_id="+ dic_param.question_id);
+    callCMSAPI("GET",url,{},dic_param)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
+  static postAssetAnswerComment(dic_param,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/qa/acomments/");
+    callCMSAPI("POST",url,{},dic_param)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
+  static voteAssetAnswerComment(dic_param,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/qa/acomments/"+ dic_param.id + "/" + dic_param.method + "/");
     callCMSAPI("POST",url,{},dic_param)
     .then( (response) => {
         func(response);

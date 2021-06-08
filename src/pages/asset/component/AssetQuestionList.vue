@@ -4,25 +4,27 @@
 
         <q-list bordered class="rounded-borders">
 
-            <q-item class="boxItemList" clickable v-for="(a_review,index) in v_questions" :key="index">
+            <q-item class="boxItemList" clickable v-for="(a_question,index) in v_questions" :key="index">
                 <q-item-section avatar top>
                     <q-icon name="account_tree" color="black" size="34px" />
                 </q-item-section>
                 <q-item-section top>
                     <q-item-label lines="1">
-                        <span class="text-weight-medium news-title">{{a_review.user.username}}</span>
+                        <span class="text-weight-medium news-title">{{a_question.user.username}}</span>
                     </q-item-label>
                     <q-item-label>
-                        <q-rating v-model="a_review.rating" size="1.5em" icon="thumb_up" />                        
-                        <span class="cursor-pointer news-date">{{a_review.creation_date}}</span>
+                        <span class="cursor-pointer news-date">{{a_question.pub_date}}</span>
                     </q-item-label>                        
-                    <q-item-label>
-                        <span class="cursor-pointer">{{a_review.content}}</span>
+
+                    <q-item-label @click="onClickQuestion(a_question)">
+                        <span class="cursor-pointer"> {{a_question.reward}} {{a_question.title}} </span>
+                        <div v-html="a_question.content">  </div>
                     </q-item-label>
+
                     <q-item-label>
                             
-                        <span class="boxReviewBtn"> <q-btn label="like" @click="onClickRating('like',a_review)" />  {{a_review.like_count}}</span>                            
-                        <span class="boxReviewBtn">{{a_review.dislike_count}} <q-btn label="dislike" @click="onClickRating('dislike',a_review)" /> </span>
+                        <span class="boxReviewBtn"> <q-btn label="like" @click="onClickRating(1,a_question)" />  {{a_question.like_count}}</span>
+                        <span class="boxReviewBtn">{{a_question.dislike_count}} <q-btn label="dislike" @click="onClickRating(-1,a_question)" /> </span>
                         
                     </q-item-label>
 
@@ -80,26 +82,28 @@ export default {
         },
         
 
-        updateAssetReview:function(reviews) {
-            logger.log.debug("updateAssetReview=",reviews);
+        updateAssetQuestion:function(questions) {
+            logger.log.debug("updateAssetQuestion=",questions);
 
-            let v_posts = [];
-            for (let index=0; index<reviews.length;index++) {
-                let a_post = {
-                    id:reviews[index].id, 
-                    creation_date:reviews[index].creation_date,
-                    rating: reviews[index].average_rating,
-                    content: reviews[index].content,
-                    user: reviews[index].api_owner,
-                    object_id: reviews[index].object_id,
-                    content_type_id: reviews[index].content_type_id,
-                    like_count: reviews[index].like_count,
-                    dislike_count: reviews[index].dislike_count,
+            let v_questions = [];
+            for (let index=0; index<questions.length;index++) {
+                let a_question = {
+                    id:questions[index].id, 
+                    title:questions[index].title,
+                    pub_date:questions[index].pub_date,
+                    content: questions[index].description,
+                    user: questions[index].api_owner,
+                    parent_id: questions[index].parent_id,
+                    closed: questions[index].closed,
+                    like_count: questions[index].like_count,
+                    dislike_count: questions[index].dislike_count,
+                    comment_count: questions[index].comment_count,
+                    reward: questions[index].reward,
                 };
-                v_posts.push(a_post);
+                v_questions.push(a_question);
             }
 
-            this.v_reviews = v_posts;
+            this.v_questions = v_questions;
         },
 
         update: function(json_data) {
@@ -111,13 +115,14 @@ export default {
                 this.v_visible_loadmore = false;
             }
 
-            this.updateAssetReview(json_data.results);
+            this.updateAssetQuestion(json_data.results);
         },
 
-        onClickRating: function(rtype,json_review) {
-            logger.log.debug('onClickRating : rtype = ',json_review);
-            let dic_param = {'rtype':rtype, 'obj':json_review};
-            this.$emit("onClickRating",dic_param);
+        onClickRating: function(value,json_question) {
+            logger.log.debug('onClickRating : json_question = ',json_question);
+            //let dic_param = {'rtype':rtype, 'obj':json_review};
+            json_question.value = value;
+            this.$emit("onClickQuestionRating",json_question);
         },
 
         onClickAsset: function(asset) {
@@ -125,6 +130,11 @@ export default {
           
           let dic_param = { name:'asset', path:'asset', params:{ symbol:asset } };          
           this.$emit("onClickAsset",dic_param);          
+        },
+
+        onClickQuestion: function(jsonObject) {
+            logger.log.debug('onClickQuestion - ',jsonObject);
+            this.$emit("onClickQuestion",jsonObject);          
         },
 
         onClickLoadMore: function() {
