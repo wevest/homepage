@@ -4,7 +4,7 @@
 
         <q-list bordered class="rounded-borders">
 
-            <q-item clickable v-for="(a_review,index) in v_reviews" :key="index">
+            <q-item class="boxItemList" clickable v-for="(a_review,index) in v_reviews" :key="index">
                 <q-item-section avatar top>
                     <q-icon name="account_tree" color="black" size="34px" />
                 </q-item-section>
@@ -14,6 +14,7 @@
                     </q-item-label>
                     <q-item-label>
                         <q-rating v-model="a_review.rating" size="1.5em" icon="thumb_up" />                        
+                        <span class="cursor-pointer news-date">{{a_review.creation_date}}</span>
                     </q-item-label>                        
                     <q-item-label>
                         <span class="cursor-pointer">{{a_review.content}}</span>
@@ -27,12 +28,6 @@
 
                 </q-item-section>
 
-                <q-item-section top side>
-                    <q-item-label>
-                        <span class="cursor-pointer news-date">{{a_review.creation_date}}</span>
-                        
-                    </q-item-label>
-                </q-item-section>
             </q-item>
 
         </q-list>
@@ -151,5 +146,10 @@ export default {
 .news-date {
     font-size:10px;
     color:#888888;
+}
+
+.boxItemList {
+    border-bottom:1px solid #cccccc;
+    padding: 15px 0px 15px 0px;
 }
 </style>
