@@ -157,7 +157,7 @@ export default {
         showError: false,
         v_tab: 'signin',
         v_user: {username:'tester01', email:'tester01@gmail.com', password:'alpine12!', password2:'alpine12!', 
-            stay_loggedin:MoaConfig.auth.staySignedIn, emailValid: false},
+            stay_loggedin:false, emailValid: false},
         v_error: { 
             username: {error:false, msg:''},
             password: {error:false, msg:''},
