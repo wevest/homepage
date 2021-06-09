@@ -37,35 +37,6 @@
             </template>
         </q-table>
 
-<!--
-            <q-item class="boxItemList" clickable v-for="(a_question,index) in v_questions" :key="index">
-                <q-item-section avatar top>
-                    <q-icon name="account_tree" color="black" size="34px" />
-                </q-item-section>
-                <q-item-section top>
-                    <q-item-label lines="1">
-                        <span class="text-weight-medium news-title">{{a_question.user.username}}</span>
-                    </q-item-label>
-                    <q-item-label>
-                        <span class="cursor-pointer news-date">{{a_question.pub_date}}</span>
-                    </q-item-label>                        
-
-                    <q-item-label @click="onClickQuestion(a_question)">
-                        <span class="cursor-pointer"> {{a_question.reward}} {{a_question.title}} </span>
-                        <div v-html="a_question.content">  </div>
-                    </q-item-label>
-
-                    <q-item-label>
-                            
-                        
-                    </q-item-label>
-
-                </q-item-section>
-
-            </q-item>
-
-        </q-list>
--->
         <div v-if="v_visible_loadmore">>
             <q-btn label="load More" @click="onClickLoadMore" />
         </div>
@@ -135,7 +106,7 @@ export default {
                 let a_question = {
                     id:questions[index].id, 
                     title:questions[index].title,
-                    pub_date:questions[index].pub_date,
+                    pub_date: CommonFunc.minifyDatetime(questions[index].pub_date),
                     content: questions[index].description,
                     userid: questions[index].api_owner.id,
                     username: questions[index].api_owner.username,

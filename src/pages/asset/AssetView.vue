@@ -64,9 +64,9 @@
             <div class="col">
 
                 <q-tabs v-model="v_tab" class="text-black tab_bgcolor" active-color="primary" indicated-color="primary" align="justify" dense>
-                    <q-tab name="review" :label="$t('name.review')" @click="onClickTab('review')" />
-                    <q-tab name="info" :label="$t('name.info')" @click="onClickTab('info')" />
-                    <q-tab name="qa" :label="$t('name.qa')" @click="onClickTab('qa')" />
+                    <q-tab name="review" :label="$t('name.review')" />
+                    <q-tab name="blog" :label="$t('name.info')"  />
+                    <q-tab name="qa" :label="$t('name.qa')"  />
                 </q-tabs>
 
                 <q-tab-panels
@@ -75,16 +75,17 @@
                     vertical
                     keep-alive            
                     transition-prev="jump-up" transition-next="jump-up"
+                    @transition="onTabChange"
                 >
                     <q-tab-panel name="review" class="q-pa-none">
                         
                         <AssetReviewForm ref="reviewForm" @onClickReviewSave="onClickReviewSave"> </AssetReviewForm>
-
                         <AssetReviewList ref="reviewList" @onClickRating="onClickReviewRating" @onClickLoadmore="onClickLoadmore"> </AssetReviewList>
 
                     </q-tab-panel>
 
-                    <q-tab-panel name="info" class="q-pa-none">
+                    <q-tab-panel name="blog" class="q-pa-none">
+                        <q-btn label="Write" @click="onClickWriteBlog" />
                         <BlogList ref='blogList'></BlogList>
                     </q-tab-panel>
 
@@ -123,12 +124,13 @@ import logger from "src/error/Logger";
 
 import CTitle from 'components/CTitle';
 import ChartTimeframe from 'components/ChartTimeframe';
+import BlogList from 'components/BlogList';
+
 import CAssetChart from 'src/pages/asset/CAssetChart';
 import CAssetInfoTable from 'src/pages/asset/CAssetInfoTable';
 import AssetReviewForm from 'src/pages/asset/component/AssetReviewForm';
 import AssetReviewList from 'src/pages/asset/component/AssetReviewList';
 import AssetQuestionList from 'src/pages/asset/component/AssetQuestionList';
-import BlogList from 'components/BlogList';
 import WEditor from 'src/pages/asset/component/WEditor';
 //import CSectorCryptoTable from 'src/components/CSectorCryptoTable';
 
@@ -156,6 +158,7 @@ export default {
                 review: null,
                 vc: null,
                 question:null,
+                blog:null,
             },
             g_period: 30,
             g_asset: {
@@ -226,7 +229,7 @@ export default {
 
             this.loadAssetReviewData();
             this.loadAssetQuestionData();
-            this.loadBlogList();
+            //this.loadBlogList();
 
         },
         
@@ -407,8 +410,8 @@ export default {
             return new Promise(function(resolve,reject) {
                 CMSAPI.getAssetReview(dic_param,function(response) {
                     _this.g_data.review = response.data;
-                    logger.log.debug("AssetView.loadAssetReviewData - response",_this.g_data.review);
-                    //_this.$refs.reviewList.update(_this.g_data.review);
+                    //logger.log.debug("AssetView.loadAssetReviewData - response",_this.g_data.review);
+                    //logger.log.debug("AssetView.loadAssetReviewData - reviewList",_this.$refs.reviewList);
                     resolve();
                 },function(err) {
                     logger.log.error("AssetView.loadAssetReviewData - error",err);
@@ -436,7 +439,7 @@ export default {
 
         loadBlogList: function() {
             console.log('AssetView.loadBlogList - ');
-            //this.$refs.blogList.update();
+            this.$refs.blogList.update();
         },
 
 
@@ -519,6 +522,13 @@ export default {
 
         onClickTab: function(tab) {
             logger.log.debug('AssetView.onClickTab - tab',tab);
+            
+            if (tab=="review") {
+                if (this.g_data.review) {
+                    this.$refs.reviewList.update(this.g_data.review);
+                }                
+            }
+            
         },
 
         onClickSaveQuestion: function() {
@@ -536,6 +546,24 @@ export default {
                 logger.log.debug('onClickSaveQuestion - ',err);
             });          
 
+        },
+
+        onTabChange: function(newValue,oldValue) {
+            logger.log.debug('AssetView.onTabChange',newValue);
+            
+            if (newValue=="review") {
+                if (this.g_data.review) {
+                    this.$refs.reviewList.update(this.g_data.review);
+                }                
+            }
+
+            if (newValue=="blog") {
+                this.$refs.blogList.update(this.g_asset.symbol);
+            }
+        },
+
+        onClickWriteBlog: function() {
+            logger.log.debug('AssetView.onClickWriteBlog');
         },
 
     },

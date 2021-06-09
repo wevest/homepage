@@ -1249,5 +1249,10 @@ export default class CommonFunc {
         return dataURL;
                   
     }
+
+    static minifyDatetime(value) {
+        return moment(value,"YYYY-MM-DDThh:mm:ss").fromNow();
+    }
+
 }
 

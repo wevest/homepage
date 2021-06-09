@@ -4,7 +4,7 @@
 
         <q-list bordered class="rounded-borders">
 
-            <q-item class="boxItemList" clickable v-for="(a_review,index) in v_questions" :key="index">
+            <q-item class="boxItemList" clickable v-for="(a_review,index) in v_reviews" :key="index">
                 <q-item-section avatar top>
                     <q-icon name="account_tree" color="black" size="34px" />
                 </q-item-section>
@@ -83,7 +83,7 @@ export default {
       return {
         g_data: null,
 
-        v_questions: [],
+        v_reviews: [],
         v_visible_loadmore: false,
       }
     },
