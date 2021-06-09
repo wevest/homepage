@@ -15,14 +15,14 @@
                     
                  
                     <q-item-label>
-                        <q-rating
-                        
-                        class="rating-icon" 
-                        v-model="a_review.rating" 
-                        size="1.2em" 
-                        icon="star_border" 
-                        icon-selected="star" 
-                        color="amber-9"
+                        <q-rating                        
+                            dense
+                            class="rating-icon" 
+                            v-model="a_review.rating" 
+                            size="1.2em" 
+                            icon="star_border" 
+                            icon-selected="star" 
+                            color="amber-9"
                         />                        
                         <span class="cursor-pointer news-date">{{a_review.creation_date}}</span>
                     </q-item-label>  
@@ -118,7 +118,7 @@ export default {
             for (let index=0; index<reviews.length;index++) {
                 let a_post = {
                     id:reviews[index].id, 
-                    creation_date:reviews[index].creation_date,
+                    creation_date:CommonFunc.minifyDatetime(reviews[index].creation_date),
                     rating: reviews[index].average_rating,
                     content: reviews[index].content,
                     user: reviews[index].api_owner,

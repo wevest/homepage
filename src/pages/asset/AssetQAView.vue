@@ -42,6 +42,7 @@
             </div>
         </div>
 
+<!--
         <div class="row">
             <div class="col">
                 <q-expansion-item
@@ -70,7 +71,7 @@
                 </q-expansion-item>
             </div>
         </div>
-
+-->
         <div class="row">
             <div class="col">
                 <AssetAnswerList ref="answerList" 
@@ -81,6 +82,7 @@
             </div>
         </div>
 
+        <AnswerWriterDialog ref="answerWriter"> </AnswerWriterDialog>
     </div>
           
 </template>
@@ -98,6 +100,7 @@ import MoaBackendAPI from 'src/services/apiService';
 import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
+import AnswerWriterDialog from 'components/dialogs/AnswerWriterDialog';        
 import AssetAnswerList from 'src/pages/asset/component/AssetAnswerList';
 
 
@@ -105,7 +108,7 @@ export default {
     name:'assetView',
     components: {
         Viewer,
-        Editor,
+        AnswerWriterDialog,
         AssetAnswerList
     },
     props: [],

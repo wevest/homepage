@@ -18,7 +18,7 @@
                     </q-td>
 
                     <q-td key="detail" :props="props" class="caption_color">
-                        <div>
+                        <div @click="onClickQuestion(props.row)">
                             <span>{{props.row.reward}}</span>
                             {{props.row.title}}
                         </div>

@@ -14,6 +14,7 @@
                         class="text-weight-medium news-title">{{a_post.title}}</span>
                     </q-item-label>
                     <q-item-label lines="1">
+                        <span>{{a_post.user.username}}</span>
                         <span class="cursor-pointer news-date">{{a_post.last_published_at}}</span>
                     </q-item-label>
                 </q-item-section>
@@ -51,12 +52,20 @@ export default {
 
     methods: {
 
-        loadBlogData: function(category) {
+        loadBlogData: function(content_type,category) {
             const _this = this;
 
             return new Promise(function(resolve,reject) {
-                let a_today = CommonFunc.getToday(false);
-                let dic_param = {category:category};
+                //let a_today = CommonFunc.getToday(false);
+                let dic_param = {};
+                if (content_type) {
+                    dic_param.content_type = content_type;
+                }
+                if (category) {
+                    dic_param.category = category;
+                }
+
+                //let dic_param = {};
                 logger.log.debug("BlogList.loadBlogData - dic_param=",dic_param);
 
                 CMSAPI.getBlogData(dic_param,function(response) {
@@ -77,8 +86,11 @@ export default {
 
             let v_posts = [];
             for (let index=0; index<posts.length;index++) {
-                let a_post = {id:posts[index].id, slug:posts[index].slug, 
-                    title:posts[index].title, last_published_at:posts[index].last_published_at
+                let a_post = {id:posts[index].id, 
+                    slug:posts[index].slug, 
+                    title:posts[index].title, 
+                    user: posts[index].api_owner,
+                    last_published_at: CommonFunc.minifyDatetime(posts[index].last_published_at)
                 };
                 v_posts.push(a_post);
             }
@@ -92,8 +104,8 @@ export default {
             this.items = table_items;
         },
 
-        update: function(category) {
-            this.loadBlogData(category);
+        update: function(content_type,category) {
+            this.loadBlogData(content_type,category);
         },
 
 

@@ -54,7 +54,6 @@ export default {
             const _this = this;
 
             return new Promise(function(resolve,reject) {
-                let a_today = CommonFunc.getToday(false);
                 let dic_param = {};
                 logger.log.debug("AssetList.loadAssetPage - dic_param=",dic_param);
 

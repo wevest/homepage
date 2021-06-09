@@ -30,6 +30,12 @@
                                     :error="v_error.title.error"
                                     :error-message="v_error.title.msg"
                                 />
+                                <q-input 
+                                    v-model="v_post.reward" 
+                                    label="Reward" 
+                                    :error="v_error.reward.error"
+                                    :error-message="v_error.reward.msg"
+                                />
                                 <BaseEditor ref="baseEditor" @onPostSave="onPostSave" />
                                 <div v-if="v_error.text.error">
                                     {{v_error.text.msg}}
@@ -82,6 +88,7 @@ export default {
             v_page: {title:this.$t('page.cryptovc.title'), desc:''},
             v_error: {
                 title: {error:false, msg:''},
+                reward: {error:false, msg:''},
                 text: {error:false, msg:''},
             },                    
         }
@@ -155,10 +162,6 @@ export default {
         },
 
         hide: function() {
-            if (! this.confirmQuit()) {
-                return;
-            }
-
             this.v_show = false;
         },
 

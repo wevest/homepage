@@ -16,10 +16,13 @@ export default class CMSAPI{
 
   static getBlogData(reqParam,func,funcErr) {
     let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/blog/posts/");
+    if ('content_type' in reqParam) {
+      url = url + "?content_type=" + reqParam.content_type;
+    }
     if ('category' in reqParam) {
       url = url + "?category=" + reqParam.category;
     }
-    
+
     callCMSAPI("GET",url,{},reqParam)
     .then( (response) => {
         func(response);

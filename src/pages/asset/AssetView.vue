@@ -91,40 +91,48 @@
 
                     <q-tab-panel name="qa" class="q-pa-none">
                         
+                        <q-btn label="Question" @click="onClickWriteQuestion" />
+
                         <AssetQuestionList ref="questionList" 
                             @onClickQuestion="onClickQuestion"
                             @onClickQuestionRating="onClickQuestionRating"
                         >
                         </AssetQuestionList>
 
-
+<!--                        
                         <WEditor ref="weditor" @> </WEditor>
                         <q-btn label="Save" @click="onClickSaveQuestion" />
-
+-->
 
                     </q-tab-panel>
 
                 </q-tab-panels>
 
-
-
             </div>
         </div>
+
+        <BlogWriterDialog ref="blogWriter"> </BlogWriterDialog>
+        <QuestionWriterDialog ref="questionWriter"> </QuestionWriterDialog>
 
     </div>
 
 </template>
 
 <script>
-import CommonFunc from 'src/util/CommonFunc';
+import { CONST } from 'src/data/const';
 import { MoaConfig } from 'src/data/MoaConfig';
+import CommonFunc from 'src/util/CommonFunc';
 import MoaBackendAPI from 'src/services/apiService';
 import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
+import PostModel from "src/store/PostModel";
+
 import CTitle from 'components/CTitle';
 import ChartTimeframe from 'components/ChartTimeframe';
 import BlogList from 'components/BlogList';
+import BlogWriterDialog from 'components/dialogs/BlogWriterDialog';
+import QuestionWriterDialog from 'components/dialogs/QuestionWriterDialog';
 
 import CAssetChart from 'src/pages/asset/CAssetChart';
 import CAssetInfoTable from 'src/pages/asset/CAssetInfoTable';
@@ -146,7 +154,9 @@ export default {
         AssetReviewList,
         AssetQuestionList,
         WEditor,
-        BlogList
+        BlogList,
+        BlogWriterDialog,
+        QuestionWriterDialog,        
     },
     props: ['symbol'],
 
@@ -213,10 +223,10 @@ export default {
         console.log("AssetView.updated - symbol=",this.symbol,this.$route.params);
         
         if (this.$route.params.symbol) {
-            this.g_asset = this.$route.params.symbol;
+            this.g_asset.symbol = this.$route.params.symbol;
         }
         
-        CommonFunc.setAppData('onSearchEvent',this.onSearchEvent);
+        //CommonFunc.setAppData('onSearchEvent',this.onSearchEvent);
     },
     
     methods: {
@@ -437,9 +447,17 @@ export default {
             });            
         },
 
+
         loadBlogList: function() {
             console.log('AssetView.loadBlogList - ');
-            this.$refs.blogList.update();
+            const category = CONST.ASSETPAGE_CATEGORY+this.g_data.symbol;
+            this.$refs.blogList.update(null,category);
+        },
+
+        navBlogWriter: function() {
+            logger.log.debug('AssetView.navBlogWriter');
+            let dic_param = { name:'blog_writer', params:{} };
+            this.$router.push(dic_param);            
         },
 
 
@@ -515,7 +533,6 @@ export default {
         },
 
 
-
         onClickLoadmore: function() {
             logger.log.debug('AssetView.onClickLoadmore');
         },
@@ -558,12 +575,32 @@ export default {
             }
 
             if (newValue=="blog") {
-                this.$refs.blogList.update(this.g_asset.symbol);
+                const category = CONST.ASSETPAGE_CATEGORY+this.g_asset.symbol;
+                this.$refs.blogList.update(null,category);
             }
         },
 
         onClickWriteBlog: function() {
             logger.log.debug('AssetView.onClickWriteBlog');
+            //this.navBlogWriter();
+
+            let a_post = new PostModel();
+            a_post.category = this.g_asset.symbol;
+            a_post.setContentType(CONST.CONENT_TYPE_ASSETPAGE);
+
+            this.$refs.blogWriter.show(a_post);
+        },
+
+
+        onClickWriteQuestion: function() {
+            logger.log.debug('AssetView.onClickWriteQuestion');
+            
+            let a_post = new PostModel();
+            a_post.category = this.g_asset.symbol;
+            a_post.parent_id = this.g_asset.object_id;
+            a_post.setContentType(CONST.CONENT_TYPE_ASSET_QUESTION);
+            
+            this.$refs.questionWriter.show(a_post);
         },
 
     },

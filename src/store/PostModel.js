@@ -3,6 +3,7 @@ import {MoaConfig} from 'src/data/MoaConfig';
 
 export default class PostPage {
     id = null;
+    category = null;
     category_id = null;
     api_categories = null;
     api_tags = null;
@@ -21,8 +22,15 @@ export default class PostPage {
     category_id=null;
     category_name=null;
     tags=null;
+    
+    //to check saved
+    saved=null;
 
-
+    // to track content type
+    content_type=null;
+    reward=0;
+    parent_id=null;
+    
     constructor() 
     {
 
@@ -35,6 +43,12 @@ export default class PostPage {
       }
       return msg.substring(0,msg.length-1);
     }
+
+
+    setContentType(value) {
+      this.content_type = value;
+    }
+
 
     assign(obj) {
       //this = new PostPage();
