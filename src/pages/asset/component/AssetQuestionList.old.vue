@@ -2,42 +2,8 @@
 
     <div>
 
-        <q-table
-            row-key="name"       
-            hide-header 
-            :data="v_questions"
-            :columns="v_questions_header"
-            :rows-per-page-options="[50]"        
-        >
+        <q-list bordered class="rounded-borders">
 
-            <template v-slot:body="props">
-                <q-tr :props="props"  style="height:60px;">
-                    <q-td key="avatar" :props="props">                        
-                        <q-img :src="props.row.username" style="height:50px; max-width:50px;" v-if="props.row.avatar" />
-                        <q-icon v-else name="person" style="height:50px; max-width:50px;" />
-                    </q-td>
-
-                    <q-td key="detail" :props="props" class="caption_color">
-                        <div>
-                            <span>{{props.row.reward}}</span>
-                            {{props.row.title}}
-                        </div>
-                        <div class="row">
-                            <div>
-                                {{props.row.username}} {{props.row.pub_date}}
-                            </div>
-                            <q-space />
-                            <div>
-                                <span class="boxReviewBtn"> <q-btn label="like" @click="onClickRating(1,props.row)" />  {{props.row.like_count}}</span>
-                                <span class="boxReviewBtn">{{props.row.dislike_count}} <q-btn label="dislike" @click="onClickRating(-1,props.row)" /> </span>
-                            </div>
-                        </div>                        
-                    </q-td>
-                </q-tr>
-            </template>
-        </q-table>
-
-<!--
             <q-item class="boxItemList" clickable v-for="(a_question,index) in v_questions" :key="index">
                 <q-item-section avatar top>
                     <q-icon name="account_tree" color="black" size="34px" />
@@ -57,6 +23,8 @@
 
                     <q-item-label>
                             
+                        <span class="boxReviewBtn"> <q-btn label="like" @click="onClickRating(1,a_question)" />  {{a_question.like_count}}</span>
+                        <span class="boxReviewBtn">{{a_question.dislike_count}} <q-btn label="dislike" @click="onClickRating(-1,a_question)" /> </span>
                         
                     </q-item-label>
 
@@ -65,7 +33,7 @@
             </q-item>
 
         </q-list>
--->
+
         <div v-if="v_visible_loadmore">>
             <q-btn label="load More" @click="onClickLoadMore" />
         </div>
@@ -87,19 +55,6 @@ export default {
         g_data: null,
 
         v_questions: [],
-        v_questions_header: [
-            { name:'avatar', label: this.$t('name.name'), align:'left', field: 'avatar' },
-            { name:'detail', label: this.$t('name.detail'), field: 'detail' },
-/*            
-            { name:'reward', label: this.$t('name.reward'), sortable:true,  field: 'reward' ,
-              format: (val, row) => `${Number(val).toLocaleString()}`, 
-            },
-            { name:'title', label: this.$t('name.title'), sortable:true, field: 'title',},
-            { name:'pub_date', label: this.$t('name.homepage'), align:'left', field: 'pub_date'},
-            { name:'username', label: this.$t('name.username'), align:'left', field: 'username'},
-*/            
-        ],
-
         v_visible_loadmore: false,
       }
     },
@@ -137,8 +92,7 @@ export default {
                     title:questions[index].title,
                     pub_date:questions[index].pub_date,
                     content: questions[index].description,
-                    userid: questions[index].api_owner.id,
-                    username: questions[index].api_owner.username,
+                    user: questions[index].api_owner,
                     parent_id: questions[index].parent_id,
                     closed: questions[index].closed,
                     like_count: questions[index].like_count,
@@ -149,7 +103,6 @@ export default {
                 v_questions.push(a_question);
             }
 
-            logger.log.debug("updateAssetQuestion : v_questions=",v_questions);
             this.v_questions = v_questions;
         },
 

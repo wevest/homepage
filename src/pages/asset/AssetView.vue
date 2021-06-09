@@ -85,6 +85,7 @@
                     </q-tab-panel>
 
                     <q-tab-panel name="info" class="q-pa-none">
+                        <BlogList ref='blogList'></BlogList>
                     </q-tab-panel>
 
                     <q-tab-panel name="qa" class="q-pa-none">
@@ -127,6 +128,7 @@ import CAssetInfoTable from 'src/pages/asset/CAssetInfoTable';
 import AssetReviewForm from 'src/pages/asset/component/AssetReviewForm';
 import AssetReviewList from 'src/pages/asset/component/AssetReviewList';
 import AssetQuestionList from 'src/pages/asset/component/AssetQuestionList';
+import BlogList from 'components/BlogList';
 import WEditor from 'src/pages/asset/component/WEditor';
 //import CSectorCryptoTable from 'src/components/CSectorCryptoTable';
 
@@ -141,7 +143,8 @@ export default {
         AssetReviewForm,
         AssetReviewList,
         AssetQuestionList,
-        WEditor
+        WEditor,
+        BlogList
     },
     props: ['symbol'],
 
@@ -221,8 +224,9 @@ export default {
                 return
             }
 
-            //this.loadAssetReviewData();
+            this.loadAssetReviewData();
             this.loadAssetQuestionData();
+            this.loadBlogList();
 
         },
         
@@ -404,10 +408,10 @@ export default {
                 CMSAPI.getAssetReview(dic_param,function(response) {
                     _this.g_data.review = response.data;
                     logger.log.debug("AssetView.loadAssetReviewData - response",_this.g_data.review);
-                    _this.$refs.reviewList.update(_this.g_data.review);
+                    //_this.$refs.reviewList.update(_this.g_data.review);
                     resolve();
                 },function(err) {
-                    logger.log.error("AssetView.loadCommitData - error",err);
+                    logger.log.error("AssetView.loadAssetReviewData - error",err);
                     reject();
                 });
             });            
@@ -429,6 +433,12 @@ export default {
                 });
             });            
         },
+
+        loadBlogList: function() {
+            console.log('AssetView.loadBlogList - ');
+            //this.$refs.blogList.update();
+        },
+
 
         onClickTimeframe: function(offset,timeframe) {
             console.log('AssetView.onClickTimeframe - ',offset,timeframe);
@@ -505,6 +515,10 @@ export default {
 
         onClickLoadmore: function() {
             logger.log.debug('AssetView.onClickLoadmore');
+        },
+
+        onClickTab: function(tab) {
+            logger.log.debug('AssetView.onClickTab - tab',tab);
         },
 
         onClickSaveQuestion: function() {
