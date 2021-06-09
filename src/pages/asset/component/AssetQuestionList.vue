@@ -19,12 +19,13 @@
 
                     <q-td key="detail" :props="props" class="caption_color">
                         <div class="reward-title">
-                            <span class="reward-pt">{{props.row.reward}}</span>
+                            <span>{{props.row.reward}}</span>
                             <span class="title">{{props.row.title}}</span>
                         </div>
                         <div class="row username-date">
                             <div>                                
-                                <span class="username">
+                                <span>                
+                                                        
                                     {{props.row.username}}
                                 </span> 
                                 <span class="date">
@@ -32,17 +33,15 @@
                                 </span>
                             </div>
                             <q-space />
-                            <div>
-                                <span class="boxReviewBtn"> 
-                                    <q-btn icon="thumb_up" @click="onClickRating(1,props.row)" />
-                                    </span> 
-                                    <span class="polling-count"> {{props.row.like_count}}                                     
-                                    </span>
-                                <span class="boxReviewBtn">
-                                    <q-btn icon="thumb_down" @click="onClickRating(-1,props.row)" />
-                                     </span>
-                                     <span class="polling-count"> {{props.row.dislike_count}}
-                                     </span>    
+                            <div class="boxReviewBtn">
+                                <span> 
+                                    <q-btn dense size="10px" flat icon="thumb_up" @click="onClickRating(1,props.row)" />
+                                </span> 
+                                <span> {{props.row.like_count}}</span>
+                                <span>
+                                    <q-btn flat dense size="10px" icon="thumb_down" @click="onClickRating(-1,props.row)" />
+                                </span>
+                                <span> {{props.row.dislike_count}}</span>    
                             </div>
                         </div>                        
                     </q-td>
@@ -50,35 +49,6 @@
             </template>
         </q-table>
 
-<!--
-            <q-item class="boxItemList" clickable v-for="(a_question,index) in v_questions" :key="index">
-                <q-item-section avatar top>
-                    <q-icon name="account_tree" color="black" size="34px" />
-                </q-item-section>
-                <q-item-section top>
-                    <q-item-label lines="1">
-                        <span class="text-weight-medium news-title">{{a_question.user.username}}</span>
-                    </q-item-label>
-                    <q-item-label>
-                        <span class="cursor-pointer news-date">{{a_question.pub_date}}</span>
-                    </q-item-label>                        
-
-                    <q-item-label @click="onClickQuestion(a_question)">
-                        <span class="cursor-pointer"> {{a_question.reward}} {{a_question.title}} </span>
-                        <div v-html="a_question.content">  </div>
-                    </q-item-label>
-
-                    <q-item-label>
-                            
-                        
-                    </q-item-label>
-
-                </q-item-section>
-
-            </q-item>
-
-        </q-list>
--->
         <div v-if="v_visible_loadmore">>
             <q-btn label="load More" @click="onClickLoadMore" />
         </div>
@@ -148,7 +118,7 @@ export default {
                 let a_question = {
                     id:questions[index].id, 
                     title:questions[index].title,
-                    pub_date:questions[index].pub_date,
+                    pub_date: CommonFunc.minifyDatetime(questions[index].pub_date),
                     content: questions[index].description,
                     userid: questions[index].api_owner.id,
                     username: questions[index].api_owner.username,
@@ -224,22 +194,25 @@ export default {
 }
 
 .boxReviewBtn {
-    padding:10px;
+    font-size:10px;
+}
+
+.boxReviewBtn span {
+    padding-right:3px;
 }
 
 .reward-title {
     font-weight: bold;
     color:#000000;
 }
-
-.reward-pt {
+.reward-title span {
     color:#000000;
-    font-size:18px;
+    font-size:18px;    ;
 }
+
 
 .title {
     padding-left:12px;
-    font-size:18px;
 ;
 }
 
@@ -248,10 +221,10 @@ export default {
     font-weight:500;
 }
 
-.username {
-    
-}
 .date {
     padding-left:5px;
 }
+
+
+
 </style>

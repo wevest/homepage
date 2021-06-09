@@ -142,7 +142,7 @@ export default {
                 let a_answer = {
                     id:answers[index].id, 
                     title:answers[index].title,
-                    pub_date:answers[index].pub_date,
+                    pub_date: CommonFunc.minifyDatetime(answers[index].pub_date),
                     content: answers[index].answer_text,
                     user: answers[index].api_owner,
                     question_id: answers[index].question_id,
