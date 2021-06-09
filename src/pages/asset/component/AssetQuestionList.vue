@@ -18,18 +18,31 @@
                     </q-td>
 
                     <q-td key="detail" :props="props" class="caption_color">
-                        <div>
-                            <span>{{props.row.reward}}</span>
-                            {{props.row.title}}
+                        <div class="reward-title">
+                            <span class="reward-pt">{{props.row.reward}}</span>
+                            <span class="title">{{props.row.title}}</span>
                         </div>
-                        <div class="row">
-                            <div>
-                                {{props.row.username}} {{props.row.pub_date}}
+                        <div class="row username-date">
+                            <div>                                
+                                <span class="username">
+                                    {{props.row.username}}
+                                </span> 
+                                <span class="date">
+                                    {{props.row.pub_date}}
+                                </span>
                             </div>
                             <q-space />
                             <div>
-                                <span class="boxReviewBtn"> <q-btn label="like" @click="onClickRating(1,props.row)" />  {{props.row.like_count}}</span>
-                                <span class="boxReviewBtn">{{props.row.dislike_count}} <q-btn label="dislike" @click="onClickRating(-1,props.row)" /> </span>
+                                <span class="boxReviewBtn"> 
+                                    <q-btn icon="thumb_up" @click="onClickRating(1,props.row)" />
+                                    </span> 
+                                    <span class="polling-count"> {{props.row.like_count}}                                     
+                                    </span>
+                                <span class="boxReviewBtn">
+                                    <q-btn icon="thumb_down" @click="onClickRating(-1,props.row)" />
+                                     </span>
+                                     <span class="polling-count"> {{props.row.dislike_count}}
+                                     </span>    
                             </div>
                         </div>                        
                     </q-td>
@@ -212,5 +225,33 @@ export default {
 
 .boxReviewBtn {
     padding:10px;
+}
+
+.reward-title {
+    font-weight: bold;
+    color:#000000;
+}
+
+.reward-pt {
+    color:#000000;
+    font-size:18px;
+}
+
+.title {
+    padding-left:12px;
+    font-size:18px;
+;
+}
+
+.username-date {
+    color: #4c4c4c;
+    font-weight:500;
+}
+
+.username {
+    
+}
+.date {
+    padding-left:5px;
 }
 </style>
