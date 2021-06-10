@@ -14,74 +14,60 @@
                     <span class="questionTitle"> {{ v_question.title }} </span>
                 </div>
 
-                <Viewer 
-                    ref="toastViewer"
-                    :value="v_question.content"
-                    :options="editorOptions"
-                    :visible="v_show_editor"
-                    previewStyle="vertical"
-                    height="300px"
-                />
-
-                <div class="boxRate-parent">
-                    <div class="q-pa-md q-gutter-sm boxRate">
-                        <q-btn
-                            class="rateButton"
-                            rounded
-                            size="13px"
-                            color="primary"
-                            label="Answer"
-                            @click="onClickAnswer" />
-
-                        <q-btn                            
-                            class="rateButton"
-                            rounded
-                            size="13px"
-                            color="primary" 
-                            icon="thumb_up"                             
-                            @click="onClickBlogRate('like')"/>
-                        <q-btn                            
-                            class="rateButton"
-                            rounded
-                            size="13px"
-                            color="primary"
-                            icon="thumb_down"                            
-                            @click="onClickBlogRate('dislike')" />
+                <div>                     
+                    <span class="titleQuestion">  
+                        <q-icon name="today" class="text-orange" />
+                        {{ v_question.title }} 
+                    </span>
+                        
+                    <div class="boxDescription">
+                        <span>{{ v_question.username }} </span>
+                        <span>{{ v_question.pub_date }} </span>
+                        <span>{{ v_question.like_count }} </span>
+                        <span>{{ v_question.dislike_count }} </span>
                     </div>
                 </div>
+
+                <div class="boxViewer">
+                    <Viewer 
+                        ref="toastViewer"
+                        :value="v_question.content"
+                        :options="editorOptions"
+                        :visible="v_show_editor"
+                        previewStyle="vertical"
+                    />
+                </div>
+
+                <div class="q-pa-md q-gutter-sm boxRate">
+                    <q-btn 
+                        push
+                        rounded
+                        size="13px"
+                        color="primary" 
+                        icon="thumb_up" 
+                        label="" 
+                        @click="onClickBlogRate('like')"/>
+                    <q-btn
+                        push
+                        rounded
+                        size="13px"
+                        color="indigo"
+                        icon="thumb_down"
+                        label=""
+                        @click="onClickBlogRate('dislike')" />
+                </div>
+
             </div>
         </div>
 
-<!--
+        <q-separator size="10px" />
+        
         <div class="row">
             <div class="col">
-                <q-expansion-item
-                    v-model="v_show_editor"
-                    v-if="v_show_editor"
-                    icon="" expand-icon="1" expanded-icon="1" header-class="1" header-style="display:none;"
-                >
-                    <Editor 
-                        ref="toastEditor"
-                        :value="v_answer.content"
-                        :options="editorOptions"
-                        :visible="editorVisible"
-                        :initialValue="editorHtml"
-                        previewStyle="vertical"
-                        height="400px"
-                        mode="wysiwyg"
-                        initialEditType="wysiwyg"
-                    />
-                    
-                    <div>
-                        <q-btn label="save" @click="onClickSave" /> 
-                        <q-btn label="clear" @click="onClickClear" /> 
-                        <q-btn label="close" @click="onClickClose" /> 
-                    </div>
-
-                </q-expansion-item>
+                <q-btn label="Answer" @click="onClickAnswer" />
             </div>
         </div>
--->
+
         <div class="row">
             <div class="col">
                 <AssetAnswerList ref="answerList" 
@@ -210,7 +196,7 @@ export default {
             a_post.title = this.v_question.title;
             a_post.setContentType(CONST.CONENT_TYPE_ASSET_ANSWER);
 
-            logger.log.debug("AssetQAView.onClickAnswer - a_post=",a_post);
+            //logger.log.debug("AssetQAView.onClickAnswer - a_post=",a_post);
 
             this.$refs.answerWriter.show(a_post);
         },
@@ -289,13 +275,13 @@ export default {
 
 
 <style>
-.questionTitle {
-    font-size:22px;
-    color:#222222
+
+.titleQuestion {
+    font-size:20px;
 }
-.body-content {
-    font-size:17px;
-    color:#888
+
+.boxRate {
+    text-align: center;
 }
 .boxRate {
     border-bottom:1px solid #cccccc;

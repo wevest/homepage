@@ -9,7 +9,7 @@
             @click="leftDrawerOpen = !leftDrawerOpen"/>
 
           <div class="toolbar_title">
-            MoA
+            WeVest
           </div> 
           
             <q-select                

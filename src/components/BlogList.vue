@@ -52,17 +52,20 @@ export default {
 
     methods: {
 
-        loadBlogData: function(content_type,category) {
+        loadBlogData: function(param) {
             const _this = this;
 
             return new Promise(function(resolve,reject) {
                 //let a_today = CommonFunc.getToday(false);
                 let dic_param = {};
-                if (content_type) {
-                    dic_param.content_type = content_type;
+                if (param.content_type) {
+                    dic_param.content_type = param.content_type;
                 }
-                if (category) {
-                    dic_param.category = category;
+                if (param.category) {
+                    dic_param.category = param.category;
+                }
+                if (param.user_id) {
+                    dic_param.user_id = param.user_id;
                 }
 
                 //let dic_param = {};
@@ -104,9 +107,27 @@ export default {
             this.items = table_items;
         },
 
-        update: function(content_type,category) {
-            this.loadBlogData(content_type,category);
+        update: function() {
+            let dic_param = {user_id:null, category:null, content_type:null};
+            this.loadBlogData(dic_param);
         },
+
+        updateByContentType: function(content_type) {
+            let dic_param = {user_id:null, category:null, content_type:content_type};
+            this.loadBlogData(dic_param);
+        },
+
+        updateByCategory: function(category) {
+            let dic_param = {user_id:null, category:category, content_type:null};
+            this.loadBlogData(dic_param);
+        },
+
+        updateByUser: function(user_id) {
+            let dic_param = {user_id:user_id, category:null, content_type:null};
+            this.loadBlogData(dic_param);
+        },
+
+
 
 
         onClickBlog: function(page_id) {

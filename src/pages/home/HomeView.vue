@@ -328,7 +328,7 @@ export default {
         },
 
         loadBlogList: function() {
-            this.$refs.blogList.update(1,null);
+            this.$refs.blogList.update();
         },
 
         loadAssetList: function() {

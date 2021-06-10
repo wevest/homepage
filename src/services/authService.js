@@ -48,16 +48,6 @@ export default class AuthService{
         });
     }
 
-    static getUserinfo(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/auth/users/me/");
-        callCMSAPI("GET",url,{},reqParam)
-        .then( (response) => {
-            func(response);
-        })
-        .catch( (err) => {
-            funcErr(err);
-        });
-    }
 
     static setData(json_auth) {
         MoaConfig.auth = json_auth;
@@ -103,4 +93,26 @@ export default class AuthService{
         AuthService.setData(json_auth);
     }
 
+    static getUserProfile(reqParam,func,funcErr) {
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/?id="+reqParam.id);
+        callCMSAPI("GET",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }
+
+
+    static getUserinfo(reqParam,func,funcErr) {
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/auth/users/me/");
+        callCMSAPI("GET",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }    
 }

@@ -22,6 +22,9 @@ export default class CMSAPI{
     if ('category' in reqParam) {
       url = url + "?category=" + reqParam.category;
     }
+    if ('user_id' in reqParam) {
+      url = url + "?user_id=" + reqParam.user_id;
+    }
 
     callCMSAPI("GET",url,{},reqParam)
     .then( (response) => {
