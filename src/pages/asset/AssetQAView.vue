@@ -94,11 +94,14 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import { Viewer } from "@toast-ui/vue-editor";
 import { Editor } from '@toast-ui/vue-editor';
 
-import CommonFunc from 'src/util/CommonFunc';
+import { CONST } from 'src/data/const';
 import { MoaConfig } from 'src/data/MoaConfig';
+import CommonFunc from 'src/util/CommonFunc';
 import MoaBackendAPI from 'src/services/apiService';
 import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
+
+import PostModel from "src/store/PostModel";
 
 import AnswerWriterDialog from 'components/dialogs/AnswerWriterDialog';        
 import AssetAnswerList from 'src/pages/asset/component/AssetAnswerList';
@@ -190,8 +193,16 @@ export default {
 
 
         onClickAnswer: function() {
-            logger.log.debug("AssetQAView.onClickAnswer");
-            this.v_show_editor = ! this.v_show_editor;
+            logger.log.debug("AssetQAView.onClickAnswer - v_question=",this.v_question);
+
+            let a_post = new PostModel();
+            a_post.question_id = this.v_question.id;
+            a_post.title = this.v_question.title;
+            a_post.setContentType(CONST.CONENT_TYPE_ASSET_ANSWER);
+
+            logger.log.debug("AssetQAView.onClickAnswer - a_post=",a_post);
+
+            this.$refs.answerWriter.show(a_post);
         },
 
         onClickSave: function() {

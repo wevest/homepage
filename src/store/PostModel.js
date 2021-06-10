@@ -28,9 +28,11 @@ export default class PostPage {
 
     // to track content type
     content_type=null;
+
     reward=0;
     parent_id=null;
-    
+    question_id=null;
+
     constructor() 
     {
 

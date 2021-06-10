@@ -79,7 +79,11 @@
                 >
                     <q-tab-panel name="review" class="q-pa-none">
                         
-                        <AssetReviewForm ref="reviewForm" @onClickReviewSave="onClickReviewSave"> </AssetReviewForm>
+                        <AssetReviewForm ref="reviewForm" @onClickReviewSave="onClickReviewSave" 
+                            @onEditorFocus="onFocusReviewForm"
+                            @onEditorFocusOut="onFocusoutReviewForm"
+                        > 
+                        </AssetReviewForm>
                         <AssetReviewList ref="reviewList" @onClickRating="onClickReviewRating" @onClickLoadmore="onClickLoadmore"> </AssetReviewList>
 
                     </q-tab-panel>
@@ -484,6 +488,7 @@ export default {
         },
 
         onClickReviewSave: function(dic_param) {
+            const _this = this;
             logger.log.debug('AssetView.onClickReviewSave - ',dic_param);       
             
             dic_param.object_id = this.g_asset.object_id;
@@ -492,8 +497,9 @@ export default {
 
             CMSAPI.postAssetReview(dic_param,function(response) {
                 logger.log.debug('AssetView.onClickReviewSave - response = ',response);
+                CommonFunc.showOkMessage(_this,'review posted');
             }, function(err) {
-
+                CommonFunc.showErrorMessage(_this,'review posting error');
             });
         },
 
@@ -602,6 +608,16 @@ export default {
             
             this.$refs.questionWriter.show(a_post);
         },
+
+        onFocusReviewForm: function(event) {
+            logger.log.debug('AssetView.onFocusReviewForm');
+            this.$refs.reviewForm.v_rows = "5";
+        },
+
+        onFocusoutReviewForm: function(event) {
+            logger.log.debug('AssetView.onFocusoutReviewForm');
+            this.$refs.reviewForm.v_rows = "1";
+        }
 
     },
 

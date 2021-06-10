@@ -29,6 +29,8 @@ export default class User {
     return this.loggedIn;
   }
 
-  
+  uploadProfilePicture() {
+    
+  }
 }
  

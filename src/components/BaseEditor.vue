@@ -186,7 +186,15 @@ export default {
               });
 
             } else if (v_post.content_type==CONST.CONENT_TYPE_ASSET_ANSWER) {
+              dic_param.question_id = v_post.question_id; 
+              logger.log.debug("save : v_post=",this.v_post);
 
+              CMSAPI.postAssetAnswer(dic_param,function(response) {
+                  logger.log.debug("onClickSave : response=",response);
+                  _this.$emit("onPostSave",{ret:1, response:response});                  
+              }, function(error) {
+                  _this.$emit("onPostSave",{ret:0, response:error});
+              });
 
             } else {
 

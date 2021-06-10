@@ -64,6 +64,8 @@
             
             <div v-if="v_login==true">
               <a href='#' @click="onClickSignOut">Logout</a>
+              <q-btn round color="amber" icon="person" @click="onClickUser" />
+
             </div>
             <div v-else>
               <a href='#' @click="onClickSignIn">Login</a>
@@ -261,6 +263,12 @@ export default {
       if (this.isValidInput(this.g_input)) {
         //this.movePage(this.g_input);
       }      
+    },
+
+    onClickUser: function() {
+      logger.log.debug('MainToolbar.onClickSignIn');
+      let dic_param = { name:'profile', params:{userid:null} };
+      this.$router.push(dic_param);
     },
 
     onClickSignIn: function() {

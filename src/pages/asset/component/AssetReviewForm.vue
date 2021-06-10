@@ -53,19 +53,19 @@ export default {
          * Whether to show the save button.
          */
         showSaveButton: {
-        type: Boolean,
-        default: true
-    },
-    type: {
-        validator(value) {
-            return ['comment', 'reply'].includes(value)
+          type: Boolean,
+          default: true
         },
-        default: 'comment'
-    },
-    visible: {
-        type: Boolean,
-        default: true
-    },
+        type: {
+          validator(value) {
+            return ['comment', 'reply'].includes(value)
+          },
+          default: 'comment'
+        },
+        visible: {
+          type: Boolean,
+          default: true
+        },
   },
 
   data() {

@@ -59,7 +59,7 @@ import BaseEditor from 'components/BaseEditor';
 
 
 export default {
-    name: 'BlogWriterDialog',
+    name: 'AnswerWriterDialog',
     components: {
         BaseEditor,
     },
@@ -98,19 +98,6 @@ export default {
             this.v_post = post;
         },
 
-        refresh: function(page_id) {
-            const _this = this;
-        
-            let funcs = [            
-                //this.loadCalendarEffectData('1h'),
-                this.loadBlogPost(page_id),
-                //this.loadCryptoTopAssetData('1h')
-            ];
-            Promise.all(funcs).then(function() {
-                
-            });
-        },
-        
 
         loadBlogPost: function(page_id) {
             const _this = this;
@@ -149,16 +136,12 @@ export default {
 
 
         show: function(v_post) {
-            logger.log.debug("BlogWriterDialog.show",v_post);
+            logger.log.debug("AnswerWriterDialog.show : v_post=",v_post);
             this.setPost(v_post);
             this.v_show = true;
         },
 
         hide: function() {
-            if (! this.confirmQuit()) {
-                return;
-            }
-
             this.v_show = false;
         },
 
@@ -175,8 +158,11 @@ export default {
             if (! this.validate(this.v_post)) {
                 return;
             }
+            logger.log.debug('onClickSave - ',this.v_post);
 
-            this.$refs.baseEditor.save(this.v_post);
+            let v_post = this.v_post;
+            v_post.question_id = this.v_post.question_id;
+            this.$refs.baseEditor.save(v_post);
         },
 
         onClickBack: function() {

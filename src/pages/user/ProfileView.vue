@@ -7,19 +7,51 @@
             </div>
         </div>
 
-        <div class="row q-gutter-sm">
-            <div class="col">
-                 <q-avatar>
-                    <img src="https://cdn.quasar.dev/img/avatar.png">
+        <q-card>            
+            <q-item-section>
+                <q-avatar size="20rem" square>
+                    <img src="https://cdn.quasar.dev/img/avatar2.jpg">        
                 </q-avatar>
                 <div>
-                    {{ v_user.username }}
+                    <div></div>
+                    <q-space />
+                    <q-btn label="change" @click="onClickChangeProfile" />
+                    <q-uploader
+                        hide-upload-btn
+                        multiple
+                        style="max-width: 300px"
+                    />
+
+                </div>
+
+            </q-item-section>
+
+            <q-card-section>
+                <div class="text-h6">{{ v_user.username }}</div>
+                <div class="text-subtitle2">by John Doe</div>
+            </q-card-section>
+
+            <q-card-section horizontal>
+                <div>
+                    <div> coin count </div>
+                    <div> 13213 </div>
                 </div>
                 <div>
-                    {{ v_user.email }}
+                    <div> like count </div>
+                    <div> 13213 </div>
                 </div>
-            </div>
-        </div>
+                <div>
+                    <div> like count </div>
+                    <div> 13213 </div>
+                </div>                
+            </q-card-section>
+
+            <q-card-section>
+                {{ v_user.description }}
+            </q-card-section>
+
+        </q-card>
+
 
         <div class="row">
             <div class="col-3">
@@ -81,6 +113,10 @@ export default {
             });
         },
 
+
+        onClickChangeProfile: function() {
+            logger.log.debug("onClickChangeProfile");
+        }
     },
 
 }
