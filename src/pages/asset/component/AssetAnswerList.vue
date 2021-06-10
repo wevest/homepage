@@ -4,45 +4,70 @@
         <div class="col">
             <div class="boxItemList" v-for="(a_answer,index) in v_answers" :key="index">
             
-                <div>
-                    <q-icon name="account_tree" color="black" size="34px" />
-                    <span class="text-weight-medium news-title">{{a_answer.user.username}}</span>
-                    <span class="cursor-pointer news-date">{{a_answer.pub_date}}</span>                    
+                <div class="row boxAnswerTitle">
+                    <div>
+                        <q-icon name="account_tree" color="black" size="34px" />
+                        <span class="text-weight-medium news-title">{{a_answer.user.username}}</span>
+                        <span class="cursor-pointer news-date">{{a_answer.pub_date}}</span>        
+                    </div>
+                    <q-space />
+                    <div>
+                        <span class="boxReviewBtn"><q-btn label="Accept" @click="onClickAccept(a_answer)" /> </span>                                
+                    </div>
                 </div>
 
-                <div @click="onClickQuestion(a_question)">
+                <div class="boxAnswerContent" @click="onClickQuestion(a_question)">
                     <div v-html="a_answer.content">  </div>
                 </div>
-                <div>
-                    <span class="boxReviewBtn"><q-btn label="Accept" @click="onClickAccept(a_answer)" /> </span>
+                <div class="boxAnswerRating">                    
 
                     <span class="boxReviewBtn"> <q-btn label="like" @click="onClickRating(1,a_answer)" />  {{a_answer.like_count}}</span>
-                    <span class="boxReviewBtn">{{a_answer.dislike_count}} <q-btn label="dislike" @click="onClickRating(-1,a_answer)" /> </span>
-                        
+                    <span class="boxReviewBtn">{{a_answer.dislike_count}} <q-btn label="dislike" @click="onClickRating(-1,a_answer)" /> </span>                        
                 </div>
+
 
                 <div v-if="a_answer.comments.length>0">
                     
-                    <div  v-for="(a_comment,index2) in a_answer.comments" :key="index2">
-                        {{ a_comment.api_owner.username}}
-                        {{ a_comment.pub_date}}
-                        {{ a_comment.comment_text}}
-                        <div>
-                            <q-btn label="like" @click="onClickVoteComment(1,a_comment)" /> {{ a_comment.like_count }}
-                            <q-btn label="dislike" @click="onClickVoteComment(-1,a_comment)" /> {{ a_comment.dislike_count }}
+                    <div class="boxAnswerCommentCount">
+                        <span>Comments : {{a_answer.comments.length}} </span>
+                    </div>
+
+                    <div class="boxAnswerComment">
+                        <div class="boxAnswerCommentItem" v-for="(a_comment,index2) in a_answer.comments" :key="index2">
+                            <div class="row boxAnswerCommentHeader">
+                                <div>
+                                    <q-icon name="account_tree" color="black" size="34px" />
+                                </div>
+                                <div>
+                                    <div>
+                                        {{ a_comment.api_owner.username}}
+                                    </div>
+                                    <div>
+                                        {{ a_comment.pub_date}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <p> {{ a_comment.comment_text}} </p>
+                            </div>
+                            <div>
+                                <q-btn label="like" @click="onClickVoteComment(1,a_comment)" /> {{ a_comment.like_count }}
+                                <q-btn label="dislike" @click="onClickVoteComment(-1,a_comment)" /> {{ a_comment.dislike_count }}
+                            </div>
                         </div>
                     </div>
 
                 </div>
 
                 <div>
-                    <q-input v-model="v_comment" />
-                    <q-btn label="Save" @click="onClickSaveComment(a_answer)" />
+                    <q-input filled type="textarea" v-model="v_comment" />
+                    <div class="row">
+                        <q-space />
+                        <q-btn label="Save" @click="onClickSaveComment(a_answer)" />
+                    </div>
                 </div>
 
-
             </div>
-
 
             <div v-if="v_visible_loadmore">>
                 <q-btn label="load More" @click="onClickLoadMore" />
@@ -328,5 +353,35 @@ export default {
 
 .boxReviewBtn {
     padding:10px;
+}
+
+.boxAnswerTitle {
+    border-bottom:1px solid #cccccc;
+}
+
+.boxAnswerContent {
+    padding:10px;
+}
+
+.boxAnswerRating {
+    text-align:center;
+}
+
+.boxAnswerComment {
+
+}
+
+.boxAnswerCommentCount {
+    margin: 8px 0px 8px 0px;
+    border-bottom:1px solid #cccccc;
+}
+
+.boxAnswerCommentCount span {
+    font-size:20px;
+}
+
+.boxAnswerCommentItem {
+    margin: 8px 0px 8px 0px;
+    border-bottom:1px solid #cccccc;
 }
 </style>

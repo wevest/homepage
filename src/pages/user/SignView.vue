@@ -285,6 +285,7 @@ export default {
 
 </script>
 
+
 <style scope> 
 .col-width {
   /* width: 550px;   */
