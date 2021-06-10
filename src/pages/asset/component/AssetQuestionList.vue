@@ -11,15 +11,17 @@
         >
 
             <template v-slot:body="props">
-                <q-tr :props="props"  style="height:60px;">
-                    <q-td key="avatar" :props="props">                        
+                <q-tr :props="props"  style="height:60px;" >
+                    <q-td key="avatar" :props="props" class="user-image">                        
                         <q-img :src="props.row.username" style="height:50px; max-width:50px;" v-if="props.row.avatar" />
-                        <q-icon v-else name="person" style="height:50px; max-width:50px;" />
+                        <q-icon v-else name="person" size="50px" style="height:50px; width:50px;" />
                     </q-td>
 
-                    <q-td key="detail" :props="props" class="caption_color">
+                    <q-td key="detail" :props="props" class="caption_color title-section">
                         <div class="reward-title">
+                            <q-badge color="purple-4" text-color="white">
                             <span>{{props.row.reward}}</span>
+                            </q-badge>
                             <span class="title">{{props.row.title}}</span>
                         </div>
                         <div class="row username-date">
@@ -198,17 +200,14 @@ export default {
 }
 
 .boxReviewBtn span {
-    padding-right:3px;
+    padding-left:3px;
 }
 
-.reward-title {
+.reward-title span{
+    font-size:18px;
     font-weight: bold;
-    color:#000000;
 }
-.reward-title span {
-    color:#000000;
-    font-size:18px;    ;
-}
+
 
 
 .title {
@@ -217,14 +216,20 @@ export default {
 }
 
 .username-date {
-    color: #4c4c4c;
-    font-weight:500;
+    color: #292626;
 }
 
 .date {
     padding-left:5px;
 }
 
+.user-image {
+    padding:5px 5px 5px 0px !important; 
+    height:50px;
+    width:50px;
+}
 
-
+.title-section {
+    padding:5px 5px 5px 0px !important;
+}
 </style>
