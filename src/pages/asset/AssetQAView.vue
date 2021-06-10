@@ -4,27 +4,20 @@
 
         <div class="row">
             <div class="col">
-                <div>                           
-                    <span> 
-                        <q-icon name="help" size="2.5em" color="primary">
-
-                        </q-icon>
-
-                    </span>
-                    <span class="questionTitle"> {{ v_question.title }} </span>
-                </div>
-
                 <div>                     
-                    <span class="titleQuestion">  
+                    <span class="gPageTitle">  
                         <q-icon name="today" class="text-orange" />
                         {{ v_question.title }} 
                     </span>
                         
                     <div class="boxDescription">
-                        <span>{{ v_question.username }} </span>
-                        <span>{{ v_question.pub_date }} </span>
-                        <span>{{ v_question.like_count }} </span>
-                        <span>{{ v_question.dislike_count }} </span>
+                        <span class="gPageUser">{{ v_question.username }} </span>
+                        <span class="gPageDatetime">{{ v_question.pub_date }} </span>&nbsp;
+                        
+                        <q-icon name="thumb_up" /></q-icon>&nbsp;
+                            <span class="gPageRating">{{ v_question.like_count }}</span>&nbsp;
+                        <q-icon name="thumb_down" /></q-icon>&nbsp;
+                            <span class="gPageRating">{{ v_question.dislike_count }} </span>
                     </div>
                 </div>
 
@@ -38,22 +31,18 @@
                     />
                 </div>
 
-                <div class="q-pa-md q-gutter-sm boxRate">
+                <div class="q-pa-md q-gutter-sm text-center">
                     <q-btn 
-                        push
                         rounded
-                        size="13px"
+                        class="gPageRatingBtn"
                         color="primary" 
                         icon="thumb_up" 
-                        label="" 
                         @click="onClickBlogRate('like')"/>
                     <q-btn
-                        push
                         rounded
-                        size="13px"
+                        class="gPageRatingBtn"
                         color="indigo"
                         icon="thumb_down"
-                        label=""
                         @click="onClickBlogRate('dislike')" />
                 </div>
 
@@ -61,7 +50,7 @@
         </div>
 
         <q-separator size="10px" />
-        
+
         <div class="row">
             <div class="col">
                 <q-btn label="Answer" @click="onClickAnswer" />
@@ -276,17 +265,4 @@ export default {
 
 <style>
 
-.titleQuestion {
-    font-size:20px;
-}
-
-.boxRate {
-    text-align: center;
-}
-.boxRate {
-    border-bottom:1px solid #cccccc;
-}
-.rateButton {
-    width:80px;
-}
 </style>

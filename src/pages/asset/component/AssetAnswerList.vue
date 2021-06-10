@@ -12,17 +12,18 @@
                     </div>
                     <q-space />
                     <div>
-                        <span class="boxReviewBtn"><q-btn label="Accept" @click="onClickAccept(a_answer)" /> </span>                                
+                        <span><q-btn label="Accept" @click="onClickAccept(a_answer)" /> </span>                                
                     </div>
                 </div>
 
-                <div class="boxAnswerContent" @click="onClickQuestion(a_question)">
+                <div class="gCommentText" @click="onClickQuestion(a_question)">
                     <div v-html="a_answer.content">  </div>
                 </div>
-                <div class="boxAnswerRating">                    
-
-                    <span class="boxReviewBtn"> <q-btn label="like" @click="onClickRating(1,a_answer)" />  {{a_answer.like_count}}</span>
-                    <span class="boxReviewBtn">{{a_answer.dislike_count}} <q-btn label="dislike" @click="onClickRating(-1,a_answer)" /> </span>                        
+                <div class="boxAnswerRating">                
+                    <span class="gCommentRatingBtn"> <q-btn round color="primary" size="10px" icon="thumb_up" @click="onClickRating(1,a_answer)" />&nbsp;</span>
+                        <span>{{a_answer.like_count}} &nbsp;</span>
+                    <span class="gCommentRatingBtn"> <q-btn round color="primary" size="10px" icon="thumb_down" @click="onClickRating(-1,a_answer)" />&nbsp;</span> 
+                        <span>{{a_answer.dislike_count}}</span>                        
                 </div>
 
 
@@ -36,23 +37,25 @@
                         <div class="boxAnswerCommentItem" v-for="(a_comment,index2) in a_answer.comments" :key="index2">
                             <div class="row">
                                 <div>
-                                    <q-icon class="boxAnswerCommentHeader" name="account_tree" color="black" size="34px" />
+                                    <q-icon class="gCommentAvatar" name="account_tree" color="black" size="34px" />
                                 </div>
                                 <div>
-                                    <div class="userName">
+                                    <div class="gCommentUser">
                                         {{ a_comment.api_owner.username}}
                                     </div>
-                                    <div class="commentDate">
+                                    <div class="gCommentDatetime">
                                         {{ a_comment.pub_date}}
                                     </div>
                                 </div>
                             </div>
-                            <div>
-                                <p> {{ a_comment.comment_text}} </p>
+                            <div class="boxAnswerRating">
+                                <p class="gCommentText"> {{ a_comment.comment_text}} </p>
                             </div>
                             <div>
-                                <q-btn label="like" @click="onClickVoteComment(1,a_comment)" /> {{ a_comment.like_count }}
-                                <q-btn label="dislike" @click="onClickVoteComment(-1,a_comment)" /> {{ a_comment.dislike_count }}
+                                <span class="gCommentRatingBtn"> <q-btn round color="primary" size="10px" icon="thumb_up" @click="onClickVoteComment(1,a_comment)" /></span> 
+                                    <span>{{ a_comment.like_count }}</span>&nbsp;
+                                <span class="gCommentRatingBtn"> <q-btn round color="primary" size="10px" icon="thumb_down" @click="onClickVoteComment(-1,a_comment)" /></span> 
+                                    <span>{{ a_comment.dislike_count }}</span>
                             </div>
                         </div>
                     </div>
@@ -61,9 +64,9 @@
 
                 <div>
                     <q-input filled type="textarea" v-model="v_comment" />
-                    <div class="row">
+                    <div class="row CommentSaveBtn">
                         <q-space />
-                        <q-btn label="Save" @click="onClickSaveComment(a_answer)" />
+                        <q-btn class="SaveBtn" label="Save" @click="onClickSaveComment(a_answer)" />
                     </div>
                 </div>
 
@@ -365,44 +368,40 @@ export default {
     border-bottom:1px solid #cccccc;
 }
 
-.boxAnswerCommentHeader {
-    padding-right:5px;
-}
+
 .boxAnswerContent {
     padding:10px;
 }
 
-.boxAnswerRating {
-    text-align:center;
-}
 
-.boxAnswerComment {
 
-}
 
 .boxAnswerCommentCount {
     margin: 8px 0px 8px 0px;
     border-bottom:1px solid #cccccc;
 }
 
-.userName {
-    font-size:13px;
-    colo:#000000;
-}
 
-.commentDate {
-    color:#8C8C8C;
-    font-size:12px;
-}
 
 .boxAnswerCommentCount span {
     font-size:20px;
 }
 .boxAnswerRating {
+    padding: 5px 0px;
     text-align:center;
 }
 .boxAnswerCommentItem {
     margin: 8px 0px 8px 0px;
+    padding-bottom: 10px;
     border-bottom:1px solid #cccccc;
 }
+
+.CommentSaveBtn {
+    padding-top:15px;
+    }
+.SaveBtn {
+    color:white;
+    background-color: royalblue;
+}    
+
 </style>
