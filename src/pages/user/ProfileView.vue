@@ -9,25 +9,32 @@
 
         <q-card style="text-align: center;"> 
             <q-item-section>
+                <div>
+                    <form>
+                        <avatar-cropper
+                            ref="avatar" 
+                            :labels="v_labels"
+                            :uploadHandler="uploadAvatarHandler" 
+                            @uploading="handleUploading"
+                            @uploaded="handleUploaded"
+                            @completed="handleCompleted"
+                            @error="handlerError"        
+                            trigger="#pick-avatar"
+                            upload-url="" />
+                    </form>
+
+                </div>
+<!--
                 <q-avatar size="20rem" square>
                     <img src="https://cdn.quasar.dev/img/avatar2.jpg">        
                 </q-avatar>
+-->                
                 <div>
                     <div></div>
                     <q-space />
                     <q-btn label="change" @click="onClickChangeProfile" />
                 </div>
 
-                    <avatar-cropper
-                        ref="avatar" 
-                        :labels="v_labels"
-                        :uploadHandler="uploadAvatarHandler" 
-                        @uploading="handleUploading"
-                        @uploaded="handleUploaded"
-                        @completed="handleCompleted"
-                        @error="handlerError"        
-                        trigger="#pick-avatar"
-                        upload-url="" />
 
             </q-item-section>
 
@@ -247,7 +254,7 @@ export default {
             );
         },
 
-        
+
         onClickChangeProfile: function() {
             logger.log.debug("onClickChangeProfile");
         }

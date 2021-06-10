@@ -11,37 +11,36 @@
         >
 
             <template v-slot:body="props">
-                <q-tr :props="props"  style="height:60px;" >
-                    <q-td key="avatar" :props="props" class="user-image">                        
-                        <q-img :src="props.row.username" style="height:50px; max-width:50px;" v-if="props.row.avatar" />
-                        <q-icon v-else name="person" size="50px" style="height:50px; width:50px;" />
+                <q-tr :props="props" >
+                    <q-td key="avatar" :props="props" class="gBlogAvatar">                        
+                        <q-img :src="props.row.username" v-if="props.row.avatar" />
+                        <q-icon v-else name="person" size="50px" />
                     </q-td>
 
-                    <q-td key="detail" :props="props" class="caption_color title-section">
-                        <div class="reward-title" @click="onClickQuestion(props.row)">
+                    <q-td key="detail" :props="props" class="caption_color">
+                        <div @click="onClickQuestion(props.row)">
                             <q-badge color="purple-4" text-color="white">
-                            <span>{{props.row.reward}}</span>
+                                <span>{{props.row.reward}}</span>
                             </q-badge>
-                            <span class="title">{{props.row.title}}</span>
+                            <span class="gBlogTitle">&nbsp;{{props.row.title}}</span>
                         </div>
-                        <div class="row username-date">
+                        <div class="row">
                             <div>                                
-                                <span>                
-                                                        
+                                <span class="gBlogUser">
                                     {{props.row.username}}
-                                </span> 
-                                <span class="date">
+                                </span> &nbsp;
+                                <span class="gBlogDatetime">
                                     {{props.row.pub_date}}
                                 </span>
                             </div>
                             <q-space />
                             <div class="boxReviewBtn">
                                 <span> 
-                                    <q-btn dense size="10px" flat icon="thumb_up" @click="onClickRating(1,props.row)" />
+                                    <q-btn dense class="gBlogRatingBtn" flat icon="thumb_up" @click="onClickRating(1,props.row)" />
                                 </span> 
                                 <span> {{props.row.like_count}}</span>
                                 <span>
-                                    <q-btn flat dense size="10px" icon="thumb_down" @click="onClickRating(-1,props.row)" />
+                                    <q-btn flat dense class="gBlogRatingBtn" icon="thumb_down" @click="onClickRating(-1,props.row)" />
                                 </span>
                                 <span> {{props.row.dislike_count}}</span>    
                             </div>
@@ -180,6 +179,7 @@ export default {
 
 
 <style scope>
+
 .news-title {
     font-size:18px;
     color:#000000;
@@ -203,33 +203,4 @@ export default {
     padding-left:3px;
 }
 
-.reward-title span{
-    font-size:18px;
-    font-weight: bold;
-}
-
-
-
-.title {
-    padding-left:12px;
-;
-}
-
-.username-date {
-    color: #292626;
-}
-
-.date {
-    padding-left:5px;
-}
-
-.user-image {
-    padding:5px 5px 5px 0px !important; 
-    height:50px;
-    width:50px;
-}
-
-.title-section {
-    padding:5px 5px 5px 0px !important;
-}
 </style>

@@ -43,6 +43,7 @@
   </div>
 </template>
 
+
 <script>
 //import '@/components/common/cropperjs/cropper.css';
 import Cropper from '@/components/common/cropperjs/cropper';
