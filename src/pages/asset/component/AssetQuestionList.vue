@@ -18,7 +18,7 @@
                     </q-td>
 
                     <q-td key="detail" :props="props" class="caption_color title-section">
-                        <div class="reward-title" @click="onClickQuestio(props.row)">
+                        <div class="reward-title" @click="onClickQuestion(props.row)">
                             <q-badge color="purple-4" text-color="white">
                             <span>{{props.row.reward}}</span>
                             </q-badge>
