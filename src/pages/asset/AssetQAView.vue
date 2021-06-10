@@ -4,8 +4,16 @@
 
         <div class="row">
             <div class="col">
+                <div>                           
+                    <span> 
+                        <q-icon name="help" size="2.5em" color="primary">
 
-                <p> {{ v_question.title }} </p>
+                        </q-icon>
+
+                    </span>
+                    <span class="questionTitle"> {{ v_question.title }} </span>
+                </div>
+
                 <Viewer 
                     ref="toastViewer"
                     :value="v_question.content"
@@ -14,28 +22,30 @@
                     previewStyle="vertical"
                     height="300px"
                 />
-                <p> {{ v_question.tags }} </p>
+
                 <div class="boxRate-parent">
                     <div class="q-pa-md q-gutter-sm boxRate">
-                        <q-btn label="Answer" @click="onClickAnswer" />
+                        <q-btn
+                            class="rateButton"
+                            rounded
+                            size="13px"
+                            color="primary"
+                            label="Answer"
+                            @click="onClickAnswer" />
 
-                        <q-btn 
-                            push
+                        <q-btn                            
                             class="rateButton"
                             rounded
                             size="13px"
                             color="primary" 
-                            icon="thumb_up" 
-                            label="" 
+                            icon="thumb_up"                             
                             @click="onClickBlogRate('like')"/>
-                        <q-btn
-                            push
+                        <q-btn                            
                             class="rateButton"
                             rounded
                             size="13px"
-                            color="indigo"
-                            icon="thumb_down"
-                            label=""
+                            color="primary"
+                            icon="thumb_down"                            
                             @click="onClickBlogRate('dislike')" />
                     </div>
                 </div>
@@ -279,10 +289,18 @@ export default {
 
 
 <style>
-
+.questionTitle {
+    font-size:22px;
+    color:#222222
+}
 .body-content {
     font-size:17px;
     color:#888
 }
-
+.boxRate {
+    border-bottom:1px solid #cccccc;
+}
+.rateButton {
+    width:80px;
+}
 </style>

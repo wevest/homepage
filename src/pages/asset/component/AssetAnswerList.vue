@@ -13,13 +13,36 @@
                 <div @click="onClickQuestion(a_question)">
                     <div v-html="a_answer.content">  </div>
                 </div>
-                <div>
-                    <span class="boxReviewBtn"><q-btn label="Accept" @click="onClickAccept(a_answer)" /> </span>
+                <div class=boxBtns>
+                    <span class="boxReviewBtn">
+                       <q-btn                        
+                        rounded
+                        size="13px"
+                        color="grey-5"
+                        label="Accept" 
+                        @click="onClickAccept(a_answer)" /> 
+                    </span>                  
 
-                    <span class="boxReviewBtn"> <q-btn label="like" @click="onClickRating(1,a_answer)" />  {{a_answer.like_count}}</span>
-                    <span class="boxReviewBtn">{{a_answer.dislike_count}} <q-btn label="dislike" @click="onClickRating(-1,a_answer)" /> </span>
+                    <span class="boxReviewBtn"> 
+                        <q-btn icon="thumb_up" 
+                        rounded
+                        size="13px"
+                        color="grey-5"
+                        @click="onClickRating(1,a_answer)" />  
+                        <span>{{a_answer.like_count}}</span>
+                    </span>
+
+                    <span class="boxReviewBtn"> 
+                        <q-btn icon="thumb_down" 
+                        rounded
+                        size="13px"
+                        color="grey-5"
+                        @click="onClickRating(-1,a_answer)" />
+                        <span>{{a_answer.dislike_count}}</span> 
+                    </span>
                         
                 </div>
+
 
                 <div v-if="a_answer.comments.length>0">
                     
@@ -326,7 +349,13 @@ export default {
     padding: 15px 0px 15px 0px;
 }
 
-.boxReviewBtn {
-    padding:10px;
+.boxBtns {
+    border-bottom:1px solid #cccccc;
+    padding:10px 0px; 
+} 
+
+.boxReviewBtn {    
+    padding:4px 16px;
+    width:100px;
 }
 </style>
