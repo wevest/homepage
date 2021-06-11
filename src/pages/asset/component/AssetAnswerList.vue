@@ -3,40 +3,29 @@
     <div class="row">
         <div class="col">
             <div class="boxItemList" v-for="(a_answer,index) in v_answers" :key="index">
-                <div class="row">
+            
+                <div class="row boxAnswerTitle">
+                    <div class="gBlogAvatar">
+                        <q-img :src="a_answer.user.avatar_thumb" v-if="a_answer.user.avatar_thumb.length>0" />
+                        <q-icon v-else name="person" size="50px" />
+                    </div>
                     <div>
-                        <q-icon class="gAnswerAvatar" name="account_tree" />
-                        <span class="text-weight-medium gAnswerTitle">{{a_answer.user.username}}</span>
-                        <span class="cursor-pointer news-date">{{a_answer.pub_date}}</span>        
+                        <span class="gBlogUser">{{a_answer.user.username}}</span>
+                        <br>
+                        <span class="gBlogDatetime">{{a_answer.pub_date}}</span>        
                     </div>
                     <q-space />
                     <div class="acceptBtn">
                         <span><q-btn label="Accept" @click="onClickAccept(a_answer)" /> </span>                                
                     </div>
                 </div>
-            
-                <div class="gAnswerText" @click="onClickQuestion(a_question)">
+
+                <div class="gBlogContent" @click="onClickQuestion(a_question)">
                     <div v-html="a_answer.content">  </div>
                 </div>
-                <div class="gAnswerRatingBox">                
-                    <span class="gAnswerRatingBtn"> 
-                        <q-btn 
-                            round color="primary" 
-                            size="12px" 
-                            icon="thumb_up" 
-                            @click="onClickRating(1,a_answer)" />
-                    </span>&nbsp;
-                        <span class="gAnswerRatingCount">{{a_answer.like_count}}</span>&nbsp;
-
-                    <span class="gAnswerRatingBtn"> 
-                        <q-btn 
-                            round 
-                            color="primary" 
-                            size="12px" 
-                            icon="thumb_down" 
-                            @click="onClickRating(-1,a_answer)" />
-                    </span>&nbsp; 
-                        <span class="gAnswerRatingCount">{{a_answer.dislike_count}}</span>                        
+                <div class="gBlogRating">                    
+                    <span class="boxReviewBtn"> <q-btn label="like" @click="onClickRating(1,a_answer)" />  {{a_answer.like_count}}</span>
+                    <span class="boxReviewBtn">{{a_answer.dislike_count}} <q-btn label="dislike" @click="onClickRating(-1,a_answer)" /> </span>                        
                 </div>
 
                 <q-separator size="2px" />
@@ -48,44 +37,23 @@
                     </div>
 
                     <div class="boxAnswerComment">
-                        <div class="boxAnswerCommentItem" v-for="(a_comment,index2) in a_answer.comments" :key="index2">
+                        <div class="gCommentItem" v-for="(a_comment,index2) in a_answer.comments" :key="index2">
                             <div class="row">
-                                <div>
-                                    <q-icon class="gCommentAvatar" name="account_tree" color="black" size="34px" />
+                                <div class="gCommentAvatar">
+                                    <q-img :src="a_comment.api_owner.avatar_thumb" v-if="a_comment.api_owner.avatar_thumb.length>0" />
+                                    <q-icon v-else name="person" size="50px" />                                    
                                 </div>
-                                <div>
+                                <div class="col">
                                     <div class="gCommentUser">
-                                        {{ a_comment.api_owner.username}}
+                                        <span>{{ a_comment.api_owner.username}}</span>
                                     </div>
                                     <div class="gCommentDatetime">
-                                        {{ a_comment.pub_date}}
+                                        <span>{{ a_comment.pub_date}}</span>
                                     </div>
                                 </div>
                             </div>
-                            <div>
-                                <p class="gCommentText"> {{ a_comment.comment_text}} </p>
-                            </div>
-                            <div class="row">
-                            <q-space />
-                            
-                            <div class="gCommentRatingBox">
-                                <span class="gCommentRatingBtn"> 
-                                    <q-btn 
-                                        round color="primary" 
-                                        size="9px" 
-                                        icon="thumb_up" 
-                                        @click="onClickVoteComment(1,a_comment)" />
-                                </span> 
-                                    <span class="gCommentRatingCount">{{ a_comment.like_count }}</span>&nbsp;
-                                <span class="gCommentRatingBtn"> 
-                                    <q-btn 
-                                        round 
-                                        color="primary" 
-                                        size="9px" 
-                                        icon="thumb_down" 
-                                        @click="onClickVoteComment(-1,a_comment)" />
-                                </span> 
-                                    <span class="gCommentRatingCount">{{ a_comment.dislike_count }}</span>
+                            <div class="gCommentText">
+                                <p> {{ a_comment.comment_text}} </p>
                             </div>
                             </div>
                         </div>
@@ -109,7 +77,7 @@
                 
         </div>
 
-  </div>  
+    </div>  
   
 </template>
 

@@ -105,6 +105,17 @@ export default class AuthService{
     }
 
 
+    static updateUserProfile(reqParam,func,funcErr) {
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/");
+        callCMSAPI("POST",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }    
+
     static getUserinfo(reqParam,func,funcErr) {
         let url = AuthService.getUrl(MoaConfig.urls.cms,"/auth/users/me/");
         callCMSAPI("GET",url,{},reqParam)
@@ -115,4 +126,5 @@ export default class AuthService{
             funcErr(err);
         });
     }    
+
 }
