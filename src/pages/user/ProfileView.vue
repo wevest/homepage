@@ -160,6 +160,7 @@ export default {
 
     mounted: function() {
         //console.log("HomeView.mounted - ");
+        this.g_userid = MoaConfig.auth.id;
         this.refresh();
     },
     methods: {        
