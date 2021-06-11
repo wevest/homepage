@@ -62,7 +62,7 @@
                     <q-input filled type="textarea" v-model="v_comment" />
                     <div class="row commentSaveBtnBox">
                         <q-space />
-                        <q-btn class="SaveBtn" label="Save" @click="onClickSaveComment(a_answer)" />
+                        <q-btn class="CommentSaveBtn" label="Save" @click="onClickSaveComment(a_answer)" />
                     </div>
                 </div>
 
@@ -404,7 +404,7 @@ export default {
 .commentSaveBtnBox {
     padding:10px 0px;;
     }
-.SaveBtn {
+.CommentSaveBtn {
     color:white;
     background-color: royalblue;
 }    
