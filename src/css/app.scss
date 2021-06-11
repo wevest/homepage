@@ -90,6 +90,41 @@
 /* 
   css for comment 
 */
+.gAnswerAvatar {
+  color:black; 
+  padding-right:5px;
+  font-size:34px;
+}
+
+.gAnswerTitle {
+  margin:10px 0px;
+  font-size:18px;
+}
+
+.gAnswerDatetime {
+  
+}
+
+.gAnswerText {
+  font-size:14px;
+  color:#000000;
+  margin:40px 0px; 
+  
+}
+
+.gAnswerRatingBox {
+  padding: 5px 0px 10px;
+  text-align:center;
+}
+
+.gAnswerRatingBtn {
+  padding:5px 5px;
+}
+
+.gAnswerRatingCount {
+  font-size:12px;
+  colo:#8C8C8C;
+}
 
 .gCommentBox {
 
@@ -100,6 +135,12 @@
 
 }
 
+.gCommentTitle {
+  padding-right:5px;
+
+}
+
+
 .gCommentUser {
   font-size:13px;
   colo:#000000;
@@ -109,18 +150,26 @@
   color:#8C8C8C;
   font-size:12px;
 }
-
-.gCommentText {
- font-size:14px;
- color:#000000;
- margin:10px 0px;
+.gCommentRatingBox {
+  padding-right:5px;
 }
 
 .gCommentRatingBtn {
   padding:5px 5px;
-  width:80px;
-  text-align:center;
+  }
+
+.gCommentRatingCount {
+  font-size:10px;
+  colo:#8C8C8C;
 }
+
+.gCommentText {
+ font-size:14px;
+ color:#000000;
+ margin:40px 0px; 
+}
+
+
 
 /* end */
 
@@ -155,9 +204,14 @@
 }
 
 
+
 .gPageTitle {
   font-size:24px;
   color:#222222;
+}
+
+.gPageUDRBox {
+  padding-bottom:5px;
 }
 
 .gPageUser {

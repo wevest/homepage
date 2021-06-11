@@ -3,29 +3,43 @@
     <div class="row">
         <div class="col">
             <div class="boxItemList" v-for="(a_answer,index) in v_answers" :key="index">
-            
-                <div class="row boxAnswerTitle">
+                <div class="row">
                     <div>
-                        <q-icon name="account_tree" color="black" size="34px" />
-                        <span class="text-weight-medium news-title">{{a_answer.user.username}}</span>
+                        <q-icon class="gAnswerAvatar" name="account_tree" />
+                        <span class="text-weight-medium gAnswerTitle">{{a_answer.user.username}}</span>
                         <span class="cursor-pointer news-date">{{a_answer.pub_date}}</span>        
                     </div>
                     <q-space />
-                    <div>
+                    <div class="acceptBtn">
                         <span><q-btn label="Accept" @click="onClickAccept(a_answer)" /> </span>                                
                     </div>
                 </div>
-
-                <div class="gCommentText" @click="onClickQuestion(a_question)">
+            
+                <div class="gAnswerText" @click="onClickQuestion(a_question)">
                     <div v-html="a_answer.content">  </div>
                 </div>
-                <div class="boxAnswerRating">                
-                    <span class="gCommentRatingBtn"> <q-btn round color="primary" size="10px" icon="thumb_up" @click="onClickRating(1,a_answer)" />&nbsp;</span>
-                        <span>{{a_answer.like_count}} &nbsp;</span>
-                    <span class="gCommentRatingBtn"> <q-btn round color="primary" size="10px" icon="thumb_down" @click="onClickRating(-1,a_answer)" />&nbsp;</span> 
-                        <span>{{a_answer.dislike_count}}</span>                        
+                <div class="gAnswerRatingBox">                
+                    <span class="gAnswerRatingBtn"> 
+                        <q-btn 
+                            round color="primary" 
+                            size="12px" 
+                            icon="thumb_up" 
+                            @click="onClickRating(1,a_answer)" />
+                    </span>&nbsp;
+                        <span class="gAnswerRatingCount">{{a_answer.like_count}}</span>&nbsp;
+
+                    <span class="gAnswerRatingBtn"> 
+                        <q-btn 
+                            round 
+                            color="primary" 
+                            size="12px" 
+                            icon="thumb_down" 
+                            @click="onClickRating(-1,a_answer)" />
+                    </span>&nbsp; 
+                        <span class="gAnswerRatingCount">{{a_answer.dislike_count}}</span>                        
                 </div>
 
+                <q-separator size="2px" />
 
                 <div v-if="a_answer.comments.length>0">
                     
@@ -48,14 +62,31 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="boxAnswerRating">
+                            <div>
                                 <p class="gCommentText"> {{ a_comment.comment_text}} </p>
                             </div>
-                            <div>
-                                <span class="gCommentRatingBtn"> <q-btn round color="primary" size="10px" icon="thumb_up" @click="onClickVoteComment(1,a_comment)" /></span> 
-                                    <span>{{ a_comment.like_count }}</span>&nbsp;
-                                <span class="gCommentRatingBtn"> <q-btn round color="primary" size="10px" icon="thumb_down" @click="onClickVoteComment(-1,a_comment)" /></span> 
-                                    <span>{{ a_comment.dislike_count }}</span>
+                            <div class="row">
+                            <q-space />
+                            
+                            <div class="gCommentRatingBox">
+                                <span class="gCommentRatingBtn"> 
+                                    <q-btn 
+                                        round color="primary" 
+                                        size="9px" 
+                                        icon="thumb_up" 
+                                        @click="onClickVoteComment(1,a_comment)" />
+                                </span> 
+                                    <span class="gCommentRatingCount">{{ a_comment.like_count }}</span>&nbsp;
+                                <span class="gCommentRatingBtn"> 
+                                    <q-btn 
+                                        round 
+                                        color="primary" 
+                                        size="9px" 
+                                        icon="thumb_down" 
+                                        @click="onClickVoteComment(-1,a_comment)" />
+                                </span> 
+                                    <span class="gCommentRatingCount">{{ a_comment.dislike_count }}</span>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -364,9 +395,7 @@ export default {
     width:100px;
 }
 
-.boxAnswerTitle {
-    border-bottom:1px solid #cccccc;
-}
+
 
 
 .boxAnswerContent {
@@ -383,6 +412,8 @@ export default {
 
 
 
+
+
 .boxAnswerCommentCount span {
     font-size:20px;
 }
@@ -391,8 +422,7 @@ export default {
     text-align:center;
 }
 .boxAnswerCommentItem {
-    margin: 8px 0px 8px 0px;
-    padding-bottom: 10px;
+    padding: 5px 0px 11px 0px;
     border-bottom:1px solid #cccccc;
 }
 
@@ -403,5 +433,12 @@ export default {
     color:white;
     background-color: royalblue;
 }    
+
+.acceptBtn {
+    padding-bottom:10px;
+    height:50px;
+    width:100px;
+}
+
 
 </style>

@@ -10,8 +10,8 @@
                         {{ v_question.title }} 
                     </span>
                         
-                    <div class="boxDescription">
-                        <span class="gPageUser">{{ v_question.username }} </span>
+                    <div class="gPageUDRBox">
+                        <span class="gPageUser">{{ v_question.username }} </span>&nbsp;
                         <span class="gPageDatetime">{{ v_question.pub_date }} </span>&nbsp;
                         
                         <q-icon name="thumb_up" /></q-icon>&nbsp;
@@ -51,11 +51,15 @@
 
         <q-separator size="10px" />
 
-        <div class="row">
-            <div class="col">
+        <div class="row">         
+                <q-space />
+                <div class="answerBtnBox">                
                 <q-btn label="Answer" @click="onClickAnswer" />
-            </div>
+                </div>
+            
         </div>
+
+        <q-separator size="10px" />
 
         <div class="row">
             <div class="col">
@@ -263,6 +267,11 @@ export default {
 </script>
 
 
-<style>
+<style scope>
+
+
+.answerBtnBox {
+    padding:10px 0px;
+}
 
 </style>
