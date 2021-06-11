@@ -1,5 +1,5 @@
 <template>
-
+<!-- Blog Question Page 질문 페이지와 코멘트 목록 -->
     <div class="q-pa-md">
 
         <div class="row">
@@ -14,9 +14,9 @@
                         <span class="gPageUser">{{ v_question.username }} </span>&nbsp;
                         <span class="gPageDatetime">{{ v_question.pub_date }} </span>&nbsp;
                         
-                        <q-icon name="thumb_up" /></q-icon>&nbsp;
+                        <q-icon name="thumb_up" />&nbsp;
                             <span class="gPageRating">{{ v_question.like_count }}</span>&nbsp;
-                        <q-icon name="thumb_down" /></q-icon>&nbsp;
+                        <q-icon name="thumb_down" />&nbsp;
                             <span class="gPageRating">{{ v_question.dislike_count }} </span>
                     </div>
                 </div>
@@ -32,19 +32,19 @@
                 </div>
 
                 <div class="q-pa-md q-gutter-sm gPageRatingBox">
-                    <q-btn 
-                        flat
-                        rounded
+                    <q-btn                        
                         class="gPageRatingBtn"
                         color="indigo" 
-                        icon="thumb_up" 
-                        @click="onClickBlogRate('like')"/>
-                    <q-btn
-                        flat
-                        rounded
+                        icon="thumb_up"
+                        dense 
+                        flat 
+                        @click="onClickBlogRate('like')"/>&nbsp; 
+                    <q-btn 
                         class="gPageRatingBtn"
-                        color="indigo"
                         icon="thumb_down"
+                        color="indigo"
+                        dense
+                        flat                                                                       
                         @click="onClickBlogRate('dislike')" />
                 </div>
 
@@ -55,10 +55,12 @@
 
         <div class="row">         
                 <q-space />
-                <div class="answerBtnBox">                
-                <q-btn label="Answer" @click="onClickAnswer" />
-                </div>
-            
+                <div class="pageAnswerBox">                
+                <q-btn 
+                    class="pageAnswerBtn"
+                    dense                                  
+                    label="Answer" @click="onClickAnswer" />
+                </div>            
         </div>
 
         <q-separator size="10px" />
@@ -272,10 +274,14 @@ export default {
 <style scope>
 
 
-.answerBtnBox {
-    padding:10px 0px;
+.pageAnswerBox {
+    margin:15px 0px;
 }
-
+.pageAnswerBtn {
+    color:white;
+    background-color:royalblue;
+    width:100px;
+}
 </style>
  
 
