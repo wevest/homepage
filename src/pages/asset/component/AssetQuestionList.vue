@@ -22,7 +22,7 @@
                             <q-badge color="purple-4" text-color="white">
                                 <span>{{props.row.reward}}</span>
                             </q-badge>
-                            <span class="gBlogTitle">&nbsp;{{props.row.title}}</span>
+                            <!-- <span>{{props.row.title}}</span> -->
                         </div>
                         <div class="row">
                             <div>                                
@@ -34,11 +34,16 @@
                                 </span>
                             </div>
                             <q-space />
-                            <div class="boxReviewBtn">
+                            <div class="gBlogRatingBox">
                                 <span> 
-                                    <q-btn dense class="gBlogRatingBtn" flat icon="thumb_up" @click="onClickRating(1,props.row)" />
+                                    <q-btn 
+                                        class="gBlogRatingBtn" 
+                                        icon="thumb_up"
+                                        dense
+                                        flat 
+                                        @click="onClickRating(1,props.row)" />
                                 </span> 
-                                <span> {{props.row.like_count}}</span>
+                                    <span> {{props.row.like_count}}</span>
                                 <span>
                                     <q-btn flat dense class="gBlogRatingBtn" icon="thumb_down" @click="onClickRating(-1,props.row)" />
                                 </span>

@@ -2,7 +2,7 @@
 
     <div class="row">
         <div class="col">
-            <div class="boxItemList" v-for="(a_answer,index) in v_answers" :key="index">
+            <div class="gBlog" v-for="(a_answer,index) in v_answers" :key="index">
             
                 <div class="row boxAnswerTitle">
                     <div class="gBlogAvatar">
@@ -15,7 +15,7 @@
                         <span class="gBlogDatetime">{{a_answer.pub_date}}</span>        
                     </div>
                     <q-space />
-                    <div class="acceptBtn">
+                    <div class="blogAcceptBtn">
                         <span><q-btn label="Accept" @click="onClickAccept(a_answer)" /> </span>                                
                     </div>
                 </div>
@@ -338,20 +338,11 @@ export default {
 
 
 <style scope>
-.news-title {
-    font-size:18px;
-    color:#000000;
-}
 
-.news-date {
-    font-size:10px;
-    color:#888888;
-}
 
-.boxItemList {
-    border-bottom:1px solid #cccccc;
-    padding: 15px 0px 15px 0px;
-}
+.gBlog {
+ padding: 15px 0px 15px 0px;
+}   
 
 .boxBtns {
     border-bottom:1px solid #cccccc;
@@ -402,7 +393,7 @@ export default {
     background-color: royalblue;
 }    
 
-.acceptBtn {
+.blogAcceptBtn {
     padding-bottom:10px;
     height:50px;
     width:100px;

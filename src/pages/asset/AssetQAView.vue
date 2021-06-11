@@ -31,14 +31,16 @@
                     />
                 </div>
 
-                <div class="q-pa-md q-gutter-sm text-center">
+                <div class="q-pa-md q-gutter-sm gPageRatingBox">
                     <q-btn 
+                        flat
                         rounded
                         class="gPageRatingBtn"
-                        color="primary" 
+                        color="indigo" 
                         icon="thumb_up" 
                         @click="onClickBlogRate('like')"/>
                     <q-btn
+                        flat
                         rounded
                         class="gPageRatingBtn"
                         color="indigo"
@@ -275,3 +277,5 @@ export default {
 }
 
 </style>
+ 
+
