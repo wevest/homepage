@@ -2,27 +2,27 @@
 
     <div>
 
-        <q-list bordered class="rounded-borders">
+        <q-list separator class="rounded-borders">
 
-            <q-item clickable v-for="(a_post,index) in v_posts" :key="index" @click.stop="onClickBlog(a_post.id)">
+            <q-item clickable v-ripple v-for="(a_post,index) in v_posts" :key="index" @click.stop="onClickBlog(a_post.id)">
                 <q-item-section avatar top>
-                    <q-icon name="account_tree" color="black" size="34px" />
+                    <q-img v-if="a_post.user.avatar_thumb.length>0" class="gBlogAvatar" :src="a_post.user.avatar_thumb" />
+                    <q-icon v-else name="person" color="black" size="34px" />
                 </q-item-section>
                 <q-item-section top>
                     <q-item-label lines="1">
-                        <span 
-                        class="text-weight-medium news-title">{{a_post.title}}</span>
+                        <span class="gBlogTitle">{{a_post.title}}</span>
                     </q-item-label>
                     <q-item-label lines="1">
-                        <span>{{a_post.user.username}}</span>
-                        <span class="cursor-pointer news-date">{{a_post.last_published_at}}</span>
+                        <span class="gBlogUser">{{a_post.user.username}}</span>
+                        <span class="gBlogDatetime">{{a_post.last_published_at}}</span>
                     </q-item-label>
                 </q-item-section>
-
+<!--
                 <q-item-section top side>
-                    <div class="text-grey-8 q-gutter-xs">
-                    </div>
+                    <div class="text-grey-8 q-gutter-xs"></div>
                 </q-item-section>
+-->                
             </q-item>
 
         </q-list>

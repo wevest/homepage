@@ -1,52 +1,53 @@
 <template>
     <dl>
         <dt>
-            <div class="boxCommentMessage">
+            <div class="gCommentItem">
               
                 <div class="row q-gutter-sm">
-                  <div class="avatar-wrapper">
+                    <div class="gCommentAvatar">
                 
-                      <q-avatar>
-                          <img :src="data.user_avatar" />
-                      </q-avatar>
-                  </div>
-                  <div>
-                      <span class="nickname">{{ data.user_name }}</span>
-                      <br>
-                      <time class="submit_date">{{ data.submit_date }}</time>
-                  </div>
+                        <q-avatar>
+                            <q-img v-if="data.user_avatar.length>0" :src="data.user_avatar" />
+                            <q-icon v-else name="person" color="black" size="34px" />
+                        </q-avatar>
+
+                    </div>
+                    <div>
+                        <span class="gCommentUser">{{ data.user_name }}</span>
+                        <br>
+                        <time class="gCommentDatetime">{{ getMinifiedDatetime(data.submit_date) }}</time>
+                    </div>
                 </div>
 
                 <div class="boxMessage">
-
-                  <p class="content">
-                      {{ data.comment }}                    
-                      <span v-if="data.replyToUser">//@{{ data.replyToUser.user_name }}:{{data.replyToUser.comment}}</span>
-                  </p>
+                    <p class="gCommentText">
+                        {{ data.comment }}                    
+                    </p>
+                    <!--
+                    <span v-if="data.replyToUser">//@{{ data.replyToUser.user_name }}:{{data.replyToUser.comment}}</span>
+                    -->
                 </div>
 
-                <div class="boxFooterAction">
-                    <div class="row reply-line">
-                      <div v-if="data.level==0">
-
-                          <q-btn
-                                class="reply-btn"
+                <div class="gCommentActions">
+                    <div class="row">
+                        <div v-if="data.level==0">
+                            <q-btn
+                                flat                            
                                 type="text" 
-                                flat
                                 size="15px"
                                 color="grey-8"
                                 @click="replyHandler('editorContainer')" 
                                 v-if="data.children.length==0">
                                 Reply
-                          </q-btn>
-                          <q-btn
-                              type="text"
-                              flat
-                              size="15px"                  
-                              color="grey-8"
-                              v-if="data.children && data.children.length"
-                              @click="toggleExpandPanel"
-                          >
+                            </q-btn>
+                            <q-btn
+                                flat
+                                type="text"
+                                size="15px"                  
+                                color="grey-8"
+                                v-if="data.children && data.children.length"
+                                @click="toggleExpandPanel"
+                            >
                               {{
                                   isExpanded
                                       ? `Collapse`
@@ -60,34 +61,29 @@
                                   "
                               ></i>
                           </q-btn>
-                      </div>
-                      <q-space />
-                      <div>
-                          <span class="thumb-button">
+                        </div>
+                        <q-space />
+                        <div class="gCommentRating">
+                            <span>                              
+                                <q-icon
+                                    size="18px"
+                                    color="grey-8"
+                                    name="thumb_up"
+                                    @click="onClickLike('like',data)" />
+                                &nbsp;<span>{{ likeCount }}</span>
+                            </span>
                               
-                              <q-icon
-                                  class="q-pa-md poll_count"
-                                  size="18px"
-                                  color="grey-8"
-                                  name="thumb_up"
-                                  @click="onClickLike('like',data)"
-                              ></q-icon>
-                              <span class="poll_count">                                                  
-                                  {{ likeCount }}
-                                </span>
-                              
-                              <q-icon 
-                                  class="q-pa-md poll_count"
-                                  size="18px"
-                                  color="grey-8"
-                                  name="thumb_down"
-                                  @click="onClickLike('dislike',data)"
-                              ></q-icon>
-                              <span class="poll_count">
-                                  {{ dislikeCount }}
-                                </span>
-                          </span>
-                      </div>
+                            &nbsp;&nbsp;
+                            <span>
+                                <q-icon 
+                                    size="18px"
+                                    color="grey-8"
+                                    name="thumb_down"
+                                    @click="onClickLike('dislike',data)"
+                                ></q-icon>&nbsp;
+                                <span>{{ dislikeCount }}</span>
+                            </span>
+                        </div>
                     </div>
                 </div>
             
@@ -118,31 +114,11 @@ import CommonFunc from 'src/util/CommonFunc';
 
 
 function dateFormat(createdDate) {
-    if (!createdDate instanceof Date) {
-        return;
-    }
-
-    const isPositiveInteger = Date.now() - createdDate > 0 ? "前" : "后";
-    const pastSeconds = Math.floor(Math.abs(Date.now() - createdDate) / 1000);
-
-    switch (true) {
-        case pastSeconds >= 3600 * 24 * 30:
-            return createdDate.toLocaleString();
-
-        case pastSeconds >= 3600 * 24:
-            return (
-                Math.floor(pastSeconds / 3600 / 24) + " Days" + isPositiveInteger
-            );
-        case pastSeconds >= 3600:
-            return (
-                Math.floor(pastSeconds / 3600) + " Hours" + isPositiveInteger
-            );
-        case pastSeconds >= 60:
-            return Math.floor(pastSeconds / 60) + " Minutes" + isPositiveInteger;
-
-        case pastSeconds >= 0:
-            return "Seconds";
-    }
+    logger.log.debug("dateFormat(createdDate)-",createdDate);
+    //if (!createdDate instanceof Date) {
+    //    return;
+    //}
+    return CommonFunc.minifyDatetime(createdDate);
 }
 
 export default {
@@ -226,7 +202,7 @@ export default {
     },
 
     filters: {
-        dateFormat,
+        //dateFormat,
     },
     props: {
         data: {
@@ -235,6 +211,11 @@ export default {
         },
     },
     methods: {
+        getMinifiedDatetime(value) {
+            //console.log('getMinifiedDatetime(value)',value);
+            return CommonFunc.minifyDatetime(value,1);
+        },
+
         loadMore() {
             const payload = { ...this.data };
             delete payload.children;
@@ -319,9 +300,6 @@ export default {
 <style scoped>
 
 dt {
-    .avatar-wrapper {
-        margin-right: 8px;
-    }
     .boxMessage {
         width: 100%;
         font-size: 14px;
@@ -329,37 +307,13 @@ dt {
             color:#999999;
             vertical-align: middle;
         }
-
-        .boxFooterAction {
-            justify-content: space-between;
-            align-items: center;
-        }
-
     }
-}
-.nickname {
-    color:#000;
-    font-size:14px;
-    font-weight:500;
-}
-
-.content {
-    margin-top:16px;
-}
-.submit_date {
-     color:#999999;
-    font-size:12px;
-}
-
-.boxCommentMessage {
-  /* padding-bottom:0px; */
-  border-bottom:1px solid #cccccc;
 }
 
 dd.reply-container {
     background: #fafbfc;
     padding: 0px 15px 0px 15px;
-    margin-top: 10px;
+    margin-top: 0px;
 }
 
 .loading-more {
@@ -383,111 +337,14 @@ dd.reply-container {
     transition: all;
 }
 
-.thumb-button {
-    height:10px;
-}
-
-.poll_count {
-    vertical-align:middle;
-    font-size:15px;
-    font-weight:600;
-    color:#777777;
-    padding-right:2px;
-}
-
 .reply-btn {
-height:4px;
+    height:4px;
 }   
 
 /* .reply_count { */
     
-
-.reply-line {
-    height:30px;
-}
-
 .editor-box {
     margin-top:15px;
 }
-/*
-
-.wrap-collabsible {
-  margin-bottom: 1.2rem 0;
-}
-
-input[type='checkbox'] {
-  display: none;
-}
-
-.lbl-toggle {
-  display: block;
-
-  font-weight: bold;
-  font-family: monospace;
-  font-size: 1.2rem;
-  text-transform: uppercase;
-  text-align: center;
-
-  padding: 1rem;
-
-  color: #A77B0E;
-  background: #FAE042;
-
-  cursor: pointer;
-
-  border-radius: 7px;
-  transition: all 0.25s ease-out;
-}
-
-.lbl-toggle:hover {
-  color: #7C5A0B;
-}
-
-.lbl-toggle::before {
-  content: ' ';
-  display: inline-block;
-
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  border-left: 5px solid currentColor;
-  vertical-align: middle;
-  margin-right: .7rem;
-  transform: translateY(-2px);
-
-  transition: transform .2s ease-out;
-}
-
-.toggle:checked + .lbl-toggle::before {
-  transform: rotate(90deg) translateX(-3px);
-}
-
-.collapsible-content {
-  max-height: 0px;
-  overflow: hidden;
-  transition: max-height .25s ease-in-out;
-}
-
-.toggle:checked + .lbl-toggle + .collapsible-content {
-  max-height: 100vh;
-}
-
-.toggle:checked + .lbl-toggle {
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.collapsible-content .content-inner {
-  background: rgba(250, 224, 66, .2);
-  border-bottom: 1px solid rgba(250, 224, 66, .45);
-  border-bottom-left-radius: 7px;
-  border-bottom-right-radius: 7px;
-  padding: .5rem 1rem;
-}
-
-.q-item {
-    min-height: 0px;
-    padding:0px;
-}
-*/
 
 </style>

@@ -2,12 +2,15 @@
 
     <div>
 
-        <q-list bordered class="rounded-borders">
+        <q-list separator class="rounded-borders">
 
             <q-item class="boxItemList" clickable v-for="(a_review,index) in v_reviews" :key="index">
+                
                 <q-item-section avatar top>
-                    <q-icon name="account_tree" color="black" size="34px" />
+                    <q-img :src="a_review.user.avatar_thumb" v-if="a_review.user.avatar_thumb.length>0" />
+                    <q-icon v-else name="person" size="50px" />
                 </q-item-section>
+
                 <q-item-section top>
                     <q-item-label lines="1">
                         <span class="text-weight-medium news-title"> {{a_review.user.username}}</span>

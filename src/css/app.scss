@@ -95,6 +95,12 @@
 
 }
 
+.gCommentItem {
+  padding: 0px;
+  margin: 0px;
+  border-bottom:1px solid #cccccc;
+}
+
 .gCommentAvatar {
 
 }
@@ -108,11 +114,24 @@
 }
 
 .gCommentText {
-
+  padding-top:10px;
+  text-transform:type;
+  font-size:14px;
+  line-height:12px;
+  word-spacing:3px;
 }
 
 .gCommentRating {
+  vertical-align:middle;
+  font-size:15px;
+  font-weight:600;
+  color:#777777;
+  padding-right:2px;
+}
 
+.gCommentActions {
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* end */
@@ -145,6 +164,10 @@
 
 .gBlogRatingBtn {
   font-size:10px;
+}
+
+.gBlogContent {
+  
 }
 
 

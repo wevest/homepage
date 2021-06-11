@@ -5,10 +5,14 @@
             <div class="boxItemList" v-for="(a_answer,index) in v_answers" :key="index">
             
                 <div class="row boxAnswerTitle">
+                    <div class="gBlogAvatar">
+                        <q-img :src="a_answer.user.avatar_thumb" v-if="a_answer.user.avatar_thumb.length>0" />
+                        <q-icon v-else name="person" size="50px" />
+                    </div>
                     <div>
-                        <q-icon name="account_tree" color="black" size="34px" />
-                        <span class="text-weight-medium news-title">{{a_answer.user.username}}</span>
-                        <span class="cursor-pointer news-date">{{a_answer.pub_date}}</span>        
+                        <span class="gBlogUser">{{a_answer.user.username}}</span>
+                        <br>
+                        <span class="gBlogDatetime">{{a_answer.pub_date}}</span>        
                     </div>
                     <q-space />
                     <div>
@@ -16,11 +20,10 @@
                     </div>
                 </div>
 
-                <div class="boxAnswerContent" @click="onClickQuestion(a_question)">
+                <div class="gBlogContent" @click="onClickQuestion(a_question)">
                     <div v-html="a_answer.content">  </div>
                 </div>
-                <div class="boxAnswerRating">                    
-
+                <div class="gBlogRating">                    
                     <span class="boxReviewBtn"> <q-btn label="like" @click="onClickRating(1,a_answer)" />  {{a_answer.like_count}}</span>
                     <span class="boxReviewBtn">{{a_answer.dislike_count}} <q-btn label="dislike" @click="onClickRating(-1,a_answer)" /> </span>                        
                 </div>
@@ -33,21 +36,22 @@
                     </div>
 
                     <div class="boxAnswerComment">
-                        <div class="boxAnswerCommentItem" v-for="(a_comment,index2) in a_answer.comments" :key="index2">
-                            <div class="row boxAnswerCommentHeader">
-                                <div>
-                                    <q-icon name="account_tree" color="black" size="34px" />
+                        <div class="gCommentItem" v-for="(a_comment,index2) in a_answer.comments" :key="index2">
+                            <div class="row">
+                                <div class="gCommentAvatar">
+                                    <q-img :src="a_comment.api_owner.avatar_thumb" v-if="a_comment.api_owner.avatar_thumb.length>0" />
+                                    <q-icon v-else name="person" size="50px" />                                    
                                 </div>
-                                <div>
-                                    <div>
-                                        {{ a_comment.api_owner.username}}
+                                <div class="col">
+                                    <div class="gCommentUser">
+                                        <span>{{ a_comment.api_owner.username}}</span>
                                     </div>
-                                    <div>
-                                        {{ a_comment.pub_date}}
+                                    <div class="gCommentDatetime">
+                                        <span>{{ a_comment.pub_date}}</span>
                                     </div>
                                 </div>
                             </div>
-                            <div>
+                            <div class="gCommentText">
                                 <p> {{ a_comment.comment_text}} </p>
                             </div>
                             <div>
