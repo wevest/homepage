@@ -8,7 +8,7 @@
           <q-btn flat dense round color="black" align="centered" icon="menu" aria-label="Menu" ref="mainMenuButton"
             @click="leftDrawerOpen = !leftDrawerOpen"/>
 
-          <div class="toolbar_title">
+          <div class="toolbar_title" @click="onClickLogo">
             WeVest
           </div> 
           
@@ -65,6 +65,7 @@
             <div v-if="v_login==true">
               <a href='#' @click="onClickSignOut">Logout</a>
               <q-btn round color="amber" icon="person" @click="onClickUser" />
+              <q-btn round color="yellow" icon="mail" @click="onClickMessage" />
 
             </div>
             <div v-else>
@@ -149,10 +150,12 @@ export default {
   updated: function() {
     this.setSigninMenu();
   },
+  created: function() {
+    AuthService.loadFromCookie();
+  },
   mounted: function () {
     //CommonFunc.setAppData('spinner',this.$refs.loading);
     //this.loadCoinCodes();
-    AuthService.loadFromCookie();
     this.setSigninMenu();
   },
 
@@ -266,14 +269,26 @@ export default {
     },
 
     onClickUser: function() {
-      logger.log.debug('MainToolbar.onClickSignIn');
-      let dic_param = { name:'profile', params:{userid:null} };
+      logger.log.debug('MainToolbar.onClickUser');
+      let dic_param = { name:'profile', params:{} };
+      this.$router.push(dic_param);
+    },
+
+    onClickMessage: function() {
+      logger.log.debug('MainToolbar.onClickMessage');
+      let dic_param = { name:'message', params:{} };
       this.$router.push(dic_param);
     },
 
     onClickSignIn: function() {
       logger.log.debug('onClickSignIn');
       let dic_param = { name:'signin', params:{} };
+      this.$router.push(dic_param);
+    },
+
+    onClickLogo: function() {
+      logger.log.debug('onClickLogo');
+      let dic_param = { name:'home', params:{} };
       this.$router.push(dic_param);
     },
 
