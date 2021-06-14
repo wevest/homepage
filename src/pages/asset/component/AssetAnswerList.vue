@@ -1,8 +1,8 @@
 <template>
-
+<!-- comment page -->
     <div class="row">
         <div class="col">
-            <div class="boxItemList" v-for="(a_answer,index) in v_answers" :key="index">
+            <div class="gcomment" v-for="(a_answer,index) in v_answers" :key="index">
             
                 <div class="row boxAnswerTitle">
                     <div class="gBlogAvatar">
@@ -15,25 +15,58 @@
                         <span class="gBlogDatetime">{{a_answer.pub_date}}</span>        
                     </div>
                     <q-space />
-                    <div>
-                        <span class="boxReviewBtn"><q-btn label="Accept" @click="onClickAccept(a_answer)" /> </span>                                
+                    <div class="blogAcceptBox">
+                        <span>
+                            <q-btn class="blogAcceptBtn"
+                                dense
+                                size="15px"
+                                label="Accept" 
+                                @click="onClickAccept(a_answer)" /> 
+                        </span>                                
                     </div>
                 </div>
 
                 <div class="gBlogContent" @click="onClickQuestion(a_question)">
                     <div v-html="a_answer.content">  </div>
                 </div>
-                <div class="gBlogRating">                    
-                    <span class="boxReviewBtn"> <q-btn label="like" @click="onClickRating(1,a_answer)" />  {{a_answer.like_count}}</span>
-                    <span class="boxReviewBtn">{{a_answer.dislike_count}} <q-btn label="dislike" @click="onClickRating(-1,a_answer)" /> </span>                        
+                    <div class="row">
+                        <q-space />
+                            <div class="gBlogRatingBox">              
+                                <q-btn 
+                                class="gBlogRatingBtn" 
+                                icon="thumb_up" 
+                                dense
+                                flat 
+                                @click="onClickRating(1,a_answer)" />&nbsp;                            
+                                    <span class="gBlogRatingCount">{{a_answer.like_count}}</span>&nbsp;
+                        
+                                <q-btn 
+                                class="gBlogRatingBtn"
+                                icon="thumb_down" 
+                                dense
+                                flat 
+                                @click="onClickRating(-1,a_answer)" />&nbsp; 
+                                    <span class="gBlogRatingCont">{{a_answer.dislike_count}}</span>  
+                    </div>                                      
                 </div>
 
+                <q-separator size="2px" />
 
                 <div v-if="a_answer.comments.length>0">
                     
                     <div class="boxAnswerCommentCount">
                         <span>Comments : {{a_answer.comments.length}} </span>
                     </div>
+                    
+                <div>
+                    <q-input filled type="textarea" v-model="v_comment" />
+                    <div class="row commentSaveBtnBox">
+                        <q-space />
+                        <q-btn class="CommentSaveBtn" label="Save" @click="onClickSaveComment(a_answer)" />
+                    </div>
+                </div>
+
+                <q-separator size="2px" />
 
                     <div class="boxAnswerComment">
                         <div class="gCommentItem" v-for="(a_comment,index2) in a_answer.comments" :key="index2">
@@ -43,7 +76,7 @@
                                     <q-icon v-else name="person" size="50px" />                                    
                                 </div>
                                 <div class="col">
-                                    <div class="gCommentUser">
+                                    <div class="gCommentUserName">
                                         <span>{{ a_comment.api_owner.username}}</span>
                                     </div>
                                     <div class="gCommentDatetime">
@@ -54,32 +87,20 @@
                             <div class="gCommentText">
                                 <p> {{ a_comment.comment_text}} </p>
                             </div>
-                            <div>
-                                <q-btn label="like" @click="onClickVoteComment(1,a_comment)" /> {{ a_comment.like_count }}
-                                <q-btn label="dislike" @click="onClickVoteComment(-1,a_comment)" /> {{ a_comment.dislike_count }}
                             </div>
                         </div>
                     </div>
 
                 </div>
 
-                <div>
-                    <q-input filled type="textarea" v-model="v_comment" />
-                    <div class="row">
-                        <q-space />
-                        <q-btn label="Save" @click="onClickSaveComment(a_answer)" />
-                    </div>
-                </div>
-
             </div>
 
             <div v-if="v_visible_loadmore">>
                 <q-btn label="load More" @click="onClickLoadMore" />
-            </div>
-                
         </div>
-
-  </div>  
+                
+    </div>
+    
   
 </template>
 
@@ -340,52 +361,61 @@ export default {
 
 
 <style scope>
-.news-title {
-    font-size:18px;
-    color:#000000;
-}
 
-.news-date {
-    font-size:10px;
-    color:#888888;
-}
 
-.boxItemList {
+.gBlog {
+ padding: 15px 0px 15px 0px;
+}   
+
+.boxBtn {
     border-bottom:1px solid #cccccc;
-    padding: 15px 0px 15px 0px;
-}
+    padding:10px 0px; 
+} 
 
-.boxReviewBtn {
-    padding:10px;
-}
 
-.boxAnswerTitle {
-    border-bottom:1px solid #cccccc;
-}
 
 .boxAnswerContent {
     padding:10px;
 }
 
-.boxAnswerRating {
-    text-align:center;
-}
 
-.boxAnswerComment {
 
-}
 
 .boxAnswerCommentCount {
-    margin: 8px 0px 8px 0px;
-    border-bottom:1px solid #cccccc;
+    margin: 8px 0px 3px 0px;
+    padding-bottom:10px;
+   
 }
+
+
 
 .boxAnswerCommentCount span {
     font-size:20px;
+    }
+.boxAnswerRating {
+    padding: 5px 0px;
+    text-align:center;
 }
-
 .boxAnswerCommentItem {
-    margin: 8px 0px 8px 0px;
+    padding: 5px 0px 11px 0px;
     border-bottom:1px solid #cccccc;
 }
+
+.commentSaveBtnBox {
+    padding:10px 0px;;
+    }
+.CommentSaveBtn {
+    color:white;
+    background-color: royalblue;
+}    
+.blogAcceptBox {
+    padding-top:5px;
+}
+
+.blogAcceptBtn {
+    width:100px;
+    color:white;
+    background-color:royalblue;
+}
+
 </style>

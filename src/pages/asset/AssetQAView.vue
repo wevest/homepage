@@ -1,21 +1,23 @@
 <template>
-
+<!-- Blog Question Page 질문 페이지와 코멘트 목록 -->
     <div class="q-pa-md">
 
         <div class="row">
             <div class="col">
-
                 <div>                     
                     <span class="gPageTitle">  
                         <q-icon name="today" class="text-orange" />
                         {{ v_question.title }} 
                     </span>
                         
-                    <div class="boxDescription">
-                        <span class="gPageUser">{{ v_question.username }} </span>
-                        <span class="gPageDatetime">{{ v_question.pub_date }} </span>
-                        <span class="gPageRating">{{ v_question.like_count }} </span>
-                        <span class="gPageRating">{{ v_question.dislike_count }} </span>
+                    <div class="gPageUDRBox">
+                        <span class="gPageUser">{{ v_question.username }} </span>&nbsp;
+                        <span class="gPageDatetime">{{ v_question.pub_date }} </span>&nbsp;
+                        
+                        <q-icon name="thumb_up" />&nbsp;
+                            <span class="gPageRating">{{ v_question.like_count }}</span>&nbsp;
+                        <q-icon name="thumb_down" />&nbsp;
+                            <span class="gPageRating">{{ v_question.dislike_count }} </span>
                     </div>
                 </div>
 
@@ -29,18 +31,20 @@
                     />
                 </div>
 
-                <div class="q-pa-md q-gutter-sm text-center">
+                <div class="q-pa-md q-gutter-sm gPageRatingBox">
+                    <q-btn                        
+                        class="gPageRatingBtn"
+                        color="indigo" 
+                        icon="thumb_up"
+                        dense 
+                        flat 
+                        @click="onClickBlogRate('like')"/>&nbsp; 
                     <q-btn 
-                        rounded
                         class="gPageRatingBtn"
-                        color="primary" 
-                        icon="thumb_up" 
-                        @click="onClickBlogRate('like')"/>
-                    <q-btn
-                        rounded
-                        class="gPageRatingBtn"
-                        color="indigo"
                         icon="thumb_down"
+                        color="indigo"
+                        dense
+                        flat                                                                       
                         @click="onClickBlogRate('dislike')" />
                 </div>
 
@@ -49,11 +53,17 @@
 
         <q-separator size="10px" />
 
-        <div class="row">
-            <div class="col">
-                <q-btn label="Answer" @click="onClickAnswer" />
-            </div>
+        <div class="row">         
+                <q-space />
+                <div class="pageAnswerBox">                
+                <q-btn 
+                    class="pageAnswerBtn"
+                    dense                                  
+                    label="Answer" @click="onClickAnswer" />
+                </div>            
         </div>
+
+        <q-separator size="10px" />
 
         <div class="row">
             <div class="col">
@@ -261,6 +271,17 @@ export default {
 </script>
 
 
-<style>
+<style scope>
 
+
+.pageAnswerBox {
+    margin:15px 0px;
+}
+.pageAnswerBtn {
+    color:white;
+    background-color:royalblue;
+    width:100px;
+}
 </style>
+ 
+

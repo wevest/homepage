@@ -91,9 +91,99 @@
   css for comment 
 */
 
-.gCommentBox {
 
+
+
+
+/* end */
+
+
+/* 
+  css for blog list
+*/
+
+
+
+
+.gPageTitle {
+  font-size:24px;
+  color:#222222;
 }
+
+.gPageUDRBox {
+  padding-bottom:5px;
+}
+
+.gPageUser {
+  color: #292626;
+  font-size:13px;
+}
+
+.gPageDatetime {
+  color: #292626;
+  font-size:13px;
+}
+
+.gPageContent {
+  color: #292626;
+  font-size:13px;
+}
+
+.gPageRating {
+  color: #292626;
+  font-size:13px;
+}
+.gPageRatingBox {
+  text-align: center;
+}
+
+.gPageRatingBtn {
+  color: #292626;
+  font-size:15px;
+}
+
+
+
+
+.gBlogAvatar {
+  padding:5px 5px 5px 0px !important; 
+  height:50px;
+  width:50px;
+}
+
+.gBlogTitle {
+  font-size:18px;
+  color:#000000;
+  font-weight:bold;
+}
+
+
+.gBlogUser {
+  color: #292626;
+  font-size:13px;
+  
+}
+
+.gBlogDatetime {
+  color: #292626;
+  font-size:13px;
+}
+
+.gBlogRatingBox {
+  text-align: center;
+  padding:4px 16px;
+}
+
+.gBlogRatingBtn {
+  font-size:12px;
+}
+
+.gBlogContent {
+  margin:10px 0px;
+}
+
+
+
 
 .gCommentItem {
   padding: 0px;
@@ -101,16 +191,37 @@
   border-bottom:1px solid #cccccc;
 }
 
-.gCommentAvatar {
+.gCommentBox {
 
 }
 
-.gCommentUser {
 
+.gBlogAvatar {
+  padding-right:5px;
+
+}
+
+.gCommentUserName {
+  color: #292626;
+  font-size:13px;
+  
 }
 
 .gCommentDatetime {
+  color:#8C8C8C;
+  font-size:12px;
+}
+.gCommentRatingBox {
+  padding-right:5px;
+}
 
+.gCommentRatingBtn {
+  padding:5px 5px;
+  }
+
+.gCommentRatingCount {
+  font-size:10px;
+  colo:#8C8C8C;
 }
 
 .gCommentText {
@@ -133,71 +244,4 @@
   justify-content: space-between;
   align-items: center;
 }
-
-/* end */
-
-
-/* 
-  css for blog list
-*/
-
-.gBlogTitle {
-  font-size:18px;
-  font-weight: bold;
-}
-
-.gBlogAvatar {
-  padding:5px 5px 5px 0px !important; 
-  height:50px;
-  width:50px;
-}
-
-.gBlogUser {
-  color: #292626;
-  font-size:13px;
-}
-
-.gBlogDatetime {
-  color: #292626;
-  font-size:13px;
-}
-
-.gBlogRatingBtn {
-  font-size:10px;
-}
-
-.gBlogContent {
-  
-}
-
-
-.gPageTitle {
-
-}
-
-.gPageUser {
-  color: #292626;
-  font-size:13px;
-}
-
-.gPageDatetime {
-  color: #292626;
-  font-size:13px;
-}
-
-.gPageContent {
-  color: #292626;
-  font-size:13px;
-}
-
-.gPageRating {
-  color: #292626;
-  font-size:13px;
-}
-
-.gPageRatingBtn {
-  color: #292626;
-  font-size:13px;
-}
-
 /* end */

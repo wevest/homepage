@@ -13,7 +13,7 @@
             <template v-slot:body="props">
                 <q-tr :props="props" >
                     <q-td key="avatar" :props="props" class="gBlogAvatar">                        
-                        <q-img :src="props.row.avatar_thumb" v-if="props.row.avatar_thumb.length>0" />
+                        <q-img :src="props.row.username" v-if="props.row.avatar" />
                         <q-icon v-else name="person" size="50px" />
                     </q-td>
 
@@ -34,15 +34,25 @@
                                 </span>
                             </div>
                             <q-space />
-                            <div class="boxReviewBtn">
+                            <div class="gBlogRatingBox">
                                 <span> 
-                                    <q-btn dense class="gBlogRatingBtn" flat icon="thumb_up" @click="onClickRating(1,props.row)" />
+                                    <q-btn 
+                                        class="gBlogRatingBtn" 
+                                        icon="thumb_up"
+                                        dense
+                                        flat  
+                                        @click="onClickRating(1,props.row)" />
                                 </span> 
-                                <span> {{props.row.like_count}}</span>
+                                    <span class="gBlogDateTime"> {{props.row.like_count}}</span>&nbsp;
                                 <span>
-                                    <q-btn flat dense class="gBlogRatingBtn" icon="thumb_down" @click="onClickRating(-1,props.row)" />
+                                    <q-btn 
+                                        class="gBlogRatingBtn" 
+                                        icon="thumb_down"
+                                        dense
+                                        flat 
+                                        @click="onClickRating(-1,props.row)" />
                                 </span>
-                                <span> {{props.row.dislike_count}}</span>    
+                                    <span class="gBlogDateTime"> {{props.row.dislike_count}}</span>    
                             </div>
                         </div>                        
                     </q-td>
@@ -123,7 +133,6 @@ export default {
                     content: questions[index].description,
                     userid: questions[index].api_owner.id,
                     username: questions[index].api_owner.username,
-                    avatar_thumb: questions[index].api_owner.avatar_thumb,
                     parent_id: questions[index].parent_id,
                     closed: questions[index].closed,
                     like_count: questions[index].like_count,
@@ -191,17 +200,8 @@ export default {
     color:#888888;
 }
 
-.boxItemList {
-    border-bottom:1px solid #cccccc;
-    padding: 15px 0px 15px 0px;
-}
 
-.boxReviewBtn {
-    font-size:10px;
-}
 
-.boxReviewBtn span {
-    padding-left:3px;
-}
+
 
 </style>
