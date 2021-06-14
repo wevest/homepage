@@ -2,23 +2,25 @@ import {MoaConfig} from 'src/data/MoaConfig';
 import {Model, Collection} from 'vue-mc';
 
 
-export class ThreadModel extends Model{
+export class MessageThreadModel extends Model{
     
     defaults() {
         return {
             id: null,
-            subject:null,
-            from_user:null,
-            created_at:null,    
+            subject:'',
+            to_user:'',
+            created_at:'',    
+            content: '',
         }    
     }
 
     mutations() {
         return {
-            id: Integer,
+            id: Number,
             subject: String,
-            from_user: Object,
+            to_user: Object,
             created_at: String,    
+            content: String,    
         }
     }
  
@@ -36,7 +38,7 @@ export class ThreadModel extends Model{
 }
 
 
-export class ThreadListModel extends Collection {
+export class MessageThreadListModel extends Collection {
     model() {
         return ThreadModel;
     }

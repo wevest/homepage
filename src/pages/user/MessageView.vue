@@ -9,11 +9,11 @@
         <div class="row">
             <div class="col">
                 <q-btn label="Write" @click="onClickWrite" />
-<!--
+
                 <q-input v-model="v_message.to_user" label="TO" />
                 <q-input v-model="v_message.subject" label="Subject" />
-                <q-input type="textarea" v-model="v_message.body" label="Body" />
--->                
+                <q-input type="textarea" v-model="v_message.content" label="Body" />
+
                 <q-btn label="Send" @click="onClickSend" />
 
             </div>
@@ -29,9 +29,10 @@ import logger from "src/error/Logger";
 
 import AuthService from 'src/services/authService';
 
-import {ThreadModel, ThreadListModel} from "src/store/MessageModel";
+import {MessageThreadModel, MessageThreadListModel} from "src/store/MessageModel";
 
 import CTitle from 'components/CTitle';
+
 
 
 export default {
@@ -43,7 +44,7 @@ export default {
     data: () => ({
         g_data: null,
 
-        v_message: new ThreadModel(),
+        v_message: new MessageThreadModel(),
 
         v_back: false,
 
@@ -52,11 +53,11 @@ export default {
     },
     mounted: function() {
         //console.log("HomeView.mounted - ");
-        console.log("MessageView.mounted - params=",this.$route.params);
+        console.log("MessageView.mounted - params=",this.$route.params, this.v_message);
         
-        //this.v_message.subject = "test";
-        //this.v_message.to_user = "tester1002";
-        //this.v_message.body = "private message";
+        this.v_message.subject = "test";
+        this.v_message.to_user = "11";
+        this.v_message.content = "private message";
 
         this.loadInboxMessages();
     },
@@ -83,8 +84,9 @@ export default {
         sendMessage: function(v_message) {
             const _this = this;
             
-            let dic_param = v_message;
-            dic_param.token = MoaConfig.auth.token;
+            let dic_param = {token: MoaConfig.auth.token, 
+                to_user:this.v_message.to_user, subject:this.v_message.subject, message:this.v_message.content
+            };
 
             return new Promise(function(resolve,reject) {
                 AuthService.postPrivateMessage(dic_param,function(response) {
