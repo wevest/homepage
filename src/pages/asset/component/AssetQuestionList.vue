@@ -1,5 +1,6 @@
-<template>
 
+<template>
+<!-- Blog Question List Page-->
     <div>
 
         <q-table
