@@ -139,7 +139,7 @@ export default class AuthService{
     }    
 
     static postPrivateMessage(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/dm/messages/");
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/dm/message/thread/"+MoaConfig.auth.id+"/send/");
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
