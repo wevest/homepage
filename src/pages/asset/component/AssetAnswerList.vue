@@ -61,22 +61,24 @@
                         <span>Comments : {{a_answer.comments.length}} </span>
                     </div>
                     
-                <div>
-                    <q-input filled type="textarea" v-model="v_comment" />
-                    <div class="row commentSaveBtnBox">
-                        <q-space />
-                        <q-btn class="CommentSaveBtn" label="Save" @click="onClickSaveComment(a_answer)" />
+                    <div>
+                        <q-input filled type="textarea" v-model="v_comment" />
+                        <div class="row commentSaveBtnBox">
+                            <q-space />
+                            <q-btn class="CommentSaveBtn" label="Save" @click="onClickSaveComment(a_answer)" />
+                        </div>
                     </div>
-                </div>
 
-                <q-separator size="2px" />
+                    <q-separator size="2px" />
 
                     <div class="boxAnswerComment">
                         <div class="gCommentItem" v-for="(a_comment,index2) in a_answer.comments" :key="index2">
                             <div class="row">
-                                <div class="gCommentAvatar">
-                                    <q-img :src="a_comment.api_owner.avatar_thumb" v-if="a_comment.api_owner.avatar_thumb.length>0" />
-                                    <q-icon v-else name="person" size="50px" />                                    
+                                <div class="gCommentAvatar1">
+                                    <q-avatar>
+                                        <q-img :src="a_comment.api_owner.avatar_thumb" v-if="a_comment.api_owner.avatar_thumb.length>0" />
+                                        <q-icon v-else name="person" size="50px" />                                    
+                                    </q-avatar>
                                 </div>
                                 <div class="col">
                                     <div class="gCommentUserName">
@@ -90,16 +92,24 @@
                             <div class="gCommentText">
                                 <p> {{ a_comment.comment_text}} </p>
                             </div>
+                            
+                            <div>
+                                <q-icon size="18px" color="grey-8" name="thumb_up" @click="onClickLike('like',a_comment)" />
+                                <span> {{ a_comment.like_count}} </span>
+                                <q-icon size="18px" color="grey-8" name="thumb_down" @click="onClickLike('like',a_comment)" />
+                                <span> {{ a_comment.dislike_count}} </span>
                             </div>
+
                         </div>
                     </div>
-
                 </div>
 
             </div>
 
-            <div v-if="v_visible_loadmore">>
-                <q-btn label="load More" @click="onClickLoadMore" />
+        </div>
+
+        <div v-if="v_visible_loadmore">>
+            <q-btn label="load More" @click="onClickLoadMore" />
         </div>
                 
     </div>
@@ -356,6 +366,10 @@ export default {
                 CommonFunc.showErrorMessage(_this,"Comments Posted");
             });
 
+        },
+
+        onClickLike: function(comment) {
+            logger.log.debug("AssetAnswerList.onClickLike=",comment);
         }
 
     }

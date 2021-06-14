@@ -149,6 +149,16 @@ export default class AuthService{
         });
     }    
 
+    static getThreadMessage(reqParam,func,funcErr) {
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/dm/message/thread/"+reqParam.uuid+"/");
+        callCMSAPI("GET",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }    
 
     static addPortfolioItem(reqParam,func,funcErr) {
         let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/portfolio/portfolios/");
