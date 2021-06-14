@@ -3,23 +3,23 @@
     <div class="row">
         <div class="col">
             <div class="gcomment" v-for="(a_answer,index) in v_answers" :key="index">
-            
-                <div class="row boxAnswerTitle">
-                    <div class="gBlogAvatar">
-                        <q-avatar>
+                <div class="border">
+                <div class="row gAnswerBox">
+                    <div>
+                        <q-avatar class="gAnswerAvatar">
                             <q-img :src="a_answer.user.avatar_thumb" v-if="a_answer.user.avatar_thumb.length>0" />
                             <q-icon v-else name="person" size="50px" />
                         </q-avatar>
                     </div>
-                    <div>
-                        <span class="gBlogUser">{{a_answer.user.username}}</span>
+                    <div class="gAnswerUserDatetime">
+                        <span class="gAnswerUser">{{a_answer.user.username}}&nbsp;님 답변</span>
                         <br>
-                        <span class="gBlogDatetime">{{a_answer.pub_date}}</span>        
+                        <span class="gAnswerDatetime">{{a_answer.pub_date}}</span>        
                     </div>
                     <q-space />
-                    <div class="blogAcceptBox">
+                    <div class="gAnswerAcceptBox">
                         <span>
-                            <q-btn class="blogAcceptBtn"
+                            <q-btn class="AnswerAcceptBtn"
                                 dense
                                 size="15px"
                                 label="Accept" 
@@ -28,25 +28,28 @@
                     </div>
                 </div>
 
-                <div class="gBlogContent" @click="onClickQuestion(a_question)">
+                <q-separator />
+
+                <div class="gAnswerContent" @click="onClickQuestion(a_question)">
                     <div v-html="a_answer.content">  </div>
                 </div>
-                    <div class="gBlogRatingBox">              
+                    <div class="gAnswerRatingBox">              
                         <q-btn 
-                            class="gBlogRatingBtn" 
+                            class="gAnswerRatingBtn" 
                             icon="thumb_up" 
                             dense
                             flat 
                             @click="onClickRating(1,a_answer)" />&nbsp;                            
-                        <span class="gBlogRatingCount">{{a_answer.like_count}}</span>&nbsp;
+                        <span class="gAnswerRatingCount">{{a_answer.like_count}}</span>&nbsp;
                 
                         <q-btn 
-                            class="gBlogRatingBtn"
-                            icon="thumb_down" 
+                            class="gAnswerRatingBtn"
+                            icon="thumb_down"                            
                             dense
                             flat 
                             @click="onClickRating(-1,a_answer)" />&nbsp; 
-                        <span class="gBlogRatingCont">{{a_answer.dislike_count}}</span>  
+                        <span class="gAnswerRatingCount">{{a_answer.dislike_count}}</span>  
+                </div>
                 </div>
 
                 <q-separator size="2px" />
@@ -59,7 +62,7 @@
                     
                     <div>
                         <q-input filled type="textarea" v-model="v_comment" />
-                        <div class="row commentSaveBtnBox">
+                        <div class="row CommentSaveBtnBox">
                             <q-space />
                             <q-btn class="CommentSaveBtn" label="Save" @click="onClickSaveComment(a_answer)" />
                         </div>
@@ -67,16 +70,16 @@
 
                     <q-separator size="2px" />
 
-                    <div class="boxAnswerComment">
-                        <div class="gCommentItem" v-for="(a_comment,index2) in a_answer.comments" :key="index2">
-                            <div class="row">
-                                <div class="gCommentAvatar1">
+                    <div>
+                        <div class="gCommentBox" v-for="(a_comment,index2) in a_answer.comments" :key="index2">
+                            <div class="row gCommentAvatarBox">
+                                <div class="gCommentAvatar">
                                     <q-avatar>
                                         <q-img :src="a_comment.api_owner.avatar_thumb" v-if="a_comment.api_owner.avatar_thumb.length>0" />
                                         <q-icon v-else name="person" size="50px" />                                    
                                     </q-avatar>
                                 </div>
-                                <div class="col">
+                                <div class="col gCommentUserDateBox">
                                     <div class="gCommentUserName">
                                         <span>{{ a_comment.api_owner.username}}</span>
                                     </div>
@@ -89,17 +92,27 @@
                                 <p> {{ a_comment.comment_text}} </p>
                             </div>
                             
-                            <div>
-                                <q-icon size="18px" color="grey-8" name="thumb_up" @click="onClickLike('like',a_comment)" />
-                                <span> {{ a_comment.like_count}} </span>
-                                <q-icon size="18px" color="grey-8" name="thumb_down" @click="onClickLike('like',a_comment)" />
-                                <span> {{ a_comment.dislike_count}} </span>
-                            </div>
+                            <div class="row">
+
+                            <q-space />
+
+                            <div class="gCommentRatingBox">
+                                <q-icon 
+                                    class="gCommentRatingBtn"
+                                    name="thumb_up"
+                                    @click="onClickLike('like',a_comment)" />&nbsp;
+                                    <span class="gCommentRatingCount"> {{ a_comment.like_count}} </span>&nbsp;
+                                <q-icon 
+                                    class="gCommentRatingBtn"
+                                    name="thumb_down"                                                                                                   
+                                    @click="onClickLike('like',a_comment)" />&nbsp;
+                                    <span class="gCommentRatingCount"> {{ a_comment.dislike_count}} </span>
+                            </div>                          
 
                         </div>
                     </div>
                 </div>
-
+            </div>
             </div>
 
         </div>
@@ -414,21 +427,21 @@ export default {
     border-bottom:1px solid #cccccc;
 }
 
-.commentSaveBtnBox {
+.CommentSaveBtnBox {
     padding:10px 0px;;
     }
 .CommentSaveBtn {
-    color:white;
-    background-color: royalblue;
-}    
-.blogAcceptBox {
-    padding-top:5px;
-}
-
-.blogAcceptBtn {
+    color:#555555;
     width:100px;
-    color:white;
-    background-color:royalblue;
 }
 
+.AnswerAcceptBtn {
+    width:100px;
+    color:#555555;
+}
+
+.border {
+    border:1px solid #e5e5e5;
+    background-color:#f5f5f6;
+}
 </style>

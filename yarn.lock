@@ -1901,6 +1901,14 @@
   dependencies:
     "follow-redirects" "^1.10.0"
 
+"axios@0.19.0":
+  "integrity" "sha512-1uvKqKQta3KBxIz14F2v06AEHZ/dIoeKfbTRkK1E5oqjDnuEerLmYTgJB5AiQZHJcljpg1TuRzdjDR06qNk0DQ=="
+  "resolved" "https://registry.npmjs.org/axios/-/axios-0.19.0.tgz"
+  "version" "0.19.0"
+  dependencies:
+    "follow-redirects" "1.5.10"
+    "is-buffer" "^2.0.2"
+
 "babel-eslint@^10.0.1":
   "integrity" "sha512-ifWaTHQ0ce+448CYop8AdrQiBsGrnC+bMgfyKFdi6EsPLTAWG+QfyDeM6OH+FmWnKvEq5NnBMLvlBUPKQZoDSg=="
   "resolved" "https://registry.npmjs.org/babel-eslint/-/babel-eslint-10.1.0.tgz"
@@ -3173,6 +3181,11 @@
   "integrity" "sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk="
   "resolved" "https://registry.npmjs.org/cyclist/-/cyclist-1.0.1.tgz"
   "version" "1.0.1"
+
+"date-fns@^2.0.0-beta.4":
+  "integrity" "sha512-yUFPQjrxEmIsMqlHhAhmxkuH769baF21Kk+nZwZGyrMoyLA+LugaQtC0+Tqf9CBUUULWwUJt6Q5ySI3LJDDCGg=="
+  "resolved" "https://registry.npmjs.org/date-fns/-/date-fns-2.22.1.tgz"
+  "version" "2.22.1"
 
 "de-indent@^1.0.2":
   "integrity" "sha1-sgOOhG3DO6pXlhKNCAS0VbjB4h0="
@@ -9081,6 +9094,11 @@
     "spdx-correct" "^3.0.0"
     "spdx-expression-parse" "^3.0.0"
 
+"validator@^10.9.0":
+  "integrity" "sha512-X/p3UZerAIsbBfN/IwahhYaBbY68EN/UQBWHtsbXGT5bfrH/p4NQzUCG1kF/rtKaNpnJ7jAu6NGTdSNtyNIXMw=="
+  "resolved" "https://registry.npmjs.org/validator/-/validator-10.11.0.tgz"
+  "version" "10.11.0"
+
 "vary@~1.1.2":
   "integrity" "sha1-IpnwLG3tMNSllhsLn3RSShj2NPw="
   "resolved" "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz"
@@ -9133,6 +9151,17 @@
     "loader-utils" "^1.1.0"
     "vue-hot-reload-api" "^2.3.0"
     "vue-style-loader" "^4.1.0"
+
+"vue-mc@^0.6.0":
+  "integrity" "sha512-URLyySD1qpa1uPtlOe8eBZIfk6gnKSC53JtP46gbNxbsQ+xcR5H1wohsxn5KrGVxKCMX2mqIElimLoixdahETw=="
+  "resolved" "https://registry.npmjs.org/vue-mc/-/vue-mc-0.6.0.tgz"
+  "version" "0.6.0"
+  dependencies:
+    "axios" "0.19.0"
+    "date-fns" "^2.0.0-beta.4"
+    "lodash" "^4.17.11"
+    "validator" "^10.9.0"
+    "vue" "^2.5.17"
 
 "vue-moment@^4.1.0":
   "integrity" "sha512-Gzisqpg82ItlrUyiD9d0Kfru+JorW2o4mQOH06lEDZNgxci0tv/fua1Hl0bo4DozDV2JK1r52Atn/8QVCu8qQw=="
@@ -9189,7 +9218,7 @@
   "resolved" "https://registry.npmjs.org/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz"
   "version" "1.9.1"
 
-"vue@^2.0.0", "vue@^2.5.0", "vue@>=1.0.0", "vue@>=1.x.x", "vue@2.6.12":
+"vue@^2.0.0", "vue@^2.5.0", "vue@^2.5.17", "vue@>=1.0.0", "vue@>=1.x.x", "vue@2.6.12":
   "integrity" "sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-2.6.12.tgz"
   "version" "2.6.12"
