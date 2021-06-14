@@ -6,7 +6,13 @@
             <div class="col">
                 <div>                     
                     <span class="gPageTitle">  
-                        <q-icon name="help" class="text-orange" />
+                        <q-icon
+                            class="QuestionIcon" 
+                            name="help"  
+                            size="40px"
+                            color=""
+                            />
+                            
                         {{ v_question.title }} 
                     </span>
                         

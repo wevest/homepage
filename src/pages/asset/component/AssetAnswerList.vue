@@ -4,20 +4,20 @@
         <div class="col">
             <div class="gcomment" v-for="(a_answer,index) in v_answers" :key="index">
             
-                <div class="row boxAnswerTitle">
-                    <div class="gBlogAvatar">
-                        <q-avatar>
+                <div class="row gBlogAnswerBox">
+                    <div>
+                        <q-avatar class="gBlogAvatar">
                             <q-img :src="a_answer.user.avatar_thumb" v-if="a_answer.user.avatar_thumb.length>0" />
                             <q-icon v-else name="person" size="50px" />
                         </q-avatar>
                     </div>
-                    <div>
-                        <span class="gBlogUser">{{a_answer.user.username}}</span>
+                    <div class="gBlogUserDatetime">
+                        <span class="gBlogUser">{{a_answer.user.username}}&nbsp;님 답변</span>
                         <br>
                         <span class="gBlogDatetime">{{a_answer.pub_date}}</span>        
                     </div>
                     <q-space />
-                    <div class="blogAcceptBox">
+                    <div class="gBlogAcceptBox">
                         <span>
                             <q-btn class="blogAcceptBtn"
                                 dense
@@ -27,6 +27,8 @@
                         </span>                                
                     </div>
                 </div>
+
+                <q-separator />
 
                 <div class="gBlogContent" @click="onClickQuestion(a_question)">
                     <div v-html="a_answer.content">  </div>
@@ -406,9 +408,6 @@ export default {
 .CommentSaveBtn {
     color:white;
     background-color: royalblue;
-}    
-.blogAcceptBox {
-    padding-top:5px;
 }
 
 .blogAcceptBtn {
