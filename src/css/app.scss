@@ -112,6 +112,8 @@
   color:#000000;
   font-weight:bold;
 }
+
+
 .gBlogRatingBox {
   text-align: center;
   padding:4px 16px;
@@ -159,8 +161,8 @@
 }
 
 .gPageRatingBtn {
-  color: #292626;
-  font-size:15px;
+  color: #555555;
+  font-size:17px;
 }
 
 .gAnswerBox {
@@ -169,7 +171,7 @@
 
 
 .gAnswerUserDatetime {
-  padding-left:10px;
+  padding:1px 0px 0px 10px;
 }
 
 .gAnswerBox {
@@ -197,31 +199,42 @@
 }
 
 .gAnswerRatingBtn {
-  font-size:12px;
+  font-size:15px;
+  color:#555555;
 }
+
+.gAnswerRatingCount {
+  font-size:15px;
+  color:#555555;
+}
+
 
 .gAnswerContent {
-  margin:10px 0px;
+  padding:20px 0px 30px 0px;
 }
 
 
 
-.gCommentItem {
+.gCommentBox {
   padding: 0px;
   margin: 0px;
   border-bottom:1px solid #cccccc;
 }
 
-
-
-
-
-.gCommentBox {
-
+.gCommentAvatarBox {
+  padding:10px 0px 6px 0px;
 }
 
+.gCommentAvatar {
+  padding:0px 0px 0px 0px;
+}
+
+.gCommentUserDateBox {
+  padding:5px 0px 0px 8px;
+  vertical-align:top;
+}
 .gCommentUserName {
-  color: #292626;
+  color: #000000;
   font-size:13px;
 
 }
@@ -231,16 +244,19 @@
   font-size:12px;
 }
 .gCommentRatingBox {
-  padding-right:5px;
+  padding:0px 0px 5px 0px;
 }
 
 .gCommentRatingBtn {
-  padding:5px 5px;
+  padding:0px 0px;
+  color:#555555;
+  font-size:15px;
+  
   }
 
 .gCommentRatingCount {
-  font-size:10px;
-  colo:#8C8C8C;
+  color:#555555;
+  font-size:14px;
 }
 
 .gCommentText {
@@ -251,13 +267,7 @@
   word-spacing:3px;
 }
 
-.gCommentRating {
-  vertical-align:middle;
-  font-size:15px;
-  font-weight:600;
-  color:#777777;
-  padding-right:2px;
-}
+
 
 .gCommentActions {
   justify-content: space-between;

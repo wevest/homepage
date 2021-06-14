@@ -13,16 +13,19 @@
 
             <template v-slot:body="props">
                 <q-tr :props="props" >
-                    <q-td key="avatar" :props="props" class="gBlogAvatar">                        
+                    <q-td class="gBlogAvatar" key="avatar" :props="props">                        
                         <q-avatar>
                             <q-img :src="props.row.avatar" v-if="props.row.avatar" />
                             <q-icon v-else name="person" size="50px" />
                         </q-avatar>
                     </q-td>
 
-                    <q-td key="detail" :props="props" class="caption_color">
+                    <q-td key="detail" :props="props" dense class="caption_color gBlogUserDateBox" dense>
                         <div @click="onClickQuestion(props.row)">
-                            <q-badge color="purple-4" text-color="white">
+                            <q-badge
+                                class="RewardPoint" 
+                                color="purple-4"
+                                text-color="white">
                                 <span>{{props.row.reward}}</span>
                             </q-badge>
                             <span class="gBlogTitle">&nbsp;{{props.row.title}}</span>
@@ -193,6 +196,10 @@ export default {
 
 
 <style scope>
+
+.RewardPoint {
+    font-size:20px;
+}
 
 .news-title {
     font-size:18px;

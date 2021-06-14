@@ -1,14 +1,20 @@
 <template>
 
-     <div class="row no-wrap q-pa-md boxEditor" v-show="visible">
-        <!-- items-center-->
+     <div class="row no-wrap q-pa-md ReviewTextBox" v-show="visible">
         <div class="col">
             <div>
-                <q-field label="Please type your review" borderless stack-label>            
-                    <template v-slot:control>
-                        <textarea class="self-center full-width boxEditor2" tabindex="0" 
-                        v-model="v_comments" :rows="v_rows" @focus="onFocus" @focusout="onFocusOut"></textarea>
-                    </template>              
+                <q-field label="Please type your review" 
+                         borderless 
+                         stack-label>            
+                        <template v-slot:control>
+                          <textarea 
+                              class="self-center full-width ReviewTextBorder" 
+                              tabindex="0" 
+                              v-model="v_comments" 
+                              :rows="v_rows" 
+                              @focus="onFocus" @focusout="onFocusOut">
+                          </textarea>
+                        </template>              
                 </q-field>
             </div>                  
           
@@ -20,19 +26,21 @@
                 color="amber-9"
             />
 
-            <div class="boxEditorCommand" align="right">
+            <div class="row">
+
+              <q-space />
+
+              <div  
+                class="ReviewSaveBtn" 
+                align="right">
                 <q-btn
-                label="save"
-                size="12px"
-                color="primary"              
-                @click.stop="onClickSubmit"
-                v-if="showSaveButton">
-                </q-btn>
-          
+                  label="save"                                           
+                  @click.stop="onClickSubmit"
+                  v-if="showSaveButton">
+                </q-btn>          
+              </div> 
             </div>        
-
         </div>
-
     </div>
 
 </template>
@@ -155,22 +163,20 @@ export default {
 
 <style scoped>
 
-.boxEditor {
-  /* 
-    padding:10px; 
-    height:250px;
-  */
+.ReviewTextBox {
   border:1px solid #cccccc;  
   
 }
 
-.boxEditor2 {
+
+.ReviewTextBorder {
   border:1px solid #cccccc;
 }
 
-.boxEditorCommand {
+.ReviewSaveBtn {
   padding-top:8px;
-  /* border-top:1px solid #cccccc; */
+  color:#555555;
+  width:100px;
 }
 
 .boxEditorTextarea {

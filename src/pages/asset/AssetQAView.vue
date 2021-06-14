@@ -39,16 +39,14 @@
 
                 <div class="q-pa-md q-gutter-sm gPageRatingBox">
                     <q-btn                        
-                        class="gPageRatingBtn"
-                        color="indigo" 
+                        class="gPageRatingBtn"                        
                         icon="thumb_up"
                         dense 
                         flat 
                         @click="onClickBlogRate('like')"/>&nbsp; 
                     <q-btn 
                         class="gPageRatingBtn"
-                        icon="thumb_down"
-                        color="indigo"
+                        icon="thumb_down"                        
                         dense
                         flat                                                                       
                         @click="onClickBlogRate('dislike')" />
@@ -284,8 +282,7 @@ export default {
     margin:15px 0px;
 }
 .pageAnswerBtn {
-    color:white;
-    background-color:royalblue;
+    color:#555555;
     width:100px;
 }
 </style>
