@@ -2,23 +2,79 @@ import {MoaConfig} from 'src/data/MoaConfig';
 import {Model, Collection} from 'vue-mc';
 
 
-export class MessageThreadModel extends Model{
-    
+
+export class MessageModel extends Model{    
     defaults() {
         return {
             id: null,
-            subject:'',
-            to_user:'',
-            created_at:'',    
+            uuid:'',
+            sent_at:'',
+            avatar: '',
+            user_id: null,
             content: '',
+            is_sender: null
         }    
     }
 
     mutations() {
         return {
             id: Number,
+            uuid: String,
+            user_id: Number,            
+            avatar: String,
+            sent_at: String,    
+            content: String,    
+            is_sender: Boolean
+        }
+    }
+ 
+    validation() {
+        return {
+
+        }
+    }
+
+    routes() {
+        return {
+
+        }
+    }
+}
+
+
+export class MessageListModel extends Collection {
+    model() {
+        return MessageModel;
+    }
+
+    defaults() {
+        return {}
+    }
+}
+
+
+export class MessageThreadModel extends Model{
+    
+    defaults() {
+        return {
+            id: null,
+            uuid:'',
+            subject:'',
+            to_user:'',
+            created_at:'',    
+            content: '',
+            avatar: '',
+            user_id: null
+        }    
+    }
+
+    mutations() {
+        return {
+            id: Number,
+            uuid: String,
+            user_id: Number,
             subject: String,
-            to_user: Object,
+            avatar: String,
             created_at: String,    
             content: String,    
         }
