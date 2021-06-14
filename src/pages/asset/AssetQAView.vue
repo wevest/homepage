@@ -5,15 +5,12 @@
         <div class="row">
             <div class="col">
                 <div>                     
-                    <span class="gPageTitle">  
+                    <span class="gPageTitleBox">  
                         <q-icon
-                            class="QuestionIcon" 
-                            name="help_outline"  
-                            size="40px"
-                            color=""
-                            />
-                            
-                        {{ v_question.title }} 
+                            class="gPageIcon" 
+                            name="help_outline"                   
+                            />                       
+                            <span class="gPageTitle">{{ v_question.title }}</span> 
                     </span>
                         
                     <div class="gPageUDRBox">
@@ -27,7 +24,7 @@
                     </div>
                 </div>
 
-                <div class="boxViewer">
+                <div class="gPageContent">
                     <Viewer 
                         ref="toastViewer"
                         :value="v_question.content"
@@ -55,9 +52,9 @@
             </div>
         </div>
 
-        <q-separator size="10px" />
+        <q-separator size="10px"/>
 
-        <div class="row">         
+        <div class="row">     
                 <q-space />
                 <div class="pageAnswerBox">                
                 <q-btn 

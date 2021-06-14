@@ -103,10 +103,12 @@
 */
 
 .gBlogAvatar {
-  padding:0px 0px 30px 5px;
+  padding:5px 3px 15px 3px !important;
   height:50px;
   width:50px;
 }
+
+
 .gBlogTitle {
   font-size:24px;
   color:#000000;
@@ -128,9 +130,19 @@
 }
 
 
-.gPageTitle {
-  font-size:24px;
+.gPageTitleBox {
+  font-size:28px;
   color:#222222;
+  }
+
+.gPageIcon {
+  font-size:50px;
+}
+
+.gPageTitle {
+  color:#222222;
+  font-size:30px;
+  padding-left:10px;
 }
 
 .gPageUDRBox {
@@ -149,7 +161,7 @@
 
 .gPageContent {
   color: #292626;
-  font-size:13px;
+  font-size:16px; 
 }
 
 .gPageRating {
