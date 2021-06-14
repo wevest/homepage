@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col">
 
-                <q-list>
+                <q-list separator>
                     <q-item clickable v-for="(a_thread,index) in v_thread.models" :key="index" @click="onClickMessage(index,a_thread)">
                         <q-item-section top avatar>
                             <q-avatar>
@@ -44,15 +44,44 @@
             </div>
         </div>
 
+        <MessageDialog ref="messageDialog" />
+
+<!--        
         <div class="row">
             <div class="col">
-                <q-chat-message
-                    :text="['hey, how are you?']"
-                    sent
+
+                <q-chat-message v-for="(a_message,index) in v_messages.models" :key="index"
+                    :name="a_message.username"
+                    :avatar="a_message.avatar"
+                    :text="[a_message.content]"
+                    :stamp="a_message.sent_at"
+                    :sent="a_message.is_sender"
+                    @click="onClickChat(a_message)"
                 />
+
+                <q-input type="textarea" v-model="v_reply.content" label="Body" />
+                <q-btn label="Reply" @click="onClickReply" />
+    
             </div>
+
         </div>
 
+        <q-dialog v-model="v_buttons" transition-show="fade" transition-hide="fade">
+            <q-card>
+                 <q-card-section>
+                    <div v-if="v_reply">
+                        <q-btn label="Edit" @click="onClickEdit" />
+                        <q-btn label="Delete" @click="onClickDelete" />
+                    </div>              
+                    <div v-else>
+                        <q-btn label="Copy" @click="onClickEdit" />
+                    </div>          
+
+                    <q-btn label="Cancel" @click="onClickCancel" />
+                 </q-card-section>
+            </q-card>
+        </q-dialog>
+-->
 
     </div>
 
@@ -65,6 +94,7 @@ import logger from "src/error/Logger";
 
 import AuthService from 'src/services/authService';
 
+import MessageDialog from 'src/components/dialogs/MessageDialog';
 import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/store/MessageModel";
 
 import CTitle from 'components/CTitle';
@@ -74,6 +104,7 @@ import CTitle from 'components/CTitle';
 export default {
     components: {
         CTitle,
+        MessageDialog
     },
     props: {},
 
@@ -82,11 +113,17 @@ export default {
             threads: null,
             messages: null, 
         },
+        g_thread: null,
+
         v_message: new MessageThreadModel(),
-        v_thread: new MessageThreadListModel(),
-        
+        v_thread: new MessageThreadListModel(),        
         v_messages: new MessageListModel(),
 
+        v_chat: new MessageModel(),
+
+        v_reply: {mode:'new',content:'', to_user:null, uuid:null},
+
+        v_buttons: false,
         v_back: false,
     }),
     computed: {
@@ -120,7 +157,7 @@ export default {
                     last_message: threads[index].last_message,
                     avatar: threads[index].sender.avatar_thumb,
                     user_id: threads[index].sender.id,
-                    subject: threads[index].subject,                    
+                    subject: threads[index].subject,  
                 });
 
                 v_threads.add(a_message);
@@ -187,6 +224,7 @@ export default {
         },
 
 
+
         onClickWrite: function() {
             logger.log.debug("onClickWrite");
         },
@@ -197,16 +235,40 @@ export default {
         },
 
         onClickMessage: function(index,thread) {
-            logger.log.debug("onClickMessage: thread=",thread);
-
             const _this = this;
+            
+            logger.log.debug("onClickMessage: thread=",thread);
+            this.g_thread = thread;
+
             this.loadThreadMessages(thread.uuid).then( messages => {
-                for (let index;index<messages.messages.length;index++) {
+                logger.log.debug("onClickMessage: messages=",messages);
+                
+                let v_messages = new MessageListModel();
+                for (let index=0;index<messages.messages.length;index++) {
                     logger.log.debug("onClickMessage: loadThreadMessages=",index);
 
+                    let a_message = new MessageModel({
+                        uuid: messages.messages[index].uuid,
+                        content: messages.messages[index].content,
+                        sent_at: messages.messages[index].sent_at,
+                        avatar: messages.messages[index].sender.avatar_thumb,
+                        user_id: messages.messages[index].sender.id,
+                        username: messages.messages[index].sender.username,
+                        thread_id: messages.messages[index].thread,
+                        is_sender: false
+                    });
+                    if (MoaConfig.auth.id==messages.messages[index].sender.id) {
+                        a_message.username = "me";
+                        a_message.is_sender = true;
+                    }
+
+                    v_messages.add(a_message);
                 }
+
+                _this.$refs.messageDialog.show(thread,v_messages);
             });
-        }
+        },
+
     },
 
 }

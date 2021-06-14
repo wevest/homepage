@@ -160,6 +160,28 @@ export default class AuthService{
         });
     }    
 
+    static editThreadMessage(reqParam,func,funcErr) {
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/dm/message/thread/"+MoaConfig.auth.id+"/"+reqParam.thread+"/edit/");
+        callCMSAPI("PUT",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }    
+
+    static replyThreadMessage(reqParam,func,funcErr) {
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/dm/message/thread/"+reqParam.uuid+"/"+MoaConfig.auth.id+"/send/");
+        callCMSAPI("POST",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }    
+
     static addPortfolioItem(reqParam,func,funcErr) {
         let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/portfolio/portfolios/");
         callCMSAPI("POST",url,{},reqParam)

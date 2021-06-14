@@ -12,6 +12,7 @@ export class MessageModel extends Model{
             avatar: '',
             user_id: null,
             content: '',
+            thread_id: null,
             is_sender: null
         }    
     }
@@ -19,6 +20,7 @@ export class MessageModel extends Model{
     mutations() {
         return {
             id: Number,
+            thread_id: Number,
             uuid: String,
             user_id: Number,            
             avatar: String,
