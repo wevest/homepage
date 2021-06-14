@@ -13,8 +13,10 @@
             <template v-slot:body="props">
                 <q-tr :props="props" >
                     <q-td key="avatar" :props="props" class="gBlogAvatar">                        
-                        <q-img :src="props.row.username" v-if="props.row.avatar" />
-                        <q-icon v-else name="person" size="50px" />
+                        <q-avatar>
+                            <q-img :src="props.row.avatar" v-if="props.row.avatar" />
+                            <q-icon v-else name="person" size="50px" />
+                        </q-avatar>
                     </q-td>
 
                     <q-td key="detail" :props="props" class="caption_color">
@@ -133,6 +135,7 @@ export default {
                     content: questions[index].description,
                     userid: questions[index].api_owner.id,
                     username: questions[index].api_owner.username,
+                    avatar: questions[index].api_owner.avatar_thumb,
                     parent_id: questions[index].parent_id,
                     closed: questions[index].closed,
                     like_count: questions[index].like_count,

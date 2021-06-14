@@ -8,7 +8,7 @@
           <q-btn flat dense round color="black" align="centered" icon="menu" aria-label="Menu" ref="mainMenuButton"
             @click="leftDrawerOpen = !leftDrawerOpen"/>
 
-          <div class="toolbar_title">
+          <div class="toolbar_title" @click="onClickLogo">
             WeVest
           </div> 
           
@@ -283,6 +283,12 @@ export default {
     onClickSignIn: function() {
       logger.log.debug('onClickSignIn');
       let dic_param = { name:'signin', params:{} };
+      this.$router.push(dic_param);
+    },
+
+    onClickLogo: function() {
+      logger.log.debug('onClickLogo');
+      let dic_param = { name:'home', params:{} };
       this.$router.push(dic_param);
     },
 

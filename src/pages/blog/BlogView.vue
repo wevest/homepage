@@ -19,6 +19,8 @@
                     </div>
                     <div>
                         <span class="gPageTitle">{{v_post.title}}</span>
+                        <br>
+                        <span class="gPageDatetime">{{v_post.api_owner.username}}</span>&nbsp;
                         <span class="gPageDatetime">{{v_post.pub_date}}</span>
                     </div>    
                 </div>
@@ -289,6 +291,8 @@ export default {
             } else {
                 this.v_post.is_owner = false;
             }
+
+            this.v_post.pub_date = this.v_post.last_published_at;
 
             if (post.api_categories.length==0) {
                 this.v_post.category_id = null;

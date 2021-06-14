@@ -6,8 +6,10 @@
             
                 <div class="row boxAnswerTitle">
                     <div class="gBlogAvatar">
-                        <q-img :src="a_answer.user.avatar_thumb" v-if="a_answer.user.avatar_thumb.length>0" />
-                        <q-icon v-else name="person" size="50px" />
+                        <q-avatar>
+                            <q-img :src="a_answer.user.avatar_thumb" v-if="a_answer.user.avatar_thumb.length>0" />
+                            <q-icon v-else name="person" size="50px" />
+                        </q-avatar>
                     </div>
                     <div>
                         <span class="gBlogUser">{{a_answer.user.username}}</span>
@@ -29,25 +31,22 @@
                 <div class="gBlogContent" @click="onClickQuestion(a_question)">
                     <div v-html="a_answer.content">  </div>
                 </div>
-                    <div class="row">
-                        <q-space />
-                            <div class="gBlogRatingBox">              
-                                <q-btn 
-                                class="gBlogRatingBtn" 
-                                icon="thumb_up" 
-                                dense
-                                flat 
-                                @click="onClickRating(1,a_answer)" />&nbsp;                            
-                                    <span class="gBlogRatingCount">{{a_answer.like_count}}</span>&nbsp;
-                        
-                                <q-btn 
-                                class="gBlogRatingBtn"
-                                icon="thumb_down" 
-                                dense
-                                flat 
-                                @click="onClickRating(-1,a_answer)" />&nbsp; 
-                                    <span class="gBlogRatingCont">{{a_answer.dislike_count}}</span>  
-                    </div>                                      
+                    <div class="gBlogRatingBox">              
+                        <q-btn 
+                            class="gBlogRatingBtn" 
+                            icon="thumb_up" 
+                            dense
+                            flat 
+                            @click="onClickRating(1,a_answer)" />&nbsp;                            
+                        <span class="gBlogRatingCount">{{a_answer.like_count}}</span>&nbsp;
+                
+                        <q-btn 
+                            class="gBlogRatingBtn"
+                            icon="thumb_down" 
+                            dense
+                            flat 
+                            @click="onClickRating(-1,a_answer)" />&nbsp; 
+                        <span class="gBlogRatingCont">{{a_answer.dislike_count}}</span>  
                 </div>
 
                 <q-separator size="2px" />

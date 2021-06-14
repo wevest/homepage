@@ -6,7 +6,7 @@
             <div class="col">
                 <div>                     
                     <span class="gPageTitle">  
-                        <q-icon name="today" class="text-orange" />
+                        <q-icon name="help" class="text-orange" />
                         {{ v_question.title }} 
                     </span>
                         
