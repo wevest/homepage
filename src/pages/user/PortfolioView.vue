@@ -1,97 +1,26 @@
 <template>
-    <div class="background-section custom-container myProfile" v-show="visible">
-        <div>
-            <b-form @submit.stop.prevent="onSubmit">
-            
-                <b-form-group id="input-group-photo" label="Photo" label-for="input-group-photo">
-                    <img v-if="avatarUrl" :src="avatarUrl">
-                    <button id="pick-avatar">Select an image</button>
-                    <avatar-cropper
-                        ref="avatar" 
-                        :labels="labels"
-                        :uploadHandler="uploadAvatarHandler" 
-                        @uploading="handleUploading"
-                        @uploaded="handleUploaded"
-                        @completed="handleCompleted"
-                        @error="handlerError"        
-                        trigger="#pick-avatar"
-                        upload-url="" />
-                </b-form-group>
-
-
-                <b-form-group id="input-group-email" label="Email" label-for="input-group-email">
-                    <b-form-input type="email" v-model="user.username" placeholder="Email"
-                    id="input-email" name="input-email" 
-                    v-validate="{required:true, email:true}" aria-describedby="input-email-live-feedback" :state="validateState('input-email')"/>
-                    <b-form-invalid-feedback id="input-email-live-feedback">
-                        {{emailMsg}}
-                    </b-form-invalid-feedback>
-                </b-form-group>
-
-                <b-form-group id="input-group-name" label="Display Name" label-for="input-group-name">
-                    <b-form-input type="text" v-model="profile.displayName" placeholder="Display Name"
-                    id="input-name" name="input-name" 
-                    v-validate="{required:true}" aria-describedby="input-name-live-feedback" :state="validateState('input-name')"/>
-                    <b-form-invalid-feedback id="input-name-live-feedback">
-                        Please type display name
-                    </b-form-invalid-feedback>
-                </b-form-group>
-
-                <b-form-group id="input-group-slogan" label="Slogan" label-for="input-group-slogan">
-                    <b-form-input type="text" v-model="profile.slogan" placeholder="Slogan"
-                    id="input-slogan" name="input-slogan" 
-                    v-validate="{required:false}" aria-describedby="input-slogan-live-feedback" :state="validateState('input-name')"/>
-                    <b-form-invalid-feedback id="input-slogan-live-feedback">
-                        Please type slogan
-                    </b-form-invalid-feedback>
-                </b-form-group>
-                <b-form-group id="input-group-telegram" label="Telegram" label-for="input-group-telegram">
-                    <b-form-input type="text" v-model="profile.telegram" placeholder="Telegram ID"
-                    id="input-telegram" name="input-telegram" 
-                    v-validate="{required:false}" aria-describedby="input-telegram-live-feedback" :state="validateState('input-telegram')"/>
-                    <b-form-invalid-feedback id="input-telegram-live-feedback">
-                        Please type telegram
-                    </b-form-invalid-feedback>
-                </b-form-group>
-
-            </b-form>
-        </div>
+    <div>
     </div>
 </template>
 
 
 <script>
-import { validationMixin } from 'vuelidate';
-import { required, minLength, email } from 'vuelidate/lib/validators';
-
-import AvatarCropper from "vue-avatar-cropper";
-//https://vuejsexamples.com/a-simple-and-elegant-avatar-cropping-and-upload-plugin/
-
-import {store} from '@/store/store';
-import * as StoreActions from '@/store/constants';
-import {Profile,User} from "@/models/User";
-import CommonFunc from "@/util/CommonFunc";
-import AuthService from "@/services/AuthService.js";
-import NotificationService from "@/services/NotificationService.js";
-import Errors from "@/error/Errors";
-import logger from "@/error/Logger";
-import ehandler from "@/error/EHandler";
-
+import {MoaConfig} from 'src/data/MoaConfig';
+import CommonFunc from 'src/util/CommonFunc';
+import logger from "src/error/Logger";
 
 
 export default {
-    name: 'UserProfile',
+    name: 'UserPortfolio',
     props: ['user'],
     components: {
-        AvatarCropper
+        
     },    
-    mixins: [validationMixin],
+    mixins: [],
     data() {
         return {
             visible: false,
             //user: store.getters.moa.user,
-            avatarUrl:null,
-            profile: new Profile(),
             labels: {'submit': 'Upload', 'cancel': 'Cancel'},
             emailMsg:"Please type valid email address"
         }

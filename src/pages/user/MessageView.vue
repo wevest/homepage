@@ -6,21 +6,10 @@
                 <CTitle :title="$t('page.message.title')" :desc="$t('page.message.desc')"></CTitle>
             </div>            
         </div>
+
         <div class="row">
             <div class="col">
                 <q-btn label="Write" @click="onClickWrite" />
-
-                <q-input v-model="v_message.to_user" label="TO" />
-                <q-input v-model="v_message.subject" label="Subject" />
-                <q-input type="textarea" v-model="v_message.content" label="Body" />
-
-                <q-btn label="Send" @click="onClickSend" />
-
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col">
 
                 <q-list separator>
                     <q-item clickable v-for="(a_thread,index) in v_thread.models" :key="index" @click="onClickMessage(index,a_thread)">
@@ -28,8 +17,8 @@
                             <q-avatar>
                                 <q-img :src="a_thread.avatar" />
                             </q-avatar>
-
                         </q-item-section>                        
+
                         <q-item-section>
                             <q-item-label>{{a_thread.subject}}</q-item-label>
                             <q-item-label caption lines="2">{{a_thread.last_message}}</q-item-label>
@@ -45,43 +34,7 @@
         </div>
 
         <MessageDialog ref="messageDialog" />
-
-<!--        
-        <div class="row">
-            <div class="col">
-
-                <q-chat-message v-for="(a_message,index) in v_messages.models" :key="index"
-                    :name="a_message.username"
-                    :avatar="a_message.avatar"
-                    :text="[a_message.content]"
-                    :stamp="a_message.sent_at"
-                    :sent="a_message.is_sender"
-                    @click="onClickChat(a_message)"
-                />
-
-                <q-input type="textarea" v-model="v_reply.content" label="Body" />
-                <q-btn label="Reply" @click="onClickReply" />
-    
-            </div>
-
-        </div>
-
-        <q-dialog v-model="v_buttons" transition-show="fade" transition-hide="fade">
-            <q-card>
-                 <q-card-section>
-                    <div v-if="v_reply">
-                        <q-btn label="Edit" @click="onClickEdit" />
-                        <q-btn label="Delete" @click="onClickDelete" />
-                    </div>              
-                    <div v-else>
-                        <q-btn label="Copy" @click="onClickEdit" />
-                    </div>          
-
-                    <q-btn label="Cancel" @click="onClickCancel" />
-                 </q-card-section>
-            </q-card>
-        </q-dialog>
--->
+        <MessageWriterDialog ref="messageWriter" />
 
     </div>
 
@@ -95,6 +48,8 @@ import logger from "src/error/Logger";
 import AuthService from 'src/services/authService';
 
 import MessageDialog from 'src/components/dialogs/MessageDialog';
+import MessageWriterDialog from 'components/dialogs/MessageWriterDialog';
+
 import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/store/MessageModel";
 
 import CTitle from 'components/CTitle';
@@ -104,7 +59,8 @@ import CTitle from 'components/CTitle';
 export default {
     components: {
         CTitle,
-        MessageDialog
+        MessageDialog,
+        MessageWriterDialog
     },
     props: {},
 
@@ -227,6 +183,7 @@ export default {
 
         onClickWrite: function() {
             logger.log.debug("onClickWrite");
+            this.$refs.messageWriter.show();
         },
 
         onClickSend: function() {
@@ -245,7 +202,7 @@ export default {
                 
                 let v_messages = new MessageListModel();
                 for (let index=0;index<messages.messages.length;index++) {
-                    logger.log.debug("onClickMessage: loadThreadMessages=",index);
+                    //logger.log.debug("onClickMessage: loadThreadMessages=",index);
 
                     let a_message = new MessageModel({
                         uuid: messages.messages[index].uuid,

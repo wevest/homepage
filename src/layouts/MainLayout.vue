@@ -66,7 +66,7 @@
               <a href='#' @click="onClickSignOut">Logout</a>
               <q-btn round color="amber" icon="person" @click="onClickUser" />
               <q-btn round color="yellow" icon="mail" @click="onClickMessage" />
-
+              <q-btn round color="red" icon="money" @click="onClickPortfolio" />
             </div>
             <div v-else>
               <a href='#' @click="onClickSignIn">Login</a>
@@ -277,6 +277,12 @@ export default {
     onClickMessage: function() {
       logger.log.debug('MainToolbar.onClickMessage');
       let dic_param = { name:'message', params:{} };
+      this.$router.push(dic_param);
+    },
+
+    onClickPortfolio: function() {
+      logger.log.debug('MainToolbar.onClickPortfolio');
+      let dic_param = { name:'portfolio', params:{} };
       this.$router.push(dic_param);
     },
 

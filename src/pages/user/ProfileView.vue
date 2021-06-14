@@ -62,28 +62,33 @@
                     <q-btn color="primary" label="Endorsement" @click="onClickEndorsement" />
             </q-card-actions>
 
-            <q-card-section horizontal>
-                <div class="col-4">
-                    <div> 
-                        <span class="titleNumber"> {{ v_user.coin }} </span>
+            <q-card-section>
+                <div class="row boxNumber">
+                    <div class="col-4">
+                        <div> 
+                            <span class="numberValue"> {{ v_user.coin }} </span>
+                        </div>
+                        <div> 
+                            <span class="numberTitle"> coin </span>
+                        </div>
                     </div>
-                    <div> 
-                        <span class="titleNumber"> coin </span>
+                    <div class="col-4">
+                        <div> 
+                            <span class="numberValue"> {{ v_user.like_count }} </span>                        
+                        </div>
+                        <div> 
+                            <span class="numberTitle">like count </span>                        
+                        </div>
                     </div>
+                    <div class="col-4">
+                        <div class="align-center"> 
+                            <span class="numberValue"> {{ v_user.dislike_count }} </span>
+                        </div>
+                        <div> 
+                            <span class="numberTitle">dislike count </span>                        
+                        </div>
+                    </div>                
                 </div>
-                <div class="col-4">
-                    <div> 
-                        <span class="titleNumber"> {{ v_user.like_count }} </span>
-                        
-                    </div>
-                    <div> like count </div>
-                </div>
-                <div class="col-4">
-                    <div class="align-center"> 
-                        <span class="titleNumber"> {{ v_user.dislike_count }} </span>
-                    </div>
-                    <div> dislike count </div>
-                </div>                
             </q-card-section>
 
         </q-card>
@@ -118,6 +123,7 @@
         </div>
 
         <AddPortfolioDialog ref="addPortfolio" />
+        <MessageWriterDialog ref="messageWriter" />
 
     </div>
 
@@ -137,6 +143,7 @@ import AvatarCropper from "vue-avatar-cropper";
 import CTitle from 'components/CTitle';
 import BlogList from 'components/BlogList';
 import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
+import MessageWriterDialog from 'components/dialogs/MessageWriterDialog';
 
 
 export default {
@@ -144,7 +151,8 @@ export default {
         CTitle,
         BlogList,
         AvatarCropper,
-        AddPortfolioDialog
+        AddPortfolioDialog,
+        MessageWriterDialog
     },
     props: {},
 
@@ -404,6 +412,7 @@ export default {
 
         onClickMessage: function() {
             logger.log.debug("onClickMessage");
+            this.$refs.messageWriter.show();
         },
 
         onClickEndorsement: function() {
@@ -412,7 +421,8 @@ export default {
 
         onClickPortfolio: function() {
             logger.log.debug("onClickPortfolio");
-            this.$refs.addPortfolio.show();
+            //this.$refs.addPortfolio.show();
+            
         },
 
     },
@@ -424,8 +434,14 @@ export default {
 
 <style scope> 
 
-.titleNumber {
-  font-size:16px;  
+.numberTitle {
+  font-size:12px;  
+  color:#cccccc;
+}
+
+.numberValue {
+  font-size:22px;  
+  font-weight: bold;
 }
 
 .btnAvatar {
@@ -435,4 +451,7 @@ export default {
     transform: translateY(-50%);
 }
 
+.boxNumber {
+    padding:20px;
+}
 </style>
