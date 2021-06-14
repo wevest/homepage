@@ -65,6 +65,7 @@
             <div v-if="v_login==true">
               <a href='#' @click="onClickSignOut">Logout</a>
               <q-btn round color="amber" icon="person" @click="onClickUser" />
+              <q-btn round color="yellow" icon="mail" @click="onClickMessage" />
 
             </div>
             <div v-else>
@@ -149,10 +150,12 @@ export default {
   updated: function() {
     this.setSigninMenu();
   },
+  created: function() {
+    AuthService.loadFromCookie();
+  },
   mounted: function () {
     //CommonFunc.setAppData('spinner',this.$refs.loading);
     //this.loadCoinCodes();
-    AuthService.loadFromCookie();
     this.setSigninMenu();
   },
 
@@ -266,8 +269,14 @@ export default {
     },
 
     onClickUser: function() {
-      logger.log.debug('MainToolbar.onClickSignIn');
-      let dic_param = { name:'profile', params:{userid:null} };
+      logger.log.debug('MainToolbar.onClickUser');
+      let dic_param = { name:'profile', params:{} };
+      this.$router.push(dic_param);
+    },
+
+    onClickMessage: function() {
+      logger.log.debug('MainToolbar.onClickMessage');
+      let dic_param = { name:'message', params:{} };
       this.$router.push(dic_param);
     },
 

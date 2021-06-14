@@ -3,15 +3,15 @@
 
         <div class="row">
             <div class="col">
-                <CTitle :title="$t('page.profile.title')" :desc="$t('page.profile.desc')"></CTitle>
+                <CTitle title="$t('page.profile.title')" desc="$t('page.profile.desc')"></CTitle>
             </div>
         </div>
 
         <q-card style="text-align: center;"> 
             <q-card-actions align="right">
-                <q-btn color="primary" @click="onClickEdit">
-                    Edit
-                </q-btn>
+                <q-btn color="primary" @click="onClickPortfolio" label="Portfolio" />
+                <q-btn color="primary" @click="onClickBack" v-show="v_back" label="Back" />
+                <q-btn color="primary" @click="onClickEdit" v-show="isOwner" label="Edit" />
             </q-card-actions>
                         
             <q-item-section>
@@ -20,7 +20,8 @@
                         <img :src="v_user.avatar">        
                     </q-avatar>
                     <form>
-                        <q-btn fab id="pick-avatar" color="primary" label="change" class="btnAvatar" @click="onClickChangeProfile" />                                                
+                        <q-btn fab id="pick-avatar" color="primary" label="change" class="btnAvatar" 
+                            v-show="isOwner" @click="onClickChangeProfile" />
                         <AvatarCropper
                             ref="avatar" 
                             :labels="v_labels"
@@ -32,10 +33,7 @@
                             trigger="#pick-avatar"
                             upload-url="" />
                     </form>
-                    <img :src="v_img" />
-                    <img :src="v_img_thumb" />
                 </div>
-
 
             </q-item-section>
 
@@ -55,15 +53,14 @@
                 <q-input filled type="textarea" v-model="v_user.biography" :readonly="! v_edit" />
             </q-card-section>
 
+            <q-card-actions v-if="v_edit" align="center">
+                <q-btn color="primary" label="Save" @click="onClickSave" />
+            </q-card-actions>
+
             <q-card-actions align="center">
                     <q-btn color="primary" label="Message" @click="onClickMessage" />
                     <q-btn color="primary" label="Endorsement" @click="onClickEndorsement" />
             </q-card-actions>
-
-            <q-card-actions v-if="v_edit" align="center">
-                <q-btn flat color="primary" label="Save" @click="onClickSave" />
-            </q-card-actions>
-
 
             <q-card-section horizontal>
                 <div class="col-4">
@@ -109,16 +106,18 @@
 
         <div class="row q-gutter-sm">
             <div class="col">
-                <CTitle :title="$t('page.profile.blog')" :desc="$t('page.profile.blog')"></CTitle>
+                <CTitle title="$t('page.profile.blog')" desc="$t('page.profile.blog')"></CTitle>
                 <BlogList ref='blogList'></BlogList>
             </div>
         </div>
 
         <div class="row q-gutter-sm">
             <div class="col">
-                <CTitle :title="$t('page.profile.gift')" :desc="$t('page.profile.gift')"></CTitle>
+                <CTitle title="$t('page.profile.gift')" desc="$t('page.profile.gift')"></CTitle>
             </div>
         </div>
+
+        <AddPortfolioDialog ref="addPortfolio" />
 
     </div>
 
@@ -137,39 +136,66 @@ import UserModel from "src/store/UserModel";
 import AvatarCropper from "vue-avatar-cropper";
 import CTitle from 'components/CTitle';
 import BlogList from 'components/BlogList';
+import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 
 
 export default {
     components: {
         CTitle,
         BlogList,
-        AvatarCropper
+        AvatarCropper,
+        AddPortfolioDialog
     },
     props: {},
 
     data: () => ({
         g_data: null,
-        g_userid:8,
+
         v_user: new UserModel(),
         v_edit: false,
-        v_img: null,
-        v_img_thumb: null,
+        v_back: false,
 
         v_labels: {'submit': 'Upload', 'cancel': 'Cancel'},
     }),
-
+    computed: {
+        isOwner() {
+            if (this.v_user.username==MoaConfig.auth.username) {
+                return true;
+            }
+            return false;
+        },
+    },
     mounted: function() {
         //console.log("HomeView.mounted - ");
-        this.g_userid = MoaConfig.auth.id;
+        console.log("ProfileView.mounted - symbol=",this.$route.params);
+        
+        this.setUser(this.$route.params);
         this.refresh();
     },
+
     methods: {        
+        setUser: function(params) {
+            
+            if (params.back) {
+                this.v_back = true;
+            } else {
+                this.v_back = false;
+            }
+
+            if (params.username) {
+                this.v_user.username = params.username;
+            } else {
+                this.v_user.username = MoaConfig.auth.username;
+                this.v_user.token = MoaConfig.auth.token;
+            }
+        },
+
         refresh: function() {
             const _this = this;
                     
             let funcs = [
-                this.loadUserProfile(this.g_userid),
-                this.loadBlogList(this.g_userid)
+                this.loadUserProfile(this.v_user.username),
+                this.loadBlogList(this.v_user.id)
             ];
             Promise.all(funcs).then(function() {
 
@@ -177,10 +203,10 @@ export default {
         },
 
         updateUserModel:function(obj) {
-            let v_user = new UserModel();
+            let v_user = this.v_user;
             
-            v_user.id = obj.id;
-            v_user.username = obj.username;
+            //v_user.id = obj.id;
+            //v_user.username = obj.username;
             v_user.first_name = obj.first_name;
             v_user.last_name = obj.last_name;
             v_user.title = obj.title;
@@ -195,10 +221,10 @@ export default {
             this.v_user = v_user;
         },
 
-        loadUserProfile: function(user_id) {
+        loadUserProfile: function(username) {
             const _this = this;
             
-            let dic_param = {'id':user_id};
+            let dic_param = {'username':username};
             return new Promise(function(resolve,reject) {
                 AuthService.getUserProfile(dic_param,function(response) {
                     _this.g_data = response.data;
@@ -217,18 +243,17 @@ export default {
             const _this = this;
             
             let dic_param = v_user;
-            dic_param.token = MoaConfig.auth.token;
+            //dic_param.token = v_user.token;
             logger.log.debug("updateUserProfile.dic_param=",dic_param);
 
             return new Promise(function(resolve,reject) {
                 AuthService.updateUserProfile(dic_param,function(response) {
-                    _this.g_data = response.data;
-                    logger.log.debug("ProfileView.updateUserProfile - response",_this.g_data);
+                    logger.log.debug("ProfileView.updateUserProfile - response",response.data);
                     CommonFunc.showOkMessage(_this,'Profile updated');
                     resolve();
                 },function(err) {
                     logger.log.error("ProfileView.updateUserProfile - error",err);
-                    CommonFunc.showErrorMessage(_this,'Profile failed');
+                    CommonFunc.showErrorMessage(_this,'Profile update failed');
                     reject();
                 });
             });            
@@ -236,6 +261,7 @@ export default {
 
         updateUserPhoto: function(images) {
             const _this = this;
+
             this.v_user.avatar_thumb = images[0].url;
             this.v_user.avatar = images[1].url;
             this.updateUserProfile(this.v_user).then( function() {
@@ -245,11 +271,6 @@ export default {
 
         loadBlogList: function(user_id) {
             this.$refs.blogList.updateByUser(user_id);
-        },
-
-        updateAvatar: function(url) {
-            this.v_user.avatar_url = url;
-            this.updateUserProfile(this.v_user);
         },
 
 
@@ -367,6 +388,11 @@ export default {
             this.v_edit = ! this.v_edit;
         },
 
+        onClickBack: function() {
+            logger.log.debug("onClickBack - back=");
+            CommonFunc.navBack(this);
+        },
+
         onClickSave: function() {
             logger.log.debug("onClickSave");
             this.updateUserProfile(this.v_user);
@@ -382,6 +408,11 @@ export default {
 
         onClickEndorsement: function() {
             logger.log.debug("onClickEndorsement");
+        },
+
+        onClickPortfolio: function() {
+            logger.log.debug("onClickPortfolio");
+            this.$refs.addPortfolio.show();
         },
 
     },

@@ -25,6 +25,9 @@ export default class CMSAPI{
     if ('user_id' in reqParam) {
       url = url + "?user_id=" + reqParam.user_id;
     }
+    if ('page_id' in reqParam) {
+      url = url + "?page_id=" + reqParam.page_id;
+    }
 
     callCMSAPI("GET",url,{},reqParam)
     .then( (response) => {
@@ -109,7 +112,7 @@ export default class CMSAPI{
   }
 
   static getPostData(page_id,func,funcErr) {
-    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/cms/pages/"+page_id);
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/blog/posts/?id="+page_id);
     callCMSAPI("GET",url,{},{})
     .then( (response) => {
         func(response);

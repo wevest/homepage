@@ -94,7 +94,7 @@ export default class AuthService{
     }
 
     static getUserProfile(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/?id="+reqParam.id);
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/?username="+reqParam.username);
         callCMSAPI("GET",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -126,5 +126,53 @@ export default class AuthService{
             funcErr(err);
         });
     }    
+
+    static getInboxMessage(reqParam,func,funcErr) {
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/dm/inbox/");
+        callCMSAPI("GET",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }    
+
+    static postPrivateMessage(reqParam,func,funcErr) {
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/dm/messages/");
+        callCMSAPI("POST",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }    
+
+
+    static addPortfolioItem(reqParam,func,funcErr) {
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/portfolio/portfolios/");
+        callCMSAPI("POST",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }    
+
+
+
+    static getPortfolio(reqParam,func,funcErr) {
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/portfolio/portfolios/");
+        callCMSAPI("GET",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }    
+
 
 }

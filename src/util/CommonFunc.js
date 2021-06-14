@@ -537,6 +537,17 @@ export default class CommonFunc {
     }
 
 
+    static navBack(a_this) {
+        a_this.$router.back();
+    }
+
+    static navProfile(a_this,username) {
+        logger.log.debug("CommonFunc.navProfile - ",username);
+
+        //CommonFunc.setAppData('selected_author',author);
+        let dic_param = { name:'profile', path:'profile', params:{ username:username, back:true } };
+        a_this.$router.push(dic_param);
+    }
     
     static navAsset(a_this,symbol) {
         logger.log.debug("CommonFunc.navAsset - ",symbol);
@@ -544,7 +555,7 @@ export default class CommonFunc {
         //CommonFunc.setAppData('selected_author',author);
         let dic_param = { name:'asset', path:'asset', params:{ symbol:symbol } };
         a_this.$router.push(dic_param);
-      }
+    }
 
     static navInstrument(a_this,asset) {
         logger.log.debug("CommonFunc.navInstrument - ",asset);

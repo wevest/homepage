@@ -6,8 +6,10 @@
 
             <q-item clickable v-ripple v-for="(a_post,index) in v_posts" :key="index" @click.stop="onClickBlog(a_post.id)">
                 <q-item-section avatar top>
-                    <q-img v-if="a_post.user.avatar_thumb.length>0" class="gBlogAvatar" :src="a_post.user.avatar_thumb" />
-                    <q-icon v-else name="person" color="black" size="34px" />
+                    <q-avatar>
+                        <q-img v-if="a_post.user.avatar_thumb.length>0" class="gBlogAvatar" :src="a_post.user.avatar_thumb" />
+                        <q-icon v-else name="person" color="black" size="34px" />
+                    </q-avatar>
                 </q-item-section>
                 <q-item-section top>
                     <q-item-label lines="1">

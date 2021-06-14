@@ -6,7 +6,7 @@
                 <div class="row q-gutter-sm">
                     <div class="gCommentAvatar">
                 
-                        <q-avatar>
+                        <q-avatar @click="onClickAvatar(data.user_name)">
                             <q-img v-if="data.user_avatar.length>0" :src="data.user_avatar" />
                             <q-icon v-else name="person" color="black" size="34px" />
                         </q-avatar>
@@ -236,6 +236,11 @@ export default {
             logger.log.debug("CommentItem.onClickLike",item);
             let dic_payload = {rate:rate, data:item};
             this.$messageTree.$emit("onClickRate", dic_payload);
+        },
+
+        onClickAvatar: function(username) {
+            logger.log.debug("CommentItem.onClickAvatar",username);
+            CommonFunc.navProfile(this,username);
         },
 
 /*

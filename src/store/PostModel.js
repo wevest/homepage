@@ -7,6 +7,7 @@ export default class PostPage {
     category_id = null;
     api_categories = null;
     api_tags = null;
+    api_owner = {id:null, avatar:'', avatar_thumb:'', username:null};
     body = null;
     text = null;
     dislike_count=null;

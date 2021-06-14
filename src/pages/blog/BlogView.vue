@@ -10,12 +10,18 @@
 -->
         <div class="row">
             <div class="col">
-                <div>
-                    <h5 class=blog-title>{{v_post.title}}</h5>
+                <div class="row">
+                    <div class="gPageAvatar">
+                        <q-avatar>
+                            <q-img :src="v_post.api_owner.avatar_thumb" v-if="v_post.api_owner.avatar_thumb.length>0" />
+                            <q-icon v-else name="person" size="50px" />
+                        </q-avatar>                    
+                    </div>
+                    <div>
+                        <span class="gPageTitle">{{v_post.title}}</span>
+                        <span class="gPageDatetime">{{v_post.pub_date}}</span>
+                    </div>    
                 </div>
-                <div class="blog-date">
-                    <span>{{v_post.pub_date}}</span>
-                </div>    
                 <div class="boxRate q-pa-md">
                     <div class="float-left q-gutter-sm">   
                         <span>
@@ -148,6 +154,8 @@ import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import CMSAPI from 'src/services/cmsService';
 
+import PostModel from "src/store/PostModel";
+
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
 import CommentForm from "components/comments/comment-form.vue";
@@ -169,10 +177,7 @@ export default {
             g_page_id: null,
             g_data_comments: null,
 
-            v_post: {            
-                title:'Title', text:'body text', tags:'crypto,btc,eth', category_id:'1', category_name:'',
-                comment:'comments',like_count:0, dislike_count:0, read_count:0, is_owner:false
-            },
+            v_post: new PostModel(),
                     
             v_page: {title:this.$t('page.cryptovc.title'), desc:''},
             //v_post: {title:null,header_image_url:null, pub_date:null},
@@ -274,10 +279,12 @@ export default {
         },
         
         handlePostPage: function(post) {
+            logger.log.debug("handlePostPage.post=",post);
+
             this.v_post = post;
-            this.v_post.comment = "comments";
+            //this.v_post.comment = "comments";
             
-            if (post.owner.id==MoaConfig.auth.id) {
+            if (post.api_owner.id==MoaConfig.auth.id) {
                 this.v_post.is_owner = true;
             } else {
                 this.v_post.is_owner = false;
@@ -302,10 +309,10 @@ export default {
 
             return new Promise(function(resolve,reject) {
                 //logger.log.debug("CWatchView.loadCryptoWatchData - dic_param=",dic_param);
-                CMSAPI.getPostData(page_id,function(response) {
+                CMSAPI.getBlogData({page_id:page_id},function(response) {
                     _this.g_data = response.data;
                     logger.log.debug("BlogView.loadBlogPost - response",_this.g_data);
-                    _this.handlePostPage(_this.g_data);
+                    _this.handlePostPage(_this.g_data.results[0]);
                     resolve();
                 },function(err) {
                     logger.log.error("BlogView.loadBlogPost - error",err);

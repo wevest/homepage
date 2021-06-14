@@ -7,8 +7,10 @@
             <q-item class="boxItemList" clickable v-for="(a_review,index) in v_reviews" :key="index">
                 
                 <q-item-section avatar top>
-                    <q-img :src="a_review.user.avatar_thumb" v-if="a_review.user.avatar_thumb.length>0" />
-                    <q-icon v-else name="person" size="50px" />
+                    <q-avatar>
+                        <q-img :src="a_review.user.avatar_thumb" v-if="a_review.user.avatar_thumb.length>0" />
+                        <q-icon v-else name="person" size="50px" />
+                    </q-avatar>
                 </q-item-section>
 
                 <q-item-section top>
