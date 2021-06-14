@@ -4,22 +4,22 @@
         <div class="col">
             <div class="gcomment" v-for="(a_answer,index) in v_answers" :key="index">
             
-                <div class="row gBlogAnswerBox">
+                <div class="row gAnswerBox">
                     <div>
-                        <q-avatar class="gBlogAvatar">
+                        <q-avatar class="gAnswerAvatar">
                             <q-img :src="a_answer.user.avatar_thumb" v-if="a_answer.user.avatar_thumb.length>0" />
                             <q-icon v-else name="person" size="50px" />
                         </q-avatar>
                     </div>
-                    <div class="gBlogUserDatetime">
-                        <span class="gBlogUser">{{a_answer.user.username}}&nbsp;님 답변</span>
+                    <div class="gAnswerUserDatetime">
+                        <span class="gAnswerUser">{{a_answer.user.username}}&nbsp;님 답변</span>
                         <br>
-                        <span class="gBlogDatetime">{{a_answer.pub_date}}</span>        
+                        <span class="gAnswerDatetime">{{a_answer.pub_date}}</span>        
                     </div>
                     <q-space />
-                    <div class="gBlogAcceptBox">
+                    <div class="gAnswerAcceptBox">
                         <span>
-                            <q-btn class="blogAcceptBtn"
+                            <q-btn class="AnswerAcceptBtn"
                                 dense
                                 size="15px"
                                 label="Accept" 
@@ -30,25 +30,27 @@
 
                 <q-separator />
 
-                <div class="gBlogContent" @click="onClickQuestion(a_question)">
+                <div class="gAnswerContent" @click="onClickQuestion(a_question)">
                     <div v-html="a_answer.content">  </div>
                 </div>
-                    <div class="gBlogRatingBox">              
+                    <div class="gAnswerRatingBox">              
                         <q-btn 
-                            class="gBlogRatingBtn" 
+                            class="gAnswerRatingBtn" 
                             icon="thumb_up" 
+                            size="15px"
                             dense
                             flat 
                             @click="onClickRating(1,a_answer)" />&nbsp;                            
-                        <span class="gBlogRatingCount">{{a_answer.like_count}}</span>&nbsp;
+                        <span class="gAnswerRatingCount">{{a_answer.like_count}}</span>&nbsp;
                 
                         <q-btn 
-                            class="gBlogRatingBtn"
+                            class="gAnswerRatingBtn"
                             icon="thumb_down" 
+                            size="15px"
                             dense
                             flat 
                             @click="onClickRating(-1,a_answer)" />&nbsp; 
-                        <span class="gBlogRatingCont">{{a_answer.dislike_count}}</span>  
+                        <span class="gAnswerRatingCount">{{a_answer.dislike_count}}</span>  
                 </div>
 
                 <q-separator size="2px" />
@@ -410,7 +412,7 @@ export default {
     background-color: royalblue;
 }
 
-.blogAcceptBtn {
+.AnswerAcceptBtn {
     width:100px;
     color:white;
     background-color:royalblue;

@@ -102,6 +102,28 @@
   css for blog list
 */
 
+.gBlogAvatar {
+  padding:0px 0px 30px 5px;
+  height:50px;
+  width:50px;
+}
+.gBlogTitle {
+  font-size:24px;
+  color:#000000;
+  font-weight:bold;
+}
+.gBlogRatingBox {
+  text-align: center;
+  padding:4px 16px;
+}
+
+.gBlogRatingBtn {
+  font-size:12px;
+}
+
+.gBlogContent {
+  margin:10px 0px;
+}
 
 
 .gPageTitle {
@@ -141,57 +163,46 @@
   font-size:15px;
 }
 
-.gBlogAnswerBox {
+.gAnswerBox {
   padding:15px 0px;
 }
 
-.gBlogAvatar {
-  padding:0px 0px 30px 5px;
-  height:50px;
-  width:50px;
-}
 
-.gBlogUserDatetime {
+.gAnswerUserDatetime {
   padding-left:10px;
 }
 
-
-.gBlogTitle {
-  font-size:80px;
-  color:#000000;
-  font-weight:bold;
+.gAnswerBox {
+  padding:18px 0px;
 }
 
-
-.gBlogUser {
+.gAnswerUser {
   color: #000000;
   font-size:16px;
-  font-weight:600px;
+  font-weight:bold;
   
 }
 
-.gBlogDatetime {
+.gAnswerDatetime {
   color: #8C8C8C;
-  font-size:13px;
+  font-size:15px;
 }
 
-.gBlogAcceptBox {
+.gAnswerAcceptBox {
     padding-top:8px;
 }
-
-.gBlogRatingBox {
+.gAnswerRatingBox {
   text-align: center;
-  padding:4px 16px;
+  padding-bottom:8px;
 }
 
-.gBlogRatingBtn {
+.gAnswerRatingBtn {
   font-size:12px;
 }
 
-.gBlogContent {
+.gAnswerContent {
   margin:10px 0px;
 }
-
 
 
 
@@ -201,20 +212,18 @@
   border-bottom:1px solid #cccccc;
 }
 
+
+
+
+
 .gCommentBox {
-
-}
-
-
-.gBlogAvatar {
-  padding-right:5px;
 
 }
 
 .gCommentUserName {
   color: #292626;
   font-size:13px;
-  
+
 }
 
 .gCommentDatetime {

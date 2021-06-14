@@ -8,7 +8,7 @@
                     <span class="gPageTitle">  
                         <q-icon
                             class="QuestionIcon" 
-                            name="help"  
+                            name="help_outline"  
                             size="40px"
                             color=""
                             />
