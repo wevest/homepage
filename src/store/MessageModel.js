@@ -63,6 +63,7 @@ export class MessageThreadModel extends Model{
             uuid:'',
             subject:'',
             to_user:'',
+            to_username:'',
             created_at:'',    
             content: '',
             avatar: '',

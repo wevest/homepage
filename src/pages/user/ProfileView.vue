@@ -138,6 +138,7 @@ import logger from "src/error/Logger";
 import AuthService from 'src/services/authService';
 
 import UserModel from "src/store/UserModel";
+import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/store/MessageModel";
 
 import AvatarCropper from "vue-avatar-cropper";
 import CTitle from 'components/CTitle';
@@ -213,8 +214,8 @@ export default {
         updateUserModel:function(obj) {
             let v_user = this.v_user;
             
-            //v_user.id = obj.id;
-            //v_user.username = obj.username;
+            v_user.id = obj.id;
+            v_user.username = obj.username;
             v_user.first_name = obj.first_name;
             v_user.last_name = obj.last_name;
             v_user.title = obj.title;
@@ -412,7 +413,12 @@ export default {
 
         onClickMessage: function() {
             logger.log.debug("onClickMessage");
-            this.$refs.messageWriter.show();
+
+            let v_message = new MessageThreadModel();
+            v_message.to_user = this.v_user.id;
+            v_message.to_username = this.v_user.username;
+            v_message.avatar = this.v_user.avatar;
+            this.$refs.messageWriter.show(v_message);
         },
 
         onClickEndorsement: function() {
@@ -422,7 +428,7 @@ export default {
         onClickPortfolio: function() {
             logger.log.debug("onClickPortfolio");
             //this.$refs.addPortfolio.show();
-            
+
         },
 
     },

@@ -9,8 +9,6 @@
 
         <div class="row">
             <div class="col">
-                <q-btn label="Write" @click="onClickWrite" />
-
                 <q-list separator>
                     <q-item clickable v-for="(a_thread,index) in v_thread.models" :key="index" @click="onClickMessage(index,a_thread)">
                         <q-item-section top avatar>
@@ -30,6 +28,11 @@
                         </q-item-section>
                     </q-item>
                 </q-list>
+
+                <q-page-sticky position="bottom-right" :offset="[18, 18]">
+                    <q-btn fab icon="add" color="accent" @click="onClickWrite" />
+                </q-page-sticky>
+
             </div>
         </div>
 

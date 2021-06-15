@@ -1,208 +1,199 @@
 <template>
-    <div>
-    </div>
-</template>
+    <div class="q-pa-md">
 
+        <div class="row">
+            <div class="col">
+                <CTitle title="$t('page.message.title')" desc="$t('page.message.desc')"></CTitle>
+            </div>            
+        </div>
+        <div class="row">
+            <div class="col">
+                <q-btn label="Write" @click="onClickWrite" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div>
+                    <span> $ 3424334234324 </span>
+                </div>
+                <div>
+                    portfolio chart
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div> 
+                    portfolio list
+                    <q-list separator>
+                        <q-item v-for="(a_portfolio,index) in v_portfolio" :key="index" >
+                            <q-item-section @click="onclickPortfolio(a_portfolio)">
+                                <q-item-label>{{a_portfolio.name}}</q-item-label>
+                                <q-item-label caption lines="2">{{a_portfolio.description}}</q-item-label>
+                            </q-item-section>
+                            <q-item-section side>{{a_portfolio.updated_at}}</q-item-section>
+                            <q-item-section top side>
+                                <div class="text-grey-8">
+                                    <q-btn size="12px" flat dense round icon="add" @click="onClickAdd(a_portfolio)" />
+                                    <q-btn size="12px" flat dense round icon="remove" @click="onClickDelete(a_portfolio)" />
+                                    <q-btn size="12px" flat dense round icon="edit" @click="onClickEdit(a_portfolio)" />
+                                </div>
+                            </q-item-section>               
+                        </q-item>
+
+<!--
+                        <q-expansion-item
+                            v-for="(a_portfolio,index) in v_portfolio" :key="index"
+                            expand-separator
+                            icon="perm_identity"
+                            :label="a_portfolio.name"
+                            :caption="a_portfolio.description"
+                        >
+                            
+                        </q-expansion-item>
+-->
+                    </q-list>
+
+                </div>
+            </div>
+        </div>
+
+        <AddPortfolioDialog ref="addPortfolio" />
+
+    </div>
+
+</template>
 
 <script>
 import {MoaConfig} from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
+import AuthService from 'src/services/authService';
+import PriceService from 'src/services/priceService';
+import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
+
+import {PortfolioModel, ThreadListModel} from "src/store/PortfolioModel";
+
+
+import CTitle from 'components/CTitle';
+
 
 export default {
-    name: 'UserPortfolio',
-    props: ['user'],
     components: {
+        CTitle,
+        AddPortfolioDialog
+    },
+    props: {},
+
+    data: () => ({
+        g_data: null,
+
+        v_portfolio: [],
+
+        v_headers: [
+            { name:'symbol', label: 'name.symbol', field: 'symbol' },
+            { name:'price', label: 'name.roi', sortable:true,  field: 'price' ,
+              format: (val, row) => `${Number(val).toLocaleString()}`, 
+            },
+            { name:'qty', label: 'name.last_price', field: 'qty'},
+            { name:'updated_at', label: 'name.homepage', field: 'updated_at'},            
+        ],
+
+        v_back: false,
+
+    }),
+    computed: {},
+
+    mounted: function() {
+        //console.log("HomeView.mounted - ");
+        console.log("MessageView.mounted - params=",this.$route.params);
         
-    },    
-    mixins: [],
-    data() {
-        return {
-            visible: false,
-            //user: store.getters.moa.user,
-            labels: {'submit': 'Upload', 'cancel': 'Cancel'},
-            emailMsg:"Please type valid email address"
-        }
-    },
-    created() {
-        logger.log.debug("MyProfile.created");
-    },
-    beforeMount() {
-        logger.log.debug("MyProfile.beforeMount");
-    },
-    mounted() {
-        logger.log.debug("MyProfile.mounted");
-        this.$parent.$parent.$refs.header.setBackArrow(true,this);
-        this.profile = store.getters.moa.user.profile;
-        this.avatarUrl = store.getters.moa.user.firebase.photoURL;
-        this.getProfile();
-    },
-    beforeDestroy() {
-        logger.log.debug("MyProfile.beforeDestroy");
-        this.$parent.$parent.$refs.header.setBackArrow(false,this);
-    },
+        //this.v_message.subject = "test";
+        //this.v_message.to_user = "tester1002";
+        //this.v_message.body = "private message";
 
-    methods: {
-        show() {
-            this.visible = true;
-        },
-        hide() {
-            this.visible = false;
-        },
-        validateState(ref) {
-            //logger.log.debug("validateState",ref,this.veeFields[ref]);
-            if ( this.veeFields[ref] && (this.veeFields[ref].dirty || this.veeFields[ref].validated))
-            {
-                return !this.veeErrors.has(ref)
+        const _this = this;
+        this.loadPortfolio().then(response=> {
+            logger.log.debug("UserPortfolioView.mounted - response=",response);
+            _this.g_data = response.data;
+
+            let portfolio = _this.g_data.results;
+            for (let index=0;index<_this.g_data.results.length;index++) {
+                
+                let a_group = {name: _this.g_data.results[index].name, 
+                    created_at:  _this.g_data.results[index].created_at,
+                    description:_this.g_data.results[index].description,
+                    items: [],
+                };
+
+                for (let index=0;index<_this.g_data.results.length;index++) {
+                }
             }
-            return null;
-        },
 
+            _this.v_portfolio = _this.g_data.results;
+        });
 
-        handleUploaded(resp) {
-            logger.log.debug("handleUploaded",resp);
-            this.user.photo = resp.relative_url;
-        },
-        handleUploading(form, xhr) {
-            //form.append('foo', 'bar')
-            logger.log.debug("handleUploading",form,xhr);
-        },
-        handleCompleted(response, form, xhr) {
-            // xhr.status
-        },
-        handlerError(message, type, xhr) {
-          if (type == 'upload') {
-            // xhr.response...
-          }
-        },
-        uploadAvatarHandler(cropper) {
-            let _this = this;
-            let avatar = this.$refs.avatar;
-            logger.log.debug("MypageView.uploadAvatarHandler",cropper,avatar);
+        //this.loadCryptoCurrency();
+    },
 
-            //cropper.getCroppedCanvas(this.outputOptions).toBlob(
-            cropper.getCroppedCanvas(avatar.outputOptions).toBlob(
-                blob => {
-                    let form = new FormData();
-                    //let xhr = new XMLHttpRequest();
-                    let data = Object.assign({}, avatar.uploadFormData);
-                    for (let key in data) {
-                        form.append(key, data[key]);
-                    }
-                    form.append(avatar.uploadFormName, blob, avatar.filename);
-                    AuthService.uploadAvatarPhoto(_this.user.username,blob)
-                    .then( (path)=> {
-                        logger.log.debug("MypageView.uploadAvatarHandler - completed",path);
+    methods: {        
 
-                        //_this.profile.photoURL = path;
-                        //_this.updateAvatarUrl();
-                        _this.user.getAvatarUrl()
-                        .then((url)=> {
-                            _this.profile.photoURL = url;
-                            _this.avatarUrl = url;
-                            _this.updatePhoto();
-                            logger.log.debug("MypageView.updateAvatarUrl",url,_this.user);            
-                        }).catch( (error)=> {
-                            logger.log.error("MypageView.updateAvatarUrl",error);
-                            _this.avatarUrl = null;
-                        });
-                        
-                    });
-
-                },
-
-                avatar.outputMime,
-                avatar.outputQuality
-            );
-        },
-        updateProfile() {
+        loadPortfolio: function() {
             const _this = this;
-            AuthService.updateProfile(this.user,this.profile)
-            .then( (p)=> {
-                logger.log.debug("MyProfile.onClickUpdate - completed");
-                _this.$parent.$parent.$refs.completeAlert.show();
-            }).catch( (error) => {
-                logger.log.error("MyProfile.onClickUpdate",error);
-            });
-        },
-        updatePhoto() {
-            const _this = this;
-            AuthService.updatePhoto(this.user,this.profile)
-            .then( (p)=> {
-                logger.log.debug("MyProfile.updatePhoto - completed");
-                _this.$parent.$parent.$refs.completeAlert.show();
-            }).catch( (error) => {
-                logger.log.error("MyProfile.updatePhoto",error);
-            });
-        },
-        getAvatarUrl() {
-            const _this = this;
+
             return new Promise(function(resolve,reject) {
-                _this.user.getAvatarUrl()
-                .then((url)=> {
-                    _this.avatarUrl = url;
-                    logger.log.debug("MyProfile.updateAvatarUrl",url,_this.user);            
-                }).catch( (error)=> {
-                    logger.log.error("MyProfile.updateAvatarUrl",error);
-                    _this.avatarUrl = null;
+                
+                let reqParam = { token: MoaConfig.auth.token};
+                AuthService.getPortfolio(reqParam, function(response) {
+                    resolve(response);
+                }, function(err) {
+                    reject(err);
                 });
-
             });
+
         },
-        getProfile() {
+
+
+        loadCryptoCurrency: function() {
             const _this = this;
-            AuthService.getProfile(this.user)
-            .then( (profile)=> {
-                logger.log.debug("getProfile",);
-                _this.profile = profile;
-            }).catch( (error) => {
-                logger.log.error("getProfile",erro);
+
+            logger.log.debug("loadCryptoCurrency");
+
+            let reqParam = {};
+            PriceService.getCryptoCurrencies(reqParam).then( response => {
+                logger.log.debug("loadCryptoCurrency : response=",response);
+
+            }).catch( err=> {
+
             });
         },
 
-
-
-        onSubmit() {
-            logger.log.debug("MyProfile.onSubmit");
+        onClickWrite: function() {
+            logger.log.debug("onClickWrite");
+            this.$refs.addPortfolio.show();
         },
-        onClickUpdate: function() {
-            logger.log.debug("MyProfile.onClickUpdate",this.user);
-            this.updateProfile();
+
+        onclickPortfolio: function(portfolio) {
+            logger.log.debug("onclickPortfolio",portfolio);
+            let dic_param = { name:'portfolio_detail', path:'portfolio_detail', params:{ portfolio:portfolio, back:true } };
+            this.$router.push(dic_param);
         },
-        onClickCancel: function() {
-            logger.log.debug("MyProfile.onClickCancel");
-            this.hide();
+
+        onClickDelete: function(portfolio) {
+            logger.log.debug("onClickDelete",portfolio);
         }
 
-    }
-};
+    },
+
+}
+
 </script>
 
 
 
-<style scoped>
-
-::placeholder{
-  color:rgba(255, 255, 255, 0.2);
-}
-
-
-.myProfile{
-  height: 100%;
-  width:100%;
-  position: fixed;
-  z-index: 1200;
-  top: 0;
-  left: 0;
-  overflow-x: hidden;
-  padding-top: 60px;
-  transition: 0.5s;
-  background-color: #36393e;
-}
-
-.modal-content{
-  background: #ffffff !important;
-  color:#000 !important;
-}
+<style scope> 
 </style>

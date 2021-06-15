@@ -2,8 +2,21 @@
     
     <q-dialog v-model="v_show">
         <q-card>
+
             <q-card-section>
+                <q-avatar>
+                    <q-img basic :src="v_message.avatar" />
+                </q-avatar>
+            </q-card-section>
+            
+            <q-card-section>
+                <div class="text-h6">{{v_message.to_username}}</div>
+            </q-card-section>
+
+            <q-card-section>
+<!--                
                 <q-input v-model="v_message.to_user" label="TO" />
+-->                
                 <q-input v-model="v_message.subject" label="Subject" />
                 <q-input type="textarea" v-model="v_message.content" label="Body" />
             </q-card-section>
@@ -53,7 +66,7 @@ export default {
             
             let dic_param = {
                 token: MoaConfig.auth.token, 
-                to_user:this.v_message.to_user, 
+                to_user:String(this.v_message.to_user), 
                 subject:this.v_message.subject, 
                 message:this.v_message.content
             };
@@ -78,8 +91,9 @@ export default {
             });
         },
 
-        show: function() {
+        show: function(v_message) {
             logger.log.debug("MessageDialog.show");
+            this.v_message = v_message;
             this.v_show = true;
         },
 

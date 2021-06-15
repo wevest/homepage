@@ -10,53 +10,54 @@
         >
             <q-card>
                 <q-card-section>
-                    <div class="q-pa-md q-gutter-sm">            
-                        <div class="row">
-                            <q-space />
-                            <div>
-                                <q-btn label="Save" @click="onClickSave" />
-                                <q-btn label="Close" @click="onClickClose" />
-                            </div>
-                        </div>
+                    <div class="row">
+                        <div class="col">
+                            <CryptoSelect ref="cryptoSelector" @onSelectAsset="onSelectAsset" />
 
-                        <div class="row">
-                            <div class="col">
-                                <q-input 
-                                    v-model="v_portfolio_item.portfolio_id" 
-                                    label="Parent" 
-                                    :error="v_error.title.error"
-                                    :error-message="v_error.title.msg"
-                                />
-                                <q-input 
-                                    v-model="v_portfolio_item.asset_id" 
-                                    label="Symbol" 
-                                    :error="v_error.title.error"
-                                    :error-message="v_error.title.msg"
-                                />
-                                <q-input 
-                                    v-model="v_portfolio_item.price" 
-                                    label="Price" 
-                                    :error="v_error.title.error"
-                                    :error-message="v_error.title.msg"
-                                />
+                            <q-input 
+                                v-model="v_portfolio_item.portfolio_id" 
+                                label="Portfolio Group" 
+                                :error="v_error.title.error"
+                                :error-message="v_error.title.msg"
+                            />
+<!--
+                            <q-input 
+                                v-model="v_portfolio_item.asset_id" 
+                                label="Symbol" 
+                                :error="v_error.title.error"
+                                :error-message="v_error.title.msg"
+                            />
 
-                                <q-input 
-                                    v-model="v_portfolio_item.qty" 
-                                    label="Qty" 
-                                    :error="v_error.title.error"
-                                    :error-message="v_error.title.msg"
-                                />
+                            <q-input 
+                                v-model="v_portfolio_item.price" 
+                                label="Price" 
+                                :error="v_error.title.error"
+                                :error-message="v_error.title.msg"
+                            />
+-->                            
+                            <q-input 
+                                v-model="v_portfolio_item.qty" 
+                                label="Qty" type="number"
+                                :error="v_error.title.error"
+                                :error-message="v_error.title.msg"
+                            />
 
-                                <q-input 
-                                    v-model="v_portfolio_item.description" 
-                                    label="Description" 
-                                    :error="v_error.title.error"
-                                    :error-message="v_error.title.msg"
-                                />
-                            </div>
+                            <q-input 
+                                type="textarea"
+                                v-model="v_portfolio_item.description" 
+                                label="Why add to portfolio" 
+                                :error="v_error.title.error"
+                                :error-message="v_error.title.msg"
+                            />
                         </div>
                     </div>
-                </q-card-section>        
+                </q-card-section>       
+                
+                <q-card-actions>
+                    <q-btn label="Save" @click="onClickSave" />
+                    <q-btn label="Close" @click="onClickClose" />
+                </q-card-actions>        
+
             </q-card>
 
         </q-dialog>
@@ -71,13 +72,15 @@ import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import CMSAPI from 'src/services/cmsService';
 
+import CryptoSelect from "src/components/CryptoSelect";
+
 import { PortfolioItemModel } from "src/store/PortfolioModel";
 
 
 export default {
     name: 'AddPortfolioDialog',
     components: {
-
+        CryptoSelect
     },
     computed: {},
     data: function () {
@@ -107,24 +110,6 @@ export default {
             this.v_portfolio_item = portfolio_item;            
         },
 
-
-        loadBlogPost: function(page_id) {
-            const _this = this;
-
-            return new Promise(function(resolve,reject) {
-                //logger.log.debug("CWatchView.loadCryptoWatchData - dic_param=",dic_param);
-                CMSAPI.getPostData(page_id,function(response) {
-                    _this.g_data = response.data;
-                    logger.log.debug("BlogWriterView.loadBlogPost - response",_this.g_data);
-                    _this.handlePostPage(_this.g_data);
-                    resolve();
-
-                },function(err) {
-                    logger.log.error("BlogWriterView.loadBlogPost - error",err);
-                    reject();
-                });
-            });            
-        },
         
         validate: function(v_post) {
             return true;
@@ -167,18 +152,10 @@ export default {
             this.hide();
         },
         
-
-        onPostSave: function(dic_param) {
-            logger.log.debug('onPostSave - ',dic_param);
-
-            if (dic_param.ret==1) {
-                this.postProcess(dic_param.response);
-                CommonFunc.showOkMessage(this,'Blog posted');
-            } else {
-                CommonFunc.showErrorMessage(this,'Blog error');
-            }
-
-        },
+        onSelectAsset: function(param) {
+            logger.log.debug('onSelectAsset param - ',param);
+            this.v_portfolio_item.asset_id = param.value;
+        }
 
     }
 

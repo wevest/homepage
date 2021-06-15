@@ -181,7 +181,8 @@ export const callCMSAPI = async(call_method,url,config,req_params) => {
 
 };
 
-export const callGetAPI = async(call_method,url,config,req_params) => {
+export const callGetAPI = async(url,config,req_params) => {
+    
     return new Promise(function(resolve,reject) {
         if (Object.keys(config).length === 0) {        
             config = {
@@ -189,14 +190,17 @@ export const callGetAPI = async(call_method,url,config,req_params) => {
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+                    //'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
                 },
                 withCredentials: false,
                 //credentials: 'same-origin', 
             };
         }
-
-        logger.log.debug('callPostAPI',config);           
+        
+        config['url'] = url;
+        config['method'] = 'GET';
+        config['data'] = req_params;
+        logger.log.debug('callGetAPI',config);           
 
         axios(config)
         .then(function(response) {
@@ -240,7 +244,7 @@ export const callPostAPI = async(call_method,url,config,req_params) => {
 
 
 
-export const callJsonRPC = async(call_method,url,req_params,func,func_err) => {
+export const callJsonRPC = async(call_method,url,req_params) => {
 
     const query = {
         method : call_method, 
@@ -250,44 +254,25 @@ export const callJsonRPC = async(call_method,url,req_params,func,func_err) => {
     }
 
     const config = {
-        headers:{}
+        mode: 'no-cors',
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            //'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+        },
     }
 
-    rpc.post(url, query, config)
-    .then(function(response) {
-        logger.log.debug("callJsonRPC - url ,",url,response.data);
-        //json_response = JSON.parse(response.data);
-        if (!(CommonFunc.sanityCheck(response.data))) {
-            ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.ServerResponseError,'',response));
-        } else if (response.data.err_code !== 0) {
-            logger.log.debug("Unknown Error",response.data.err_code,response);
-            throw response;
-            // if (response.data.result.err_code == '-10051') {
-            //     ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.EdenChainApigwUncaughtErrors,'',error.response));
-            //     return;
-            // } else {
-            //     ehandler.throw(Errors.raise(response.data.result.err_code,'',response));
-            // }
-        } else {
-            func(response.data);
-        }
-    })
-    .catch(function(error) {
-        logger.log.error("callJsonRPC",error);
-        /*
-        if(error.data.err_code == '-10051') {
-            ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.EdenChainApigwUncaughtErrors,'',error.response));
-        } else {
-            ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.NotDefined,'',error.response.data));
-        }
-        // if (error.name === 'ReferenceError') {
-        //     ehandler.throw(Errors.raise(Errors.ERRCODE.PROGRAMMER.ReferenceError,'',error));
-        // } else if (error.name === 'RangeError') {
-        //     ehandler.throw(Errors.raise(Errors.ERRCODE.PROGRAMMER.RangeError,'',error));
-        // } else {
-        //     ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.HTTPStatusError,'',error));
-        // }
-        */
+    return new Promise(function(resolve,reject) {
+        rpc.post(url, query, config)
+        .then(function(response) {
+            logger.log.debug("callJsonRPC - url ,",url,response.data);
+            resolve(response.data);
+        })
+        .catch(function(error) {
+            logger.log.error("callJsonRPC",error);
+            reject(error);
+        });
     });
 
 };    
