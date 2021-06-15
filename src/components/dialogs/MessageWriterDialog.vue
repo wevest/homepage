@@ -1,17 +1,20 @@
 <template>
     
     <q-dialog v-model="v_show">
-        <q-card>
+        <q-card class="MessageCard">
 
-            <q-card-section>
-                <q-avatar>
+            <q-card-section class="MessageAvatarBox">
+                <q-avatar class="MesageAvatar" size="80px">
                     <q-img basic :src="v_message.avatar" />
                 </q-avatar>
             </q-card-section>
             
-            <q-card-section>
-                <div class="text-h6">{{v_message.to_username}}</div>
+            <q-card-section class="UsernameBox">            
+                <div class="text-h6 MessageUsername">{{v_message.to_username}}</div>
+                <div class="ProfileMessage">메시지를 전달하세요!</div>
             </q-card-section>
+
+<q-separator />
 
             <q-card-section>
 <!--                
@@ -21,9 +24,9 @@
                 <q-input type="textarea" v-model="v_message.content" label="Body" />
             </q-card-section>
 
-            <q-card-actions>
-                <q-btn label="Send" @click="onClickSend" />
-                <q-btn label="Close" @click="onClickClose" />
+            <q-card-actions align="center">
+                <q-btn class="MessageButton" label="Send" @click="onClickSend" />
+                <q-btn class="MessageButton" label="Close" @click="onClickClose" />                
             </q-card-actions>
 
         </q-card>
@@ -120,4 +123,31 @@ export default {
 
 <style scoped>
 
+.MessageCard {
+    height:550px;
+    width:300px;
+}
+.MessageAvatarBox {
+    text-align:center;
+    padding:70px 0px 0px 0px;
+}
+
+.UserameBox {
+    padding-top:5px;
+}
+.MessageUsername {
+    text-align:center;
+    font-size:25px;
+    color:#000000;
+
+}
+
+.ProfileMessage {
+    text-align:center;
+    color:#8c8c8c;
+}
+
+.MessageButton {
+    width:100px;
+}
 </style>

@@ -3,7 +3,7 @@
     <div>
         
         <q-dialog position="bottom" v-model="v_show">
-            <q-card>
+            <q-card class="ChattingCard">
                 <q-card-section>
                     <q-chat-message v-for="(a_message,index) in v_messages.models" :key="index"
                         :name="a_message.username"
@@ -15,9 +15,14 @@
                     />
 
                     <div>
-                        <q-input type="textarea" v-model="v_reply.content" label="Message" />
-                        <q-btn label="Reply" @click="onClickReply" />
-                        <q-btn label="Close" @click="onClickClose" />
+                        <q-input class="ChattingArea" type="textarea" v-model="v_reply.content" label="Message" />
+                        <div class="ChattingButtonBox">
+                            <div class="row">    
+                                <q-btn label="Close" @click="onClickClose" />
+                                    <q-space />
+                                <q-btn label="Reply" @click="onClickReply" />
+                            </div>                      
+                        </div>
                     </div>
 
                 </q-card-section>
@@ -255,5 +260,17 @@ export default {
 
 
 <style scoped>
+.ChattingCard {
+    width:500px;
+    height:1000px;
+    }
 
+.ChattingArea {
+    height: 80px;
+}    
+
+.ChattingButtonBox {
+    padding:10px 0px 0px 0px;
+    text-align:center;
+}
 </style>
