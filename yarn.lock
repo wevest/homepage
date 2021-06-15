@@ -1886,6 +1886,11 @@
     "uuid" "3.3.2"
     "xml2js" "0.4.19"
 
+"axios-jsonp@^1.0.4":
+  "integrity" "sha512-KI5Fc4ery6DR+oneXG09hPZfGuNUW8Lblhe750h53Z0Eh5MRsrHn49YitDU4RsMk0HV+12zcvL2Q51QkOLGdIQ=="
+  "resolved" "https://registry.npmjs.org/axios-jsonp/-/axios-jsonp-1.0.4.tgz"
+  "version" "1.0.4"
+
 "axios@^0.18.0":
   "integrity" "sha512-0BfJq4NSfQXd+SkFdrvFbG7addhYSBA2mQwISr46pD6E5iqkWg02RAs8vyTT/j0RTnoYmeXauBuSv1qKwR179g=="
   "resolved" "https://registry.npmjs.org/axios/-/axios-0.18.1.tgz"
@@ -9140,6 +9145,11 @@
   "integrity" "sha512-uKAYzGbwGIJndY7JwhQwIGi1uyvErWkBfFwooOtjcNnIfMbAR49ad5dT/MiykrJ9pCcgvnocFjFsNLtTzyW+rg=="
   "resolved" "https://registry.npmjs.org/vue-i18n/-/vue-i18n-8.24.3.tgz"
   "version" "8.24.3"
+
+"vue-jsonp@^2.0.0":
+  "integrity" "sha512-Mzd9GNeuKP5hHFDWZNMWOsCuMILSkA6jo2l4A02wheFz3qqBzH7aSEFTey1BRCZCLizlaf1EqJ5YUtF392KspA=="
+  "resolved" "https://registry.npmjs.org/vue-jsonp/-/vue-jsonp-2.0.0.tgz"
+  "version" "2.0.0"
 
 "vue-loader@15.9.5":
   "integrity" "sha512-oeMOs2b5o5gRqkxfds10bCx6JeXYTwivRgbb8hzOrcThD2z1+GqEKE3EX9A2SGbsYDf4rXwRg6D5n1w0jO5SwA=="
