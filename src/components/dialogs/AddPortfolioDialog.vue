@@ -14,27 +14,47 @@
                         <div class="col">
                             <CryptoSelect ref="cryptoSelector" @onSelectAsset="onSelectAsset" />
 
+<!--
                             <q-input 
                                 v-model="v_portfolio_item.portfolio_id" 
                                 label="Portfolio Group" 
                                 :error="v_error.title.error"
                                 :error-message="v_error.title.msg"
                             />
-<!--
+
                             <q-input 
                                 v-model="v_portfolio_item.asset_id" 
                                 label="Symbol" 
                                 :error="v_error.title.error"
                                 :error-message="v_error.title.msg"
                             />
+-->
 
+                            <q-select
+                                filled
+                                v-model="v_portfolio_item.portfolio_id"
+                                label="Portfolio Group"
+                                :options="v_group_list"
+                                option-label="label"
+                                option-value="value"
+                                map-options
+                                emit-value
+                                behavior="menu"
+                            >
+                                <template v-slot:no-option>
+                                    <q-item>
+                                        <q-item-section class="text-grey">
+                                            No results
+                                        </q-item-section>
+                                    </q-item>
+                                </template>
+                            </q-select>
                             <q-input 
                                 v-model="v_portfolio_item.price" 
-                                label="Price" 
+                                label="Price($)" 
                                 :error="v_error.title.error"
                                 :error-message="v_error.title.msg"
-                            />
--->                            
+                            />                            
                             <q-input 
                                 v-model="v_portfolio_item.qty" 
                                 label="Qty" type="number"
@@ -74,7 +94,8 @@ import CMSAPI from 'src/services/cmsService';
 
 import CryptoSelect from "src/components/CryptoSelect";
 
-import { PortfolioItemModel } from "src/store/PortfolioModel";
+import { PriceModel, PriceListModel } from "src/store/PriceModel";
+import { PortfolioListModel, PortfolioItemModel } from "src/store/PortfolioModel";
 
 
 export default {
@@ -89,9 +110,16 @@ export default {
             
             v_show: false,
 
+            v_prices: new PriceListModel(),
+            v_portfolio: new PortfolioListModel(),
             v_portfolio_item: new PortfolioItemModel(),
-            
-            v_page: {title:this.$t('page.cryptovc.title'), desc:''},
+            v_selected_portfolio: null,
+
+            v_groups: null,
+            v_group_list: [],
+        
+            v_options: this.v_group_list,
+
             v_error: {
                 title: {error:false, msg:''},
                 text: {error:false, msg:''},
@@ -102,26 +130,64 @@ export default {
     created: function () {
         console.log("AddPortfolioDialog.created");
     },
-    mounted: function() {},
+    mounted: function() {
+        this.loadPrice();
+    },
     updated: function() {},
     
     methods: {      
-        setPortfolioItem(portfolio_item) {
-            this.v_portfolio_item = portfolio_item;            
+        setPortfolio: function(v_portfolio) {
+            this.v_portfolio = v_portfolio;
         },
 
-        
+        setPortfolioItem: function(v_portfolio_item) {
+            this.v_portfolio_item = v_portfolio_item;
+        },
+
+        loadPrice: function() {
+            this.v_prices.load().then( response => {
+                logger.log.debug("loadPrice=",response);                
+            });
+            
+        },
+
+        getPrice: function(symbol) {
+            let a_pair = symbol+"_USDT";
+            let a_found = this.v_prices.find({currency_pair:a_pair});
+            logger.log.debug("getPrice=",a_found);
+            if (a_found) {
+                this.v_portfolio_item.price = a_found.last;
+            }
+            
+        },
+
+        setPortfolioSelector: function() {
+            let groups = [];
+            for (let index=0;index<this.v_portfolio.models.length;index++) {
+                groups.push( {value:this.v_portfolio.models[index].id, label:this.v_portfolio.models[index].name});
+            }
+            logger.log.debug("setPortfolioSelector",groups);
+            this.v_group_list = groups;
+        },
+
         validate: function(v_post) {
             return true;
         },
 
 
-        show: function(v_portfolio_item) {
-            logger.log.debug("AddPortfolioDialog.show : v_portfolio_item=",v_portfolio_item);
+        show: function(v_portfolio,v_portfolio_item) {
+            logger.log.debug("AddPortfolioDialog.show : v_portfolio_item=",v_portfolio,v_portfolio_item);
             
+            this.loadPrice();
+
+            if (v_portfolio) {
+                this.setPortfolio(v_portfolio);
+            }
             if (v_portfolio_item) {
                 this.setPortfolioItem(v_portfolio_item);
             }
+
+            this.setPortfolioSelector();
 
             this.v_portfolio_item.asset_id = 1;
             this.v_portfolio_item.portfolio_id = -1;
@@ -136,26 +202,38 @@ export default {
             this.v_show = false;
         },
 
-        postProcess: function(response) {
-            this.setPostID(response.data.id);
-            this.v_post.saved = true;
+
+        filterGroup: function(val, update) {
+            if (val === '') {
+                update(() => {
+                    this.v_options = this.v_group_list
+                })
+                return
+            }
+
+            update(() => {
+                const needle = val.toLowerCase()
+                this.v_options = this.v_group_list.filter(v => v.toLowerCase().indexOf(needle) > -1)
+            })            
+        },
+        
+        onSelectAsset: function(param) {
+            logger.log.debug('onSelectAsset param - ',param);
+            this.v_portfolio_item.asset_id = param.value;
+            this.getPrice(param.value);
         },
 
         onClickSave: function() {                        
-            logger.log.debug('onClickSave - ',this.v_post);
+            logger.log.debug('onClickSave - ',this.v_portfolio_item);
 
-            this.v_portfolio_item.add();
+            //this.v_portfolio_item.add();
         },
 
         onClickClose: function() {
             logger.log.debug('onClickClose - ');
             this.hide();
         },
-        
-        onSelectAsset: function(param) {
-            logger.log.debug('onSelectAsset param - ',param);
-            this.v_portfolio_item.asset_id = param.value;
-        }
+
 
     }
 

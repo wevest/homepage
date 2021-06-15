@@ -16,8 +16,7 @@ export class PortfolioItemModel extends Model{
             qty:null,
             created_at:null,    
             updated_at:null,  
-            state: null,
-            
+            state: null,            
         }    
     }
 
@@ -78,15 +77,41 @@ export class PortfolioItemModel extends Model{
 }
 
 
-export class PortfolioModel extends Collection {
+export class PortfolioModel extends Model {
+    defaults() {
+        return {
+            id: null,         
+            name: null,               
+            description: null,
+            created_at: null,
+            updated_at:null,
+            api_user: null,
+            portfolio_children: null,            
+        }
+    }
+
+    mutations() {
+        return {
+            id: Number,
+            name: String,
+            description: String,
+            created_at: String,
+            updated_at: String,
+            api_user: Object,
+            portfolio_children: Object,
+        }
+    }
+ 
+}
+
+
+export class PortfolioListModel extends Collection {
     model() {
-        return PortfolioItemModel;
+        return PortfolioModel;
     }
 
     defaults() {
-        return {
-
-        }
+        return {}
     }
 
     load() { 
@@ -96,12 +121,26 @@ export class PortfolioModel extends Collection {
             
             let reqParam = { token: MoaConfig.auth.token};
             AuthService.getPortfolio(reqParam, function(response) {
+
+                let items = response.data.results;
+                for (let index=0;index<items.length;index++) {
+                    
+                    _this.add( {
+                        id: items[index].id, 
+                        name: items[index].name, 
+                        description: items[index].description,
+                        created_at: items[index].created_at,
+                        updated_at: items[index].updated_at,
+                        api_user: items[index].api_user,
+                        portfolio_children: items[index].portfolio_children 
+                    });
+                }
+
                 resolve(response);
             }, function(err) {
                 reject(err);
             });
         });
-
     }   
-
+    
 }

@@ -38,15 +38,17 @@ export default class PriceAPI{
   }
 
 
-  static getPrice(reqParam,func,funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa,"/api/ohlcv");
+  static getPrice(reqParam) {
+    let url = PriceAPI.getUrl(MoaConfig.urls.moa,"/api/proxy/price");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
-    callAPI("POST",url,{},reqParam)
-    .then( (response) => {
-        func(response);
-    })
-    .catch( (err) => {
-        funcErr(err);
+    return new Promise(function(resolve,reject) {
+      callAPI("GET",url,{},reqParam)
+      .then( (response) => {
+        resolve(response);
+      })
+      .catch( (err) => {
+        reject(err);
+      });
     });
 
   }

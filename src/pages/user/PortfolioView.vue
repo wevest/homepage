@@ -29,7 +29,7 @@
                 <div> 
                     portfolio list
                     <q-list separator>
-                        <q-item v-for="(a_portfolio,index) in v_portfolio" :key="index" >
+                        <q-item v-for="(a_portfolio,index) in v_portfolio.models" :key="index" >
                             <q-item-section @click="onclickPortfolio(a_portfolio)">
                                 <q-item-label>{{a_portfolio.name}}</q-item-label>
                                 <q-item-label caption lines="2">{{a_portfolio.description}}</q-item-label>
@@ -76,7 +76,7 @@ import AuthService from 'src/services/authService';
 import PriceService from 'src/services/priceService';
 import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 
-import {PortfolioModel, ThreadListModel} from "src/store/PortfolioModel";
+import { PortfolioListModel, PortfolioModel, PortfolioItemModel} from "src/store/PortfolioModel";
 
 
 import CTitle from 'components/CTitle';
@@ -92,7 +92,7 @@ export default {
     data: () => ({
         g_data: null,
 
-        v_portfolio: [],
+        v_portfolio: new PortfolioListModel(),
 
         v_headers: [
             { name:'symbol', label: 'name.symbol', field: 'symbol' },
@@ -115,29 +115,7 @@ export default {
         //this.v_message.subject = "test";
         //this.v_message.to_user = "tester1002";
         //this.v_message.body = "private message";
-
-        const _this = this;
-        this.loadPortfolio().then(response=> {
-            logger.log.debug("UserPortfolioView.mounted - response=",response);
-            _this.g_data = response.data;
-
-            let portfolio = _this.g_data.results;
-            for (let index=0;index<_this.g_data.results.length;index++) {
-                
-                let a_group = {name: _this.g_data.results[index].name, 
-                    created_at:  _this.g_data.results[index].created_at,
-                    description:_this.g_data.results[index].description,
-                    items: [],
-                };
-
-                for (let index=0;index<_this.g_data.results.length;index++) {
-                }
-            }
-
-            _this.v_portfolio = _this.g_data.results;
-        });
-
-        this.loadCryptoCurrency();
+        this.loadPortfolio();
     },
 
     methods: {        
@@ -145,16 +123,11 @@ export default {
         loadPortfolio: function() {
             const _this = this;
 
-            return new Promise(function(resolve,reject) {
-                
-                let reqParam = { token: MoaConfig.auth.token};
-                AuthService.getPortfolio(reqParam, function(response) {
-                    resolve(response);
-                }, function(err) {
-                    reject(err);
-                });
+            this.v_portfolio.load().then( response => {
+                logger.log.debug("PortfolioView.loadPortfolio - response=",response);                
+                _this.g_data = response.data;
             });
-
+                
         },
 
 
@@ -174,7 +147,7 @@ export default {
 
         onClickWrite: function() {
             logger.log.debug("onClickWrite");
-            this.$refs.addPortfolio.show();
+            this.$refs.addPortfolio.show(this.v_portfolio,null);
         },
 
         onclickPortfolio: function(portfolio) {
