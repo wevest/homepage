@@ -2,12 +2,14 @@
     
     <div>
         <div>        
-            <q-bar>
-                <q-btn flat icon="arrow_back" @click="onClickBack" />
-                <div class="text-h6">{{ v_thread.username }}</div>
+            <q-bar flat class="row TopBar">
+                <div class="col-4"> 
+                <q-btn class="ArrowButton" size="16px" dense flat icon="arrow_back" @click="onClickBack" /></div>
+                <div class="col-8"> 
+                <div class="text-h6">{{ v_thread.username }}</div></div>
             </q-bar>
 
-            <q-card>
+            <q-card flat>
                 <q-card-section>
                     <q-chat-message v-for="(a_message,index) in v_messages.models" :key="index"
                         :name="a_message.username"
@@ -26,10 +28,10 @@
 -->
             </q-card>
 
-            <div class="row no-wrap">
-                <q-input filled type="textarea" v-model="v_reply.content" label="Message" class="fit" />
-                
-                <q-btn dense flat icon="send" @click="onClickReply" />
+            <div class="row no-wrap InputArea">
+                <q-input outlined type="textarea" v-model="v_reply.content" label="Message" :dense="dense" class="fit" />
+
+                <q-btn class="SendButton" dense flat icon="send" size="19px" color="primary" @click="onClickReply" />
             </div>
         </div>    
 
@@ -38,14 +40,15 @@
             <q-card>
                  <q-card-section>
                     <div v-if="v_is_mine">
-                        <q-btn label="Edit" @click="onClickEdit" />
-                        <q-btn label="Delete" @click="onClickDelete" />
+                        <q-btn icon="edit" text-color="black" flat stack label="수정" @click="onClickEdit" />&nbsp;&nbsp;&nbsp;
+                        <q-btn icon="close" text-color="black" flat stack label="삭제" @click="onClickDelete" />                   
                     </div>              
                     <div v-else>
-                        <q-btn label="Copy" @click="onClickEdit" />
+                        <q-btn icon="content_copy" text-color="black" flat stack label="복사" @click="onClickEdit" />&nbsp;&nbsp;&nbsp;
+                         <q-btn icon="close" text-color="black" flat stack label="삭제" @click="onClickCancel" />
                     </div>          
 
-                    <q-btn label="Cancel" @click="onClickCancel" />
+                   
                  </q-card-section>
             </q-card>
         </q-dialog>
@@ -260,7 +263,25 @@ export default {
 
 
 <style scoped>
+
+.TopBar {
+    height:50px;
+}
+
+.ArrowButton {
+    margin-right:10px;
+}
+
 .boxMessageInput {
     padding:8px;
+}
+
+.InputArea {
+    padding-left:12px;
+}
+
+.SendButton {
+    width:60px;
+    margin-left:4px;
 }
 </style>
