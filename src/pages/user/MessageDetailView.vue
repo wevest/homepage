@@ -1,13 +1,10 @@
 <template>
     
     <div>
-        
-        <q-dialog position="bottom" v-model="v_show">
+        <div>        
             <q-bar>
-                <q-card-section horizontal>
-                    <q-btn flat icon="arrow_back" @click="onClickClose" />
-                    <div class="text-h6">{{ v_thread.username }}</div>
-                </q-card-section>
+                <q-btn flat icon="arrow_back" @click="onClickBack" />
+                <div class="text-h6">{{ v_thread.username }}</div>
             </q-bar>
 
             <q-card>
@@ -21,15 +18,21 @@
                         @click="onClickChat(a_message)"
                     />
                 </q-card-section>
-                
+<!--                
                 <q-card-section horizontal class="boxMessageInput">
                     <q-input filled type="textarea" v-model="v_reply.content" label="Message" class="full-width" />                    
                     <q-btn dense flat icon="send" @click="onClickReply" />
                 </q-card-section>
-
+-->
             </q-card>
-        
-        </q-dialog>
+
+            <div class="row no-wrap">
+                <q-input filled type="textarea" v-model="v_reply.content" label="Message" class="fit" />
+                
+                <q-btn dense flat icon="send" @click="onClickReply" />
+            </div>
+        </div>    
+
 
         <q-dialog v-model="v_buttons" transition-show="fade" transition-hide="fade">
             <q-card>
@@ -59,7 +62,6 @@ import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import AuthService from 'src/services/authService';
 
-import CTitle from 'components/CTitle';
 import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/store/MessageModel";
 
 
@@ -84,7 +86,16 @@ export default {
     },
 
     created: function () {},
-    mounted: function() {},
+    beforeMounted: function() {
+        logger.log.debug("MessageDetailView.beforeMounted - symbol=",this.$route.params);
+        this.v_portfolio = this.$route.params.portfolio;        
+    },
+    mounted: function() {
+        logger.log.debug("MessageDetailView.Mounted - symbol=",this.$route.params);
+        
+        this.setThread(this.$route.params.thread);
+        this.setMessages(this.$route.params.messages);
+    },
     updated: function() {},
     
     methods: {      
@@ -142,18 +153,6 @@ export default {
             });            
         },
 
-        show: function(thread,messages) {
-            logger.log.debug("MessageDialog.show",thread,messages);
-            this.setThread(thread);
-            this.setMessages(messages);
-            this.setPageTitle(messages);
-            this.v_show = true;
-        },
-
-        hide: function() {
-            this.v_show = false;
-        },
-
         handleReply: function() {
             const _this=this;
 
@@ -207,7 +206,7 @@ export default {
 
         onClickBack: function() {
             logger.log.debug('onClickBack - ');
-            this.hide();
+            CommonFunc.navBack(this);
         },
 
 
@@ -254,10 +253,6 @@ export default {
             this.v_buttons = false;
         },
 
-        onClickClose: function() {
-            logger.log.debug("onClickClose");
-            this.hide();
-        }
     }
 
 };

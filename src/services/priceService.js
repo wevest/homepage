@@ -1,5 +1,6 @@
 //import api from '@/services/api'
 import {callAPI, callGetAPI, callPostAPI, callJsonRPC} from 'src/util/Http';
+import { jsonp } from 'vue-jsonp';
 import {MoaConfig} from 'src/data/MoaConfig';
 import logger from "src/error/Logger";
 
@@ -17,17 +18,22 @@ export default class PriceAPI{
   static getCryptoCurrencies(reqParam) {
       let url = PriceAPI.getUrl(MoaConfig.urls.gateio,"spot/currency_pairs");
       
-      logger.log.debug("PriceService.getCryptoCurrencies");
+      logger.log.debug(">>>PriceService.getCryptoCurrencies : url=",url);
 
       return new Promise(function(resolve,reject) {
-        callJsonRPC("GET",url,{},reqParam)
+        callGetAPI(url,reqParam,function(data) {
+          logger.log.debug("PriceService.getCryptoCurrencies : response ",response); 
+        });
+/*        
         .then( (response) => {
-            logger.log.debug("PriceService.getCryptoCurrencies : response ");          
+            logger.log.debug("PriceService.getCryptoCurrencies : response ",response); 
             resolve(response);
         })
         .catch( (err) => {
+          logger.log.debug("PriceService.getCryptoCurrencies : error ",err); 
             reject(err);
         })
+*/        
       });
   }
 

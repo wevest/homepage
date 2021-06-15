@@ -137,7 +137,7 @@ export default {
             _this.v_portfolio = _this.g_data.results;
         });
 
-        //this.loadCryptoCurrency();
+        this.loadCryptoCurrency();
     },
 
     methods: {        

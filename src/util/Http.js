@@ -3,6 +3,7 @@
  *
  */
 import axios from 'axios';
+import jsonpAdapter from 'axios-jsonp';
 import rpc,{query} from 'jsonrpc-client-http';
 import Cookies from 'js-cookie'
 import logger from 'src/error/Logger';
@@ -181,32 +182,24 @@ export const callCMSAPI = async(call_method,url,config,req_params) => {
 
 };
 
-export const callGetAPI = async(url,config,req_params) => {
+export const callGetAPI = async(url,req_params,func) => {
     
     return new Promise(function(resolve,reject) {
-        if (Object.keys(config).length === 0) {        
-            config = {
-                mode: 'no-cors',
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Content-Type': 'application/json',
-                    //'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-                },
-                withCredentials: false,
-                //credentials: 'same-origin', 
-            };
-        }
-        
+        let config = {};
         config['url'] = url;
-        config['method'] = 'GET';
+        //config['method'] = 'GET';
+        config['adapter'] = jsonpAdapter;
         config['data'] = req_params;
+        config['callbackParamName'] = func;
         logger.log.debug('callGetAPI',config);           
 
         axios(config)
         .then(function(response) {
+            logger.log.debug("1231231");
             resolve(response);
         })
         .catch(function(error) {
+            logger.log.debug("error");
             reject(error);
         });        
     });
@@ -257,6 +250,7 @@ export const callJsonRPC = async(call_method,url,req_params) => {
         mode: 'no-cors',
         headers: {
             'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             //'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',

@@ -11,6 +11,7 @@ const routes = [
       { name: 'blog_writer', path: 'blog_writer', component: () => import('pages/blog/BlogWriterView.vue') },
       { name: 'profile', path: 'profile', component: () => import('pages/user/ProfileView.vue') },
       { name: 'message', path: 'message', component: () => import('pages/user/MessageView.vue') },
+      { name: 'message_detail', path: 'message_detail', component: () => import('pages/user/MessageDetailView.vue') },
       { name: 'portfolio', path: 'portfolio', component: () => import('pages/user/PortfolioView.vue') },
       { name: 'portfolio_detail', path: 'portfolio_detail', component: () => import('pages/user/PortfolioDetailView.vue') },
 

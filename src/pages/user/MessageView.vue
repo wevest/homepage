@@ -36,7 +36,6 @@
             </div>
         </div>
 
-        <MessageDialog ref="messageDialog" />
         <MessageWriterDialog ref="messageWriter" />
 
     </div>
@@ -50,7 +49,6 @@ import logger from "src/error/Logger";
 
 import AuthService from 'src/services/authService';
 
-import MessageDialog from 'src/components/dialogs/MessageDialog';
 import MessageWriterDialog from 'components/dialogs/MessageWriterDialog';
 
 import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/store/MessageModel";
@@ -62,7 +60,6 @@ import CTitle from 'components/CTitle';
 export default {
     components: {
         CTitle,
-        MessageDialog,
         MessageWriterDialog
     },
     props: {},
@@ -116,6 +113,7 @@ export default {
                     last_message: threads[index].last_message,
                     avatar: threads[index].sender.avatar_thumb,
                     user_id: threads[index].sender.id,
+                    username: threads[index].sender.username,                     
                     subject: threads[index].subject,  
                 });
 
@@ -225,7 +223,10 @@ export default {
                     v_messages.add(a_message);
                 }
 
-                _this.$refs.messageDialog.show(thread,v_messages);
+                let dic_param = { name:'message_detail', path:'message_detail', params:{ thread:thread, messages:v_messages, back:true } };
+                _this.$router.push(dic_param);
+
+                //_this.$refs.messageDialog.show(thread,v_messages);
             });
         },
 
