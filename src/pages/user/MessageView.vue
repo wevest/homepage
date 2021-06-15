@@ -3,28 +3,28 @@
 
         <div class="row">
             <div class="col">
-                <CTitle :title="$t('page.message.title')" :desc="$t('page.message.desc')"></CTitle>
+                <CTitle :title="$t('채팅')" :desc="$t('page.message.desc')"></CTitle>
             </div>            
         </div>
 
         <div class="row">
             <div class="col">
                 <q-list separator>
-                    <q-item clickable v-for="(a_thread,index) in v_thread.models" :key="index" @click="onClickMessage(index,a_thread)">
+                    <q-item class="MessagePageBox" clickable v-for="(a_thread,index) in v_thread.models" :key="index" @click="onClickMessage(index,a_thread)">
                         <q-item-section top avatar>
                             <q-avatar>
                                 <q-img :src="a_thread.avatar" />
                             </q-avatar>
                         </q-item-section>                        
 
-                        <q-item-section>
+                        <q-item-section class="MessageBox">
                             <q-item-label>{{a_thread.subject}}</q-item-label>
                             <q-item-label caption lines="2">{{a_thread.last_message}}</q-item-label>
                         </q-item-section>
 
                         <q-item-section side top>
-                            <q-item-label caption>{{a_thread.sent_at}}</q-item-label>
-                            <q-icon name="star" color="yellow" />
+                            <q-item-label class="MessageDate" caption>{{a_thread.sent_at}}</q-item-label>
+                            <!-- <q-icon name="star" color="yellow" /> -->
                         </q-item-section>
                     </q-item>
                 </q-list>
@@ -239,4 +239,15 @@ export default {
 
 
 <style scope> 
+.MessagePageBox {
+    padding:16px 0px 16px 0px;
+}
+
+.MessageBox {
+    padding:0px 0px 0px 0px;
+}
+
+.MessageDate {
+    color:#8C8C8C;
+}
 </style>

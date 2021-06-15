@@ -265,7 +265,17 @@ export default {
 
 
 <style scoped>
-.boxMessageInput {
-    padding:8px;
+.ChattingCard {
+    width:500px;
+    height:1000px;
+    }
+
+.ChattingArea {
+    height: 80px;
+}    
+
+.ChattingButtonBox {
+    padding:10px 0px 0px 0px;
+    text-align:center;
 }
 </style>
