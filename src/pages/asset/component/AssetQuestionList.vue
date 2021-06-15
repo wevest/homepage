@@ -20,7 +20,7 @@
                         </q-avatar>
                     </q-td>
 
-                    <q-td key="detail" :props="props" dense class="caption_color gBlogUserDateBox" dense>
+                    <q-td key="detail" :props="props" dense class="caption_color gBlogUserDateBox">
                         <div @click="onClickQuestion(props.row)">
                             <q-badge
                                 class="RewardPoint" 

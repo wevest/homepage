@@ -3,7 +3,6 @@
     <div class="row">
         <div class="col">
             <div class="gcomment" v-for="(a_answer,index) in v_answers" :key="index">
-                <div class="border">
                 <div class="row gAnswerBox">
                     <div>
                         <q-avatar class="gAnswerAvatar">
@@ -50,14 +49,14 @@
                             @click="onClickRating(-1,a_answer)" />&nbsp; 
                         <span class="gAnswerRatingCount">{{a_answer.dislike_count}}</span>  
                 </div>
-                </div>
 
                 <q-separator size="2px" />
 
                 <div v-if="a_answer.comments.length>0">
                     
-                    <div class="boxAnswerCommentCount">
-                        <span>Comments : {{a_answer.comments.length}} </span>
+                    <div class="CommentBox">
+                        <span class="Comments">Comments :</span> 
+                            <span class="CommentsCount"> {{a_answer.comments.length}}</span>
                     </div>
                     
                     <div>
@@ -389,14 +388,7 @@ export default {
 <style scope>
 
 
-.gBlog {
- padding: 15px 0px 15px 0px;
-}   
 
-.boxBtn {
-    border-bottom:1px solid #cccccc;
-    padding:10px 0px; 
-} 
 
 
 
@@ -405,19 +397,22 @@ export default {
 }
 
 
-
-
-.boxAnswerCommentCount {
+.CommentBox {
     margin: 8px 0px 3px 0px;
     padding-bottom:10px;
    
 }
 
-
-
-.boxAnswerCommentCount span {
-    font-size:20px;
+.Comments {
+    font-size:16px;
+    color:#000000;
     }
+.CommentsCount {
+    font-size:20px;
+    color:green;
+    }
+
+
 .boxAnswerRating {
     padding: 5px 0px;
     text-align:center;
@@ -440,8 +435,4 @@ export default {
     color:#555555;
 }
 
-.border {
-    border:1px solid #e5e5e5;
-    background-color:#f5f5f6;
-}
 </style>
