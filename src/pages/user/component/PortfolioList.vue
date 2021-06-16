@@ -2,40 +2,11 @@
     <div class="q-pa-md">
 
         <div class="row">
-            <q-avatar>
-                <q-img v-if="v_user.avatar_url" class="gBlogAvatar" :src="v_user.avatar_url" />
-                <q-icon v-else name="person" color="black" size="34px" />
-            </q-avatar>
-            <div>
-                <span> {{v_user.username}} </span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <q-btn label="Write" @click="onClickWrite" />
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <div>
-                    <span> $ {{v_portfolio.evaluated_value}} </span>
-                    <span> {{v_portfolio.roi}} % </span>
-                </div>
-                <div>
-                    portfolio chart
-                </div>
-
-            </div>
-        </div>
-
-        <div class="row">
             <div class="col">
                 <div> 
-                    portfolio list
                     <q-list separator>
-                        <q-item v-for="(a_portfolio,index) in v_portfolio.models" :key="index" >
-                            <q-item-section @click="onclickPortfolio(a_portfolio)">
+                        <q-item v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
+                            <q-item-section @click="onClickPortfolio(a_portfolio)">
                                 <q-item-label>{{a_portfolio.name}}</q-item-label>
                                 <q-item-label caption lines="2">{{a_portfolio.description}}</q-item-label>
                             </q-item-section>
@@ -74,8 +45,6 @@
             </div>
         </div>
 
-        <AddPortfolioDialog ref="addPortfolio" />
-
     </div>
 
 </template>
@@ -86,21 +55,10 @@ import {MoaConfig} from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
-import AuthService from 'src/services/authService';
-import PriceService from 'src/services/priceService';
-import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
-
 import { PortfolioListModel, PortfolioModel, PortfolioItemModel} from "src/store/PortfolioModel";
 
-
-import CTitle from 'components/CTitle';
-
-
 export default {
-    components: {
-        CTitle,
-        AddPortfolioDialog
-    },
+    components: {},
     props: {},
 
     data: () => ({
@@ -118,67 +76,21 @@ export default {
             { name:'updated_at', label: 'name.homepage', field: 'updated_at'},            
         ],
 
-        v_back: false,
-
     }),
     computed: {},
 
-    mounted: function() {
-        console.log("HomeView.mounted - auth",MoaConfig.auth);
-        console.log("MessageView.mounted - params=",this.$route.params);
-        
-        this.v_user = MoaConfig.auth;
-        //this.v_message.subject = "test";
-        //this.v_message.to_user = "tester1002";
-        //this.v_message.body = "private message";
-        this.loadPortfolio();
-    },
+    mounted: function() {},
 
     methods: {        
 
-        loadPortfolio: function() {
-            const _this = this;
-
-            this.v_portfolio.load().then( response => {
-                logger.log.debug("PortfolioView.loadPortfolio - response=",response);                
-                _this.g_data = response.data;
-
-                _this.v_portfolio.evaluated_value = 100;
-                _this.v_portfolio.roi = 0.6;
-            });
-
+        update: function(v_portfolio) {
+            this.v_portfolio = v_portfolio;
         },
 
-
-        loadCryptoCurrency: function() {
-            const _this = this;
-
-            logger.log.debug("loadCryptoCurrency");
-
-            let reqParam = {};
-            PriceService.getCryptoCurrencies(reqParam).then( response => {
-                logger.log.debug("loadCryptoCurrency : response=",response);
-
-            }).catch( err=> {
-
-            });
-        },
-
-        onClickWrite: function() {
-            logger.log.debug("onClickWrite");
-            this.$refs.addPortfolio.show(this.v_portfolio,null);
-        },
-
-        onclickPortfolio: function(portfolio) {
-            logger.log.debug("onclickPortfolio",portfolio);
-            let dic_param = { name:'portfolio_detail', path:'portfolio_detail', params:{ portfolio:portfolio, back:true } };
-            this.$router.push(dic_param);
-        },
-
-        onClickDelete: function(portfolio) {
-            logger.log.debug("onClickDelete",portfolio);
+        onClickPortfolio: function(a_portfolio) {
+            logger.log.debug("onClickPortfolio: portfolio=",a_portfolio);
+            this.$emit("onClickPortfolio",a_portfolio);
         }
-
     },
 
 }

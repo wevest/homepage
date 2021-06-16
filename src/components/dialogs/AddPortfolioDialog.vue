@@ -40,6 +40,7 @@
                                 map-options
                                 emit-value
                                 behavior="menu"
+                                ref="selectPortfolio"
                             >
                                 <template v-slot:no-option>
                                     <q-item>
@@ -133,7 +134,9 @@ export default {
     mounted: function() {
         this.loadPrice();
     },
-    updated: function() {},
+    updated: function() {
+        //this.$refs.selectPortfolio.setOptionIndex(0);
+    },
     
     methods: {      
         setPortfolio: function(v_portfolio) {
@@ -166,7 +169,10 @@ export default {
             for (let index=0;index<this.v_portfolio.models.length;index++) {
                 groups.push( {value:this.v_portfolio.models[index].id, label:this.v_portfolio.models[index].name});
             }
-            logger.log.debug("setPortfolioSelector",groups);
+            if (groups.length>0) {
+                this.v_portfolio_item.portfolio_id = groups[0];
+            }
+            //logger.log.debug("setPortfolioSelector",groups);
             this.v_group_list = groups;
         },
 

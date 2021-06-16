@@ -5,13 +5,14 @@ import {mutations} from 'src/store/mutations';
 import {actions} from 'src/store/actions';
 //import {getters} from './getters';
 import logger from "src/error/Logger";
+import { PriceModel, PriceListModel } from "src/store/PriceModel";
 
 
 Vue.use(Vuex);
 
 const state = {
     version:0.18,
-    data: {},
+    prices: new PriceListModel(),
     components:{},
 };
 

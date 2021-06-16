@@ -57,62 +57,76 @@
                 <q-btn color="primary" label="Save" @click="onClickSave" />
             </q-card-actions>
 
-            <q-card-actions align="center">
-                    <q-btn color="primary" label="Message" @click="onClickMessage" />
-                    <q-btn color="primary" label="Endorsement" @click="onClickEndorsement" />
-            </q-card-actions>
-
             <q-card-section>
                 <div class="row boxNumber">
                     <div class="col-4">
                         <div> 
-                            <span class="numberValue"> {{ v_user.coin }} </span>
+                            <span class="numberValue"> {{ v_user.portfolio.evaluated_value }} </span>
                         </div>
                         <div> 
-                            <span class="numberTitle"> coin </span>
+                            <span class="numberTitle"> Value </span>
                         </div>
                     </div>
                     <div class="col-4">
                         <div> 
-                            <span class="numberValue"> {{ v_user.like_count }} </span>                        
+                            <span class="numberValue"> {{ v_user.portfolio.roi }} </span>                        
                         </div>
                         <div> 
-                            <span class="numberTitle">like count </span>                        
+                            <span class="numberTitle">ROI </span>                        
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="align-center"> 
-                            <span class="numberValue"> {{ v_user.dislike_count }} </span>
+                            <span class="numberValue"> {{ v_user.portfolio.item_count }} </span>
                         </div>
                         <div> 
-                            <span class="numberTitle">dislike count </span>                        
+                            <span class="numberTitle">portfolio item count </span>
                         </div>
                     </div>                
                 </div>
             </q-card-section>
 
+            <q-card-actions align="center">
+                    <q-btn color="primary" label="Message" @click="onClickMessage" />
+                    <q-btn color="primary" label="Endorsement" @click="onClickEndorsement" />
+            </q-card-actions>
+
         </q-card>
 
+        <q-card style="text-align: center;"> 
+            <q-card-section>
+                <div class="row">
+                    <div class="col-3">
+                        <div>
+                            <span>{{v_user.like_count}}</span>
+                        </div>
+                        <div>
+                            <span>like Count</span>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div>
+                            <span>{{v_user.dislike_count}}</span>
+                        </div>
+                        <div>
+                            <span>dislike Count</span>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        blog Count
+                    </div>
+                    <div class="col-3">
+                        comments Count
+                    </div>
+                </div>
+            </q-card-section>
+        </q-card>
 
-        <div class="row">
-            <div class="col-3">
-                like Count
-            </div>
-            <div class="col-3">
-                subscriber Count
-            </div>
-            <div class="col-3">
-                blog Count
-            </div>
-            <div class="col-3">
-                comments Count
-            </div>
-        </div>
 
         <div class="row q-gutter-sm">
             <div class="col">
                 <CTitle title="$t('page.profile.blog')" desc="$t('page.profile.blog')"></CTitle>
-                <BlogList ref='blogList'></BlogList>
+                <PortfolioList ref='portfolioList'></PortfolioList>
             </div>
         </div>
 
@@ -132,6 +146,7 @@
 <script>
 import AWS from 'aws-sdk';
 import {MoaConfig} from 'src/data/MoaConfig';
+import {store} from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
@@ -145,6 +160,7 @@ import CTitle from 'components/CTitle';
 import BlogList from 'components/BlogList';
 import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 import MessageWriterDialog from 'components/dialogs/MessageWriterDialog';
+import PortfolioList from 'src/pages/user/component/PortfolioList';
 
 
 export default {
@@ -153,7 +169,8 @@ export default {
         BlogList,
         AvatarCropper,
         AddPortfolioDialog,
-        MessageWriterDialog
+        MessageWriterDialog,
+        PortfolioList
     },
     props: {},
 
@@ -184,33 +201,50 @@ export default {
 
     methods: {        
         setUser: function(params) {
-            
+            const _this = this;
+
             if (params.back) {
                 this.v_back = true;
             } else {
                 this.v_back = false;
             }
 
-            if (params.username) {
-                this.v_user.username = params.username;
-            } else {
-                this.v_user.username = MoaConfig.auth.username;
-                this.v_user.token = MoaConfig.auth.token;
+            let username = params.username;
+            if (! username) {
+                username = MoaConfig.auth.username;
             }
+            UserModel.loadProfile(username).then( a_user => {
+                _this.v_user = a_user;
+                _this.v_user.loadPortfolio().then( response => {
+                    logger.log.debug("setUser=>",response);
+                    _this.updatePortfolioWidget();
+                });
+            });
+        },
+
+        updatePortfolioWidget: function() {
+            const _this = this;
+
+            store.state.prices.load().then( response => {
+                logger.log.debug("updatePortfolioWidget",response);
+                _this.v_user.portfolio.calcPerformance(store.state.prices);
+                _this.$refs.portfolioList.update(_this.v_user.portfolio);
+            });
         },
 
         refresh: function() {
             const _this = this;
                     
             let funcs = [
-                this.loadUserProfile(this.v_user.username),
-                this.loadBlogList(this.v_user.id)
+                //this.loadUserProfile(this.v_user.username),
+                //this.loadBlogList(this.v_user.id)
             ];
             Promise.all(funcs).then(function() {
 
             });
         },
 
+/*
         updateUserModel:function(obj) {
             let v_user = this.v_user;
             
@@ -247,7 +281,7 @@ export default {
                 });
             });            
         },
-
+*/
         updateUserProfile: function(v_user) {
             const _this = this;
             
