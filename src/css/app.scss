@@ -103,22 +103,26 @@
 */
 
 .gBlogAvatar {
-  padding:5px 3px 15px 3px !important;
+  padding:15px 3px 15px 3px !important;
   height:50px;
   width:50px;
 }
 
+.gBlogUserDateBox {
+  padding:13px 0px 0px 5px !important;
+}
 
 .gBlogTitle {
-  font-size:24px;
+  font-size:20px;
   color:#000000;
   font-weight:bold;
 }
 
 
+
 .gBlogRatingBox {
   text-align: center;
-  padding:4px 16px;
+  padding:4px 0px;
 }
 
 .gBlogRatingBtn {
@@ -131,17 +135,18 @@
 
 
 .gPageTitleBox {
-  font-size:28px;
+  font-size:20px;
   color:#222222;
   }
 
 .gPageIcon {
   font-size:50px;
+  padding:0px 0px 5px 0px;
 }
 
 .gPageTitle {
   color:#222222;
-  font-size:30px;
+  font-size:25px;
   padding-left:10px;
 }
 
@@ -281,8 +286,15 @@
 
 
 
-.gCommentActions {
-  justify-content: space-between;
-  align-items: center;
+.gCommentReplyBox {
+  // justify-content: space-between;
+  // align-items: center;
+  padding:0px 0px;
+}
+
+.gCommentReplyBtn {  
+  width:80px;
+  size:15px;
+  color:#555555;
 }
 /* end */

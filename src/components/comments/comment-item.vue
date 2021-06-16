@@ -28,14 +28,13 @@
                     -->
                 </div>
 
-                <div class="gCommentActions">
+                <div class="gCommentReplyBox">
                     <div class="row">
                         <div v-if="data.level==0">
-                            <q-btn
+                            <q-btn 
+                                class="gCommentReplyBtn"
                                 flat                            
-                                type="text" 
-                                size="15px"
-                                color="grey-8"
+                                type="text"                                
                                 @click="replyHandler('editorContainer')" 
                                 v-if="data.children.length==0">
                                 Reply
@@ -45,8 +44,8 @@
                                 type="text"
                                 size="15px"                  
                                 color="grey-8"
-                                v-if="data.children && data.children.length"
                                 @click="toggleExpandPanel"
+                                v-if="data.children && data.children.length" 
                             >
                               {{
                                   isExpanded
@@ -62,31 +61,33 @@
                               ></i>
                           </q-btn>
                         </div>
+
                         <q-space />
-                        <div class="gCommentRating">
+                        
+                        <div class="RatingBtnBox">
                             <span>                              
-                                <q-icon
-                                    size="18px"
-                                    color="grey-8"
+                                <q-icon 
+                                    class="gCommentRatingBtn"                                                                    
                                     name="thumb_up"
-                                    @click="onClickLike('like',data)" />
-                                &nbsp;<span>{{ likeCount }}</span>
-                            </span>
+                                    @click="onClickLike('like',data)" />&nbsp;
+                                    <span class="gCommentRatingCount">{{ likeCount }}</span>
+                            </span>&nbsp;&nbsp;
                               
-                            &nbsp;&nbsp;
+                            
                             <span>
                                 <q-icon 
-                                    size="18px"
-                                    color="grey-8"
+                                    class="gCommentRatingBtn"                                                             
                                     name="thumb_down"
-                                    @click="onClickLike('dislike',data)"
-                                ></q-icon>&nbsp;
-                                <span>{{ dislikeCount }}</span>
+                                    @click="onClickLike('dislike',data)"> 
+                                </q-icon>&nbsp;
+                                <span class="gCommentRatingCount">{{ dislikeCount }}</span>
                             </span>
                         </div>
+
+
                     </div>
                 </div>
-            
+                 <q-separator />
                 <div class="editor-container editor-box" ref="editorContainer"></div>            
             </div>
             
@@ -342,14 +343,14 @@ dd.reply-container {
     transition: all;
 }
 
-.reply-btn {
-    height:4px;
-}   
 
-/* .reply_count { */
-    
+   
 .editor-box {
     margin-top:15px;
 }
 
+.RatingBtnBox {
+    padding-top:7px;
+
+}
 </style>
