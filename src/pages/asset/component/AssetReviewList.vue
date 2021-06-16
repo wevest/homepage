@@ -4,7 +4,7 @@
 
         <q-list separator class="rounded-borders">
 
-            <q-item class="boxItemList" clickable v-for="(a_review,index) in v_reviews" :key="index">
+            <q-item class="ReviewBox" clickable v-for="(a_review,index) in v_reviews" :key="index">
                 
                 <q-item-section avatar top>
                     <q-avatar>
@@ -15,7 +15,7 @@
 
                 <q-item-section top>
                     <q-item-label lines="1">
-                        <span class="text-weight-medium news-title"> {{a_review.user.username}}</span>
+                        <span class="ReviewTitle"> {{a_review.user.username}}</span>
                     </q-item-label>
                     
                  
@@ -29,34 +29,32 @@
                             icon-selected="star" 
                             color="amber-9"
                         />                        
-                        <span class="cursor-pointer news-date">{{a_review.creation_date}}</span>
+                        <span class="cursor-pointer ReviewDate">{{a_review.creation_date}}</span>
                     </q-item-label>  
                     <p class="content">                   
                         <q-item-label>
-                            <span class="review-text">
+                            <span class="ReviewText">
                                 {{a_review.content}}                                
                             </span>
                         </q-item-label>
                     </p>
                     <div class="float-right">
-                    <q-item-label class="q-pa-md thumb-btn float-right">                            
-                        <span class="boxReviewBtn"> 
-                            <q-btn class="like-btn"                            
-                            icon="thumb_up"
-                            size="13px"
+                    <q-item-label class="q-pa-md ReviewRatingBox float-right">                            
+                        <span> 
+                            <q-btn class="gCommentRatingBtn"                            
+                            icon="thumb_up"                            
                             flat                    
                             @click="onClickRating('like',a_review)" />  
-                            <span class="like-count">
+                            <span class="gCommentRatingCount">
                                 {{a_review.like_count}}
                             </span>
                         </span>                            
-                        <span class="boxReviewBtn"> 
-                            <q-btn class="dislike-btn"
-                            icon="thumb_down"
-                            size="13px"
+                        <span> 
+                            <q-btn class="gCommentRatingBtn"
+                            icon="thumb_down"                            
                             flat 
                             @click="onClickRating('dislike',a_review)" /> 
-                            <span class="dislike-count">{{a_review.dislike_count}}
+                            <span class="gCommentRatingCount">{{a_review.dislike_count}}
                             </span>
                         </span>                
                     </q-item-label>
@@ -174,45 +172,44 @@ export default {
 
 
 <style scope>
-.news-title {
+.ReviewTitle {
     font-size:14px;
     color:#111111;
 }
 
-.news-date {
+.ReviewDate {
     font-size:10px;
     color:#666666;
     margin-left:8px;
 }
 
-.boxItemList {
+.ReviewText {
+    font-size:16px;
+}
+
+.ReviewRatingBox {
+     padding:5px 0px;
+}
+
+
+.ReviewBtnBox {     
+    color:#222222;
+}
+
+
+
+.ReviewBox {
     border-bottom:1px solid #cccccc;
     padding: 15px 0px 0px 0px;
 }
 
-.boxReviewBtn {     
-    color:#222222;
-}
 
-.like-count {
-    padding-left:1px;
-}
 
-.dislike-count {
-    padding-left:1px;
-    color:#616161;
-}
-.thumb-btn {
-     
-}
 
 .cursor-pointer {
     color:#222222;
 }
 
-.review-text {
-    font-size:18px;
-}
 
 .rating-icon {
     margin-left:0px;
