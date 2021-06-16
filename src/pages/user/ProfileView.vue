@@ -59,23 +59,15 @@
 
             <q-card-section>
                 <div class="row boxNumber">
-                    <div class="col-4">
+                    <div class="col-6">
                         <div> 
-                            <span class="numberValue"> {{ v_user.portfolio.evaluated_value }} </span>
+                            <span class="numberValue"> {{ v_user.portfolio.roi }} % </span>
                         </div>
                         <div> 
-                            <span class="numberTitle"> Value </span>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div> 
-                            <span class="numberValue"> {{ v_user.portfolio.roi }} </span>                        
-                        </div>
-                        <div> 
-                            <span class="numberTitle">ROI </span>                        
+                            <span class="numberTitle"> value - {{ v_user.portfolio.evaluated_value }} </span>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-6">
                         <div class="align-center"> 
                             <span class="numberValue"> {{ v_user.portfolio.item_count }} </span>
                         </div>
@@ -125,7 +117,7 @@
 
         <div class="row q-gutter-sm">
             <div class="col">
-                <CTitle title="$t('page.profile.blog')" desc="$t('page.profile.blog')"></CTitle>
+                <CTitle title="$t('page.profile.portfolio')" desc="$t('page.profile.portfolio')"></CTitle>
                 <PortfolioList ref='portfolioList'></PortfolioList>
             </div>
         </div>
