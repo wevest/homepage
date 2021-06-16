@@ -207,4 +207,15 @@ export default class AuthService{
     }    
 
 
+    static getPortfolioGroup(reqParam,func,funcErr) {
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/portfolio/portfolios/list/");
+        callCMSAPI("GET",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }    
+
 }
