@@ -4,42 +4,41 @@
         <div class="row">
             <div class="col">
                 <div> 
-                    <q-list separator>
-                        <q-item v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
-                            <q-item-section @click="onClickPortfolio(a_portfolio)">
-                                <q-item-label>{{a_portfolio.name}}</q-item-label>
-                                <q-item-label caption lines="2">{{a_portfolio.description}}</q-item-label>
-                            </q-item-section>
-                            <q-item-section top class="col-2 gt-sm">
-                                <q-item-label class="q-mt-sm">
-                                    <span>$ {{a_portfolio.evaluated_value }} </span>
-                                </q-item-label>
-                                <q-item-label class="q-mt-sm">                                    
-                                    <span> {{a_portfolio.roi }} %</span>
-                                </q-item-label>
-                            </q-item-section>                            
-                            <q-item-section side>{{a_portfolio.updated_at}}</q-item-section>
-                            <q-item-section top side>
-                                <div class="text-grey-8">
-                                    <q-btn size="12px" flat dense round icon="add" @click="onClickAdd(a_portfolio)" />
-                                    <q-btn size="12px" flat dense round icon="remove" @click="onClickDelete(a_portfolio)" />
-                                    <q-btn size="12px" flat dense round icon="edit" @click="onClickEdit(a_portfolio)" />
-                                </div>
-                            </q-item-section>               
-                        </q-item>
 
-<!--
-                        <q-expansion-item
-                            v-for="(a_portfolio,index) in v_portfolio" :key="index"
-                            expand-separator
-                            icon="perm_identity"
-                            :label="a_portfolio.name"
-                            :caption="a_portfolio.description"
-                        >
-                            
-                        </q-expansion-item>
--->
-                    </q-list>
+
+                    <q-card bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
+                        <q-card-section @click="onClickPortfolio(a_portfolio)">
+                            <div class="row">
+                                <div>{{a_portfolio.name}}</div>>
+                                <div>{{a_portfolio.description}}</div>
+                                <q-space />
+                                <q-btn side size="12px" flat dense round icon="add" @click="onClickAdd(a_portfolio)" />
+                            </div>
+                        </q-card-section>
+                        <q-separator />
+                        <q-card-section>
+                            <div class="row">
+                                <div class="col-4">
+                                    <span> {{a_portfolio.roi }} %</span>
+                                </div>
+                                <div class="col-4">
+                                    <span>$ {{a_portfolio.evaluated_value }} </span>                            
+                                </div>
+                                <div class="col-2">
+                                    {{a_portfolio.updated_at}}
+                                </div>
+                                <div class="col-2">
+                                    <div class="text-grey-8">
+                                        <q-btn size="12px" flat dense round icon="add" @click="onClickAdd(a_portfolio)" />
+                                        <q-btn size="12px" flat dense round icon="remove" @click="onClickDelete(a_portfolio)" />
+                                        <q-btn size="12px" flat dense round icon="edit" @click="onClickEdit(a_portfolio)" />
+                                    </div>
+                                </div>               
+                            </div>
+                        </q-card-section>
+
+                    </q-card>
+
 
                 </div>
             </div>
