@@ -75,10 +75,10 @@
                 <div class="row boxNumber2">
                     <div class="col-6 roiBox">
                         <div> 
-                            <span class="roiCount"> {{ v_user.portfolio.roi }} % </span>
+                            <span class="roiCount"> {{ v_roi }} % </span>
                         </div>
                         <div> 
-                            <span class="valueDesc"> value - {{ v_user.portfolio.evaluated_value }} </span>
+                            <span class="valueDesc"> $ {{ v_evaluated_value }} </span>
                         </div>
                     </div>
                     <div class="col-6 countBox">

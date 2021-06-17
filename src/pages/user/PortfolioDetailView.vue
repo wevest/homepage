@@ -27,8 +27,52 @@
 
         <div class="row">
             <div class="col">
-                <q-btn label="Add" @click="onClickAdd" />
 
+                <q-card v-for="(a_portfolio,index) in v_portfolio.items" :key="index">
+                    <q-card-section>
+                        <div class="row">
+                            <div>
+                                <q-icon name="account_tree" color="black" size="34px" />
+                            </div>
+                            <div>
+                                <span>{{a_portfolio.api_asset.symbol}}</span>
+                                <span>{{a_portfolio.api_asset.name}}</span>
+                            </div>
+                            <div>
+                                <span class="text-weight-medium">{{v_format(a_portfolio.roi)}}</span>
+                                <span class="text-grey-8"> {{ v_format(a_portfolio.last*a_portfolio.qty)}} </span>
+                            </div>
+                        </div>  
+                    </q-card-section>
+                    <q-card-section>                        
+                        <div class="row">
+                            <div>
+                                {{ v_format(a_portfolio.last) }}
+                            </div>
+                            <div>
+                                <span class="cursor-pointer">{{ v_format(a_portfolio.price) }}</span>
+                            </div>
+                            <div>
+                                <span>{{v_updated_at(a_portfolio.updated_at)}}</span>
+                            </div>
+                        </div>
+                    </q-card-section>
+                    <q-card-section>
+                        <div> 
+                            {{a_portfolio.description}} 
+                        </div>
+                    </q-card-section>
+                    <q-card-actions>
+                        <div class="text-grey-8 q-gutter-xs">
+                            <q-btn class="gt-xs" size="12px" flat dense round icon="delete" @click="onClickDelete(a_portfolio)"/>
+                            <q-btn class="gt-xs" size="12px" flat dense round icon="done" />
+                            <q-btn size="12px" flat dense round icon="more_vert" />
+                        </div>                            
+                    </q-card-actions>                        
+                </q-card>
+
+
+<!--
                 <q-list>
                     <q-item clickable v-for="(a_portfolio,index) in v_portfolio.items" :key="index">
 
@@ -69,6 +113,7 @@
                     </q-item>
                         
                 </q-list>
+-->
 
             </div>
         </div>
