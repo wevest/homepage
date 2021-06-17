@@ -1,81 +1,46 @@
 <template>
 
-<<<<<<< HEAD
-        <div class="row">
-            <div class="col">
-                <div> 
-                    <q-list separator>
-                        <q-item v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
-                            <q-item-section @click="onClickPortfolio(a_portfolio)">
-                                <q-item-label>{{a_portfolio.name}}</q-item-label>
-                                <q-item-label caption lines="2">{{a_portfolio.description}}</q-item-label>
-                            </q-item-section>
-                            <q-item-section top class="col-2 gt-sm">
-                                <q-item-label class="q-mt-sm">
-                                    <span>$ {{a_portfolio.evaluated_value }} </span>
-                                </q-item-label>
-                                <q-item-label class="q-mt-sm">                                    
-                                    <span> {{a_portfolio.roi }} %</span>
-                                </q-item-label>
-                            </q-item-section>                            
-                            <q-item-section side>{{a_portfolio.updated_at}}</q-item-section>
-                            <q-item-section top side>
-=======
     <div class="row">
         <div class="col">
             <div> 
 
-                <q-card bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
-                    <q-card-section>
-                        <div class="row">
-                            <div>{{a_portfolio.name}}</div>>
-                            <div>{{a_portfolio.description}}</div>
+                <q-card class="portfolioListBox" bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
+                    <q-card-section class="row groupTitleBox"> 
+                        <div class="row" >                       
+                            <div class="groupName">{{a_portfolio.name}}</div> &nbsp;| &nbsp;
+                            <span class="groupDesc">{{a_portfolio.description}}</span>
                             <q-space />
-                            <q-btn side size="12px" flat dense round icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
+                            <div><q-btn side size="12px" flat dense round icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
                         </div>
+                        </div>
+                        
                     </q-card-section>
                     <q-separator />
                     <q-card-section>
-                        <div class="row">
-                            <div class="col-4">
-                                <span> {{ Number(a_portfolio.roi).toLocaleString() }} %</span>
+                        <div class="row">                            
+                            <div class="col-4 roiBox">
+                                <div class="groupDesc">ROI</div>
+                                <span class="aaaa"> {{ Number(a_portfolio.roi).toLocaleString() }} %</span>
                             </div>
-                            <div class="col-4">
+                            <div class="col-4 marketBox">
+                                <div class="groupDesc">Market</div>
                                 <span>$ {{a_portfolio.evaluated_value.toLocaleString() }} </span>                            
-                            </div>
-                            <div class="col-2">
-                                {{ v_updated_at(a_portfolio.updated_at) }}
-                            </div>
-                            <div class="col-2">
->>>>>>> 795da4537a2317d9007c0932bb10e25c43b917d4
-                                <div class="text-grey-8">
-                                    <q-btn size="12px" flat dense round icon="add" @click="onClickAdd(a_portfolio)" />
-                                    <q-btn size="12px" flat dense round icon="remove" @click="onClickDelete(a_portfolio)" />
-                                    <q-btn size="12px" flat dense round icon="edit" @click="onClickEdit(a_portfolio)" />
-                                </div>
-<<<<<<< HEAD
-                            </q-item-section>               
-                        </q-item>
-
-<!--
-                        <q-expansion-item
-                            v-for="(a_portfolio,index) in v_portfolio" :key="index"
-                            expand-separator
-                            icon="perm_identity"
-                            :label="a_portfolio.name"
-                            :caption="a_portfolio.description"
-                        >
-                            
-                        </q-expansion-item>
--->
-                    </q-list>
-=======
-                            </div>               
+                            </div>                           
+                            <div class="col-4 timeBox">
+                                 <div class="groupDesc">Time</div>
+                                <span>{{ v_updated_at(a_portfolio.updated_at) }} </span>
+                            <!-- </div> -->
+                            <!-- <div class="col-4 editBox" > -->
+                                <!-- <div class="text-grey-8"> -->
+                                    <!-- <q-btn size="12px" flat dense round icon="add" @click="onClickAdd(a_portfolio)" /> -->
+                                    <!-- <q-btn size="12px" flat dense round icon="remove" @click="onClickDelete(a_portfolio)" /> -->
+                                    <!-- <q-btn size="12px" flat dense round icon="edit" @click="onClickEdit(a_portfolio)" /> -->
+                                <!-- </div> -->
+                            </div>                                     
                         </div>
                     </q-card-section>
 
                 </q-card>
->>>>>>> 795da4537a2317d9007c0932bb10e25c43b917d4
 
             </div>
         </div>
@@ -131,4 +96,47 @@ export default {
 
 
 <style scope> 
+
+.portfolioListBox {
+    margin:10px 0px;
+}
+
+.groupTitleBox {
+    padding:10px 0px 3px 10px;
+}
+
+.groupName {
+    font-size:14px;
+    color:#222222;
+
+}
+
+.groupDesc {
+   font-size:14px;
+   color:#cccccc;
+}
+
+.aaaa {
+    color:#5a9591;
+    font-weight:700;
+}
+
+
+.roiBox {
+    padding:0px 0px 0px 0px;
+    text-align:center;
+    ;
+}
+
+.marketBox {
+    padding:0px 0px 0px 0px;
+    text-align:center;
+}
+
+.timeBox {
+    padding:0px 0px 0px 0px;
+    text-align:center;
+}
+
+
 </style>
