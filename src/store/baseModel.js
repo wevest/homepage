@@ -1,5 +1,5 @@
 export class baseCollection {
-
+    last_updated=null;
     items=[];
     
     constructur() {
@@ -14,4 +14,10 @@ export class baseCollection {
         this.items = [];
     }
 
+    isEmpty() {
+        if (this.items.length==0) {
+            return true;
+        }
+        return false;
+    }
 }

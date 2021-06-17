@@ -1281,5 +1281,8 @@ export default class CommonFunc {
         
     }
 
+    static getCurrentDatetime() {
+        return new Date();
+    }
 }
 

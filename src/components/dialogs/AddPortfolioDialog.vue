@@ -10,9 +10,45 @@
         >
             <q-card>
                 <q-card-section>
+                    <div class="text-h6">Add Portfolio Item</div>
+<!--                    
+                    <div class="text-subtitle2">by John Doe</div>
+-->                    
+                </q-card-section>       
+                <q-separator />         
+                <q-card-section>
                     <div class="row">
                         <div class="col">
                             <CryptoSelect ref="cryptoSelector" @onSelectAsset="onSelectAsset" />
+                            <br>
+                            <q-select
+                                filled
+                                use-input
+                                input-debounce="0"
+                                v-model="v_input"
+                                label="Portfolio Group"
+                                :options="v_group_list"
+                                behavior="menu"
+                                @input-value="onPortfolioChange"
+                                @input="onPortfolioInput"
+                                ref="selectPortfolio"
+                            >
+                                <template v-slot:no-option>
+                                    <q-item>
+                                        <q-item-section class="text-grey">
+                                            No results
+                                        </q-item-section>
+                                    </q-item>
+                                </template>
+                            </q-select>
+
+                            <q-input 
+                                type="textarea"
+                                v-model="v_portfolio_item.description" 
+                                label="Why add to portfolio" 
+                                :error="v_error.title.error"
+                                :error-message="v_error.title.msg"
+                            />
 
 <!--
                             <q-input 
@@ -30,46 +66,23 @@
                             />
 -->
 
-                            <q-select
-                                filled
-                                v-model="v_portfolio_item.portfolio_id"
-                                label="Portfolio Group"
-                                :options="v_group_list"
-                                option-label="label"
-                                option-value="value"
-                                map-options
-                                emit-value
-                                behavior="menu"
-                                ref="selectPortfolio"
-                            >
-                                <template v-slot:no-option>
-                                    <q-item>
-                                        <q-item-section class="text-grey">
-                                            No results
-                                        </q-item-section>
-                                    </q-item>
-                                </template>
-                            </q-select>
-                            <q-input 
-                                v-model="v_portfolio_item.price" 
-                                label="Price($)" 
-                                :error="v_error.title.error"
-                                :error-message="v_error.title.msg"
-                            />                            
-                            <q-input 
-                                v-model="v_portfolio_item.qty" 
-                                label="Qty" type="number"
-                                :error="v_error.title.error"
-                                :error-message="v_error.title.msg"
-                            />
-
-                            <q-input 
-                                type="textarea"
-                                v-model="v_portfolio_item.description" 
-                                label="Why add to portfolio" 
-                                :error="v_error.title.error"
-                                :error-message="v_error.title.msg"
-                            />
+<!--
+                            <div class="row">
+                                <q-input 
+                                    v-model="v_portfolio_item.price" 
+                                    label="Price($)" 
+                                    hint="Price will be automatically updated"
+                                    :error="v_error.title.error"
+                                    :error-message="v_error.title.msg"
+                                />                            
+                                <q-input 
+                                    v-model="v_portfolio_item.qty" 
+                                    label="Qty" type="number"
+                                    :error="v_error.title.error"
+                                    :error-message="v_error.title.msg"
+                                />
+                            </div>
+-->                            
                         </div>
                     </div>
                 </q-card-section>       
@@ -88,6 +101,7 @@
 </template>
 
 <script>
+import { store } from 'src/store/store';
 import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
@@ -95,6 +109,7 @@ import CMSAPI from 'src/services/cmsService';
 
 import CryptoSelect from "src/components/CryptoSelect";
 
+import UserModel from "src/store/UserModel";
 import { PriceModel, PriceListModel } from "src/store/PriceModel";
 import { PortfolioListModel, PortfolioItemModel } from "src/store/PortfolioModel";
 
@@ -111,14 +126,16 @@ export default {
             
             v_show: false,
 
-            v_prices: new PriceListModel(),
-            v_portfolio: new PortfolioListModel(),
+            v_user: new UserModel(),
             v_portfolio_item: new PortfolioItemModel(),
+            
+            v_selected_asset: null,
             v_selected_portfolio: null,
 
             v_groups: null,
             v_group_list: [],
-        
+            
+            v_input: null,
             v_options: this.v_group_list,
 
             v_error: {
@@ -132,47 +149,36 @@ export default {
         console.log("AddPortfolioDialog.created");
     },
     mounted: function() {
-        this.loadPrice();
+        //this.loadPrice();
     },
     updated: function() {
         //this.$refs.selectPortfolio.setOptionIndex(0);
     },
     
     methods: {      
+        setUser: function(v_user) {
+            this.v_user = v_user;
+        },
+
         setPortfolio: function(v_portfolio) {
             this.v_portfolio = v_portfolio;
         },
 
-        setPortfolioItem: function(v_portfolio_item) {
-            this.v_portfolio_item = v_portfolio_item;
-        },
-
-        loadPrice: function() {
-            this.v_prices.load().then( response => {
-                logger.log.debug("loadPrice=",response);                
-            });
-            
-        },
-
-        getPrice: function(symbol) {
-            let a_pair = symbol+"_USDT";
-            let a_found = this.v_prices.find({currency_pair:a_pair});
-            logger.log.debug("getPrice=",a_found);
-            if (a_found) {
-                this.v_portfolio_item.price = a_found.last;
-            }
-            
-        },
-
-        setPortfolioSelector: function() {
+        setPortfolioSelector: function(v_portfolio) {
             let groups = [];
-            for (let index=0;index<this.v_portfolio.models.length;index++) {
-                groups.push( {value:this.v_portfolio.models[index].id, label:this.v_portfolio.models[index].name});
+            
+            if (v_portfolio.items.length==0) {
+                groups.push( MoaConfig.setting.defaultPortfolio );
+            } else {
+                for (let index=0;index<v_portfolio.items.length;index++) {
+                    groups.push( v_portfolio.items[index].name );
+                }
             }
+            
             if (groups.length>0) {
-                this.v_portfolio_item.portfolio_id = groups[0];
+                this.v_input = groups[0];
             }
-            //logger.log.debug("setPortfolioSelector",groups);
+            logger.log.debug("setPortfolioSelector",groups);
             this.v_group_list = groups;
         },
 
@@ -181,19 +187,18 @@ export default {
         },
 
 
-        show: function(v_portfolio,v_portfolio_item) {
-            logger.log.debug("AddPortfolioDialog.show : v_portfolio_item=",v_portfolio,v_portfolio_item);
-            
-            this.loadPrice();
+        show: function(v_user,v_portfolio) {
+            logger.log.debug("AddPortfolioDialog.show : v_portfolio=",v_portfolio);
+
+            if (v_user) {
+                this.setUser(v_user);
+            }
 
             if (v_portfolio) {
                 this.setPortfolio(v_portfolio);
             }
-            if (v_portfolio_item) {
-                this.setPortfolioItem(v_portfolio_item);
-            }
 
-            this.setPortfolioSelector();
+            this.setPortfolioSelector(v_user.portfolio);
 
             this.v_portfolio_item.asset_id = 1;
             this.v_portfolio_item.portfolio_id = -1;
@@ -223,16 +228,26 @@ export default {
             })            
         },
         
-        onSelectAsset: function(param) {
-            logger.log.debug('onSelectAsset param - ',param);
-            this.v_portfolio_item.asset_id = param.value;
-            this.getPrice(param.value);
+        onSelectAsset: function(asset) {
+            logger.log.debug('onSelectAsset param - ',asset);
+            this.v_selected_asset = asset;
+            this.v_portfolio_item.asset_id = asset.id;
+            
+            let a_price = store.state.prices.getPrice(this.v_selected_asset.symbol);
+            if (a_price) {
+                this.v_portfolio_item.price = a_price.last;
+            }            
         },
 
         onClickSave: function() {                        
+            const _this = this;
             logger.log.debug('onClickSave - ',this.v_portfolio_item);
 
-            //this.v_portfolio_item.add();
+            this.v_portfolio_item.addToServer().then( response => {
+                CommonFunc.showOkMessage(_this,'Portfolio added');
+            }).catch( err=> {
+                CommonFunc.showErrorMessage(_this,'Portfolio error');
+            });
         },
 
         onClickClose: function() {
@@ -240,7 +255,22 @@ export default {
             this.hide();
         },
 
+        onPortfolioChange: function(value) {      
+            logger.log.debug('onPortfolioChange=',value.length);
+            if (value.length>2) {
+                this.v_portfolio_item.portfolio_name = value;
+            }            
+        },
 
+        onPortfolioInput: function(value) {
+            logger.log.debug('onPortfolioInput=',value);
+            this.v_portfolio_item.portfolio_name = value;
+        },
+
+        onNewPortfolio: function(val,done) {
+            logger.log.debug('onClickClose - ',val);
+            done(val,'add-unique');
+        }
     }
 
 };

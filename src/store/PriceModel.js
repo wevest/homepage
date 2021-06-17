@@ -29,14 +29,14 @@ export class PriceModel{
 
     assign(item) {
         this.currency_pair = item.currency_pair;
-        this.last = item.last;
-        this.lowest_ask=item.lowest_ask;
-        this.highest_bid = item.highest_bid;
-        this.change_percentage = item.change_percentage;
-        this.base_volume = item.base_volume;
-        this.quote_volume = item.quote_volume;
-        this.high_24h = item.high_24h; 
-        this.low_24h = item.low_24h;
+        this.last = Number(item.last);
+        this.lowest_ask= Number(item.lowest_ask);
+        this.highest_bid = Number(item.highest_bid);
+        this.change_percentage = Number(item.change_percentage);
+        this.base_volume = Number(item.base_volume);
+        this.quote_volume = Number(item.quote_volume);
+        this.high_24h = Number(item.high_24h); 
+        this.low_24h = Number(item.low_24h);
     }
 
     toDict() {
@@ -74,14 +74,19 @@ export class PriceModel{
 export class PriceListModel extends baseCollection{
 
     getPrice(symbol,quotePair="USDT") {
+
+        if (this.isEmpty()) {
+            let response = this.load();
+        }
+
         let a_pair = symbol + "_" + quotePair;
         //logger.log.debug("getPrice.pair=",this.items);
         return _.find(this.items,{currency_pair:a_pair} );
     }
     
-    load() { 
+    async fetch() {
         const _this = this;
-
+        
         let reqParam = { token: MoaConfig.auth.token};
         return new Promise(function(resolve,reject) {
             PriceService.getPrice(reqParam).then( response => {
@@ -96,6 +101,14 @@ export class PriceListModel extends baseCollection{
                 reject(err);
             });        
         });
+
+    }
+
+    async load() { 
+        logger.log.debug("PriceModel.load");
+
+        let response = await this.fetch();
+        return response;        
     }   
 
 }

@@ -5,14 +5,15 @@ import {mutations} from 'src/store/mutations';
 import {actions} from 'src/store/actions';
 //import {getters} from './getters';
 import logger from "src/error/Logger";
+import { AssetModel, AssetListModel } from "src/store/AssetModel";
 import { PriceModel, PriceListModel } from "src/store/PriceModel";
-
 
 Vue.use(Vuex);
 
 const state = {
     version:0.18,
     prices: new PriceListModel(),
+    assets: new AssetListModel(),
     components:{},
 };
 

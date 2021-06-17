@@ -1,13 +1,14 @@
 <template>
     
     <div>
-
         <q-select                
+            filled
             class="full-width"
             ref="assetSearch"          
             v-model="g_asset" use-input fill-input hide-selected borderless
             input-debounce="0"
             :options="v_options"
+            label="Asset"
             @filter="filterFn"
             @input="onSearchInput"
             @input-value="onSearchChange"
@@ -16,7 +17,7 @@
             behavior="menu"
         >
 
-            <template v-slot:prepend>
+            <template v-slot:append>
                 <q-icon name="search" @click.stop />
             </template>
 
@@ -54,10 +55,9 @@
 
 
 <script>
+import {store} from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
-
-import LocalStorageService from 'src/services/localStorage';
 
 
 export default {
@@ -78,18 +78,18 @@ export default {
     updated: function() {},
     created: function() {},
     mounted: function () {
-        this.loadCoinCodes();
+        this.loadAssets();
     },
 
     methods: {
 
-        loadCoinCodes: function() {
-            let codes = LocalStorageService.getCoinCode();
-            logger.log.debug('coincodes=',codes);
+        loadAssets: function() {
+            let codes = store.state.assets.items;
+            //logger.log.debug('coincodes=',codes);
                     
             let a_options = [];
             for (let index=0;index<codes.length;index++) {
-                a_options.push( {label:codes[index][1], value:codes[index][0]} );
+                a_options.push( {label:codes[index].symbol, value:codes[index].name} );
             }
             this.g_options = a_options;
         },
@@ -117,9 +117,10 @@ export default {
             return false;
         },
 
-        emitEvent: function(param) {
-            logger.log.debug('emitEvent.param=',param);
-            this.$emit("onSelectAsset",param);
+        emitEvent: function(symbol) {
+            logger.log.debug('emitEvent.param=',symbol);
+            let a_asset = store.state.assets.getAsset(symbol);
+            this.$emit("onSelectAsset",a_asset);
         },
 
 
@@ -130,16 +131,16 @@ export default {
         onSearchInput: function(value) {
             logger.log.debug('onSearchInput=',value);
             if (this.isValidInput(value.label)) {
-                this.emitEvent({value:value.label});
+                this.emitEvent(value.label);
             }
         },
 
         onSearchEnter: function(event,value) {
-            logger.log.debug('onSearchEnter');
+            logger.log.debug('onSearchEnter',event,this.g_input);
             //this.$refs.assetSearch.refresh(-1);
             event.target.blur();
             if (this.isValidInput(this.g_input)) {
-                this.emitEvent({value:this.g_input});
+                this.emitEvent(this.g_input);
             }
         },
 
