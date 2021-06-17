@@ -413,15 +413,6 @@ export default {
     }
 
 
-.boxAnswerRating {
-    padding: 5px 0px;
-    text-align:center;
-}
-.boxAnswerCommentItem {
-    padding: 5px 0px 11px 0px;
-    border-bottom:1px solid #cccccc;
-}
-
 .CommentSaveBtnBox {
     padding:10px 0px;;
     }

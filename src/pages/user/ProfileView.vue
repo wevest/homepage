@@ -37,15 +37,27 @@
 
             </q-item-section>
 
-            <q-card-section>
+            <q-card-section class="boxNumber1">
                 <div class="text-h6">{{ v_user.username }}</div>
                 <div class="row">
-                    <div class="col-6">
-                        <q-input v-model="v_user.first_name" label="first name" :readonly="! v_edit" /> 
+                    <div class="col-2"></div>
+                    <div class="col-4">
+                        <q-input 
+                            v-model="v_user.first_name" 
+                            label="First name"
+                            dense
+                            label-color="teal-10"
+                            :readonly="! v_edit" /> 
                     </div>
-                    <div class="col-6">
-                        <q-input v-model="v_user.last_name" :readonly="! v_edit" />
+                    <div class="col-4">
+                        <q-input 
+                            v-model="v_user.last_name" 
+                            label="Last name"
+                            dense
+                            label-color="teal-10"
+                            :readonly="! v_edit" />
                     </div>
+                    <div class="col-2"></div>
                 </div>
             </q-card-section>
 
@@ -56,64 +68,73 @@
             <q-card-actions v-if="v_edit" align="center">
                 <q-btn color="primary" label="Save" @click="onClickSave" />
             </q-card-actions>
+        </q-card>
 
-            <q-card-section>
-                <div class="row boxNumber">
-                    <div class="col-6">
+        <q-card style="text-align: center;">
+            <q-card-section class="boxNumber">
+                <div class="row boxNumber2">
+                    <div class="col-6 roiBox">
                         <div> 
-                            <span class="numberValue"> {{ v_roi }} % </span>
+                            <span class="roiCount"> {{ v_user.portfolio.roi }} % </span>
                         </div>
                         <div> 
-                            <span class="numberTitle"> value - {{ v_evaluated_value }} </span>
+                            <span class="valueDesc"> value - {{ v_user.portfolio.evaluated_value }} </span>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 countBox">
                         <div class="align-center"> 
-                            <span class="numberValue"> {{ v_user.portfolio.item_count }} </span>
+                            <span class="roiCount"> {{ v_user.portfolio.item_count }} </span>
                         </div>
                         <div> 
-                            <span class="numberTitle">portfolio item count </span>
+                            <span class="valueDesc">portfolio item count </span>
                         </div>
                     </div>                
                 </div>
             </q-card-section>
-
-            <q-card-actions align="center">
-                    <q-btn color="primary" label="Message" @click="onClickMessage" />
-                    <q-btn color="primary" label="Endorsement" @click="onClickEndorsement" />
-            </q-card-actions>
-
         </q-card>
 
+            <!-- <q-card-actions class="boxNumber2" align="center"> -->
+                    <!-- <q-btn color="primary" label="Message" @click="onClickMessage" /> -->
+                    <!-- <q-btn color="primary" label="Endorsement" @click="onClickEndorsement" /> -->
+            <!-- </q-card-actions> -->
+
+        
+
         <q-card style="text-align: center;"> 
-            <q-card-section>
+            <q-card-section class="boxNumber3">
                 <div class="row">
                     <div class="col-3">
                         <div>
-                            <span>{{v_user.like_count}}</span>
+                            <span class="count">{{v_user.like_count}}</span>
                         </div>
                         <div>
-                            <span>like Count</span>
+                            <span>좋아요</span>
                         </div>
                     </div>
                     <div class="col-3">
                         <div>
-                            <span>{{v_user.dislike_count}}</span>
+                            <span class="count">{{v_user.dislike_count}}</span>
                         </div>
                         <div>
-                            <span>dislike Count</span>
+                            <span>싫어요</span>
                         </div>
                     </div>
                     <div class="col-3">
-                        blog Count
+                        <span class="count"></span>
+                            <span>blog Count</span>
                     </div>
                     <div class="col-3">
-                        comments Count
+                        <span class="count"></span>    
+                            <span>Comments Count</span>
                     </div>
                 </div>
             </q-card-section>
         </q-card>
 
+            <q-card-actions class="boxNumber2" align="center">
+                    <q-btn color="primary" label="Message" @click="onClickMessage" />
+                    <q-btn color="primary" label="Endorsement" @click="onClickEndorsement" />
+            </q-card-actions>
 
         <div class="row q-gutter-sm">
             <div class="col">
@@ -451,14 +472,23 @@ export default {
 
 <style scope> 
 
-.numberTitle {
-  font-size:12px;  
-  color:#cccccc;
+.roiCount {
+  font-size:25px;  
+  color:#222222;
+  font-weight: bold;
 }
 
-.numberValue {
-  font-size:22px;  
-  font-weight: bold;
+.valueDesc {
+   font-size:14px;  
+   color:#8C8C8C;
+}
+
+.roiBox {
+    padding-right:20px;
+}
+
+.countBox {
+    padding-left:20px;
 }
 
 .btnAvatar {
@@ -469,6 +499,26 @@ export default {
 }
 
 .boxNumber {
-    padding:20px;
+    padding:16px 2px;
+    margin-top:5px;
+}
+
+.boxNumber1 {
+    padding:2px 16px;
+}
+
+.boxNumber2 {
+    padding:16px 2px;
+}
+
+.boxNumber3 {
+     padding:16px 2px;
+     margin-top:5px;
+}
+
+.count {
+    color:#222222;
+    font-size:15px;
+    font-weight:bold;
 }
 </style>

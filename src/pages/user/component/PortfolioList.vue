@@ -4,34 +4,39 @@
         <div class="col">
             <div> 
 
-                <q-card bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
-                    <q-card-section>
-                        <div class="row">
-                            <div>{{a_portfolio.name}}</div>>
-                            <div>{{a_portfolio.description}}</div>
+                <q-card class="portfolioListBox" bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
+                    <q-card-section class="row groupTitleBox"> 
+                        <div class="row" >                       
+                            <div class="groupName">{{a_portfolio.name}}</div> &nbsp;| &nbsp;
+                            <span class="groupDesc">{{a_portfolio.description}}</span>
                             <q-space />
-                            <q-btn side size="12px" flat dense round icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
+                            <div><q-btn side size="12px" flat dense round icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
                         </div>
+                        </div>
+                        
                     </q-card-section>
                     <q-separator />
                     <q-card-section>
-                        <div class="row">
-                            <div class="col-4">
-                                <span> {{ Number(a_portfolio.roi).toLocaleString() }} %</span>
+                        <div class="row">                            
+                            <div class="col-4 roiBox">
+                                <div class="groupDesc">ROI</div>
+                                <span class="aaaa"> {{ Number(a_portfolio.roi).toLocaleString() }} %</span>
                             </div>
-                            <div class="col-4">
+                            <div class="col-4 marketBox">
+                                <div class="groupDesc">Market</div>
                                 <span>$ {{a_portfolio.evaluated_value.toLocaleString() }} </span>                            
-                            </div>
-                            <div class="col-2">
-                                {{ v_updated_at(a_portfolio.updated_at) }}
-                            </div>
-                            <div class="col-2">
-                                <div class="text-grey-8">
-                                    <q-btn size="12px" flat dense round icon="add" @click="onClickAdd(a_portfolio)" />
-                                    <q-btn size="12px" flat dense round icon="remove" @click="onClickDelete(a_portfolio)" />
-                                    <q-btn size="12px" flat dense round icon="edit" @click="onClickEdit(a_portfolio)" />
-                                </div>
-                            </div>               
+                            </div>                           
+                            <div class="col-4 timeBox">
+                                 <div class="groupDesc">Time</div>
+                                <span>{{ v_updated_at(a_portfolio.updated_at) }} </span>
+                            <!-- </div> -->
+                            <!-- <div class="col-4 editBox" > -->
+                                <!-- <div class="text-grey-8"> -->
+                                    <!-- <q-btn size="12px" flat dense round icon="add" @click="onClickAdd(a_portfolio)" /> -->
+                                    <!-- <q-btn size="12px" flat dense round icon="remove" @click="onClickDelete(a_portfolio)" /> -->
+                                    <!-- <q-btn size="12px" flat dense round icon="edit" @click="onClickEdit(a_portfolio)" /> -->
+                                <!-- </div> -->
+                            </div>                                     
                         </div>
                     </q-card-section>
 
@@ -91,4 +96,47 @@ export default {
 
 
 <style scope> 
+
+.portfolioListBox {
+    margin:10px 0px;
+}
+
+.groupTitleBox {
+    padding:10px 0px 3px 10px;
+}
+
+.groupName {
+    font-size:14px;
+    color:#222222;
+
+}
+
+.groupDesc {
+   font-size:14px;
+   color:#cccccc;
+}
+
+.aaaa {
+    color:#5a9591;
+    font-weight:700;
+}
+
+
+.roiBox {
+    padding:0px 0px 0px 0px;
+    text-align:center;
+    ;
+}
+
+.marketBox {
+    padding:0px 0px 0px 0px;
+    text-align:center;
+}
+
+.timeBox {
+    padding:0px 0px 0px 0px;
+    text-align:center;
+}
+
+
 </style>
