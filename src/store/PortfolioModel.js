@@ -52,6 +52,22 @@ export class PortfolioItemModel {
             });
         });
     }   
+
+    deleteToServer() {        
+        const _this = this;
+
+        return new Promise(function(resolve,reject) {
+            let reqParam = _this.toDict();
+            reqParam.token = MoaConfig.auth.token;
+            reqParam.action = "delete";
+            AuthService.deletePortfolioItem(reqParam, function(response) {
+                resolve(response);
+            }, function(err) {
+                reject(err);
+            });
+        });
+    }   
+
 }
 
 
@@ -75,6 +91,15 @@ export class PortfolioModel extends baseCollection {
         this.items = item.portfolio_children;
     }
 
+    getItem(id) {
+        //logger.log.debug("getPrice.pair=",this.items);
+        return _.find(this.items,{id:id} );
+    }
+
+    delete(id) {
+        _.remove(this.items, {id:id});
+    }
+
     calcPerformance(prices) {
         //logger.log.debug("PortfolioModel.calcPerformance : prices=",this);
         let dic_perf = {value:0, roi:0, count:0};
@@ -82,7 +107,7 @@ export class PortfolioModel extends baseCollection {
         for (let index=0;index<this.items.length;index++) {
             //const price = prices.getPrice(this.items[index])
             const a_price = prices.getPrice(this.items[index].api_asset.symbol);
-            logger.log.debug("PortfolioModel.calcPerformance .item =",this.items[index],a_price);
+            //logger.log.debug("PortfolioModel.calcPerformance .item =",this.items[index],a_price);
             if (a_price) {
                 this.items[index].last = a_price.last;
                 this.items[index].roi = CommonFunc.calcRet(this.items[index].price,a_price.last)*100;
@@ -110,6 +135,9 @@ export class PortfolioListModel extends baseCollection{
     item_count=0;
     group_count=0;
 
+    getItem(id) {
+        return _.find(this.items,{id:id} );
+    }
 
     load(username) { 
         const _this = this;
@@ -135,7 +163,7 @@ export class PortfolioListModel extends baseCollection{
     }   
     
     calcPerformance(prices) {
-        logger.log.debug("PortfolioListModel.calcPerformance.items=",this.items);
+        //logger.log.debug("PortfolioListModel.calcPerformance.items=",this.items);
         
         this.evaluated_value = 0;
         this.roi = 0;
@@ -151,5 +179,27 @@ export class PortfolioListModel extends baseCollection{
         }
 
         this.roi = this.roi/this.group_count;
+    }
+
+    deletePortfolioItem(portfolio_id,item_id) {
+        const _this = this;
+
+        return new Promise(function(resolve,reject) {
+            let reqParam = {
+                token:MoaConfig.auth.token,
+                id:item_id,
+            };
+
+            AuthService.deletePortfolioItem(reqParam, function(response) {
+
+                let a_portfolio = _this.getItem(portfolio_id);
+                a_portfolio.delete(item_id);
+                resolve(response);
+
+            }, function(err) {
+                reject(err);
+            });
+        });
+
     }
 }

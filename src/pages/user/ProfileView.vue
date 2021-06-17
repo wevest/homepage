@@ -9,7 +9,7 @@
 
         <q-card style="text-align: center;"> 
             <q-card-actions align="right">
-                <q-btn color="primary" @click="onClickPortfolio" label="Portfolio" />
+                <q-btn color="primary" @click="onClickPortfolio2" label="Portfolio" />
                 <q-btn color="primary" @click="onClickBack" v-show="v_back" label="Back" />
                 <q-btn color="primary" @click="onClickEdit" v-show="isOwner" label="Edit" />
             </q-card-actions>
@@ -432,8 +432,11 @@ export default {
             this.$refs.addPortfolio.show(this.v_user,null);
         },
 
+        onClickPortfolio2: function(portfolio) {
+        },
+
         onClickPortfolio: function(portfolio) {
-            logger.log.debug("onClickPortfolio");
+            logger.log.debug("onClickPortfolio",portfolio);
             //this.$refs.addPortfolio.show();
             let dic_param = { name:'portfolio_detail', path:'portfolio_detail', params:{ user:this.v_user, portfolio:portfolio, back:true } };
             this.$router.push(dic_param);
