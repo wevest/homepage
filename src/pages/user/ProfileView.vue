@@ -515,7 +515,7 @@ export default {
 
 .boxNumber {
     padding:16px 2px;
-    margin-top:2px;
+    margin-top:5px;
 }
 
 .boxNumber1 {
@@ -528,7 +528,7 @@ export default {
 
 .boxNumber3 {
      padding:16px 2px;
-     margin-top:2px;
+     margin-top:5px;
 }
 
 .count {
