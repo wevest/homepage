@@ -660,4 +660,22 @@ export default class MoaBackendAPI{
     });
   }
 
+  
+  static getAssetData(reqParam,func,funcErr) {
+    let a_method = "/api/asset/assets/";
+    if (! reqParam.hasOwnProperty('limit') ) {
+      a_method += "?limit=10000";
+    }
+
+    let url = MoaBackendAPI.getUrl(MoaConfig.urls.cms,a_method);
+    callAPI("GET",url,{},reqParam)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
+
 }

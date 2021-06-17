@@ -2,36 +2,66 @@
     <div>
         <div class="row">
             <div class="col">
-                <span> $123,12312,12312, </span>
+                <div>
+                    <span> {{v_portfolio.name}} % </span>
+                </div>
+
+                <span> {{v_portfolio.roi}} % </span>
+                <span> {{v_portfolio.evaluated_value}}  </span>
             </div>
             <div>
-                high chart
+                
             </div>
+        </div>
+
+        <div>
+            <PortfolioChart ref="portfolioChart" />
         </div>
 
         <div class="row">
             <div class="col">
                 <q-btn label="Add" @click="onClickAdd" />
 
-                <q-table
-                    title=""
-                    hide-bottom
-                    :data="v_portfolio.portfolio_children"
-                    :columns="v_headers"
-                    row-key="name"
-                    :rows-per-page-options="[50]"
-                    >
-                        <template v-slot:body="props">
+                <q-list>
+                    <q-item clickable v-for="(a_portfolio,index) in v_portfolio.items" :key="index">
+<!--
+                        <q-item-section avatar top>
+                            <q-icon name="account_tree" color="black" size="34px" />
+                        </q-item-section>
+-->
+                        <q-item-section size="30px">
+                            <q-item-label>{{a_portfolio.api_asset.name}}</q-item-label>
+                        </q-item-section>
 
-                            <q-tr :props="props">
-                                <q-td key="symbol" :props="props">{{ props.row.api_asset.name }}</q-td>
-                                <q-td key="price" :props="props">{{ props.row.price }}</q-td>
-                                <q-td key="qty" :props="props">{{ props.row.qty }}</q-td>
-                                <q-td key="updated_at" :props="props">{{ props.row.updated_at }}</q-td>
-                            </q-tr>
-
-                        </template>
-                </q-table>
+                        <q-item-section top>
+                            <q-item-label lines="1">
+                                <span class="text-weight-medium">{{a_portfolio.roi}}</span>                                
+                            </q-item-label>
+                            <q-item-label caption>
+                                <span class="text-grey-8"> {{a_portfolio.last*a_portfolio.qty}} </span>
+                            </q-item-label>
+                        </q-item-section>
+                        
+                        <q-item-section top>
+                            <q-item-label lines="1">
+                                {{a_portfolio.last}}
+                            </q-item-label>
+                            <q-item-label caption lines="1">
+                                <span class="cursor-pointer">{{a_portfolio.price}}</span>
+                            </q-item-label>
+                        </q-item-section>                        
+                        
+                        <q-item-section top side>
+                            <span>{{a_portfolio.updated_at}}</span>
+                            <div class="text-grey-8 q-gutter-xs">
+                                <q-btn class="gt-xs" size="12px" flat dense round icon="delete" />
+                                <q-btn class="gt-xs" size="12px" flat dense round icon="done" />
+                                <q-btn size="12px" flat dense round icon="more_vert" />
+                            </div>                            
+                        </q-item-section>
+                    </q-item>
+                        
+                </q-list>
 
             </div>
         </div>
@@ -49,6 +79,7 @@ import logger from "src/error/Logger";
 import {PortfolioModel, ThreadListModel} from "src/store/PortfolioModel";
 
 import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
+import PortfolioChart from 'src/pages/user/component/PortfolioChart';
 
 
 
@@ -56,21 +87,26 @@ export default {
     name: 'PortfolioDetail',
     props: [],
     components: {
-        AddPortfolioDialog
+        AddPortfolioDialog,
+        PortfolioChart
     },    
     mixins: [],
     data() {
         return {
             visible: false,
+            
+            v_user: null,
             v_portfolio: null,
 
             v_headers: [
                 { name:'symbol', label: 'name.symbol', field: 'symbol' },
-                { name:'price', label: 'name.roi', sortable:true,  field: 'price' ,
+                { name:'roi', label: 'name.roi', field: 'roi' },
+                { name:'last', label: 'name.last', field: 'last' },
+                { name:'price', label: 'name.price', sortable:true,  field: 'price' ,
                     format: (val, row) => `${Number(val).toLocaleString()}`, 
                 },
-                { name:'qty', label: 'name.last_price', field: 'qty'},
-                { name:'updated_at', label: 'name.homepage', field: 'updated_at'},            
+                { name:'qty', label: 'name.qty', field: 'qty'},
+                { name:'updated_at', label: 'name.added', field: 'updated_at'},            
             ],
 
         }
@@ -79,7 +115,8 @@ export default {
         logger.log.debug("MyProfile.created");
     },
     beforeMount() {
-        logger.log.debug("ProfileDetailView.beforeMounted - symbol=",this.$route.params);
+        logger.log.debug("ProfileDetailView.beforeMounted - params=",this.$route.params);
+        this.v_user = this.$route.params.user;
         this.v_portfolio = this.$route.params.portfolio;        
     },
     mounted() {

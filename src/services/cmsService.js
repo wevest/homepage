@@ -123,7 +123,7 @@ export default class CMSAPI{
   }
 
   static getAssetPage(reqParam,func,funcErr) {
-    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/asset/assets/");
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/asset/assetpage/");
     callCMSAPI("GET",url,{},reqParam)
     .then( (response) => {
         func(response);

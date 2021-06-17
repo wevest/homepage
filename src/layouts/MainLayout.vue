@@ -117,6 +117,7 @@
 import SideBar from './SideBar';
 import Spinner from 'src/components/Spinner';
 
+import {store} from 'src/store/store';
 import {MoaConfig} from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import AuthService from 'src/services/authService';
@@ -205,6 +206,16 @@ export default {
     },
 
     loadCoinCodes: function() {
+      let codes = store.state.assets.loadFromCookie();      
+
+/*      
+      let response = store.state.assets.load().then( function(response) {
+        store.state.assets.saveToCookie();
+        logger.log.debug('coincodes=',codes);
+      });
+*/      
+          
+/*      
       let codes = LocalStorageService.getCoinCode();
       logger.log.debug('coincodes=',codes);
             
@@ -213,6 +224,7 @@ export default {
         a_options.push( {label:codes[index][1], value:codes[index][0]} );
       }
       this.g_options = a_options;
+*/      
     },
     
     movePage: function(symbol) {

@@ -61,10 +61,10 @@
                 <div class="row boxNumber">
                     <div class="col-6">
                         <div> 
-                            <span class="numberValue"> {{ v_user.portfolio.roi }} % </span>
+                            <span class="numberValue"> {{ v_roi }} % </span>
                         </div>
                         <div> 
-                            <span class="numberTitle"> value - {{ v_user.portfolio.evaluated_value }} </span>
+                            <span class="numberTitle"> value - {{ v_evaluated_value }} </span>
                         </div>
                     </div>
                     <div class="col-6">
@@ -118,7 +118,8 @@
         <div class="row q-gutter-sm">
             <div class="col">
                 <CTitle title="$t('page.profile.portfolio')" desc="$t('page.profile.portfolio')"></CTitle>
-                <PortfolioList ref='portfolioList'></PortfolioList>
+                <q-btn label="Add" @click="onClickAddPortfolio" />
+                <PortfolioList ref='portfolioList' @onClickPortfolio="onClickPortfolio"></PortfolioList>
             </div>
         </div>
 
@@ -145,6 +146,7 @@ import logger from "src/error/Logger";
 import AuthService from 'src/services/authService';
 
 import UserModel from "src/store/UserModel";
+import {AssetListModel} from "src/store/AssetModel";
 import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/store/MessageModel";
 
 import AvatarCropper from "vue-avatar-cropper";
@@ -165,7 +167,26 @@ export default {
         PortfolioList
     },
     props: {},
-
+    computed: {
+        isOwner() {
+            if (this.v_user.username==MoaConfig.auth.username) {
+                return true;
+            }
+            return false;
+        },
+        v_roi() {
+            if (! this.v_user.portfolio.roi) {
+                return 0;
+            }
+            return CommonFunc.formatNumber(this.v_user.portfolio.roi,2);
+        },
+        v_evaluated_value() {
+            if (! this.v_user.portfolio.evaluated_value) {
+                return 0;
+            }
+            return CommonFunc.formatNumber(this.v_user.portfolio.evaluated_value,2);
+        }
+    },
     data: () => ({
         g_data: null,
 
@@ -175,14 +196,6 @@ export default {
 
         v_labels: {'submit': 'Upload', 'cancel': 'Cancel'},
     }),
-    computed: {
-        isOwner() {
-            if (this.v_user.username==MoaConfig.auth.username) {
-                return true;
-            }
-            return false;
-        },
-    },
     mounted: function() {
         //console.log("HomeView.mounted - ");
         console.log("ProfileView.mounted - symbol=",this.$route.params);
@@ -230,50 +243,13 @@ export default {
             let funcs = [
                 //this.loadUserProfile(this.v_user.username),
                 //this.loadBlogList(this.v_user.id)
+                //store.state.assets.load(),
             ];
             Promise.all(funcs).then(function() {
 
             });
         },
 
-/*
-        updateUserModel:function(obj) {
-            let v_user = this.v_user;
-            
-            v_user.id = obj.id;
-            v_user.username = obj.username;
-            v_user.first_name = obj.first_name;
-            v_user.last_name = obj.last_name;
-            v_user.title = obj.title;
-            v_user.biography = obj.biography;
-            v_user.avatar = obj.avatar;
-            v_user.avatar_thumb = obj.avatar_thumb;
-            v_user.coin = obj.coin;
-            v_user.like_count = obj.like_count;
-            v_user.dislike_count = obj.dislike_count;
-            v_user.date_joined = obj.date_joined;
-
-            this.v_user = v_user;
-        },
-
-        loadUserProfile: function(username) {
-            const _this = this;
-            
-            let dic_param = {'username':username};
-            return new Promise(function(resolve,reject) {
-                AuthService.getUserProfile(dic_param,function(response) {
-                    _this.g_data = response.data;
-                    logger.log.debug("ProfileView.loadUserProfile - response",_this.g_data);
-                    _this.updateUserModel(_this.g_data.results[0]);
-
-                    resolve();
-                },function(err) {
-                    logger.log.error("ProfileView.loadUserProfile - error",err);
-                    reject();
-                });
-            });            
-        },
-*/
         updateUserProfile: function(v_user) {
             const _this = this;
             
@@ -451,10 +427,16 @@ export default {
             logger.log.debug("onClickEndorsement");
         },
 
-        onClickPortfolio: function() {
+        onClickAddPortfolio: function() {
+            logger.log.debug("onClickAddPortfolio");
+            this.$refs.addPortfolio.show(this.v_user,null);
+        },
+
+        onClickPortfolio: function(portfolio) {
             logger.log.debug("onClickPortfolio");
             //this.$refs.addPortfolio.show();
-
+            let dic_param = { name:'portfolio_detail', path:'portfolio_detail', params:{ user:this.v_user, portfolio:portfolio, back:true } };
+            this.$router.push(dic_param);
         },
 
     },

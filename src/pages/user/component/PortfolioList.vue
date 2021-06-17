@@ -1,49 +1,44 @@
 <template>
-    <div class="q-pa-md">
 
-        <div class="row">
-            <div class="col">
-                <div> 
+    <div class="row">
+        <div class="col">
+            <div> 
 
-
-                    <q-card bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
-                        <q-card-section @click="onClickPortfolio(a_portfolio)">
-                            <div class="row">
-                                <div>{{a_portfolio.name}}</div>>
-                                <div>{{a_portfolio.description}}</div>
-                                <q-space />
-                                <q-btn side size="12px" flat dense round icon="add" @click="onClickAdd(a_portfolio)" />
+                <q-card bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
+                    <q-card-section>
+                        <div class="row">
+                            <div>{{a_portfolio.name}}</div>>
+                            <div>{{a_portfolio.description}}</div>
+                            <q-space />
+                            <q-btn side size="12px" flat dense round icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
+                        </div>
+                    </q-card-section>
+                    <q-separator />
+                    <q-card-section>
+                        <div class="row">
+                            <div class="col-4">
+                                <span> {{ Number(a_portfolio.roi).toLocaleString() }} %</span>
                             </div>
-                        </q-card-section>
-                        <q-separator />
-                        <q-card-section>
-                            <div class="row">
-                                <div class="col-4">
-                                    <span> {{a_portfolio.roi }} %</span>
-                                </div>
-                                <div class="col-4">
-                                    <span>$ {{a_portfolio.evaluated_value }} </span>                            
-                                </div>
-                                <div class="col-2">
-                                    {{a_portfolio.updated_at}}
-                                </div>
-                                <div class="col-2">
-                                    <div class="text-grey-8">
-                                        <q-btn size="12px" flat dense round icon="add" @click="onClickAdd(a_portfolio)" />
-                                        <q-btn size="12px" flat dense round icon="remove" @click="onClickDelete(a_portfolio)" />
-                                        <q-btn size="12px" flat dense round icon="edit" @click="onClickEdit(a_portfolio)" />
-                                    </div>
-                                </div>               
+                            <div class="col-4">
+                                <span>$ {{a_portfolio.evaluated_value.toLocaleString() }} </span>                            
                             </div>
-                        </q-card-section>
+                            <div class="col-2">
+                                {{ v_updated_at(a_portfolio.updated_at) }}
+                            </div>
+                            <div class="col-2">
+                                <div class="text-grey-8">
+                                    <q-btn size="12px" flat dense round icon="add" @click="onClickAdd(a_portfolio)" />
+                                    <q-btn size="12px" flat dense round icon="remove" @click="onClickDelete(a_portfolio)" />
+                                    <q-btn size="12px" flat dense round icon="edit" @click="onClickEdit(a_portfolio)" />
+                                </div>
+                            </div>               
+                        </div>
+                    </q-card-section>
 
-                    </q-card>
+                </q-card>
 
-
-                </div>
             </div>
         </div>
-
     </div>
 
 </template>
@@ -66,17 +61,14 @@ export default {
         v_user: null,
         v_portfolio: new PortfolioListModel(),
 
-        v_headers: [
-            { name:'symbol', label: 'name.symbol', field: 'symbol' },
-            { name:'price', label: 'name.roi', sortable:true,  field: 'price' ,
-              format: (val, row) => `${Number(val).toLocaleString()}`, 
-            },
-            { name:'qty', label: 'name.last_price', field: 'qty'},
-            { name:'updated_at', label: 'name.homepage', field: 'updated_at'},            
-        ],
-
     }),
-    computed: {},
+    computed: {
+        v_updated_at() {
+            return (value) => {
+                return CommonFunc.minifyDatetime(value);
+            };
+        }
+    },
 
     mounted: function() {},
 

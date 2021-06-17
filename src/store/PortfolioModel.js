@@ -9,6 +9,7 @@ import logger from 'src/error/Logger';
 
 export class PortfolioItemModel {    
     id=null;
+    portfolio_name=null;
     portfolio_id=null;
     asset_id=null;
     user=null;
@@ -23,8 +24,10 @@ export class PortfolioItemModel {
     roi=null;
 
     toDict() {
-        let reqParam = { id: this.id, 
+        let reqParam = { 
+            id: this.id, 
             portfolio_id: this.portfolio_id, 
+            portfolio_name: this.portfolio_name, 
             asset_id: this.asset_id, 
             price: this.price,
             qty: this.qty,
@@ -35,6 +38,20 @@ export class PortfolioItemModel {
         return reqParam;
     }
 
+    addToServer() {        
+        const _this = this;
+
+        return new Promise(function(resolve,reject) {
+            let reqParam = _this.toDict();
+            reqParam.token = MoaConfig.auth.token;
+            reqParam.action = "add";
+            AuthService.addPortfolioItem(reqParam, function(response) {
+                resolve(response);
+            }, function(err) {
+                reject(err);
+            });
+        });
+    }   
 }
 
 
@@ -58,28 +75,13 @@ export class PortfolioModel extends baseCollection {
         this.items = item.portfolio_children;
     }
 
-    addToServer() {        
-        const _this = this;
-
-        return new Promise(function(resolve,reject) {
-            let reqParam = _this.toDict();
-            reqParam.token = MoaConfig.auth.token;
-            reqParam.action = "add";
-            AuthService.addPortfolioItem(reqParam, function(response) {
-                resolve(response);
-            }, function(err) {
-                reject(err);
-            });
-        });
-    }   
-
     calcPerformance(prices) {
-        logger.log.debug("PortfolioModel.calcPerformance : prices=",this);
+        //logger.log.debug("PortfolioModel.calcPerformance : prices=",this);
         let dic_perf = {value:0, roi:0, count:0};
         
         for (let index=0;index<this.items.length;index++) {
             //const price = prices.getPrice(this.items[index])
-            const a_price = prices.getPrice('BTC');
+            const a_price = prices.getPrice(this.items[index].api_asset.symbol);
             logger.log.debug("PortfolioModel.calcPerformance .item =",this.items[index],a_price);
             if (a_price) {
                 this.items[index].last = a_price.last;
@@ -87,7 +89,7 @@ export class PortfolioModel extends baseCollection {
 
                 dic_perf.count = dic_perf.count+1;
                 dic_perf.roi = dic_perf.roi + this.items[index].roi;
-                dic_perf.value = dic_perf.value + this.items[index].last;
+                dic_perf.value += this.items[index].last*this.items[index].qty;
             }
         }
 
@@ -133,7 +135,7 @@ export class PortfolioListModel extends baseCollection{
     }   
     
     calcPerformance(prices) {
-        logger.log.debug("calcPerformance.items=",this.items);
+        logger.log.debug("PortfolioListModel.calcPerformance.items=",this.items);
         
         this.evaluated_value = 0;
         this.roi = 0;
@@ -148,6 +150,6 @@ export class PortfolioListModel extends baseCollection{
             this.item_count += this.items[index].items.length;
         }
 
-        this.roi += this.roi/this.group_count;
+        this.roi = this.roi/this.group_count;
     }
 }

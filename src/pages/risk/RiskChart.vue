@@ -26,7 +26,7 @@ import CTitle from 'src/components/CTitle';
 import ChartTimeframe from 'components/ChartTimeframe';
 
 export default {
-    name: 'RiskChart',
+    name: 'PortfolioChart',
     components: {
       CTitle,
       ChartTimeframe
