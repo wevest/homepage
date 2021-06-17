@@ -20,7 +20,7 @@
                         <div class="row">                            
                             <div class="col-4 roiBox">
                                 <div class="groupDesc">ROI</div>
-                                <span class="aaaa"> {{ Number(a_portfolio.roi).toLocaleString() }} %</span>
+                                <span class="roi"> {{ Number(a_portfolio.roi).toLocaleString() }} %</span>
                             </div>
                             <div class="col-4 marketBox">
                                 <div class="groupDesc">Market</div>
@@ -116,7 +116,7 @@ export default {
    color:#cccccc;
 }
 
-.aaaa {
+.roi {
     color:#5a9591;
     font-weight:700;
 }

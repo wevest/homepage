@@ -7,40 +7,58 @@
         </div>
         <div class="row">
             <div class="col">
-                <div>
-                    <span> {{v_portfolio.name}}  </span>
-                    <span> {{v_portfolio.description}}  </span>
+                <div class="groupNameBox">
+                    <span class="groupName"> {{v_portfolio.name}}  </span> &nbsp;|&nbsp;
+                    <span class="groupDesc"> {{v_portfolio.description}}  </span>
                 </div>
-                <div>
-                    <span> {{v_portfolio.roi}} % </span>
-                    <span> {{v_portfolio.evaluated_value}}  </span>
+                <q-separator size="2px" />
+                <div class="row roiBox">
+                    <div class="col-4">
+                        <span>ROI 
+                            <div>{{v_portfolio.roi}} % </div>
+                        </span>
+                    </div> 
+                    <div class="col-4">   
+                        <span >Evaluated Value 
+                            <div>{{v_portfolio.evaluated_value}}  </div>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div>
             <div>
-                <h4> ROI Chart </h4>
+                <h4 class="chartTitleBox"> ROI Chart </h4>
             </div>
+            <q-separator size="2px" />
             <PortfolioChart ref="portfolioChart" />
         </div>
 
         <div class="row">
             <div class="col">
 
-                <q-card v-for="(a_portfolio,index) in v_portfolio.items" :key="index">
+                <q-card class="coinBox" 
+                        flat
+                        bordered 
+                        v-for="(a_portfolio,index) in v_portfolio.items" 
+                        :key="index">
                     <q-card-section>
-                        <div class="row">
+                        <div class="row" dense>
                             <div>
-                                <q-icon name="account_tree" color="black" size="34px" />
+                                <q-icon class="coinIcon"
+                                            name="account_tree" 
+                                            color="black" 
+                                            size="34px" />&nbsp;&nbsp;                       
                             </div>
                             <div>
-                                <span>{{a_portfolio.api_asset.symbol}}</span>
-                                <span>{{a_portfolio.api_asset.name}}</span>
+                                <span class="coinSymbol"> ({{a_portfolio.api_asset.symbol}}) </span></br>
+                                <span class="coinName"> {{a_portfolio.api_asset.name}} </span>                            
                             </div>
-                            <div>
-                                <span class="text-weight-medium">{{v_format(a_portfolio.roi)}}</span>
-                                <span class="text-grey-8"> {{ v_format(a_portfolio.last*a_portfolio.qty)}} </span>
+                            
+                            <div class="roibox2">                            
+                                <span class="text-weight-medium">ROI</br><span class="roiValue">{{v_format(a_portfolio.roi)}}</span></span></br>                                                       
+                                <span class="text-grey-8">{{ v_format(a_portfolio.last*a_portfolio.qty)}} </span>                            
                             </div>
                         </div>  
                     </q-card-section>
@@ -255,4 +273,53 @@ export default {
 
 
 <style scoped>
+
+.groupNameBox {
+    padding:20px 0px 5px 10px;
+}
+
+.groupName {
+font-size:15px;
+
+}
+
+.groupDesc {
+    ;
+}
+
+.roiBox {
+    padding:20px 0px 0px 10px;
+}
+
+.chartTitleBox {
+    color:#555555;
+    margin:20px 20px 10px 20px;
+
+}
+
+.coinSymbol {
+    font-size:15px;
+    color:#555555;
+    font-weight:bold;
+}
+
+.coinName {
+    font-size:20px;
+    color:#555555;
+    font-weight:bold;
+}
+
+.coinBox {
+margin:0px 5px;
+}
+
+.roiBox2 {
+    padding:10px 10px;
+    text-align:center;
+}
+
+.roiValue {
+    font-size:30px;
+    color:darkgreen;
+}
 </style>
