@@ -139,7 +139,7 @@
         <div class="row q-gutter-sm">
             <div class="col">
                 <CTitle title="$t('page.profile.portfolio')" desc="$t('page.profile.portfolio')"></CTitle>
-                <q-btn label="Add" @click="onClickAddPortfolio" />
+                <q-btn class="addBtn" label="Add" @click="onClickAddPortfolio" />
                 <PortfolioList ref='portfolioList' @onClickPortfolio="onClickPortfolio"></PortfolioList>
             </div>
         </div>
@@ -475,6 +475,10 @@ export default {
 
 
 <style scope> 
+
+.addBtn {
+    margin-bottom:7px;
+}
 
 .roiCount {
   font-size:25px;  

@@ -12,6 +12,10 @@ const routes = [
       { name: 'profile', path: 'profile', component: () => import('pages/user/ProfileView.vue') },
       { name: 'message', path: 'message', component: () => import('pages/user/MessageView.vue') },
       { name: 'message_detail', path: 'message_detail', component: () => import('pages/user/MessageDetailView.vue') },
+<<<<<<< HEAD
+=======
+      //{ name: 'portfolio', path: 'portfolio', component: () => import('pages/user/PortfolioView.vue') },
+>>>>>>> 7d19f53cc2bbda6ff98f422f841c57ee0a9e06ae
       { name: 'portfolio_detail', path: 'portfolio_detail', component: () => import('pages/user/PortfolioDetailView.vue') },
       //{ name: 'portfolio', path: 'portfolio', component: () => import('pages/user/PortfolioView.vue') },
 
