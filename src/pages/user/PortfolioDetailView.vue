@@ -63,7 +63,7 @@
                         </div>
                     </q-card-section>
                     <q-card-actions>
-                        <div class="text-grey-8 q-gutter-xs">
+                        <div class="text-grey-8 q-gutter-xs" v-if="v_isowner">
                             <q-btn class="gt-xs" size="12px" flat dense round icon="delete" @click="onClickDelete(a_portfolio)"/>
                             <q-btn class="gt-xs" size="12px" flat dense round icon="done" />
                             <q-btn size="12px" flat dense round icon="more_vert" />
@@ -144,10 +144,10 @@
 
 
 <script>
-import {MoaConfig} from 'src/data/MoaConfig';
+import {store} from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
-import {PortfolioModel, ThreadListModel} from "src/store/PortfolioModel";
+import {PortfolioModel, ThreadListModel} from "src/models/PortfolioModel";
 
 import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 import PortfolioChart from 'src/pages/user/component/PortfolioChart';
@@ -163,6 +163,9 @@ export default {
     },    
     mixins: [],
     computed: {
+        v_me() {
+            return store.getters.me;
+        },
         v_format() {
             return (value) => {
                 return value.toLocaleString();
@@ -172,6 +175,12 @@ export default {
             return (value) => {
                 return CommonFunc.minifyDatetime(value);
             };
+        },
+        v_isowner() {
+            if (this.v_me.id==this.v_user.id) {
+                return true;
+            }
+            return false;
         }
     },
     data() {

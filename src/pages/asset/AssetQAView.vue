@@ -15,7 +15,7 @@
                         
                     <div class="gPageUDRBox">
                         <span class="gPageUser">{{ v_question.username }} </span>&nbsp;
-                        <span class="gPageDatetime">{{ v_question.pub_date }} </span>&nbsp;
+                        <span class="gPageDatetime">{{ v_updated_at(v_question.pub_date) }} </span>&nbsp;
                         
                         <q-icon name="thumb_up" />&nbsp;
                             <span class="gPageRating">{{ v_question.like_count }}</span>&nbsp;
@@ -27,7 +27,7 @@
                 <div class="gPageContent">
                     <Viewer 
                         ref="toastViewer"
-                        :value="v_question.content"
+                        :value="v_question.description"
                         :options="editorOptions"
                         :visible="v_show_editor"
                         previewStyle="vertical"
@@ -89,13 +89,13 @@ import { Viewer } from "@toast-ui/vue-editor";
 import { Editor } from '@toast-ui/vue-editor';
 
 import { CONST } from 'src/data/const';
-import { MoaConfig } from 'src/data/MoaConfig';
+import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import MoaBackendAPI from 'src/services/apiService';
 import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
-import PostModel from "src/store/PostModel";
+import {QuestionPageModel, AnswerPageListModel} from "src/models/PageModel";
 
 import AnswerWriterDialog from 'components/dialogs/AnswerWriterDialog';        
 import AssetAnswerList from 'src/pages/asset/component/AssetAnswerList';
@@ -109,22 +109,22 @@ export default {
         AssetAnswerList
     },
     props: [],
-
+    computed: {
+        v_updated_at() {
+            return (value) => {
+                return CommonFunc.minifyDatetime(value);
+            };
+        },
+    },
     data: function() {
         return {
             g_data: {
                 answer:null,
             },
 
-            v_question: {            
-                title:'Title', content:'body text', tags:'crypto,btc,eth', 
-                comment:'comments',like_count:0, dislike_count:0, read_count:0, is_owner:false
-            },
-            
-            v_answer: {
-                id:-1,
-                content: 'answer'
-            },
+            v_question: new QuestionPageModel(),            
+            v_answers: new AnswerPageListModel(),
+
             v_show_editor: false,
 
             editorOptions: {
@@ -141,7 +141,9 @@ export default {
     },
     mounted: function() {
         logger.log.debug("AssetQAView.mounted - param=",this.$route.params);
-        this.v_question = this.$route.params;
+        
+        //this.v_question = this.$route.params;
+        this.v_question.id = 24;
         this.refresh();
     },
 
@@ -157,33 +159,22 @@ export default {
         refresh() {
             logger.log.debug("AssetQAView.refresh");
 
-            this.setContent(this.v_question.content);
-            this.loadAssetAnswer(this.v_question.id);
+            this.loadQuestion();
+            this.loadAssetAnswer(this.v_question.id);            
+        },
+
+        loadQuestion: function() {
+            const _this=this;
+            this.v_question.load().then( response => {
+                logger.log.debug("AssetQAView.loadQuestion : response=",response);
+                _this.setContent(_this.v_question.description);
+            });
         },
 
         loadAssetAnswer: function(question_id) {
-            const _this = this;
-
-            return new Promise(function(resolve,reject) {
-                let dic_param = {question_id:question_id};
-                logger.log.debug("AssetList.loadAssetAnswer - dic_param=",dic_param);
-
-                CMSAPI.getAssetAnswer(dic_param,function(response) {
-                    _this.g_data.answer = response.data;
-                    logger.log.debug("AssetList.loadAssetAnswer - response",_this.g_data.answer);
-                    _this.updateAssetAnswer(_this.g_data.answer);
-                    resolve();
-                },function(err) {
-                    logger.log.error("AssetList.loadAssetAnswer - error",err);
-                    reject();
-                });
-            });            
+            this.$refs.answerList.update(question_id);    
         },
 
-        updateAssetAnswer: function(response) {
-            logger.log.debug("AssetQAView.updateAssetAnswer");
-            this.$refs.answerList.update(response);
-        },
 
 
         onClickAnswer: function() {
@@ -210,7 +201,7 @@ export default {
                 tags:this.v_question.tags, 
                 text:a_text, 
                 title: this.v_question.title,
-                token:MoaConfig.auth.token,
+                token:store.getters.token,
             };
 
             CMSAPI.postAssetAnswer(dic_param,function(response) {
@@ -237,7 +228,7 @@ export default {
 
             logger.log.debug("AssetQAView.onClickAnswerRating",dic_param);
             
-            dic_param.token = MoaConfig.auth.token;
+            dic_param.token = store.getters.token;
             dic_param.method = 'vote';
 
             CMSAPI.voteAssetAnswer(dic_param,function(response) {
@@ -253,7 +244,7 @@ export default {
 
             logger.log.debug("AssetQAView.onClickQuestionAccept",dic_param);
             
-            dic_param.token = MoaConfig.auth.token;
+            dic_param.token = store.getters.token;
             dic_param.method = 'vote';
 
             return;

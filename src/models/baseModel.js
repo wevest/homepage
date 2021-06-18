@@ -1,3 +1,6 @@
+import _ from 'lodash';
+
+
 export class baseCollection {
     last_updated=null;
     items=[];
@@ -12,6 +15,11 @@ export class baseCollection {
 
     clear() {
         this.items = [];
+    }
+
+    getItem(id) {
+        //logger.log.debug("getPrice.pair=",this.items);
+        return _.find(this.items,{id:id} );
     }
 
     isEmpty() {

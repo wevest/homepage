@@ -56,18 +56,21 @@
 
 
 <script>
-import { MoaConfig } from 'src/data/MoaConfig';
+import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import AuthService from 'src/services/authService';
 
-import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/store/MessageModel";
+import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/models/MessageModel";
 
 
 export default {
     name: 'MessageDialog',
     components: {},
     computed: {
+        v_me() {
+            return store.getters.me;
+        },
     },
     data: function () {
         return {
@@ -118,7 +121,7 @@ export default {
             const _this = this;
             
             let dic_param = {
-                token: MoaConfig.auth.token, 
+                token: store.getters.token, 
                 subject:subject, uuid:uuid, message:message
             };
 
@@ -137,7 +140,7 @@ export default {
             const _this = this;
             
             let dic_param = {
-                token: MoaConfig.auth.token, uuid:uuid,
+                token: store.getters.token, uuid:uuid,
                 thread:thread_id, sender_id:MoaConfig.auth.id, content:message
             };
 
@@ -166,7 +169,7 @@ export default {
                     username: response.data.sender.username,
                     is_sender: false,
                 });
-                if (MoaConfig.auth.id==response.data.sender.id) {
+                if (this.v_me.id==response.data.sender.id) {
                     a_message.username = "me";
                     a_message.is_sender = true;
                 }
@@ -222,7 +225,7 @@ export default {
         onClickChat: function(message) {
             logger.log.debug("onClickChat=",message);
             
-            if (message.user_id==MoaConfig.auth.id) {
+            if (message.user_id==this.v_me.id) {
                 this.v_is_mine = true;
             } else {
                 this.v_is_mine = false;

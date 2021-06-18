@@ -42,7 +42,7 @@ import logger from 'src/error/Logger';
 
 import AuthService from 'src/services/authService';
 
-import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/store/MessageModel";
+import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/models/MessageModel";
 
 
 export default {

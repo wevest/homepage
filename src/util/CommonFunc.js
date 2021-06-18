@@ -165,11 +165,11 @@ export default class CommonFunc {
         return newItems;      
     }
 
-    static safeGetKeyValue(obj,key) {
+    static safeGetKeyValue(obj,key,default_value=null) {
         if (key in obj) {
             return obj[key];
         }
-        return null;
+        return default_value;
     }
 
     static checkKeyExist(obj,keyArray) {

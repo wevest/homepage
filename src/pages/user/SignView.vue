@@ -45,6 +45,8 @@
                             />
                             <q-checkbox v-model="v_user.stay_loggedin" label="Stay signed-in" />
 
+                            <q-btn flat label="reset password" />
+
                             <div>
                                 <q-btn label="Login" type="submit" color="primary"/>
                             </div>                    
@@ -57,9 +59,11 @@
                             class="q-gutter-y-md q-field--with-bottom col-width"
                         >
                             <q-input
-                                filled required bottom-slots type="email" id="email"
+                                filled required bottom-slots 
+                                type="email" id="email"
                                 v-model="v_user.email"
                                 label="Email" hint="Your email" 
+                                :rules="[ val => val.length <= 50 || 'Please use maximum 50 characters']"
                                 @blur="updateEmailVerification"                                
                                 :error="v_error.email.error"
                                 :error-message="v_error.email.msg"                                
@@ -75,7 +79,10 @@
                                 label="Username " hint="Name and surname" 
                                 :error="v_error.username.error"
                                 :error-message="v_error.username.msg"
-                                :rules="[ val => val && val.length > 0 || 'Please type something']"
+                                :rules="[ 
+                                    val => val && val.length > 0 || 'Please type something',
+                                    val => val.length > 50 || 'it is too long',
+                                ]"
                             />
 
                             <q-input
@@ -119,14 +126,12 @@
 </template>
 
 <script>
-import RiskChart from 'src/pages/risk/RiskChart';
-
+import {store} from 'src/store/store';
 import {MoaConfig} from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import AuthService from 'src/services/authService';
 //import LocalStorageService from 'src/services/localStorage';
 import logger from "src/error/Logger";
-
 
 import CBigLabel from 'components/CBigLabel';
 import CTitle from 'components/CTitle';
@@ -135,7 +140,6 @@ export default {
     components: {
         CBigLabel,
         CTitle,
-        RiskChart
     },
     props: {
     },
@@ -146,6 +150,9 @@ export default {
                 (v) => v == this.$refs.fldPasswordChange.value || "Password different"
                 ]
         },
+        v_me() {
+            return store.getters.me;
+        }
     },
     data: () => ({
         //lang: this.$i18n.locale,
@@ -156,8 +163,11 @@ export default {
 
         showError: false,
         v_tab: 'signin',
-        v_user: {username:'tester01', email:'tester01@gmail.com', password:'alpine12!', password2:'alpine12!', 
-            stay_loggedin:false, emailValid: false},
+        v_user: {
+            username:'', email:'', password:'', password2:'', 
+            stay_loggedin:true, emailValid: false,
+            //password:'alpine12!'
+        },
         v_error: { 
             username: {error:false, msg:''},
             password: {error:false, msg:''},
@@ -168,9 +178,21 @@ export default {
     mounted: function() {
         //console.log("HomeView.mounted - ");
         //this.refresh();
-        //AuthService.loadFromCookie();
+        this.fillUserdata();
     },
     methods: {
+        fillUserdata: function() {
+
+            this.v_user = {
+                username: CommonFunc.safeGetKeyValue(this.v_me,'username',''), 
+                email: CommonFunc.safeGetKeyValue(this.v_me,'email',''), 
+                password: CommonFunc.safeGetKeyValue(this.v_me,'password',''), 
+                password2: CommonFunc.safeGetKeyValue(this.v_me,'password',''), 
+                stay_loggedin: CommonFunc.safeGetKeyValue(this.v_me,'staySignedIn',''), 
+            }
+
+        },
+
         updateEmailVerification () {
             // eslint-disable-next-line
             let reg =  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/
@@ -197,69 +219,40 @@ export default {
         onSignUp: function() {
             const _this = this;
             let dic_param = this.v_user;
-            AuthService.signUp(dic_param,function(response) {
-                logger.log.debug("onSignUp.response=",response);
-                _this.$q.notify({
-                    color: 'green-4', textColor: 'white', icon: 'cloud_done',
-                    message: 'Your account created'
-                });
-
+            this.v_me.signUp(dic_param).then( response => {
+                CommonFunc.showOkMessage(_this,'Your account created');
                 _this.navHome();
-            }, function(response) {
-                if (response.status==400) {
-                    for (let a_key in response.data) {
-                        _this.v_error[a_key].error = true;
-                        _this.v_error[a_key].msg = response.data[a_key][0];
-                    }
+            }).catch( response=> {
+                for (let a_key in response.data) {
+                    _this.v_error[a_key].error = true;
+                    _this.v_error[a_key].msg = response.data[a_key][0];
                 }
             });
-
         },
 
         onSignIn: function() {
             const _this = this;
             let dic_param = this.v_user;
-            AuthService.signIn(dic_param,function(response) {
-                logger.log.debug("onSignIn.response=",response);
-                
-                AuthService.processLogin(_this.v_user.username, response.data.auth_token, _this.v_user.stay_loggedin);
-                
-                _this.$q.notify({
-                    color: 'green-4', textColor: 'white', icon: 'cloud_done',
-                    message: 'login'
-                });
+            this.v_me.signIn(dic_param).then( response => {
+                logger.log.debug("SignIn.response=",response);
+                CommonFunc.showOkMessage(_this,'Signed in');
                 _this.navHome();
-            }, function(response) {
-                logger.log.debug("onSignIn.Error - response=",response);
-                if (response.status==400) {
-                    const fields = ['username','password'];
-                    for (let a_key in fields) {
-                        console.log('key=',a_key);
-                        _this.v_error[fields[a_key]].error = true;
-                        _this.v_error[fields[a_key]].msg = "Username or password is wrong";
-                    }
+                
+            }).catch( err => {
+                
+                logger.log.debug("SignIn.err=",err);
+
+                const fields = ['username','password'];
+                for (let a_key in fields) {
+                    console.log('key=',a_key);
+                    _this.v_error[fields[a_key]].error = true;
+                    _this.v_error[fields[a_key]].msg = "Username or password is wrong";
                 }
-            });
+
+            });                
+                
         },
 
-        onSubmitSignin () {
-            if (this.accept !== true) {
-                this.$q.notify({
-                color: 'red-5',
-                textColor: 'white',
-                icon: 'warning',
-                message: 'You need to accept the license and terms first'
-                })
-            }
-            else {
-                this.$q.notify({
-                color: 'green-4',
-                textColor: 'white',
-                icon: 'cloud_done',
-                message: 'Submitted'
-                })
-            }
-        },
 
         onResetSignin () {
             this.name = null
@@ -281,7 +274,6 @@ export default {
     },
 
 }
-
 
 </script>
 

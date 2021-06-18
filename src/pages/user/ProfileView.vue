@@ -166,9 +166,8 @@ import logger from "src/error/Logger";
 
 import AuthService from 'src/services/authService';
 
-import UserModel from "src/store/UserModel";
-import {AssetListModel} from "src/store/AssetModel";
-import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/store/MessageModel";
+import UserModel from "src/models/UserModel";
+import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/models/MessageModel";
 
 import AvatarCropper from "vue-avatar-cropper";
 import CTitle from 'components/CTitle';
@@ -189,8 +188,11 @@ export default {
     },
     props: {},
     computed: {
+        v_me() {
+            return store.getters.me;
+        },
         isOwner() {
-            if (this.v_user.username==MoaConfig.auth.username) {
+            if (this.v_user.username==this.v_me.username) {
                 return true;
             }
             return false;
@@ -237,14 +239,16 @@ export default {
 
             let username = params.username;
             if (! username) {
-                username = MoaConfig.auth.username;
+                username = this.v_me.username;
             }
             UserModel.loadProfile(username).then( a_user => {
                 _this.v_user = a_user;
+
                 _this.v_user.loadPortfolio().then( response => {
                     logger.log.debug("setUser=>",response);
                     _this.updatePortfolioWidget();
                 });
+
             });
         },
 

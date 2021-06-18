@@ -5,23 +5,32 @@ import {mutations} from 'src/store/mutations';
 import {actions} from 'src/store/actions';
 //import {getters} from './getters';
 import logger from "src/error/Logger";
-import { AssetModel, AssetListModel } from "src/store/AssetModel";
-import { PriceModel, PriceListModel } from "src/store/PriceModel";
+import User from "src/models/UserModel";
+import { AssetModel, AssetListModel } from "src/models/AssetModel";
+import { PriceModel, PriceListModel } from "src/models/PriceModel";
 
 Vue.use(Vuex);
 
+
 const state = {
     version:0.18,
+    me: new User(),
     prices: new PriceListModel(),
     assets: new AssetListModel(),
-    components:{},
+
 };
 
 const getters = {
-    data:state => state.data,
-    components:state => state.components,
+    me:state => state.me,
 
-    //showNotifications:state => state.scatter.settings.showNotifications,
+    data:state => state.data,    
+
+    isLoggedIn:state => {
+        return state.me.isLoggedIn();
+    },
+    token:state => {
+        return state.me.getToken();
+    },
 
     totalBalances:(state, getters) => {
     	return WalletService.totalBalances(false);
@@ -31,12 +40,8 @@ const getters = {
 	    return WalletService.totalBalances(true);
     },
 
-};
+    //showNotifications:state => state.moa.settings.showNotifications,
 
-const codes = {
-    getCodes:() => {
-
-    },
 };
 
 
@@ -44,6 +49,5 @@ export const store = new Vuex.Store({
     state,
     getters,
     mutations,
-    actions,
-    codes
+    actions
 })

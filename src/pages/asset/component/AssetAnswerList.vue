@@ -2,18 +2,18 @@
 <!-- comment page -->
     <div class="row">
         <div class="col">
-            <div class="gcomment" v-for="(a_answer,index) in v_answers" :key="index">
+            <div class="gcomment" v-for="(a_answer,index) in v_answers.items" :key="index">
                 <div class="row gAnswerBox">
                     <div>
                         <q-avatar class="gAnswerAvatar">
-                            <q-img :src="a_answer.user.avatar_thumb" v-if="a_answer.user.avatar_thumb.length>0" />
+                            <q-img :src="a_answer.owner.avatar_thumb" v-if="a_answer.owner.avatar_thumb.length>0" />
                             <q-icon v-else name="person" size="50px" />
                         </q-avatar>
                     </div>
                     <div class="gAnswerUserDatetime">
-                        <span class="gAnswerUser">{{a_answer.user.username}}&nbsp;님 답변</span>
+                        <span class="gAnswerUser">{{a_answer.owner.username}}&nbsp;님 답변</span>
                         <br>
-                        <span class="gAnswerDatetime">{{a_answer.pub_date}}</span>        
+                        <span class="gAnswerDatetime">{{ v_updated_at(a_answer.pub_date) }}</span>        
                     </div>
                     <q-space />
                     <div class="gAnswerAcceptBox">
@@ -30,7 +30,7 @@
                 <q-separator />
 
                 <div class="gAnswerContent" @click="onClickQuestion(a_question)">
-                    <div v-html="a_answer.content">  </div>
+                    <div v-html="a_answer.answer_text">  </div>
                 </div>
                     <div class="gAnswerRatingBox">              
                         <q-btn 
@@ -51,6 +51,7 @@
                 </div>
 
                 <q-separator size="2px" />
+
 
                 <div v-if="a_answer.comments.length>0">
                     
@@ -74,16 +75,16 @@
                             <div class="row gCommentAvatarBox">
                                 <div class="gCommentAvatar">
                                     <q-avatar>
-                                        <q-img :src="a_comment.api_owner.avatar_thumb" v-if="a_comment.api_owner.avatar_thumb.length>0" />
+                                        <q-img :src="a_comment.owner.avatar_thumb" v-if="a_comment.owner.avatar_thumb.length>0" />
                                         <q-icon v-else name="person" size="50px" />                                    
                                     </q-avatar>
                                 </div>
                                 <div class="col gCommentUserDateBox">
                                     <div class="gCommentUserName">
-                                        <span>{{ a_comment.api_owner.username}}</span>
+                                        <span>{{ a_comment.owner.username}}</span>
                                     </div>
                                     <div class="gCommentDatetime">
-                                        <span>{{ a_comment.pub_date}}</span>
+                                        <span>{{ v_updated_at(a_comment.pub_date) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +112,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>                
+            
             </div>
 
         </div>
@@ -127,13 +129,14 @@
 
 
 <script>
-import { MoaConfig } from 'src/data/MoaConfig';
+import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 import CommentTree from "components/comments/comment-tree.vue";
 import CommentForm from "components/comments/comment-form.vue";
 
+import {QuestionPageModel, AnswerCommentListModel, AnswerPageListModel} from "src/models/PageModel";
 
 export default {
     name:'assetAnswerList',
@@ -141,7 +144,16 @@ export default {
         CommentTree,
         CommentForm
     },
-
+    computed: {
+        v_me() {
+            return store.getters.me;
+        },
+        v_updated_at() {
+            return (value) => {
+                return CommonFunc.minifyDatetime(value);
+            };
+        },
+    },
     data () {
       return {
         g_data: {
@@ -153,120 +165,36 @@ export default {
         v_comments: [],
         v_comment: null,
 
-        v_answers: [],
+        v_answers: new AnswerPageListModel(),
+        v_answers_comments: new AnswerCommentListModel(),
+
         v_visible_loadmore: false,
       }
     },
 
     mounted: function() {
         //logger.log.debug("AssetQAView.mounted - param=",this.$route.params);
-        this.g_question_id = 24;
+        //this.g_question_id = 24;
         //this.loadAssetAnswerComment(this.g_question_id);
     },
     
     methods: {
 
-        loadAssetAnswer: function(question_id) {
-            const _this = this;
+        update: function(question_id) {                        
+            
+            const _this=this;
+            this.v_answers.load(question_id).then(response=>{                
+                _this.v_answers_comments.load(question_id).then( resp => {
+                    logger.log.debug("update");
+                    _this.v_answers.addComments(_this.v_answers_comments);
+                }).catch( err => {
 
-            return new Promise(function(resolve,reject) {
-                let a_today = CommonFunc.getToday(false);
-                let dic_param = {};
-                logger.log.debug("AssetList.loadAssetPage - dic_param=",dic_param);
-
-                CMSAPI.getAssetPage(dic_param,function(response) {
-                    _this.g_data.answers = response.data;
-                    logger.log.debug("AssetList.loadAssetPage - response",_this.g_data.answers);
-                    _this.updateAssetPage(_this.g_data.answers.results);
-                    resolve();
-                },function(err) {
-                    logger.log.error("AssetList.loadAssetPage - error",err);
-                    reject();
                 });
-            });            
-        },
-        
-        loadAssetAnswerComment: function(question_id) {
-            const _this = this;
 
-            return new Promise(function(resolve,reject) {
-                let dic_param = {question_id:_this.g_question_id};
-                logger.log.debug("AssetList.loadAssetAnswerComment - dic_param=",dic_param);
+            }).catch(err=>{
 
-                CMSAPI.getAssetAnswerComment(dic_param,function(response) {
-                    _this.g_data.comments = response.data;
-                    logger.log.debug("AssetList.loadAssetAnswerComment - response",_this.g_data.comments);
-                    _this.appendAssetAnswerComments(_this.g_data.comments.results);
-                    resolve();
-                },function(err) {
-                    logger.log.error("AssetList.loadAssetAnswerComment - error",err);
-                    reject();
-                });
-            });            
-        },
-        
-        updateAssetAnswer:function(answers) {
-            logger.log.debug("updateAssetAnswer=",answers);
+            });
 
-            let v_answers = [];
-            for (let index=0; index<answers.length;index++) {
-                let a_answer = {
-                    id:answers[index].id, 
-                    title:answers[index].title,
-                    pub_date: CommonFunc.minifyDatetime(answers[index].pub_date),
-                    content: answers[index].answer_text,
-                    user: answers[index].api_owner,
-                    question_id: answers[index].question_id,
-                    closed: answers[index].closed,
-                    like_count: answers[index].like_count,
-                    dislike_count: answers[index].dislike_count,
-                    comments: [],
-                };
-                v_answers.push(a_answer);
-            }
-
-            this.loadAssetAnswerComment(this.g_question_id);
-
-            this.v_answers = v_answers;
-        },
-
-        appendAssetAnswerComments: function(comments) {
-            logger.log.debug('appendAssetAnswerComments : comments=',comments);
-
-            let v_answers = this.v_answers;
-            for (let index=0; index<comments.length;index++) {
-
-                let a_found = -1;
-                for (let index2=0; index2<v_answers.length;index2++) {
-                    //logger.log.debug("appendAssetAnswerComments : answer_id =",v_answers[index2].id);
-                    console.log("appendAssetAnswerComments : answer_id =",v_answers[index2].id,comments[index].answer_id);
-                    if (v_answers[index2].id==comments[index].answer_id) {
-                        a_found = index2;
-                        logger.log.debug("appendAssetAnswerComments : found=",a_found);    
-
-                        break;
-                    }
-                }
-
-                if (a_found>-1) {
-                    logger.log.debug("appendAssetAnswerComments : v_answers=",v_answers[a_found]);
-                    v_answers[a_found].comments.push( comments[index] );
-                }
-            }
-            logger.log.debug("Answers-comments=",v_answers);
-            this.v_answers = v_answers;
-        },
-
-        update: function(json_data) {
-            this.g_data = json_data;
-                        
-            if (this.g_data.next) {
-                this.v_visible_loadmore = true;
-            } else {
-                this.v_visible_loadmore = false;
-            }
-
-            this.updateAssetAnswer(json_data.results);
         },
 
 
@@ -302,8 +230,10 @@ export default {
 
         onClickCommentSave: function(payload) {            
             let dic_param = {content_type:"blog.postpage",
-                object_pk:this.v_post.id, token:MoaConfig.auth.token,
-                name:MoaConfig.auth.username,  email:'', followup:'FALSE', reply_to:0,
+                object_pk:this.v_post.id, 
+                token:store.getters.token,
+                name:this.v_me.username,  
+                email:'', followup:'FALSE', reply_to:0,
                 comment:payload.comments,                
             };
 
@@ -313,8 +243,10 @@ export default {
 
         onClickCommentReply: function(payload) {
             let dic_param = {content_type:"blog.postpage",
-                object_pk:this.v_post.id, token:MoaConfig.auth.token,
-                name:MoaConfig.auth.username,  email:'', followup:'FALSE', reply_to:payload.data.id,
+                object_pk:this.v_post.id, 
+                token:store.getters.token,
+                name:this.v_me.username,  
+                email:'', followup:'FALSE', reply_to:payload.data.id,
                 comment:payload.comments,                
             };
 
@@ -345,7 +277,7 @@ export default {
             let dic_param = { 
                 question_id: jsonAnswer.question_id,
                 answer_id:jsonAnswer.id, comment_text: this.v_comment, 
-                token:MoaConfig.auth.token, api_owner:MoaConfig.auth.id 
+                token:store.getters.token, api_owner:this.v_me.id 
             };
             CMSAPI.postAssetAnswerComment(dic_param,function(response) {
                 _this.g_data = response.data;
@@ -364,7 +296,7 @@ export default {
             logger.log.debug("AssetAnswerList.onClickVoteComment=",jsonComment);
             
             
-            let dic_param = {id:jsonComment.id,method:'vote',value:value, token:MoaConfig.auth.token};
+            let dic_param = {id:jsonComment.id,method:'vote',value:value, token:store.getters.token};
             CMSAPI.voteAssetAnswerComment(dic_param,function(response) {
                 //_this.g_data = response.data;
                 logger.log.debug("AssetList.onClickSaveComment - response",response);

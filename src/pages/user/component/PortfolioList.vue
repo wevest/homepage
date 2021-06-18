@@ -54,7 +54,7 @@ import {MoaConfig} from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
-import { PortfolioListModel, PortfolioModel, PortfolioItemModel} from "src/store/PortfolioModel";
+import { PortfolioListModel, PortfolioModel, PortfolioItemModel} from "src/models/PortfolioModel";
 
 export default {
     components: {},

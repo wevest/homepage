@@ -62,8 +62,8 @@ export default class CMSAPI{
   }
 
 
-  static likeBlogPost(dic_param,func,funcErr) {
-    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/blog/posts/" + dic_param.id + "/" + dic_param.method + "/");
+  static voteBlogPost(dic_param,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/blog/posts/" + dic_param.id + "/vote/");
     callCMSAPI("POST",url,{},dic_param)
     .then( (response) => {
         func(response);
@@ -178,7 +178,16 @@ export default class CMSAPI{
   }
 
   static getAssetQuestion(dic_param,func,funcErr) {
-    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/qa/questions/?parent_id="+dic_param.parent_id);
+    let a_method = null;
+    if (dic_param.hasOwnProperty('parent_id')) {
+      a_method = "/api/qa/questions/?parent_id="+dic_param.parent_id;
+    }
+    if (dic_param.hasOwnProperty('id')) {
+      a_method = "/api/qa/questions/?id="+dic_param.id;
+    }
+    
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,a_method);
+
     callCMSAPI("GET",url,{},dic_param)
     .then( (response) => {
         func(response);

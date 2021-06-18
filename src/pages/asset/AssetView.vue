@@ -124,13 +124,13 @@
 
 <script>
 import { CONST } from 'src/data/const';
-import { MoaConfig } from 'src/data/MoaConfig';
+import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import MoaBackendAPI from 'src/services/apiService';
 import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
-import PostModel from "src/store/PostModel";
+import {PostPageModel} from "src/models/PageModel";
 
 import CTitle from 'components/CTitle';
 import ChartTimeframe from 'components/ChartTimeframe';
@@ -163,7 +163,11 @@ export default {
         QuestionWriterDialog,        
     },
     props: ['symbol'],
-
+    computed: {
+        v_me() {
+            return store.getters.me;
+        },
+    },
     data: function() {
         return {
             g_data: {
@@ -241,7 +245,7 @@ export default {
                 return
             }
 
-            this.loadAssetReviewData();
+            //this.loadAssetReviewData();
             this.loadAssetQuestionData();
             //this.loadBlogList();
 
@@ -417,38 +421,14 @@ export default {
         },
 
 
-        loadAssetReviewData: function(symbol) {
-            const _this = this;
-            
-            let dic_param = {'object_id':_this.g_asset.object_id};
-            return new Promise(function(resolve,reject) {
-                CMSAPI.getAssetReview(dic_param,function(response) {
-                    _this.g_data.review = response.data;
-                    //logger.log.debug("AssetView.loadAssetReviewData - response",_this.g_data.review);
-                    //logger.log.debug("AssetView.loadAssetReviewData - reviewList",_this.$refs.reviewList);
-                    resolve();
-                },function(err) {
-                    logger.log.error("AssetView.loadAssetReviewData - error",err);
-                    reject();
-                });
-            });            
+        loadAssetReviewData: function() {
+            let dic_param = {'object_id':this.g_asset.object_id};
+            this.$refs.reviewList.update(dic_param);
         },
 
         loadAssetQuestionData: function() {
-            const _this = this;
-            
             let dic_param = {'parent_id':_this.g_asset.object_id};
-            return new Promise(function(resolve,reject) {
-                CMSAPI.getAssetQuestion(dic_param,function(response) {
-                    _this.g_data.question = response.data;
-                    logger.log.debug("AssetView.loadAssetQuestionData - response",_this.g_data.question);
-                    _this.$refs.questionList.update(_this.g_data.question);
-                    resolve();
-                },function(err) {
-                    logger.log.error("AssetView.loadAssetQuestionData - error",err);
-                    reject();
-                });
-            });            
+            this.$refs.questionList.update(dic_param);
         },
 
 
@@ -492,7 +472,7 @@ export default {
             logger.log.debug('AssetView.onClickReviewSave - ',dic_param);       
             
             dic_param.object_id = this.g_asset.object_id;
-            dic_param.token = MoaConfig.auth.token;
+            dic_param.token = store.getters.token;
             dic_param.category = this.g_asset.symbol;
 
             CMSAPI.postAssetReview(dic_param,function(response) {
@@ -507,7 +487,7 @@ export default {
             logger.log.debug('AssetView.onClickReviewRating - ',json_review);
             
             const _this = this;
-            let dic_param = {id:json_review.obj.id, method:json_review.rtype, token:MoaConfig.auth.token};
+            let dic_param = {id:json_review.obj.id, method:json_review.rtype, token:store.getters.token};
             CMSAPI.likeAssetReview(dic_param,function(response) {
                 logger.log.debug('onClickReviewRating - ',response);
                 CommonFunc.showOkMessage(_this,json_review.rtype);
@@ -527,7 +507,7 @@ export default {
             logger.log.debug('AssetView.onClickQuestionRating - ',json_question);
             
             const _this = this;
-            let dic_param = {id:json_question.id, value:json_question.value, method:'vote', token:MoaConfig.auth.token};
+            let dic_param = {id:json_question.id, value:json_question.value, method:'vote', token:store.getters.token};
             
             CMSAPI.voteAssetQuestion(dic_param,function(response) {
                 logger.log.debug('onClickQuestionRating - ',response);
@@ -560,7 +540,7 @@ export default {
             let dic_param = this.$refs.weditor.getText();
             logger.log.debug('AssetView.onClickSaveQuestion',dic_param);
 
-            dic_param.token = MoaConfig.auth.token;
+            dic_param.token = store.getters.token;
             dic_param.parent_page_id = this.g_asset.object_id;
             CMSAPI.postAssetQuestion(dic_param,function(response) {
                 logger.log.debug('onClickSaveQuestion - ',response);
@@ -575,9 +555,7 @@ export default {
             logger.log.debug('AssetView.onTabChange',newValue);
             
             if (newValue=="review") {
-                if (this.g_data.review) {
-                    this.$refs.reviewList.update(this.g_data.review);
-                }                
+                this.loadAssetReviewData();                
             }
 
             if (newValue=="blog") {

@@ -4,7 +4,7 @@
 
         <q-list separator class="rounded-borders">
 
-            <q-item class="ReviewBox" clickable v-for="(a_review,index) in v_reviews" :key="index">
+            <q-item class="ReviewBox" clickable v-for="(a_review,index) in v_reviews.items" :key="index">
                 
                 <q-item-section avatar top>
                     <q-avatar>
@@ -23,13 +23,13 @@
                         <q-rating                        
                             dense
                             class="rating-icon" 
-                            v-model="a_review.rating" 
+                            v-model="a_review.average_rating" 
                             size="1.2em" 
                             icon="star_border" 
                             icon-selected="star" 
                             color="amber-9"
                         />                        
-                        <span class="cursor-pointer ReviewDate">{{a_review.creation_date}}</span>
+                        <span class="cursor-pointer ReviewDate">{{v_updated_at(a_review.creation_date)}}</span>
                     </q-item-label>  
                     <p class="content">                   
                         <q-item-label>
@@ -80,72 +80,34 @@ import CommonFunc from 'src/util/CommonFunc';
 import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
+import { AssetReviewPageModel, AssetReviewPageListModel } from "src/models/PageModel";
+
 
 export default {
+    computed: {
+        v_updated_at() {
+            return (value) => {
+                return CommonFunc.minifyDatetime(value);
+            };
+        },
+    },
     data () {
       return {
         g_data: null,
 
-        v_reviews: [],
+        v_reviews: new AssetReviewPageListModel(),
         v_visible_loadmore: false,
       }
     },
 
     methods: {
 
-        loadAssetPage: function() {
+        update: function(dic_param) {            
             const _this = this;
+            this.v_reviews.load(dic_param).then( response => {
+                _this.g_data = response.data;
+            });
 
-            return new Promise(function(resolve,reject) {
-                let a_today = CommonFunc.getToday(false);
-                let dic_param = {};
-                logger.log.debug("AssetList.loadAssetPage - dic_param=",dic_param);
-
-                CMSAPI.getAssetPage(dic_param,function(response) {
-                    _this.g_data = response.data;
-                    logger.log.debug("AssetList.loadAssetPage - response",_this.g_data);
-                    _this.updateAssetPage(_this.g_data.results);
-                    resolve();
-                },function(err) {
-                    logger.log.error("AssetList.loadAssetPage - error",err);
-                    reject();
-                });
-            });            
-        },
-        
-
-        updateAssetReview:function(reviews) {
-            logger.log.debug("updateAssetReview=",reviews);
-
-            let v_posts = [];
-            for (let index=0; index<reviews.length;index++) {
-                let a_post = {
-                    id:reviews[index].id, 
-                    creation_date:CommonFunc.minifyDatetime(reviews[index].creation_date),
-                    rating: reviews[index].average_rating,
-                    content: reviews[index].content,
-                    user: reviews[index].api_owner,
-                    object_id: reviews[index].object_id,
-                    content_type_id: reviews[index].content_type_id,
-                    like_count: reviews[index].like_count,
-                    dislike_count: reviews[index].dislike_count,
-                };
-                v_posts.push(a_post);
-            }
-
-            this.v_reviews = v_posts;
-        },
-
-        update: function(json_data) {
-            this.g_data = json_data;
-                        
-            if (this.g_data.next) {
-                this.v_visible_loadmore = true;
-            } else {
-                this.v_visible_loadmore = false;
-            }
-
-            this.updateAssetReview(json_data.results);
         },
 
         onClickRating: function(rtype,json_review) {

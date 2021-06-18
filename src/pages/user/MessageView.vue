@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import {MoaConfig} from 'src/data/MoaConfig';
+import {store} from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
@@ -51,7 +51,7 @@ import AuthService from 'src/services/authService';
 
 import MessageWriterDialog from 'components/dialogs/MessageWriterDialog';
 
-import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/store/MessageModel";
+import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/models/MessageModel";
 
 import CTitle from 'components/CTitle';
 
@@ -63,7 +63,11 @@ export default {
         MessageWriterDialog
     },
     props: {},
-
+    computed: {
+        v_me() {
+            return store.getters.me;
+        },
+    },
     data: () => ({
         g_data: { 
             threads: null,
@@ -82,8 +86,6 @@ export default {
         v_buttons: false,
         v_back: false,
     }),
-    computed: {
-    },
     mounted: function() {
         //console.log("HomeView.mounted - ");
         console.log("MessageView.mounted - params=",this.$route.params, this.v_message);
@@ -128,7 +130,7 @@ export default {
         loadInboxMessages: function() {
             const _this = this;
                         
-            let dic_param = {token: MoaConfig.auth.token};
+            let dic_param = {token: store.getters.token};
 
             return new Promise(function(resolve,reject) {
                 AuthService.getInboxMessage(dic_param,function(response) {
@@ -146,7 +148,7 @@ export default {
         loadThreadMessages: function(uuid) {
             const _this = this;
                         
-            let dic_param = {uuid:uuid, token: MoaConfig.auth.token};
+            let dic_param = {uuid:uuid, token: store.getters.token};
 
             return new Promise(function(resolve,reject) {
                 AuthService.getThreadMessage(dic_param,function(response) {
@@ -164,7 +166,8 @@ export default {
         sendMessage: function(v_message) {
             const _this = this;
             
-            let dic_param = {token: MoaConfig.auth.token, 
+            let dic_param = {
+                token: store.getters.token, 
                 to_user:this.v_message.to_user, subject:this.v_message.subject, message:this.v_message.content
             };
 
@@ -215,7 +218,7 @@ export default {
                         thread_id: messages.messages[index].thread,
                         is_sender: false
                     });
-                    if (MoaConfig.auth.id==messages.messages[index].sender.id) {
+                    if (this.v_me.id==messages.messages[index].sender.id) {
                         a_message.username = "me";
                         a_message.is_sender = true;
                     }

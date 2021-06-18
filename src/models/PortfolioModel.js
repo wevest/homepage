@@ -1,5 +1,5 @@
-import {MoaConfig} from 'src/data/MoaConfig';
-import {baseCollection} from 'src/store/baseModel';
+import {store} from 'src/store/store';
+import {baseCollection} from 'src/models/baseModel';
 import _ from 'lodash';
 
 import AuthService from 'src/services/authService';
@@ -43,7 +43,7 @@ export class PortfolioItemModel {
 
         return new Promise(function(resolve,reject) {
             let reqParam = _this.toDict();
-            reqParam.token = MoaConfig.auth.token;
+            reqParam.token = store.getters.token;
             reqParam.action = "add";
             AuthService.addPortfolioItem(reqParam, function(response) {
                 resolve(response);
@@ -58,7 +58,7 @@ export class PortfolioItemModel {
 
         return new Promise(function(resolve,reject) {
             let reqParam = _this.toDict();
-            reqParam.token = MoaConfig.auth.token;
+            reqParam.token = store.getters.token;
             reqParam.action = "delete";
             AuthService.deletePortfolioItem(reqParam, function(response) {
                 resolve(response);
@@ -141,10 +141,14 @@ export class PortfolioListModel extends baseCollection{
 
     load(username) { 
         const _this = this;
+        
+        logger.log.debug("PortfolioList.load : username = ",username);
 
         return new Promise(function(resolve,reject) {
             
-            let reqParam = { username:username, token: MoaConfig.auth.token};
+            let reqParam = { username:username, token: store.getters.token};
+            logger.log.debug("PortfolioList.load:param=",reqParam);
+
             AuthService.getPortfolio(reqParam, function(response) {
 
                 let items = response.data.results;
@@ -186,7 +190,7 @@ export class PortfolioListModel extends baseCollection{
 
         return new Promise(function(resolve,reject) {
             let reqParam = {
-                token:MoaConfig.auth.token,
+                token: store.getters.token,
                 id:item_id,
             };
 

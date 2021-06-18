@@ -109,9 +109,9 @@ import CMSAPI from 'src/services/cmsService';
 
 import CryptoSelect from "src/components/CryptoSelect";
 
-import UserModel from "src/store/UserModel";
-import { PriceModel, PriceListModel } from "src/store/PriceModel";
-import { PortfolioListModel, PortfolioItemModel } from "src/store/PortfolioModel";
+import UserModel from "src/models/UserModel";
+import { PriceModel, PriceListModel } from "src/models/PriceModel";
+import { PortfolioListModel, PortfolioItemModel } from "src/models/PortfolioModel";
 
 
 export default {

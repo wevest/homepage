@@ -82,7 +82,7 @@
             <div class="col body-content">
                 <Viewer 
                     ref="toastViewer"
-                    :value="v_post.text"
+                    :value="v_post.body"
                     :options="editorOptions"
                     :visible="editorVisible"
                     previewStyle="vertical"
@@ -151,12 +151,11 @@ import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Viewer } from "@toast-ui/vue-editor";
 
-import { MoaConfig } from 'src/data/MoaConfig';
+import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
-import CMSAPI from 'src/services/cmsService';
 
-import PostModel from "src/store/PostModel";
+import {PostPageModel} from "src/models/PageModel";
 
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
@@ -173,13 +172,17 @@ export default {
         CommentTree,
         CommentForm
     },
+    computed: {
+        v_me() {
+            return store.getters.me;
+        },
+    },
     data: function () {
         return {
             g_data:null,
-            g_page_id: null,
             g_data_comments: null,
 
-            v_post: new PostModel(),
+            v_post: new PostPageModel(),
                     
             v_page: {title:this.$t('page.cryptovc.title'), desc:''},
             //v_post: {title:null,header_image_url:null, pub_date:null},
@@ -219,8 +222,8 @@ export default {
 
         //this.$refs.commentTree.showEditor();
 
-        this.g_page_id=12;
-        this.refresh(this.g_page_id);
+        this.v_post.id=12;
+        this.refresh(this.v_post.id);
     },
     updated: function() {
         //console.log("HomeView.updated");
@@ -283,64 +286,37 @@ export default {
         handlePostPage: function(post) {
             logger.log.debug("handlePostPage.post=",post);
 
-            this.v_post = post;
-            //this.v_post.comment = "comments";
+            this.v_post.assign(post);
             
-            if (post.api_owner.id==MoaConfig.auth.id) {
-                this.v_post.is_owner = true;
-            } else {
-                this.v_post.is_owner = false;
-            }
-
-            this.v_post.pub_date = this.v_post.last_published_at;
-
-            if (post.api_categories.length==0) {
-                this.v_post.category_id = null;
-                this.v_post.category_name = null;
-            } else {
-                this.v_post.category_id = post.api_categories[0].id;
-                this.v_post.category_name = post.api_categories[0].name;
-            }
-
+            logger.log.debug("handlePostPage.v_post=",this.v_post);
+                    
             this.setContent(this.v_post.body);
         },
 
         loadBlogPost: function(page_id) {
-            const _this = this;
             if (! page_id) {
                 return;
             }
 
-            return new Promise(function(resolve,reject) {
-                //logger.log.debug("CWatchView.loadCryptoWatchData - dic_param=",dic_param);
-                CMSAPI.getBlogData({page_id:page_id},function(response) {
-                    _this.g_data = response.data;
-                    logger.log.debug("BlogView.loadBlogPost - response",_this.g_data);
-                    _this.handlePostPage(_this.g_data.results[0]);
-                    resolve();
-                },function(err) {
-                    logger.log.error("BlogView.loadBlogPost - error",err);
-                    reject();
-                });
-            });            
+            const _this = this;
+            this.v_post.loadPost(page_id).then( response => {
+                _this.g_data = response.data;
+                _this.handlePostPage(_this.g_data.results[0]);
+            }).catch( err => {
+
+            });
+
         },
         
         loadBlogComments: function(page_id,limit=null,offset=null) {
             const _this = this;
 
-            return new Promise(function(resolve,reject) {
-                //logger.log.debug("CWatchView.loadCryptoWatchData - dic_param=",dic_param);
-                let dic_config = {content_type:'blog-postpage' , id:page_id, limit:limit, offset:offset};
-                CMSAPI.getComments(dic_config,function(response) {
-                    logger.log.debug("BlogView.loadBlogComments - response",response.data);                    
-                    _this.g_data_comments = response.data;
-                    _this.handleComments(_this.g_data_comments);
-                    resolve();
-                },function(err) {
-                    logger.log.error("BlogView.loadBlogComments - error",err);
-                    reject();
-                });
-            });            
+            this.v_post.loadComments(page_id,limit,offset).then( response => {
+                _this.g_data_comments = response.data;
+                _this.handleComments(_this.g_data_comments);
+            }).catch( err => {
+                logger.log.error("BlogView.loadBlogComments - error",err);
+            });
         },
         
         handleComments: function(json_data) {
@@ -416,26 +392,24 @@ export default {
 
         postComment: function(dic_param) {
             const _this = this;
-
-            CMSAPI.postBlogComment(dic_param,function(response) {
-                logger.log.debug("postComment=",response);
+            this.v_post.postComment(dic_param).then( response => {
                 CommonFunc.showOkMessage(_this,'comments posted');
                 _this.appendComments(dic_param,response);
-            }, function(err) {
-                console.log("error-",err);
+            }).catch( err=> {
+
             });
+
         },
 
 
         onClickBlogRate: function(rate) {
-            const _this = this;
-            let dic_param = {id:this.g_data.id, method:rate, token:MoaConfig.auth.token};
-            CMSAPI.likeBlogPost(dic_param,function(response) {
-                logger.log.debug('onClickBlogRate - ',response);
+            const _this = this;            
+            let dic_param = {id:this.v_post.id, method:rate};
+            this.v_post.ratePost(dic_param).then( response => {
                 CommonFunc.showOkMessage(_this,'Liked');
-            }, function(err) {
-                logger.log.debug('onClickBlogRate - ',err);
-            });          
+            }).catch( err=> {
+
+            });
         },
 
         onClickTest: function() {            
@@ -453,8 +427,11 @@ export default {
             const a_text = this.$refs.toastuiEditor.invoke('getHtml');
 
             this.v_post.category_id = 1;
-            let dic_param = {title:this.v_post.title,tags:this.v_post.tags, 
-                category_id:this.v_post.category_id, text:a_text, token:MoaConfig.auth.token};
+            let dic_param = {
+                title:this.v_post.title,tags:this.v_post.tags, 
+                category_id:this.v_post.category_id, text:a_text, 
+                token:store.getters.token
+            };
             logger.log.debug('onClickSave - ',dic_param);
             CMSAPI.postBlogPost(dic_param,function(response) {
                 CommonFunc.showOkMessage(_this,'Blog posted');
@@ -470,7 +447,7 @@ export default {
 
             this.v_post.category_id = 1;
             let dic_param = { id:4, title:this.v_post.title,tags:this.v_post.tags, 
-                category_id:this.v_post.category_id, text:a_text, token:MoaConfig.auth.token};
+                category_id:this.v_post.category_id, text:a_text, token:store.getters.token};
             logger.log.debug('onClickUpdate - ',dic_param);
             CMSAPI.postBlogPost(dic_param,function(response) {
                 CommonFunc.showOkMessage(_this,'Blog updated');
@@ -482,7 +459,7 @@ export default {
 
         onClickDelete: function() {                        
             const _this = this;
-            let dic_param = { id:9, token:MoaConfig.auth.token};
+            let dic_param = { id:9, token:store.getters.token};
             logger.log.debug('onClickDelete - ',dic_param);
             CMSAPI.deleteBlogPost(dic_param,function(response) {
                 CommonFunc.showOkMessage(_this,'Blog deleted');
@@ -497,8 +474,10 @@ export default {
 
             logger.log.debug('onClickComment - ');
             let dic_param = {content_type:"blog.postpage",
-                object_pk:this.v_post.id, token:MoaConfig.auth.token,
-                name:MoaConfig.auth.username,  email:'', followup:'FALSE', reply_to:2,
+                object_pk:this.v_post.id, 
+                token: store.getters.token,
+                name: this.v_me.username,  
+                email:'', followup:'FALSE', reply_to:2,
                 comment:'This is reply2',                
             };
 
@@ -521,9 +500,11 @@ export default {
         },
 
         onClickCommentSave: function(payload) {            
-            let dic_param = {content_type:"blog.postpage",
-                object_pk:this.v_post.id, token:MoaConfig.auth.token,
-                name:MoaConfig.auth.username,  email:'', followup:'FALSE', reply_to:0,
+            let dic_param = {
+                content_type:"blog.postpage",
+                object_pk:this.v_post.id, 
+                name: this.v_me.username,  
+                email:'', followup:'FALSE', reply_to:0,
                 comment:payload.comments,                
             };
 
@@ -532,9 +513,11 @@ export default {
         },
 
         onClickCommentReply: function(payload) {
-            let dic_param = {content_type:"blog.postpage",
-                object_pk:this.v_post.id, token:MoaConfig.auth.token,
-                name:MoaConfig.auth.username,  email:'', followup:'FALSE', reply_to:payload.data.id,
+            let dic_param = {
+                content_type:"blog.postpage",
+                object_pk:this.v_post.id, 
+                name:this.v_me.username,  
+                email:'', followup:'FALSE', reply_to:payload.data.id,
                 comment:payload.comments,                
             };
 
@@ -557,13 +540,10 @@ export default {
             const _this = this;
             logger.log.debug("BlogPage.onClickRate=",dic_payload);
 
-            let dic_param = {comment: dic_payload.data.id, flag:dic_payload.rate, token:MoaConfig.auth.token};
-            CMSAPI.postCommentFeedback(dic_param,function(response) {
+            let dic_param = {comment: dic_payload.data.id, flag:dic_payload.rate};
+            this.v_post.postCommentRate(dic_param).then( response => {
                 CommonFunc.showOkMessage(_this,'Comments rate updated');
-            
-            }, function(response) {
-
-            });            
+            });
         },
 
         onEditorFocus: function(event) {

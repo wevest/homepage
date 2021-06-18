@@ -90,7 +90,7 @@ import AuthService from 'src/services/authService';
 import PriceService from 'src/services/priceService';
 import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 
-import { PortfolioListModel, PortfolioModel, PortfolioItemModel} from "src/store/PortfolioModel";
+import { PortfolioListModel, PortfolioModel, PortfolioItemModel} from "src/models/PortfolioModel";
 
 
 import CTitle from 'components/CTitle';

@@ -50,12 +50,13 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/vue-editor';
 
 
+import { store } from 'src/store/store';
 import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import CMSAPI from 'src/services/cmsService';
 
-import PostModel from "src/store/PostModel";
+import {PostModel} from "src/models/PageModel";
 import CTitle from 'components/CTitle';
 
 
@@ -66,6 +67,9 @@ export default {
         Editor,
     },
     computed: {
+        v_me() {
+            return store.getters.me;
+        },
         isNewPost: function() {
             if (this.g_page_id) {
                 return false;
@@ -253,8 +257,10 @@ export default {
             const _this = this;
             const a_text = this.$refs.toastEditor.invoke('getHtml');
 
-            let dic_param = {title:this.v_post.title,tags:this.v_post.tags, 
-                category_id:this.g_category_id, text:a_text, token:MoaConfig.auth.token};
+            let dic_param = {
+                title:this.v_post.title,tags:this.v_post.tags, 
+                category_id:this.g_category_id, text:a_text, token:store.getters.token
+            };
 
             if (! this.isNewPost) {
                 dic_param.id = this.g_page_id;
@@ -295,7 +301,7 @@ export default {
 */
         onClickDelete: function() {                        
             const _this = this;
-            let dic_param = { id:9, token:MoaConfig.auth.token};
+            let dic_param = { id:9, token:store.getters.token};
             logger.log.debug('onClickDelete - ',dic_param);
             CMSAPI.deleteBlogPost(dic_param,function(response) {
                 CommonFunc.showOkMessage(_this,'Blog deleted');

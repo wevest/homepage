@@ -6,7 +6,7 @@
         <q-table
             row-key="name"       
             hide-header 
-            :data="v_questions"
+            :data="v_questions.items"
             :columns="v_questions_header"
             :rows-per-page-options="[50]"        
         >
@@ -80,13 +80,14 @@ import CommonFunc from 'src/util/CommonFunc';
 import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
+import { PostPageModel, QuestionPageListModel } from "src/models/PageModel";
 
 export default {
     data () {
       return {
         g_data: null,
 
-        v_questions: [],
+        v_questions: new QuestionPageListModel(),
         v_questions_header: [
             { name:'avatar', label: this.$t('name.name'), align:'left', field: 'avatar' },
             { name:'detail', label: this.$t('name.detail'), field: 'detail' },
@@ -106,64 +107,15 @@ export default {
 
     methods: {
 
-        loadAssetPage: function() {
+        update: function(dic_param) {
             const _this = this;
 
-            return new Promise(function(resolve,reject) {
-                let a_today = CommonFunc.getToday(false);
-                let dic_param = {};
-                logger.log.debug("AssetList.loadAssetPage - dic_param=",dic_param);
+            this.v_questions.load(dic_param).then( response => {
+                _this.g_data = response;
+            }).catch( err=> {
 
-                CMSAPI.getAssetPage(dic_param,function(response) {
-                    _this.g_data = response.data;
-                    logger.log.debug("AssetList.loadAssetPage - response",_this.g_data);
-                    _this.updateAssetPage(_this.g_data.results);
-                    resolve();
-                },function(err) {
-                    logger.log.error("AssetList.loadAssetPage - error",err);
-                    reject();
-                });
-            });            
-        },
-        
-
-        updateAssetQuestion:function(questions) {
-            logger.log.debug("updateAssetQuestion=",questions);
-
-            let v_questions = [];
-            for (let index=0; index<questions.length;index++) {
-                let a_question = {
-                    id:questions[index].id, 
-                    title:questions[index].title,
-                    pub_date: CommonFunc.minifyDatetime(questions[index].pub_date),
-                    content: questions[index].description,
-                    userid: questions[index].api_owner.id,
-                    username: questions[index].api_owner.username,
-                    avatar: questions[index].api_owner.avatar_thumb,
-                    parent_id: questions[index].parent_id,
-                    closed: questions[index].closed,
-                    like_count: questions[index].like_count,
-                    dislike_count: questions[index].dislike_count,
-                    comment_count: questions[index].comment_count,
-                    reward: questions[index].reward,
-                };
-                v_questions.push(a_question);
-            }
-
-            logger.log.debug("updateAssetQuestion : v_questions=",v_questions);
-            this.v_questions = v_questions;
-        },
-
-        update: function(json_data) {
-            this.g_data = json_data;
-                        
-            if (this.g_data.next) {
-                this.v_visible_loadmore = true;
-            } else {
-                this.v_visible_loadmore = false;
-            }
-
-            this.updateAssetQuestion(json_data.results);
+            });
+            
         },
 
         onClickRating: function(value,json_question) {
