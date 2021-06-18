@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="row">
+        <div class="row backBtn">
             <div>
                 <q-btn label="back" @click="onClickBack" />
             </div>
@@ -48,10 +48,10 @@
                                 <q-icon class="coinIcon" name="account_tree" color="black" size="34px" />                                    
                             </div>    
                             <div class="box2-2">
-                                <span class="symbolName"> ({{a_portfolio.api_asset.symbol}})</br> {{a_portfolio.api_asset.name}} </span>                        
+                                <span class="symbolName"> ({{a_portfolio.api_asset.symbol}})<br> {{a_portfolio.api_asset.name}} </span>                        
                             </div>                            
                             <div class="col box2-3">                            
-                                <span class="name2">ROI</br><span class="roiValue">{{v_format(a_portfolio.roi)}} %</span></span></br>                                                       
+                                <span class="name2">ROI</span><br><span class="roiValue">{{v_format(a_portfolio.roi)}} %</span><br>                                                       
                                 <span class="text-grey-8">{{ v_format(a_portfolio.last*a_portfolio.qty)}} </span>                            
                             </div>    
                         </div>  
@@ -60,17 +60,17 @@
                     <q-card-section>                        
                         <div class="row box3">
                             <div class="col">  
-                                <span class="value">{{ v_format(a_portfolio.last) }}</span></br>
+                                <span class="value">{{ v_format(a_portfolio.last) }}</span><br>
                                 <span class="name2">last Price</span>
                             </div>
                             <q-separator vertical inset />
                             <div class="col">
-                                <span class="value">{{ v_format(a_portfolio.price) }}</span></br>
+                                <span class="value">{{ v_format(a_portfolio.price) }}</span><br>
                                 <span class="name2 cursor-pointer">Current Price</span>
                             </div>
                             <q-separator vertical inset />
                             <div class="col">
-                                <span class="value">{{v_updated_at(a_portfolio.updated_at)}}</span></br>
+                                <span class="value">{{v_updated_at(a_portfolio.updated_at)}}</span><br>
                                 <span class="name2">Inception Date</span>
                             </div>
                         </div>
@@ -281,13 +281,13 @@ export default {
 
 
 <style scoped>
-
 .backBtn {
-    margin-top: 30px; 
+    padding:20px 0px 15px 10px; 
+
 }
 
 .groupNameBox {
-    padding:20px 0px 5px 10px;
+    padding:10px 0px 5px 10px;
 }
 
 .groupName {
@@ -295,9 +295,6 @@ export default {
 
 }
 
-.groupDesc {
-    ;
-}
 
 .name1 {
     font-size:15px;
@@ -314,7 +311,7 @@ export default {
 }
 
 .bigValue {
-   font-size:32px ;
+   font-size:35px ;
    color: darkgreen;
 }
 
@@ -325,12 +322,16 @@ export default {
 }
 .box1 {
     padding:20px 0px 20px 10px;
+    text-align:center;
 }
 
 .box2 {
-    padding:0px 0px 15px 0px;
+    padding:0px 0px 5px 0px;
 }
 
+.box3 {
+    padding:0px 0px 15px 0px;
+}
 
 .cardBox {
     padding:10px 10px 10px 10px;
@@ -357,7 +358,7 @@ height:88px;
 
 .chartTitleBox {
     color:#555555;
-    margin:20px 20px 10px 20px;
+    margin:15px 20px 15px 20px;
 
 }
 
