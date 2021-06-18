@@ -9,23 +9,27 @@
             <div class="col">
                 <div class="groupNameBox">
                     <span class="groupName"> {{v_portfolio.name}}  </span> &nbsp;|&nbsp;
-                    <span class="groupDesc"> {{v_portfolio.description}}  </span>
+                    <span class="name1"> {{v_portfolio.description}}  </span>
                 </div>
+
                 <q-separator size="2px" />
-                <div class="row roiBox">
-                    <div class="col-4">
-                        <span>ROI 
-                            <div>{{v_portfolio.roi}} % </div>
-                        </span>
-                    </div> 
-                    <div class="col-4">   
-                        <span >Evaluated Value 
-                            <div>{{v_portfolio.evaluated_value}}  </div>
-                        </span>
+
+                <div class="row box1">                    
+                    <div class="col">
+                        <div class="bigValue">{{v_portfolio.roi}}% </div>
+                        <div class="name1">ROI</div>                         
+                    </div>  
+
+                    <q-separator vertical />
+                    
+                    <div class="col">   
+                        <div class="bigValue">{{v_portfolio.evaluated_value}}</div>
+                        <div class="name1">Evaluated Value</div>                         
                     </div>
                 </div>
             </div>
         </div>
+        <q-separator size="2px" />
 
         <div>
             <div>
@@ -35,59 +39,63 @@
             <PortfolioChart ref="portfolioChart" />
         </div>
 
-        <div class="row">
+        <div class="row cardBox">
             <div class="col">
-
-                <q-card class="coinBox" 
-                        flat
-                        bordered 
-                        v-for="(a_portfolio,index) in v_portfolio.items" 
-                        :key="index">
+                <q-card class="coinBox" flat bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index">
                     <q-card-section>
-                        <div class="row" dense>
-                            <div>
-                                <q-icon class="coinIcon"
-                                            name="account_tree" 
-                                            color="black" 
-                                            size="34px" />&nbsp;&nbsp;                       
-                            </div>
-                            <div>
-                                <span class="coinSymbol"> ({{a_portfolio.api_asset.symbol}}) </span></br>
-                                <span class="coinName"> {{a_portfolio.api_asset.name}} </span>                            
-                            </div>
-                            
-                            <div class="roibox2">                            
-                                <span class="text-weight-medium">ROI</br><span class="roiValue">{{v_format(a_portfolio.roi)}}</span></span></br>                                                       
+                        <div class="row box2">
+                            <div class="box2-1">  
+                                <q-icon class="coinIcon" name="account_tree" color="black" size="34px" />                                    
+                            </div>    
+                            <div class="box2-2">
+                                <span class="symbolName"> ({{a_portfolio.api_asset.symbol}})</br> {{a_portfolio.api_asset.name}} </span>                        
+                            </div>                            
+                            <div class="col box2-3">                            
+                                <span class="name2">ROI</br><span class="roiValue">{{v_format(a_portfolio.roi)}} %</span></span></br>                                                       
                                 <span class="text-grey-8">{{ v_format(a_portfolio.last*a_portfolio.qty)}} </span>                            
-                            </div>
+                            </div>    
                         </div>  
+                        <q-separator size="1px" />
                     </q-card-section>
                     <q-card-section>                        
-                        <div class="row">
-                            <div>
-                                {{ v_format(a_portfolio.last) }}
+                        <div class="row box3">
+                            <div class="col">  
+                                <span class="value">{{ v_format(a_portfolio.last) }}</span></br>
+                                <span class="name2">last Price</span>
                             </div>
-                            <div>
-                                <span class="cursor-pointer">{{ v_format(a_portfolio.price) }}</span>
+                            <q-separator vertical inset />
+                            <div class="col">
+                                <span class="value">{{ v_format(a_portfolio.price) }}</span></br>
+                                <span class="name2 cursor-pointer">Current Price</span>
                             </div>
-                            <div>
-                                <span>{{v_updated_at(a_portfolio.updated_at)}}</span>
+                            <q-separator vertical inset />
+                            <div class="col">
+                                <span class="value">{{v_updated_at(a_portfolio.updated_at)}}</span></br>
+                                <span class="name2">Inception Date</span>
                             </div>
                         </div>
                     </q-card-section>
+
+                     <q-separator size="1px" />
+
                     <q-card-section>
-                        <div> 
+                        <div class="desc"> 
                             {{a_portfolio.description}} 
                         </div>
+                        
                     </q-card-section>
+                    
+                    <q-separator size="1px" />
+                </q-card>
+
                     <q-card-actions>
                         <div class="text-grey-8 q-gutter-xs">
-                            <q-btn class="gt-xs" size="12px" flat dense round icon="delete" @click="onClickDelete(a_portfolio)"/>
-                            <q-btn class="gt-xs" size="12px" flat dense round icon="done" />
-                            <q-btn size="12px" flat dense round icon="more_vert" />
+                            <q-btn size="15px" flat dense round icon="delete" @click="onClickDelete(a_portfolio)"/>&nbsp;
+                            <q-btn size="15px" flat dense round icon="done" />&nbsp;
+                            <q-btn size="15px" flat dense round icon="more_vert" />
                         </div>                            
                     </q-card-actions>                        
-                </q-card>
+                
 
 
 <!--
@@ -274,12 +282,16 @@ export default {
 
 <style scoped>
 
+.backBtn {
+    margin-top: 30px; 
+}
+
 .groupNameBox {
     padding:20px 0px 5px 10px;
 }
 
 .groupName {
-font-size:15px;
+    font-size:15px;
 
 }
 
@@ -287,9 +299,61 @@ font-size:15px;
     ;
 }
 
-.roiBox {
-    padding:20px 0px 0px 10px;
+.name1 {
+    font-size:15px;
+    color:#8C8C8C;
+    text-align:center;
+
 }
+
+.name2 {
+    font-size:15px;
+    color:#8C8C8C;
+    text-align:center;
+
+}
+
+.bigValue {
+   font-size:32px ;
+   color: darkgreen;
+}
+
+.value {
+    font-size:14px;
+    color:#202124;
+    text-align:center;
+}
+.box1 {
+    padding:20px 0px 20px 10px;
+}
+
+.box2 {
+    padding:0px 0px 15px 0px;
+}
+
+
+.cardBox {
+    padding:10px 10px 10px 10px;
+}
+
+.box2-1 {
+width:50px;
+height:88px;
+}
+
+.box2-3 {
+    padding:0px 10px;
+    text-align:center;
+}
+
+.box3 div {
+    padding-top:0px;
+    text-align:center;
+    font-size:16px;
+    color:#8C8C8C;
+}
+
+
 
 .chartTitleBox {
     color:#555555;
@@ -297,29 +361,23 @@ font-size:15px;
 
 }
 
-.coinSymbol {
-    font-size:15px;
+.coinIcon {
+    height:50px;
+}
+
+.symbolName {
+    font-size:14px;
     color:#555555;
     font-weight:bold;
-}
-
-.coinName {
-    font-size:20px;
-    color:#555555;
-    font-weight:bold;
-}
-
-.coinBox {
-margin:0px 5px;
-}
-
-.roiBox2 {
-    padding:10px 10px;
-    text-align:center;
 }
 
 .roiValue {
-    font-size:30px;
+    font-size:25px;
     color:darkgreen;
+}
+
+.desc {
+    font-size:15px;
+    color:#222222;
 }
 </style>
