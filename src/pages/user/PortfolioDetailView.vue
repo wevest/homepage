@@ -16,27 +16,40 @@
 
                 <div class="row box1">                    
                     <div class="col">
-                        <div class="bigValue">{{v_portfolio.roi}}% </div>
+                        <div class="bigValue">{{ v_format(v_portfolio.roi) }}% </div>
                         <div class="name1">ROI</div>                         
                     </div>  
 
                     <q-separator vertical />
                     
                     <div class="col">   
-                        <div class="bigValue">{{v_portfolio.evaluated_value}}</div>
+                        <div class="bigValue">{{ v_format(v_portfolio.evaluated_value) }}</div>
                         <div class="name1">Evaluated Value</div>                         
                     </div>
                 </div>
+
+                <div>
+                    <div> like : {{ v_portfolio.like_count }} </div>
+                    <div> dislike : {{ v_portfolio.dislike_count }} </div>        
+                </div>
+
             </div>
         </div>
         <q-separator size="2px" />
 
-        <div>
-            <div>
-                <h4 class="chartTitleBox"> ROI Chart </h4>
+        <div class="row">
+            <div class="col">
+                <div>
+                    <h4 class="chartTitleBox"> ROI Chart </h4>
+                </div>
+                <q-separator size="2px" />
+                <PortfolioChart ref="portfolioChart" />
+                <div>
+                    <q-btn label="like" @click="onClickVote(1)" />
+                    <q-btn label="dislike" @click="onClickVote(-1)" />
+
+                </div>
             </div>
-            <q-separator size="2px" />
-            <PortfolioChart ref="portfolioChart" />
         </div>
 
         <div class="row cardBox">
@@ -282,7 +295,21 @@ export default {
             CommonFunc.navBack(this);
         },
 
-        
+        onClickVote: function(value) {
+            const _this=this;
+
+            logger.log.debug("PortfolioDetail.onClickVote = ",value);
+            
+            let dic_param = {id:this.v_portfolio.id, value:value};
+            this.v_portfolio.vote(dic_param).then(response => {
+                logger.log.debug('onClickReviewRating - ',response);
+                CommonFunc.showOkMessage(_this,'ok');
+            }).catch( err => {
+
+            });
+
+        },
+
 
     }
 };

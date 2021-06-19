@@ -3,6 +3,8 @@ import {baseCollection} from 'src/models/baseModel';
 import _ from 'lodash';
 
 import AuthService from 'src/services/authService';
+import CMSAPI from 'src/services/cmsService';
+
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 
@@ -79,6 +81,10 @@ export class PortfolioModel extends baseCollection {
     updated_at=null;
     evaluated_value=0;
     roi=0;
+    read_count=0;
+    comment_count=0;
+    like_count=0;
+    dislike_count=0;
     api_user=null;
 
     assign(item) {        
@@ -87,6 +93,10 @@ export class PortfolioModel extends baseCollection {
         this.description = item.description;
         this.created_at = item.created_at;
         this.updated_at = item.updated_at;
+        this.read_count = item.read_count;
+        this.comment_count = item.comment_count;
+        this.like_count = item.like_count;
+        this.dislike_count = item.dislike_count;
         this.api_user = item.api_user;
         this.items = item.portfolio_children;
     }
@@ -126,6 +136,21 @@ export class PortfolioModel extends baseCollection {
             this.roi = dic_perf.roi/dic_perf.count;    
         }
     }
+
+
+    vote(dic_param) {
+        return new Promise(function(resolve,reject) {
+            dic_param.token = store.getters.token;
+            CMSAPI.votePortfolio(dic_param,function(response) {
+                logger.log.debug('PortfolioModel.vote - ',response);
+                resolve(response);
+            }, function(err) {
+                logger.log.debug('PortfolioModel.vote - ',err);
+                reject(err);
+            });          
+        });
+    }
+
 }
 
 

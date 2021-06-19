@@ -130,7 +130,7 @@ import MoaBackendAPI from 'src/services/apiService';
 import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
-import {PostPageModel} from "src/models/PageModel";
+import {PostPageModel,AssetReviewPageModel,AssetReviewPageListModel} from "src/models/PageModel";
 
 import CTitle from 'components/CTitle';
 import ChartTimeframe from 'components/ChartTimeframe';
@@ -144,7 +144,8 @@ import AssetReviewForm from 'src/pages/asset/component/AssetReviewForm';
 import AssetReviewList from 'src/pages/asset/component/AssetReviewList';
 import AssetQuestionList from 'src/pages/asset/component/AssetQuestionList';
 import WEditor from 'src/pages/asset/component/WEditor';
-//import CSectorCryptoTable from 'src/components/CSectorCryptoTable';
+
+
 
 
 export default {
@@ -205,6 +206,7 @@ export default {
             },
             v_items: [],         
 
+            v_reviews: new AssetReviewPageListModel(),
         }
     },
 
@@ -427,7 +429,7 @@ export default {
         },
 
         loadAssetQuestionData: function() {
-            let dic_param = {'parent_id':_this.g_asset.object_id};
+            let dic_param = {'parent_id':this.g_asset.object_id};
             this.$refs.questionList.update(dic_param);
         },
 
@@ -469,31 +471,33 @@ export default {
 
         onClickReviewSave: function(dic_param) {
             const _this = this;
-            logger.log.debug('AssetView.onClickReviewSave - ',dic_param);       
             
             dic_param.object_id = this.g_asset.object_id;
-            dic_param.token = store.getters.token;
             dic_param.category = this.g_asset.symbol;
 
-            CMSAPI.postAssetReview(dic_param,function(response) {
+            logger.log.debug('AssetView.onClickReviewSave - ',dic_param);       
+                        
+            let a_review = new AssetReviewPageModel();
+            a_review.save(dic_param).then( response => {
                 logger.log.debug('AssetView.onClickReviewSave - response = ',response);
+                _this.$refs.reviewList.addReview(response.data);
                 CommonFunc.showOkMessage(_this,'review posted');
-            }, function(err) {
-                CommonFunc.showErrorMessage(_this,'review posting error');
+            }).catch( er => {
+
             });
         },
 
-        onClickReviewRating: function(json_review) {
-            logger.log.debug('AssetView.onClickReviewRating - ',json_review);
+        onClickReviewRating: function(review) {
+            logger.log.debug('AssetView.onClickReviewRating - ',review);
             
             const _this = this;
-            let dic_param = {id:json_review.obj.id, method:json_review.rtype, token:store.getters.token};
-            CMSAPI.likeAssetReview(dic_param,function(response) {
+            review.vote().then(response => {
                 logger.log.debug('onClickReviewRating - ',response);
-                CommonFunc.showOkMessage(_this,json_review.rtype);
-            }, function(err) {
-                logger.log.debug('onClickReviewRating - ',err);
-            });          
+                CommonFunc.showOkMessage(_this,review.method);
+            }).catch( err => {
+
+            });
+
         },
 
         onClickQuestion: function(json_question) {
@@ -503,35 +507,20 @@ export default {
             this.$router.push(dic_param);            
         },
 
-        onClickQuestionRating: function(json_question) {
-            logger.log.debug('AssetView.onClickQuestionRating - ',json_question);
+        onClickQuestionRating: function(question) {
+            logger.log.debug('AssetView.onClickQuestionRating - ',question);
             
             const _this = this;
-            let dic_param = {id:json_question.id, value:json_question.value, method:'vote', token:store.getters.token};
-            
-            CMSAPI.voteAssetQuestion(dic_param,function(response) {
-                logger.log.debug('onClickQuestionRating - ',response);
+            let dic_param = {id:question.id, value:question.value, method:'vote'};            
+            question.vote(dic_param).then( response => {
                 CommonFunc.showOkMessage(_this,"done");
-            }, function(err) {
+            }).catch( err => {
                 logger.log.debug('onClickQuestionRating - ',err);
-            });          
-            
+            });            
         },
-
 
         onClickLoadmore: function() {
             logger.log.debug('AssetView.onClickLoadmore');
-        },
-
-        onClickTab: function(tab) {
-            logger.log.debug('AssetView.onClickTab - tab',tab);
-            
-            if (tab=="review") {
-                if (this.g_data.review) {
-                    this.$refs.reviewList.update(this.g_data.review);
-                }                
-            }
-            
         },
 
         onClickSaveQuestion: function() {

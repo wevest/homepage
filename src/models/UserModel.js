@@ -34,7 +34,7 @@ export default class User {
 
     portfolio=new PortfolioListModel();
 
-    
+
     constructor() {
 
     }
@@ -245,7 +245,7 @@ export default class User {
  
         //logger.log.debug('loadFromCookie=',auth_data);
         this.fromJson(auth_data);
-        logger.log.debug('loadFromCookie.token=',this.getToken());
+        logger.log.debug('loadFromCookie=',auth_data);
     }
 
 }

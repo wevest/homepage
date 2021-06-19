@@ -1281,8 +1281,19 @@ export default class CommonFunc {
         
     }
 
-    static getCurrentDatetime() {
-        return new Date();
+    static getCurrentDatetime(dtype=0) {        
+        let today = new Date();
+        if (dtype==0) {
+            return today;
+        }
+
+        //var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        //var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        //var dateTime = date+' '+time;        
+        //June 19, 2021, 3:10 p.m.
+        let dateStr = moment(moment.now()).format("MMMM D, YYYY, h:mm:ss a");
+
+        return dateStr;
     }
 }
 

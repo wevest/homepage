@@ -5,6 +5,11 @@ import logger from "src/error/Logger";
 
 
 export const mutations = {
+	setData: function(state,payload) {
+		state.data[payload.key] = payload.value;
+	},
+
+	
 	[Mutations.SET_GLOBAL_DATA]:(state, json_data) => {
 		logger.log.debug("Mutations.SET_GLOBAL_DATA , key,value=",json_data);		
 		state.data[json_data.key] = json_data.value;
@@ -21,16 +26,11 @@ export const mutations = {
 
 	[Mutations.SET_SEED]:(state, seed) => null,
 	[Mutations.SET_MNEMONIC]:(state, mnemonic) => state.mnemonic = mnemonic,
-	[Mutations.SET_SCATTER]:(state, scatter) => {
-		state.scatter = scatter;
-		logger.log.debug("Mutations.SET_SCATTER , scatter=",scatter);
-	},
 
 	[Mutations.PUSH_POPUP]:(state, popup) => state.popups.push(popup),
 	[Mutations.RELEASE_POPUP]:(state, popup) => state.popups = state.popups.filter(p => p.id !== popup.id),
 	[Mutations.SET_TOKENS]:(state, tokens) => state.tokens = tokens,
 	[Mutations.SET_PRICES]:(state, prices) => state.prices = prices,
-	[Mutations.SET_DAPP_LOGO]:(state, {origin, logo}) => Vue.set(state.dappLogos, origin, logo),
 	[Mutations.SET_DAPP_DATA]:(state, data) => {
 		state.dappData[data.key] = data.value;
 	},

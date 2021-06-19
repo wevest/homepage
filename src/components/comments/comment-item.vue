@@ -7,7 +7,7 @@
                     <div class="gCommentAvatar">
                 
                         <q-avatar @click="onClickAvatar(data.user_name)">
-                            <q-img v-if="data.user_avatar.length>0" :src="data.user_avatar" />
+                            <q-img v-if="data.user_avatar && data.user_avatar.length>0" :src="data.user_avatar" />
                             <q-icon v-else name="person" color="black" size="34px" />
                         </q-avatar>
 
@@ -36,7 +36,7 @@
                                 flat                            
                                 type="text"                                
                                 @click="replyHandler('editorContainer')" 
-                                v-if="data.children.length==0">
+                                v-if="data.children && data.children.length==0">
                                 Reply
                             </q-btn>
                             <q-btn

@@ -39,7 +39,7 @@ import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import CMSAPI from 'src/services/cmsService';
 
-import {PostModel} from "src/models/PageModel";
+import {PostPageModel} from "src/models/PageModel";
 
 export default {
     name: 'PageBlogWriter',
@@ -60,7 +60,7 @@ export default {
             g_page_id: null,
             g_category_id: null,
             
-            v_post: new PostModel(),
+            v_post: new PostPageModel(),
                     
             v_error: {
                 title: {error:false, msg:''},

@@ -155,8 +155,8 @@ export default class CMSAPI{
     });
   }
 
-  static likeAssetReview(dic_param,func,funcErr) {
-    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/review/reviews/" + dic_param.id + "/" + dic_param.method + "/");
+  static voteAssetReview(dic_param,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/review/reviews/"+ dic_param.id + "/" + dic_param.method + "/");
     callCMSAPI("POST",url,{},dic_param)
     .then( (response) => {
         func(response);
@@ -166,8 +166,8 @@ export default class CMSAPI{
     });
   }
 
-  static dislikeAssetReview(dic_param,func,funcErr) {
-    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/review/reviews/" + dic_param.id + "/" + dic_param.method + "/");
+  static votePortfolio(dic_param,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/portfolio/portfolios/"+ dic_param.id + "/vote/");
     callCMSAPI("POST",url,{},dic_param)
     .then( (response) => {
         func(response);
@@ -176,6 +176,7 @@ export default class CMSAPI{
         funcErr(err);
     });
   }
+
 
   static getAssetQuestion(dic_param,func,funcErr) {
     let a_method = null;

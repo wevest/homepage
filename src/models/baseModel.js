@@ -13,6 +13,10 @@ export class baseCollection {
         this.items.push(item);
     }
 
+    insertAtFirst(item) {
+        this.items.unshift(item);
+    }
+
     clear() {
         this.items = [];
     }

@@ -99,7 +99,7 @@
                         color="primary" 
                         icon="thumb_up" 
                         label="" 
-                        @click="onClickBlogRate('like')"/>
+                        @click="onClickBlogRate(1)"/>
                     <q-btn
                         push
                         class="rateButton"
@@ -108,7 +108,7 @@
                         color="indigo"
                         icon="thumb_down"
                         label=""
-                        @click="onClickBlogRate('dislike')" />
+                        @click="onClickBlogRate(-1)" />
                 </div>
                 </div>
             </div>
@@ -121,24 +121,18 @@
                 <q-input v-model="v_post.comment" label="Comments" />
 -->                
                 <div class="boxCommentCount"> 
-                    <span>Comments : {{v_comments_count}}</span>
+                    <span>Comments : {{v_post.comments.items.length}}</span>
                 </div>
 
-                <CommentForm ref="commentForm" @onClickCommentSave="onClickCommentSave" 
+                <CommentForm ref="commentForm" @onClickCommentSave="onClickCommentSave" />
+<!--                
                     @onEditorFocus="onEditorFocus" @onEditorFocusOut="onEditorFocusOut" />
-                <CommentTree ref="commentTree" :data-list="v_comments" 
+-->
+                <CommentTree ref="commentTree" :data-list="v_post.comments.items" 
                     @onClickCommentReply="onClickCommentReply"
                     @onClickLoadMore="onClickLoadMore"
                     @onClickRate="onClickRate"                    
                 />
-<!--
-                <comment-list
-                    :commentableId="tmp"
-                    :commentableType="test"
-                    :isReadOnly="v_comments_readonly"
-                    v-model="v_comments"
-                />                
--->
             </div>
         </div>
 
@@ -155,7 +149,7 @@ import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 
-import {PostPageModel} from "src/models/PageModel";
+import {PostPageModel,CommentModel,CommentListModel} from "src/models/PageModel";
 
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
@@ -183,10 +177,12 @@ export default {
             g_data_comments: null,
 
             v_post: new PostPageModel(),
-                    
+            //v_comments_list: new CommentListModel(),
+
             v_page: {title:this.$t('page.cryptovc.title'), desc:''},
             //v_post: {title:null,header_image_url:null, pub_date:null},
             
+
             v_comments: [],
             v_comments_readonly:false,
             v_comments_count: 0,
@@ -234,39 +230,6 @@ export default {
             this.$refs.toastViewer.invoke('setMarkdown', content);
         },
 
-        toTreeData: function(flat) {
-            // Create root for top-level node(s)
-            let root = [];
-            // Cache found parent index
-            let map = {};
-
-            flat.forEach(node => {
-                //console.log("node=",node);
-                // No parentId means top level
-                node.level = 1;
-                if ( (!node.parent_id) || (node.id==node.parent_id) ) {
-                    node.level = 0;
-                    return root.push(node);
-                }
-                
-                // Insert node as child of parent in flat array
-                let parentIndex = map[node.parent_id];
-                if (typeof parentIndex !== "number") {
-                    parentIndex = flat.findIndex(el => el.id === node.parent_id);
-                    map[node.parent_id] = parentIndex;
-                }
-                
-                if (!flat[parentIndex].children) {
-                    return flat[parentIndex].children = [node];
-                }
-                
-                flat[parentIndex].children.push(node);
-            });
-            
-            console.log("toTreeData=",root);
-            return root;
-        },
-
 
         refresh: function(page_id) {
             const _this = this;
@@ -299,7 +262,7 @@ export default {
             }
 
             const _this = this;
-            this.v_post.loadPost(page_id).then( response => {
+            this.v_post.load(page_id).then( response => {
                 _this.g_data = response.data;
                 _this.handlePostPage(_this.g_data.results[0]);
             }).catch( err => {
@@ -328,8 +291,15 @@ export default {
             }
             this.v_comments_count = json_data.count;
             
+            /*
+            this.v_comments_list.assign(json_data.results);
+            logger.log.debug("this.v_comments_list.items=",this.v_comments_list.items);
+            let comments0 = this.v_comments_list.toTree();
+            logger.log.debug("this.v_comments_list.comments0=",comments0);
+
             let comments = this.toTreeData(json_data.results);            
-            this.v_comments = this.v_comments.concat(comments); 
+            this.v_comments = this.v_comments.concat(comments0); 
+            */
         },
 
 
@@ -393,19 +363,20 @@ export default {
         postComment: function(dic_param) {
             const _this = this;
             this.v_post.postComment(dic_param).then( response => {
-                CommonFunc.showOkMessage(_this,'comments posted');
-                _this.appendComments(dic_param,response);
+                //_this.appendComments(dic_param,response);
+                _this.v_post.comments.addComments(dic_param,response);
+                CommonFunc.showOkMessage(_this,'comments posted');                
             }).catch( err=> {
 
             });
 
         },
 
-
-        onClickBlogRate: function(rate) {
+        onClickBlogRate: function(value) {
             const _this = this;            
-            let dic_param = {id:this.v_post.id, method:rate};
-            this.v_post.ratePost(dic_param).then( response => {
+            
+            let dic_param = {id:this.v_post.id, value:value};            
+            this.v_post.vote(dic_param).then( response => {
                 CommonFunc.showOkMessage(_this,'Liked');
             }).catch( err=> {
 
@@ -504,6 +475,7 @@ export default {
                 content_type:"blog.postpage",
                 object_pk:this.v_post.id, 
                 name: this.v_me.username,  
+                avatar: this.v_me.avatar_thumb,
                 email:'', followup:'FALSE', reply_to:0,
                 comment:payload.comments,                
             };

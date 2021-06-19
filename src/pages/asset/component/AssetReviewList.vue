@@ -76,6 +76,7 @@
 
 
 <script>
+import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
@@ -90,30 +91,47 @@ export default {
                 return CommonFunc.minifyDatetime(value);
             };
         },
+        
     },
     data () {
-      return {
-        g_data: null,
-
-        v_reviews: new AssetReviewPageListModel(),
-        v_visible_loadmore: false,
-      }
+        return {
+            g_data: null,        
+            v_reviews: new AssetReviewPageListModel(),
+            v_visible_loadmore: false,
+        }
+    },
+    mounted: function() {
+        logger.log.debug("AssetReviewList.mounted");
+    },
+    beforeDestroy: function() {
+        logger.log.debug("AssetReviewList.beforeDestroy");
     },
 
     methods: {
 
-        update: function(dic_param) {            
-            const _this = this;
+        update: function(dic_param) {                        
+            const _this = this;            
+
             this.v_reviews.load(dic_param).then( response => {
                 _this.g_data = response.data;
             });
 
         },
 
-        onClickRating: function(rtype,json_review) {
-            logger.log.debug('onClickRating : rtype = ',json_review);
-            let dic_param = {'rtype':rtype, 'obj':json_review};
-            this.$emit("onClickRating",dic_param);
+        addReview(reviews) {
+            logger.log.debug("assetReviewList.update : reviews=",reviews);
+            this.v_reviews.addFirst(reviews);
+        },
+
+
+        onClickRating: function(rtype,review) {
+            logger.log.debug('onClickRating : rtype = ',review);
+            
+            review.value = -1;
+            if (rtype=="like") {
+                review.value = 1;
+            }
+            this.$emit("onClickRating",review);
         },
 
         onClickAsset: function(asset) {

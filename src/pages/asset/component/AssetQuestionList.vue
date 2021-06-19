@@ -118,11 +118,11 @@ export default {
             
         },
 
-        onClickRating: function(value,json_question) {
-            logger.log.debug('onClickRating : json_question = ',json_question);
+        onClickRating: function(value,question) {
+            logger.log.debug('onClickRating : question = ',question);
             //let dic_param = {'rtype':rtype, 'obj':json_review};
-            json_question.value = value;
-            this.$emit("onClickQuestionRating",json_question);
+            question.value = value;
+            this.$emit("onClickQuestionRating",question);
         },
 
         onClickAsset: function(asset) {

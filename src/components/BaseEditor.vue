@@ -42,7 +42,7 @@ import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import CMSAPI from 'src/services/cmsService';
 
-import {PostModel} from "src/models/PageModel";
+import {PostPageModel} from "src/models/PageModel";
 
 export default {
     name: 'BaseEditor',
@@ -59,7 +59,7 @@ export default {
     },
     data: function () {
         return {
-            v_post: new PostModel(),
+            v_post: new PostPageModel(),
             v_confirm: false,
             v_confirm_title: 'do you want to quit?',
 

@@ -56,7 +56,7 @@ import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import CMSAPI from 'src/services/cmsService';
 
-import {PostModel} from "src/models/PageModel";
+import {PostPageModel} from "src/models/PageModel";
 import CTitle from 'components/CTitle';
 
 

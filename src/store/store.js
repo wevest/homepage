@@ -13,11 +13,11 @@ Vue.use(Vuex);
 
 
 const state = {
-    version:0.18,
+    data: {},
+
     me: new User(),
     prices: new PriceListModel(),
-    assets: new AssetListModel(),
-
+    assets: new AssetListModel(),    
 };
 
 const getters = {
@@ -32,6 +32,10 @@ const getters = {
         return state.me.getToken();
     },
 
+    getData: function(key) {
+
+    },
+    
     totalBalances:(state, getters) => {
     	return WalletService.totalBalances(false);
     },
@@ -40,8 +44,7 @@ const getters = {
 	    return WalletService.totalBalances(true);
     },
 
-    //showNotifications:state => state.moa.settings.showNotifications,
-
+    //showNotifications:state => state.moa.settings.showNotifications,ß
 };
 
 
