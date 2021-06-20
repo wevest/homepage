@@ -5,7 +5,7 @@
 
             <q-card-section class="MessageAvatarBox">
                 <q-avatar class="MesageAvatar" size="80px">
-                    <q-img basic :src="v_message.avatar" />
+                    <q-img basic :src="v_message.to_avatar" />
                 </q-avatar>
             </q-card-section>
             
@@ -14,7 +14,7 @@
                 <div class="ProfileMessage">메시지를 전달하세요!</div>
             </q-card-section>
 
-<q-separator />
+            <q-separator />
 
             <q-card-section>
 <!--                
@@ -64,38 +64,17 @@ export default {
     
 
     methods: {      
-        sendMessage: function(v_message) {
-            const _this = this;
-            
-            let dic_param = {
-                token: MoaConfig.auth.token, 
-                to_user:String(this.v_message.to_user), 
-                subject:this.v_message.subject, 
-                message:this.v_message.content
-            };
 
-            return new Promise(function(resolve,reject) {
-                AuthService.postPrivateMessage(dic_param,function(response) {
-                    _this.g_data = response.data;
-                    logger.log.debug("MessageView.sendMessage - response",_this.g_data);
-                    resolve(response);
-                },function(err) {
-                    logger.log.error("MessageView.sendMessage - error",err);
-                    reject(err);
-                });
-            });            
-        },
-
-        handleSend: function() {
+        sendMessage: function() {
             const _this = this;
 
-            this.sendMessage(this.v_message).then( response => {
+            this.v_message.sendMessage().then( response => {
                 CommonFunc.showOkMessage(_this,'Message sent');
             });
         },
 
         show: function(v_message) {
-            logger.log.debug("MessageDialog.show");
+            logger.log.debug("MessageWriteDialog.show");
             this.v_message = v_message;
             this.v_show = true;
         },
@@ -106,13 +85,13 @@ export default {
 
 
         onClickSend: function() {                        
-            logger.log.debug("onClickSend");
-            this.handleSend();
+            logger.log.debug("MessageWriteDialog.onClickSend");
+            this.sendMessage();
         },
 
 
         onClickClose: function() {
-            logger.log.debug("onClickClose");
+            logger.log.debug("MessageWriteDialog.onClickClose");
             this.hide();
         }
     }

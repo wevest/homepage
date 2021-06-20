@@ -99,7 +99,6 @@
                     </q-card-section>
                     
                     <q-separator size="1px" />
-                </q-card>
 
                     <q-card-actions>
                         <div class="text-grey-8 q-gutter-xs">
@@ -108,6 +107,9 @@
                             <q-btn size="15px" flat dense round icon="more_vert" />
                         </div>                            
                     </q-card-actions>                        
+
+                </q-card>
+
                 
 
 
@@ -186,7 +188,7 @@
 import {store} from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
-import {PortfolioModel, ThreadListModel} from "src/models/PortfolioModel";
+import {PortfolioModel} from "src/models/PortfolioModel";
 
 import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 import PortfolioChart from 'src/pages/user/component/PortfolioChart';
@@ -227,7 +229,7 @@ export default {
             v_confirm: false,
 
             v_user: null,
-            v_portfolio: null,
+            v_portfolio: new PortfolioModel(),
             v_selected: null,
         }
     },
@@ -236,8 +238,9 @@ export default {
     },
     beforeMount() {
         logger.log.debug("PortfolioDetailView.beforeMounted - params=",this.$route.params);
+        
         this.v_user = this.$route.params.user;
-        this.v_portfolio = this.$route.params.portfolio;        
+        this.setPortfolio(this.$route.params.portfolio);
     },
     mounted() {
         logger.log.debug("PortfolioDetailView.mounted");
@@ -255,14 +258,22 @@ export default {
     },
 
     methods: {
+        setPortfolio(portfolio) {
+            this.v_portfolio = portfolio;
+        },
 
         handleDelete: function() {
 
         },
 
+        onClickBack: function() {
+            logger.log.debug("PortfolioDetail.onClickBack");
+            CommonFunc.navBack(this);
+        },
+
         onClickAdd: function() {
             logger.log.debug("PortfolioDetail.onClickAdd");
-            this.$refs.addPortfolio.show(this.v_user,null);
+            this.$refs.addPortfolio.show(null);
         },
         
         onClickDelete: function(portfolio_item) {
@@ -274,12 +285,12 @@ export default {
         onClickDeleteConfirm: function() {            
             this.v_confirm = false;       
 
-            let a_portfolio_item = this.v_portfolio.getItem(this.v_selected.id);
+            //let a_portfolio_item = this.v_portfolio.getItem(this.v_selected.id);
             //logger.log.debug("PortfolioDetail.onClickDeleteConfirm",a_portfolio_item.name);
             //logger.log.debug("PortfolioDetail.onClickDeleteConfirm",this.v_selected.constructor.name);
             
             const _this = this;
-            this.v_user.portfolio.deletePortfolioItem(this.v_portfolio.id,this.v_selected.id).then( response => {                
+            this.v_user.portfolio.deletePortfolioItem(this.v_selected.id,this.v_selected.api_asset.id).then( response => {                
                 //let a_portfolio = _this.v_user.portfolio.getItem(_this.v_portfolio.id);
                 logger.log.debug("onClickDeleteConfirm.items=",_this.v_portfolio.items);            
                 _this.v_selected = null;
@@ -288,11 +299,6 @@ export default {
             });
 
             //this.v_selected = null;
-        },
-
-        onClickBack: function() {
-            logger.log.debug("PortfolioDetail.onClickBack");
-            CommonFunc.navBack(this);
         },
 
         onClickVote: function(value) {

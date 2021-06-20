@@ -9,11 +9,11 @@
 
             <q-card>
                 <q-card-section>
-                    <q-chat-message v-for="(a_message,index) in v_messages.models" :key="index"
+                    <q-chat-message v-for="(a_message,index) in v_thread.messages.items" :key="index"
                         :name="a_message.username"
-                        :avatar="a_message.avatar"
+                        :avatar="a_message.sender.avatar_thumb"
                         :text="[a_message.content]"
-                        :stamp="a_message.sent_at"
+                        :stamp="v_updated_at(a_message.sent_at)"
                         :sent="a_message.is_sender"
                         @click="onClickChat(a_message)"
                     />
@@ -71,12 +71,15 @@ export default {
         v_me() {
             return store.getters.me;
         },
+        v_updated_at() {
+            return (value) => {
+                return CommonFunc.minifyDatetime(value);
+            };
+        },
     },
     data: function () {
         return {
             v_thread: new MessageThreadModel(),
-            v_messages: new MessageListModel(),
-
             v_selected: new MessageModel(),
 
             v_reply: {mode:'new',content:'', to_user:null, uuid:null},
@@ -96,103 +99,40 @@ export default {
         logger.log.debug("MessageDetailView.Mounted - symbol=",this.$route.params);
         
         this.setThread(this.$route.params.thread);
-        this.setMessages(this.$route.params.messages);
     },
     updated: function() {},
     
     methods: {      
         setThread(thread) {
             this.v_thread = thread;
-        },
-
-        setMessages(messages) {
-            this.v_messages = messages;
+            this.v_thread.messages.load(this.v_thread.uuid).then( response=> {
+                logger.log.debug("MessageDetailView.Mounted - response=",response);
+            });
         },
 
         setPageTitle(messages) {
 
         },
 
-        addMessage: function(response) {
-
-        },
-
-        sendReply: function(uuid,subject,message) {
-            const _this = this;
-            
-            let dic_param = {
-                token: store.getters.token, 
-                subject:subject, uuid:uuid, message:message
-            };
-
-            return new Promise(function(resolve,reject) {
-                AuthService.replyThreadMessage(dic_param,function(response) {
-                    logger.log.debug("MessageView.sendReply - response",response);
-                    resolve(response);
-                },function(err) {
-                    logger.log.error("MessageView.sendReply - error",err);
-                    reject(err);
-                });
-            });            
-        },
-
-        editReply: function(uuid,thread_id,message) {
-            const _this = this;
-            
-            let dic_param = {
-                token: store.getters.token, uuid:uuid,
-                thread:thread_id, sender_id:MoaConfig.auth.id, content:message
-            };
-
-            return new Promise(function(resolve,reject) {
-                AuthService.editThreadMessage(dic_param,function(response) {
-                    logger.log.debug("MessageView.editReply - response",response);
-                    resolve(response);
-                },function(err) {
-                    logger.log.error("MessageView.editReply - error",err);
-                    reject(err);
-                });
-            });            
-        },
 
         handleReply: function() {
             const _this=this;
 
-            this.sendReply(this.v_thread.uuid,this.v_thread.subject,this.v_reply.content).then( response => {
-                let a_message = new MessageThreadModel( {
-                    thread_id: response.data.thread,
-                    uuid: response.data.uuid,
-                    sent_at: response.data.sent_at,
-                    content: response.data.content,
-                    avatar: response.data.sender.avatar_thumb,
-                    user_id: response.data.sender.id,
-                    username: response.data.sender.username,
-                    is_sender: false,
-                });
-                if (this.v_me.id==response.data.sender.id) {
-                    a_message.username = "me";
-                    a_message.is_sender = true;
-                }
-
-                _this.v_messages.add(a_message);
+            this.v_thread.sendReply(this.v_reply.content).then( response => {
+                _this.v_thread.messages.addMessage(response);
                 _this.v_reply.content = '';
                 CommonFunc.showOkMessage(_this,'Message updated');
             });
-            
+
         },
 
         handleEdit: function() {
             const _this=this;
 
-            this.editReply(this.v_reply.uuid,this.v_reply.thread_id,this.v_reply.content).then( response => {
+            this.v_thread.editReply(this.v_reply.uuid,this.v_reply.thread_id,this.v_reply.content).then( response => {
                 logger.log.debug("handleEdit=",response);
-                let a_item = _this.v_messages.find({uuid:response.data.uuid});
-                logger.log.debug("handleEdit.item=",a_item);
-                if (a_item) {
-                    a_item.content = response.data.content;
-                    _this.v_reply.content = '';
-                    CommonFunc.showOkMessage(_this,'Message updated');
-                }
+                _this.v_reply.content = '';
+                CommonFunc.showOkMessage(_this,'Message updated');
             });
             
         },
@@ -223,9 +163,9 @@ export default {
         },
 
         onClickChat: function(message) {
-            logger.log.debug("onClickChat=",message);
+            logger.log.debug("onClickChat : message =",message);
             
-            if (message.user_id==this.v_me.id) {
+            if (message.sender.id==this.v_me.id) {
                 this.v_is_mine = true;
             } else {
                 this.v_is_mine = false;

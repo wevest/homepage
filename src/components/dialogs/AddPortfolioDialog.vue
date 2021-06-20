@@ -119,14 +119,18 @@ export default {
     components: {
         CryptoSelect
     },
-    computed: {},
+    computed: {
+        v_me() {
+            return store.getters.me;
+        },
+    },
     data: function () {
         return {
             g_data: '',
             
             v_show: false,
-
-            v_user: new UserModel(),
+            
+            v_portfolio: new PortfolioItemModel(),
             v_portfolio_item: new PortfolioItemModel(),
             
             v_selected_asset: null,
@@ -156,10 +160,6 @@ export default {
     },
     
     methods: {      
-        setUser: function(v_user) {
-            this.v_user = v_user;
-        },
-
         setPortfolio: function(v_portfolio) {
             this.v_portfolio = v_portfolio;
         },
@@ -187,24 +187,20 @@ export default {
         },
 
 
-        show: function(v_user,v_portfolio) {
-            logger.log.debug("AddPortfolioDialog.show : v_portfolio=",v_portfolio);
+        show: function(v_portfolio_item) {
+            logger.log.debug("AddPortfolioDialog.show : v_portfolio=",v_portfolio_item);
 
-            if (v_user) {
-                this.setUser(v_user);
+            this.setPortfolioSelector(this.v_me.portfolio);
+
+            if (v_portfolio_item) {
+                this.v_portfolio_item = v_portfolio_item;
+            } else {
+                this.v_portfolio_item.asset_id = 1;
+                this.v_portfolio_item.portfolio_id = -1;
+                this.v_portfolio_item.price = 1.23;
+                this.v_portfolio_item.qty = 1;
+                this.v_portfolio_item.description = 'description';
             }
-
-            if (v_portfolio) {
-                this.setPortfolio(v_portfolio);
-            }
-
-            this.setPortfolioSelector(v_user.portfolio);
-
-            this.v_portfolio_item.asset_id = 1;
-            this.v_portfolio_item.portfolio_id = -1;
-            this.v_portfolio_item.price = 1.23;
-            this.v_portfolio_item.qty = 1;
-            this.v_portfolio_item.description = 'description';
 
             this.v_show = true;
         },
@@ -244,7 +240,12 @@ export default {
             logger.log.debug('onClickSave - ',this.v_portfolio_item);
 
             this.v_portfolio_item.addToServer().then( response => {
-                CommonFunc.showOkMessage(_this,'Portfolio added');
+                if (response.data.ret!=0) {
+                    CommonFunc.showErrorMessage(_this,response.data.msg);
+                } else {
+                    CommonFunc.showOkMessage(_this,'Portfolio added');
+                }
+                
             }).catch( err=> {
                 CommonFunc.showErrorMessage(_this,'Portfolio error');
             });

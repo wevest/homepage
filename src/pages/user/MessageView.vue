@@ -10,10 +10,10 @@
         <div class="row">
             <div class="col">
                 <q-list separator>
-                    <q-item class="MessagePageBox" clickable v-for="(a_thread,index) in v_thread.models" :key="index" @click="onClickMessage(index,a_thread)">
+                    <q-item class="MessagePageBox" clickable v-for="(a_thread,index) in v_thread.items" :key="index" @click="onClickMessage(index,a_thread)">
                         <q-item-section top avatar>
                             <q-avatar>
-                                <q-img :src="a_thread.avatar" />
+                                <q-img :src="a_thread.sender.avatar_thumb" />
                             </q-avatar>
                         </q-item-section>                        
 
@@ -23,7 +23,7 @@
                         </q-item-section>
 
                         <q-item-section side top>
-                            <q-item-label class="MessageDate" caption>{{a_thread.sent_at}}</q-item-label>
+                            <q-item-label class="MessageDate" caption>{{v_updated_at(a_thread.sent_at)}}</q-item-label>
                             <!-- <q-icon name="star" color="yellow" /> -->
                         </q-item-section>
                     </q-item>
@@ -67,6 +67,11 @@ export default {
         v_me() {
             return store.getters.me;
         },
+        v_updated_at() {
+            return (value) => {
+                return CommonFunc.minifyDatetime(value);
+            };
+        },
     },
     data: () => ({
         g_data: { 
@@ -77,7 +82,6 @@ export default {
 
         v_message: new MessageThreadModel(),
         v_thread: new MessageThreadListModel(),        
-        v_messages: new MessageListModel(),
 
         v_chat: new MessageModel(),
 
@@ -94,74 +98,21 @@ export default {
         this.v_message.to_user = "11";
         this.v_message.content = "private message";
 
-        const _this = this;
-        this.loadInboxMessages().then( threads => {
-            _this.handleThreads(threads.results);
-        });
 
+        //this.loadInboxMessages().then( threads => {
+        //    _this.handleThreads(threads.results);
+        //});
+        this.refresh();
     },
 
     methods: {        
-        
-        handleThreads: function(threads) {
-            console.log("MessageView.handleThreads ",threads);
-
-            let v_threads = new MessageThreadListModel();
-            for (let index=0; index<threads.length; index++) {
-                let a_message = new MessageThreadModel( {
-                    id: threads[index].id,
-                    uuid: threads[index].uuid,
-                    sent_at: threads[index].sent_at,
-                    last_message: threads[index].last_message,
-                    avatar: threads[index].sender.avatar_thumb,
-                    user_id: threads[index].sender.id,
-                    username: threads[index].sender.username,                     
-                    subject: threads[index].subject,  
-                });
-
-                v_threads.add(a_message);
-            }
-
-            console.log("MessageView.handleThreads : v_threads=",v_threads);
-
-            this.v_thread = v_threads;
-        },
-
-        loadInboxMessages: function() {
+        refresh: function() {
             const _this = this;
-                        
-            let dic_param = {token: store.getters.token};
+            this.v_thread.load().then(response=> {
 
-            return new Promise(function(resolve,reject) {
-                AuthService.getInboxMessage(dic_param,function(response) {
-                    _this.g_data.threads = response.data;
-                    logger.log.debug("MessageView.loadInboxMessages - response",_this.g_data.threads);
-                    resolve(_this.g_data.threads);
-                },function(err) {
-                    logger.log.error("MessageView.loadInboxMessages - error",err);
-                    reject(err);
-                });
-            });            
+            });
+
         },
-
-
-        loadThreadMessages: function(uuid) {
-            const _this = this;
-                        
-            let dic_param = {uuid:uuid, token: store.getters.token};
-
-            return new Promise(function(resolve,reject) {
-                AuthService.getThreadMessage(dic_param,function(response) {
-                    _this.g_data.messages = response.data;
-                    logger.log.debug("MessageView.loadThreadMessages - response",_this.g_data.messages);
-                    resolve(_this.g_data.messages);
-                },function(err) {
-                    logger.log.error("MessageView.loadThreadMessages - error",err);
-                    reject(err);
-                });
-            });            
-        },
-
 
         sendMessage: function(v_message) {
             const _this = this;
@@ -187,7 +138,7 @@ export default {
 
         onClickWrite: function() {
             logger.log.debug("onClickWrite");
-            this.$refs.messageWriter.show();
+            this.$refs.messageWriter.show(this.v_message);
         },
 
         onClickSend: function() {
@@ -196,41 +147,11 @@ export default {
         },
 
         onClickMessage: function(index,thread) {
-            const _this = this;
-            
             logger.log.debug("onClickMessage: thread=",thread);
             this.g_thread = thread;
+            let dic_param = { name:'message_detail', path:'message_detail', params:{ thread:thread, back:true } };
+            this.$router.push(dic_param);
 
-            this.loadThreadMessages(thread.uuid).then( messages => {
-                logger.log.debug("onClickMessage: messages=",messages);
-                
-                let v_messages = new MessageListModel();
-                for (let index=0;index<messages.messages.length;index++) {
-                    //logger.log.debug("onClickMessage: loadThreadMessages=",index);
-
-                    let a_message = new MessageModel({
-                        uuid: messages.messages[index].uuid,
-                        content: messages.messages[index].content,
-                        sent_at: messages.messages[index].sent_at,
-                        avatar: messages.messages[index].sender.avatar_thumb,
-                        user_id: messages.messages[index].sender.id,
-                        username: messages.messages[index].sender.username,
-                        thread_id: messages.messages[index].thread,
-                        is_sender: false
-                    });
-                    if (this.v_me.id==messages.messages[index].sender.id) {
-                        a_message.username = "me";
-                        a_message.is_sender = true;
-                    }
-
-                    v_messages.add(a_message);
-                }
-
-                let dic_param = { name:'message_detail', path:'message_detail', params:{ thread:thread, messages:v_messages, back:true } };
-                _this.$router.push(dic_param);
-
-                //_this.$refs.messageDialog.show(thread,v_messages);
-            });
         },
 
     },

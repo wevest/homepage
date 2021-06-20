@@ -180,7 +180,7 @@ export default {
 	},
 	mounted: function () {
 		//CommonFunc.setAppData('spinner',this.$refs.loading);
-		//this.loadCoinCodes();
+		this.loadCoinCodes();
 		this.setSigninMenu();
 	},
 
@@ -233,6 +233,7 @@ export default {
 
 		loadCoinCodes: function () {
 			let codes = store.state.assets.loadFromCookie();
+			return codes;
 		},
 
 		movePage: function (symbol) {

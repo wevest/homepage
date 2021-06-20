@@ -210,19 +210,23 @@ export class PortfolioListModel extends baseCollection{
         this.roi = this.roi/this.group_count;
     }
 
-    deletePortfolioItem(portfolio_id,item_id) {
+    deletePortfolioItem(portfolio_item_id,asset_id) {
         const _this = this;
 
         return new Promise(function(resolve,reject) {
             let reqParam = {
                 token: store.getters.token,
-                id:item_id,
+                id:portfolio_item_id,
+                asset_id:asset_id,
             };
 
+            logger.log.debug("deletePortfolioItem.reqParam=",reqParam);
             AuthService.deletePortfolioItem(reqParam, function(response) {
 
-                let a_portfolio = _this.getItem(portfolio_id);
-                a_portfolio.delete(item_id);
+                let a_portfolio = _this.getItem(portfolio_item_id);
+                logger.log.debug("deletePortfolioItem.portfolio=",a_portfolio);
+
+                a_portfolio.delete(portfolio_item_id);
                 resolve(response);
 
             }, function(err) {
