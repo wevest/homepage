@@ -80,8 +80,7 @@
                                 :error="v_error.username.error"
                                 :error-message="v_error.username.msg"
                                 :rules="[ 
-                                    val => val && val.length > 0 || 'Please type something',
-                                    val => val.length > 50 || 'it is too long',
+                                    val => val && val.length > 0 || 'Please type something'
                                 ]"
                             />
 
