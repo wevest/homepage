@@ -26,6 +26,10 @@ export class baseCollection {
         return _.find(this.items,{id:id} );
     }
 
+    delete(id) {
+        _.remove(this.items, {id:id});
+    }
+
     isEmpty() {
         if (this.items.length==0) {
             return true;

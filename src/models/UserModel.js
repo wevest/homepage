@@ -108,10 +108,10 @@ export default class User {
         return this.token;
     }
   
-    loadPortfolio()  {
+    loadPortfolio(portfolio_id)  {
         const _this = this;
         return new Promise(function(resolve,reject) {   
-            _this.portfolio.load(_this.username).then( response => {
+            _this.portfolio.load(_this.username,portfolio_id).then( response => {
                 resolve(response);
             });
         });

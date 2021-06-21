@@ -219,7 +219,11 @@ export default class AuthService{
 
 
     static getPortfolio(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/portfolio/portfolios/");
+        let a_method = "/api/portfolio/portfolios/?username="+reqParam.username;
+        if ( ('id' in reqParam) && (reqParam.id) ) {
+            a_method += "&id=" + reqParam.id;
+        }
+        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
         callCMSAPI("GET",url,{},reqParam)
         .then( (response) => {
             func(response);
