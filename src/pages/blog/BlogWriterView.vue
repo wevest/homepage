@@ -51,6 +51,7 @@ import { Editor } from '@toast-ui/vue-editor';
 
 
 import { store } from 'src/store/store';
+import { CONST } from 'src/data/const';
 import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
@@ -71,7 +72,7 @@ export default {
             return store.getters.me;
         },
         isNewPost: function() {
-            if (this.g_page_id) {
+            if (this.v_post.id) {
                 return false;
             }
             return true;
@@ -83,7 +84,7 @@ export default {
             g_page_id: null,
             g_category_id: null,
             
-            v_post: new PostModel(),
+            v_post: new PostPageModel(),
                     
             v_page: {title:this.$t('page.cryptovc.title'), desc:''},
             v_error: {
@@ -110,16 +111,17 @@ export default {
         console.log("BlogWriterView.created");
     },
     mounted: function() {        
-        
-        this.g_page_id = this.$route.params.page_id;
-        this.g_category_id = this.$route.params.category_id;
-        if (this.g_page_id) {
-            this.loadBlogPost(this.g_page_id);
+        logger.log.debug("BlogWriterView.mounted : params=",this.$route.params);
+
+        this.v_post.id = this.$route.params.page_id;
+        this.v_post.category_id = this.$route.params.category_id;
+        if (this.v_post.id) {
+            this.loadPost(this.v_post.id);
         }
         
-        this.g_category_id = 1;
-        this.v_post.title = "Image Title";
-        this.v_post.tags = "image,s3,bucket";
+        //this.g_category_id = 1;
+        //this.v_post.title = "Image Title";
+        //this.v_post.tags = "image,s3,bucket";
     },
     updated: function() {
         //console.log("HomeView.updated");
@@ -158,22 +160,14 @@ export default {
             this.setContent(this.v_post.body);
         },
 
-        loadBlogPost: function(page_id) {
+        loadPost: function(page_id) {
             const _this = this;
-
-            return new Promise(function(resolve,reject) {
-                //logger.log.debug("CWatchView.loadCryptoWatchData - dic_param=",dic_param);
-                CMSAPI.getPostData(page_id,function(response) {
-                    _this.g_data = response.data;
-                    logger.log.debug("BlogWriterView.loadBlogPost - response",_this.g_data);
-                    _this.handlePostPage(_this.g_data);
-                    resolve();
-
-                },function(err) {
-                    logger.log.error("BlogWriterView.loadBlogPost - error",err);
-                    reject();
-                });
-            });            
+            this.v_post.load(page_id).then( response=> {
+                logger.log.debug("BlogWriterView.loadBlogPost - response",response.data);
+                _this.handlePostPage(response.data.results[0]);
+            }).catch(err=>{
+                logger.log.error("BlogWriterView.loadBlogPost - error",err);
+            });
         },
         
 
@@ -242,28 +236,20 @@ export default {
         },
 
 
-
-        onClickTest: function() {            
-            logger.log.debug('onClickTest - ');
-            //console.log( this.$refs.toastuiEditor.invoke('getHtml') );
-            let dic_param = {content_type:'blog-postpage',pk:'6'};
-            CMSAPI.getComments(dic_param,function(response) {
-                logger.log.debug('getComments - ',response);
-            });
-            
-        },
-
         onClickSave: function() {                        
             const _this = this;
             const a_text = this.$refs.toastEditor.invoke('getHtml');
 
             let dic_param = {
-                title:this.v_post.title,tags:this.v_post.tags, 
-                category_id:this.g_category_id, text:a_text, token:store.getters.token
+                content_type: CONST.CONENT_TYPE_BLOGPAGE,
+                title:this.v_post.title,
+                tags:this.v_post.tags, 
+                category_id:this.v_post.category_id, 
+                text:a_text
             };
 
             if (! this.isNewPost) {
-                dic_param.id = this.g_page_id;
+                dic_param.id = this.v_post.id;
             }
 
             if (! this.validate(dic_param)) {
@@ -271,15 +257,15 @@ export default {
                 return;
             }
 
-            logger.log.debug('onClickSave - ',dic_param);
+            logger.log.debug('onClickSave - param,v_post=',dic_param,this.v_post);
 
-            CMSAPI.postBlogPost(dic_param,function(response) {
-                logger.log.debug("onClickSave : response=",response);
+            this.v_post.post(dic_param).then( response=> {
                 _this.setPageID(response.data.id);
                 CommonFunc.showOkMessage(_this,'Blog posted');
-            }, function(response) {
+            }).catch(err=>{
                 CommonFunc.showErrorMessage(_this,'Blog posted');
             });
+                
         },
 
 /*

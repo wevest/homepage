@@ -1295,5 +1295,13 @@ export default class CommonFunc {
 
         return dateStr;
     }
+
+    static updateRatingCount(_this,response) {
+        if (response.data.status=="ok") {
+            _this.like_count = response.data.data.like_count;
+            _this.dislike_count = response.data.data.dislike_count;
+        }
+    }
+    
 }
 

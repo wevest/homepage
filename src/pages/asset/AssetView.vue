@@ -84,7 +84,11 @@
                             @onEditorFocusOut="onFocusoutReviewForm"
                         > 
                         </AssetReviewForm>
-                        <AssetReviewList ref="reviewList" @onClickRating="onClickReviewRating" @onClickLoadmore="onClickLoadmore"> </AssetReviewList>
+                        <AssetReviewList ref="reviewList" 
+                            @onClickRating="onClickReviewRating" 
+                            @onClickAvatar="onClickReviewAvatar"
+                            @onClickLoadmore="onClickLoadmore"> 
+                        </AssetReviewList>
 
                     </q-tab-panel>
 
@@ -130,7 +134,7 @@ import MoaBackendAPI from 'src/services/apiService';
 import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
-import {PostPageModel,AssetReviewPageModel,AssetReviewPageListModel} from "src/models/PageModel";
+import {PostPageModel,QuestionPageModel,AssetReviewPageModel,AssetReviewPageListModel} from "src/models/PageModel";
 
 import CTitle from 'components/CTitle';
 import ChartTimeframe from 'components/ChartTimeframe';
@@ -557,7 +561,7 @@ export default {
             logger.log.debug('AssetView.onClickWriteBlog');
             //this.navBlogWriter();
 
-            let a_post = new PostModel();
+            let a_post = new PostPageModel();
             a_post.category = this.g_asset.symbol;
             a_post.setContentType(CONST.CONENT_TYPE_ASSETPAGE);
 
@@ -568,7 +572,7 @@ export default {
         onClickWriteQuestion: function() {
             logger.log.debug('AssetView.onClickWriteQuestion');
             
-            let a_post = new PostModel();
+            let a_post = new QuestionPageModel();
             a_post.category = this.g_asset.symbol;
             a_post.parent_id = this.g_asset.object_id;
             a_post.setContentType(CONST.CONENT_TYPE_ASSET_QUESTION);
@@ -584,6 +588,11 @@ export default {
         onFocusoutReviewForm: function(event) {
             logger.log.debug('AssetView.onFocusoutReviewForm');
             this.$refs.reviewForm.v_rows = "1";
+        },
+
+        onClickReviewAvatar: function(jsonUser) {
+            logger.log.debug('AssetView.onClickReviewAvatar : jsonUser=',jsonUser);
+            CommonFunc.navProfile(this,jsonUser.username);
         }
 
     },

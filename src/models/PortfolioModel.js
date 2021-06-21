@@ -8,6 +8,8 @@ import CMSAPI from 'src/services/cmsService';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 
+import {CommentListModel} from 'src/models/CommentModel';
+
 
 export class PortfolioItemModel {    
     id=null;
@@ -106,6 +108,8 @@ export class PortfolioModel extends baseCollection {
     dislike_count=0;
     api_user=null;
 
+    comments=new CommentListModel();
+    
     assign(item) {        
         this.id= item.id;
         this.name = item.name;
@@ -149,10 +153,16 @@ export class PortfolioModel extends baseCollection {
 
 
     vote(dic_param) {
+        const _this=this;
+
         return new Promise(function(resolve,reject) {
             dic_param.token = store.getters.token;
             CMSAPI.votePortfolio(dic_param,function(response) {
                 logger.log.debug('PortfolioModel.vote - ',response);
+
+                _this.like_count = response.data.data.like_count;
+                _this.dislike_count = response.data.data.dislike_count;
+
                 resolve(response);
             }, function(err) {
                 logger.log.debug('PortfolioModel.vote - ',err);
@@ -284,7 +294,8 @@ export class PortfolioListModel extends baseCollection{
         a_item.assign(jsonItem);
         let a_portfolio = this.getItem(a_item.portfolio_id);
         if (! a_portfolio) {
-
+            a_portfolio = new PortfolioModel();
+            a_portfolio.id = a_item.portfolio_id;
         }
         a_portfolio.add(a_item);
     }

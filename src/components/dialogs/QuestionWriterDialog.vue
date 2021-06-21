@@ -60,7 +60,7 @@ import logger from 'src/error/Logger';
 import CMSAPI from 'src/services/cmsService';
 
 import CTitle from 'components/CTitle';
-import {PostPageModel} from "src/models/PageModel";
+import {PostPageModel,QuestionPageModel} from "src/models/PageModel";
 import BaseEditor from 'components/BaseEditor';
 
 
@@ -83,7 +83,7 @@ export default {
             
             v_show: false,
 
-            v_post: new PostPageModel(),
+            v_post: new QuestionPageModel(),
             
             v_page: {title:this.$t('page.cryptovc.title'), desc:''},
             v_error: {
