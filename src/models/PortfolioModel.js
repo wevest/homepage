@@ -210,7 +210,7 @@ export class PortfolioListModel extends baseCollection{
         this.roi = this.roi/this.group_count;
     }
 
-    deletePortfolioItem(portfolio_item_id,asset_id) {
+    deletePortfolioItem(portfolio_id,portfolio_item_id,asset_id) {
         const _this = this;
 
         return new Promise(function(resolve,reject) {
@@ -222,6 +222,9 @@ export class PortfolioListModel extends baseCollection{
 
             logger.log.debug("deletePortfolioItem.reqParam=",reqParam);
             AuthService.deletePortfolioItem(reqParam, function(response) {
+                
+                logger.log.debug("deletePortfolioItem.response=",response);
+                logger.log.debug("deletePortfolioItem.items=",_this.items);
 
                 let a_portfolio = _this.getItem(portfolio_item_id);
                 logger.log.debug("deletePortfolioItem.portfolio=",a_portfolio);

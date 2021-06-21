@@ -80,8 +80,7 @@
                                 :error="v_error.username.error"
                                 :error-message="v_error.username.msg"
                                 :rules="[ 
-                                    val => val && val.length > 0 || 'Please type something',
-                                    val => val.length > 50 || 'it is too long',
+                                    val => val && val.length > 0 || 'Please type something'
                                 ]"
                             />
 
@@ -216,13 +215,30 @@ export default {
             this.$router.push(dic_param);
         },
 
+        clearErrors: function() {
+            const keys = Object.keys(this.v_error);
+            for (let index=0;index<keys.length;index++) {
+                this.v_error[keys[index]].error = true;
+                this.v_error[keys[index]].msg = '';
+            }
+
+        },
+
         onSignUp: function() {
             const _this = this;
-            let dic_param = this.v_user;
+            let dic_param = {
+                username:this.v_user.username,
+                email:this.v_user.email,
+                password:this.v_user.password, re_password:this.v_user.password2,
+                emailValid:this.v_user.emailValid
+            };
+
+            this.clearErrors();
             this.v_me.signUp(dic_param).then( response => {
                 CommonFunc.showOkMessage(_this,'Your account created');
                 _this.navHome();
             }).catch( response=> {
+                logger.log.debug("SignUp.Err : response=",response);
                 for (let a_key in response.data) {
                     _this.v_error[a_key].error = true;
                     _this.v_error[a_key].msg = response.data[a_key][0];
@@ -233,6 +249,9 @@ export default {
         onSignIn: function() {
             const _this = this;
             let dic_param = this.v_user;
+            
+            this.clearErrors();
+
             this.v_me.signIn(dic_param).then( response => {
                 logger.log.debug("SignIn.response=",response);
                 CommonFunc.showOkMessage(_this,'Signed in');

@@ -143,10 +143,16 @@ export default class User {
     }
 
     signUp(dic_param) {
+        const _this=this;
 
         return new Promise(function(resolve,reject) {
             AuthService.signUp(dic_param,function(response) {
-                resolve(response);
+                logger.log.debug("UserModel.signUp.response=",response);
+                dic_param.stay_loggedin = true;
+                _this.signIn(dic_param).then( resp => {
+                    resolve(resp);
+                });
+                
             }, function(response) {
                 if (response.status==400) {
                     reject(response);

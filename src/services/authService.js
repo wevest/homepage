@@ -195,7 +195,7 @@ export default class AuthService{
 
 
     static deletePortfolioItem(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/portfolio/portfolios/");
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/portfolio/portfolioitems/");
         callCMSAPI("DELETE",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -205,6 +205,17 @@ export default class AuthService{
         });
     }    
 
+
+    static deletePortfolio(reqParam,func,funcErr) {
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/portfolio/portfolios/");
+        callCMSAPI("DELETE",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }    
 
 
     static getPortfolio(reqParam,func,funcErr) {
