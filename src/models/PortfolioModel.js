@@ -13,6 +13,7 @@ export class PortfolioItemModel {
     id=null;
     portfolio_name=null;
     portfolio_id=null;
+    api_asset=null;
     asset_id=null;
     user=null;
     price=null;
@@ -24,6 +25,23 @@ export class PortfolioItemModel {
     last=null;
     evaluated_value=null;
     roi=null;
+
+
+    assign(obj) {
+        this.id=obj.id;
+        this.portfolio_id=obj.portfolio_id;
+        this.api_asset=obj.api_asset;
+        this.asset_id=obj.api_asset.id;
+        this.price=obj.price;
+        this.qty=obj.qty;
+        this.created_at=obj.created_at;
+        this.updated_at=obj.updated_at;
+        this.state=obj.state;            
+        
+        this.last=0;
+        this.evaluated_value=0;
+        this.roi=0;
+    }
 
     toDict() {
         let reqParam = { 
@@ -48,6 +66,7 @@ export class PortfolioItemModel {
             reqParam.token = store.getters.token;
             reqParam.action = "add";
             AuthService.addPortfolioItem(reqParam, function(response) {
+                logger.log.debug("PortfolioItem.addToServer : response=",response);
                 resolve(response);
             }, function(err) {
                 reject(err);
@@ -99,15 +118,6 @@ export class PortfolioModel extends baseCollection {
         this.dislike_count = item.dislike_count;
         this.api_user = item.api_user;
         this.items = item.portfolio_children;
-    }
-
-    getItem(id) {
-        //logger.log.debug("getPrice.pair=",this.items);
-        return _.find(this.items,{id:id} );
-    }
-
-    delete(id) {
-        _.remove(this.items, {id:id});
     }
 
     calcPerformance(prices) {
@@ -164,18 +174,22 @@ export class PortfolioListModel extends baseCollection{
         return _.find(this.items,{id:id} );
     }
 
-    load(username) { 
+    load(username, portfolio_id) { 
         const _this = this;
         
         logger.log.debug("PortfolioList.load : username = ",username);
 
         return new Promise(function(resolve,reject) {
             
-            let reqParam = { username:username, token: store.getters.token};
+            let reqParam = { 
+                username:username, 
+                id:portfolio_id,
+                token: store.getters.token
+            };
             logger.log.debug("PortfolioList.load:param=",reqParam);
 
             AuthService.getPortfolio(reqParam, function(response) {
-
+                logger.log.debug("PortfolioList.load: response=",response.data);
                 let items = response.data.results;
                 for (let index=0;index<items.length;index++) {
                     
@@ -210,6 +224,31 @@ export class PortfolioListModel extends baseCollection{
         this.roi = this.roi/this.group_count;
     }
 
+
+    deletePortfolio(portfolio_id) {
+        const _this = this;
+
+        return new Promise(function(resolve,reject) {
+            let reqParam = {
+                token: store.getters.token,
+                id:portfolio_id,
+            };
+
+            logger.log.debug("deletePortfolio.reqParam=",reqParam);
+            AuthService.deletePortfolio(reqParam, function(response) {
+                
+                logger.log.debug("deletePortfolio.response=",response);
+                _this.delete(portfolio_id);
+                //let a_portfolio_item = a_portfolio.getItem(id:portfolio_item_id);
+                resolve(response);
+
+            }, function(err) {
+                reject(err);
+            });
+        });
+
+    }
+
     deletePortfolioItem(portfolio_id,portfolio_item_id,asset_id) {
         const _this = this;
 
@@ -226,9 +265,9 @@ export class PortfolioListModel extends baseCollection{
                 logger.log.debug("deletePortfolioItem.response=",response);
                 logger.log.debug("deletePortfolioItem.items=",_this.items);
 
-                let a_portfolio = _this.getItem(portfolio_item_id);
-                logger.log.debug("deletePortfolioItem.portfolio=",a_portfolio);
-
+                let a_portfolio = _this.getItem(portfolio_id);
+                logger.log.debug("deletePortfolioItem.portfolio=",portfolio_id,a_portfolio);
+                //let a_portfolio_item = a_portfolio.getItem(id:portfolio_item_id);
                 a_portfolio.delete(portfolio_item_id);
                 resolve(response);
 
@@ -238,4 +277,26 @@ export class PortfolioListModel extends baseCollection{
         });
 
     }
+
+    addPortfolioItem(jsonItem) {
+        let a_item = new PortfolioItemModel();
+        a_item.assign(jsonItem);
+        let a_portfolio = this.getItem(a_item.portfolio_id);
+        a_portfolio.add(a_item);
+    }
+
+    readPortfolio(portfolio_id) {
+        return new Promise(function(resolve,reject) {
+            let dic_param = {id:portfolio_id,token: store.getters.token};
+            CMSAPI.readPortfolio(dic_param,function(response) {
+                logger.log.debug('PortfolioModel.read - ',response);
+                resolve(response);
+            }, function(err) {
+                logger.log.debug('PortfolioModel.read - ',err);
+                reject(err);
+            });          
+        });
+
+    }
+
 }

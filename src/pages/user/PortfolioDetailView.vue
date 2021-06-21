@@ -114,7 +114,7 @@
             </div>
         </div>
 
-        <AddPortfolioDialog ref="addPortfolio" />
+        <AddPortfolioDialog ref="addPortfolio" @onPortfolioItemAdded="onPortfolioItemAdded" />
 
         <q-dialog v-model="v_confirm" persistent ref="confirmDialog">
             <q-card>
@@ -187,7 +187,8 @@ export default {
             v_confirm: false,
 
             v_user: null,
-            v_portfolio: new PortfolioModel(),
+            //v_portfolio: new PortfolioModel(),
+            v_portfolio: null,
             v_selected: null,
         }
     },
@@ -198,7 +199,8 @@ export default {
         logger.log.debug("PortfolioDetailView.beforeMounted - params=",this.$route.params);
         
         this.v_user = this.$route.params.user;
-        this.setPortfolio(this.$route.params.portfolio);
+        this.setPortfolio(this.$route.params.portfolio_id);
+        this.updateRead();
     },
     mounted() {
         logger.log.debug("PortfolioDetailView.mounted");
@@ -216,24 +218,50 @@ export default {
     },
 
     methods: {
-        setPortfolio(portfolio) {
-            this.v_portfolio = portfolio;
+        updateRead() {
+            this.v_user.portfolio.readPortfolio(this.v_portfolio.id).then(response=>{
+                logger.log.debug("PortfolioDetailView.updateRead : response=",response);    
+            });
+        },
+
+        setPortfolio(portfolio_id) {
+            this.v_portfolio = this.v_user.portfolio.getItem(portfolio_id);
+            logger.log.debug("PortfolioDetailView.setPortfolio : v_portfolio=",this.v_portfolio);
+        },
+
+        refresh: function() {
+            const _this=this;
+            this.v_user.loadPortfolio().then( response => {
+                logger.log.debug("PortfolioDetailView.refresh=>",response);
+                _this.forceUpdate();
+            });
+        },
+
+        forceUpdate: function() {
+            let items = [];
+            for (let index=0;index<this.v_portfolio.items.length;index++) {
+                items.push(this.v_portfolio.items[index]);
+            }
+            this.v_portfolio.items = items;
+            this.v_user.portfolio.calcPerformance(store.state.prices);
         },
 
         handlePortfolioDelete: function() {
-            this.v_user.portfolio.deletePortfolioItem(this.v_selected.id,this.v_selected.api_asset.id).then( response => {                
-                //let a_portfolio = _this.v_user.portfolio.getItem(_this.v_portfolio.id);
-                logger.log.debug("onClickDeleteConfirm.items=",_this.v_portfolio.items);            
-                _this.v_selected = null;
-
+            const _this=this;
+            logger.log.debug("handlePortfolioDelete");
+            this.v_user.portfolio.deletePortfolio(this.v_portfolio.id).then( response => {                
                 CommonFunc.showOkMessage(_this,'Portfolio deleted');
+                CommonFunc.navBack(_this);
             });
         },
 
         handlePortfolioItemDelete: function() {
-            this.v_user.portfolio.deletePortfolioItem(this.v_selected.id,this.v_selected.api_asset.id).then( response => {                
+            const _this=this;
+            this.v_user.portfolio.deletePortfolioItem(this.v_selected.portfolio_id,this.v_selected.id,this.v_selected.api_asset.id).then( response => {                
                 //let a_portfolio = _this.v_user.portfolio.getItem(_this.v_portfolio.id);
-                logger.log.debug("handlePortfolioItemDelete.items=",_this.v_portfolio.items);            
+                logger.log.debug("handlePortfolioItemDelete.items=",_this.v_portfolio.items);
+
+                _this.forceUpdate();
                 _this.v_selected = null;
 
                 CommonFunc.showOkMessage(_this,'Portfolio deleted');
@@ -247,7 +275,7 @@ export default {
 
         onClickAdd: function() {
             logger.log.debug("PortfolioDetail.onClickAdd");
-            this.$refs.addPortfolio.show(null);
+            this.$refs.addPortfolio.show(this.v_user,null);
         },
         
         onClickDelete: function(portfolio_item) {
@@ -295,6 +323,11 @@ export default {
 
         },
 
+        onPortfolioItemAdded: function(jsonItem) {
+            logger.log.debug("PortfolioDetail.onPortfolioItemAdded = ",jsonItem);
+            this.v_user.portfolio.addPortfolioItem(jsonItem.portfolio_item);
+            this.v_user.portfolio.calcPerformance(store.state.prices);
+        }
 
     }
 };

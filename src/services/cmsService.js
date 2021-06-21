@@ -166,6 +166,18 @@ export default class CMSAPI{
     });
   }
 
+
+  static readPortfolio(dic_param,func,funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/portfolio/portfolios/"+ dic_param.id + "/read/");
+    callCMSAPI("POST",url,{},dic_param)
+    .then( (response) => {
+        func(response);
+    })
+    .catch( (err) => {
+        funcErr(err);
+    });
+  }
+
   static votePortfolio(dic_param,func,funcErr) {
     let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/portfolio/portfolios/"+ dic_param.id + "/vote/");
     callCMSAPI("POST",url,{},dic_param)

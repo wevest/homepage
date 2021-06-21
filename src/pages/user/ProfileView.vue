@@ -463,7 +463,7 @@ export default {
         onClickPortfolio: function(portfolio) {
             logger.log.debug("onClickPortfolio",portfolio);
             //this.$refs.addPortfolio.show();
-            let dic_param = { name:'portfolio_detail', path:'portfolio_detail', params:{ user:this.v_user, portfolio:portfolio, back:true } };
+            let dic_param = { name:'portfolio_detail', path:'portfolio_detail', params:{ user:this.v_user, portfolio_id:portfolio.id, back:true } };
             this.$router.push(dic_param);
         },
 

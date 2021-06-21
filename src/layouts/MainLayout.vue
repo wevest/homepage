@@ -2,7 +2,7 @@
 	<q-layout view="lHh Lpr lFf">
 		<q-header elevated>
 			<div class="row flex">
-				<q-toolbar class="col-9 bg-white text-black">
+				<q-toolbar class="col-6 bg-white text-black">
 					<q-btn
 						flat
 						dense
@@ -43,11 +43,6 @@
 								v-bind="scope.itemProps"
 								v-on="scope.itemEvents"
 							>
-								<!--              
-                  <q-item-section avatar>
-                    <q-icon :name="scope.opt.icon" />
-                  </q-item-section>
-    -->
 								<q-item-section>
 									<q-item-label v-html="scope.opt.label" />
 									<q-item-label caption>{{
@@ -67,25 +62,25 @@
 					</q-select>
 				</q-toolbar>
 
-				<q-toolbar class="col-3 bg-white text-black">
+				<q-toolbar class="col-6 bg-white text-black">
 					<q-space />
 
 					<div v-if="v_login == true">
 						<a href="#" @click="onClickSignOut">Logout</a>
 						<q-btn
-							round
+							flat round dense
 							color="amber"
 							icon="person"
 							@click="onClickUser"
 						/>
 						<q-btn
-							round
+							flat round dense
 							color="yellow"
 							icon="mail"
 							@click="onClickMessage"
 						/>
 						<q-btn
-							round
+							flat round dense
 							color="red"
 							icon="money"
 							@click="onClickPortfolio"
@@ -94,7 +89,7 @@
 					<div v-else>
 						<a href="#" @click="onClickSignIn">Login</a>
 					</div>
-
+<!--
 					<div class="toolbar_language full-width">
 						<q-select
 							v-model="language"
@@ -106,6 +101,7 @@
 							@input="onChangeLang"
 						/>
 					</div>
+-->					
 				</q-toolbar>
 				<!--
           <q-toolbar class="col-2 bg-white text-black">          

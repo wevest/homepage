@@ -128,6 +128,7 @@ export default {
         return {
             g_data: '',
             
+            v_user: null,
             v_show: false,
             
             v_portfolio: new PortfolioItemModel(),
@@ -152,6 +153,9 @@ export default {
     created: function () {
         console.log("AddPortfolioDialog.created");
     },
+    beforeMount() {
+        logger.log.debug("AddPortfolioDialog.beforeMounted - params=",this.$route.params);        
+    },
     mounted: function() {
         //this.loadPrice();
     },
@@ -165,6 +169,8 @@ export default {
         },
 
         setPortfolioSelector: function(v_portfolio) {
+            logger.log.debug("AddPortfolioDialog.setPortfolioSelector: v_portfolio=",v_portfolio);
+
             let groups = [];
             
             if (v_portfolio.items.length==0) {
@@ -187,10 +193,12 @@ export default {
         },
 
 
-        show: function(v_portfolio_item) {
+        show: function(v_user,v_portfolio_item) {
             logger.log.debug("AddPortfolioDialog.show : v_portfolio=",v_portfolio_item);
+            
+            this.v_user = v_user;
 
-            this.setPortfolioSelector(this.v_me.portfolio);
+            this.setPortfolioSelector(this.v_user.portfolio);
 
             if (v_portfolio_item) {
                 this.v_portfolio_item = v_portfolio_item;
@@ -244,6 +252,7 @@ export default {
                     CommonFunc.showErrorMessage(_this,response.data.msg);
                 } else {
                     CommonFunc.showOkMessage(_this,'Portfolio added');
+                    _this.$emit("onPortfolioItemAdded",response.data);
                 }
                 
             }).catch( err=> {
