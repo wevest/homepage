@@ -3,6 +3,7 @@
         <div class="row backBtn">
             <div>
                 <q-btn label="back" @click="onClickBack" />
+                <q-btn label="delete" @click="onClickDeletePortfolio" />
             </div>
         </div>
         <div class="row">
@@ -110,52 +111,6 @@
 
                 </q-card>
 
-                
-
-
-<!--
-                <q-list>
-                    <q-item clickable v-for="(a_portfolio,index) in v_portfolio.items" :key="index">
-
-                        <q-item-section avatar top>
-                            <q-icon name="account_tree" color="black" size="34px" />
-                        </q-item-section>
-
-                        <q-item-section size="30px">
-                            <q-item-label>{{a_portfolio.api_asset.name}}</q-item-label>
-                        </q-item-section>
-
-                        <q-item-section top>
-                            <q-item-label lines="1">
-                                <span class="text-weight-medium">{{v_format(a_portfolio.roi)}}</span>
-                            </q-item-label>
-                            <q-item-label caption>
-                                <span class="text-grey-8"> {{ v_format(a_portfolio.last*a_portfolio.qty)}} </span>
-                            </q-item-label>
-                        </q-item-section>
-                        
-                        <q-item-section top>
-                            <q-item-label lines="1">
-                                {{ v_format(a_portfolio.last) }}
-                            </q-item-label>
-                            <q-item-label caption lines="1">
-                                <span class="cursor-pointer">{{ v_format(a_portfolio.price) }}</span>
-                            </q-item-label>
-                        </q-item-section>                        
-                        
-                        <q-item-section top side>
-                            <span>{{v_updated_at(a_portfolio.updated_at)}}</span>
-                            <div class="text-grey-8 q-gutter-xs">
-                                <q-btn class="gt-xs" size="12px" flat dense round icon="delete" @click="onClickDelete(a_portfolio)"/>
-                                <q-btn class="gt-xs" size="12px" flat dense round icon="done" />
-                                <q-btn size="12px" flat dense round icon="more_vert" />
-                            </div>                            
-                        </q-item-section>
-                    </q-item>
-                        
-                </q-list>
--->
-
             </div>
         </div>
 
@@ -188,7 +143,7 @@
 import {store} from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
-import {PortfolioModel} from "src/models/PortfolioModel";
+import {PortfolioModel,PortfolioItemModel} from "src/models/PortfolioModel";
 
 import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 import PortfolioChart from 'src/pages/user/component/PortfolioChart';
@@ -209,6 +164,9 @@ export default {
         },
         v_format() {
             return (value) => {
+                if(!value) {
+                    return '';
+                }
                 return value.toLocaleString();
             };
         },
@@ -262,8 +220,24 @@ export default {
             this.v_portfolio = portfolio;
         },
 
-        handleDelete: function() {
+        handlePortfolioDelete: function() {
+            this.v_user.portfolio.deletePortfolioItem(this.v_selected.id,this.v_selected.api_asset.id).then( response => {                
+                //let a_portfolio = _this.v_user.portfolio.getItem(_this.v_portfolio.id);
+                logger.log.debug("onClickDeleteConfirm.items=",_this.v_portfolio.items);            
+                _this.v_selected = null;
 
+                CommonFunc.showOkMessage(_this,'Portfolio deleted');
+            });
+        },
+
+        handlePortfolioItemDelete: function() {
+            this.v_user.portfolio.deletePortfolioItem(this.v_selected.id,this.v_selected.api_asset.id).then( response => {                
+                //let a_portfolio = _this.v_user.portfolio.getItem(_this.v_portfolio.id);
+                logger.log.debug("handlePortfolioItemDelete.items=",_this.v_portfolio.items);            
+                _this.v_selected = null;
+
+                CommonFunc.showOkMessage(_this,'Portfolio deleted');
+            });
         },
 
         onClickBack: function() {
@@ -277,8 +251,15 @@ export default {
         },
         
         onClickDelete: function(portfolio_item) {
-            logger.log.debug("PortfolioDetail.onClickDelete : item=",portfolio_item);
+            logger.log.debug("PortfolioDetail.onClickDelete : v_selected=",portfolio_item);
             this.v_selected = portfolio_item;
+            this.v_confirm = true;
+        },
+
+        onClickDeletePortfolio: function() {
+            logger.log.debug("PortfolioDetail.onClickDeletePortfolio = ",this.v_portfolio);
+
+            this.v_selected = this.v_portfolio;
             this.v_confirm = true;
         },
 
@@ -289,14 +270,12 @@ export default {
             //logger.log.debug("PortfolioDetail.onClickDeleteConfirm",a_portfolio_item.name);
             //logger.log.debug("PortfolioDetail.onClickDeleteConfirm",this.v_selected.constructor.name);
             
-            const _this = this;
-            this.v_user.portfolio.deletePortfolioItem(this.v_selected.id,this.v_selected.api_asset.id).then( response => {                
-                //let a_portfolio = _this.v_user.portfolio.getItem(_this.v_portfolio.id);
-                logger.log.debug("onClickDeleteConfirm.items=",_this.v_portfolio.items);            
-                _this.v_selected = null;
-
-                CommonFunc.showOkMessage(_this,'Portfolio deleted');
-            });
+            
+            if (this.v_selected instanceof PortfolioModel) {
+                this.handlePortfolioDelete();
+            } else {
+                this.handlePortfolioItemDelete();
+            }
 
             //this.v_selected = null;
         },
