@@ -279,9 +279,13 @@ export class PortfolioListModel extends baseCollection{
     }
 
     addPortfolioItem(jsonItem) {
+        logger.log.debug("addPortfolioItem : jsonItem=",jsonItem);
         let a_item = new PortfolioItemModel();
         a_item.assign(jsonItem);
         let a_portfolio = this.getItem(a_item.portfolio_id);
+        if (! a_portfolio) {
+
+        }
         a_portfolio.add(a_item);
     }
 
