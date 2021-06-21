@@ -29,7 +29,7 @@
                             <q-input
                                 filled lazy-rules
                                 v-model="v_user.username"
-                                label="Username" hint="Name and surname" 
+                                label="Username" hint="" 
                                 :error="v_error.username.error"
                                 :error-message="v_error.username.msg"                                
                                 :rules="[ val => val && val.length > 0 || 'Please type something']"
