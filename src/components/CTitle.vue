@@ -6,7 +6,7 @@
             <h5 class="title">{{ title }} <span class="desc">{{ desc }} </span></h5> 
         </div>
         <div class="ctitle" v-if="ttype==='subtitle'">
-            <h6 class="subtitle">{{ title }} &nbsp; <span class="desc">{{ desc }} </span></h6> 
+            <h6 class="subtitle">{{ title }} <span class="desc">{{ desc }} </span></h6> 
         </div>
 
     </div>

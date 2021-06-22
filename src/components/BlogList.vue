@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<q-list separator class="rounded-borders">
-			<q-item
+			<q-item 
+				class="gBlogTitleBox"
 				clickable
 				v-ripple
 				v-for="(a_post, index) in v_posts.items"
@@ -16,7 +17,7 @@
 						<span class="gBlogTitle">{{ a_post.title }}</span>
 					</q-item-label>
 					<q-item-label lines="1">
-						<span class="gBlogUser">{{a_post.api_owner.username}}</span>
+						<span class="gBlogUser">{{a_post.api_owner.username}}</span>&nbsp;
 						<span class="gBlogDatetime">{{ v_updated_at(a_post.pub_date) }}</span>
 					</q-item-label>
 				</q-item-section>

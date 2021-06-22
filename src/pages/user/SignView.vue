@@ -43,6 +43,7 @@
                                 :error="v_error.password.error"
                                 :error-message="v_error.password.msg"                                
                             />
+                        
                             <q-checkbox v-model="v_user.stay_loggedin" label="Stay signed-in" />
 
                             <q-btn flat label="reset password" />
@@ -305,6 +306,6 @@ export default {
   width: auto;
   margin:0 auto;
   padding-bottom: 20px;
-  
-}
+}  
+
 </style>
