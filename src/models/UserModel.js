@@ -1,3 +1,4 @@
+import {store} from 'src/store/store';
 import {MoaConfig} from 'src/data/MoaConfig';
 import AuthService from 'src/services/authService';
 import CommonFunc from 'src/util/CommonFunc';
@@ -252,6 +253,35 @@ export default class User {
         //logger.log.debug('loadFromCookie=',auth_data);
         this.fromJson(auth_data);
         logger.log.debug('loadFromCookie=',auth_data);
+    }
+
+    updateProfile() {
+        const _this = this;
+        
+        let dic_param = {
+            id:this.id,
+            username:this.username,
+            first_name:this.first_name,
+            last_name:this.last_name,
+            biography:this.biography,
+            title:this.title,
+            avatar:this.avatar,
+            avatar_thumb:this.avatar_thumb,
+            token:store.getters.token
+        };
+        //dic_param.token = v_user.token;
+        logger.log.debug("UserModel.updateUserProfile :  dic_param=",dic_param);
+
+        return new Promise(function(resolve,reject) {
+            AuthService.updateUserProfile(dic_param,function(response) {
+                logger.log.debug("UserModel.updateUserProfile - response",response.data);
+                resolve(response.data);
+
+            },function(err) {
+                logger.log.error("UserModel.updateUserProfile - error",err);                
+                reject(err);
+            });
+        });            
     }
 
 }

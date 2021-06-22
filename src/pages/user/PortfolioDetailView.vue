@@ -32,6 +32,7 @@
                 <div>
                     <div> like : {{ v_portfolio.like_count }} </div>
                     <div> dislike : {{ v_portfolio.dislike_count }} </div>        
+                    <div> read : {{ v_portfolio.read_count }} </div>
                 </div>
 
             </div>
@@ -114,6 +115,22 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col">
+                <CommentForm ref="commentForm" @onClickCommentSave="onClickCommentSave" />
+<!--                
+                @onEditorFocus="onEditorFocus" @onEditorFocusOut="onEditorFocusOut" />
+-->
+
+                <CommentTree ref="commentTree" :data-list="v_portfolio.comments.items" 
+                    @onClickCommentReply="onClickCommentReply"
+                    @onClickLoadMore="onClickLoadMore"
+                    @onClickRate="onClickRate"                    
+                />
+
+            </div>
+        </div>
+
         <AddPortfolioDialog ref="addPortfolio" @onPortfolioItemAdded="onPortfolioItemAdded" />
 
         <q-dialog v-model="v_confirm" persistent ref="confirmDialog">
@@ -145,6 +162,9 @@ import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 import {PortfolioModel,PortfolioItemModel} from "src/models/PortfolioModel";
 
+import CommentForm from "components/comments/comment-form.vue";
+import CommentTree from "components/comments/comment-tree.vue";
+
 import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 import PortfolioChart from 'src/pages/user/component/PortfolioChart';
 
@@ -154,6 +174,8 @@ export default {
     name: 'PortfolioDetail',
     props: [],
     components: {
+        CommentForm,
+        CommentTree,
         AddPortfolioDialog,
         PortfolioChart
     },    
@@ -209,7 +231,7 @@ export default {
         //this.profile = store.getters.moa.user.profile;
         //this.avatarUrl = store.getters.moa.user.firebase.photoURL;
         //this.getProfile();
-
+        this.loadComments(this.v_portfolio.id);
         this.$refs.portfolioChart.update(this.v_portfolio);
     },
     beforeDestroy() {
@@ -246,6 +268,18 @@ export default {
             this.v_user.portfolio.calcPerformance(store.state.prices);
         },
 
+        loadComments: function(page_id,limit=null,offset=null) {
+            const _this = this;
+            
+            let dic_param = {content_type:'portfolio-portfolio' , id:page_id, limit:limit, offset:offset};
+            this.v_portfolio.comments.load(dic_param).then( response => {
+                //_this.g_data_comments = response.data;
+                //_this.handleComments(_this.g_data_comments);
+            }).catch( err => {
+                logger.log.error("BlogView.loadBlogComments - error",err);
+            });
+        },
+
         handlePortfolioDelete: function() {
             const _this=this;
             logger.log.debug("handlePortfolioDelete");
@@ -267,6 +301,18 @@ export default {
                 CommonFunc.showOkMessage(_this,'Portfolio deleted');
             });
         },
+
+        postComment: function(dic_param) {
+            const _this = this;
+            this.v_portfolio.comments.post(dic_param).then( response => {
+                CommonFunc.showOkMessage(_this,'comments posted');                
+            }).catch( err=> {
+
+            });
+
+        },
+
+
 
         onClickBack: function() {
             logger.log.debug("PortfolioDetail.onClickBack");
@@ -327,7 +373,56 @@ export default {
             logger.log.debug("PortfolioDetail.onPortfolioItemAdded = ",jsonItem);
             this.v_user.portfolio.addPortfolioItem(jsonItem.portfolio_item);
             this.v_user.portfolio.calcPerformance(store.state.prices);
-        }
+        },
+
+        onClickCommentSave: function(payload) {            
+            let dic_param = {
+                content_type:"portfolio.portfolio",
+                object_pk:this.v_portfolio.id, 
+                name: this.v_me.username,  
+                avatar: this.v_me.avatar_thumb,
+                email:'', followup:'FALSE', reply_to:0,
+                comment:payload.comments,                
+            };
+
+            logger.log.debug('onClickCommentSave - ',payload,dic_param);
+            this.postComment(dic_param);
+        },
+
+
+        onClickCommentReply: function(payload) {
+            let dic_param = {
+                content_type:"portfolio.portfolio",
+                object_pk:this.v_portfolio.id, 
+                name:this.v_me.username,  
+                email:'', followup:'FALSE', reply_to:payload.data.id,
+                comment:payload.comments,                
+            };
+
+            logger.log.debug('onClickCommentReply - ',payload,dic_param);
+            this.postComment(dic_param);
+        },
+
+        onClickRate: function(dic_payload) {
+            const _this = this;
+            logger.log.debug("BlogPage.onClickRate=",dic_payload);
+
+            let dic_param = {comment: dic_payload.data.id, flag:dic_payload.rate};
+            this.v_portfolio.comments.vote(dic_param).then( response => {
+                CommonFunc.showOkMessage(_this,'Comments rate updated');
+            });
+        },
+
+        onClickLoadMore: function() {
+            logger.log.debug("BlogPage.onClickLoadMore!!!",this.g_data_comments.next);
+            
+            if (! this.g_data_comments.next) {
+                return;
+            }
+
+            const dic_query = CommonFunc.getURLQuery(this.g_data_comments.next);
+            this.loadBlogComments(this.g_page_id,dic_query.limit,dic_query.offset);
+        },
 
     }
 };

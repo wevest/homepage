@@ -14,8 +14,8 @@
             <template v-slot:body="props">
                 <q-tr :props="props" >
                     <q-td class="gBlogAvatar" key="avatar" :props="props">                        
-                        <q-avatar>
-                            <q-img :src="props.row.avatar" v-if="props.row.avatar" />
+                        <q-avatar @click="onClickAvatar(props.row.owner.username)">
+                            <q-img :src="props.row.owner.avatar_thumb" v-if="props.row.owner.avatar_thumb" />
                             <q-icon v-else name="person" size="50px" />
                         </q-avatar>
                     </q-td>
@@ -33,7 +33,7 @@
                         <div class="row">
                             <div>                                
                                 <span class="gBlogUser">
-                                    {{props.row.username}}
+                                    {{props.row.owner.username}}
                                 </span> &nbsp;
                                 <span class="gBlogDatetime">
                                     {{props.row.pub_date}}
@@ -140,6 +140,11 @@ export default {
         onClickLoadMore: function() {
             logger.log.debug('onClickLoadMore');
             this.$emit("onClickLoadmore",{});
+        },
+
+        onClickAvatar: function(username) {
+            logger.log.debug('onClickAvatar');
+            CommonFunc.navProfile(this,username);
         }
 
     }

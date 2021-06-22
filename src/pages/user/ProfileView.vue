@@ -275,34 +275,23 @@ export default {
             });
         },
 
-        updateUserProfile: function(v_user) {
+        updateUserProfile: function() {
             const _this = this;
             
-            let dic_param = v_user;
-            //dic_param.token = v_user.token;
-            logger.log.debug("updateUserProfile.dic_param=",dic_param);
-
-            return new Promise(function(resolve,reject) {
-                AuthService.updateUserProfile(dic_param,function(response) {
-                    logger.log.debug("ProfileView.updateUserProfile - response",response.data);
-                    CommonFunc.showOkMessage(_this,'Profile updated');
-                    resolve();
-                },function(err) {
-                    logger.log.error("ProfileView.updateUserProfile - error",err);
-                    CommonFunc.showErrorMessage(_this,'Profile update failed');
-                    reject();
-                });
-            });            
+            logger.log.debug("ProfileView.updateUserProfile");
+            this.v_user.updateProfile().then(response=>{
+                logger.log.debug("ProfileView.updateUserProfile - response",response);
+                CommonFunc.showOkMessage(_this,'Profile updated');
+            }).catch(err=>{
+                logger.log.error("ProfileView.updateUserProfile - error",err);
+                CommonFunc.showErrorMessage(_this,'Profile update failed');
+            });
         },
 
         updateUserPhoto: function(images) {
-            const _this = this;
-
             this.v_user.avatar_thumb = images[0].url;
             this.v_user.avatar = images[1].url;
-            this.updateUserProfile(this.v_user).then( function() {
-
-            });
+            this.updateUserProfile();
         },
 
         loadBlogList: function(user_id) {

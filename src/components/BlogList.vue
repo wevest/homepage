@@ -11,9 +11,9 @@
 				<q-item-section avatar top>
 					<q-avatar>
 						<q-img
-							v-if="a_post.owner.avatar_thumb.length > 0"
+							v-if="a_post.api_owner.avatar_thumb.length > 0"
 							class="gBlogAvatar"
-							:src="a_post.owner.avatar_thumb"
+							:src="a_post.api_owner.avatar_thumb"
 						/>
 						<q-icon
 							v-else
@@ -28,7 +28,7 @@
 						<span class="gBlogTitle">{{ a_post.title }}</span>
 					</q-item-label>
 					<q-item-label lines="1">
-						<span class="gBlogUser">{{a_post.owner.username}}</span>
+						<span class="gBlogUser">{{a_post.api_owner.username}}</span>
 						<span class="gBlogDatetime">{{ v_updated_at(a_post.pub_date) }}</span>
 					</q-item-label>
 				</q-item-section>

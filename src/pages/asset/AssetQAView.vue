@@ -95,7 +95,7 @@ import MoaBackendAPI from 'src/services/apiService';
 import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
-import {QuestionPageModel, AnswerPageListModel} from "src/models/PageModel";
+import {QuestionPageModel, AnswerPageModel, AnswerPageListModel} from "src/models/PageModel";
 
 import AnswerWriterDialog from 'components/dialogs/AnswerWriterDialog';        
 import AssetAnswerList from 'src/pages/asset/component/AssetAnswerList';
@@ -180,7 +180,7 @@ export default {
         onClickAnswer: function() {
             logger.log.debug("AssetQAView.onClickAnswer - v_question=",this.v_question);
 
-            let a_post = new PostModel();
+            let a_post = new AnswerPageModel();
             a_post.question_id = this.v_question.id;
             a_post.title = this.v_question.title;
             a_post.setContentType(CONST.CONENT_TYPE_ASSET_ANSWER);

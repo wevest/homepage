@@ -136,7 +136,8 @@ import logger from "src/error/Logger";
 import CommentTree from "components/comments/comment-tree.vue";
 import CommentForm from "components/comments/comment-form.vue";
 
-import {QuestionPageModel, AnswerCommentListModel, AnswerPageListModel} from "src/models/PageModel";
+import {AnswerCommentListModel} from "src/models/CommentModel";
+import {QuestionPageModel, AnswerPageListModel} from "src/models/PageModel";
 
 export default {
     name:'assetAnswerList',

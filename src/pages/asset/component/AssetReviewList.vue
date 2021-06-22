@@ -7,7 +7,7 @@
             <q-item class="ReviewBox" clickable v-for="(a_review,index) in v_reviews.items" :key="index">
                 
                 <q-item-section avatar top>
-                    <q-avatar>
+                    <q-avatar @click="onClickProfile(a_review.user.username)">
                         <q-img :src="a_review.user.avatar_thumb" v-if="a_review.user.avatar_thumb.length>0" />
                         <q-icon v-else name="person" size="50px" />
                     </q-avatar>
@@ -144,6 +144,11 @@ export default {
         onClickLoadMore: function() {
             logger.log.debug('onClickLoadMore');
             this.$emit("onClickLoadmore",{});
+        },
+
+        onClickProfile: function(username) {
+            logger.log.debug('onClickProfile');
+            this.$emit("onClickAvatar",{username:username});
         }
 
     }

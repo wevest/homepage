@@ -11,12 +11,6 @@
         <div class="row">
             <div class="col">
                 <div class="row">
-                    <div class="gPageAvatar">
-                        <q-avatar>
-                            <q-img :src="v_post.api_owner.avatar_thumb" v-if="v_post.api_owner.avatar_thumb.length>0" />
-                            <q-icon v-else name="person" size="50px" />
-                        </q-avatar>                    
-                    </div>
                     <div>
                         <span class="gPageTitle">{{v_post.title}}</span>
                         <br>
@@ -89,28 +83,35 @@
                     height="200px"
                 />
                 <p> {{ v_post.tags }} </p>
+                <div class="gPageAvatar">
+                    <q-avatar>
+                        <q-img :src="v_post.api_owner.avatar_thumb" v-if="v_post.api_owner.avatar_thumb.length>0" />
+                        <q-icon v-else name="person" size="50px" />
+                    </q-avatar>                    
+                </div>
                 <div class="boxRate-parent">
-                <div class="q-pa-md q-gutter-sm boxRate">
-                    <q-btn 
-                        push
-                        class="rateButton"
-                        rounded
-                        size="13px"
-                        color="primary" 
-                        icon="thumb_up" 
-                        label="" 
-                        @click="onClickBlogRate(1)"/>
-                    <q-btn
-                        push
-                        class="rateButton"
-                        rounded
-                        size="13px"
-                        color="indigo"
-                        icon="thumb_down"
-                        label=""
-                        @click="onClickBlogRate(-1)" />
+                    <div class="q-pa-md q-gutter-sm boxRate">
+                        <q-btn 
+                            push
+                            class="rateButton"
+                            rounded
+                            size="13px"
+                            color="primary" 
+                            icon="thumb_up" 
+                            label="" 
+                            @click="onClickBlogRate(1)"/>
+                        <q-btn
+                            push
+                            class="rateButton"
+                            rounded
+                            size="13px"
+                            color="indigo"
+                            icon="thumb_down"
+                            label=""
+                            @click="onClickBlogRate(-1)" />
+                    </div>
                 </div>
-                </div>
+
             </div>
         </div>
 
@@ -208,17 +209,13 @@ export default {
     },
     mounted: function() {        
 
-        /*
-        if (this.$route.params.page_id) {
-            this.g_page_id = this.$route.params.page_id;
-            logger.log.debug("BlogView.mounted - page_id",this.g_page_id);            
-            this.refresh(this.g_page_id);
+        logger.log.debug("BlogView.mounted - params=",this.$route.params);
+
+        if (! this.$route.params.page_id) {
+            return;
         }
-        */
 
-        //this.$refs.commentTree.showEditor();
-
-        this.v_post.id=12;
+        this.v_post.id=this.$route.params.page_id;
         this.refresh(this.v_post.id);
     },
     updated: function() {
@@ -274,7 +271,8 @@ export default {
         loadBlogComments: function(page_id,limit=null,offset=null) {
             const _this = this;
 
-            this.v_post.loadComments(page_id,limit,offset).then( response => {
+            let dic_param = {content_type:'blog-postpage' , id:page_id, limit:limit, offset:offset};
+            this.v_post.comments.load(dic_param).then( response => {
                 _this.g_data_comments = response.data;
                 _this.handleComments(_this.g_data_comments);
             }).catch( err => {
@@ -362,9 +360,7 @@ export default {
 
         postComment: function(dic_param) {
             const _this = this;
-            this.v_post.postComment(dic_param).then( response => {
-                //_this.appendComments(dic_param,response);
-                _this.v_post.comments.addComments(dic_param,response);
+            this.v_post.comments.post(dic_param).then( response => {
                 CommonFunc.showOkMessage(_this,'comments posted');                
             }).catch( err=> {
 
@@ -513,7 +509,7 @@ export default {
             logger.log.debug("BlogPage.onClickRate=",dic_payload);
 
             let dic_param = {comment: dic_payload.data.id, flag:dic_payload.rate};
-            this.v_post.postCommentRate(dic_param).then( response => {
+            this.v_post.comments.vote(dic_param).then( response => {
                 CommonFunc.showOkMessage(_this,'Comments rate updated');
             });
         },

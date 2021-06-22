@@ -176,37 +176,29 @@ export default {
                 text:a_text, 
             };
 
-            if (v_post.content_type==CONST.CONENT_TYPE_ASSET_QUESTION) {
-
-              CMSAPI.postAssetQuestion(dic_param,function(response) {
-                  logger.log.debug("onClickSave : response=",response);
-                  _this.$emit("onPostSave",{ret:1, response:response});
-              }, function(error) {
-                  _this.$emit("onPostSave",{ret:0, response:error});
-              });
-
-            } else if (v_post.content_type==CONST.CONENT_TYPE_ASSET_ANSWER) {
-              dic_param.question_id = v_post.question_id; 
-              logger.log.debug("save : v_post=",this.v_post);
-
-              CMSAPI.postAssetAnswer(dic_param,function(response) {
-                  logger.log.debug("onClickSave : response=",response);
-                  _this.$emit("onPostSave",{ret:1, response:response});                  
-              }, function(error) {
-                  _this.$emit("onPostSave",{ret:0, response:error});
-              });
-
-            } else {
-
-              CMSAPI.postBlogPost(dic_param,function(response) {
-                  logger.log.debug("onClickSave : response=",response);
-                  _this.$emit("onPostSave",{ret:1, response:response});
-              }, function(error) {
-                  _this.$emit("onPostSave",{ret:0, response:error});
-              });
-
+            if (v_post.content_type==CONST.CONENT_TYPE_ASSET_ANSWER) {
+                dic_param.question_id = v_post.question_id; 
             }
 
+            v_post.post(dic_param).then( response => {
+                logger.log.debug("onClickSave : response=",response);
+                _this.$emit("onPostSave",{ret:1, response:response});
+            }).catch(err=>{
+                _this.$emit("onPostSave",{ret:0, response:error});
+            });
+
+/*
+            } else {
+
+                CMSAPI.postBlogPost(dic_param,function(response) {
+                    logger.log.debug("onClickSave : response=",response);
+                    _this.$emit("onPostSave",{ret:1, response:response});
+                }, function(error) {
+                    _this.$emit("onPostSave",{ret:0, response:error});
+                });
+
+            }
+*/
 
         },
 
