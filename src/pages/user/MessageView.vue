@@ -9,7 +9,7 @@
 
         <div class="row">
             <div class="col">
-                <div v-if="v_thread.items>0">
+                <div v-if="v_thread.items.length>0">
                     <q-list separator>
                         <q-item class="MessagePageBox" clickable v-for="(a_thread,index) in v_thread.items" :key="index">
                             <q-item-section top avatar>

@@ -43,13 +43,13 @@
                         icon="thumb_up"
                         dense 
                         flat 
-                        @click="onClickBlogRate('like')"/>&nbsp; 
+                        @click="onClickQuestionVote(1)"/>&nbsp; 
                     <q-btn 
                         class="gPageRatingBtn"
                         icon="thumb_down"                        
                         dense
                         flat                                                                       
-                        @click="onClickBlogRate('dislike')" />
+                        @click="onClickQuestionVote(-1)" />
                 </div>
 
             </div>
@@ -201,6 +201,16 @@ export default {
             this.$refs.answerWriter.show(a_post);
         },
 
+        onClickQuestionVote: function(value) {
+            logger.log.debug("AssetQAView.onClickQuestionVote - value=",value);
+            
+            let dic_param = {value:value};
+            this.v_question.vote(dic_param).then(response=>{
+                logger.log.debug("AssetQAView.onClickQuestionVote - response=",response);
+            }).catch(err=>{
+                logger.log.debug("AssetQAView.onClickQuestionVote - err=",err);
+            });
+        },
 
         onClickClear: function() {
             logger.log.debug("AssetQAView.onClickClear");

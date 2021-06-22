@@ -9,8 +9,11 @@
         <div class="row">
             <div class="col">
                 <div class="groupNameBox">
-                    <span class="groupName"> {{v_portfolio.name}}  </span> &nbsp;|&nbsp;
-                    <span class="name1"> {{v_portfolio.description}}  </span>
+                    <span class="groupName"> {{v_portfolio.name}}  </span> 
+<!--
+                    &nbsp;|&nbsp;
+                    <span class="name1"> {{v_shorten(v_portfolio.description)}}  </span>
+-->                    
                 </div>
 
                 <q-separator size="2px" />
@@ -158,6 +161,7 @@
 
 <script>
 import {store} from 'src/store/store';
+import {MoaConfig} from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 import {PortfolioModel,PortfolioItemModel} from "src/models/PortfolioModel";
@@ -202,6 +206,11 @@ export default {
                 return true;
             }
             return false;
+        },
+        v_shorten() {
+            return (value) => {
+                return CommonFunc.shortenString(value,MoaConfig.setting.maxPortfolioDescriptionLength);
+            };
         }
     },
     data() {

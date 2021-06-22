@@ -8,8 +8,10 @@
                     <q-card-section horizontal class="groupTitleBox"> 
                         <div>
                             <span>{{a_portfolio.name}}</span>
+                            <!--
                             &nbsp;| &nbsp; 
                             <span class="groupDesc">{{v_shorten(a_portfolio.description)}}</span>
+                            -->
                         </div> 
                         <q-space />
                         <div>

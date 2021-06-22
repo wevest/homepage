@@ -287,10 +287,11 @@ export class QuestionPageModel extends PostPageModel{
 
     vote(dic_param) {
         const _this = this;
-
-        return new Promise(function(resolve,reject) {
-            
-            dic_param.token = store.getters.token;
+        
+        dic_param.method="vote";
+        dic_param.id = this.id;
+        dic_param.token = store.getters.token;
+        return new Promise(function(resolve,reject) {                        
             CMSAPI.voteAssetQuestion(dic_param,function(response) {
                 logger.log.debug('onClickQuestionRating - ',response);
                 
@@ -557,7 +558,7 @@ export class AnswerPageModel extends PostPageModel{
 
     vote(dic_param) {
         const _this=this;
-        
+
         dic_param.id=this.id;
         dic_param.token = store.getters.token;
         dic_param.method = 'vote';
