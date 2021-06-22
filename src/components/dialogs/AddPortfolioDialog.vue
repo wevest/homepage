@@ -169,9 +169,9 @@ export default {
             } else {
                 this.v_portfolio_item.asset_id = 1;
                 this.v_portfolio_item.portfolio_id = -1;
-                this.v_portfolio_item.price = 1.23;
-                this.v_portfolio_item.qty = 1;
-                this.v_portfolio_item.description = 'description';
+                this.v_portfolio_item.price = 0;
+                this.v_portfolio_item.qty = 0;
+                this.v_portfolio_item.description = '';
             }
 
             logger.log.debug("AddPortfolioDialog.show : v_portfolio=",this.v_portfolio_item);

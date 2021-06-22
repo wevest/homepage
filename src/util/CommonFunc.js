@@ -1303,5 +1303,16 @@ export default class CommonFunc {
         }
     }
     
+    static shortenString(value,max_length) {
+        if (CommonFunc.isEmptyObject(value)) {
+            return '';
+        }
+
+        if (value.length<max_length) {
+            return value;
+        } 
+
+        return value.substring(0, max_length - 3) + " ..." ;            
+    }
 }
 

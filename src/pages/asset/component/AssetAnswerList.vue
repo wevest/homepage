@@ -5,6 +5,11 @@
             <div class="gcomment" v-for="(a_answer,index) in v_answers.items" :key="index">
                 <div class="row gAnswerBox">
                     <div>
+                        <q-icon name="done" v-if="a_answer.answered" />
+                        <q-icon v-else name="money" />
+                    </div>
+
+                    <div>
                         <WAvatar :avatar="a_answer.owner.avatar_thumb" :username="a_answer.owner.username" />
                     </div>
                     <div class="gAnswerUserDatetime">
@@ -14,7 +19,7 @@
                     </div>
                     <q-space />
                     <div class="gAnswerAcceptBox">
-                        <span>
+                        <span v-if="! v_question.closed">
                             <q-btn class="AnswerAcceptBtn"
                                 dense
                                 size="15px"
@@ -26,7 +31,7 @@
 
                 <q-separator />
 
-                <div class="gAnswerContent" @click="onClickQuestion(a_question)">
+                <div class="gAnswerContent">
                     <div v-html="a_answer.answer_text">  </div>
                 </div>
                     <div class="gAnswerRatingBox">              
@@ -165,7 +170,8 @@ export default {
 
         v_comments: [],
         v_comment: null,
-
+        
+        v_question: new QuestionPageModel(),
         v_answers: new AnswerPageListModel(),
         v_answers_comments: new AnswerCommentListModel(),
 
@@ -180,6 +186,9 @@ export default {
     },
     
     methods: {
+        setQuestionPage(question) {
+            this.v_question = question;
+        },
 
         update: function(question_id) {                        
             

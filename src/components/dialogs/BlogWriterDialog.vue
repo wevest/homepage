@@ -187,8 +187,16 @@ export default {
         },
         
         onClickDelete: function() {
-            logger.log.debug('onClickDelete - ');
-            this.$refs.baseEditor.delete(this.v_post);
+            logger.log.debug('BlogWriterDialog.onClickDelete - ');
+            
+            const _this=this;
+            this.v_post.remove().then( response => {
+                CommonFunc.showOkMessage(_this,'Blog deleted');
+                
+                _this.$emit("onBlogDeleted",_this.v_post);
+            }).catch(err=>{
+                CommonFunc.showErrorMessage(_this,'Blog error');
+            });
         },
 
         onPostSave: function(dic_param) {

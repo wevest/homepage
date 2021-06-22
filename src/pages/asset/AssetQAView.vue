@@ -4,7 +4,10 @@
 
         <div class="row">
             <div class="col">
-                <div>                     
+                <div>       
+                    <q-icon v-if="v_question.closed" name="done" />
+                    <q-icon v-else name="add" />
+
                     <span class="gPageTitleBox">  
                         <q-icon
                             class="gPageIcon" 
@@ -54,7 +57,7 @@
 
         <q-separator size="10px"/>
 
-        <div class="row">     
+        <div class="row" v-if="! v_question.closed">     
                 <q-space />
                 <div class="pageAnswerBox">                
                 <q-btn 
@@ -142,8 +145,8 @@ export default {
     mounted: function() {
         logger.log.debug("AssetQAView.mounted - param=",this.$route.params);
         
-        //this.v_question = this.$route.params;
-        this.v_question.id = 24;
+        this.v_question.id = this.$route.params.id;
+        //this.v_question.id = 24;
         this.refresh();
     },
 
@@ -172,6 +175,7 @@ export default {
         },
 
         loadAssetAnswer: function(question_id) {
+            this.$refs.answerList.setQuestionPage(this.v_question);
             this.$refs.answerList.update(question_id);    
         },
 
@@ -239,21 +243,22 @@ export default {
             });
         },
 
-        onClickQuestionAccept: function(dic_param) {
+        onClickQuestionAccept: function(answer) {
             const _this = this;
 
-            logger.log.debug("AssetQAView.onClickQuestionAccept",dic_param);
+            logger.log.debug("AssetQAView.onClickQuestionAccept : answer=",answer);
             
-            dic_param.token = store.getters.token;
-            dic_param.method = 'vote';
 
-            return;
-
-            CMSAPI.voteAssetAnswer(dic_param,function(response) {
+            answer.accept().then(response=>{
                 logger.log.debug('AssetView.onClickAnswerRating - response = ',response);
-                CommonFunc.showOkMessage(_this,'Answer posted');
-            }, function(err) {
-                CommonFunc.showErrorMessage(_this,'Answer posted');
+                if (response.data.ret==0) {
+                    CommonFunc.showOkMessage(_this,'Answer accepted ');
+                } else {
+                    CommonFunc.showErrorMessage(_this,response.data.msg);    
+                }
+                
+            }).catch(err=>{
+                CommonFunc.showErrorMessage(_this,'Answer acception error');
             });
 
         },

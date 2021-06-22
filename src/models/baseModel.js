@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import logger from 'src/error/Logger';
 
 
 export class baseCollection {
@@ -27,7 +28,13 @@ export class baseCollection {
     }
 
     delete(id) {
-        _.remove(this.items, {id:id});
+        //logger.log.debug("baseCollection.delete : items=",this.items);
+        //let removed = _.remove(this.items, {id:id});
+        const index = _.findIndex(this.items,{id:id});
+        //logger.log.debug("baseCollection.delete : removed,items=",removed,this.items);
+        if (index>-1) {
+            this.items.splice(index,1);
+        }
     }
 
     isEmpty() {

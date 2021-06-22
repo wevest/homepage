@@ -194,6 +194,29 @@ export class MessageThreadModel{
             });
         });            
     }
+
+    remove() {
+        const _this = this;
+        
+        let dic_param = {
+            token: store.getters.token, 
+            id:store.getters.me.id, uuid:this.uuid
+        };
+
+        logger.log.debug("MessageModel.sendMessage - dic_param",dic_param);
+
+        return new Promise(function(resolve,reject) {
+            AuthService.deletePrivateMessage(dic_param,function(response) {
+                //_this.g_data = response.data;
+                logger.log.debug("MessageModel.sendMessage - response",response.data);
+                resolve(response.data);
+            },function(err) {
+                logger.log.error("MessageModel.sendMessage - error",err);
+                reject(err);
+            });
+        });            
+    }
+
 }
 
 
@@ -227,5 +250,7 @@ export class MessageThreadListModel extends baseCollection {
         });            
     }
 
-
+    removeThread(id) {
+        this.delete(id);
+    }
 }

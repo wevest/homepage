@@ -9,23 +9,34 @@
 
         <div class="row">
             <div class="col">
-                <q-list separator>
-                    <q-item class="MessagePageBox" clickable v-for="(a_thread,index) in v_thread.items" :key="index" @click="onClickMessage(index,a_thread)">
-                        <q-item-section top avatar>
-                            <WAvatar :avatar="a_thread.sender.avatar_thumb" :username="a_thread.sender.username" />
-                        </q-item-section>                        
+                <div v-if="v_thread.items>0">
+                    <q-list separator>
+                        <q-item class="MessagePageBox" clickable v-for="(a_thread,index) in v_thread.items" :key="index">
+                            <q-item-section top avatar>
+                                <WAvatar :avatar="a_thread.sender.avatar_thumb" :username="a_thread.sender.username" />
+                            </q-item-section>                        
 
-                        <q-item-section class="MessageBox">
-                            <q-item-label>{{a_thread.subject}}</q-item-label>
-                            <q-item-label caption lines="2">{{a_thread.last_message}}</q-item-label>
-                        </q-item-section>
+                            <q-item-section class="MessageBox"  @click="onClickMessage(index,a_thread)">
+                                <q-item-label>{{a_thread.subject}}</q-item-label>
+                                <q-item-label caption lines="2">{{a_thread.last_message}}</q-item-label>
+                            </q-item-section>
 
-                        <q-item-section side top>
-                            <q-item-label class="MessageDate" caption>{{v_updated_at(a_thread.sent_at)}}</q-item-label>
-                            <!-- <q-icon name="star" color="yellow" /> -->
-                        </q-item-section>
-                    </q-item>
-                </q-list>
+                            <q-item-section side>
+                                <q-item-label class="MessageDate" caption>{{v_updated_at(a_thread.sent_at)}}</q-item-label>
+                                <!-- <q-icon name="star" color="yellow" /> -->
+                            </q-item-section>
+                            <q-item-section side>
+                                <q-btn class="gt-xs" size="12px" flat dense round icon="delete" @click="onClickDelete(a_thread)" />
+                                <!-- <q-icon name="star" color="yellow" /> -->
+                            </q-item-section>
+                        </q-item>
+                    </q-list>
+                </div>
+                <div v-else> 
+                    <div>
+                        No Messages!!!
+                    </div>
+                </div>
 
                 <q-page-sticky position="bottom-right" :offset="[18, 18]">
                     <q-btn fab icon="add" color="accent" @click="onClickWrite" />
@@ -109,7 +120,7 @@ export default {
         refresh: function() {
             const _this = this;
             this.v_thread.load().then(response=> {
-
+                logger.log.debug("refresh : response=",response);    
             });
 
         },
@@ -127,6 +138,18 @@ export default {
 
         },
 
+        onClickDelete: function(thread) {
+            logger.log.debug("onClickDelete: thread=",thread);
+
+            const _this=this;
+            thread.remove().then(response=>{
+                _this.v_thread.removeThread(thread.id);
+                CommonFunc.showOkMessage(_this,'Message Deleted');
+            }).catch(err=>{
+                CommonFunc.showErrorMessage(_this,"Message error");
+            });
+
+        }
     },
 
 }

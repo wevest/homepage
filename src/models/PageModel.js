@@ -6,6 +6,7 @@ import _ from 'lodash';
 import CommonFunc from 'src/util/CommonFunc';
 
 import CMSAPI from 'src/services/cmsService';
+import AuthService from 'src/services/authService';
 
 import {baseCollection} from 'src/models/baseModel';
 import {CommentListModel} from 'src/models/CommentModel';
@@ -141,6 +142,21 @@ export class PostPageModel {
             });
         });
 
+    }
+
+    remove() {
+        const _this = this;
+        let dic_param = { id:this.id, token:store.getters.token};
+        return new Promise(function(resolve,reject) {
+            logger.log.debug('PostModel.delete - ',dic_param);
+            CMSAPI.deleteBlogPost(dic_param,function(response) {                
+                //_this.$emit("onPostDelete",{ret:1, response:response});
+                resolve(response);
+            }, function(error) {
+                //_this.$emit("onPostDelete",{ret:0, response:error});
+                reject(error);
+            });
+        });
     }
 
     vote(dic_param) {
@@ -433,11 +449,13 @@ export class AnswerPageModel extends PostPageModel{
     answer_text = null;
     question_id = null;
     comments = [];
+    answered = false;
 
     assign(obj) {
         //this = new PostPage();
         this.id = obj.id;        
         this.answer_text = obj.answer_text;
+        this.answered = obj.answered;
         
         this.comment_count=obj.comment_count;
         this.dislike_count= obj.dislike_count;
@@ -491,6 +509,24 @@ export class AnswerPageModel extends PostPageModel{
 
     }
 
+    accept() {
+        let dic_param = {
+            id:this.id,
+            token:store.getters.token
+        };
+        logger.log.debug("AnswerPageModel.accept : dic_param=",dic_param);
+        return new Promise(function(resolve,reject) {        
+            AuthService.acceptAnswer(dic_param,function(response) {
+                logger.log.debug('AnswerPageModel.accept : response ',response);
+                //CommonFunc.updateRatingCount(_this,response);
+                resolve(response);
+            }, function(err) {
+                logger.log.debug('AnswerPageModel.accept : error = ',err);
+                reject(err);
+            });          
+        });
+    }
+    
     vote(dic_param) {
         return new Promise(function(resolve,reject) {
             CMSAPI.voteAssetQuestion(dic_param,function(response) {
@@ -503,7 +539,6 @@ export class AnswerPageModel extends PostPageModel{
             });          
         });
     }
-    
 
 }
 

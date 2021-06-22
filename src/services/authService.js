@@ -149,6 +149,19 @@ export default class AuthService{
         });
     }    
 
+    static deletePrivateMessage(reqParam,func,funcErr) {
+        let a_method = "/api/dm/message/thread/"+reqParam.uuid+"/" + reqParam.id + "/delete/";
+
+        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        callCMSAPI("DELETE",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }    
+
     static getThreadMessage(reqParam,func,funcErr) {
         let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/dm/message/thread/"+reqParam.uuid+"/");
         callCMSAPI("GET",url,{},reqParam)
@@ -237,6 +250,20 @@ export default class AuthService{
     static getPortfolioGroup(reqParam,func,funcErr) {
         let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/portfolio/portfolios/list/");
         callCMSAPI("GET",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }    
+
+    static acceptAnswer(reqParam,func,funcErr) {
+        let a_method = "/api/qa/answers/"+reqParam.id+"/accept/";
+        logger.log.debug("AuthService.acceptAnaswer : method="+a_method);
+
+        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
         })

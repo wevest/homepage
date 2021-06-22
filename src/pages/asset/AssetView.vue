@@ -118,7 +118,7 @@
             </div>
         </div>
 
-        <BlogWriterDialog ref="blogWriter" @onBlogAdded="onBlogAdded"></BlogWriterDialog>
+        <BlogWriterDialog ref="blogWriter" @onBlogAdded="onBlogAdded" @onBlogDeleted="onBlogDeleted" />
         <QuestionWriterDialog ref="questionWriter" @onQuestionAdded="onQuestionAdded"> </QuestionWriterDialog>
 
     </div>
@@ -576,6 +576,11 @@ export default {
         onBlogAdded: function(dic_param) {
             logger.log.debug('AssetView.onBlogAdded : dic_param=',dic_param);
             this.$refs.blogList.addBlog(dic_param.response);
+        },
+
+        onBlogDeleted: function(post) {
+            logger.log.debug('AssetView.onBlogDeleted : post=',post);
+            this.$refs.blogList.deleteBlog(post.id);
         },
 
         onQuestionAdded: function(dic_param) {

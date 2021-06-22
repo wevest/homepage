@@ -9,7 +9,7 @@
                         <div>
                             <span>{{a_portfolio.name}}</span>
                             &nbsp;| &nbsp; 
-                            <span class="groupDesc">{{a_portfolio.description}}</span>
+                            <span class="groupDesc">{{v_shorten(a_portfolio.description)}}</span>
                         </div> 
                         <q-space />
                         <div>
@@ -74,6 +74,11 @@ export default {
         v_updated_at() {
             return (value) => {
                 return CommonFunc.minifyDatetime(value);
+            };
+        },
+        v_shorten() {
+            return (value) => {
+                return CommonFunc.shortenString(value,MoaConfig.setting.maxPortfolioDescriptionLength);
             };
         }
     },

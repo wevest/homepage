@@ -122,6 +122,11 @@ export default {
 			this.v_posts.addFirst(response.data);
 		},
 
+		deleteBlog:function(post_id) {
+			logger.log.debug("BlogList.deleteBlog : post_id = ", post_id);
+			this.v_posts.delete(post_id);
+			//this.v_posts.items = this.v_posts.delete(post_id);
+		},
 
 
 		onClickBlog: function (page_id) {
