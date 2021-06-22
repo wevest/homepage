@@ -12,6 +12,7 @@ export class MessageModel{
     thread_id=null;
     sent_at='';
     sender=null;
+    subject='';
     content='';
     username=null;
     is_sender=null;
@@ -26,6 +27,7 @@ export class MessageModel{
         this.content=obj.content;
         this.thread_id=obj.thread;
         this.username=obj.sender.username;
+        this.subject=obj.subject;
 
         if (store.getters.me.id==obj.sender.id) {
             this.username = "me";
@@ -171,6 +173,27 @@ export class MessageThreadModel{
     }
 
 
+    send() {
+        const _this = this;
+        
+        let dic_param = {
+            token: store.getters.token, 
+            to_user:this.to_user, subject:this.subject, message:this.content
+        };
+
+        logger.log.debug("MessageModel.sendMessage - dic_param",dic_param);
+
+        return new Promise(function(resolve,reject) {
+            AuthService.postPrivateMessage(dic_param,function(response) {
+                //_this.g_data = response.data;
+                logger.log.debug("MessageModel.sendMessage - response",response.data);
+                resolve(response.data);
+            },function(err) {
+                logger.log.error("MessageModel.sendMessage - error",err);
+                reject(err);
+            });
+        });            
+    }
 }
 
 

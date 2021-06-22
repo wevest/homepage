@@ -7,18 +7,14 @@
             <q-item class="ReviewBox" clickable v-for="(a_review,index) in v_reviews.items" :key="index">
                 
                 <q-item-section avatar top>
-                    <q-avatar @click="onClickProfile(a_review.user.username)">
-                        <q-img :src="a_review.user.avatar_thumb" v-if="a_review.user.avatar_thumb.length>0" />
-                        <q-icon v-else name="person" size="50px" />
-                    </q-avatar>
+                    <WAvatar :avatar="a_review.user.avatar_thumb" :username="a_review.user.username" />
                 </q-item-section>
 
                 <q-item-section top>
                     <q-item-label lines="1">
                         <span class="ReviewTitle"> {{a_review.user.username}}</span>
                     </q-item-label>
-                    
-                 
+                                     
                     <q-item-label>
                         <q-rating                        
                             dense
@@ -81,10 +77,14 @@ import CommonFunc from 'src/util/CommonFunc';
 import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
+import WAvatar from "components/WAvatar.vue";
+
 import { AssetReviewPageModel, AssetReviewPageListModel } from "src/models/PageModel";
 
-
 export default {
+    components: {
+        WAvatar,
+    },
     computed: {
         v_updated_at() {
             return (value) => {
@@ -108,7 +108,6 @@ export default {
     },
 
     methods: {
-
         update: function(dic_param) {                        
             const _this = this;            
 

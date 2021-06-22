@@ -12,9 +12,7 @@
                 <q-list separator>
                     <q-item class="MessagePageBox" clickable v-for="(a_thread,index) in v_thread.items" :key="index" @click="onClickMessage(index,a_thread)">
                         <q-item-section top avatar>
-                            <q-avatar>
-                                <q-img :src="a_thread.sender.avatar_thumb" />
-                            </q-avatar>
+                            <WAvatar :avatar="a_thread.sender.avatar_thumb" :username="a_thread.sender.username" />
                         </q-item-section>                        
 
                         <q-item-section class="MessageBox">
@@ -53,6 +51,7 @@ import MessageWriterDialog from 'components/dialogs/MessageWriterDialog';
 
 import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/models/MessageModel";
 
+import WAvatar from "components/WAvatar.vue";
 import CTitle from 'components/CTitle';
 
 
@@ -60,6 +59,7 @@ import CTitle from 'components/CTitle';
 export default {
     components: {
         CTitle,
+        WAvatar,
         MessageWriterDialog
     },
     props: {},
@@ -114,36 +114,9 @@ export default {
 
         },
 
-        sendMessage: function(v_message) {
-            const _this = this;
-            
-            let dic_param = {
-                token: store.getters.token, 
-                to_user:this.v_message.to_user, subject:this.v_message.subject, message:this.v_message.content
-            };
-
-            return new Promise(function(resolve,reject) {
-                AuthService.postPrivateMessage(dic_param,function(response) {
-                    _this.g_data = response.data;
-                    logger.log.debug("MessageView.sendMessage - response",_this.g_data);
-                    resolve();
-                },function(err) {
-                    logger.log.error("MessageView.sendMessage - error",err);
-                    reject();
-                });
-            });            
-        },
-
-
-
         onClickWrite: function() {
             logger.log.debug("onClickWrite");
             this.$refs.messageWriter.show(this.v_message);
-        },
-
-        onClickSend: function() {
-            logger.log.debug("onClickSend");
-            this.sendMessage(this.v_message);            
         },
 
         onClickMessage: function(index,thread) {

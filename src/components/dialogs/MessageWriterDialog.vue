@@ -5,7 +5,7 @@
 
             <q-card-section class="MessageAvatarBox">
                 <q-avatar class="MesageAvatar" size="80px">
-                    <q-img basic :src="v_message.to_avatar" />
+                    <q-img basic :src="v_message.avatar" />
                 </q-avatar>
             </q-card-section>
             
@@ -68,13 +68,13 @@ export default {
         sendMessage: function() {
             const _this = this;
 
-            this.v_message.sendMessage().then( response => {
+            this.v_message.send().then( response => {
                 CommonFunc.showOkMessage(_this,'Message sent');
             });
         },
 
         show: function(v_message) {
-            logger.log.debug("MessageWriteDialog.show");
+            logger.log.debug("MessageWriteDialog.show : ",v_message);
             this.v_message = v_message;
             this.v_show = true;
         },
