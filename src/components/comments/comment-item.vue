@@ -6,11 +6,13 @@
                 <div class="row q-gutter-sm">
                     <div class="gCommentAvatar">
                 
+                        <WAvatar :avatar="data.user_avatar" :username="data.user_name" />
+<!--
                         <q-avatar @click="onClickAvatar(data.user_name)">
                             <q-img v-if="data.user_avatar && data.user_avatar.length>0" :src="data.user_avatar" />
                             <q-icon v-else name="person" color="black" size="34px" />
                         </q-avatar>
-
+-->
                     </div>
                     <div>
                         <span class="gCommentUser">{{ data.user_name }}</span>
@@ -112,6 +114,7 @@
 import logger from "src/error/Logger";
 import CommonFunc from 'src/util/CommonFunc';
 
+import WAvatar from "src/components/WAvatar";
 
 
 function dateFormat(createdDate) {
@@ -125,6 +128,7 @@ function dateFormat(createdDate) {
 export default {
     name: "CommentItem",
     components: {
+        WAvatar,
         CommentList: () => import("components/comments/comment-list"),    
     },
 

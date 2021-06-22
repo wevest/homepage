@@ -86,7 +86,6 @@
                         </AssetReviewForm>
                         <AssetReviewList ref="reviewList" 
                             @onClickRating="onClickReviewRating" 
-                            @onClickAvatar="onClickReviewAvatar"
                             @onClickLoadmore="onClickLoadmore"> 
                         </AssetReviewList>
 
@@ -119,8 +118,8 @@
             </div>
         </div>
 
-        <BlogWriterDialog ref="blogWriter"> </BlogWriterDialog>
-        <QuestionWriterDialog ref="questionWriter"> </QuestionWriterDialog>
+        <BlogWriterDialog ref="blogWriter" @onBlogAdded="onBlogAdded"></BlogWriterDialog>
+        <QuestionWriterDialog ref="questionWriter" @onQuestionAdded="onQuestionAdded"> </QuestionWriterDialog>
 
     </div>
 
@@ -573,9 +572,15 @@ export default {
             this.$refs.reviewForm.v_rows = "1";
         },
 
-        onClickReviewAvatar: function(jsonUser) {
-            logger.log.debug('AssetView.onClickReviewAvatar : jsonUser=',jsonUser);
-            CommonFunc.navProfile(this,jsonUser.username);
+
+        onBlogAdded: function(dic_param) {
+            logger.log.debug('AssetView.onBlogAdded : dic_param=',dic_param);
+            this.$refs.blogList.addBlog(dic_param.response);
+        },
+
+        onQuestionAdded: function(dic_param) {
+            logger.log.debug('AssetView.onQuestionAdded : dic_param=',dic_param);
+            this.$refs.questionList.addQuestion(dic_param.response);
         }
 
     },

@@ -76,7 +76,7 @@
             </div>
         </div>
 
-        <AnswerWriterDialog ref="answerWriter"> </AnswerWriterDialog>
+        <AnswerWriterDialog ref="answerWriter" @onAnswerAdded="onAnswerAdded"></AnswerWriterDialog>
     </div>
           
 </template>
@@ -256,7 +256,13 @@ export default {
                 CommonFunc.showErrorMessage(_this,'Answer posted');
             });
 
-        }
+        },
+
+        onAnswerAdded: function(dic_param) {
+            logger.log.debug('AssetQAView.onAnswerAdded : dic_param=',dic_param);
+            this.$refs.answerList.addAnswer(dic_param.response);
+        },
+
     },
 
 }

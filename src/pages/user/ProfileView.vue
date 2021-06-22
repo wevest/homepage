@@ -96,9 +96,7 @@
             <!-- <q-card-actions class="boxNumber2" align="center"> -->
                     <!-- <q-btn color="primary" label="Message" @click="onClickMessage" /> -->
                     <!-- <q-btn color="primary" label="Endorsement" @click="onClickEndorsement" /> -->
-            <!-- </q-card-actions> -->
-
-        
+            <!-- </q-card-actions> -->        
 
         <q-card style="text-align: center;"> 
             <q-card-section class="boxNumber3">
@@ -248,7 +246,6 @@ export default {
                     logger.log.debug("setUser=>",response);
                     _this.updatePortfolioWidget();
                 });
-
             });
         },
 

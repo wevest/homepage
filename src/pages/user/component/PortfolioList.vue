@@ -5,11 +5,13 @@
             <div> 
 
                 <q-card class="portfolioListBox" bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
-                    <q-card-section class="row groupTitleBox"> 
-                        <div class="row">                       
-                            <div >{{a_portfolio.name}}</div> &nbsp;| &nbsp; <span class="groupDesc">{{a_portfolio.description}}</span>                        
-                        </div>
-                            <q-space />
+                    <q-card-section horizontal class="groupTitleBox"> 
+                        <div>
+                            <span>{{a_portfolio.name}}</span>
+                            &nbsp;| &nbsp; 
+                            <span class="groupDesc">{{a_portfolio.description}}</span>
+                        </div> 
+                        <q-space />
                         <div>
                             <q-btn size="14px" flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
                         </div>                       
@@ -103,7 +105,7 @@ export default {
 }
 
 .groupTitleBox {
-    padding:10px 0px 2px 10px;
+    padding:10px 0px 10px 10px;
 }
 
 .groupName {

@@ -33,7 +33,7 @@
                                     {{props.row.owner.username}}
                                 </span> &nbsp;
                                 <span class="gBlogDatetime">
-                                    {{props.row.pub_date}}
+                                    {{v_updated_at(props.row.pub_date)}}
                                 </span>
                             </div>
                             <q-space />
@@ -85,6 +85,13 @@ export default {
     components: {
         WAvatar,
     },
+    computed: {
+        v_updated_at() {
+            return (value) => {
+                return CommonFunc.minifyDatetime(value);
+            };
+        },
+    },
     data () {
       return {
         g_data: null,
@@ -119,6 +126,12 @@ export default {
             });
             
         },
+
+        addQuestion:function(response) {
+            logger.log.debug('addQuestion : response = ',response);
+            this.v_questions.addFirst(response.data);
+        },
+
 
         onClickRating: function(value,question) {
             logger.log.debug('onClickRating : question = ',question);

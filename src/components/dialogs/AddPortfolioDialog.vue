@@ -23,14 +23,13 @@
                             <br>
                             <q-select
                                 filled
-                                use-input
+                                use-input fill-input hide-selected
                                 input-debounce="0"
                                 v-model="v_input"
                                 label="Portfolio Group"
                                 :options="v_group_list"
                                 behavior="menu"
                                 @input-value="onPortfolioChange"
-                                @input="onPortfolioInput"
                                 ref="selectPortfolio"
                             >
                                 <template v-slot:no-option>
@@ -41,48 +40,10 @@
                                     </q-item>
                                 </template>
                             </q-select>
+                            <br />
 
-                            <q-input 
-                                type="textarea"
-                                v-model="v_portfolio_item.description" 
-                                label="Why add to portfolio" 
-                                :error="v_error.title.error"
-                                :error-message="v_error.title.msg"
-                            />
-
-<!--
-                            <q-input 
-                                v-model="v_portfolio_item.portfolio_id" 
-                                label="Portfolio Group" 
-                                :error="v_error.title.error"
-                                :error-message="v_error.title.msg"
-                            />
-
-                            <q-input 
-                                v-model="v_portfolio_item.asset_id" 
-                                label="Symbol" 
-                                :error="v_error.title.error"
-                                :error-message="v_error.title.msg"
-                            />
--->
-
-<!--
-                            <div class="row">
-                                <q-input 
-                                    v-model="v_portfolio_item.price" 
-                                    label="Price($)" 
-                                    hint="Price will be automatically updated"
-                                    :error="v_error.title.error"
-                                    :error-message="v_error.title.msg"
-                                />                            
-                                <q-input 
-                                    v-model="v_portfolio_item.qty" 
-                                    label="Qty" type="number"
-                                    :error="v_error.title.error"
-                                    :error-message="v_error.title.msg"
-                                />
-                            </div>
--->                            
+                            <WTextArea v-model="v_portfolio_item.description" label="Description" rows="3" ref="descText" />
+                       
                         </div>
                     </div>
                 </q-card-section>       
@@ -101,12 +62,14 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import { store } from 'src/store/store';
 import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import CMSAPI from 'src/services/cmsService';
 
+import WTextArea from "src/components/WTextArea";
 import CryptoSelect from "src/components/CryptoSelect";
 
 import UserModel from "src/models/UserModel";
@@ -117,6 +80,7 @@ import { PortfolioListModel, PortfolioItemModel } from "src/models/PortfolioMode
 export default {
     name: 'AddPortfolioDialog',
     components: {
+        WTextArea,
         CryptoSelect
     },
     computed: {
@@ -194,7 +158,7 @@ export default {
 
 
         show: function(v_user,v_portfolio_item) {
-            logger.log.debug("AddPortfolioDialog.show : v_portfolio=",v_portfolio_item);
+            //logger.log.debug("AddPortfolioDialog.show : v_portfolio=",v_portfolio_item);
             
             this.v_user = v_user;
 
@@ -209,6 +173,8 @@ export default {
                 this.v_portfolio_item.qty = 1;
                 this.v_portfolio_item.description = 'description';
             }
+
+            logger.log.debug("AddPortfolioDialog.show : v_portfolio=",this.v_portfolio_item);
 
             this.v_show = true;
         },
@@ -246,6 +212,7 @@ export default {
         onClickSave: function() {                        
             const _this = this;
             logger.log.debug('onClickSave - ',this.v_portfolio_item);
+            this.v_portfolio_item.description = this.$refs.descText.getValue();
 
             this.v_portfolio_item.addToServer().then( response => {
                 if (response.data.ret!=0) {
@@ -266,17 +233,18 @@ export default {
         },
 
         onPortfolioChange: function(value) {      
-            logger.log.debug('onPortfolioChange=',value.length);
+            logger.log.debug('onPortfolioChange=',value, this.v_input);
+            this.v_input = value;
             if (value.length>2) {
                 this.v_portfolio_item.portfolio_name = value;
             }            
         },
-
+/*
         onPortfolioInput: function(value) {
             logger.log.debug('onPortfolioInput=',value);
             this.v_portfolio_item.portfolio_name = value;
         },
-
+*/
         onNewPortfolio: function(val,done) {
             logger.log.debug('onClickClose - ',val);
             done(val,'add-unique');

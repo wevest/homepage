@@ -184,7 +184,7 @@ export default {
             } else {
                 CommonFunc.showErrorMessage(this,'Blog error');
             }
-
+            this.$emit("onAnswerAdded",dic_param);
         },
 
     }

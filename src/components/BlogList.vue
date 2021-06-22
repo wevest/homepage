@@ -117,9 +117,9 @@ export default {
 			this.loadBlogData(dic_param);
 		},
 
-		addBlog:function() {
-			logger.log.debug("BlogList.addBlog : page_id = ", page_id);
-
+		addBlog:function(response) {
+			logger.log.debug("BlogList.addBlog : response = ", response);
+			this.v_posts.addFirst(response.data);
 		},
 
 
