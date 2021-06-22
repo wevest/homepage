@@ -71,7 +71,7 @@ export default {
 
 	data() {
 		return {
-			v_comments: "reviews",
+			v_comments: "",
 			v_style: "",
 			v_rows: "1",
 			v_rating: 5,

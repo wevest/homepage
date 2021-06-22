@@ -302,14 +302,14 @@ export default {
 
 
         navWriter:function(mode) {
-          let params = {category_id:this.v_post.category_id};
+            let params = {category_id:this.v_post.category_id};
             if (mode=="new") {
                 params.page_id = null;
             } else {
                 params.page_id = this.v_post.id;
             }
-          let dic_param = { name:'blog_writer', params:params };
-          this.$router.push(dic_param);
+            let dic_param = { name:'blog_writer', params:params };
+            this.$router.push(dic_param);
         },
 
         appendComments: function(dic_param,response) {

@@ -72,7 +72,7 @@
                                     class="gCommentRatingBtn"                                                                    
                                     name="thumb_up"
                                     @click="onClickLike('like',data)" />&nbsp;
-                                    <span class="gCommentRatingCount">{{ likeCount }}</span>
+                                    <span class="gCommentRatingCount">{{ data.like_count }}</span>
                             </span>&nbsp;&nbsp;
                               
                             
@@ -82,7 +82,7 @@
                                     name="thumb_down"
                                     @click="onClickLike('dislike',data)"> 
                                 </q-icon>&nbsp;
-                                <span class="gCommentRatingCount">{{ dislikeCount }}</span>
+                                <span class="gCommentRatingCount">{{ data.dislike_count }}</span>
                             </span>
                         </div>
 
@@ -229,6 +229,8 @@ export default {
 
         getFlagCount(flag) {
           let count = 0;
+          //logger.log.debug("Comment-Item.getFlagCount : flag=",flag);
+
           for (let index=0;index<this.data.flags.length;index++) {
             if (this.data.flags[index].flag==flag) {
               count += 1;
