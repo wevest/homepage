@@ -26,11 +26,20 @@ export class CommentModel {
     user_url=null;
     children=[];
 
+    like_count=0;
+    dislike_count=0;
+
+    
+    setVoteCount() {
+        this.like_count = _.filter(this.flags,{'flag':'like'}).length;
+        this.dislike_count = _.filter(this.flags,{'flag':'dislike'}).length;
+        logger.log.debug("CommentModel.setVoteCount : like,dislike=",this.like_count);
+    }
+
     assign(obj) {
         this.id = obj.id;
         this.allow_reply = obj.allow_reply;
         this.comment = obj.comment;
-        this.flags = obj.flags;
         this.is_removed = obj.is_removed;
         this.level=obj.level;
         this.parent_id = obj.parent_id;
@@ -40,7 +49,10 @@ export class CommentModel {
         this.user_name = obj.user_name;
         this.user_moderator=obj.user_moderator;
         this.user_url=obj.user_url;
-        this.children=CommonFunc.safeGetKeyValue(obj,'children',null);        
+
+        this.flags = CommonFunc.safeGetKeyValue(obj,'flags',null);        
+        this.children=CommonFunc.safeGetKeyValue(obj,'children',null);
+        this.setVoteCount();
     }   
 
     static clone(item) {
@@ -203,24 +215,25 @@ export class CommentListModel extends baseCollection {
             CMSAPI.postCommentFeedback(dic_param,function(response) {
                 logger.log.debug("CommentsListModel.vote : response=",response);
                 
-                if (response.status=="201") {
-                    logger.log.debug("CommentsListModel.vote : 111");
+                if (response.status=="201") {                    
                     
                     let index = _.findIndex(_this.items,{id:dic_param.comment});
                     if (index>-1) {
-                        let a_comment = CommentModel.clone(_this.items[index]);
+                        let a_comment = _this.items[index];
+
+                        //logger.log.debug("CommentsListModel.vote : a_comment=",a_comment);
                         if (dic_param.flag=="like") {
                             a_comment.like_count = a_comment.like_count+1;    
                         } else {
                             a_comment.dislike_count = a_comment.dislike_count+1;    
                         }                        
-                        _this.items[index] = a_comment;
                     }
                 }
                         
                 CommonFunc.updateRatingCount(_this,response);
-
                 resolve(response);
+
+
             }, function(response) {
                 reject(response);
             });                
