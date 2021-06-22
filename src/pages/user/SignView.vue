@@ -218,7 +218,7 @@ export default {
         clearErrors: function() {
             const keys = Object.keys(this.v_error);
             for (let index=0;index<keys.length;index++) {
-                this.v_error[keys[index]].error = true;
+                this.v_error[keys[index]].error = false;
                 this.v_error[keys[index]].msg = '';
             }
 
