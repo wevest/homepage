@@ -17,13 +17,13 @@
                     </span>
                         
                     <div class="gPageUDRBox">
-                        <span class="gPageUser">{{ v_question.username }} </span>&nbsp;
+                        <span class="gPageUser" v-if="v_question.owner"> {{ v_question.owner.username }} </span>&nbsp;
                         <span class="gPageDatetime">{{ v_updated_at(v_question.pub_date) }} </span>&nbsp;
                         
                         <q-icon name="thumb_up" />&nbsp;
-                            <span class="gPageRating">{{ v_question.like_count }}</span>&nbsp;
+                        <span class="gPageRating">{{ v_question.like_count }}</span>&nbsp;
                         <q-icon name="thumb_down" />&nbsp;
-                            <span class="gPageRating">{{ v_question.dislike_count }} </span>
+                        <span class="gPageRating">{{ v_question.dislike_count }} </span>
                     </div>
                 </div>
 
@@ -94,8 +94,6 @@ import { Editor } from '@toast-ui/vue-editor';
 import { CONST } from 'src/data/const';
 import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
-import MoaBackendAPI from 'src/services/apiService';
-import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
 import {QuestionPageModel, AnswerPageModel, AnswerPageListModel} from "src/models/PageModel";
@@ -161,6 +159,10 @@ export default {
 
         refresh() {
             logger.log.debug("AssetQAView.refresh");
+            
+            if (! this.v_question.id) {
+                return;
+            }
 
             this.loadQuestion();
             this.loadAssetAnswer(this.v_question.id);            
@@ -179,6 +181,11 @@ export default {
             this.$refs.answerList.update(question_id);    
         },
 
+        handleAceeptAnswer: function(response) {
+            logger.log.debug("AssetQAView.handleAceeptAnswer - response=",response);
+            this.v_question.closed = true;
+            this.$refs.answerList.updateAcceptedAnswer(response);
+        },
 
 
         onClickAnswer: function() {
@@ -194,29 +201,6 @@ export default {
             this.$refs.answerWriter.show(a_post);
         },
 
-        onClickSave: function() {
-            logger.log.debug("AssetQAView.onClickSave");
-
-            const _this = this;
-            const a_text = this.$refs.toastEditor.invoke('getHtml');
-
-            let dic_param = {
-                question_id: this.v_question.id ,
-                tags:this.v_question.tags, 
-                text:a_text, 
-                title: this.v_question.title,
-                token:store.getters.token,
-            };
-
-            CMSAPI.postAssetAnswer(dic_param,function(response) {
-                logger.log.debug("onClickSave : response=",response);
-                _this.setPageID(response.data.id);
-                CommonFunc.showOkMessage(_this,'Answer posted');
-            }, function(error) {
-                CommonFunc.showErrorMessage(_this,'Blog posted');
-            });
-
-        },
 
         onClickClear: function() {
             logger.log.debug("AssetQAView.onClickClear");
@@ -228,19 +212,7 @@ export default {
         },
 
         onClickAnswerRating: function(dic_param) {
-            const _this = this;
-
             logger.log.debug("AssetQAView.onClickAnswerRating",dic_param);
-            
-            dic_param.token = store.getters.token;
-            dic_param.method = 'vote';
-
-            CMSAPI.voteAssetAnswer(dic_param,function(response) {
-                logger.log.debug('AssetView.onClickAnswerRating - response = ',response);
-                CommonFunc.showOkMessage(_this,'Answer posted');
-            }, function(err) {
-                CommonFunc.showErrorMessage(_this,'Answer posted');
-            });
         },
 
         onClickQuestionAccept: function(answer) {
@@ -252,6 +224,7 @@ export default {
             answer.accept().then(response=>{
                 logger.log.debug('AssetView.onClickAnswerRating - response = ',response);
                 if (response.data.ret==0) {
+                    _this.handleAceeptAnswer(response.data);
                     CommonFunc.showOkMessage(_this,'Answer accepted ');
                 } else {
                     CommonFunc.showErrorMessage(_this,response.data.msg);    

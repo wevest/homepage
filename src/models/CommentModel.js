@@ -264,6 +264,29 @@ export class AnswerCommentModel {
         this.dislike_count=obj.dislike_count;
         this.pub_date=obj.pub_date;
     }
+
+    vote(dic_param) {
+        const _this=this;
+        
+        dic_param.id = this.id;
+        dic_param.token = store.getters.token;
+        return new Promise(function(resolve,reject) {
+            CMSAPI.voteAssetAnswerComment(dic_param,function(response) {
+                //_this.g_data = response.data;
+                logger.log.debug("AnswerCommentModel.vote - response",response);
+
+                _this.like_count = response.data.data.like_count;
+                _this.dislike_count = response.data.data.dislike_count;
+
+                resolve(response);
+
+            },function(err) {
+                logger.log.error("AnswerCommentModel.vote - error",err);
+                reject(err);
+            });
+        });
+    }
+
 }
 
 

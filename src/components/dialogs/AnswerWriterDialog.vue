@@ -25,6 +25,7 @@
                         <div class="row">
                             <div class="col">
                                 <q-input 
+                                    readonly
                                     v-model="v_post.title" 
                                     label="Title" 
                                     :error="v_error.title.error"

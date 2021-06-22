@@ -19,7 +19,7 @@
                     </div>
                     <q-space />
                     <div class="gAnswerAcceptBox">
-                        <span v-if="! v_question.closed">
+                        <span v-if="v_question.is_owner && (! v_question.closed)">
                             <q-btn class="AnswerAcceptBtn"
                                 dense
                                 size="15px"
@@ -55,7 +55,7 @@
                 <q-separator size="2px" />
 
 
-                <div v-if="a_answer.comments && a_answer.comments.length>0">
+                <div>
                     
                     <div class="CommentBox">
                         <span class="Comments">Comments :</span> 
@@ -72,7 +72,7 @@
 
                     <q-separator size="2px" />
 
-                    <div>
+                    <div v-if="a_answer.comments && a_answer.comments.length>0">
                         <div class="gCommentBox" v-for="(a_comment,index2) in a_answer.comments" :key="index2">
                             <div class="row gCommentAvatarBox">
                                 <div class="gCommentAvatar">
@@ -102,12 +102,12 @@
                                 <q-icon 
                                     class="gCommentRatingBtn"
                                     name="thumb_up"
-                                    @click="onClickLike('like',a_comment)" />&nbsp;
+                                    @click="onClickVoteComment(1,a_comment)" />&nbsp;
                                     <span class="gCommentRatingCount"> {{ a_comment.like_count}} </span>&nbsp;
                                 <q-icon 
                                     class="gCommentRatingBtn"
                                     name="thumb_down"                                                                                                   
-                                    @click="onClickLike('like',a_comment)" />&nbsp;
+                                    @click="onClickVoteComment(-1,a_comment)" />&nbsp;
                                     <span class="gCommentRatingCount"> {{ a_comment.dislike_count}} </span>
                             </div>                          
 
@@ -212,13 +212,26 @@ export default {
             this.v_answers.addFirst(response.data);
         },
 
+        updateAcceptedAnswer(response) {
+            logger.log.debug("assetAnswerList.updateAcceptedAnswer : response=",response);            
+            this.v_answers.updateAcceptance(response.answer_id);
+        },
 
 
-        onClickRating: function(value,json_question) {
-            logger.log.debug('onClickRating : json_question = ',json_question);
+
+        onClickRating: function(value,question) {
+            logger.log.debug('onClickRating : json_question = ',question);
             //let dic_param = {'rtype':rtype, 'obj':json_review};
-            json_question.value = value;
-            this.$emit("onClickAnswerRating",json_question);
+            
+            const _this=this;
+            let dic_param = {method:'vote',value:value};
+            question.vote(dic_param).then(response=>{
+                CommonFunc.showOkMessage(_this,'Answer post rated');
+                _this.$emit("onClickAnswerRating",question);
+            }).catch(err=>{
+                CommonFunc.showErrorMessage(_this,'Answer rated error');
+            });
+            
         },
 
         onClickAsset: function(asset) {
@@ -284,48 +297,45 @@ export default {
             //contentInput
         },
 
-        onClickSaveComment: function(jsonAnswer) {
+        onClickSaveComment: function(answer) {
             const _this = this;
 
-            logger.log.debug("AssetAnswerList.onClickSaveComment=",jsonAnswer);
+            logger.log.debug("AssetAnswerList.onClickSaveComment=",answer);
             
             let dic_param = { 
-                question_id: jsonAnswer.question_id,
-                answer_id:jsonAnswer.id, comment_text: this.v_comment, 
-                token:store.getters.token, api_owner:this.v_me.id 
+                comment_text: this.v_comment, 
+                api_owner:this.v_me.id 
             };
-            CMSAPI.postAssetAnswerComment(dic_param,function(response) {
+            answer.comment(dic_param).then(response=>{
                 _this.g_data = response.data;
                 logger.log.debug("AssetList.onClickSaveComment - response",_this.g_data);
+                
+                answer.addCommentFirst(response.data.data);
                 CommonFunc.showOkMessage(_this,"Comments Posted");
-            },function(err) {
+
+            }).catch(err=>{
                 logger.log.error("AssetList.onClickSaveComment - error",err);
                 CommonFunc.showErrorMessage(_this,"Comments Posted");
             });
 
         },
 
-        onClickVoteComment: function(value,jsonComment) {
+
+        onClickVoteComment: function(value,comment) {
             const _this = this;
 
-            logger.log.debug("AssetAnswerList.onClickVoteComment=",jsonComment);
-            
-            
-            let dic_param = {id:jsonComment.id,method:'vote',value:value, token:store.getters.token};
-            CMSAPI.voteAssetAnswerComment(dic_param,function(response) {
-                //_this.g_data = response.data;
-                logger.log.debug("AssetList.onClickSaveComment - response",response);
+            logger.log.debug("AssetAnswerList.onClickVoteComment=",comment);
+                        
+            let dic_param = {method:'vote',value:value};            
+            comment.vote(dic_param).then(response=>{
+                logger.log.debug("AssetList.onClickVoteComment - response",response);
                 CommonFunc.showOkMessage(_this,"Comments Posted");
-            },function(err) {
-                logger.log.error("AssetList.onClickSaveComment - error",err);
+            }).catch(err=>{
+                logger.log.error("AssetList.onClickVoteComment - error",err);
                 CommonFunc.showErrorMessage(_this,"Comments Posted");
             });
 
         },
-
-        onClickLike: function(comment) {
-            logger.log.debug("AssetAnswerList.onClickLike=",comment);
-        }
 
     }
 }

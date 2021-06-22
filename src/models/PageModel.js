@@ -9,7 +9,7 @@ import CMSAPI from 'src/services/cmsService';
 import AuthService from 'src/services/authService';
 
 import {baseCollection} from 'src/models/baseModel';
-import {CommentListModel} from 'src/models/CommentModel';
+import {AnswerCommentModel, CommentListModel} from 'src/models/CommentModel';
 
 
 
@@ -450,13 +450,21 @@ export class AnswerPageModel extends PostPageModel{
     question_id = null;
     comments = [];
     answered = false;
+    is_owner=false;
+
+    addCommentFirst(jsonComment) {
+        let a_comment = new AnswerCommentModel();
+        a_comment.assign(jsonComment);
+        //this.insertAtFirst(a_comment);
+        this.comments.unshift(a_comment);
+    }
 
     assign(obj) {
         //this = new PostPage();
         this.id = obj.id;        
         this.answer_text = obj.answer_text;
         this.answered = obj.answered;
-        
+
         this.comment_count=obj.comment_count;
         this.dislike_count= obj.dislike_count;
         this.like_count = obj.like_count;
@@ -527,9 +535,35 @@ export class AnswerPageModel extends PostPageModel{
         });
     }
     
-    vote(dic_param) {
+
+    comment(dic_param) {
+        
+        dic_param.answer_id = this.id;
+        dic_param.question_id = this.question_id;
+        dic_param.token = store.getters.token;
+
         return new Promise(function(resolve,reject) {
-            CMSAPI.voteAssetQuestion(dic_param,function(response) {
+            CMSAPI.postAssetAnswerComment(dic_param,function(response) {
+                logger.log.debug("AnswerPageModel.comment - response",response);
+                resolve(response);
+
+            },function(err) {
+                logger.log.error("AnswerPageModel.comment - error",err);
+                reject(err);
+            });
+        });
+    }
+
+
+    vote(dic_param) {
+        const _this=this;
+        
+        dic_param.id=this.id;
+        dic_param.token = store.getters.token;
+        dic_param.method = 'vote';
+
+        return new Promise(function(resolve,reject) {
+            CMSAPI.voteAssetAnswer(dic_param,function(response) {
                 logger.log.debug('onClickQuestionRating - ',response);
                 CommonFunc.updateRatingCount(_this,response);
                 resolve(response);
@@ -591,4 +625,9 @@ export class AnswerPageListModel extends baseCollection {
             }
         }
     }  
+
+    updateAcceptance(answer_id) {
+        const index = _.findIndex(this.items,{id:answer_id});
+        this.items[index].answered = true;
+    }
 }
