@@ -1,7 +1,7 @@
 <template>
     <q-avatar @click="onClickAvatar">
         <q-img
-            v-if="avatar.length > 0"
+            v-if="avatar && avatar.length > 0"
             class="gBlogAvatar"
             :src="avatar"
         />
@@ -22,7 +22,7 @@ import logger from "src/error/Logger";
 export default {
     name: 'WAvatar',
     props: {
-        avatar: {required:true, type:String},
+        avatar: {required:false, type:String},
         username: {required:true, type:String},
     },
     data() {    

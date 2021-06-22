@@ -155,9 +155,11 @@ export default {
         },
 
         hide: function() {
+            /*
             if (! this.confirmQuit()) {
                 return;
             }
+            */
 
             this.v_show = false;
         },
@@ -199,6 +201,7 @@ export default {
                 CommonFunc.showErrorMessage(this,'Blog error');
             }
 
+            this.$emit("onBlogAdded",dic_param);
         },
 
     }

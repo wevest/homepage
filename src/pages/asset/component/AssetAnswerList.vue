@@ -50,7 +50,7 @@
                 <q-separator size="2px" />
 
 
-                <div v-if="a_answer.comments.length>0">
+                <div v-if="a_answer.comments && a_answer.comments.length>0">
                     
                     <div class="CommentBox">
                         <span class="Comments">Comments :</span> 
@@ -196,6 +196,11 @@ export default {
 
             });
 
+        },
+
+        addAnswer(response) {
+            logger.log.debug("assetAnswerList.addAnswer : response=",response);
+            this.v_answers.addFirst(response.data);
         },
 
 

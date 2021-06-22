@@ -166,6 +166,12 @@ export class PostPageModel {
 
 export class PostPageListModel extends baseCollection {
 
+    addFirst(jsonPost) {
+        let a_post = new PostPageModel();
+        a_post.assign(jsonPost);
+        this.insertAtFirst(a_post);
+    }
+
     assign (posts) {
         for (let index = 0; index < posts.length; index++) {
             let a_page = new PostPageModel();
@@ -284,6 +290,13 @@ export class QuestionPageModel extends PostPageModel{
 
 
 export class QuestionPageListModel extends baseCollection {
+
+    addFirst(jsonQuestion) {
+        let a_question = new QuestionPageModel();
+        a_question.assign(jsonQuestion);
+        this.insertAtFirst(a_question);
+    }
+
     assign(questions) {
         //logger.log.debug("updateAssetQuestion=",questions);
 
@@ -419,7 +432,7 @@ export class AssetReviewPageListModel extends baseCollection {
 export class AnswerPageModel extends PostPageModel{
     answer_text = null;
     question_id = null;
-    comments = null;
+    comments = [];
 
     assign(obj) {
         //this = new PostPage();
@@ -498,6 +511,12 @@ export class AnswerPageModel extends PostPageModel{
 
 export class AnswerPageListModel extends baseCollection {
 
+    addFirst(jsonAnswer) {
+        let a_answer = new AnswerPageModel();
+        a_answer.assign(jsonAnswer);
+        this.insertAtFirst(a_answer);
+    }
+
     assign(answers) {
         for (let index=0; index<answers.length;index++) {
             let a_page = new AnswerPageModel();
@@ -538,61 +557,3 @@ export class AnswerPageListModel extends baseCollection {
         }
     }  
 }
-
-/*
-export class AnswerCommentModel {
-    id=null;
-    answer_id=null;
-    question_id=null;
-    owner=null;
-    comment_text=null;
-    like_count=null;
-    dislike_count=null;
-    pub_date = null;   
-    comments = null;
-
-    assign(obj) {
-        this.id=obj.id;
-        this.answer_id=obj.answer_id;
-        this.question_id=obj.question_id;
-        this.owner=obj.api_owner;
-        this.comment_text=obj.comment_text;
-        this.like_count=obj.like_count;
-        this.dislike_count=obj.dislike_count;
-        this.pub_date=obj.pub_date;
-    }
-}
-
-
-
-export class AnswerCommentListModel extends baseCollection {
-
-    assign(comments) {
-        for (let index=0; index<comments.length;index++) {
-            let a_comment = new AnswerCommentModel();
-            a_comment.assign(comments[index]);
-            this.add(a_comment);
-        }
-    }
-
-    load(question_id) {
-        const _this = this;
-
-        return new Promise(function(resolve,reject) {
-            let dic_param = {question_id:question_id};
-            logger.log.debug("AnswerCommentListModel.load - dic_param=",dic_param);
-
-            CMSAPI.getAssetAnswerComment(dic_param,function(response) {
-                logger.log.debug("AnswerCommentListModel.load - response",response.data);
-                _this.assign(response.data.results);
-                resolve(response);
-            },function(err) {
-                logger.log.error("AnswerCommentListModel.load - error",err);
-                reject(err);
-            });
-        });            
-
-    }
-
-}
-*/

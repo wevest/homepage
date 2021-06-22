@@ -193,7 +193,7 @@ export default {
         },
 
         onPostSave: function(dic_param) {
-            logger.log.debug('onPostSave - ',dic_param);
+            logger.log.debug('QuestionWriterDialog.onPostSave : dic_param=',dic_param);
 
             if (dic_param.ret==1) {
                 this.postProcess(dic_param.response);
@@ -201,7 +201,8 @@ export default {
             } else {
                 CommonFunc.showErrorMessage(this,'Blog error');
             }
-
+            
+            this.$emit("onQuestionAdded",dic_param);
         },
 
     }
