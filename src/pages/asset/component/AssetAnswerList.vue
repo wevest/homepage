@@ -5,10 +5,7 @@
             <div class="gcomment" v-for="(a_answer,index) in v_answers.items" :key="index">
                 <div class="row gAnswerBox">
                     <div>
-                        <q-avatar class="gAnswerAvatar">
-                            <q-img :src="a_answer.owner.avatar_thumb" v-if="a_answer.owner.avatar_thumb.length>0" />
-                            <q-icon v-else name="person" size="50px" />
-                        </q-avatar>
+                        <WAvatar :avatar="a_answer.owner.avatar_thumb" :username="a_answer.owner.username" />
                     </div>
                     <div class="gAnswerUserDatetime">
                         <span class="gAnswerUser">{{a_answer.owner.username}}&nbsp;님 답변</span>
@@ -136,12 +133,15 @@ import logger from "src/error/Logger";
 import CommentTree from "components/comments/comment-tree.vue";
 import CommentForm from "components/comments/comment-form.vue";
 
+import WAvatar from "components/WAvatar.vue";
+
 import {AnswerCommentListModel} from "src/models/CommentModel";
 import {QuestionPageModel, AnswerPageListModel} from "src/models/PageModel";
 
 export default {
     name:'assetAnswerList',
     components: {
+        WAvatar,
         CommentTree,
         CommentForm
     },

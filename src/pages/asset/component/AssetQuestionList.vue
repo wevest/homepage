@@ -14,10 +14,7 @@
             <template v-slot:body="props">
                 <q-tr :props="props" >
                     <q-td class="gBlogAvatar" key="avatar" :props="props">                        
-                        <q-avatar @click="onClickAvatar(props.row.owner.username)">
-                            <q-img :src="props.row.owner.avatar_thumb" v-if="props.row.owner.avatar_thumb" />
-                            <q-icon v-else name="person" size="50px" />
-                        </q-avatar>
+                        <WAvatar :avatar="props.row.owner.avatar_thumb" :username="props.row.owner.username" />
                     </q-td>
 
                     <q-td key="detail" :props="props" dense class="caption_color gBlogUserDateBox">
@@ -80,9 +77,14 @@ import CommonFunc from 'src/util/CommonFunc';
 import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
+import WAvatar from "components/WAvatar.vue";
+
 import { PostPageModel, QuestionPageListModel } from "src/models/PageModel";
 
 export default {
+    components: {
+        WAvatar,
+    },
     data () {
       return {
         g_data: null,

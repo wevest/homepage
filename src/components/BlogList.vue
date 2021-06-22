@@ -9,19 +9,7 @@
 				@click.stop="onClickBlog(a_post.id)"
 			>
 				<q-item-section avatar top>
-					<q-avatar>
-						<q-img
-							v-if="a_post.api_owner.avatar_thumb.length > 0"
-							class="gBlogAvatar"
-							:src="a_post.api_owner.avatar_thumb"
-						/>
-						<q-icon
-							v-else
-							name="person"
-							color="black"
-							size="34px"
-						/>
-					</q-avatar>
+					<WAvatar :avatar="a_post.api_owner.avatar_thumb" :username="a_post.api_owner.username" />
 				</q-item-section>
 				<q-item-section top>
 					<q-item-label lines="1">
@@ -47,9 +35,16 @@
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
+import WAvatar from "src/components/WAvatar";
+
 import { PostPageModel, PostPageListModel } from "src/models/PageModel";
 
+
+
 export default {
+	components: {
+		WAvatar
+	},
     computed: {
         v_updated_at() {
             return (value) => {
@@ -121,6 +116,13 @@ export default {
 			};
 			this.loadBlogData(dic_param);
 		},
+
+		addBlog:function() {
+			logger.log.debug("BlogList.addBlog : page_id = ", page_id);
+
+		},
+
+
 
 		onClickBlog: function (page_id) {
 			logger.log.debug("onClickBlog : page_id = ", page_id);

@@ -527,23 +527,6 @@ export default {
             logger.log.debug('AssetView.onClickLoadmore');
         },
 
-        onClickSaveQuestion: function() {
-            const _this = this;
-
-            let dic_param = this.$refs.weditor.getText();
-            logger.log.debug('AssetView.onClickSaveQuestion',dic_param);
-
-            dic_param.token = store.getters.token;
-            dic_param.parent_page_id = this.g_asset.object_id;
-            CMSAPI.postAssetQuestion(dic_param,function(response) {
-                logger.log.debug('onClickSaveQuestion - ',response);
-                CommonFunc.showOkMessage(_this,response.statusText);
-            }, function(err) {
-                logger.log.debug('onClickSaveQuestion - ',err);
-            });          
-
-        },
-
         onTabChange: function(newValue,oldValue) {
             logger.log.debug('AssetView.onTabChange',newValue);
             
