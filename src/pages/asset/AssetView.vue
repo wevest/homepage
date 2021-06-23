@@ -79,12 +79,15 @@
                 >
                     <q-tab-panel name="review" class="q-pa-none">
                         
-                        <AssetReviewForm ref="reviewForm" @onClickReviewSave="onClickReviewSave" 
+                        <AssetReviewForm ref="reviewForm" 
+                            :category="g_asset.symbol" :objectId="g_asset.object_id"
+                            @onClickReviewSave="onClickReviewSave" 
                             @onEditorFocus="onFocusReviewForm"
                             @onEditorFocusOut="onFocusoutReviewForm"
                         > 
                         </AssetReviewForm>
                         <AssetReviewList ref="reviewList" 
+                            :category="g_asset.symbol" :objectId="g_asset.object_id"
                             @onClickRating="onClickReviewRating" 
                             @onClickLoadmore="onClickLoadmore"> 
                         </AssetReviewList>
@@ -194,7 +197,7 @@ export default {
                 'updated_date':'', 'icon':'arrow_drop_up', class:'text-red'},    
             
             v_page: {title:this.$t('page.asset.title'), desc:''},
-            v_tab: 'qa',
+            v_tab: 'review',
             v_score: {dev:5, price:5, volume:5, vc:0, avg:5},
 
             v_visible_table:false,
@@ -250,8 +253,13 @@ export default {
                 return
             }
 
-            //this.loadAssetReviewData();
-            this.loadAssetQuestionData();
+            if (this.v_tab=="review") {
+                this.loadAssetReviewData();
+            } else {
+                this.loadAssetQuestionData();
+            }
+            
+            
             //this.loadBlogList();
 
         },
@@ -472,14 +480,14 @@ export default {
             this.loadSectorAssetData('upbit',sector);
         },
 
-        onClickReviewSave: function(dic_param) {
-            const _this = this;
-            
-            dic_param.object_id = this.g_asset.object_id;
-            dic_param.category = this.g_asset.symbol;
-
+        onClickReviewSave: function(dic_param) {                        
             logger.log.debug('AssetView.onClickReviewSave - ',dic_param);       
-                        
+            this.$refs.reviewList.addReview(dic_param.response.data);
+            return;
+
+
+            dic_param.object_id = this.g_asset.object_id;
+            dic_param.category = this.g_asset.symbol;                                
             let a_review = new AssetReviewPageModel();
             a_review.save(dic_param).then( response => {
                 logger.log.debug('AssetView.onClickReviewSave - response = ',response);
@@ -528,7 +536,11 @@ export default {
 
         onTabChange: function(newValue,oldValue) {
             logger.log.debug('AssetView.onTabChange',newValue);
-            
+
+            if (newValue=="qa") {
+                this.loadAssetQuestionData();
+            }
+
             if (newValue=="review") {
                 this.loadAssetReviewData();                
             }

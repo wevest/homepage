@@ -22,7 +22,7 @@ export class PostPageModel {
     category_id = null;
     api_categories = null;
     api_tags = null;
-    api_owner = {id:null, avatar:'', avatar_thumb:'', username:null};
+    api_owner = {id:null, avatar:'', avatar_thumb:'', username:null, first_name:'', last_name:'', biography:''};
 
     body = null;
     text = null;
@@ -373,6 +373,12 @@ export class AssetReviewPageModel {
         this.content_type_id = obj.content_type_id;
         this.like_count = obj.like_count;
         this.dislike_count = obj.dislike_count;
+        
+        if (this.user.id==store.getters.me.id) {
+            this.is_owner = true;
+        } else {
+            this.is_owner = false;
+        }
     }
 
     vote() {
@@ -406,6 +412,22 @@ export class AssetReviewPageModel {
             });
         });
     }
+
+    remove() {
+        
+        let dic_param = {id:this.id, token: store.getters.token};
+        //dic_param.category = this.g_asset.symbol;
+        return new Promise(function(resolve,reject) {
+            CMSAPI.removeAssetReview(dic_param,function(response) {
+                logger.log.debug('AssetReviewPageModel.remove - response = ',response);
+                resolve(response);
+            }, function(err) {
+                logger.log.error('AssetReviewPageModel.remove - err = ',err);
+                reject(err);
+            });
+        });
+    }
+
 }
 
 

@@ -46,11 +46,17 @@ export default{
             return this.v_value;
         },
 
-        updateValue(value) {
-            this.$emit('update:modelValue',value);
-            logger.log.debug("WTextArea.updateValue : value=",value,this.modelValue);            
+        setValue(value) {
             this.v_value = value;
         },
+
+        updateValue(value) {
+            this.$emit('update:modelValue',value);
+            //logger.log.debug("WTextArea.updateValue : value=",value,this.modelValue);            
+            this.v_value = value;
+        },
+
+
 
         onFocus(event) {
             logger.log.debug("onFocus=",this.v_model);

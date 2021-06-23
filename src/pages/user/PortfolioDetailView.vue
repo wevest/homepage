@@ -137,21 +137,7 @@
         </div>
 
         <AddPortfolioDialog ref="addPortfolio" @onPortfolioItemAdded="onPortfolioItemAdded" />
-
-        <q-dialog v-model="v_confirm" persistent ref="confirmDialog">
-            <q-card>
-                <q-card-section class="row items-center">
-                    <q-avatar icon="signal_wifi_off" color="primary" text-color="white" />
-                    <span class="q-ml-sm">Do you want to delete the item?</span>
-                </q-card-section>
-
-                <q-card-actions align="right">
-                    <q-btn flat label="Cancel" color="primary" v-close-popup />
-                    <q-btn flat label="Delete" color="primary" @click="onClickDeleteConfirm" />
-                </q-card-actions>
-            </q-card>
-        </q-dialog>
-
+        <WConfirmDialog ref="confirmDialog" title="Do you want to delete the item?" @onClickConfirm="onClickDeleteConfirm" />
 
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
             <q-btn fab icon="add" color="accent" @click="onClickAdd" />
@@ -171,6 +157,7 @@ import {PortfolioModel,PortfolioItemModel} from "src/models/PortfolioModel";
 import CommentForm from "components/comments/comment-form.vue";
 import CommentTree from "components/comments/comment-tree.vue";
 
+import WConfirmDialog from 'components/dialogs/WConfirmDialog';
 import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 import PortfolioChart from 'src/pages/user/component/PortfolioChart';
 
@@ -183,6 +170,7 @@ export default {
         CommentForm,
         CommentTree,
         AddPortfolioDialog,
+        WConfirmDialog,
         PortfolioChart
     },    
     mixins: [],
@@ -217,8 +205,6 @@ export default {
     },
     data() {
         return {
-            v_confirm: false,
-
             v_user: null,
             //v_portfolio: new PortfolioModel(),
             v_portfolio: null,
@@ -296,7 +282,7 @@ export default {
             logger.log.debug("handlePortfolioDelete");
             this.v_user.portfolio.deletePortfolio(this.v_portfolio.id).then( response => {                
                 CommonFunc.showOkMessage(_this,'Portfolio deleted');
-                CommonFunc.navBack(_this);
+                store.getters.nav.back(_this);
             });
         },
 
@@ -338,24 +324,21 @@ export default {
         onClickDelete: function(portfolio_item) {
             logger.log.debug("PortfolioDetail.onClickDelete : v_selected=",portfolio_item);
             this.v_selected = portfolio_item;
-            this.v_confirm = true;
+            this.$refs.confirmDialog.show();
         },
 
         onClickDeletePortfolio: function() {
             logger.log.debug("PortfolioDetail.onClickDeletePortfolio = ",this.v_portfolio);
 
             this.v_selected = this.v_portfolio;
-            this.v_confirm = true;
+            this.$refs.confirmDialog.show();
         },
 
         onClickDeleteConfirm: function() {            
-            this.v_confirm = false;       
-
             //let a_portfolio_item = this.v_portfolio.getItem(this.v_selected.id);
-            //logger.log.debug("PortfolioDetail.onClickDeleteConfirm",a_portfolio_item.name);
+            logger.log.debug("PortfolioDetail.onClickDeleteConfirm");
             //logger.log.debug("PortfolioDetail.onClickDeleteConfirm",this.v_selected.constructor.name);
-            
-            
+                        
             if (this.v_selected instanceof PortfolioModel) {
                 this.handlePortfolioDelete();
             } else {

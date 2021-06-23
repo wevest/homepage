@@ -35,6 +35,7 @@ export class NavBackModel {
 
     clear() {
         this.items = [];
+        this.setBackButton();
     }
 
     add(route) {
@@ -71,7 +72,7 @@ export class NavBackModel {
         
         const dic_param = this.pop();
         logger.log.debug("NavModel.back : route=",dic_param);
-        
+
         if ( (! dic_param) || (! dic_param.name) ) {
             CommonFunc.navBack(a_this);
         } else {
