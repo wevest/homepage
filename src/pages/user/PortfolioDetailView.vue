@@ -2,7 +2,9 @@
     <div>
         <div class="row backBtn">
             <div>
+<!--                
                 <q-btn label="back" @click="onClickBack" />
+-->                
                 <q-btn label="delete" @click="onClickDeletePortfolio" />
             </div>
         </div>
@@ -79,12 +81,12 @@
                         <div class="row box3">
                             <div class="col">  
                                 <span class="value">{{ v_format(a_portfolio.last) }}</span><br>
-                                <span class="name2">last Price</span>
+                                <span class="name2">Current Price</span>
                             </div>
                             <q-separator vertical inset />
                             <div class="col">
                                 <span class="value">{{ v_format(a_portfolio.price) }}</span><br>
-                                <span class="name2 cursor-pointer">Current Price</span>
+                                <span class="name2 cursor-pointer">Fist Price</span>
                             </div>
                             <q-separator vertical inset />
                             <div class="col">

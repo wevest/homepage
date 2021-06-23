@@ -3,7 +3,9 @@
     <div>
         <div>        
             <q-bar>
+<!--                
                 <q-btn flat icon="arrow_back" @click="onClickBack" />
+-->                
                 <div class="text-h6">{{ v_thread.username }}</div>
             </q-bar>
 

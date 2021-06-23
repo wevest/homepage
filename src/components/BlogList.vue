@@ -132,13 +132,7 @@ export default {
 
 		onClickBlog: function (page_id) {
 			logger.log.debug("onClickBlog : page_id = ", page_id);
-
-			let dic_param = {
-				name: "blog",
-				path: "blog",
-				params: { page_id: page_id },
-			};
-			this.$router.push(dic_param);
+			this.$emit("onClickBlog",{page_id:page_id});
 		},
 	},
 };
