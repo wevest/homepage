@@ -1,5 +1,5 @@
 <template>
-	<div class="row no-wrap q-pa-md ReviewTextBox" v-show="visible">
+	<div class="row no-wrap q-pa-md ReviewTextBox" :style="v_style" v-show="visible">
 		<div class="col">
 			<div>
 				<WTextArea
@@ -43,6 +43,9 @@ import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 import WTextArea from "src/components/WTextArea";
 
+import {AssetReviewPageModel} from "src/models/PageModel";
+
+
 export default {
 	name: "review-form",
 	components: {
@@ -50,9 +53,16 @@ export default {
 	},
 	//mixins: [hasComments],
 	props: {
-		/**
-		 * Whether to show the save button.
-		 */
+        category: {
+            required: true,
+            type:String,
+            default: ''
+        },
+        objectId: {
+            required: true,
+            type: Number,
+            default:-1
+        },
 		showSaveButton: {
 			type: Boolean,
 			default: true,
@@ -71,8 +81,11 @@ export default {
 
 	data() {
 		return {
+            v_review: null,
+
 			v_comments: "",
 			v_style: "",
+
 			v_rows: "1",
 			v_rating: 5,
 			v_error: {
@@ -93,18 +106,27 @@ export default {
 	methods: {
 		show() {
 			// this.visible = true
-			this.$emit("update:visible", true);
+			this.v_style="display:block";
 		},
 		hide() {
-			this.$emit("update:visible", false);
+			this.v_style="display:none";
 		},
-		remove() {
-			this.$el.remove();
+
+        clear() {
+            this.v_comments = "";
+            this.v_rating = 5;
+            this.$refs.descText.setValue(this.v_comments);
+        },
+
+		setReview(review) {
+			console.log("AssetReviewForm.setReview=", review);
+			
+            this.v_review = review;
+            this.v_comments = this.v_review.content;
+            this.v_rating = this.v_review.average_rating;
+            this.$refs.descText.setValue(this.v_comments);
 		},
-		setOwnerMessage(data) {
-			console.log("CommentForm.setOwnerMessage=", data);
-			this.ownerMessage = data;
-		},
+
 		activate() {
 			// await this.$nextTick()
 			if (this.$refs.contentInput) {
@@ -115,10 +137,9 @@ export default {
 		},
 
 		validate() {
-			console.log("CommentForm.validate");
+			console.log("AssetReviewForm.validate");
 
 			if (CommonFunc.isEmptyObject(this.v_comments)) {
-				//return this.$message.warning('请输入内容')
 				this.v_error.error = true;
 				this.v_error.msg = "Please type something";
 				return false;
@@ -126,6 +147,37 @@ export default {
 
             return true;
 		},
+
+        save: function() {
+            const _this = this;
+            
+			let dic_param = {
+				object_id: this.objectId,
+                category: this.category,
+                review: this.v_comments,
+				rating: this.v_rating,
+			};
+            
+            let a_review = this.v_review;
+            if (! this.v_review) {
+                a_review = new AssetReviewPageModel();
+            }
+            
+            dic_param.id = a_review.id;
+            logger.log.debug('AssetView.onClickReviewSave - ',dic_param);       
+
+            a_review.save(dic_param).then( response => {
+                logger.log.debug('AssetView.onClickReviewSave - response = ',response);
+                //_this.$refs.reviewList.addReview(response.data);
+                dic_param.response = response;
+                CommonFunc.showOkMessage(_this,'review posted');
+                _this.$emit("onClickReviewSave", dic_param);
+            }).catch( er => {
+                CommonFunc.showErrorMessage(_this,'review posting error');
+            });
+        },
+
+
 
 		/**
 		 * Save the new comment and reset the form states
@@ -136,14 +188,7 @@ export default {
 			if (! this.validate()) {
                 return;
             }
-
-			let dic_payload = {
-				review: this.v_comments,
-				rating: this.v_rating,
-			};
-			//console.log("CommentForm.validate = ",dic_payload, this.type);
-
-			this.$emit("onClickReviewSave", dic_payload);
+            this.save();
 		},
 
 		onFocus(event) {

@@ -317,12 +317,14 @@ export default {
 
 		onClickMessage: function () {
 			logger.log.debug("MainToolbar.onClickMessage");
+			store.getters.nav.clear();
 			let dic_param = { name: "message", params: {} };
 			this.$router.push(dic_param);
 		},
 
 		onClickPortfolio: function () {
 			logger.log.debug("MainToolbar.onClickPortfolio");
+			store.getters.nav.clear();
 			let dic_param = { name: "portfolio", params: {} };
 			this.$router.push(dic_param);
 		},
@@ -347,12 +349,8 @@ export default {
 				.signOut()
 				.then((response) => {
 					_this.setSigninMenu();
-					_this.$q.notify({
-						color: "green-4",
-						textColor: "white",
-						icon: "cloud_done",
-						message: "logout",
-					});
+					store.getters.nav.clear();
+					CommonFunc.showOkMessage(_this,'Loggout');
 				})
 				.catch((err) => {});
 		},

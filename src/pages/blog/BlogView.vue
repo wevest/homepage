@@ -85,6 +85,11 @@
                 <p> {{ v_post.tags }} </p>
                 <div class="gPageAvatar">
                     <WAvatar :avatar="v_post.api_owner.avatar_thumb" :username="v_post.api_owner.username" />
+                    <span>Username : {{v_post.api_owner.username}}</span>
+                    <span>First name : {{v_post.api_owner.first_name}}</span>
+                    <span>Last name : {{v_post.api_owner.last_name}}</span>
+                    <span>Bio graphy : {{v_post.api_owner.biography}}</span>
+
                 </div>
                 <div class="boxRate-parent">
                     <div class="q-pa-md q-gutter-sm boxRate">
