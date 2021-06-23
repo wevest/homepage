@@ -20,6 +20,7 @@
 					<q-select
 						class="full-width"
 						ref="assetSearch"
+
 						v-model="g_asset"
 						use-input
 						fill-input
@@ -360,4 +361,6 @@ export default {
   text-overflow: none !important;
   width:100%; */
 }
+
+
 </style>
