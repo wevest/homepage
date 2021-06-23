@@ -29,6 +29,11 @@ export class CommentModel {
     like_count=0;
     dislike_count=0;
 
+    static clone(item) {
+        let a_comment = new CommentModel();
+        a_comment.assign(item);
+        return a_comment;
+    }
     
     setVoteCount() {
         this.like_count = _.filter(this.flags,{'flag':'like'}).length;
@@ -55,10 +60,8 @@ export class CommentModel {
         this.setVoteCount();
     }   
 
-    static clone(item) {
-        let a_comment = new CommentModel();
-        a_comment.assign(item);
-        return a_comment;
+    remove() {
+
     }
 }
 
@@ -165,6 +168,16 @@ export class CommentListModel extends baseCollection {
         }
     }
 
+    editComments(dic_param,response) {
+        logger.log.debug("CommentListModel.editComments - dic_param=",dic_param,response);
+        //this.delete(dic_param.id);
+    }
+
+    removeComments(dic_param,response) {
+        logger.log.debug("CommentListModel.removeComments - dic_param=",dic_param,response);
+        this.delete(dic_param.id);
+    }
+
     load(dic_param) {
         const _this=this;
 
@@ -205,6 +218,40 @@ export class CommentListModel extends baseCollection {
         });
     }    
 
+
+    editComment(dic_param) {
+        const _this=this;
+        logger.log.debug("CommentListModel.editComment : dic_param=",dic_param);
+        return new Promise(function(resolve,reject) {            
+            dic_param.token = store.getters.token;
+            CMSAPI.editBlogComment(dic_param,function(response) {
+                logger.log.debug("CommentListModel.editComment=",response);
+                _this.editComments(dic_param,response);
+                resolve(response);
+
+            }, function(err) {
+                logger.log.error("CommentListModel.editComment=",err);
+                reject(Err);
+            });
+        });
+    }    
+
+    removeComment(dic_param) {
+        const _this=this;
+        logger.log.debug("CommentListModel.removeComment : dic_param=",dic_param);
+        return new Promise(function(resolve,reject) {            
+            dic_param.token = store.getters.token;
+            CMSAPI.deleteBlogComment(dic_param,function(response) {
+                logger.log.debug("CommentListModel.removeComment=",response);
+                _this.removeComments(dic_param,response);
+                resolve(response);
+
+            }, function(err) {
+                logger.log.error("CommentListModel.removeComment=",err);
+                reject(Err);
+            });
+        });
+    }    
 
     vote(dic_param) {
         const _this=this;

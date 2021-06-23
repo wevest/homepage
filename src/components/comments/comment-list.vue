@@ -3,7 +3,7 @@
     <div class="comment-list">
         <ul>
             <li v-for="(item,index) in dataList" :key="index">
-                <comment-item :data="item"></comment-item>
+                <comment-item :data="item" :post="v_post"></comment-item>
             </li>
         </ul>
 
@@ -28,6 +28,9 @@ export default {
     },
 
     props: {
+        post: {
+            default: null,
+        },        
         dataList: {
             type: Array,
             default: []
@@ -35,6 +38,7 @@ export default {
     },
     data() {
         return {
+            v_post: this.post,
             v_visible_loadmore:false,
         }        
     },

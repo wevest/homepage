@@ -127,11 +127,15 @@
                     <span>Comments : {{v_post.comments.items.length}}</span>
                 </div>
 
-                <CommentForm ref="commentForm" @onClickCommentSave="onClickCommentSave" />
+                <CommentForm ref="commentForm" type="comment"
+                    :contentType="v_conent_type" :post="v_post"
+                    @onClickCommentSave="onClickCommentSave" />
 <!--                
                     @onEditorFocus="onEditorFocus" @onEditorFocusOut="onEditorFocusOut" />
 -->
-                <CommentTree ref="commentTree" :data-list="v_post.comments.items" 
+                <CommentTree ref="commentTree" 
+                    :data-list="v_post.comments.items" 
+                    :contentType="v_conent_type" :post="v_post"
                     @onClickCommentReply="onClickCommentReply"
                     @onClickLoadMore="onClickLoadMore"
                     @onClickRate="onClickRate"                    
@@ -186,7 +190,7 @@ export default {
 
             v_page: {title:this.$t('page.cryptovc.title'), desc:''},
             //v_post: {title:null,header_image_url:null, pub_date:null},
-            
+            v_conent_type:'blog.postpage',
 
             v_comments: [],
             v_comments_readonly:false,
@@ -392,7 +396,7 @@ export default {
             });
             
         },
-
+/*
         onClickSave: function() {                        
             const _this = this;
             const a_text = this.$refs.toastuiEditor.invoke('getHtml');
@@ -411,7 +415,7 @@ export default {
 
             });
         },
-
+*/
         onClickUpdate: function() {                        
             const _this = this;
             const a_text = this.$refs.toastuiEditor.invoke('getHtml');
@@ -440,26 +444,6 @@ export default {
             });
         },
 
-        onClickComment: function() {
-            const _this = this;
-
-            logger.log.debug('onClickComment - ');
-            let dic_param = {content_type:"blog.postpage",
-                object_pk:this.v_post.id, 
-                token: store.getters.token,
-                name: this.v_me.username,  
-                email:'', followup:'FALSE', reply_to:2,
-                comment:'This is reply2',                
-            };
-
-            logger.log.debug('onClickComment - ',dic_param);
-
-            CMSAPI.postBlogComment(dic_param,function(response) {
-                CommonFunc.showOkMessage(_this,'comments posted');
-            });
-
-        },
-
         onClickWrite: function() {
             logger.log.debug('onClickWrite - ');
             this.navWriter("new");
@@ -470,31 +454,14 @@ export default {
             this.navWriter("update");
         },
 
-        onClickCommentSave: function(payload) {            
-            let dic_param = {
-                content_type:"blog.postpage",
-                object_pk:this.v_post.id, 
-                name: this.v_me.username,  
-                avatar: this.v_me.avatar_thumb,
-                email:'', followup:'FALSE', reply_to:0,
-                comment:payload.comments,                
-            };
-
-            logger.log.debug('onClickCommentSave - ',payload,dic_param);
-            this.postComment(dic_param);
+        onClickCommentSave: function(dic_param) {            
+            logger.log.debug('onClickCommentSave - ',dic_param);
+            CommonFunc.showOkMessage(this,'Comments posted');  
         },
 
-        onClickCommentReply: function(payload) {
-            let dic_param = {
-                content_type:"blog.postpage",
-                object_pk:this.v_post.id, 
-                name:this.v_me.username,  
-                email:'', followup:'FALSE', reply_to:payload.data.id,
-                comment:payload.comments,                
-            };
-
-            logger.log.debug('onClickCommentReply - ',payload,dic_param);
-            this.postComment(dic_param);
+        onClickCommentReply: function(dic_param) {
+            logger.log.debug('onClickCommentReply : dic_param=',dic_param);
+            CommonFunc.showOkMessage(this,'Comments posted');  
         },
 
         onClickLoadMore: function() {

@@ -60,6 +60,7 @@
 
 
 <script>
+import {store} from "src/store/store";
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
@@ -76,6 +77,14 @@ export default {
 		/**
 		 * Whether to show the save button.
 		 */
+        post: {
+            default: null,
+        },
+        contentType: {
+            type:String,
+            default:'',
+        },
+
 		showSaveButton: {
 			type: Boolean,
 			default: true,
@@ -92,7 +101,6 @@ export default {
 			default: true,
 		},
 	},
-
 	data() {
 		return {
 			saving: false,
@@ -108,6 +116,9 @@ export default {
 	},
 
 	computed: {
+        v_me() {
+            return store.getters.me;
+        },
 		editorLabelTitle() {
 			return this.type === "comment"
 				? "Comments"
@@ -163,6 +174,17 @@ export default {
 
 		},
 
+        postComment: function(dic_param) {
+            const _this = this;
+            this.post.comments.post(dic_param).then( response => {
+                dic_param.response = response;
+                _this.$emit("onClickCommentSave", dic_param);
+                //CommonFunc.showOkMessage(_this,'comments posted');                
+            }).catch( err=> {
+
+            });
+        },
+
 		/**
 		 * Save the new comment and reset the form states
 		 * @returns {Promise<Comment>}
@@ -174,16 +196,27 @@ export default {
                 return;
             }
 
-			console.log("CommentForm.validate = owner : ", this.ownerMessage);
+			logger.log.debug("CommentForm.onClickSubmit = ownerMessage : ", this.ownerMessage);
 
-			let dic_payload = { comments: this.v_comments };
+            let dic_param = {
+                content_type: this.contentType,
+                object_pk:this.post.id, 
+                name: this.v_me.username,  
+                avatar: this.v_me.avatar_thumb,
+                email:'', followup:'FALSE',
+                comment:this.v_comments,                
+            };
+
 			if (this.type === "reply") {
-				dic_payload.data = this.ownerMessage;
-			}
+				dic_param.reply_to = this.ownerMessage.id;
+                dic_param.data = this.ownerMessage;
+			} else {
+                dic_param.reply_to = 0;
+            }
 
+            logger.log.debug('CommentForm.onClickSubmit : dic_param=',dic_param);
+            this.postComment(dic_param);
 			//console.log("CommentForm.validate = ",dic_payload, this.type);
-
-			this.$emit("onClickCommentSave", dic_payload);
 		},
 
 		onFocus(event) {

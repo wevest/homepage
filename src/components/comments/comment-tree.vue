@@ -3,12 +3,15 @@
     <div class="comment-tree">
         <div class="editor-wrapper" ref="editorEl" v-show="editorVisible">
             <slot name="editor">
-                <comment-form type="reply" ref="commentForm" @onClickCommentSave="onClickCommentSave"> 
+                <comment-form type="reply" ref="commentForm" 
+                    :contentType="v_content_type" :post="v_post"
+                    @onClickCommentSave="onClickCommentSave"> 
                 </comment-form>
             </slot>
         </div>
 
-        <comment-list ref="commentList" :dataList="renderData" 
+        <comment-list ref="commentList" 
+            :dataList="renderData" :post="v_post"
             @onClickMore="onClickMore">
         </comment-list>
     </div>
@@ -64,13 +67,6 @@ export default {
         CommentList,
         CommentForm
     },
-    data() {
-        return {
-            editorVisible: false,
-            Texttype: 'text'
-        }
-    },
-  
     provide() {
         const provided = { $messageTree: this }
         Object.defineProperty(provided, '$editor', {
@@ -80,6 +76,13 @@ export default {
     },
 
     props: {
+        post: {
+            default: null,
+        },
+        contentType: {
+            type:String,
+            default:'',
+        },
         dataList: {
             type: Array,
             default: () => []
@@ -115,6 +118,16 @@ export default {
             return normalizeData(dataCloned, this.renderLayer, 1)
         }
     },
+    data() {
+        return {
+            editorVisible: false,
+            Texttype: 'text',
+            
+            v_content_type: this.contentType,
+            v_post: this.post,
+        }
+    },
+  
 
     methods: {
         removeEditor() {

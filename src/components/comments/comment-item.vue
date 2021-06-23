@@ -67,6 +67,11 @@
                         <q-space />
                         
                         <div class="RatingBtnBox">
+                            <!--
+                            <q-icon name="edit" @click="onClickEdit(data)" v-if="v_is_owner(data)" />
+                            -->
+                            <q-icon name="delete" @click="onClickDelete(data)" v-if="v_is_owner(data) && (! data.is_removed)" />
+
                             <span>                              
                                 <q-icon 
                                     class="gCommentRatingBtn"                                                                    
@@ -111,19 +116,13 @@
 
 
 <script>
+import {store} from "src/store/store";
 import logger from "src/error/Logger";
 import CommonFunc from 'src/util/CommonFunc';
 
 import WAvatar from "src/components/WAvatar";
 
 
-function dateFormat(createdDate) {
-    logger.log.debug("dateFormat(createdDate)-",createdDate);
-    //if (!createdDate instanceof Date) {
-    //    return;
-    //}
-    return CommonFunc.minifyDatetime(createdDate);
-}
 
 export default {
     name: "CommentItem",
@@ -131,7 +130,6 @@ export default {
         WAvatar,
         CommentList: () => import("components/comments/comment-list"),    
     },
-
     inject: {
         level: {
             default: 0,
@@ -144,13 +142,39 @@ export default {
             level: this.level + 1,
         };
     },
+    props: {
+        post: {
+            default: null,
+        },
+        data: {
+            type: Object,
+            default: () => ({}),
+        },
+    },
     data() {
         return {
             isExpanded: this.$messageTree.expandLayer > this.level,
             hasEditor: false,
+
+            //v_post: this.post,
         };
     },
     computed: {
+        v_me() {
+            return store.getters.me;
+        },
+        v_is_owner() {
+            return (comment) => {
+                if (! this.v_me.username) {
+                    return false;
+                }
+
+                if (this.v_me.username==comment.user_name) {
+                    return true;
+                }
+                return false;
+            };
+        },
         replyCount() {
             return this.data.children && this.data.children.length;
         },
@@ -208,12 +232,6 @@ export default {
 
     filters: {
         //dateFormat,
-    },
-    props: {
-        data: {
-            type: Object,
-            default: () => ({}),
-        },
     },
     methods: {
         getMinifiedDatetime(value) {
@@ -304,6 +322,26 @@ export default {
             }
             
         },
+
+        onClickEdit: function(comment) {
+            logger.log.debug("CommentItem.onClickEdit",comment);
+        },
+
+        onClickDelete: function(comment) {
+            logger.log.debug("CommentItem.onClickDelete",comment);
+            
+            const _this=this;
+
+            let dic_param = {id:comment.id};
+            this.post.comments.removeComment(dic_param).then(response=>{
+                logger.log.debug("CommentItem.onClickDelete : response=",response);
+                CommonFunc.showOkMessage(_this,'comments deleted');       
+                         
+            }).catch(err=>{
+                CommonFunc.showErrorMessage(_this,'comments deleted failed');                
+            });
+        },
+
     },
 };
 </script>
