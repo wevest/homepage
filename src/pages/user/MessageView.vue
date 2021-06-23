@@ -133,6 +133,8 @@ export default {
         onClickMessage: function(index,thread) {
             logger.log.debug("onClickMessage: thread=",thread);
             this.g_thread = thread;
+            
+            store.getters.nav.add(this.$route);
             let dic_param = { name:'message_detail', path:'message_detail', params:{ thread:thread, back:true } };
             this.$router.push(dic_param);
 

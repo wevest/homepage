@@ -37,12 +37,19 @@
                             />
 
                             <q-input
-                                filled type="password"
+                                filled 
+                                :type="isPwd ? 'password' : 'text'" 
                                 v-model="v_user.password"
                                 label="Password"
                                 :error="v_error.password.error"
                                 :error-message="v_error.password.msg"                                
-                            />
+                            >
+                                <template v-slot:append>
+                                    <q-icon :name="isPwd ? 'visibility_off' : 'visibility'"
+                                        class="cursor-pointer"
+                                        v-on:click="isPwd = !isPwd"></q-icon>
+                                </template>                                
+                            </q-input>
                         
                             <q-checkbox v-model="v_user.stay_loggedin" label="Stay signed-in" />
 
@@ -86,7 +93,8 @@
                             />
 
                             <q-input
-                                filled required type="password" id="password" label="password"
+                                filled required id="password" label="password"
+                                :type="isPwd ? 'password' : 'text'" 
                                 v-model="v_user.password" ref="fldPasswordChange"
                                 :error="v_error.password.error"
                                 :error-message="v_error.password.msg"
@@ -99,7 +107,8 @@
                             </q-input>
 
                             <q-input
-                                filled type="password"
+                                filled
+                                :type="isPwd ? 'password' : 'text'" 
                                 v-model="v_user.password2"
                                 label="confirm password" ref="fldPasswordChangeConfirm"
                                 v-bind:rules="ConfirmPWD"                                
@@ -126,6 +135,7 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import {store} from 'src/store/store';
 import {MoaConfig} from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
@@ -141,8 +151,13 @@ export default {
         CBigLabel,
         CTitle,
     },
-    props: {
+    setup() {
+        return {
+            isPwd: ref(true),
+            isPassword: ref(true),
+        }
     },
+    props: {},
     computed: {
         ConfirmPWD() {
             return [
@@ -156,6 +171,7 @@ export default {
     },
     data: () => ({
         //lang: this.$i18n.locale,
+
         g_data: null,
         g_period: 30,
         g_author: '',

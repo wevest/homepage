@@ -3,6 +3,16 @@
 		<q-header elevated>
 			<div class="row flex">
 				<q-toolbar class="col-6 bg-white text-black">
+					<q-btn v-if="v_show_back_button"
+						flat dense round
+						color="black"
+						align="centered"
+						icon="arrow_back_ios"
+						aria-label="Back"
+						ref="mainMenuBackButton"
+						@click="onClickBack"
+					/>
+					
 					<q-btn
 						flat
 						dense
@@ -135,10 +145,9 @@ import Spinner from "src/components/Spinner";
 import { mapState } from "vuex";
 
 import { store } from "src/store/store";
+import { CONST } from "src/data/const";
 import { MoaConfig } from "src/data/MoaConfig";
 import CommonFunc from "src/util/CommonFunc";
-import AuthService from "src/services/authService";
-import LocalStorageService from "src/services/localStorage";
 import logger from "src/error/Logger";
 
 export default {
@@ -161,6 +170,8 @@ export default {
 			g_input: null,
 			g_options: [],
 			v_options: [],
+
+			v_show_back_button: false,
 			//lang: this.$i18n.locale,
 
 			leftDrawerOpen: false,
@@ -177,11 +188,21 @@ export default {
 	},
 	mounted: function () {
 		//CommonFunc.setAppData('spinner',this.$refs.loading);
+		
+		this.prepare();
+
 		this.loadCoinCodes();
-		this.setSigninMenu();
+		this.setSigninMenu();		
 	},
 
 	methods: {
+		prepare() {
+			store.getters.components.addToolbar(this);
+		},
+		setBackButton:function(value) {
+			this.v_show_back_button = value;
+		},
+
 		setLocale: function (locale) {
 			// set the Vue-i18n locale
 			this.$i18n.locale = locale;
@@ -248,6 +269,8 @@ export default {
 
 			CommonFunc.navAsset(this, symbol);
 		},
+
+
 
 		onChangeLang: function () {
 			logger.log.debug("onChangeLang=", this.language);
@@ -332,6 +355,12 @@ export default {
 					});
 				})
 				.catch((err) => {});
+		},
+
+		onClickBack: function() {
+			logger.log.debug("onClickBack");
+			
+			store.getters.nav.back(this);
 		},
 	},
 };

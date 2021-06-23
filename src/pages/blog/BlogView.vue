@@ -84,10 +84,7 @@
                 />
                 <p> {{ v_post.tags }} </p>
                 <div class="gPageAvatar">
-                    <q-avatar>
-                        <q-img :src="v_post.api_owner.avatar_thumb" v-if="v_post.api_owner.avatar_thumb.length>0" />
-                        <q-icon v-else name="person" size="50px" />
-                    </q-avatar>                    
+                    <WAvatar :avatar="v_post.api_owner.avatar_thumb" :username="v_post.api_owner.username" />
                 </div>
                 <div class="boxRate-parent">
                     <div class="q-pa-md q-gutter-sm boxRate">
@@ -154,6 +151,7 @@ import {PostPageModel,CommentModel,CommentListModel} from "src/models/PageModel"
 
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
+import WAvatar from "components/WAvatar.vue";
 import CommentForm from "components/comments/comment-form.vue";
 import CommentTree from "components/comments/comment-tree.vue";
 
@@ -164,6 +162,7 @@ export default {
         CTitle,
         CBigLabel,
         Viewer,
+        WAvatar,
         CommentTree,
         CommentForm
     },

@@ -549,6 +549,13 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);
     }
     
+    static navBlog(a_this,page_id) {
+        let dic_param = {
+            name: "blog",path: "blog",params: { page_id: page_id },
+        };
+        a_this.$router.push(dic_param);
+    }
+
     static navAsset(a_this,symbol) {
         logger.log.debug("CommonFunc.navAsset - ",symbol);
 

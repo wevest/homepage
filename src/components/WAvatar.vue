@@ -16,14 +16,17 @@
 
 
 <script>
+import {store} from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
+
+
 
 export default {
     name: 'WAvatar',
     props: {
         avatar: {required:false, type:String},
-        username: {required:true, type:String},
+        username: {required:false, type:String},
     },
     data() {    
         return {
@@ -33,6 +36,8 @@ export default {
     methods: {
         onClickAvatar: function() {
             logger.log.debug("WAvatar.onClick");
+            
+            store.getters.nav.add(this.$route); 
             CommonFunc.navProfile(this,this.username);
         }
     }

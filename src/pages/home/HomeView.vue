@@ -41,7 +41,7 @@
         <div class="row">
             <div class="col">
                 <CTitle ttype='subtitle' :title="$t('page.home.blog.title')" :desc="$t('page.home.blog.desc')"></CTitle>
-                <BlogList ref='blogList'></BlogList>
+                <BlogList ref='blogList' @onClickBlog="onClickBlog"></BlogList>
             </div>
         </div>
 
@@ -545,6 +545,9 @@ export default {
             this.$router.push(dic_param);
         },
 
+        onClickBlog: function(param) {
+            CommonFunc.navBlog(this,param.page_id);
+        }
     }
 
 };

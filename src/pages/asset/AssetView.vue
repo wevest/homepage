@@ -93,7 +93,7 @@
 
                     <q-tab-panel name="blog" class="q-pa-none">
                         <q-btn label="Write" @click="onClickWriteBlog" />
-                        <BlogList ref='blogList'></BlogList>
+                        <BlogList ref='blogList' @onClickBlog="onClickBlog"></BlogList>
                     </q-tab-panel>
 
                     <q-tab-panel name="qa" class="q-pa-none">
@@ -500,12 +500,12 @@ export default {
             }).catch( err => {
 
             });
-
         },
 
         onClickQuestion: function(json_question) {
             logger.log.debug('AssetView.onClickQuestion - ',json_question);
             
+            store.getters.nav.add(this.$route);
             let dic_param = { name:'assetqa', params:json_question };
             this.$router.push(dic_param);            
         },
@@ -572,6 +572,12 @@ export default {
             this.$refs.reviewForm.v_rows = "1";
         },
 
+        onClickBlog: function(param) {
+            logger.log.debug('AssetView.onClickBlog',this.$route);
+			
+            store.getters.nav.add(this.$route);            
+			CommonFunc.navBlog(this,param.page_id);
+        },
 
         onBlogAdded: function(dic_param) {
             logger.log.debug('AssetView.onBlogAdded : dic_param=',dic_param);
