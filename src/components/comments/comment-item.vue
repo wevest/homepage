@@ -19,6 +19,17 @@
                         <br>
                         <time class="gCommentDatetime">{{ getMinifiedDatetime(data.submit_date) }}</time>
                     </div>
+
+                    <q-space />
+
+                        <div> 
+                            <q-icon
+                                class="deleteBtn" 
+                                name="delete" 
+                                @click="onClickDelete(data)" 
+                                v-if="v_is_owner(data) && (! data.is_removed)" />
+                        </div>
+
                 </div>
 
                 <div class="boxMessage">
@@ -70,8 +81,6 @@
                             <!--
                             <q-icon name="edit" @click="onClickEdit(data)" v-if="v_is_owner(data)" />
                             -->
-                            <q-icon name="delete" @click="onClickDelete(data)" v-if="v_is_owner(data) && (! data.is_removed)" />
-
                             <span>                              
                                 <q-icon 
                                     class="gCommentRatingBtn"                                                                    
@@ -396,5 +405,10 @@ dd.reply-container {
 .RatingBtnBox {
     padding-top:7px;
 
+}
+
+.deleteBtn {
+   font-size:18px;
+   color:#555555;
 }
 </style>

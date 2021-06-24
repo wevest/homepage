@@ -5,27 +5,60 @@
         <div class="row">
             <div class="col">
                 <div>       
-                    <q-icon v-if="v_question.closed" name="done" />
-                    <q-icon v-else name="add" />
+                    <!-- <q-icon v-if="v_question.closed" name="done" /> -->
+                    <!-- <q-icon v-else name="add" /> -->
 
-                    <span class="gPageTitleBox">  
+                    <div class="gPageTitleBox">  
                         <q-icon
                             class="gPageIcon" 
-                            name="help_outline"                   
-                            />                       
+                            name="help_outline" />                       
                             <span class="gPageTitle">{{ v_question.title }}</span> 
-                    </span>
-                        
-                    <div class="gPageUDRBox">
-                        <span class="gPageUser" v-if="v_question.owner"> {{ v_question.owner.username }} </span>&nbsp;
-                        <span class="gPageDatetime">{{ v_updated_at(v_question.pub_date) }} </span>&nbsp;
-                        
-                        <q-icon name="thumb_up" />&nbsp;
-                        <span class="gPageRating">{{ v_question.like_count }}</span>&nbsp;
-                        <q-icon name="thumb_down" />&nbsp;
-                        <span class="gPageRating">{{ v_question.dislike_count }} </span>
+
+                        <q-icon 
+                            class="DoneAddBtn float-right" 
+                            name="done_all"
+                            v-if="v_question.closed" />
+                        <q-icon 
+                            class="DoneAddBtn float-right"
+                            v-else 
+                            name="add" />           
                     </div>
+
+                    <div class="row globalUDRBox">  
+                        <div class="gPageUDRBox">
+                            <span class="gPageUser" v-if="v_question.owner"> {{ v_question.owner.username }} </span>&nbsp;
+                            <span class="gPageDatetime">{{ v_updated_at(v_question.pub_date) }} </span>&nbsp;
+
+                            <q-icon name="thumb_up" />&nbsp;
+                            <span class="gPageRating">{{ v_question.like_count }}</span>&nbsp;
+                            <q-icon name="thumb_down" />&nbsp;
+                            <span class="gPageRating">{{ v_question.dislike_count }} </span>
+                        </div>
+
+                            <q-space />
+
+                        <div>
+                            <q-btn            
+                                class="toolBtn"              
+                                outlined
+                                size="9px"
+                                icon="build"
+                                @click="onClickUpdate" />
+
+                            <q-btn
+                                class="toolBtn"                            
+                                outlined
+                                size="9px"
+                                icon="delete"
+                                @click="onClickDeletePortfolio" />       
+                        </div>   
+                    </div>                                 
                 </div>
+                        
+            <q-separator size="1px" />
+                    
+                                      
+                    
 
                 <div class="gPageContent">
                     <Viewer 
@@ -266,6 +299,22 @@ export default {
 .pageAnswerBtn {
     color:#555555;
     width:100px;
+}
+
+.DoneAddBtn {
+    font-size:30px;
+    padding-top:5px;
+    color:green;
+}
+
+.globalUDRBox {
+   padding:0px 0px 10px 0px;
+}
+
+.toolBtn {
+    color:#555555;
+    width:40px;
+    margin-left:5px;
 }
 </style>
  

@@ -18,53 +18,64 @@
                         <span class="gPageDatetime">{{v_post.pub_date}}</span>
                     </div>    
                 </div>
-                <div class="boxRate q-pa-md">
-                    <div class="float-left q-gutter-sm">   
+                <div class="row q-py-md q-gutter-sm">
+                    <div class="col q-gutter-sm">   
                         <span>
                             <q-icon 
                             name="thumb_up"  
                             size="23px"
-                            color="light-green-14"/>
-                            <span class="poll-number">{{v_post.like_count}}</span>
+                            color="grey-7"/>
+                            <span class="RatingCount">{{v_post.like_count}}</span>
                         </span>
                         <span>
                             <q-icon 
                             name="thumb_down"
                             size="23px"
-                            color="deep-orange-9"/>
-                            <span class="poll-number">{{v_post.dislike_count}}</span>
+                            color="grey-7"/>
+                            <span class="RatingCount">{{v_post.dislike_count}}</span>
                         </span>
                         <span>
-                            <q-icon name="thumb_up" style="font-size: 1.5rem;" />
-                            <span class="poll-number">{{v_post.read_count}}</span>
+                            <q-icon 
+                            name="check" 
+                            style="font-size: 1.5rem;" 
+                            color="grey-7"/>                            
+                            <span class="RatingCount">{{v_post.read_count}}</span>
                         </span>
                     </div>
-
-                    <div class="float-right q-gutter-sm">
+                    
+                    <q-space />
+                    
+                    <div>
                         <q-btn 
-                            outlined
-                            size="9px"
-                            color="primary"
+                            class="toolBtn"
+                            push
+                            flat
+                            text-color:
+                            size="10px"
                             icon="mode"
-                            label="Write" 
+                            label=""
                             @click="onClickWrite" />
-
+                    
                         <q-btn 
                             v-if="v_post.is_owner"
-                            outlined
-                            size="9px"
-                            color="primary"
-                            icon="mode"
-                            label="Update" 
+                            class="toolBtn"
+                            push
+                            flat
+                            size="10px"
+                            icon="build"
+                            label="" 
                             @click="onClickUpdate" />
 
                         <q-btn 
-                            outlined
-                            size="9px"
-                            color="primary"
-                            icon="checklist"
-                            label="TEst" 
-                            @click="onClickTest" />
+                            v-if="v_post.is_owner"
+                            class="toolBtn"
+                            push
+                            flat
+                            size="10px"
+                            icon="delete"
+                            label="" 
+                            @click="onClickDeletePortfolio" />
+        
                     </div>
 
                 </div>
@@ -91,14 +102,14 @@
                     <span>Bio graphy : {{v_post.api_owner.biography}}</span>
 
                 </div>
-                <div class="boxRate-parent">
-                    <div class="q-pa-md q-gutter-sm boxRate">
+                <div class="RatingBox">
+                    <div class="q-pa-md">
                         <q-btn 
                             push
                             class="rateButton"
                             rounded
                             size="13px"
-                            color="primary" 
+                            color="grey-6" 
                             icon="thumb_up" 
                             label="" 
                             @click="onClickBlogRate(1)"/>
@@ -107,12 +118,14 @@
                             class="rateButton"
                             rounded
                             size="13px"
-                            color="indigo"
+                            color="grey-6"
                             icon="thumb_down"
                             label=""
                             @click="onClickBlogRate(-1)" />
+
                     </div>
                 </div>
+
 
             </div>
         </div>
@@ -511,14 +524,20 @@ export default {
     color:#000;
 }
 
-.poll-number {
+.RatingCount {
     padding-left:5px;
+    color:#555555;
 }
 .blog-date {
     font-size:11px;
     font-weight:600;
     color:#888;
     padding:1px  5px;
+}
+.toolBtn {
+    color:#555555;
+    width:40px;
+    margin-left:5px;
 }
 
 .body-content {
@@ -533,18 +552,10 @@ export default {
     font-size:10px;
     
 }
-.boxRate-parent {
+.RatingBox {
     text-align:center;
     margin:0 auto;    
-}
-
-.boxRate {
-    /* width:400px; */
-    /* margin:0 auto; */    
-    /* text-align:center;  */
-    /* margin:0 auto; */
     padding:15px 0px 15px 0px;
-    
 }
 
 .rateButton {

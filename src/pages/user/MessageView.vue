@@ -33,8 +33,9 @@
                     </q-list>
                 </div>
                 <div v-else> 
-                    <div>
-                        No Messages!!!
+                    <div class="NoMessageBox">
+                         <q-icon name="email" style="color: #666666; font-size: 100px;" />
+                            <div class="Message">No Messages!!!</div>
                     </div>
                 </div>
 
@@ -171,5 +172,15 @@ export default {
 
 .MessageDate {
     color:#8C8C8C;
+}
+
+.NoMessageBox {
+    padding-top:100px;
+    text-align:center;
+}
+
+.Message {
+    font-size:18px;
+    color:#666666;
 }
 </style>

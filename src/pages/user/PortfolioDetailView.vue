@@ -35,9 +35,21 @@
                 </div>
 
                 <div>
-                    <div> like : {{ v_portfolio.like_count }} </div>
-                    <div> dislike : {{ v_portfolio.dislike_count }} </div>        
-                    <div> read : {{ v_portfolio.read_count }} </div>
+                    <div class="q-pa-md gPageRatingBox">
+                        <q-icon class="portfolioRatingBtn"                           
+                            name="thumb_up" dense flat />&nbsp;                                                              
+                            <span class="portfolioRatingCount">{{ v_portfolio.like_count }}</span>&nbsp;&nbsp;
+                        <q-icon class="portfolioRatingBtn"                               
+                            name="thumb_down" dense flat />&nbsp;   
+                            <span class="portfolioRatingCount">{{ v_portfolio.dislike_count }}</span>&nbsp;&nbsp;
+                        
+                        <q-icon class="portfolioRatingBtn"              
+                            name="check" dense flat />&nbsp;   
+                            <span class="portfolioRatingCount">{{ v_portfolio.read_count }}</span>
+                    </div>                    
+                    <!-- <div> dislike : {{ v_portfolio.dislike_count }} </div>         -->
+                    <!-- <div> dislike : {{ v_portfolio.dislike_count }} </div>         -->
+                    <!-- <div> read : {{ v_portfolio.read_count }} </div> -->
                 </div>
 
             </div>
@@ -523,5 +535,19 @@ height:88px;
 .desc {
     font-size:15px;
     color:#222222;
+}
+
+.ratingBox {
+    text-align:center;
+}
+
+
+.portfolioRatingBtn {
+font-size:30px;
+color:#555555;
+}
+.portfolioRatingCount {
+    font-size:18px;
+    color:#555555;
 }
 </style>

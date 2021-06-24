@@ -5,15 +5,16 @@
             <div class="gcomment" v-for="(a_answer,index) in v_answers.items" :key="index">
                 <div class="row gAnswerBox">
                     <div>
-                        <q-icon name="done" v-if="a_answer.answered" />
-                        <q-icon v-else name="money" />
-                    </div>
-
-                    <div>
                         <WAvatar :avatar="a_answer.owner.avatar_thumb" :username="a_answer.owner.username" />
                     </div>
                     <div class="gAnswerUserDatetime">
-                        <span class="gAnswerUser">{{a_answer.owner.username}}&nbsp;님 답변</span>
+                        <span class="gAnswerUser">{{a_answer.owner.username}}&nbsp;님 답변 
+                        </span>&nbsp;
+
+                        <span class="accepted">
+                            <q-icon name="done_all" v-if="a_answer.answered" />
+                            <q-icon v-else name="money" />
+                        </span>
                         <br>
                         <span class="gAnswerDatetime">{{ v_updated_at(a_answer.pub_date) }}</span>        
                     </div>
@@ -383,4 +384,8 @@ export default {
     color:#555555;
 }
 
+.accepted {
+    font-size:20px;
+    color:green;
+}
 </style>
