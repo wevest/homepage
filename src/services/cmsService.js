@@ -85,6 +85,28 @@ export default class CMSAPI {
       });
   }
 
+  static editBlogComment(dic_param, func, funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/comment/comments");
+    callCMSAPI("POST", url, {}, dic_param)
+      .then(response => {
+        func(response);
+      })
+      .catch(err => {
+        funcErr(err);
+      });
+  }
+
+  static deleteBlogComment(dic_param, func, funcErr) {
+    let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/comment/comments");
+    callCMSAPI("DELETE", url, {}, dic_param)
+      .then(response => {
+        func(response);
+      })
+      .catch(err => {
+        funcErr(err);
+      });
+  }
+
   static postCommentFeedback(dic_param, func, funcErr) {
     let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/comments/api/feedback/");
     callCMSAPI("POST", url, {}, dic_param)
