@@ -24,21 +24,21 @@
                             <q-icon 
                             name="thumb_up"  
                             size="23px"
-                            color="grey-7"/>
+                            color="grey-8"/>
                             <span class="RatingCount">{{v_post.like_count}}</span>
                         </span>
                         <span>
                             <q-icon 
                             name="thumb_down"
                             size="23px"
-                            color="grey-7"/>
+                            color="grey-8"/>
                             <span class="RatingCount">{{v_post.dislike_count}}</span>
                         </span>
                         <span>
                             <q-icon 
                             name="check" 
                             style="font-size: 1.5rem;" 
-                            color="grey-7"/>                            
+                            color="grey-8"/>                            
                             <span class="RatingCount">{{v_post.read_count}}</span>
                         </span>
                     </div>
@@ -94,31 +94,45 @@
                     height="200px"
                 />
                 <p> {{ v_post.tags }} </p>
-                <div class="gPageAvatar">
-                    <WAvatar :avatar="v_post.api_owner.avatar_thumb" :username="v_post.api_owner.username" />
-                    <span>Username : {{v_post.api_owner.username}}</span>
-                    <span>First name : {{v_post.api_owner.first_name}}</span>
-                    <span>Last name : {{v_post.api_owner.last_name}}</span>
-                    <span>Bio graphy : {{v_post.api_owner.biography}}</span>
 
+                <div class="row postOwnerBox">
+                    <div class="gPageAvatar">
+                        <WAvatar :avatar="v_post.api_owner.avatar_thumb" :username="v_post.api_owner.username" />
+                    </div>&nbsp;&nbsp;    
+                    
+                    <div>
+                        <span class="username"> Username : {{v_post.api_owner.username}}</span><br>
+                        <!-- <span>First name : {{v_post.api_owner.first_name}}</span> -->
+                        <!-- <span>Last name : {{v_post.api_owner.last_name}}</span> -->
+                        <span class="biography"> Bio graphy : {{v_post.api_owner.biography}}</span>
+                    </div>
                 </div>
+
+                <div class="copyright">
+                    Copyright ⓒ EdenChain. All rights reserved. 무단 전재 및 재배포 금지.
+                </div>
+
+                <div class="separator">                
+                <q-separator size="1px" />
+                </div>
+
                 <div class="RatingBox">
                     <div class="q-pa-md">
                         <q-btn 
                             push
                             class="rateButton"
-                            rounded
-                            size="13px"
-                            color="grey-6" 
+                            flat
+                            size="15px"
+                            color="grey-8" 
                             icon="thumb_up" 
                             label="" 
                             @click="onClickBlogRate(1)"/>
                         <q-btn
                             push
                             class="rateButton"
-                            rounded
-                            size="13px"
-                            color="grey-6"
+                            flat
+                            size="15px"
+                            color="grey-8"
                             icon="thumb_down"
                             label=""
                             @click="onClickBlogRate(-1)" />
@@ -563,7 +577,7 @@ export default {
 }
 
 .boxCommentCount {
-    padding:10px;
+    padding:10px 10px 10px 0px;
 } 
 
 .boxCommentCount span {
@@ -571,5 +585,27 @@ export default {
     font-size:20px;
     font-weight:500;
 }
+.postOwnerBox {
+    padding:15px 0px;
+}
 
+.username {
+    font-size:16px;
+    color:#222222;
+    font-weight:bold;
+}
+
+.biography {
+   font-size:14px;
+   color:#222222;
+}
+
+.copyright {
+    font-size:13px;
+    color:#222222;
+}
+
+.separator {
+    padding:30px 0px;
+}
 </style>

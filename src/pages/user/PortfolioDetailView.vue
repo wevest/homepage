@@ -1,13 +1,18 @@
 <template>
     <div>
-        <div class="row backBtn">
-            <div>
+        <div class="row">
+            <q-space />
+            
+            <div class="row deleteBtn">
+                <div>
 <!--                
-                <q-btn label="back" @click="onClickBack" />
+                    <q-btn label="back" @click="onClickBack" />
 -->                
-                <q-btn label="delete" @click="onClickDeletePortfolio" />
+                    <q-btn icon="delete" flat color="grey-8" @click="onClickDeletePortfolio" />
+                </div>
             </div>
         </div>
+        
         <div class="row">
             <div class="col">
                 <div class="groupNameBox">
@@ -35,16 +40,16 @@
                 </div>
 
                 <div>
-                    <div class="q-pa-md gPageRatingBox">
+                    <div class="q-pa-md text-center">
                         <q-icon class="portfolioRatingBtn"                           
-                            name="thumb_up" dense flat />&nbsp;                                                              
+                            name="thumb_up" flat size="25px" color="grey-8" />&nbsp;                                                              
                             <span class="portfolioRatingCount">{{ v_portfolio.like_count }}</span>&nbsp;&nbsp;
                         <q-icon class="portfolioRatingBtn"                               
-                            name="thumb_down" dense flat />&nbsp;   
+                            name="thumb_down" flat size="25px" color="grey-8" />&nbsp;   
                             <span class="portfolioRatingCount">{{ v_portfolio.dislike_count }}</span>&nbsp;&nbsp;
                         
                         <q-icon class="portfolioRatingBtn"              
-                            name="check" dense flat />&nbsp;   
+                            name="check" flat size="25px" color="grey-8" />&nbsp;   
                             <span class="portfolioRatingCount">{{ v_portfolio.read_count }}</span>
                     </div>                    
                     <!-- <div> dislike : {{ v_portfolio.dislike_count }} </div>         -->
@@ -63,10 +68,9 @@
                 </div>
                 <q-separator size="2px" />
                 <PortfolioChart ref="portfolioChart" />
-                <div>
-                    <q-btn label="like" @click="onClickVote(1)" />
-                    <q-btn label="dislike" @click="onClickVote(-1)" />
-
+                <div class="q-gutter-sm text-center">
+                    <q-btn icon=thumb_up flat size="15px" color="grey-8" @click="onClickVote(1)" />
+                    <q-btn icon=thumb_down flat size="15px" color="grey-8" @click="onClickVote(-1)" />
                 </div>
             </div>
         </div>
@@ -436,7 +440,7 @@ export default {
 
 
 <style scoped>
-.backBtn {
+.deleteBtn {
     padding:20px 0px 15px 10px; 
 
 }
@@ -547,7 +551,7 @@ font-size:30px;
 color:#555555;
 }
 .portfolioRatingCount {
-    font-size:18px;
+    font-size:15px;
     color:#555555;
 }
 </style>
