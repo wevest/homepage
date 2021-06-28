@@ -69,7 +69,13 @@
 
         </q-list>
 
-        
+        <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+<!--
+        <div v-if="v_visible_loadmore">>
+            <q-btn label="load More" @click="onClickLoadMore" />
+        </div>
+-->
+
         <div ref="reviewContainer">
             <AssetReviewForm ref="reviewEditor" 
                 :category="category" :objectId="objectId"
@@ -77,9 +83,7 @@
             /> 
         </div>
 
-        <div v-if="v_visible_loadmore">>
-            <q-btn label="load More" @click="onClickLoadMore" />
-        </div>
+
 
   </div>  
   
@@ -93,6 +97,7 @@ import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
 import WAvatar from "components/WAvatar.vue";
+import LoadMore from "src/components/LoadMore";
 import AssetReviewForm from 'src/pages/asset/component/AssetReviewForm';
 
 import { AssetReviewPageModel, AssetReviewPageListModel } from "src/models/PageModel";
@@ -100,6 +105,7 @@ import { AssetReviewPageModel, AssetReviewPageListModel } from "src/models/PageM
 export default {
     components: {
         WAvatar,
+        LoadMore,
         AssetReviewForm
     },
 	props: {
@@ -145,7 +151,6 @@ export default {
     methods: {
         update: function(dic_param) {                        
             const _this = this;            
-
 
             this.v_reviews.load(dic_param).then( response => {
                 logger.log.debug("assetReviewList.update : response=",response.data);

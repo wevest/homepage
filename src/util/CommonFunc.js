@@ -1321,5 +1321,49 @@ export default class CommonFunc {
 
         return value.substring(0, max_length - 3) + " ..." ;            
     }
+
+    static strpos(haystack, needle, offset) 
+    {
+        var i = (haystack+'').indexOf(needle, (offset || 0));
+        return i === -1 ? false : i;
+    }
+
+    static substrInBetween(str, startDelimiter, endDelimiter) {
+        //logger.log.debug(">>> substrInBetween",str);
+
+        var contents = [];
+        var startDelimiterLength = startDelimiter.length;
+        var endDelimiterLength = endDelimiter.length;
+        let startFrom = 0;
+        let contentStart = 0;
+        let contentEnd = 0;
+        
+        while(false !== (contentStart = CommonFunc.strpos(str, startDelimiter, startFrom))) 
+        {
+            contentStart += startDelimiterLength;
+            contentEnd = CommonFunc.strpos(str, endDelimiter, contentStart);
+            if(false === contentEnd) 
+            {
+                break;
+            }
+            contents.push( str.substr(contentStart, contentEnd - contentStart) );
+            startFrom = contentEnd + endDelimiterLength;
+        }
+    
+        return contents;
+    }
+
+
+    static addLimitOffsetToQuery(url, reqParam) {
+        if ( (reqParam.hasOwnProperty("limit")) && (reqParam.limit) ) {
+            if (url.indexOf('?')==-1) {
+                url += "?";
+            } else {
+                url += "&";   
+            }
+            url = url + "limit=" + reqParam.limit + "&offset=" + reqParam.offset;
+        }    
+        return url;
+    }
 }
 

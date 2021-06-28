@@ -18,64 +18,53 @@
                         <span class="gPageDatetime">{{v_post.pub_date}}</span>
                     </div>    
                 </div>
-                <div class="row q-py-md q-gutter-sm">
-                    <div class="col q-gutter-sm">   
+                <div class="boxRate q-pa-md">
+                    <div class="float-left q-gutter-sm">   
                         <span>
                             <q-icon 
                             name="thumb_up"  
                             size="23px"
-                            color="grey-7"/>
-                            <span class="RatingCount">{{v_post.like_count}}</span>
+                            color="light-green-14"/>
+                            <span class="poll-number">{{v_post.like_count}}</span>
                         </span>
                         <span>
                             <q-icon 
                             name="thumb_down"
                             size="23px"
-                            color="grey-7"/>
-                            <span class="RatingCount">{{v_post.dislike_count}}</span>
+                            color="deep-orange-9"/>
+                            <span class="poll-number">{{v_post.dislike_count}}</span>
                         </span>
                         <span>
-                            <q-icon 
-                            name="check" 
-                            style="font-size: 1.5rem;" 
-                            color="grey-7"/>                            
-                            <span class="RatingCount">{{v_post.read_count}}</span>
+                            <q-icon name="thumb_up" style="font-size: 1.5rem;" />
+                            <span class="poll-number">{{v_post.read_count}}</span>
                         </span>
                     </div>
-                    
-                    <q-space />
-                    
-                    <div>
+
+                    <div class="float-right q-gutter-sm">
                         <q-btn 
-                            class="toolBtn"
-                            push
-                            flat
-                            text-color:
-                            size="10px"
+                            outlined
+                            size="9px"
+                            color="primary"
                             icon="mode"
-                            label=""
+                            label="Write" 
                             @click="onClickWrite" />
-                    
-                        <q-btn 
-                            v-if="v_post.is_owner"
-                            class="toolBtn"
-                            push
-                            flat
-                            size="10px"
-                            icon="build"
-                            label="" 
-                            @click="onClickUpdate" />
 
                         <q-btn 
                             v-if="v_post.is_owner"
-                            class="toolBtn"
-                            push
-                            flat
-                            size="10px"
-                            icon="delete"
-                            label="" 
-                            @click="onClickDeletePortfolio" />
-        
+                            outlined
+                            size="9px"
+                            color="primary"
+                            icon="mode"
+                            label="Update" 
+                            @click="onClickUpdate" />
+
+                        <q-btn 
+                            outlined
+                            size="9px"
+                            color="primary"
+                            icon="checklist"
+                            label="TEst" 
+                            @click="onClickTest" />
                     </div>
 
                 </div>
@@ -102,14 +91,14 @@
                     <span>Bio graphy : {{v_post.api_owner.biography}}</span>
 
                 </div>
-                <div class="RatingBox">
-                    <div class="q-pa-md">
+                <div class="boxRate-parent">
+                    <div class="q-pa-md q-gutter-sm boxRate">
                         <q-btn 
                             push
                             class="rateButton"
                             rounded
                             size="13px"
-                            color="grey-6" 
+                            color="primary" 
                             icon="thumb_up" 
                             label="" 
                             @click="onClickBlogRate(1)"/>
@@ -118,14 +107,12 @@
                             class="rateButton"
                             rounded
                             size="13px"
-                            color="grey-6"
+                            color="indigo"
                             icon="thumb_down"
                             label=""
                             @click="onClickBlogRate(-1)" />
-
                     </div>
                 </div>
-
 
             </div>
         </div>
@@ -303,22 +290,9 @@ export default {
         
         handleComments: function(json_data) {
             //console.log("nodes=",nodes);
-            if (! CommonFunc.isEmptyObject(json_data.next)) {
-                this.$refs.commentTree.showLoadMore();
-            } else {
-                this.$refs.commentTree.hideLoadMore();
-            }
-            this.v_comments_count = json_data.count;
             
-            /*
-            this.v_comments_list.assign(json_data.results);
-            logger.log.debug("this.v_comments_list.items=",this.v_comments_list.items);
-            let comments0 = this.v_comments_list.toTree();
-            logger.log.debug("this.v_comments_list.comments0=",comments0);
-
-            let comments = this.toTreeData(json_data.results);            
-            this.v_comments = this.v_comments.concat(comments0); 
-            */
+            this.$refs.commentTree.setPageParameter(json_data.next);
+            this.v_comments_count = json_data.count;
         },
 
 
@@ -333,61 +307,6 @@ export default {
             this.$router.push(dic_param);
         },
 
-        appendComments: function(dic_param,response) {
-            logger.log.debug("appendComments=",response);
-
-            
-            let a_comment = {
-                allow_reply:true, 
-                comment:response.data.comment, 
-                flags:[],
-                id:response.data.id,
-                is_removed:false,
-                level:0,
-                permalink:'',
-                submit_date:response.data.timestamp,
-                user_avatar:'',
-                user_moderator:'',
-                user_name:dic_param.username,
-                user_url:'',
-            };
-
-            //is it reply?
-            if (dic_param.reply_to==0) {
-                a_comment.parent_id = response.data.id;
-                this.v_comments.unshift(a_comment);
-                return;
-            } 
-            
-            let v_comments = [...this.v_comments];
-            for (let index=0; index<v_comments.length;index++) {
-                if (v_comments[index].id==a_comment.parent_id) {
-                    
-                    let a_item = v_comments[index];
-                    if (! a_item.hasOwnProperty("children")) {
-                        a_item.children = [];
-                    }
-
-                    a_comment.parent_id = dic_param.reply_to;
-                    a_comment.level = 1;
-
-                    a_item.children.unshift(a_comment);
-                    v_comments[index] = a_item;
-                    this.v_comments = v_comments;
-                    break;
-                }
-            }
-        },
-
-        postComment: function(dic_param) {
-            const _this = this;
-            this.v_post.comments.post(dic_param).then( response => {
-                CommonFunc.showOkMessage(_this,'comments posted');                
-            }).catch( err=> {
-
-            });
-
-        },
 
         onClickBlogRate: function(value) {
             const _this = this;            
@@ -409,26 +328,7 @@ export default {
             });
             
         },
-/*
-        onClickSave: function() {                        
-            const _this = this;
-            const a_text = this.$refs.toastuiEditor.invoke('getHtml');
 
-            this.v_post.category_id = 1;
-            let dic_param = {
-                title:this.v_post.title,tags:this.v_post.tags, 
-                category_id:this.v_post.category_id, text:a_text, 
-                token:store.getters.token
-            };
-            logger.log.debug('onClickSave - ',dic_param);
-            CMSAPI.postBlogPost(dic_param,function(response) {
-                CommonFunc.showOkMessage(_this,'Blog posted');
-
-            }, function(response) {
-
-            });
-        },
-*/
         onClickUpdate: function() {                        
             const _this = this;
             const a_text = this.$refs.toastuiEditor.invoke('getHtml');
@@ -477,15 +377,10 @@ export default {
             CommonFunc.showOkMessage(this,'Comments posted');  
         },
 
-        onClickLoadMore: function() {
-            logger.log.debug("BlogPage.onClickLoadMore!!!",this.g_data_comments.next);
+        onClickLoadMore: function(dic_page) {
+            logger.log.debug("BlogPage.onClickLoadMore!!!",dic_page);
             
-            if (! this.g_data_comments.next) {
-                return;
-            }
-
-            const dic_query = CommonFunc.getURLQuery(this.g_data_comments.next);
-            this.loadBlogComments(this.g_page_id,dic_query.limit,dic_query.offset);
+            this.loadBlogComments(this.v_post.id,dic_page.param.limit,dic_page.param.offset);
         },
 
         onClickRate: function(dic_payload) {
@@ -524,20 +419,14 @@ export default {
     color:#000;
 }
 
-.RatingCount {
+.poll-number {
     padding-left:5px;
-    color:#555555;
 }
 .blog-date {
     font-size:11px;
     font-weight:600;
     color:#888;
     padding:1px  5px;
-}
-.toolBtn {
-    color:#555555;
-    width:40px;
-    margin-left:5px;
 }
 
 .body-content {
@@ -552,10 +441,18 @@ export default {
     font-size:10px;
     
 }
-.RatingBox {
+.boxRate-parent {
     text-align:center;
     margin:0 auto;    
+}
+
+.boxRate {
+    /* width:400px; */
+    /* margin:0 auto; */    
+    /* text-align:center;  */
+    /* margin:0 auto; */
     padding:15px 0px 15px 0px;
+    
 }
 
 .rateButton {

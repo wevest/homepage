@@ -134,8 +134,8 @@
 <script>
 import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
-import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
+import LoadMore from "src/components/LoadMore";
 import CommentTree from "components/comments/comment-tree.vue";
 import CommentForm from "components/comments/comment-form.vue";
 
@@ -148,6 +148,7 @@ export default {
     name:'assetAnswerList',
     components: {
         WAvatar,
+        LoadMore,
         CommentTree,
         CommentForm
     },

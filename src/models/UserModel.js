@@ -1,6 +1,9 @@
 import {store} from 'src/store/store';
 import {MoaConfig} from 'src/data/MoaConfig';
+
+import CMSAPI from 'src/services/cmsService';
 import AuthService from 'src/services/authService';
+
 import CommonFunc from 'src/util/CommonFunc';
 import Hasher from 'src/util/Hasher';
 import logger from "src/error/Logger";
@@ -32,6 +35,9 @@ export default class User {
     question_count=null;
     answer_count=null;
     post_count=null;
+    follower_count=0;
+    following_count=0;
+    is_following=false;
 
     portfolio=new PortfolioListModel();
 
@@ -62,6 +68,10 @@ export default class User {
         this.like_count = CommonFunc.safeGetKeyValue(obj,'like_count');
         this.dislike_count = CommonFunc.safeGetKeyValue(obj,'dislike_count');
         this.date_joined = CommonFunc.safeGetKeyValue(obj,'date_joined');
+
+        this.follower_count = CommonFunc.safeGetKeyValue(obj,'follower_count');
+        this.following_count = CommonFunc.safeGetKeyValue(obj,'following_count');
+        this.is_following = CommonFunc.safeGetKeyValue(obj,'is_following');
     }
 
     isLoggedIn() {
@@ -120,7 +130,7 @@ export default class User {
 
 
     static loadProfile(username) {    
-        let dic_param = {'username':username};
+        let dic_param = {'username':username, 'token':store.getters.token};
         return new Promise(function(resolve,reject) {
             AuthService.getUserProfile(dic_param,function(response) {
                 logger.log.debug("UserModel.loadProfile - response",response);
@@ -279,6 +289,56 @@ export default class User {
 
             },function(err) {
                 logger.log.error("UserModel.updateUserProfile - error",err);                
+                reject(err);
+            });
+        });            
+    }
+
+    updateFollowProperty(response) {
+        
+        if (response.data.ret==0) {
+            if (response.data.value==1) {
+                this.is_following = true;
+                this.follower_count += 1;
+            } else {
+                this.is_following = false;
+                this.follower_count -= 1;
+            }
+        }
+    }
+
+    follow(user_id,value) {
+        const _this = this;
+
+        let dic_param = {
+            id:user_id,
+            value:value,
+            token:store.getters.token
+        };
+        //dic_param.token = v_user.token;
+        logger.log.debug("UserModel.follow :  dic_param=",dic_param);
+
+        return new Promise(function(resolve,reject) {
+            AuthService.followUser(dic_param,function(response) {
+                logger.log.debug("UserModel.follow - response",response.data);                
+                _this.updateFollowProperty(response);
+                resolve(response.data);
+            },function(err) {
+                logger.log.error("UserModel.follow - error",err);                
+                reject(err);
+            });
+        });            
+    }
+    
+    getRelation() {
+        let dic_param = {id:this.id};
+
+        return new Promise(function(resolve,reject) {
+            CMSAPI.getUserRelation(dic_param,function(response) {
+                logger.log.debug("UserModel.getRelation - response",response.data);
+                resolve(response.data);
+            },function(err) {
+                logger.log.error("UserModel.getRelation - error",err);                
                 reject(err);
             });
         });            

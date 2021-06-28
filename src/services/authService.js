@@ -232,10 +232,15 @@ export default class AuthService{
 
 
     static getPortfolio(reqParam,func,funcErr) {
-        let a_method = "/api/portfolio/portfolios/?username="+reqParam.username;
-        if ( ('id' in reqParam) && (reqParam.id) ) {
+        let a_method = "/api/portfolio/portfolios/";
+        if ( (reqParam.hasOwnProperty('username')) && (reqParam.username) ) {
+            a_method += "?username="+reqParam.username;
+        }
+        
+        if ( (reqParam.hasOwnProperty('id')) && (reqParam.id) ) {
             a_method += "&id=" + reqParam.id;
         }
+        
         let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
         callCMSAPI("GET",url,{},reqParam)
         .then( (response) => {
@@ -272,4 +277,22 @@ export default class AuthService{
         });
     }    
 
+
+    static followUser(dic_param, func, funcErr) {
+        logger.log.debug("AuthService.followUser");
+
+        let a_method = "/api/user/users/" + dic_param.id + "/follow/";
+        const url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+
+        //logger.log.debug("AuthService.followUser : URL=",url);
+
+        callCMSAPI("POST", url, {}, dic_param)
+        .then(response => {
+            func(response);
+        })
+        .catch(err => {
+            funcErr(err);
+        });
+    }
+    
 }

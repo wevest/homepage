@@ -196,10 +196,11 @@ export class PostPageListModel extends baseCollection {
         }
     }
 
-    load(param) {
+    load(dic_param) {
         const _this = this;
 
         return new Promise(function(resolve,reject) {            
+            /*
             let dic_param = {};
             if (param.content_type) {
                 dic_param.content_type = param.content_type;
@@ -210,7 +211,8 @@ export class PostPageListModel extends baseCollection {
             if (param.user_id) {
                 dic_param.user_id = param.user_id;
             }
-            
+            */
+           
             CMSAPI.getBlogData(dic_param,function(response) {
                 logger.log.debug("PostPageListModel.load - response=",response);
                 _this.assign(response.data.results);

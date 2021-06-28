@@ -140,11 +140,8 @@ export default {
             this.editorVisible = true;
             this.$refs.commentForm.setOwnerMessage(ownerMessage);
         },
-        showLoadMore() {
-            this.$refs.commentList.showLoadmore();
-        },
-        hideLoadMore() {
-            this.$refs.commentList.hideLoadmore();
+        setPageParameter(next_url) {
+            this.$refs.commentList.setPageParameter(next_url);
         },
         forceUpdate(comments) {
             logger.log.debug("CommentTree.forceUpdate");

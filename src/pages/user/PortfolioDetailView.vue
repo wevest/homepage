@@ -39,6 +39,7 @@
                         <q-icon class="portfolioRatingBtn"                           
                             name="thumb_up" dense flat />&nbsp;                                                              
                             <span class="portfolioRatingCount">{{ v_portfolio.like_count }}</span>&nbsp;&nbsp;
+                        
                         <q-icon class="portfolioRatingBtn"                               
                             name="thumb_down" dense flat />&nbsp;   
                             <span class="portfolioRatingCount">{{ v_portfolio.dislike_count }}</span>&nbsp;&nbsp;
@@ -47,9 +48,6 @@
                             name="check" dense flat />&nbsp;   
                             <span class="portfolioRatingCount">{{ v_portfolio.read_count }}</span>
                     </div>                    
-                    <!-- <div> dislike : {{ v_portfolio.dislike_count }} </div>         -->
-                    <!-- <div> dislike : {{ v_portfolio.dislike_count }} </div>         -->
-                    <!-- <div> read : {{ v_portfolio.read_count }} </div> -->
                 </div>
 
             </div>
@@ -122,7 +120,10 @@
                     <q-card-actions>
                         <div class="text-grey-8 q-gutter-xs">
                             <q-btn size="15px" flat dense round icon="delete" @click="onClickDelete(a_portfolio)"/>&nbsp;
-                            <q-btn size="15px" flat dense round icon="done" />&nbsp;
+                            <q-btn size="15px" flat dense round icon="add" 
+                                v-if="! v_is_owner"
+                                label="내 포트폴리오추가" 
+                                @click="onClickAddToMyPortfolio(a_portfolio)" />&nbsp;
                             <q-btn size="15px" flat dense round icon="more_vert" />
                         </div>                            
                     </q-card-actions>                        
@@ -134,12 +135,17 @@
 
         <div class="row">
             <div class="col">
-                <CommentForm ref="commentForm" @onClickCommentSave="onClickCommentSave" />
+                <CommentForm ref="commentForm" type="comment"
+                    :contentType="v_content_type" :post="v_portfolio"
+                    @onClickCommentSave="onClickCommentSave" />
+
 <!--                
                 @onEditorFocus="onEditorFocus" @onEditorFocusOut="onEditorFocusOut" />
 -->
 
-                <CommentTree ref="commentTree" :data-list="v_portfolio.comments.items" 
+                <CommentTree ref="commentTree" 
+                    :data-list="v_portfolio.comments.items" 
+                    :contentType="v_content_type" :post="v_portfolio"
                     @onClickCommentReply="onClickCommentReply"
                     @onClickLoadMore="onClickLoadMore"
                     @onClickRate="onClickRate"                    
@@ -149,6 +155,7 @@
         </div>
 
         <AddPortfolioDialog ref="addPortfolio" @onPortfolioItemAdded="onPortfolioItemAdded" />
+        <br /><br /><br />
         <WConfirmDialog ref="confirmDialog" title="Do you want to delete the item?" @onClickConfirm="onClickDeleteConfirm" />
 
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
@@ -203,7 +210,7 @@ export default {
                 return CommonFunc.minifyDatetime(value);
             };
         },
-        v_isowner() {
+        v_is_owner() {
             if (this.v_me.id==this.v_user.id) {
                 return true;
             }
@@ -217,6 +224,7 @@ export default {
     },
     data() {
         return {
+            v_content_type:"portfolio.portfolio",
             v_user: null,
             //v_portfolio: new PortfolioModel(),
             v_portfolio: null,
@@ -311,15 +319,6 @@ export default {
             });
         },
 
-        postComment: function(dic_param) {
-            const _this = this;
-            this.v_portfolio.comments.post(dic_param).then( response => {
-                CommonFunc.showOkMessage(_this,'comments posted');                
-            }).catch( err=> {
-
-            });
-
-        },
 
 
 
@@ -382,31 +381,14 @@ export default {
         },
 
         onClickCommentSave: function(payload) {            
-            let dic_param = {
-                content_type:"portfolio.portfolio",
-                object_pk:this.v_portfolio.id, 
-                name: this.v_me.username,  
-                avatar: this.v_me.avatar_thumb,
-                email:'', followup:'FALSE', reply_to:0,
-                comment:payload.comments,                
-            };
-
-            logger.log.debug('onClickCommentSave - ',payload,dic_param);
-            this.postComment(dic_param);
+            logger.log.debug('onClickCommentSave - ',payload);
+            CommonFunc.showOkMessage(this,'Comments posted');  
         },
 
 
         onClickCommentReply: function(payload) {
-            let dic_param = {
-                content_type:"portfolio.portfolio",
-                object_pk:this.v_portfolio.id, 
-                name:this.v_me.username,  
-                email:'', followup:'FALSE', reply_to:payload.data.id,
-                comment:payload.comments,                
-            };
-
-            logger.log.debug('onClickCommentReply - ',payload,dic_param);
-            this.postComment(dic_param);
+            logger.log.debug('onClickCommentReply - ',payload);
+            CommonFunc.showOkMessage(this,'Comments posted');  
         },
 
         onClickRate: function(dic_payload) {
@@ -429,6 +411,29 @@ export default {
             const dic_query = CommonFunc.getURLQuery(this.g_data_comments.next);
             this.loadBlogComments(this.g_page_id,dic_query.limit,dic_query.offset);
         },
+
+        onClickAddToMyPortfolio: function(jsonPortfolio) {
+            logger.log.debug("PortfolioDetail.onClickAddToMyPortfolio : portfolio=",jsonPortfolio);
+            
+            const _this=this;
+            
+            let portfolio = new PortfolioItemModel();
+            portfolio.assign(jsonPortfolio);
+            portfolio.portfolio_id = -1;
+            portfolio.description += '\r\n Copied from ' + this.v_user.username;
+
+            portfolio.addToServer().then(response=>{
+                logger.log.debug("PortfolioDetail.onClickAddToMyPortfolio : response=",response);    
+                if (response.data.ret==0) {
+                    CommonFunc.showOkMessage(_this,'portfolio added');
+                } else {
+                    CommonFunc.showErrorMessage(_this,response.data.msg);
+                }
+                
+            }).catch(err=>{
+                logger.log.error("PortfolioDetail.onClickAddToMyPortfolio : err=",err);    
+            });
+        }
 
     }
 };

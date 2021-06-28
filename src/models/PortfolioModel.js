@@ -23,7 +23,8 @@ export class PortfolioItemModel {
     created_at=null;
     updated_at=null;
     state=null;            
-    
+    description=null;
+
     last=null;
     evaluated_value=null;
     roi=null;
@@ -39,7 +40,7 @@ export class PortfolioItemModel {
         this.created_at=obj.created_at;
         this.updated_at=obj.updated_at;
         this.state=obj.state;            
-        
+        this.description = obj.description;
         this.last=0;
         this.evaluated_value=0;
         this.roi=0;
@@ -151,6 +152,25 @@ export class PortfolioModel extends baseCollection {
         }
     }
 
+    load(is_selected=1) { 
+        const _this = this;
+                
+        let reqParam = { 
+            is_selected:is_selected,
+            token: store.getters.token
+        };
+        logger.log.debug("PortfolioList.load : reqParam = ",reqParam);
+
+        return new Promise(function(resolve,reject) {            
+            AuthService.getPortfolio(reqParam, function(response) {
+                logger.log.debug("PortfolioList.load: response=",response.data);
+
+                resolve(response);
+            }, function(err) {
+                reject(err);
+            });
+        });
+    }   
 
     vote(dic_param) {
         const _this=this;
@@ -184,19 +204,20 @@ export class PortfolioListModel extends baseCollection{
         return _.find(this.items,{id:id} );
     }
 
-    load(username, portfolio_id) { 
+    load(username=null, portfolio_id=null) { 
         const _this = this;
         
-        logger.log.debug("PortfolioList.load : username = ",username);
+        let reqParam = { 
+            token: store.getters.token
+        };
+        if (username) {
+            reqParam.username = username;
+            reqParam.id = portfolio_id;
+        }
 
-        return new Promise(function(resolve,reject) {
-            
-            let reqParam = { 
-                username:username, 
-                id:portfolio_id,
-                token: store.getters.token
-            };
-            logger.log.debug("PortfolioList.load:param=",reqParam);
+        logger.log.debug("PortfolioList.load:param=",reqParam);
+
+        return new Promise(function(resolve,reject) {            
 
             AuthService.getPortfolio(reqParam, function(response) {
                 logger.log.debug("PortfolioList.load: response=",response.data);

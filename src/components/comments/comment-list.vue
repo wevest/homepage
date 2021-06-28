@@ -7,9 +7,14 @@
             </li>
         </ul>
 
+        <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+        
+        <!--
         <div class="column" v-if="v_visible_loadmore">
             <q-btn @click="onClickLoadMore" label="LoadMore" />
         </div>        
+        -->
+
     </div>
 
     
@@ -18,13 +23,15 @@
 
 
 <script>
-// Components
+import logger from "src/error/Logger";
+import LoadMore from "src/components/LoadMore";
+
 
 export default {
     name: "CommentList",
     components: {
-        //CommentItem
-         CommentItem: () => import('components/comments/comment-item')
+        CommentItem: () => import('components/comments/comment-item'),
+        LoadMore,
     },
 
     props: {
@@ -38,21 +45,18 @@ export default {
     },
     data() {
         return {
-            v_post: this.post,
-            v_visible_loadmore:false,
+            v_post: this.post,            
         }        
     },
     methods: {
-        showLoadmore: function() {
-            this.v_visible_loadmore = true;
-        },
-        hideLoadmore: function() {
-            this.v_visible_loadmore = false;
+        setPageParameter: function(next_url) {
+            this.$refs.loadMore.setPageParameter(next_url);
         },
 
-        onClickLoadMore: function() {
-            console.log("onClickLoadMore");
-            this.$emit("onClickMore",{});
+        onClickLoadMore: function(dic_page) {
+            logger.log.debug("onClickLoadMore:dic_page=",dic_page);
+            
+            this.$emit("onClickMore",dic_page);
         }
     }
 };

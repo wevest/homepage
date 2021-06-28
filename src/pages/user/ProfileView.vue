@@ -19,8 +19,10 @@
             <q-item-section>
                 <div>
                     <q-avatar size="20rem" square>
-                        <img :src="v_user.avatar">        
+                        <img :src="v_user.avatar" v-if="v_user.avatar">        
+                        <q-icon v-else name="person" color="black" size="120px"/>
                     </q-avatar>
+                    
                     <form>
                         <q-btn fab id="pick-avatar" color="primary" label="change" class="btnAvatar" 
                             v-show="isOwner" @click="onClickChangeProfile" />
@@ -74,7 +76,7 @@
 
         <q-card style="text-align: center;">
             <q-card-section class="boxNumber">
-                <div class="row boxNumber2">
+                <div class="row boxNumber2">                    
                     <div class="col-6 roiBox">
                         <div> 
                             <span class="roiCount"> {{ v_roi }} % </span>
@@ -103,7 +105,15 @@
         <q-card style="text-align: center;"> 
             <q-card-section class="boxNumber3">
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-4" @click="onClickFollower(v_user)">
+                        <div>
+                            <span class="count">{{v_user.follower_count}}</span>
+                        </div>
+                        <div>
+                            <span>Follower Count</span>
+                        </div>
+                    </div>
+                    <div class="col-4">
                         <div>
                             <span class="count">{{v_user.like_count}}</span>
                         </div>
@@ -111,7 +121,7 @@
                             <span>좋아요</span>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-4">
                         <div>
                             <span class="count">{{v_user.dislike_count}}</span>
                         </div>
@@ -119,21 +129,16 @@
                             <span>싫어요</span>
                         </div>
                     </div>
-                    <div class="col-3">
-                        <span class="count"></span>
-                            <span>blog Count</span>
-                    </div>
-                    <div class="col-3">
-                        <span class="count"></span>    
-                            <span>Comments Count</span>
-                    </div>
                 </div>
             </q-card-section>
         </q-card>
 
             <q-card-actions class="boxNumber2" align="center">
-                    <q-btn color="primary" label="Message" @click="onClickMessage" />
-                    <q-btn color="primary" label="Endorsement" @click="onClickEndorsement" />
+                <div v-if="! isOwner">
+                    <q-btn color="primary" label="Unfollow" @click="onClickFollow(-1)" v-if="v_user.is_following" />
+                    <q-btn v-else color="primary" label="Follow" @click="onClickFollow(1)" />
+                </div>
+                <q-btn color="primary" label="Message" @click="onClickMessage" />
             </q-card-actions>
 
         <div class="row q-gutter-sm">
@@ -436,8 +441,25 @@ export default {
             this.$refs.messageWriter.show(v_message);
         },
 
-        onClickEndorsement: function() {
-            logger.log.debug("onClickEndorsement");
+        onClickFollow: function(value) {
+            logger.log.debug("onClickFollow");
+            
+            /*
+            this.v_user.getRelation().then( response => {
+                logger.log.debug("onClickFollow - response=",response);
+            }).catch(err=>{
+
+            });
+            */
+            
+            const _this=this;
+            this.v_user.follow(this.v_user.id,value).then( response => {
+                logger.log.debug("onClickFollow - response=",response);
+                CommonFunc.showOkMessage(_this,'Followed');                
+            }).catch(err=>{
+
+            });
+            
         },
 
         onClickAddPortfolio: function() {
@@ -446,6 +468,7 @@ export default {
         },
 
         onClickPortfolio2: function(portfolio) {
+
         },
 
         onClickPortfolio: function(portfolio) {
@@ -456,6 +479,11 @@ export default {
             let dic_param = { name:'portfolio_detail', path:'portfolio_detail', params:{ user:this.v_user, portfolio_id:portfolio.id, back:true } };
             this.$router.push(dic_param);
         },
+
+        onClickFollower: function(user) {
+            logger.log.debug("onClickFollower",user);
+        },
+
 
     },
 

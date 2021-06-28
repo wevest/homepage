@@ -28,6 +28,9 @@
 -->
 			</q-item>
 		</q-list>
+
+		<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+
 	</div>
 </template>
 
@@ -37,14 +40,14 @@ import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
 import WAvatar from "src/components/WAvatar";
-
+import LoadMore from "src/components/LoadMore";
 import { PostPageModel, PostPageListModel } from "src/models/PageModel";
-
 
 
 export default {
 	components: {
-		WAvatar
+		WAvatar,
+		LoadMore
 	},
     computed: {
         v_updated_at() {
@@ -61,6 +64,12 @@ export default {
 			g_exchange: null,
 			g_sector: null,
 
+			v_query: {
+				user_id: null,
+				category: null,
+				content_type: null,
+			},
+
 			v_posts: new PostPageListModel(),
 		};
 	},
@@ -69,26 +78,22 @@ export default {
 		loadBlogData: function (param) {
 			const _this = this;
 
-			this.v_posts
-				.load(param)
-				.then((response) => {
-					_this.g_data = response.data;
-					logger.log.debug(
-						"BlogList.loadBlogData - response",
-						_this.g_data
-					);
-				})
-				.catch((err) => {});
+			this.v_posts.load(param).then((response) => {
+				_this.g_data = response.data;
+				_this.$refs.loadMore.setPageParameter(response.data.next);
+				logger.log.debug("BlogList.loadBlogData - response",_this.g_data);
+			})
+			.catch((err) => {
+
+			});
 		},
 
 
 		update: function () {
-			let dic_param = {
-				user_id: null,
-				category: null,
-				content_type: null,
-			};
-			this.loadBlogData(dic_param);
+			this.v_query.user_id = null;
+			this.v_query.category = null;
+			this.v_query.content_type= null;			
+			this.loadBlogData(this.v_query);
 		},
 
 		updateByContentType: function (content_type) {
@@ -129,11 +134,18 @@ export default {
 			//this.v_posts.items = this.v_posts.delete(post_id);
 		},
 
-
 		onClickBlog: function (page_id) {
 			logger.log.debug("onClickBlog : page_id = ", page_id);
 			this.$emit("onClickBlog",{page_id:page_id});
 		},
+
+		onClickLoadMore: function() {
+			logger.log.debug("onClickLoadMore : next_url = ", this.v_next_url);
+
+			this.v_query.limit = this.$refs.loadMore.v_next.limit;
+			this.v_query.offset = this.$refs.loadMore.v_next.offset;
+			this.loadBlogData(this.v_query);
+		}
 	},
 };
 </script>
