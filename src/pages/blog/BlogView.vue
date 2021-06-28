@@ -22,14 +22,14 @@
                     <div class="float-left q-gutter-sm">   
                         <span>
                             <q-icon 
-                            name="thumb_up"  
+                            name="thumb_up_off_alt"  
                             size="23px"
                             color="grey-8"/>
                             <span class="RatingCount">{{v_post.like_count}}</span>
                         </span>
                         <span>
                             <q-icon 
-                            name="thumb_down"
+                            name="thumb_down_off_alt"
                             size="23px"
                             color="grey-8"/>
                             <span class="RatingCount">{{v_post.dislike_count}}</span>
@@ -108,10 +108,9 @@
                         <q-btn 
                             push
                             class="rateButton"
-                            rounded
-                            size="13px"
-                            color="primary" 
-                            icon="thumb_up" 
+                            flat
+                            size="13px" 
+                            icon="thumb_up_off_alt" 
                             label="" 
                             @click="onClickBlogRate(1)"/>
                         <q-btn
@@ -119,8 +118,7 @@
                             class="rateButton"
                             flat
                             size="15px"
-                            color="grey-8"
-                            icon="thumb_down"
+                            icon="thumb_down_off_alt"
                             label=""
                             @click="onClickBlogRate(-1)" />
                     </div>
@@ -468,6 +466,7 @@ export default {
 }
 
 .rateButton {
+    color:#616161;
     width:70px;
 }
 

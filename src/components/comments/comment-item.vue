@@ -84,7 +84,7 @@
                             <span>                              
                                 <q-icon 
                                     class="gCommentRatingBtn"                                                                    
-                                    name="thumb_up"
+                                    name="thumb_up_off_alt"
                                     @click="onClickLike('like',data)" />&nbsp;
                                     <span class="gCommentRatingCount">{{ data.like_count }}</span>
                             </span>&nbsp;&nbsp;
@@ -93,7 +93,7 @@
                             <span>
                                 <q-icon 
                                     class="gCommentRatingBtn"                                                             
-                                    name="thumb_down"
+                                    name="thumb_down_off_alt"
                                     @click="onClickLike('dislike',data)"> 
                                 </q-icon>&nbsp;
                                 <span class="gCommentRatingCount">{{ data.dislike_count }}</span>
