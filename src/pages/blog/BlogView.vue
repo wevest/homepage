@@ -22,16 +22,16 @@
                     <div class="float-left q-gutter-sm">   
                         <span>
                             <q-icon 
+                            class="RatingBtn"
                             name="thumb_up_off_alt"  
                             size="23px"
-                            color="grey-8"/>
                             <span class="RatingCount">{{v_post.like_count}}</span>
                         </span>
                         <span>
                             <q-icon 
+                            class="RatingBtn"
                             name="thumb_down_off_alt"
                             size="23px"
-                            color="grey-8"/>
                             <span class="RatingCount">{{v_post.dislike_count}}</span>
                         </span>
                         <span>
@@ -117,7 +117,7 @@
                             push
                             class="rateButton"
                             flat
-                            size="15px"
+                            size="13px"
                             icon="thumb_down_off_alt"
                             label=""
                             @click="onClickBlogRate(-1)" />
@@ -467,7 +467,7 @@ export default {
 
 .rateButton {
     color:#616161;
-    width:70px;
+    width:40px;
 }
 
 .boxCommentCount {
@@ -501,5 +501,9 @@ export default {
 
 .separator {
     padding:30px 0px;
+}
+
+.RatingBtn {
+    color:#616161;
 }
 </style>
