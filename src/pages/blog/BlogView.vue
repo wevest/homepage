@@ -22,16 +22,16 @@
                     <div class="float-left q-gutter-sm">   
                         <span>
                             <q-icon 
-                            name="thumb_up"  
+                            class="RatingBtn"
+                            name="thumb_up_off_alt"  
                             size="23px"
-                            color="grey-8"/>
                             <span class="RatingCount">{{v_post.like_count}}</span>
                         </span>
                         <span>
                             <q-icon 
-                            name="thumb_down"
+                            class="RatingBtn"
+                            name="thumb_down_off_alt"
                             size="23px"
-                            color="grey-8"/>
                             <span class="RatingCount">{{v_post.dislike_count}}</span>
                         </span>
                         <span>
@@ -117,19 +117,17 @@
                         <q-btn 
                             push
                             class="rateButton"
-                            rounded
-                            size="13px"
-                            color="primary" 
-                            icon="thumb_up" 
+                            flat
+                            size="13px" 
+                            icon="thumb_up_off_alt" 
                             label="" 
                             @click="onClickBlogRate(1)"/>
                         <q-btn
                             push
                             class="rateButton"
                             flat
-                            size="15px"
-                            color="grey-8"
-                            icon="thumb_down"
+                            size="13px"
+                            icon="thumb_down_off_alt"
                             label=""
                             @click="onClickBlogRate(-1)" />
                     </div>
@@ -496,7 +494,8 @@ export default {
 }
 
 .rateButton {
-    width:70px;
+    color:#616161;
+    width:40px;
 }
 
 .boxCommentCount {
@@ -530,5 +529,9 @@ export default {
 
 .separator {
     padding:30px 0px;
+}
+
+.RatingBtn {
+    color:#616161;
 }
 </style>

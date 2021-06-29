@@ -41,7 +41,7 @@
                                 <span> 
                                     <q-btn 
                                         class="gBlogRatingBtn" 
-                                        icon="thumb_up"
+                                        icon="thumb_up_off_alt"
                                         dense
                                         flat  
                                         @click="onClickRating(1,props.row)" />
@@ -50,7 +50,7 @@
                                 <span>
                                     <q-btn 
                                         class="gBlogRatingBtn" 
-                                        icon="thumb_down"
+                                        icon="thumb_down_off_alt"
                                         dense
                                         flat 
                                         @click="onClickRating(-1,props.row)" />

@@ -42,11 +42,11 @@
                 <div>
                     <div class="q-pa-md text-center">
                         <q-icon class="portfolioRatingBtn"                           
-                            name="thumb_up" flat size="25px" color="grey-8" />&nbsp;                                                              
+                            name="thumb_up_off_alt" flat size="25px" color="grey-8" />&nbsp;                                                              
                             <span class="portfolioRatingCount">{{ v_portfolio.like_count }}</span>&nbsp;&nbsp;
                         
                         <q-icon class="portfolioRatingBtn"                               
-                            name="thumb_down" flat size="25px" color="grey-8" />&nbsp;   
+                            name="thumb_down_off_alt" flat size="25px" color="grey-8" />&nbsp;   
                             <span class="portfolioRatingCount">{{ v_portfolio.dislike_count }}</span>&nbsp;&nbsp;
                         
                         <q-icon class="portfolioRatingBtn"              
@@ -67,8 +67,8 @@
                 <q-separator size="2px" />
                 <PortfolioChart ref="portfolioChart" />
                 <div class="q-gutter-sm text-center">
-                    <q-btn icon=thumb_up flat size="15px" color="grey-8" @click="onClickVote(1)" />
-                    <q-btn icon=thumb_down flat size="15px" color="grey-8" @click="onClickVote(-1)" />
+                    <q-btn icon=thumb_up_off_alt flat size="15px" color="grey-8" @click="onClickVote(1)" />
+                    <q-btn icon=thumb_down_off_alt flat size="15px" color="grey-8" @click="onClickVote(-1)" />
                 </div>
             </div>
         </div>

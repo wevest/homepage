@@ -29,9 +29,9 @@
                             <span class="gPageUser" v-if="v_question.owner"> {{ v_question.owner.username }} </span>&nbsp;
                             <span class="gPageDatetime">{{ v_updated_at(v_question.pub_date) }} </span>&nbsp;
 
-                            <q-icon name="thumb_up" />&nbsp;
+                            <q-icon name="thumb_up_off_alt" />&nbsp;
                             <span class="gPageRating">{{ v_question.like_count }}</span>&nbsp;
-                            <q-icon name="thumb_down" />&nbsp;
+                            <q-icon name="thumb_down_off_alt" />&nbsp;
                             <span class="gPageRating">{{ v_question.dislike_count }} </span>
                         </div>
 
@@ -73,13 +73,13 @@
                 <div class="q-pa-md q-gutter-sm gPageRatingBox">
                     <q-btn                        
                         class="gPageRatingBtn"                        
-                        icon="thumb_up"
+                        icon="thumb_up_off_alt"
                         dense 
                         flat 
                         @click="onClickQuestionVote(1)"/>&nbsp; 
                     <q-btn 
                         class="gPageRatingBtn"
-                        icon="thumb_down"                        
+                        icon="thumb_down_off_alt"                        
                         dense
                         flat                                                                       
                         @click="onClickQuestionVote(-1)" />

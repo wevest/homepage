@@ -38,7 +38,7 @@
                     <div class="gAnswerRatingBox">              
                         <q-btn 
                             class="gAnswerRatingBtn" 
-                            icon="thumb_up" 
+                            icon="thumb_up_off_alt" 
                             dense
                             flat 
                             @click="onClickRating(1,a_answer)" />&nbsp;                            
@@ -46,7 +46,7 @@
                 
                         <q-btn 
                             class="gAnswerRatingBtn"
-                            icon="thumb_down"                            
+                            icon="thumb_down_off_alt"                            
                             dense
                             flat 
                             @click="onClickRating(-1,a_answer)" />&nbsp; 

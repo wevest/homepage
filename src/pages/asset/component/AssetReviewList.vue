@@ -43,7 +43,7 @@
 
                         <span> 
                             <q-btn class="gCommentRatingBtn"                            
-                            icon="thumb_up"                            
+                            icon="thumb_up_off_alt"                            
                             flat                    
                             @click="onClickRating('like',a_review)" />  
                             <span class="gCommentRatingCount">
@@ -52,7 +52,7 @@
                         </span>                            
                         <span> 
                             <q-btn class="gCommentRatingBtn"
-                            icon="thumb_down"                            
+                            icon="thumb_down_off_alt"                            
                             flat 
                             @click="onClickRating('dislike',a_review)" /> 
                             <span class="gCommentRatingCount">{{a_review.dislike_count}}
