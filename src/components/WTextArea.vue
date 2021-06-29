@@ -5,6 +5,8 @@
             <template v-slot:control>
                 <textarea class="self-center full-width boxTextarea" 
                     tabindex="0" 
+                    :disabled="v_disabled"
+                    :placeholder="v_hint"
                     :maxlength="maxlength"
                     :value="v_value" :rows="v_rows" 
                     @input="updateValue($event.target.value)"
@@ -32,15 +34,18 @@ export default{
         modelValue: { default:"" },
 
         maxlength: {required:false, type:Number, default:300},
+        hint: {required:false, type:String, default:""},
         label: {required:false, type:String, default:""},
         rows: {required:false, type:String},
     },
     data() {    
         return {
+            v_hint: this.hint,
             v_length: '0 of 300',
             v_rows: this.rows,
             v_model: this.model,
             v_value: this.modelValue,
+            v_disabled:false,
         }
     },
     methods: {
@@ -53,6 +58,13 @@ export default{
 
         setValue(value) {
             this.v_value = value;
+        },
+
+        setHint(value) {
+            this.v_hint = value;
+        },
+        setEnabled(value) {
+            this.v_disabled = ! value;
         },
 
         updateValue(value) {

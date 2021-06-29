@@ -76,6 +76,11 @@ export default {
 			default:300,
 		}
 	},
+    computed: {
+        v_me() {
+            return store.getters.me;
+        },
+	},
 	data() {
 		return {
 			saving: false,
@@ -83,8 +88,7 @@ export default {
 			v_comments: null,
 			v_comment_item: null,
 
-			v_length_msg:"0 / " + this.maxlength.toString(),
-
+			v_input: "",
 			v_style: "",
 			v_rows: "1",
 			v_error: {
@@ -98,6 +102,10 @@ export default {
         v_me() {
             return store.getters.me;
         },
+		v_length_msg() {
+			//return "0 / ";
+			return this.v_input.length.toString() + " / " + this.maxlength.toString();
+		},
 		editorLabelTitle() {
 			return this.type === "comment"
 				? "Comments"
@@ -109,7 +117,8 @@ export default {
 
 	mounted() {
 		// Emit initial values of local properties
-		//this.$emit("update:saving", this.saving);
+		logger.log.debug("Comment-Form.mounted");
+		this.prepare();
 	},
 
 	/**
@@ -118,6 +127,17 @@ export default {
 	watch: {},
 
 	methods: {
+		prepare() {
+			logger.log.debug("Comment-Form.prepare : v_me=",this.v_me);
+			if (this.v_me.loggedIn) {
+				this.$refs.descText.setHint("");
+				this.$refs.descText.setEnabled(true);
+			} else {
+				this.$refs.descText.setHint("Please log-in to write comments");
+				this.$refs.descText.setEnabled(false);
+			}
+		},
+
 		show() {
 			// this.visible = true
 			this.$emit("update:visible", true);
@@ -221,7 +241,7 @@ export default {
 
 		onTextChange: function(value) {
 			//logger.log.debug("onTextChange : value=",value);
-			this.v_length_msg = value.length.toString() + " / " + this.maxlength.toString();
+			this.v_input = value;
 		}
 
 

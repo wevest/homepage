@@ -69,14 +69,6 @@
                             icon="mode"
                             label="Update" 
                             @click="onClickUpdate" />
-
-                        <q-btn 
-                            outlined
-                            size="9px"
-                            color="primary"
-                            icon="checklist"
-                            label="TEst" 
-                            @click="onClickTest" />
                     </div>
 
                 </div>
@@ -95,46 +87,44 @@
                     height="200px"
                 />
                 <p> {{ v_post.tags }} </p>
-
-                <div class="row postOwnerBox">
-                    <div class="gPageAvatar">
-                        <WAvatar :avatar="v_post.api_owner.avatar_thumb" :username="v_post.api_owner.username" />
-                    </div>&nbsp;&nbsp;    
-                    
-                    <div>
-                        <span class="username"> {{v_post.api_owner.username}}</span><br>
-                        <!-- <span>First name : {{v_post.api_owner.first_name}}</span> -->
-                        <!-- <span>Last name : {{v_post.api_owner.last_name}}</span> -->
-                        <span class="biography"> {{v_shorten(v_post.api_owner.biography)}}</span>
-                    </div>
-                </div>
-
-                <div class="copyright">
-                    Copyright ⓒ EdenChain. All rights reserved. 무단 전재 및 재배포 금지.
-                </div>
-                <div class="boxRate-parent">
-                    <div class="q-pa-md q-gutter-sm boxRate">
-                        <q-btn 
-                            push
-                            class="rateButton"
-                            flat
-                            size="13px" 
-                            icon="thumb_up_off_alt" 
-                            label="" 
-                            @click="onClickBlogRate(1)"/>
-                        <q-btn
-                            push
-                            class="rateButton"
-                            flat
-                            size="13px"
-                            icon="thumb_down_off_alt"
-                            label=""
-                            @click="onClickBlogRate(-1)" />
-                    </div>
-                </div>
-
             </div>
         </div>
+
+        <div class="row authorIntro">            
+            
+            <div class="gPageAvatar">
+                <WAvatar :avatar="v_post.api_owner.avatar_thumb" :username="v_post.api_owner.username" />
+                <span class="username"> {{v_post.api_owner.username}}</span><br>
+            </div> 
+            
+            <div>                
+                <!-- <span>First name : {{v_post.api_owner.first_name}}</span> -->
+                <!-- <span>Last name : {{v_post.api_owner.last_name}}</span> -->
+                <span class="biography"> {{v_shorten(v_post.api_owner.biography)}}</span>
+            </div>            
+        </div>
+
+        <div class="boxRate-parent">
+            <div class="q-pa-md q-gutter-sm boxRate">
+                <q-btn 
+                    push
+                    class="rateButton"
+                    flat
+                    size="13px" 
+                    icon="thumb_up_off_alt" 
+                    label="" 
+                    @click="onClickBlogRate(1)"/>
+                <q-btn
+                    push
+                    class="rateButton"
+                    flat
+                    size="13px"
+                    icon="thumb_down_off_alt"
+                    label=""
+                    @click="onClickBlogRate(-1)" />
+            </div>
+        </div>
+
 
         <div class="row">
             <div class="col">
@@ -162,6 +152,7 @@
             </div>
         </div>
 
+        <BlogWriterDialog ref="blogWriter" @onBlogAdded="onBlogAdded" @onBlogDeleted="onBlogDeleted" />
     </div>
 
 </template>
@@ -181,6 +172,7 @@ import {PostPageModel,CommentModel,CommentListModel} from "src/models/PageModel"
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
 import WAvatar from "components/WAvatar.vue";
+import BlogWriterDialog from 'components/dialogs/BlogWriterDialog';
 import CommentForm from "components/comments/comment-form.vue";
 import CommentTree from "components/comments/comment-tree.vue";
 
@@ -193,7 +185,8 @@ export default {
         Viewer,
         WAvatar,
         CommentTree,
-        CommentForm
+        CommentForm,
+        BlogWriterDialog
     },
     computed: {
         v_me() {
@@ -442,8 +435,15 @@ export default {
             let a_url = CommonFunc.navBlog(this,post.id,true);
             logger.log.debug("BlogPage.onClickShare=",post,a_url);            
             CommonFunc.copyUrl(this,a_url);
-        }
+        },
 
+        onBlogAdded: function() {
+            logger.log.debug("BlogPage.onBlogAdded=");            
+        },
+
+        onBlogDeleted: function() {
+            logger.log.debug("BlogPage.onBlogDeleted=");            
+        }
     }
 
 };
@@ -534,4 +534,14 @@ export default {
 .RatingBtn {
     color:#616161;
 }
+
+.authorIntro {
+  border: 1px solid #27a9e3;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-left: 10px solid #27a9e3;
+}
+
 </style>

@@ -115,5 +115,5 @@ export default {
             this.updateSectorChart(json_data,exchange,'Sector');
         }
     }
-  }
+}
 </script>
