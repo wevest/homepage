@@ -34,6 +34,7 @@ export class PostPageModel {
     read_count=null;
     title=null;
     slug=null;
+    url_path=null;
 
     //computed fields
     is_owner=null;
@@ -82,6 +83,7 @@ export class PostPageModel {
         this.id = obj.id;
         this.title = obj.title;
         this.slug = CommonFunc.safeGetKeyValue(obj,'slug');        
+        this.url_path = CommonFunc.safeGetKeyValue(obj,'url_path');
         this.body = obj.body;
         
         this.read_count=obj.read_count;
@@ -655,4 +657,45 @@ export class AnswerPageListModel extends baseCollection {
         const index = _.findIndex(this.items,{id:answer_id});
         this.items[index].answered = true;
     }
+}
+
+
+
+export class AssetPageListModel extends baseCollection {
+
+    assign(jsonData) {
+        logger.log.debug("AssetPageListModel.assign=",jsonData);
+
+        for (let index=0; index<jsonData.length;index++) {
+            let a_post = {
+                id:jsonData[index].id, 
+                slug:jsonData[index].slug, 
+                title:jsonData[index].title, 
+                url_path:jsonData[index].url_path
+            };
+            this.add(a_post);
+        }
+    }
+
+    load() {
+        const _this=this;
+
+        let dic_param = {};
+        logger.log.debug("AssetPageListModel.load - dic_param=",dic_param);
+
+        return new Promise(function(resolve,reject) {    
+            CMSAPI.getAssetPage(dic_param,function(response) {
+                //_this.g_data = response.data;
+                logger.log.debug("AssetPageListModel.load - response",response);
+                _this.assign(response.data.results);
+                resolve(response);
+
+            },function(err) {
+                logger.log.error("AssetPageListModel.load - error",err);
+                reject(err);
+            });
+        });            
+    
+    }
+
 }

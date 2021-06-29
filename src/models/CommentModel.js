@@ -207,8 +207,8 @@ export class CommentListModel extends baseCollection {
         return new Promise(function(resolve,reject) {            
             dic_param.token = store.getters.token;
             CMSAPI.postBlogComment(dic_param,function(response) {
-                logger.log.debug("PostModel.postComment=",response);
                 _this.addComments(dic_param,response);
+                logger.log.debug("PostModel.postComment=",response);
                 resolve(response);
 
             }, function(err) {

@@ -4,7 +4,9 @@
 
         <q-list separator class="rounded-borders">
 
-            <q-item clickable v-ripple v-for="(a_post,index) in v_posts" :key="index" @click.stop="onClickAsset(a_post.title)">
+            <q-item clickable v-ripple v-for="(a_post,index) in v_posts.items" :key="index" 
+                @click.stop="onClickAsset(a_post)"
+            >
                 <q-item-section avatar top>
                     <q-icon class="gBlogAvatar" name="paid" color="black" size="34px" />
                 </q-item-section>
@@ -14,7 +16,7 @@
                         <span class="gBlogTitle">{{a_post.title}}</span>
                     </q-item-label>
                     <q-item-label lines="1">
-                        <span class="gBlogDatetime">{{a_post.last_published_at}}</span>
+                        <span class="gBlogDatetime">{{a_post.slug}}</span>
                     </q-item-label>
                 </q-item-section>
 
@@ -32,6 +34,8 @@ import CommonFunc from 'src/util/CommonFunc';
 import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
+import { AssetPageListModel } from "src/models/PageModel";
+
 
 export default {
     data () {
@@ -40,61 +44,29 @@ export default {
         g_exchange: null,
         g_sector: null,
 
-        v_posts: [],
+        v_posts: new AssetPageListModel(),
       }
     },
 
     methods: {
 
-        loadAssetPage: function() {
-            const _this = this;
-
-            return new Promise(function(resolve,reject) {
-                let dic_param = {};
-                logger.log.debug("AssetList.loadAssetPage - dic_param=",dic_param);
-
-                CMSAPI.getAssetPage(dic_param,function(response) {
-                    _this.g_data = response.data;
-                    logger.log.debug("AssetList.loadAssetPage - response",_this.g_data);
-                    _this.updateAssetPage(_this.g_data.results);
-                    resolve();
-                },function(err) {
-                    logger.log.error("AssetList.loadAssetPage - error",err);
-                    reject();
-                });
-            });            
-        },
-        
-
-        updateAssetPage:function(posts) {
-            logger.log.debug("updateAssetPage=",posts);
-
-            let v_posts = [];
-            for (let index=0; index<posts.length;index++) {
-                let a_post = {id:posts[index].id, slug:posts[index].slug, 
-                    title:posts[index].title, last_published_at:posts[index].last_published_at
-                };
-                v_posts.push(a_post);
-            }
-
-            this.v_posts = v_posts;
-        },
-
-        showReportList: function(exchange,sector,category) {
-            const table_items = this.getReportList(this.g_data,exchange,sector,category);
-            console.log('showReportList : result = ',table_items);
-            this.items = table_items;
-        },
 
         update: function() {
-            this.loadAssetPage();
+            
+            this.v_posts.load().then(response=>{
+                logger.log.debug("AssetList.update : response=",response);
+
+            }).catch(err=>{
+
+            });
+
         },
 
 
-        onClickAsset: function(asset) {
-          logger.log.debug('onClickBlog : asset = ',asset);
+        onClickAsset: function(post) {
+          logger.log.debug('onClickBlog : asset = ',post);
           
-          let dic_param = { name:'asset', path:'asset', params:{ symbol:asset } };          
+          let dic_param = { name:'asset', path:'asset', params:{ symbol:post.title, id:post.id } };          
           this.$emit("onClickAsset",dic_param);          
         },
 

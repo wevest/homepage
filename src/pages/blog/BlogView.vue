@@ -44,6 +44,15 @@
                     </div>
 
                     <div class="float-right q-gutter-sm">
+
+                        <q-btn 
+                            outlined
+                            size="9px"
+                            color="primary"
+                            icon="checklist"
+                            label="Share" 
+                            @click="onClickShare(v_post)" />
+
                         <q-btn 
                             outlined
                             size="9px"
@@ -93,10 +102,10 @@
                     </div>&nbsp;&nbsp;    
                     
                     <div>
-                        <span class="username"> Username : {{v_post.api_owner.username}}</span><br>
+                        <span class="username"> {{v_post.api_owner.username}}</span><br>
                         <!-- <span>First name : {{v_post.api_owner.first_name}}</span> -->
                         <!-- <span>Last name : {{v_post.api_owner.last_name}}</span> -->
-                        <span class="biography"> Bio graphy : {{v_post.api_owner.biography}}</span>
+                        <span class="biography"> {{v_shorten(v_post.api_owner.biography)}}</span>
                     </div>
                 </div>
 
@@ -164,6 +173,7 @@ import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Viewer } from "@toast-ui/vue-editor";
 
+import { MoaConfig } from 'src/data/MoaConfig';
 import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
@@ -191,6 +201,11 @@ export default {
         v_me() {
             return store.getters.me;
         },
+        v_shorten() {
+            return (value) => {
+                return CommonFunc.shortenString(value,MoaConfig.setting.maxBiographyLength);
+            };
+        }
     },
     data: function () {
         return {
@@ -229,13 +244,13 @@ export default {
     },
     mounted: function() {        
 
-        logger.log.debug("BlogView.mounted - params=",this.$route.params);
+        logger.log.debug("BlogView.mounted - params=",this.$route.params,this.$route.query);
 
-        if (! this.$route.params.page_id) {
+        if (! this.$route.query.page_id) {
             return;
         }
 
-        this.v_post.id=this.$route.params.page_id;
+        this.v_post.id=this.$route.query.page_id;
         this.refresh(this.v_post.id);
     },
     updated: function() {
@@ -325,7 +340,13 @@ export default {
             
             let dic_param = {id:this.v_post.id, value:value};            
             this.v_post.vote(dic_param).then( response => {
-                CommonFunc.showOkMessage(_this,'Liked');
+                
+                let msg = "Liked" ;
+                if (value==-1) {
+                    msg = "Disliked";
+                }
+                CommonFunc.showOkMessage(_this,msg);
+
             }).catch( err=> {
 
             });
@@ -417,12 +438,19 @@ export default {
             this.$refs.commentForm.v_comments = "";
             this.$refs.commentForm.v_rows= "1";
             //contentInput
+        },
+        
+        onClickShare: function(post) {
+            let a_url = CommonFunc.navBlog(this,post.id,true);
+            logger.log.debug("BlogPage.onClickShare=",post,a_url);            
+            CommonFunc.copyUrl(this,a_url);
         }
 
     }
 
 };
 </script>
+
 
 
 <style scoped>

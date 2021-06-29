@@ -174,6 +174,11 @@ export default {
         },
         v_is_owner() {
             return (comment) => {
+                
+                if (! this.v_me.loggedIn) {
+                    return false;
+                }
+
                 if (! this.v_me.username) {
                     return false;
                 }
@@ -300,20 +305,29 @@ export default {
         replyHandler(target="editorContainer") {
             //console.log("replyHandler - 0",this.$editor);
 
+            if (!this.$refs[target]) {                
+                return;
+            }
+
             if (!this.$refs[target].contains(this.$editor)) {                
                 //this.$messageTree.setOwnerMessage(this.data);
-                this.$messageTree.showEditor(this.data);
+                this.$messageTree.showEditor(this,this.data);
                 this.$refs[target].appendChild(this.$editor);
             }
             
-            //console.log("replyHandler - 1");
+            logger.log.debug("replyHandler - 1 : parent=",this.$parent);
             if (this.$messageTree.editorType === "default") {
-              //console.log("replyHandler - 2");
+                logger.log.debug("replyHandler - 2");
+                
+                
                 this.$nextTick(() => {
-                    // this.$messageTree.$refs.textarea.focus()
+                    // this.$messageTree.$refs.textarea.focus()                    
                 });
+
+                //this.$messageTree.$emit("onClickCommentReply", payload);
+
             } else {
-                //console.log("replyHandler - 3");
+                logger.log.debug("replyHandler - 3");
 
                 const payload = {
                     ...this.data,

@@ -1,4 +1,5 @@
-import {MoaConfig} from 'src/data/MoaConfig';
+import {store} from 'src/store/store';
+//import {MoaConfig} from 'src/data/MoaConfig';
 import {baseCollection} from 'src/models/baseModel';
 import _ from 'lodash';
 
@@ -57,7 +58,7 @@ export class PriceModel{
 
         return new Promise(function(resolve,reject) {
             let reqParam = _this.toDict();
-            reqParam.token = MoaConfig.auth.token;
+            reqParam.token = store.getters.token;
             reqParam.action = "add";
             AuthService.addPortfolioItem(reqParam, function(response) {
                 resolve(response);
@@ -73,21 +74,22 @@ export class PriceModel{
 
 export class PriceListModel extends baseCollection{
 
-    getPrice(symbol,quotePair="USDT") {
-
-        if (this.isEmpty()) {
-            let response = this.load();
-        }
-
+    findPrice(symbol,quotePair="USDT") {
         let a_pair = symbol + "_" + quotePair;
-        //logger.log.debug("getPrice.pair=",this.items);
+        logger.log.debug("findPrice.pair=",a_pair,this.items);
         return _.find(this.items,{currency_pair:a_pair} );
     }
-    
-    async fetch() {
+
+    getPrice(symbol,quotePair="USDT") {
+        let a_pair = symbol + "_" + quotePair;
+        logger.log.debug("findPrice.pair=",a_pair);
+        return _.find(this.items,{currency_pair:a_pair} );
+    }
+
+    fetch() {
         const _this = this;
         
-        let reqParam = { token: MoaConfig.auth.token};
+        let reqParam = { token: store.getters.token};
         return new Promise(function(resolve,reject) {
             PriceService.getPrice(reqParam).then( response => {
                 const items = response.data.data;
@@ -96,6 +98,7 @@ export class PriceListModel extends baseCollection{
                 for (let index=0;index<items.length;index++) {
                     _this.add( PriceModel.create(items[index]) );
                 }
+
                 resolve(response);
             }).catch(err=> {
                 reject(err);
@@ -105,10 +108,14 @@ export class PriceListModel extends baseCollection{
     }
 
     async load() { 
-        logger.log.debug("PriceModel.load");
+        let response = null;
 
-        let response = await this.fetch();
-        return response;        
+        if (this.isEmpty()) {            
+            response = await this.fetch();
+        } 
+        
+        logger.log.debug("PriceModel.load : response=",response);
+        return response;            
     }   
 
 }

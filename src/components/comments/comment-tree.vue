@@ -5,7 +5,9 @@
             <slot name="editor">
                 <comment-form type="reply" ref="commentForm" 
                     :contentType="v_content_type" :post="v_post"
-                    @onClickCommentSave="onClickCommentSave"> 
+                    @onClickClose="onClickCommentClose"
+                    @onClickCommentSave="onClickCommentSave"
+                > 
                 </comment-form>
             </slot>
         </div>
@@ -136,8 +138,11 @@ export default {
         hideEditor() {
             this.editorVisible = false;
         },
-        showEditor(ownerMessage=null) {
+        showEditor(item,ownerMessage=null) {
+            logger.log.debug("CommentTree.showEditor : ownerMessage=",ownerMessage);
             this.editorVisible = true;
+            this.$refs.commentForm.clear();
+            this.$refs.commentForm.setCommentItem(item);
             this.$refs.commentForm.setOwnerMessage(ownerMessage);
         },
         setPageParameter(next_url) {
@@ -160,7 +165,14 @@ export default {
         onClickRate: function(dic_payload) {
             logger.log.debug("CommentTree.onClickRate=",dic_payload);
         },
-
+        onClickCommentClose: function() {
+            logger.log.debug("CommentTree.onClickCommentClose");
+            
+            this.$refs.commentForm.clear();
+            this.$refs.commentForm.v_comment_item.toggleExpandPanel();
+            this.removeEditor();
+            this.hideEditor();
+        }
     }
 }
 </script>

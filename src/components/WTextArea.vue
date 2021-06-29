@@ -5,6 +5,7 @@
             <template v-slot:control>
                 <textarea class="self-center full-width boxTextarea" 
                     tabindex="0" 
+                    :maxlength="maxlength"
                     :value="v_value" :rows="v_rows" 
                     @input="updateValue($event.target.value)"
                     @focus="onFocus" @focusout="onFocusOut">
@@ -30,18 +31,22 @@ export default{
         //value: { type:String},
         modelValue: { default:"" },
 
+        maxlength: {required:false, type:Number, default:300},
         label: {required:false, type:String, default:""},
         rows: {required:false, type:String},
     },
     data() {    
         return {
+            v_length: '0 of 300',
             v_rows: this.rows,
             v_model: this.model,
             v_value: this.modelValue,
         }
     },
     methods: {
-
+        clear() {
+            this.v_value = "";
+        },
         getValue() {
             return this.v_value;
         },
@@ -51,9 +56,17 @@ export default{
         },
 
         updateValue(value) {
-            this.$emit('update:modelValue',value);
+            //this.$emit('update:modelValue',value);
             //logger.log.debug("WTextArea.updateValue : value=",value,this.modelValue);            
+            
+            if (value.length>=this.maxlength) {
+                const msg = "You can write less than "+this.maxlength.toString()+" chars";
+                CommonFunc.showErrorMessage(this,msg);            
+            }
+            
             this.v_value = value;
+            this.v_length = value.length + ' / ' + this.maxlength.toString();
+            this.$emit("onTextChange",this.v_value);
         },
 
 
