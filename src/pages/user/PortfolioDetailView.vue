@@ -81,7 +81,7 @@
                             <div class="box2-1">  
                                 <q-icon class="coinIcon" name="account_tree" color="black" size="34px" />                                    
                             </div>    
-                            <div class="box2-2">
+                            <div class="box2-2" @click="onClickSymbol(a_portfolio.api_asset.symbol)">
                                 <span class="symbolName"> ({{a_portfolio.api_asset.symbol}})<br> {{a_portfolio.api_asset.name}} </span>                        
                             </div>                            
                             <div class="col box2-3">                            
@@ -242,7 +242,7 @@ export default {
         logger.log.debug("PortfolioDetailView.beforeMounted - params=",this.$route.params);
         
         this.v_user = this.$route.params.user;
-        this.setPortfolio(this.$route.params.portfolio_id);
+        this.setPortfolio(this.$route.params.portfolio);
         this.updateRead();
     },
     mounted() {
@@ -253,7 +253,7 @@ export default {
         //this.avatarUrl = store.getters.moa.user.firebase.photoURL;
         //this.getProfile();
         this.loadComments(this.v_portfolio.id);
-        this.$refs.portfolioChart.update(this.v_portfolio);
+        //this.$refs.portfolioChart.update(this.v_portfolio);
     },
     beforeDestroy() {
         logger.log.debug("PortfolioDetailView.beforeDestroy");
@@ -267,8 +267,15 @@ export default {
             });
         },
 
-        setPortfolio(portfolio_id) {
-            this.v_portfolio = this.v_user.portfolio.getItem(portfolio_id);
+        setPortfolio(portfolio) {
+            //this.v_portfolio = this.v_user.portfolio.getItem(portfolio_id);
+            this.v_portfolio = portfolio;
+            
+            const _this=this;
+            store.state.prices.load().then( response => {
+                _this.v_portfolio.calcPerformance(store.state.prices);
+                _this.$refs.portfolioChart.update(_this.v_portfolio);
+            })
             logger.log.debug("PortfolioDetailView.setPortfolio : v_portfolio=",this.v_portfolio);
         },
 
@@ -437,6 +444,11 @@ export default {
             }).catch(err=>{
                 logger.log.error("PortfolioDetail.onClickAddToMyPortfolio : err=",err);    
             });
+        },
+
+        onClickSymbol:function(symbol) {
+            logger.log.debug("PortfolioDetail.onClickSymbol : symbol=",symbol);        
+            CommonFunc.navAsset(this,symbol);
         }
 
     }

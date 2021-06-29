@@ -3,57 +3,28 @@
 		<!-- items-center-->
 		<div class="col">
 			<div>
-                <WTextArea v-model="v_comments" :rows="v_rows" ref="descText" 
+                <WTextArea v-model="v_comments" :rows="v_rows" :maxlength="maxlength" ref="descText" 
                     label="Please type your comments" 
-                    @onFocus="onFocus"
+                    @onTextChange="onTextChange"
+					@onFocus="onFocus"
                     @onFocusOut="onFocusOut"                
                 />
-<!--
-				<q-field
-					label="Please type your comments"
-					borderless
-					stack-label
-				>
-					<template v-slot:control>
-						<textarea
-							class="self-center full-width boxEditor2"
-							tabindex="0"
-							v-model="v_comments"
-							:rows="v_rows"
-							@focus="onFocus"
-							@focusout="onFocusOut"
-						></textarea>
-					</template>
-				</q-field>
--->
-				<!--              
-            <q-input
-                label="Please type your comments"
-                filled counter
-                v-model="v_comments"
-                @focus="onFocus"
-                autogrow
-                type="textarea"
-                id="contentInput"
-                ref="contentInput"            
-                input-class="boxMessageTextarea"
-                :input-style="v_style"
-                :error="v_error.error"
-                :error-message="v_error.msg"
-            />
--->
+
 			</div>
 
 			<div class="boxEditorCommand" align="right">
+				<span> {{v_length_msg}} </span>
+				
 				<q-btn
 					class="blogCommentSave"
 					label="save"
 					size="12px"
 					color="primary"
 					@click.stop="onClickSubmit"
-					v-if="showSaveButton"
-				>
+					v-if="showSaveButton">
 				</q-btn>
+
+				<q-btn label="Close" @click="onClickClose" v-if="type=='reply'" />
 			</div>
 		</div>
 	</div>
@@ -101,12 +72,20 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		maxlength: {
+			type:Number,
+			default:300,
+		}
 	},
 	data() {
 		return {
 			saving: false,
 			ownerMessage: null,
 			v_comments: null,
+			v_comment_item: null,
+
+			v_length_msg:"0 / " + this.maxlength.toString(),
+
 			v_style: "",
 			v_rows: "1",
 			v_error: {
@@ -147,12 +126,19 @@ export default {
 		hide() {
 			this.$emit("update:visible", false);
 		},
+		clear() {
+			this.v_comments = null;
+			this.$refs.descText.clear();
+		},
 		remove() {
 			this.$el.remove();
 		},
 		setOwnerMessage(data) {
 			console.log("CommentForm.setOwnerMessage=", data);
 			this.ownerMessage = data;
+		},
+		setCommentItem(item) {
+			this.v_comment_item = item;
 		},
 		activate() {
 			// await this.$nextTick()
@@ -228,6 +214,18 @@ export default {
 			logger.log.debug("onFocusOut=", this.$parent);
 			this.$emit("onEditorFocusOut", event);
 		},
+
+		onClickClose:function() {
+			logger.log.debug("onClickClose : parent=",this.$parent);
+			this.$emit("onClickClose", {});
+		},
+
+		onTextChange: function(value) {
+			//logger.log.debug("onTextChange : value=",value);
+			this.v_length_msg = value.length.toString() + " / " + this.maxlength.toString();
+		}
+
+
 	},
 };
 </script>
@@ -241,6 +239,7 @@ export default {
 
 .boxEditor {
 	border: 1px solid #cccccc;
+	border-radius: 7px; 
 }
 .boxEditor2 {
 	border: 1px solid #cccccc;

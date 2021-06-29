@@ -549,17 +549,22 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);
     }
     
-    static navBlog(a_this,page_id) {
+    static navBlog(a_this,page_id,url_only=false) {
         let dic_param = {
-            name: "blog",path: "blog",params: { page_id: page_id },
+            name: "blog",path: "blog", query: { page_id: page_id },
         };
+        if (url_only) {            
+            let a_url = "/#/" + dic_param.path+"?page_id="+page_id;
+            return a_url;
+        }
+
         a_this.$router.push(dic_param);
     }
 
     static navAsset(a_this,symbol) {
         logger.log.debug("CommonFunc.navAsset - ",symbol);
 
-        //CommonFunc.setAppData('selected_author',author);
+        store.getters.nav.add(a_this.$route);
         let dic_param = { name:'asset', path:'asset', params:{ symbol:symbol } };
         a_this.$router.push(dic_param);
     }
@@ -1365,5 +1370,27 @@ export default class CommonFunc {
         }    
         return url;
     }
+
+    static copyUrl(a_this,link_url) {
+        const el = document.createElement('textarea');  
+        el.value = window.location.host+link_url;                                 
+        el.setAttribute('readonly', '');                
+        el.style.position = 'absolute';                     
+        el.style.left = '-9999px';                      
+        document.body.appendChild(el);                  
+
+        logger.log.debug("CommonFunc.copyUrl - url=",el.value);
+
+        const selected =  document.getSelection().rangeCount > 0  ? document.getSelection().getRangeAt(0) : false;
+        el.select();                                    
+        document.execCommand('copy');                   
+        document.body.removeChild(el);                  
+        if (selected) {                                 
+            document.getSelection().removeAllRanges();    
+            document.getSelection().addRange(selected);   
+        }
+
+        CommonFunc.showOkMessage(a_this,'Link Copied');
+    }    
 }
 

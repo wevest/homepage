@@ -83,9 +83,12 @@ export default {
             logger.log.debug("onClickPortfolio: portfolio=",a_portfolio);
             //this.$emit("onClickPortfolio",a_portfolio);
 
+
             this.v_user.id = a_portfolio.api_user.id;
             this.v_user.username = a_portfolio.api_user.username;
-            let dic_param = { name:'portfolio_detail', path:'portfolio_detail', params:{ user:this.v_user, portfolio_id:a_portfolio.id } };
+            
+            store.getters.nav.add(this.$route);
+            let dic_param = { name:'portfolio_detail', path:'portfolio_detail', params:{ user:this.v_user, portfolio:a_portfolio } };
             this.$router.push(dic_param);
         }
     },

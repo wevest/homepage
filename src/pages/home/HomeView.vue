@@ -220,8 +220,8 @@ export default {
             CommonFunc.navBlog(this,param.page_id);
         }
     }
-
 };
+
 </script>
 
 

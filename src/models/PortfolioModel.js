@@ -126,13 +126,14 @@ export class PortfolioModel extends baseCollection {
     }
 
     calcPerformance(prices) {
-        //logger.log.debug("PortfolioModel.calcPerformance : prices=",this);
+        logger.log.debug("PortfolioModel.calcPerformance : prices=",prices);
         let dic_perf = {value:0, roi:0, count:0};
         
+        const _this=this;
         for (let index=0;index<this.items.length;index++) {
             //const price = prices.getPrice(this.items[index])
-            const a_price = prices.getPrice(this.items[index].api_asset.symbol);
-            //logger.log.debug("PortfolioModel.calcPerformance .item =",this.items[index],a_price);
+            const a_price = prices.getPrice(this.items[index].api_asset.symbol)
+            logger.log.debug("PortfolioModel.calcPerformance .item =",this.items[index],a_price);
             if (a_price) {
                 this.items[index].last = a_price.last;
                 this.items[index].roi = CommonFunc.calcRet(this.items[index].price,a_price.last)*100;
@@ -140,6 +141,8 @@ export class PortfolioModel extends baseCollection {
                 dic_perf.count = dic_perf.count+1;
                 dic_perf.roi = dic_perf.roi + this.items[index].roi;
                 dic_perf.value += this.items[index].last*this.items[index].qty;
+
+                //logger.log.debug("PortfolioModel.calcPerformance : item= 11111");
             }
         }
 
@@ -207,9 +210,14 @@ export class PortfolioListModel extends baseCollection{
     load(username=null, portfolio_id=null) { 
         const _this = this;
         
+        /*
         let reqParam = { 
             token: store.getters.token
         };
+        */
+       
+        let reqParam = {};
+
         if (username) {
             reqParam.username = username;
             reqParam.id = portfolio_id;

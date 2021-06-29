@@ -476,7 +476,7 @@ export default {
             //this.$refs.addPortfolio.show();
             
             store.getters.nav.add(this.$route);
-            let dic_param = { name:'portfolio_detail', path:'portfolio_detail', params:{ user:this.v_user, portfolio_id:portfolio.id, back:true } };
+            let dic_param = { name:'portfolio_detail', path:'portfolio_detail', params:{ user:this.v_user, portfolio:portfolio, back:true } };
             this.$router.push(dic_param);
         },
 

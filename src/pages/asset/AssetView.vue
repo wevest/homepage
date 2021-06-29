@@ -230,8 +230,9 @@ export default {
 */
 
         this.g_asset.symbol = this.$route.params.symbol;
-        this.g_asset.symbol = 'BTC';
-        this.g_asset.object_id = 20;
+        this.g_asset.object_id = this.$route.params.id;
+        //this.g_asset.symbol = 'BTC';
+        //this.g_asset.object_id = 20;
 
         this.refresh(this.g_asset);
     },
