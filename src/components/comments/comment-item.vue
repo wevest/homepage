@@ -46,16 +46,19 @@
                         <div v-if="data.level==0">
                             <q-btn 
                                 class="gCommentReplyBtn"
-                                flat                            
+                                flat
+                                no-wrap                            
                                 type="text"                                
                                 @click="replyHandler('editorContainer')" 
                                 v-if="data.children && data.children.length==0">
                                 Reply
                             </q-btn>
                             <q-btn
+                                class="gCommentReplyBtn"
                                 flat
-                                type="text"
+                                no-wrap
                                 size="15px"                  
+                                type="text"
                                 color="grey-8"
                                 @click="toggleExpandPanel"
                                 v-if="data.children && data.children.length" 
@@ -85,9 +88,9 @@
                                 <q-icon 
                                     class="gCommentRatingBtn"                                                                    
                                     name="thumb_up_off_alt"
-                                    @click="onClickLike('like',data)" />&nbsp;
+                                    @click="onClickLike('like',data)" />
                                     <span class="gCommentRatingCount">{{ data.like_count }}</span>
-                            </span>&nbsp;&nbsp;
+                            </span>&nbsp;
                               
                             
                             <span>
@@ -95,7 +98,7 @@
                                     class="gCommentRatingBtn"                                                             
                                     name="thumb_down_off_alt"
                                     @click="onClickLike('dislike',data)"> 
-                                </q-icon>&nbsp;
+                                </q-icon>
                                 <span class="gCommentRatingCount">{{ data.dislike_count }}</span>
                             </span>
                         </div>
@@ -425,4 +428,5 @@ dd.reply-container {
    font-size:18px;
    color:#555555;
 }
+
 </style>

@@ -96,23 +96,23 @@
                     height="200px"
                 />
                 <p> {{ v_post.tags }} </p>
-
-                <div class="row postOwnerBox">
-                    <div class="gPageAvatar">
-                        <WAvatar :avatar="v_post.api_owner.avatar_thumb" :username="v_post.api_owner.username" />
-                    </div>&nbsp;&nbsp;    
-                    
-                    <div>
-                        <span class="username"> {{v_post.api_owner.username}}</span><br>
-                        <!-- <span>First name : {{v_post.api_owner.first_name}}</span> -->
-                        <!-- <span>Last name : {{v_post.api_owner.last_name}}</span> -->
-                        <span class="biography"> {{v_shorten(v_post.api_owner.biography)}}</span>
-                    </div>
-                </div>
-
-                <div class="copyright">
-                    Copyright ⓒ EdenChain. All rights reserved. 무단 전재 및 재배포 금지.
-                </div>
+                    <blockquote class="blockquote"> 
+                        <div class="row postOwnerBox">
+                            <div class="gPageAvatar">
+                                <WAvatar :avatar="v_post.api_owner.avatar_thumb" :username="v_post.api_owner.username" />
+                            </div>&nbsp;&nbsp;    
+                            
+                            <div>
+                                <span class="username"> {{v_post.api_owner.username}}</span><br>
+                                <!-- <span>First name : {{v_post.api_owner.first_name}}</span> -->
+                                <!-- <span>Last name : {{v_post.api_owner.last_name}}</span> -->
+                                <span class="biography"> {{v_shorten(v_post.api_owner.biography)}}</span>
+                            </div>
+                        </div>
+                    </blockquote> 
+                        <div class="copyright">
+                            Copyright ⓒ EdenChain. All rights reserved. 무단 전재 및 재배포 금지. 
+                        </div>
                 <div class="boxRate-parent">
                     <div class="q-pa-md q-gutter-sm boxRate">
                         <q-btn 
@@ -472,6 +472,17 @@ export default {
     font-size:17px;
     color:#888
 }
+
+.blockquote {  
+
+    border: 1px solid #D8D8D8;
+    border-radius: 3px;  
+    margin-left: 0px;  
+    margin-right: 0px;  
+    padding-left: 20px;  
+    padding-right: 20px;  
+    border-left: 10px solid #27a9e3;  
+} 
 
 .blog-write {
     float:right;
