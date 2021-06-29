@@ -481,7 +481,7 @@ export default {
     margin-right: 0px;  
     padding-left: 20px;  
     padding-right: 20px;  
-    border-left: 10px solid #27a9e3;  
+    border-left: 10px solid #D8D8D8;  
 } 
 
 .blog-write {
