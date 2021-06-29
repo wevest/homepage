@@ -24,21 +24,22 @@
                             <q-icon 
                             class="RatingBtn"
                             name="thumb_up_off_alt"  
-                            size="23px"
+                            size="23px" />&nbsp;
                             <span class="RatingCount">{{v_post.like_count}}</span>
                         </span>
                         <span>
                             <q-icon 
                             class="RatingBtn"
                             name="thumb_down_off_alt"
-                            size="23px"
+                            size="23px" />&nbsp;
                             <span class="RatingCount">{{v_post.dislike_count}}</span>
                         </span>
                         <span>
                             <q-icon 
-                            name="check" 
+                            class="RatingBtn"
+                            name="chat_bubble_outline" 
                             style="font-size: 1.5rem;" 
-                            color="grey-8"/>                            
+                            color="grey-8"/>&nbsp;                            
                             <span class="RatingCount">{{v_post.read_count}}</span>
                         </span>
                     </div>

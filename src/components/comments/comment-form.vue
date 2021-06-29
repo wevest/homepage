@@ -46,6 +46,7 @@
 
 			<div class="boxEditorCommand" align="right">
 				<q-btn
+					class="blogCommentSave"
 					label="save"
 					size="12px"
 					color="primary"
@@ -233,6 +234,11 @@ export default {
 
 
 <style scoped>
+
+.blogCommentSave {
+	margin-top:10px;
+}
+
 .boxEditor {
 	border: 1px solid #cccccc;
 }

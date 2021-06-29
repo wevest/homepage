@@ -22,6 +22,7 @@
 			/>
 
 			<div class="row">
+				
 				<q-space />
 
 				<div class="ReviewSaveBtn" align="right">
@@ -215,7 +216,7 @@ export default {
 }
 
 .ReviewSaveBtn {
-	padding-top: 8px;
+	padding-top: 5px;
 	color: #555555;
 	width: 100px;
 }
