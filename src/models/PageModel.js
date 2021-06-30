@@ -243,7 +243,7 @@ export class QuestionPageModel extends PostPageModel{
         //this = new PostPage();
         this.id = obj.id;
         this.title = obj.title;
-        this.description = obj.description;
+        this.body = obj.body;
         
         this.comment_count=obj.comment_count;
         this.dislike_count= obj.dislike_count;
@@ -251,6 +251,7 @@ export class QuestionPageModel extends PostPageModel{
         this.pub_date = obj.pub_date;        
         this.parent_id = obj.parent_id;
 
+        this.reward = obj.reward;
         this.closed = obj.closed;
         this.total_points = obj.total_porints;
 
@@ -480,7 +481,6 @@ export class AssetReviewPageListModel extends baseCollection {
 
 
 export class AnswerPageModel extends PostPageModel{
-    answer_text = null;
     question_id = null;
     comments = [];
     answered = false;
@@ -496,7 +496,7 @@ export class AnswerPageModel extends PostPageModel{
     assign(obj) {
         //this = new PostPage();
         this.id = obj.id;        
-        this.answer_text = obj.answer_text;
+        this.body = obj.body;
         this.answered = obj.answered;
 
         this.comment_count=obj.comment_count;
@@ -608,6 +608,18 @@ export class AnswerPageModel extends PostPageModel{
         });
     }
 
+    remove() {
+        let dic_param = { id:this.id, token:store.getters.token};
+        return new Promise(function(resolve,reject) {
+            logger.log.debug('AnswerPageModel.delete - ',dic_param);
+            CMSAPI.deleteAnswerPost(dic_param,function(response) {                
+                resolve(response);
+            }, function(error) {
+                reject(error);
+            });
+        });
+    }
+
 }
 
 
@@ -664,6 +676,27 @@ export class AnswerPageListModel extends baseCollection {
         const index = _.findIndex(this.items,{id:answer_id});
         this.items[index].answered = true;
     }
+
+    remove(id) {
+
+        const _this=this;
+
+        return new Promise(function(resolve,reject) {
+            const a_answer = _this.getItem(id);
+            if (! a_answer) {
+                logger.log.error("Fail to get answer page id="+id);
+                reject();
+            }
+
+            a_answer.remove().then(response=>{
+                _this.delete(id);
+                resolve(response);
+            }).catch(err=>{
+                reject(err);
+            });
+        });
+
+    }
 }
 
 
@@ -704,5 +737,5 @@ export class AssetPageListModel extends baseCollection {
         });            
     
     }
-
+    
 }

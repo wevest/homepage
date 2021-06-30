@@ -72,7 +72,10 @@ export default {
 			type: Boolean,
 			default: true,
 		},
-
+		save: {
+			type:String,
+			default: null,
+		},
 		type: {
 			validator(value) {
 				return ["comment", "reply"].includes(value);
@@ -193,6 +196,14 @@ export default {
 		},
 
         postComment: function(dic_param) {
+
+			if (this.save) {
+				dic_param.post = this.post;
+				dic_param.editor = this;
+				this.$emit("onClickCommentSave", dic_param);
+				return;
+			}
+
             const _this = this;
             this.post.comments.post(dic_param).then( response => {
                 dic_param.response = response;
@@ -267,7 +278,7 @@ export default {
 .commentBox {
 	border: 1px solid #cccccc;
 	border-radius: 7px; 
-	height:125px;
+	/* height:125px; */
 }
 .saveBtn {
 	margin-top:8px;

@@ -17,6 +17,10 @@
                         </span>
                         <br>
                         <span class="gAnswerDatetime">{{ v_updated_at(a_answer.pub_date) }}</span>        
+                        <div v-if="a_answer.is_owner">
+                            <q-btn label="updte" @click="onClickAnswerUpdate(a_answer)" />
+                            <q-btn label="delete" @click="onClickAnswerDelete(a_answer)" />
+                        </div>
                     </div>
                     <q-space />
                     <div class="gAnswerAcceptBox">
@@ -33,7 +37,7 @@
                 <q-separator />
 
                 <div class="gAnswerContent">
-                    <div v-html="a_answer.answer_text">  </div>
+                    <div v-html="a_answer.body">  </div>
                 </div>
                     <div class="gAnswerRatingBox">              
                         <q-btn 
@@ -60,27 +64,24 @@
                     
                     <div class="CommentBox">
                         <span class="Comments">Comments :</span> 
-                            <span class="CommentsCount"> {{a_answer.comments.length}}</span>
-                    </div>
-                    
-                    <div>
-                        <q-input filled type="textarea" v-model="v_comment" />
-                        <div class="row CommentSaveBtnBox">
-                            <q-space />
-                            <q-btn class="CommentSaveBtn" label="Save" @click="onClickSaveComment(a_answer)" />
-                        </div>
+                        <span class="CommentsCount"> {{a_answer.comments.length}}</span>
                     </div>
 
+                    <div>
+                        <CommentForm ref="commentEditor" type="comment"
+                            :contentType="v_conent_type" :post="a_answer" save="custom"
+                            @onClickCommentSave="onClickSaveComment" />
+                    </div>
+
+                    
                     <q-separator size="2px" />
+                    
 
                     <div v-if="a_answer.comments && a_answer.comments.length>0">
                         <div class="gCommentBox" v-for="(a_comment,index2) in a_answer.comments" :key="index2">
                             <div class="row gCommentAvatarBox">
                                 <div class="gCommentAvatar">
-                                    <q-avatar>
-                                        <q-img :src="a_comment.owner.avatar_thumb" v-if="a_comment.owner.avatar_thumb.length>0" />
-                                        <q-icon v-else name="person" size="50px" />                                    
-                                    </q-avatar>
+                                    <WAvatar :avatar="a_comment.owner.avatar_thumb" :username="a_comment.owner.username" />
                                 </div>
                                 <div class="col gCommentUserDateBox">
                                     <div class="gCommentUserName">
@@ -91,6 +92,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="gCommentText">
                                 <p> {{ a_comment.comment_text}} </p>
                             </div>
@@ -100,6 +102,8 @@
                             <q-space />
 
                             <div class="gCommentRatingBox">
+                                <q-btn v-if="v_is_owner(a_comment)" label="delete" @click="onClickDeleteComment(a_answer,a_comment)" />
+
                                 <q-icon 
                                     class="gCommentRatingBtn"
                                     name="thumb_up"
@@ -161,6 +165,14 @@ export default {
                 return CommonFunc.minifyDatetime(value);
             };
         },
+        v_is_owner() {
+            return (comment) => {
+                if (this.v_me.id==comment.owner.id) {
+                    return true;
+                }
+                return false;
+            }
+        }
     },
     data () {
       return {
@@ -173,6 +185,9 @@ export default {
         v_comments: [],
         v_comment: null,
         
+        v_conent_type: "blog.postpage",
+        v_post:null,
+
         v_question: new QuestionPageModel(),
         v_answers: new AnswerPageListModel(),
         v_answers_comments: new AnswerCommentListModel(),
@@ -195,9 +210,9 @@ export default {
         update: function(question_id) {                        
             
             const _this=this;
-            this.v_answers.load(question_id).then(response=>{                
-                _this.v_answers_comments.load(question_id).then( resp => {
-                    logger.log.debug("update");
+            this.v_answers.load(question_id).then(response=>{             
+                logger.log.debug("AssetAnswerList.loadAnswers : response=",response);
+                _this.v_answers_comments.load(question_id).then( resp => {                    
                     _this.v_answers.addComments(_this.v_answers_comments);
                 }).catch( err => {
 
@@ -258,61 +273,20 @@ export default {
             this.$emit("onClickQuestionAccept",jsonObject);          
         },
 
-        onClickCommentSave: function(payload) {            
-            let dic_param = {content_type:"blog.postpage",
-                object_pk:this.v_post.id, 
-                token:store.getters.token,
-                name:this.v_me.username,  
-                email:'', followup:'FALSE', reply_to:0,
-                comment:payload.comments,                
-            };
-
-            logger.log.debug('onClickCommentSave - ',payload,dic_param);
-            this.postComment(dic_param);
-        },
-
-        onClickCommentReply: function(payload) {
-            let dic_param = {content_type:"blog.postpage",
-                object_pk:this.v_post.id, 
-                token:store.getters.token,
-                name:this.v_me.username,  
-                email:'', followup:'FALSE', reply_to:payload.data.id,
-                comment:payload.comments,                
-            };
-
-            logger.log.debug('onClickCommentReply - ',payload,dic_param);
-            this.postComment(dic_param);
-        },
-
-
-        onEditorFocus: function(event) {
-            logger.log.debug("BlogPage.onEditorFocus=",event);
-            this.$refs.commentForm.v_comments = "";
-            this.$refs.commentForm.v_rows= "5";
-            //contentInput
-        },
-
-        onEditorFocusOut: function(event) {
-            logger.log.debug("BlogPage.onEditorFocusOut=",event);
-            this.$refs.commentForm.v_comments = "";
-            this.$refs.commentForm.v_rows= "1";
-            //contentInput
-        },
-
-        onClickSaveComment: function(answer) {
+        onClickSaveComment: function(dicParam) {
             const _this = this;
 
-            logger.log.debug("AssetAnswerList.onClickSaveComment=",answer);
+            logger.log.debug("AssetAnswerList.onClickSaveComment=",dicParam, this.$refs.commentEditor[0]);
             
             let dic_param = { 
-                comment_text: this.v_comment, 
+                comment_text: dicParam.comment, 
                 api_owner:this.v_me.id 
             };
-            answer.comment(dic_param).then(response=>{
+            dicParam.post.comment(dic_param).then(response=>{
                 _this.g_data = response.data;
-                logger.log.debug("AssetList.onClickSaveComment - response",_this.g_data);
-                
-                answer.addCommentFirst(response.data.data);
+                logger.log.debug("AssetList.onClickSaveComment - response",_this.g_data);                
+                dicParam.post.addCommentFirst(response.data.data);
+                dicParam.editor.clear();
                 CommonFunc.showOkMessage(_this,"Comments Posted");
 
             }).catch(err=>{
@@ -338,6 +312,35 @@ export default {
             });
 
         },
+
+        onClickAnswerUpdate:function(answer) {
+            logger.log.debug("AssetAnswerList.onClickUpdate=",answer);
+            this.$emit("onClickAnswerUpdate",answer);
+        },
+
+        onClickAnswerDelete:function(answer) {
+            logger.log.debug("AssetAnswerList.onClickAnswerDelete=",answer);
+
+            const _this=this;
+            this.v_answers.remove(answer.id).then( response=> {
+                this.$emit("onClickAnswerDelete",answer);
+                CommonFunc.showOkMessage(_this,"Answer Deleted");
+            }).catch(err=>{
+                CommonFunc.showErrorMessage(_this,"Answer Deleted Error");
+            });
+
+        },
+
+        onClickDeleteComment: function(answer,comment) {
+            logger.log.debug("AssetAnswerList.onClickDeleteComment=",answer,comment);
+            
+            comment.remove().then(response=>{
+                logger.log.debug("AssetAnswerList.onClickDeleteComment : response=",response);
+            }).catch(err=>{
+
+            });
+
+        }
 
     }
 }

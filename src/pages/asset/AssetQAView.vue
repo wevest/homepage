@@ -37,27 +37,30 @@
 
                             <q-space />
 
-                        <div>
+                        <div v-if="v_question.is_owner">
                             <q-btn            
                                 class="toolBtn"              
                                 outlined
                                 size="9px"
                                 icon="build"
                                 @click="onClickUpdate" />
+                            <q-btn            
+                                class="toolBtn"              
+                                outlined
+                                size="9px"
+                                icon="remove"
+                                @click="onClickDelete" />
 
                         </div>   
                     </div>                                 
                 </div>
                         
-            <q-separator size="1px" />
-                    
-                                      
-                    
+                <q-separator size="1px" />                                                
 
                 <div class="gPageContent">
                     <Viewer 
                         ref="toastViewer"
-                        :value="v_question.description"
+                        :value="v_question.body"
                         :options="editorOptions"
                         :visible="v_show_editor"
                         previewStyle="vertical"
@@ -85,13 +88,13 @@
         <q-separator size="10px"/>
 
         <div class="row" v-if="! v_question.closed">     
-                <q-space />
-                <div class="pageAnswerBox">                
-                <q-btn 
-                    class="pageAnswerBtn"
-                    dense                                  
-                    label="Answer" @click="onClickAnswer" />
-                </div>            
+            <q-space />
+            <div class="pageAnswerBox">                
+            <q-btn 
+                class="pageAnswerBtn"
+                dense                                  
+                label="Answer" @click="onClickAnswer" />
+            </div>            
         </div>
 
         <q-separator size="10px" />
@@ -101,11 +104,13 @@
                 <AssetAnswerList ref="answerList" 
                     @onClickAnswerRating="onClickAnswerRating"
                     @onClickQuestionAccept="onClickQuestionAccept"
+                    @onClickAnswerUpdate="onClickAnswerUpdate"
                 > 
                 </AssetAnswerList>
             </div>
         </div>
 
+        <QuestionWriterDialog ref="questionWriter" @onQuestionAdded="onQuestionAdded"></QuestionWriterDialog>
         <AnswerWriterDialog ref="answerWriter" @onAnswerAdded="onAnswerAdded"></AnswerWriterDialog>
     </div>
           
@@ -116,7 +121,6 @@
 import 'codemirror/lib/codemirror.css'; 
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Viewer } from "@toast-ui/vue-editor";
-import { Editor } from '@toast-ui/vue-editor';
 
 import { CONST } from 'src/data/const';
 import { store } from 'src/store/store';
@@ -125,6 +129,8 @@ import logger from "src/error/Logger";
 
 import {QuestionPageModel, AnswerPageModel, AnswerPageListModel} from "src/models/PageModel";
 
+import BaseEditor from 'components/BaseEditor';
+import QuestionWriterDialog from 'components/dialogs/QuestionWriterDialog';        
 import AnswerWriterDialog from 'components/dialogs/AnswerWriterDialog';        
 import AssetAnswerList from 'src/pages/asset/component/AssetAnswerList';
 
@@ -133,11 +139,16 @@ export default {
     name:'assetView',
     components: {
         Viewer,
+        BaseEditor,
         AnswerWriterDialog,
+        QuestionWriterDialog,
         AssetAnswerList
     },
     props: [],
     computed: {
+        v_me() {
+            return store.getters.me;
+        },
         v_updated_at() {
             return (value) => {
                 return CommonFunc.minifyDatetime(value);
@@ -199,7 +210,7 @@ export default {
             const _this=this;
             this.v_question.load().then( response => {
                 logger.log.debug("AssetQAView.loadQuestion : response=",response);
-                _this.setContent(_this.v_question.description);
+                _this.setContent(_this.v_question.body);
             });
         },
 
@@ -278,8 +289,31 @@ export default {
             this.$refs.answerList.addAnswer(dic_param.response);
         },
 
+        onQuestionAdded: function(dicParam) {
+            logger.log.debug('AssetQAView.onQuestionAdded : dicParam=',dicParam);
+            this.v_question.body = dicParam.response.data.body;
+        },
+
         onClickUpdate: function() {
             logger.log.debug('AssetQAView.onClickUpdate');
+
+            let a_post = new QuestionPageModel();
+            a_post.question_id = this.v_question.id;
+            a_post.title = this.v_question.title;
+            a_post.setContentType(CONST.CONENT_TYPE_ASSET_ANSWER);
+
+            //logger.log.debug("AssetQAView.onClickAnswer - a_post=",a_post);
+
+            this.$refs.questionWriter.show(this.v_question);
+        },
+
+        onClickDelete: function() {
+            logger.log.debug('AssetQAView.onClickDelete');
+        },
+
+        onClickAnswerUpdate: function(answer) {
+            logger.log.debug('AssetQAView.onClickAnswerUpdate : answer=',answer);
+            this.$refs.answerWriter.show(answer);
         }
     },
 
