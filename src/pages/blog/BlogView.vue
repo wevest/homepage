@@ -15,7 +15,7 @@
                         <span class="gPageTitle">{{v_post.title}}</span>
                         <br>
                         <span class="gPageDatetime">{{v_post.api_owner.username}}</span>&nbsp;
-                        <span class="gPageDatetime">{{v_post.pub_date}}</span>
+                        <span class="gPageDatetime">{{v_updated_at(v_post.pub_date)}}</span>
                     </div>    
                 </div>
                 <div class="boxRate q-pa-md">
@@ -24,21 +24,22 @@
                             <q-icon 
                             class="RatingBtn"
                             name="thumb_up_off_alt"  
-                            size="23px"
+                            size="23px" />&nbsp;
                             <span class="RatingCount">{{v_post.like_count}}</span>
                         </span>
                         <span>
                             <q-icon 
                             class="RatingBtn"
                             name="thumb_down_off_alt"
-                            size="23px"
+                            size="23px" />&nbsp;
                             <span class="RatingCount">{{v_post.dislike_count}}</span>
                         </span>
                         <span>
                             <q-icon 
-                            name="check" 
+                            class="RatingBtn"
+                            name="chat_bubble_outline" 
                             style="font-size: 1.5rem;" 
-                            color="grey-8"/>                            
+                            color="grey-8"/>&nbsp;                            
                             <span class="RatingCount">{{v_post.read_count}}</span>
                         </span>
                     </div>
@@ -87,44 +88,43 @@
                     height="200px"
                 />
                 <p> {{ v_post.tags }} </p>
+                
+                <blockquote class="blockquote"> 
+                    <div class="row postOwnerBox">
+                        <div class="gPageAvatar">
+                            <WAvatar :avatar="v_post.api_owner.avatar_thumb" :username="v_post.api_owner.username" />
+                        </div>&nbsp;&nbsp;    
+                        
+                        <div>
+                            <span class="username"> {{v_post.api_owner.username}}</span><br>
+                            <!-- <span>First name : {{v_post.api_owner.first_name}}</span> -->
+                            <!-- <span>Last name : {{v_post.api_owner.last_name}}</span> -->
+                            <span class="biography"> {{v_shorten(v_post.api_owner.biography)}}</span>
+                        </div>
+                    </div>
+                </blockquote> 
+                <div class="boxRate-parent">
+                    <div class="q-pa-md q-gutter-sm boxRate">
+                        <q-btn 
+                            push
+                            class="rateButton"
+                            flat
+                            size="13px" 
+                            icon="thumb_up_off_alt" 
+                            label="" 
+                            @click="onClickBlogRate(1)"/>
+                        <q-btn
+                            push
+                            class="rateButton"
+                            flat
+                            size="13px"
+                            icon="thumb_down_off_alt"
+                            label=""
+                            @click="onClickBlogRate(-1)" />
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="row authorIntro">            
-            
-            <div class="gPageAvatar">
-                <WAvatar :avatar="v_post.api_owner.avatar_thumb" :username="v_post.api_owner.username" />
-                <span class="username"> {{v_post.api_owner.username}}</span><br>
-            </div> 
-            
-            <div>                
-                <!-- <span>First name : {{v_post.api_owner.first_name}}</span> -->
-                <!-- <span>Last name : {{v_post.api_owner.last_name}}</span> -->
-                <span class="biography"> {{v_shorten(v_post.api_owner.biography)}}</span>
-            </div>            
-        </div>
-
-        <div class="boxRate-parent">
-            <div class="q-pa-md q-gutter-sm boxRate">
-                <q-btn 
-                    push
-                    class="rateButton"
-                    flat
-                    size="13px" 
-                    icon="thumb_up_off_alt" 
-                    label="" 
-                    @click="onClickBlogRate(1)"/>
-                <q-btn
-                    push
-                    class="rateButton"
-                    flat
-                    size="13px"
-                    icon="thumb_down_off_alt"
-                    label=""
-                    @click="onClickBlogRate(-1)" />
-            </div>
-        </div>
-
 
         <div class="row">
             <div class="col">
@@ -162,6 +162,7 @@ import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Viewer } from "@toast-ui/vue-editor";
 
+import { CONST } from 'src/data/const';
 import { MoaConfig } from 'src/data/MoaConfig';
 import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
@@ -191,6 +192,11 @@ export default {
     computed: {
         v_me() {
             return store.getters.me;
+        },
+        v_updated_at() {
+            return (value) => {
+                return CommonFunc.minifyDatetime(value);
+            };
         },
         v_shorten() {
             return (value) => {
@@ -315,6 +321,13 @@ export default {
 
 
         navWriter:function(mode) {
+            let a_post = new PostPageModel();
+            a_post.category = this.v_post.category_id;
+            a_post.setContentType(CONST.CONENT_TYPE_BLOGPAGE);
+
+            this.$refs.blogWriter.show(a_post);
+            
+/*            
             let params = {category_id:this.v_post.category_id};
             if (mode=="new") {
                 params.page_id = null;
@@ -323,6 +336,8 @@ export default {
             }
             let dic_param = { name:'blog_writer', params:params };
             this.$router.push(dic_param);
+*/
+
         },
 
 
@@ -471,6 +486,17 @@ export default {
     font-size:17px;
     color:#888
 }
+
+.blockquote {  
+
+    border: 1px solid #D8D8D8;
+    border-radius: 3px;  
+    margin-left: 0px;  
+    margin-right: 0px;  
+    padding-left: 20px;  
+    padding-right: 20px;  
+    border-left: 10px solid #27a9e3;  
+} 
 
 .blog-write {
     float:right;

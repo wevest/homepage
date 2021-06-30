@@ -1,5 +1,5 @@
 <template>
-	<div class="row no-wrap q-pa-md boxEditor" v-show="visible">
+	<div class="row no-wrap q-pa-md commentBox" v-show="visible">
 		<!-- items-center-->
 		<div class="col">
 			<div>
@@ -9,21 +9,26 @@
 					@onFocus="onFocus"
                     @onFocusOut="onFocusOut"                
                 />
-
 			</div>
 
-			<div class="boxEditorCommand" align="right">
-				<span> {{v_length_msg}} </span>
-				
-				<q-btn
-					label="save"
-					size="12px"
-					color="primary"
-					@click.stop="onClickSubmit"
-					v-if="showSaveButton">
-				</q-btn>
+			<div class="row boxEditorCommand">
+				<div class="typeLength">
+					<span> {{v_length_msg}} </span>
+				</div>	
+						<q-space />				
+					<q-btn
+						class="saveBtn"
+						label="save"
+						size="12px"
+						@click.stop="onClickSubmit"
+						v-if="showSaveButton" />&nbsp;
 
-				<q-btn label="Close" @click="onClickClose" v-if="type=='reply'" />
+					<q-btn 
+						class="saveBtn"
+						label="Close" 
+						size="12px"
+						@click="onClickClose" 
+						v-if="type=='reply'" />
 			</div>
 		</div>
 	</div>
@@ -251,10 +256,25 @@ export default {
 
 
 <style scoped>
-.boxEditor {
+
+.commentBox {
 	border: 1px solid #cccccc;
 	border-radius: 7px; 
+	height:125px;
 }
+.saveBtn {
+	margin-top:8px;
+	color:#FFFFFF;
+	background-color:#4978F4;
+	width:50px;
+}
+
+.typeLength {
+	color:#999999;
+	padding-top:10px;
+}
+
+
 .boxEditor2 {
 	border: 1px solid #cccccc;
 }
@@ -278,4 +298,6 @@ export default {
 	height: 150px !important;
 	max-height: 200px;
 }
+
+
 </style>
