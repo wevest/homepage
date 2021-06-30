@@ -3,121 +3,60 @@
     <div class="q-pa-md">
         <div class="row">
             <div class="col">
-                <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>          
+                <CTitle ttype='title' :title="v_page_title" desc=""></CTitle>          
             </div>
         </div>
-        
-        <div class="row">
-            <div class="col">
-                <CTitle ttype='subtitle' title="Ratings and Score" desc=""></CTitle>          
-                <div class="box_score">
-                    <div class="box_score_point">
-                        <span class="score_point"> {{ v_score.avg }} </span>
-                        <br><span class="price_label">{{ $t('name.cryptovc') }}</span> 
-                        <br><span class="price_tag">{{ v_score.vc }}</span>
-                    </div>
-                    <div>
-                        <q-markup-table flat dense class="box_score_table">
-                            <tbody>
-                                <tr>
-                                    <td class="box_score_table_column"> 
-                                        <span class="caption_color">{{ $t('name.dev_score') }}</span> 
-                                    </td>
-                                    <td style="padding-top:30px;">
-                                        <q-slider
-                                            v-model="v_score.dev" :min="0" :max="5" :step="1"                                            
-                                            label :label-value="v_score.dev" readonly dense
-                                            label-always color="purple" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="box_score_table_column"> 
-                                        <span class="price_label caption_color">{{ $t('name.price_score') }}</span> 
-                                    </td>
-                                    <td>
-                                        <q-slider
-                                            v-model="v_score.price" :min="0" :max="5" :step="1"
-                                            label :label-value="v_score.price"   readonly dense
-                                            label-always color="purple" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="box_score_table_column"> 
-                                        <span class="price_label caption_color">{{ $t('name.volume_score') }}</span> 
-                                    </td>
-                                    <td>
-                                        <q-slider
-                                            v-model="v_score.volume" :min="0" :max="5" :step="1"
-                                            label :label-value="v_score.volume"  readonly dense
-                                            label-always color="purple" />
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </q-markup-table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
 
         <div class="row">
             <div class="col">
+                <!--
+                <q-btn label="Write" @click="onClickWriteBlog" />
+                -->
+                <CTitle ttype='subtitle' title="Market Trend" desc=""
+                    loadMoreCaption="More"
+                    @onClickTitleMore="onClickMoreBlog"></CTitle>
+                <BlogList ref='blogList' @onClickBlog="onClickBlog"></BlogList>
+            </div>
+        </div>
 
-                <q-tabs v-model="v_tab" class="text-black tab_bgcolor" active-color="primary" indicated-color="primary" align="justify" dense>
-                    <q-tab name="review" :label="$t('name.review')" />
-                    <q-tab name="blog" :label="$t('name.info')"  />
-                    <q-tab name="qa" :label="$t('name.qa')"  />
-                </q-tabs>
 
-                <q-tab-panels
-                    v-model="v_tab"
-                    animated dense           
-                    vertical
-                    keep-alive            
-                    transition-prev="jump-up" transition-next="jump-up"
-                    @transition="onTabChange"
+        <div class="row">
+            <div class="col">
+                                        
+                <CTitle ttype='subtitle' title="무엇이든 물고 뜯어요" desc="" 
+                    loadMoreCaption="More"
+                    @onClickTitleMore="onClickMoreQuestion"></CTitle>
+
+                <q-btn label="Question" @click="onClickWriteQuestion" />
+                <AssetQuestionList ref="questionList" 
+                    @onClickQuestion="onClickQuestion"
+                    @onClickQuestionRating="onClickQuestionRating"
                 >
-                    <q-tab-panel name="review" class="q-pa-none">
-                        
-                        <AssetReviewForm ref="reviewForm" 
-                            :category="g_asset.symbol" :objectId="g_asset.object_id"
-                            @onClickReviewSave="onClickReviewSave" 
-                            @onEditorFocus="onFocusReviewForm"
-                            @onEditorFocusOut="onFocusoutReviewForm"
-                        > 
-                        </AssetReviewForm>
-                        <AssetReviewList ref="reviewList" 
-                            :category="g_asset.symbol" :objectId="g_asset.object_id"
-                            @onClickRating="onClickReviewRating" 
-                            @onClickLoadmore="onClickLoadmore"> 
-                        </AssetReviewList>
+                </AssetQuestionList>
 
-                    </q-tab-panel>
+            </div>
+        </div>
 
-                    <q-tab-panel name="blog" class="q-pa-none">
-                        <q-btn label="Write" @click="onClickWriteBlog" />
-                        <BlogList ref='blogList' @onClickBlog="onClickBlog"></BlogList>
-                    </q-tab-panel>
 
-                    <q-tab-panel name="qa" class="q-pa-none">
-                        
-                        <q-btn label="Question" @click="onClickWriteQuestion" />
+        <div class="row">
+            <div class="col">
+                
+                <CTitle ttype='subtitle' title="당신의 평가는?" desc=""
+                    loadMoreCaption="More"
+                    @onClickTitleMore="onClickMoreReview"></CTitle>
 
-                        <AssetQuestionList ref="questionList" 
-                            @onClickQuestion="onClickQuestion"
-                            @onClickQuestionRating="onClickQuestionRating"
-                        >
-                        </AssetQuestionList>
-
-<!--                        
-                        <WEditor ref="weditor" @> </WEditor>
-                        <q-btn label="Save" @click="onClickSaveQuestion" />
--->
-
-                    </q-tab-panel>
-
-                </q-tab-panels>
-
+                <AssetReviewForm ref="reviewForm" 
+                    :category="g_asset.symbol" :objectId="g_asset.object_id"
+                    @onClickReviewSave="onClickReviewSave" 
+                    @onEditorFocus="onFocusReviewForm"
+                    @onEditorFocusOut="onFocusoutReviewForm"
+                > 
+                </AssetReviewForm>
+                <AssetReviewList ref="reviewList" 
+                    :category="g_asset.symbol" :objectId="g_asset.object_id"
+                    @onClickRating="onClickReviewRating" 
+                    @onClickLoadmore="onClickLoadmore"> 
+                </AssetReviewList>
             </div>
         </div>
 
@@ -153,7 +92,6 @@ import WEditor from 'src/pages/asset/component/WEditor';
 
 
 
-
 export default {
     name:'assetView',
     components: {
@@ -169,11 +107,13 @@ export default {
         BlogWriterDialog,
         QuestionWriterDialog,        
     },
-    props: ['symbol'],
     computed: {
         v_me() {
             return store.getters.me;
         },
+        v_page_title() {
+            return this.g_asset.symbol
+        }
     },
     data: function() {
         return {
@@ -195,8 +135,7 @@ export default {
             g_price: {'price_prev':0, 'price_low':0, 'price_high':0, 'price_open':0, 
                 'price':0, 'price_ret':0, 'volume':0, 'tv':0, 
                 'updated_date':'', 'icon':'arrow_drop_up', class:'text-red'},    
-            
-            v_page: {title:this.$t('page.asset.title'), desc:''},
+                        
             v_tab: 'review',
             v_score: {dev:5, price:5, volume:5, vc:0, avg:5},
 
@@ -218,29 +157,22 @@ export default {
 
     created: function () {
         //console.log("HomeView.created");
+        console.log("AssetView.created - query=",this.$route.query);
+
+        this.g_asset.symbol = this.$route.query.symbol;
+        this.g_asset.object_id = parseInt(this.$route.query.id);
     },
     mounted: function() {
-        console.log("AssetView.mounted - symbol=",this.symbol,this.$route.params);
-/*
-        let a_selected = CommonFunc.getAppData('crypto_selected');
-        console.log("InstrumentView.mounted - ",a_selected);
-        if (a_selected)  {
-            //this.showChart(a_selected,[],'');
-        }
-*/
-
-        this.g_asset.symbol = this.$route.params.symbol;
-        this.g_asset.object_id = this.$route.params.id;
         //this.g_asset.symbol = 'BTC';
         //this.g_asset.object_id = 20;
 
         this.refresh(this.g_asset);
     },
     updated: function() {
-        console.log("AssetView.updated - symbol=",this.symbol,this.$route.params);
+        console.log("AssetView.updated - query=",this.$route.query);
         
-        if (this.$route.params.symbol) {
-            this.g_asset.symbol = this.$route.params.symbol;
+        if (this.$route.query.symbol) {
+            this.g_asset.symbol = this.$route.query.symbol;
         }
         
         //CommonFunc.setAppData('onSearchEvent',this.onSearchEvent);
@@ -254,38 +186,12 @@ export default {
                 return
             }
 
-            if (this.v_tab=="review") {
-                this.loadAssetReviewData();
-            } else {
-                this.loadAssetQuestionData();
-            }
-            
-            
-            //this.loadBlogList();
+            this.loadAssetReviewData();            
+            this.loadAssetQuestionData();                    
+            this.loadBlogList();
 
         },
         
-        getScore: function(value) {
-            if (value>0.8) {                
-                //return 'A';
-                return 5;
-            } else if (value>0.6) {
-                return 4;
-                //return 'B';
-            } else if (value>0.4) {
-                return 3;
-                //return 'C';
-            } else if (value>0.2) {
-                return 2;
-                //return 'D';
-            } else if (value==0) { 
-                return 0;
-            } else {
-                return 1;
-                //return 'F';
-            }
-        },
-
         updateScoreWidget: function(json_data) { 
             logger.log.debug("updateScoreWidget.data=",json_data);
             const dic_columns = CommonFunc.getColumnDic(json_data.columns,[],[]);
@@ -436,7 +342,7 @@ export default {
 
 
         loadAssetReviewData: function() {
-            let dic_param = {'object_id':this.g_asset.object_id};
+            let dic_param = {'category':this.g_asset.symbol, 'object_id':this.g_asset.object_id};
             this.$refs.reviewList.update(dic_param);
         },
 
@@ -447,9 +353,9 @@ export default {
 
 
         loadBlogList: function() {
-            console.log('AssetView.loadBlogList - ');
-            const category = CONST.ASSETPAGE_CATEGORY+this.g_data.symbol;
-            this.$refs.blogList.update(null,category);
+            const category = CONST.ASSETPAGE_CATEGORY+this.g_asset.symbol;
+            console.log('AssetView.loadBlogList - ',category);            
+            this.$refs.blogList.updateByCategory(category);
         },
 
         navBlogWriter: function() {
@@ -511,11 +417,11 @@ export default {
             });
         },
 
-        onClickQuestion: function(json_question) {
-            logger.log.debug('AssetView.onClickQuestion - ',json_question);
+        onClickQuestion: function(jsonQuestion) {
+            logger.log.debug('AssetView.onClickQuestion - ',jsonQuestion);
             
             store.getters.nav.add(this.$route);
-            let dic_param = { name:'assetqa', params:json_question };
+            let dic_param = { name:'assetqa', query:{id:jsonQuestion.id} };
             this.$router.push(dic_param);            
         },
 
@@ -605,7 +511,19 @@ export default {
         onQuestionAdded: function(dic_param) {
             logger.log.debug('AssetView.onQuestionAdded : dic_param=',dic_param);
             this.$refs.questionList.addQuestion(dic_param.response);
-        }
+        },
+
+        onClickMoreQuestion: function() {
+            logger.log.debug('AssetView.onClickMoreQuestion');
+        },
+
+        onClickMoreBlog: function() {
+            logger.log.debug('AssetView.onClickMoreBlog');
+        },
+
+        onClickMoreReview: function() {
+            logger.log.debug('AssetView.onClickMoreReview');
+        },
 
     },
 

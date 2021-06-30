@@ -65,11 +65,16 @@ export class PostPageModel {
     }
 
     formatTags(tags) {
-      let msg = "";
-      for (let index=0;index<tags.length;index++) {
-        msg += tags[index].name + ",";
-      }
-      return msg.substring(0,msg.length-1);
+        let msg = "";
+
+        if (! tags) {
+            return msg;
+        }            
+
+        for (let index=0;index<tags.length;index++) {
+            msg += tags[index].name + ",";
+        }
+        return msg.substring(0,msg.length-1);
     }
 
 
@@ -104,9 +109,11 @@ export class PostPageModel {
 
         this.category_id=null;
         this.category_name=null;
-        if (this.api_categories.length>0) {
-            this.category_id = this.api_categories[0].id;
-            this.category_name = this.api_categories[0].name;
+        if (this.api_categories) {
+            if (this.api_categories.length>0) {
+                this.category_id = this.api_categories[0].id;
+                this.category_name = this.api_categories[0].name;
+            }    
         }
 
         this.api_tags = obj.api_tags;

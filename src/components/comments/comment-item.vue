@@ -66,7 +66,7 @@
                               {{
                                   isExpanded
                                       ? `Collapse`
-                                      : `${replyCount} Reply Count`
+                                      : `${replyCount} Reply`
                               }}
                               <i
                                   :class="

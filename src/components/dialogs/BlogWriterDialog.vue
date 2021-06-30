@@ -18,7 +18,9 @@
                             <q-space />
                             <div>
                                 <q-btn label="Save" @click="onClickSave" />
+                                <!--
                                 <q-btn label="Delete" @click="onClickDelete" v-if="! isNewPost" />
+                                -->
                             </div>
                         </div>
 
@@ -88,14 +90,26 @@ export default {
     },
 
     created: function () {
-        console.log("BlogWriterView.created");
+        logger.log.debug("BlogWriterView.created");
     },
-    mounted: function() {},
-    updated: function() {},
+    mounted: function() {
+    },
+    updated: function() {
+        logger.log.debug("BlogWriterView.updated : v_post=",this.v_post);
+        this.fillData();
+    },
     
     methods: {      
         setPost(post) {
             this.v_post = post;
+            
+        },
+
+        fillData: function() {
+            //this.$refs.baseEditor.setConent(this.v_post.body);
+            if (this.$refs.baseEditor) {
+                this.$refs.baseEditor.setPostModel(this.v_post);
+            }            
         },
 
         refresh: function(page_id) {

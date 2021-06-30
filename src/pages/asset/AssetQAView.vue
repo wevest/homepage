@@ -45,12 +45,6 @@
                                 icon="build"
                                 @click="onClickUpdate" />
 
-                            <q-btn
-                                class="toolBtn"                            
-                                outlined
-                                size="9px"
-                                icon="delete"
-                                @click="onClickDeletePortfolio" />       
                         </div>   
                     </div>                                 
                 </div>
@@ -174,9 +168,9 @@ export default {
         //console.log("HomeView.created");
     },
     mounted: function() {
-        logger.log.debug("AssetQAView.mounted - param=",this.$route.params);
+        logger.log.debug("AssetQAView.mounted - param=",this.$route.query);
         
-        this.v_question.id = this.$route.params.id;
+        this.v_question.id = this.$route.query.id;
         //this.v_question.id = 24;
         this.refresh();
     },
@@ -284,6 +278,9 @@ export default {
             this.$refs.answerList.addAnswer(dic_param.response);
         },
 
+        onClickUpdate: function() {
+            logger.log.debug('AssetQAView.onClickUpdate');
+        }
     },
 
 }

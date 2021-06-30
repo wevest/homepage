@@ -2,6 +2,11 @@
 	<div class="row no-wrap q-pa-md ReviewTextBox" :style="v_style" v-show="visible">
 		<div class="col">
 			<div>
+				<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
+				<span> {{v_me.username}} </span>
+			</div>
+
+			<div>
 				<WTextArea
 					label="Please Type your review"                
 					v-model="v_comments"
@@ -10,7 +15,7 @@
                     @onFocus="onFocus"
                     @onFocusOut="onFocusOut"
 				/>
-				
+
 			</div>
 
 			<q-rating
@@ -40,9 +45,11 @@
 
 
 <script>
+import {store} from "src/store/store";
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 import WTextArea from "src/components/WTextArea";
+import WAvatar from "src/components/WAvatar";
 
 import {AssetReviewPageModel} from "src/models/PageModel";
 
@@ -50,17 +57,18 @@ import {AssetReviewPageModel} from "src/models/PageModel";
 export default {
 	name: "review-form",
 	components: {
+		WAvatar,
 		WTextArea,
 	},
 	//mixins: [hasComments],
 	props: {
         category: {
-            required: true,
+            required: false,
             type:String,
             default: ''
         },
         objectId: {
-            required: true,
+            required: false,
             type: Number,
             default:-1
         },
@@ -96,11 +104,15 @@ export default {
 		};
 	},
 
-	computed: {},
+	computed: {
+        v_me() {
+            return store.getters.me;
+        },
+	},
 	watch: {},
 
 	mounted() {
-		// Emit initial values of local properties
+		logger.log.debug("AssetReviewForm.mounted");
 		//this.$emit("update:saving", this.saving);
 	},
 

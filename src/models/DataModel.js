@@ -40,7 +40,7 @@ export class NavBackModel {
 
     add(route) {
         logger.log.debug("NavBackModel.add:route=",route);
-        this.items.push( { name:route.name, path:route.path, params:route.params } );
+        this.items.push( { name:route.name, path:route.path, query:route.query } );
 
         const a_toolbar = this.getToolbar();
         a_toolbar.setBackButton(true);

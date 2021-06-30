@@ -3,6 +3,11 @@
 		<!-- items-center-->
 		<div class="col">
 			<div>
+				<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
+				<span> {{v_me.username}} </span>
+			</div>
+
+			<div>
                 <WTextArea v-model="v_comments" :rows="v_rows" :maxlength="maxlength" ref="descText" 
                     label="Please type your comments" 
                     @onTextChange="onTextChange"
@@ -40,12 +45,14 @@ import {store} from "src/store/store";
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
+import WAvatar from "src/components/WAvatar";
 import WTextArea from "src/components/WTextArea";
 
 
 export default {
 	name: "comment-form",
     components: {
+		WAvatar,
         WTextArea,
     },
 	//mixins: [hasComments],

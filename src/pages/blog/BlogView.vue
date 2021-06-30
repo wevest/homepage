@@ -70,6 +70,14 @@
                             icon="mode"
                             label="Update" 
                             @click="onClickUpdate" />
+                        <q-btn 
+                            v-if="v_post.is_owner"
+                            outlined
+                            size="9px"
+                            color="primary"
+                            icon="mode"
+                            label="Delete" 
+                            @click="onClickDelete" />
                     </div>
 
                 </div>
@@ -100,6 +108,7 @@
                             <!-- <span>First name : {{v_post.api_owner.first_name}}</span> -->
                             <!-- <span>Last name : {{v_post.api_owner.last_name}}</span> -->
                             <span class="biography"> {{v_shorten(v_post.api_owner.biography)}}</span>
+                            <q-btn label="Follow" @click="onClickFollow(1)" v-if="! v_owner" />
                         </div>
                     </div>
                 </blockquote> 
@@ -107,19 +116,19 @@
                     <div class="q-pa-md q-gutter-sm boxRate">
                         <q-btn 
                             push
-                            class="rateButton"
+                            
                             flat
                             size="13px" 
                             icon="thumb_up_off_alt" 
-                            label="" 
+                            label="도움돼요" 
                             @click="onClickBlogRate(1)"/>
                         <q-btn
                             push
-                            class="rateButton"
+                            
                             flat
                             size="13px"
                             icon="thumb_down_off_alt"
-                            label=""
+                            label="도움안돼요"
                             @click="onClickBlogRate(-1)" />
                     </div>
                 </div>
@@ -202,6 +211,12 @@ export default {
             return (value) => {
                 return CommonFunc.shortenString(value,MoaConfig.setting.maxBiographyLength);
             };
+        },
+        v_owner() {
+            if (this.v_post.api_owner.id==this.v_me.id) {
+                return true;
+            }
+            return false;
         }
     },
     data: function () {
@@ -322,6 +337,13 @@ export default {
 
         navWriter:function(mode) {
             let a_post = new PostPageModel();
+            if (mode=="new") {
+                a_post.id = null;
+            } else {
+                a_post = this.v_post;
+
+            }
+
             a_post.category = this.v_post.category_id;
             a_post.setContentType(CONST.CONENT_TYPE_BLOGPAGE);
 
@@ -329,11 +351,6 @@ export default {
             
 /*            
             let params = {category_id:this.v_post.category_id};
-            if (mode=="new") {
-                params.page_id = null;
-            } else {
-                params.page_id = this.v_post.id;
-            }
             let dic_param = { name:'blog_writer', params:params };
             this.$router.push(dic_param);
 */
@@ -368,31 +385,14 @@ export default {
             
         },
 
-        onClickUpdate: function() {                        
-            const _this = this;
-            const a_text = this.$refs.toastuiEditor.invoke('getHtml');
-
-            this.v_post.category_id = 1;
-            let dic_param = { id:4, title:this.v_post.title,tags:this.v_post.tags, 
-                category_id:this.v_post.category_id, text:a_text, token:store.getters.token};
-            logger.log.debug('onClickUpdate - ',dic_param);
-            CMSAPI.postBlogPost(dic_param,function(response) {
-                CommonFunc.showOkMessage(_this,'Blog updated');
-
-            }, function(response) {
-
-            });
-        },
-
         onClickDelete: function() {                        
             const _this = this;
-            let dic_param = { id:9, token:store.getters.token};
-            logger.log.debug('onClickDelete - ',dic_param);
-            CMSAPI.deleteBlogPost(dic_param,function(response) {
-                CommonFunc.showOkMessage(_this,'Blog deleted');
-
-            }, function(response) {
-
+            //let dic_param = { id:this.v_post.id, token:store.getters.token};
+            logger.log.debug('BlogPage.onClickDelete');
+            this.v_post.remove().then( response => {
+                CommonFunc.showOkMessage(_this,'Blog deleted');                
+            }).catch(err=>{
+                CommonFunc.showErrorMessage(_this,err.data.msg);
             });
         },
 
@@ -458,6 +458,19 @@ export default {
 
         onBlogDeleted: function() {
             logger.log.debug("BlogPage.onBlogDeleted=");            
+        },
+
+        onClickFollow: function(value) {
+            logger.log.debug("BlogPage.onClickFollow=");
+            
+            const _this=this;
+            this.v_me.follow(this.v_post.api_owner.id,value).then( response => {
+                logger.log.debug("onClickFollow - response=",response);
+                CommonFunc.showOkMessage(_this,'Followed');                
+            }).catch(err=>{
+                CommonFunc.showErrorMessage(_this,err.data.msg);
+            });
+
         }
     }
 

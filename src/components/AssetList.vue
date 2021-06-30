@@ -66,7 +66,7 @@ export default {
         onClickAsset: function(post) {
           logger.log.debug('onClickBlog : asset = ',post);
           
-          let dic_param = { name:'asset', path:'asset', params:{ symbol:post.title, id:post.id } };          
+          let dic_param = { name:'asset', path:'asset', query:{ symbol:post.title, id:post.id } };          
           this.$emit("onClickAsset",dic_param);          
         },
 

@@ -5,8 +5,15 @@
         <div class="ctitle" v-if="ttype==='title'">
             <h5 class="title">{{ title }} <span class="desc">{{ desc }} </span></h5> 
         </div>
-        <div class="ctitle" v-if="ttype==='subtitle'">
-            <h6 class="subtitle">{{ title }} <span class="desc">{{ desc }} </span></h6> 
+
+        <div class="row ctitle" v-if="ttype==='subtitle'">
+            <div>
+                <h6 class="subtitle">{{ title }} <span class="desc">{{ desc }} </span></h6> 
+            </div>
+            <q-space />
+            <div>
+                <q-btn :label="loadMoreCaption" @click="onClickMore" v-if="loadMoreCaption.length>0" />
+            </div>
         </div>
 
     </div>
@@ -15,6 +22,9 @@
 
 
 <script>
+import logger from "src/error/Logger";
+
+
 export default {
     name: 'CTitle',
     components: {},
@@ -31,11 +41,20 @@ export default {
             type: String,
             default: 'description',
         },
+        loadMoreCaption: {
+            type:String,
+            default:""
+        }
     },
     computed: {
     },
     data: function () {
         return {
+        }
+    },
+    methods: {        
+        onClickMore: function() {
+            this.$emit("onClickTitleMore",{});
         }
     }
 }
