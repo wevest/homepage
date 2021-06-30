@@ -5,7 +5,7 @@
 		<div class="loadMoreBox" v-if="v_next_url">
             <q-btn class="expandMore" icon-right="expand_more" label="Loadmore" dense flat @click="onClickLoadMore" />
 		</div>    
-        <q-separator class="loadmoreSeparator1" size="1px" />
+        <q-separator class="loadmoreSeparator2" size="1px" />
     </div>
 
 </template>
@@ -54,11 +54,11 @@ export default {
 <style scope>s
 
 .loadmoreSeparator1 {
-    margin-bottom:15px;
+    margin-bottom:20px;
 
 }
 .loadmoreSeparator2 {
-    margin-top:15px;
+    margin-top:20px;
 
 }
 
