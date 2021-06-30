@@ -18,7 +18,9 @@
                             <q-space />
                             <div>
                                 <q-btn label="Save" @click="onClickSave" />
+                                <!--
                                 <q-btn label="Delete" @click="onClickDelete" v-if="! isNewPost" />
+                                -->
                             </div>
                         </div>
 
@@ -95,14 +97,24 @@ export default {
     },
 
     created: function () {
-        console.log("BlogWriterView.created");
+        logger.log.debug("QuestionWriterView.created");
     },
     mounted: function() {},
-    updated: function() {},
+    updated: function() {
+        logger.log.debug("QuestionWriterView.updated : post=",this.v_post);
+        this.fillData();
+    },
     
     methods: {      
         setPost(post) {
             this.v_post = post;
+        },
+
+        fillData: function() {
+            //this.$refs.baseEditor.setConent(this.v_post.body);
+            if (this.$refs.baseEditor) {
+                this.$refs.baseEditor.setPostModel(this.v_post);
+            }            
         },
 
         refresh: function(page_id) {
@@ -119,24 +131,6 @@ export default {
         },
         
 
-        loadBlogPost: function(page_id) {
-            const _this = this;
-
-            return new Promise(function(resolve,reject) {
-                //logger.log.debug("CWatchView.loadCryptoWatchData - dic_param=",dic_param);
-                CMSAPI.getPostData(page_id,function(response) {
-                    _this.g_data = response.data;
-                    logger.log.debug("BlogWriterView.loadBlogPost - response",_this.g_data);
-                    _this.handlePostPage(_this.g_data);
-                    resolve();
-
-                },function(err) {
-                    logger.log.error("BlogWriterView.loadBlogPost - error",err);
-                    reject();
-                });
-            });            
-        },
-        
         validate: function(v_post) {
             if (CommonFunc.isEmptyObject(v_post.title)) {
                 this.v_error.title.error = true;

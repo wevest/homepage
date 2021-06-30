@@ -18,12 +18,15 @@
                             <q-space />
                             <div>
                                 <q-btn label="Save" @click="onClickSave" />
+                                <!--
                                 <q-btn label="Delete" @click="onClickDelete" v-if="! isNewPost" />
+                                -->
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col">
+                                <!--
                                 <q-input 
                                     readonly
                                     v-model="v_post.title" 
@@ -31,11 +34,14 @@
                                     :error="v_error.title.error"
                                     :error-message="v_error.title.msg"
                                 />
+                                -->
                                 <BaseEditor ref="baseEditor" @onPostSave="onPostSave" />
                                 <div v-if="v_error.text.error">
                                     {{v_error.text.msg}}
                                 </div>
+                                <!--
                                 <q-input v-model="v_post.tags" label="Tags" />
+                                -->
                             </div>
                         </div>
                     </div>
@@ -55,7 +61,7 @@ import logger from 'src/error/Logger';
 import CMSAPI from 'src/services/cmsService';
 
 import CTitle from 'components/CTitle';
-import {PostPageModel} from "src/models/PageModel";
+import {AnswerPageModel} from "src/models/PageModel";
 import BaseEditor from 'components/BaseEditor';
 
 
@@ -78,7 +84,7 @@ export default {
             
             v_show: false,
 
-            v_post: new PostPageModel(),
+            v_post: new AnswerPageModel(),
             
             v_page: {title:this.$t('page.cryptovc.title'), desc:''},
             v_error: {
@@ -92,39 +98,23 @@ export default {
         console.log("BlogWriterView.created");
     },
     mounted: function() {},
-    updated: function() {},
+    updated: function() {
+        this.fillData();
+    },
     
     methods: {      
         setPost(post) {
             this.v_post = post;
         },
 
-
-        loadBlogPost: function(page_id) {
-            const _this = this;
-
-            return new Promise(function(resolve,reject) {
-                //logger.log.debug("CWatchView.loadCryptoWatchData - dic_param=",dic_param);
-                CMSAPI.getPostData(page_id,function(response) {
-                    _this.g_data = response.data;
-                    logger.log.debug("BlogWriterView.loadBlogPost - response",_this.g_data);
-                    _this.handlePostPage(_this.g_data);
-                    resolve();
-
-                },function(err) {
-                    logger.log.error("BlogWriterView.loadBlogPost - error",err);
-                    reject();
-                });
-            });            
+        fillData: function() {
+            //this.$refs.baseEditor.setConent(this.v_post.body);
+            if (this.$refs.baseEditor) {
+                this.$refs.baseEditor.setPostModel(this.v_post);
+            }            
         },
-        
+
         validate: function(v_post) {
-            if (CommonFunc.isEmptyObject(v_post.title)) {
-                this.v_error.title.error = true;
-                this.v_error.title.msg = 'Please type title';
-                return false;
-            }
-            
             let a_text = this.$refs.baseEditor.getContents();
             if (CommonFunc.isEmptyObject(a_text)) {
                 this.v_error.text.error = true;
@@ -156,10 +146,12 @@ export default {
         },
 
         onClickSave: function() {                        
+            logger.log.debug('onClickSave - ',this.v_post);
+
             if (! this.validate(this.v_post)) {
                 return;
             }
-            logger.log.debug('onClickSave - ',this.v_post);
+            
 
             let v_post = this.v_post;
             v_post.question_id = this.v_post.question_id;
