@@ -251,6 +251,9 @@ export default {
 
 		onFocus(event) {
 			logger.log.debug("onFocus=", this.$parent);
+            //this.$refs.commentForm.v_comments = "";
+            //this.$refs.commentForm.v_rows= "5";
+			
 			this.$emit("onEditorFocus", event);
 		},
 		onFocusOut(event) {
