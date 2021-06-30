@@ -1,9 +1,11 @@
 <template>
     
     <div>
-		<div v-if="v_next_url">
-			<q-btn label="loadMore" @click="onClickLoadMore" />
+        <q-separator class="loadmoreSeparator1" size="1px" />
+		<div class="loadMoreBox" v-if="v_next_url">
+            <q-btn class="expandMore" icon-right="expand_more" label="Loadmore" dense flat @click="onClickLoadMore" />
 		</div>    
+        <q-separator class="loadmoreSeparator2" size="1px" />
     </div>
 
 </template>
@@ -49,6 +51,21 @@ export default {
 </script>
 
 
-<style>
+<style scope>s
 
+.loadmoreSeparator1 {
+    margin-bottom:10px;
+
+}
+.loadmoreSeparator2 {
+    margin-top:10px;
+
+}
+
+.loadMoreBox {
+    width:155px;
+    margin:0px auto;
+    color:#333333;
+
+}
 </style>
