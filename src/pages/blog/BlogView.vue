@@ -570,9 +570,10 @@ export default {
 }
 
 .username {
-    font-size:16px;
+    font-size:17px;
     color:#222222;
     font-weight:bold;
+    margin-right:2px;
 }
 
 .biography {
