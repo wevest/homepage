@@ -38,8 +38,7 @@
                             <q-icon 
                             class="RatingBtn"
                             name="chat_bubble_outline" 
-                            style="font-size: 1.5rem;" 
-                            color="grey-8"/>&nbsp;                            
+                            size="23px" />&nbsp;                            
                             <span class="RatingCount">{{v_post.read_count}}</span>
                         </span>
                     </div>
@@ -105,11 +104,13 @@
                         </div>&nbsp;&nbsp;    
                         
                         <div>
-                            <span class="username"> {{v_post.api_owner.username}}</span><br>
+                            <span class="username"> {{v_post.api_owner.username}}</span>&nbsp;
+                            <q-btn class="followBtn" icon="add_circle" size="13px" dense flat @click="onClickFollow(1)" v-if="! v_owner" />
+                            <span class="followText"> Follow</span>
+                            <br>
                             <!-- <span>First name : {{v_post.api_owner.first_name}}</span> -->
                             <!-- <span>Last name : {{v_post.api_owner.last_name}}</span> -->
                             <span class="biography"> {{v_shorten(v_post.api_owner.biography)}}</span>
-                            <q-btn label="Follow" @click="onClickFollow(1)" v-if="! v_owner" />
                         </div>
                     </div>
                 </blockquote> 
@@ -582,6 +583,14 @@ export default {
 .copyright {
     font-size:13px;
     color:#222222;
+}
+
+.followBtn {
+    color:#4978F4;;
+}
+
+.followText {
+    color:#4978F4;
 }
 
 .separator {
