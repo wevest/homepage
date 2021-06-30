@@ -8,7 +8,7 @@
             </div>
         </div>
 -->
-        <div class="row">
+        <div class="row titleBox">
             <div class="col">
                 <div class="row">
                     <div>
@@ -23,14 +23,14 @@
                         <span>
                             <q-icon 
                             class="RatingBtn"
-                            name="thumb_up_off_alt"  
+                            name="sentiment_very_satisfied"  
                             size="23px" />&nbsp;
                             <span class="RatingCount">{{v_post.like_count}}</span>
                         </span>
                         <span>
                             <q-icon 
                             class="RatingBtn"
-                            name="thumb_down_off_alt"
+                            name="sentiment_very_dissatisfied"
                             size="23px" />&nbsp;
                             <span class="RatingCount">{{v_post.dislike_count}}</span>
                         </span>
@@ -78,17 +78,18 @@
         </div>
 
         <div class="row">
-            <div class="col body-content">
-                <Viewer 
-                    ref="toastViewer"
-                    :value="v_post.body"
-                    :options="editorOptions"
-                    :visible="editorVisible"
-                    previewStyle="vertical"
-                    height="200px"
-                />
-                <p> {{ v_post.tags }} </p>
-                
+            <div class="col">
+                <div class="bodyBox">
+                    <Viewer 
+                        ref="toastViewer"
+                        :value="v_post.body"
+                        :options="editorOptions"
+                        :visible="editorVisible"
+                        previewStyle="vertical"
+                        height="200px"
+                    />
+                    <p> {{ v_post.tags }} </p>
+                </div>
                 <blockquote class="blockquote"> 
                     <div class="row postOwnerBox">
                         <div class="gPageAvatar">
@@ -104,26 +105,31 @@
                     </div>
                 </blockquote> 
                 <div class="boxRate-parent">
-                    <div class="q-pa-md q-gutter-sm boxRate">
-                        <q-btn 
-                            push
-                            class="rateButton"
-                            flat
-                            size="13px" 
-                            icon="thumb_up_off_alt" 
-                            label="" 
-                            @click="onClickBlogRate(1)"/>
-                        <q-btn
-                            push
-                            class="rateButton"
-                            flat
-                            size="13px"
-                            icon="thumb_down_off_alt"
-                            label=""
-                            @click="onClickBlogRate(-1)" />
+                    <div class="row ratingBox">
+                         <div>
+                            <q-btn 
+                                class="rateButton"
+                                flat
+                                size="18px" 
+                                icon="sentiment_very_satisfied" 
+                                @click="onClickBlogRate(1)"/><br>
+                                <span>도움이 돼요</span>   
+                        </div> &nbsp;                         
+                        <div>
+                            <q-btn
+                                class="rateButton"
+                                flat
+                                size="18px"
+                                icon="sentiment_very_dissatisfied"
+                                @click="onClickBlogRate(-1)" /><br>
+                                <span>도움이 안 돼요</span>
+                        </div>        
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="separator">
+             <q-separator size="10px" color="grey-"/>
         </div>
 
         <div class="row">
@@ -467,6 +473,7 @@ export default {
 
 
 <style scoped>
+
 .blog-title {
     margin:0px auto 1px;
     color:#000;
@@ -482,9 +489,11 @@ export default {
     padding:1px  5px;
 }
 
-.body-content {
+.bodyBox {
     font-size:17px;
-    color:#888
+    color:#888;
+    padding: 45px 0px 30px 0px;
+
 }
 
 .blockquote {  
@@ -515,13 +524,22 @@ export default {
     /* margin:0 auto; */    
     /* text-align:center;  */
     /* margin:0 auto; */
+    text-align:center;
     padding:15px 0px 15px 0px;
     
 }
 
 .rateButton {
     color:#616161;
-    width:40px;
+    width:80px;
+}
+
+.ratingBox {
+    text-align:center;
+    width:194px;
+    padding:15px;
+    margin:0 auto;
+   
 }
 
 .boxCommentCount {
@@ -554,7 +572,7 @@ export default {
 }
 
 .separator {
-    padding:30px 0px;
+    padding:15px 0px;
 }
 
 .RatingBtn {

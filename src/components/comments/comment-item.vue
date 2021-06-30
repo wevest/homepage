@@ -426,7 +426,7 @@ dd.reply-container {
 
 .deleteBtn {
    font-size:18px;
-   color:#555555;
+   color:#777777;
 }
 
 </style>

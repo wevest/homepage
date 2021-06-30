@@ -264,8 +264,9 @@ export default {
 }
 .saveBtn {
 	margin-top:8px;
+	font-weight:700;
 	color:#FFFFFF;
-	background-color:#4978F4;
+	background-color:#B0B3BE;
 	width:50px;
 }
 
