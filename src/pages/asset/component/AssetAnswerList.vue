@@ -334,10 +334,14 @@ export default {
         onClickDeleteComment: function(answer,comment) {
             logger.log.debug("AssetAnswerList.onClickDeleteComment=",answer,comment);
             
+            const _this=this;
             comment.remove().then(response=>{
                 logger.log.debug("AssetAnswerList.onClickDeleteComment : response=",response);
+                _this.v_answers_comments.remove(answer.comments,comment.id);                
+                CommonFunc.showOkMessage(_this,"Answer comment Deleted");
             }).catch(err=>{
-
+                logger.log.debug("AssetAnswerList.onClickDeleteComment : err=",err);
+                CommonFunc.showErrorMessage(_this,"Answer Deleted Error");
             });
 
         }

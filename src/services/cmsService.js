@@ -366,7 +366,10 @@ export default class CMSAPI {
   	}
 
   	static deleteAssetAnswerComment(dic_param, func, funcErr) {
-    	let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/qa/acomments/");
+    	let url = CMSAPI.getUrl(
+			MoaConfig.urls.cms, 
+			"/api/qa/acomments/" + dic_param.id + "/"
+		);
     	callCMSAPI("Delete", url, {}, dic_param)
       	.then(response => {
         	func(response);

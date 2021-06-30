@@ -380,24 +380,10 @@ export class AnswerCommentListModel extends baseCollection {
 
     }
 
-    remove(id) {
-
-        const _this=this;
-
-        return new Promise(function(resolve,reject) {
-            const a_comment = _this.getItem(id);
-            if (! a_comment) {
-                logger.log.error("Fail to get answer comment id="+id);
-                reject();
-            }
-
-            a_comment.remove().then(response=>{
-                _this.delete(id);
-                resolve(response);
-            }).catch(err=>{
-                reject(err);
-            });
-        });
-
+    remove(comments,id) {
+        const index = _.findIndex(comments,{id:id});
+        if (index>-1) {
+            comments.splice(index,1);
+        }        
     }    
 }

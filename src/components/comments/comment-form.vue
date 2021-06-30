@@ -161,6 +161,7 @@ export default {
 			this.$emit("update:visible", false);
 		},
 		clear() {
+			this.v_input = "";
 			this.v_comments = null;
 			this.$refs.descText.clear();
 		},
