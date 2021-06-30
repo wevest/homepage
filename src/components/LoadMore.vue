@@ -54,11 +54,11 @@ export default {
 <style scope>s
 
 .loadmoreSeparator1 {
-    margin-bottom:20px;
+    margin-bottom:10px;
 
 }
 .loadmoreSeparator2 {
-    margin-top:20px;
+    margin-top:10px;
 
 }
 
