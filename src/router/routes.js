@@ -8,6 +8,7 @@ const routes = [
       
       // cms related
       { name: 'blog', path: 'blog', component: () => import('pages/blog/BlogView.vue') },
+      { name: 'blog_detail', path: 'blog_detail', component: () => import('pages/blog/BlogDetailView.vue') },
       { name: 'blog_writer', path: 'blog_writer', component: () => import('pages/blog/BlogWriterView.vue') },
       { name: 'profile', path: 'profile', component: () => import('pages/user/ProfileView.vue') },
       { name: 'message', path: 'message', component: () => import('pages/user/MessageView.vue') },
@@ -15,6 +16,7 @@ const routes = [
       { name: 'portfolio_detail', path: 'portfolio_detail', component: () => import('pages/user/PortfolioDetailView.vue') },
       { name: 'asset', path: '/asset', component: () => import('pages/asset/AssetView.vue') },
       { name: 'assetqa', path: '/assetqa', component: () => import('pages/assetqa/AssetQAView.vue') },
+      { name: 'assetreview', path: '/assetreview', component: () => import('pages/assetreview/AssetReviewView.vue') },
       { name: 'assetqa_detail', path: '/assetqa_detail', component: () => import('pages/assetqa/AssetQADetailView.vue') },
       { name: 'assetqa_answer_writer', path: '/assetqa_answer_writer', component: () => import('pages/assetqa/AnswerWriterView.vue') },
       { name: 'assetqa_question_writer', path: '/assetqa_question_writer', component: () => import('pages/assetqa/QuestionWriterView.vue') },

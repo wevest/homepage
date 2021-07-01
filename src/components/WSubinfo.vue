@@ -1,7 +1,7 @@
 <template>
     
     <div class="row gPageUDRBox">
-        <div v-if="v_rating>-1" style="padding-right:15px;">
+        <div v-if="v_rating>-1">
             <q-rating                        
                 dense
                 class="rating-icon" 
@@ -13,21 +13,16 @@
             />                        
         </div>
         <div>
-            <span> {{ username }} </span>
+            {{ username }}
         </div>
-        <div :style="v_style">
-            <span class="material-icons">
-                alarm
-            </span>&nbsp;
-            <span>
-                {{ v_updated_at(pub_date) }} 
-            </span>
+        <div :style="v_style">         
+             {{ v_updated_at(pub_date) }} 
         </div>
-        <div style="padding-left:20px;" v-if=" (v_like_count>-1) && (v_dislike_count>-1)">
+        <div v-if=" (v_like_count>-1) && (v_dislike_count>-1)">
             <q-icon name="thumb_up_off_alt" />
             <span>
                 {{ like_count }}
-            </span>&nbsp;
+            </span>
             <q-icon name="thumb_down_off_alt" />
             <span> 
                 {{ dislike_count }} 

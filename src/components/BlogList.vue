@@ -43,6 +43,7 @@
 
 
 <script>
+import { store } from 'src/store/store';
 import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
@@ -60,11 +61,6 @@ export default {
 		LoadMore
 	},
     computed: {
-        v_updated_at() {
-            return (value) => {
-                return CommonFunc.minifyDatetime(value);
-            };
-        },
         v_shorten() {
             return (value) => {
                 return CommonFunc.shortenString(value,MoaConfig.setting.maxTitleLength);
@@ -151,7 +147,10 @@ export default {
 
 		onClickBlog: function (page_id) {
 			logger.log.debug("onClickBlog : page_id = ", page_id);
-			this.$emit("onClickBlog",{page_id:page_id});
+			
+			store.getters.nav.add(this.$route);
+			CommonFunc.navBlogDetail(this,page_id);
+			//this.$emit("onClickBlog",{page_id:page_id});
 		},
 
 		onClickLoadMore: function() {

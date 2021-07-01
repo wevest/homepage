@@ -555,10 +555,35 @@ export default class CommonFunc {
         let dic_param = { name:'profile', path:'profile', query:{ username:username, back:true } };
         a_this.$router.push(dic_param);
     }
-    
-    static navBlog(a_this,page_id,url_only=false) {
+
+
+    static navReview(a_this,symbol,page_id,url_only=false) {
         let dic_param = {
-            name: "blog",path: "blog", query: { page_id: page_id },
+            name: "assetreview",path: "assetreview", query: { symbol:symbol, id: page_id },
+        };
+        if (url_only) {            
+            let a_url = "/#/" + dic_param.path+"?symbol="+symbol+"&id="+page_id;
+            return a_url;
+        }
+
+        a_this.$router.push(dic_param);
+    }
+
+    static navBlog(a_this,symbol,page_id,url_only=false) {
+        let dic_param = {
+            name: "blog",path: "blog", query: { symbol:symbol, id: page_id },
+        };
+        if (url_only) {            
+            let a_url = "/#/" + dic_param.path+"?symbol="+symbol+"&id="+page_id;
+            return a_url;
+        }
+
+        a_this.$router.push(dic_param);
+    }
+    
+    static navBlogDetail(a_this,page_id,url_only=false) {
+        let dic_param = {
+            name: "blog_detail",path: "blog_detail", query: { page_id: page_id },
         };
         if (url_only) {            
             let a_url = "/#/" + dic_param.path+"?page_id="+page_id;
