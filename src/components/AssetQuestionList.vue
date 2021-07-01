@@ -29,51 +29,21 @@
                                     <span>{{props.row.reward}}</span>
                                 </q-badge>
                                 
-                                <div class="gBlogTitle">{{v_shorten(props.row.title)}}</div>
+                                <div class="gBlogTitle">
+                                    {{v_shorten(props.row.title)}}
+                                </div>
                                 <div style="padding-left:10px;">
                                     <q-icon name="done_all" size="25px" color="positive" v-if="props.row.closed" />
                                 </div> 
                             </div>                               
                         </div>
 
-<<<<<<< HEAD:src/pages/asset/component/AssetQuestionList.vue
-                        <div class="row">
-                            <div class="gCommentDateInfo">                                
-                                <span>
-                                    {{props.row.owner.username}}
-                                </span> &nbsp;
-                                <span>
-                                    {{v_updated_at(props.row.pub_date)}}
-                                </span>
-                            </div>
-                            <q-space />
-                            <div class="gBlogRatingBox">
-                                <span> 
-                                    <q-btn 
-                                        class="gBlogRatingBtn" 
-                                        icon="thumb_up_off_alt"
-                                        dense
-                                        flat  
-                                        @click="onClickRating(1,props.row)" />
-                                </span> 
-                                    <span class="gBlogDateTime"> {{props.row.like_count}}</span>&nbsp;
-                                <span>
-                                    <q-btn 
-                                        class="gBlogRatingBtn" 
-                                        icon="thumb_down_off_alt"
-                                        dense
-                                        flat 
-                                        @click="onClickRating(-1,props.row)" />
-                                </span>
-                                    <span class="gBlogDateTime"> {{props.row.dislike_count}}</span>    
-                            </div>
-=======
                         <div>                            
                             <WSubinfo :username="props.row.owner.username" 
                                 :pub_date="props.row.pub_date" 
                                 :like_count="props.row.like_count" :dislike_count="props.row.dislike_count" />
->>>>>>> e6fc56ebc207f6dd2dcb48c20612fcdf543eba34:src/components/AssetQuestionList.vue
-                        </div>                        
+                        </div>  
+                                  
                     </q-td>
                 </q-tr>
             </template>

@@ -16,13 +16,6 @@
                             <q-icon v-else name="money" />
                         </span>
                         <br>
-<<<<<<< HEAD:src/pages/asset/component/AssetAnswerList.vue
-                        <span class="gAnswerDatetime">{{ v_updated_at(a_answer.pub_date) }}</span>        
-                        <div v-if="a_answer.is_owner">
-                            <q-btn label="update" @click="onClickAnswerUpdate(a_answer)" />
-                            <q-btn label="delete" @click="onClickAnswerDelete(a_answer)" />
-                        </div>
-=======
                         
                         <WSubinfo username="" :pub_date="a_answer.pub_date" :like_count="a_answer.like_count" :dislike_count="a_answer.dislike_count" />
 
@@ -32,7 +25,6 @@
                             @onClickDelete="onClickAnswerDelete" 
                         />
 
->>>>>>> e6fc56ebc207f6dd2dcb48c20612fcdf543eba34:src/pages/assetqa/component/AssetAnswerList.vue
                     </div>
                     <q-space />
                     <div class="gAnswerAcceptBox">
@@ -95,24 +87,9 @@
                                 <div class="gCommentAvatar">
                                     <WAvatar :avatar="a_comment.owner.avatar_thumb" :username="a_comment.owner.username" />
                                 </div>
-<<<<<<< HEAD:src/pages/asset/component/AssetAnswerList.vue
-                             
-                            <div class="gCommentUserDateBox">
-                                <div class="gCommentUserName">
-                                    {{ a_comment.owner.username}}
-                                </div>
-                                <div class="row gCommentDateInfo">  
-                                    <div class="material-icons">
-                                        alarm                              
-                                    </div>&nbsp;
-                                    <div>
-                                        {{ v_updated_at(a_comment.pub_date) }}
-                                    </div>
-=======
                                 <div class="col gCommentUserDateBox">
                                     <div> {{a_comment.owner.username}} </div>
                                     <WSubinfo username="" :pub_date="a_comment.pub_date" like_count="-1" dislike_count="-1" />
->>>>>>> e6fc56ebc207f6dd2dcb48c20612fcdf543eba34:src/pages/assetqa/component/AssetAnswerList.vue
                                 </div>
                                 </div>
                                 <q-space />                                 
@@ -124,10 +101,6 @@
                                     @click="onClickDeleteComment(a_answer,a_comment)" />
                         </div>
                             
-<<<<<<< HEAD:src/pages/asset/component/AssetAnswerList.vue
-                        <div class="gCommentText">
-                            <p> {{ a_comment.comment_text}} </p>
-=======
                             <div class="row">
 
                                 <q-space />
@@ -148,7 +121,6 @@
                                 </div>                          
 
                             </div>
->>>>>>> e6fc56ebc207f6dd2dcb48c20612fcdf543eba34:src/pages/assetqa/component/AssetAnswerList.vue
                         </div>
                         
                         <div class="row">
@@ -166,13 +138,7 @@
                                 <span class="gCommentRatingCount"> {{ a_comment.dislike_count}} </span>
                         </div>                          
                     </div>
-<<<<<<< HEAD:src/pages/asset/component/AssetAnswerList.vue
-                </div>
-            </div>
-        </div>                
-=======
                 </div>                
->>>>>>> e6fc56ebc207f6dd2dcb48c20612fcdf543eba34:src/pages/assetqa/component/AssetAnswerList.vue
             
             </div>
 
@@ -198,12 +164,9 @@ import CommentTree from "components/comments/comment-tree.vue";
 import CommentForm from "components/comments/comment-form.vue";
 
 import WAvatar from "components/WAvatar.vue";
-<<<<<<< HEAD:src/pages/asset/component/AssetAnswerList.vue
-=======
 import WSubinfo from 'components/WSubinfo';
 import WCommandBar from "components/WCommandBar.vue";
 import WRatingButton from 'components/WRatingButton';
->>>>>>> e6fc56ebc207f6dd2dcb48c20612fcdf543eba34:src/pages/assetqa/component/AssetAnswerList.vue
 
 import {AnswerCommentListModel} from "src/models/CommentModel";
 import {QuestionPageModel, AnswerPageListModel} from "src/models/PageModel";
