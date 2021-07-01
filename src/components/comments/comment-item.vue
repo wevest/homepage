@@ -4,19 +4,32 @@
             <div class="gCommentItem">
               
                 <div class="row q-gutter-sm">
-                    <div class="gCommentAvatar">
-                
+                    <div class="gCommentAvatar">                
                         <WAvatar :avatar="data.user_avatar" :username="data.user_name" />
-<!--
-                        <q-avatar @click="onClickAvatar(data.user_name)">
-                            <q-img v-if="data.user_avatar && data.user_avatar.length>0" :src="data.user_avatar" />
-                            <q-icon v-else name="person" color="black" size="34px" />
-                        </q-avatar>
--->
                     </div>
-                    <div class="col">
-                        <div class="gCommentUser">
-                            {{ data.user_name }}
+
+                    <div>
+                        <div>
+                        <span class="gCommentUser">{{ data.user_name }}</span>
+                        </div>
+                        <div>
+                            <WSubinfo 
+                                username="" 
+                                :pub_date="data.submit_date" 
+                                like_count="-1" 
+                                dislike_count="-1" />
+                        </div>
+
+                    </div>
+
+                    <q-space />
+
+                        <div> 
+                            <q-icon
+                                class="deleteBtn" 
+                                name="delete" 
+                                @click="onClickDelete(data)" 
+                                v-if="v_is_owner(data) && (! data.is_removed)" />
                         </div>
                         <div class="gCommentDateInfo">
                             <span class="material-icons">alarm</span>&nbsp;
@@ -135,13 +148,14 @@ import logger from "src/error/Logger";
 import CommonFunc from 'src/util/CommonFunc';
 
 import WAvatar from "src/components/WAvatar";
-
+import WSubinfo from 'components/WSubinfo';
 
 
 export default {
     name: "CommentItem",
     components: {
         WAvatar,
+        WSubinfo,
         CommentList: () => import("components/comments/comment-list"),    
     },
     inject: {

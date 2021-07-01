@@ -12,8 +12,14 @@ const routes = [
       { name: 'profile', path: 'profile', component: () => import('pages/user/ProfileView.vue') },
       { name: 'message', path: 'message', component: () => import('pages/user/MessageView.vue') },
       { name: 'message_detail', path: 'message_detail', component: () => import('pages/user/MessageDetailView.vue') },
-      //{ name: 'portfolio', path: 'portfolio', component: () => import('pages/user/PortfolioView.vue') },
       { name: 'portfolio_detail', path: 'portfolio_detail', component: () => import('pages/user/PortfolioDetailView.vue') },
+      { name: 'asset', path: '/asset', component: () => import('pages/asset/AssetView.vue') },
+      { name: 'assetqa', path: '/assetqa', component: () => import('pages/assetqa/AssetQAView.vue') },
+      { name: 'assetqa_detail', path: '/assetqa_detail', component: () => import('pages/assetqa/AssetQADetailView.vue') },
+      { name: 'assetqa_answer_writer', path: '/assetqa_answer_writer', component: () => import('pages/assetqa/AnswerWriterView.vue') },
+      { name: 'assetqa_question_writer', path: '/assetqa_question_writer', component: () => import('pages/assetqa/QuestionWriterView.vue') },
+
+      //{ name: 'portfolio', path: 'portfolio', component: () => import('pages/user/PortfolioView.vue') },
       //{ name: 'portfolio', path: 'portfolio', component: () => import('pages/user/PortfolioView.vue') },
 
       // market related
@@ -21,8 +27,6 @@ const routes = [
       { name: 'cwatch', path: 'cwatch', component: () => import('pages/cwatch/CWatchView.vue') },
       { path: 'world', component: () => import('pages/world/WorldView.vue') },
       { name: 'sector', path: 'sector', component: () => import('pages/sector/SectorView.vue') },
-      { name: 'asset', path: '/asset', component: () => import('pages/asset/AssetView.vue') },
-      { name: 'assetqa', path: '/assetqa', component: () => import('pages/asset/AssetQAView.vue') },
       { path: 'risk', component: () => import('pages/risk/RiskView.vue') },
       
       //research menus

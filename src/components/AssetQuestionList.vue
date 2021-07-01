@@ -36,6 +36,7 @@
                             </div>                               
                         </div>
 
+<<<<<<< HEAD:src/pages/asset/component/AssetQuestionList.vue
                         <div class="row">
                             <div class="gCommentDateInfo">                                
                                 <span>
@@ -66,6 +67,12 @@
                                 </span>
                                     <span class="gBlogDateTime"> {{props.row.dislike_count}}</span>    
                             </div>
+=======
+                        <div>                            
+                            <WSubinfo :username="props.row.owner.username" 
+                                :pub_date="props.row.pub_date" 
+                                :like_count="props.row.like_count" :dislike_count="props.row.dislike_count" />
+>>>>>>> e6fc56ebc207f6dd2dcb48c20612fcdf543eba34:src/components/AssetQuestionList.vue
                         </div>                        
                     </q-td>
                 </q-tr>
@@ -82,17 +89,20 @@
 
 
 <script>
+import { store } from 'src/store/store';
 import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
 import WAvatar from "components/WAvatar.vue";
+import WSubinfo from 'components/WSubinfo';
 
 import { PostPageModel, QuestionPageListModel } from "src/models/PageModel";
 
 export default {
     components: {
         WAvatar,
+        WSubinfo
     },
     computed: {
         v_updated_at() {
@@ -162,8 +172,12 @@ export default {
         },
 
         onClickQuestion: function(jsonObject) {
-            logger.log.debug('onClickQuestion - ',jsonObject);
-            this.$emit("onClickQuestion",jsonObject);          
+            logger.log.debug('onClickQuestion - ',jsonObject); 
+            
+            store.getters.nav.add(this.$route);
+            CommonFunc.navQADetail(this,jsonObject.id);
+            
+            //this.$emit("onClickQuestion",jsonObject);          
         },
 
         onClickLoadMore: function() {

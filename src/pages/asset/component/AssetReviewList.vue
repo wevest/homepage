@@ -18,16 +18,11 @@
                     </q-item-label>
                                     
                     <q-item-label>
-                        <q-rating                        
-                            dense
-                            class="rating-icon" 
-                            v-model="a_review.average_rating" 
-                            size="1.2em" 
-                            icon="star_border" 
-                            icon-selected="star" 
-                            color="amber-9"
-                        />                        
-                        <span class="cursor-pointer ReviewDate">{{v_updated_at(a_review.creation_date)}}</span>
+
+                        <WSubinfo username="" 
+                            :pub_date="a_review.creation_date" :rating="a_review.average_rating"
+                            like_count="-1" dislike_count="-1" />
+                    
                     </q-item-label>  
                 
                     <q-item-label>
@@ -37,27 +32,37 @@
                     </q-item-label>
                 
                     <q-item-label class="q-pa-md ReviewRatingBox">
+                        
+                        <div class="row">
 
-                        <q-btn flat label="edit" @click="onClickEdit(a_review)" v-if="a_review.is_owner" />
-                        <q-btn flat label="delete" @click="onClickDelete(a_review)" v-if="a_review.is_owner" />
+                            <div>
+                                <span> 
+                                    <q-btn flat class="gCommentRatingBtn"                            
+                                        icon="thumb_up_off_alt"                            
+                                        @click="onClickRating('like',a_review)" />  
+                                    <span class="gCommentRatingCount">
+                                        {{a_review.like_count}}
+                                    </span>
+                                </span>                            
+                                <span> 
+                                    <q-btn flat class="gCommentRatingBtn"
+                                        icon="thumb_down_off_alt"                                                                 
+                                        @click="onClickRating('dislike',a_review)" /> 
+                                    <span class="gCommentRatingCount">
+                                        {{a_review.dislike_count}}
+                                    </span>
+                                </span>                                            
+                            </div>
 
-                        <span> 
-                            <q-btn class="gCommentRatingBtn"                            
-                            icon="thumb_up_off_alt"                            
-                            flat                    
-                            @click="onClickRating('like',a_review)" />  
-                            <span class="gCommentRatingCount">
-                                {{a_review.like_count}}
-                            </span>
-                        </span>                            
-                        <span> 
-                            <q-btn class="gCommentRatingBtn"
-                            icon="thumb_down_off_alt"                            
-                            flat 
-                            @click="onClickRating('dislike',a_review)" /> 
-                            <span class="gCommentRatingCount">{{a_review.dislike_count}}
-                            </span>
-                        </span>                                            
+                            <q-space />
+                            <div>
+                                <WCommandBar :data="a_review" :isOwner="a_review.is_owner" 
+                                    updateBtn="update" deleteBtn="delete" 
+                                    @onClickUpdate="onClickEdit" 
+                                    @onClickDelete="onClickDelete" 
+                                />
+                            </div>
+                        </div>
                     </q-item-label>
 
                     <q-item-label>
@@ -70,11 +75,6 @@
         </q-list>
 
         <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
-<!--
-        <div v-if="v_visible_loadmore">>
-            <q-btn label="load More" @click="onClickLoadMore" />
-        </div>
--->
 
         <div ref="reviewContainer">
             <AssetReviewForm ref="reviewEditor" 
@@ -82,8 +82,6 @@
                 @onClickReviewSave="onClickReviewSave" 
             /> 
         </div>
-
-
 
   </div>  
   
@@ -97,14 +95,19 @@ import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
 import WAvatar from "components/WAvatar.vue";
+import WSubinfo from 'components/WSubinfo';
+import WCommandBar from "components/WCommandBar.vue";
 import LoadMore from "src/components/LoadMore";
 import AssetReviewForm from 'src/pages/asset/component/AssetReviewForm';
+
 
 import { AssetReviewPageModel, AssetReviewPageListModel } from "src/models/PageModel";
 
 export default {
     components: {
         WAvatar,
+        WSubinfo,
+        WCommandBar,
         LoadMore,
         AssetReviewForm
     },

@@ -1,6 +1,17 @@
 <template>
     
-    <div class="row gPageUDRBox gPageUserDateInfo">
+    <div class="row gPageUDRBox">
+        <div v-if="v_rating>-1" style="padding-right:15px;">
+            <q-rating                        
+                dense
+                class="rating-icon" 
+                v-model="v_rating" 
+                size="1.2em" 
+                icon="star_border" 
+                icon-selected="star" 
+                color="amber-9"
+            />                        
+        </div>
         <div>
             <span> {{ username }} </span>
         </div>
@@ -35,6 +46,9 @@ import WAvatar from "components/WAvatar.vue";
 
 export default {
 	props: {
+        rating: {
+            default:-1,
+        },
         username: {
             type:String,
             default: "",
@@ -56,8 +70,19 @@ export default {
         },
         v_updated_at() {
             return (value) => {
-                return CommonFunc.minifyDatetime(value);
+                let ret = CommonFunc.minifyDatetime(value);
+                //console.log("WSubinfo.ret=",ret);
+                if (ret=="Invalid date") {
+                    ret = CommonFunc.minifyDatetime(value,1);
+                }
+                return ret;
             };
+        },
+        v_rating() {
+            if (typeof this.rating=="number") {
+                return this.rating;
+            }
+            return parseInt(this.rating);
         },
         v_like_count() {
             if (typeof this.like_count == "number") {
@@ -72,6 +97,10 @@ export default {
             return parseInt(this.dislike_count);
         },
         v_style() {
+            if (! this.username) {
+                return "";
+            }
+
             if ( (this.username.length>0) ) {
                 return "padding-left:20px;";
             }

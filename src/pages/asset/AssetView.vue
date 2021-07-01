@@ -27,7 +27,6 @@
                     loadMoreCaption="More"
                     @onClickTitleMore="onClickMoreQuestion"></CTitle>
 
-                <q-btn label="Question" @click="onClickWriteQuestion" />
                 <AssetQuestionList ref="questionList" 
                     @onClickQuestion="onClickQuestion"
                     @onClickQuestionRating="onClickQuestionRating"
@@ -83,12 +82,12 @@ import BlogList from 'components/BlogList';
 import BlogWriterDialog from 'components/dialogs/BlogWriterDialog';
 import QuestionWriterDialog from 'components/dialogs/QuestionWriterDialog';
 
+import AssetQuestionList from 'components/AssetQuestionList';
+
 import CAssetChart from 'src/pages/asset/CAssetChart';
 import CAssetInfoTable from 'src/pages/asset/CAssetInfoTable';
 import AssetReviewForm from 'src/pages/asset/component/AssetReviewForm';
 import AssetReviewList from 'src/pages/asset/component/AssetReviewList';
-import AssetQuestionList from 'src/pages/asset/component/AssetQuestionList';
-import WEditor from 'src/pages/asset/component/WEditor';
 
 
 
@@ -102,7 +101,6 @@ export default {
         AssetReviewForm,
         AssetReviewList,
         AssetQuestionList,
-        WEditor,
         BlogList,
         BlogWriterDialog,
         QuestionWriterDialog,        
@@ -417,14 +415,6 @@ export default {
             });
         },
 
-        onClickQuestion: function(jsonQuestion) {
-            logger.log.debug('AssetView.onClickQuestion - ',jsonQuestion);
-            
-            store.getters.nav.add(this.$route);
-            let dic_param = { name:'assetqa', query:{id:jsonQuestion.id} };
-            this.$router.push(dic_param);            
-        },
-
         onClickQuestionRating: function(question) {
             logger.log.debug('AssetView.onClickQuestionRating - ',question);
             
@@ -469,18 +459,6 @@ export default {
             this.$refs.blogWriter.show(a_post);
         },
 
-
-        onClickWriteQuestion: function() {
-            logger.log.debug('AssetView.onClickWriteQuestion');
-            
-            let a_post = new QuestionPageModel();
-            a_post.category = this.g_asset.symbol;
-            a_post.parent_id = this.g_asset.object_id;
-            a_post.setContentType(CONST.CONENT_TYPE_ASSET_QUESTION);
-            
-            this.$refs.questionWriter.show(a_post);
-        },
-
         onFocusReviewForm: function(event) {
             logger.log.debug('AssetView.onFocusReviewForm');
             this.$refs.reviewForm.v_rows = "5";
@@ -514,7 +492,10 @@ export default {
         },
 
         onClickMoreQuestion: function() {
-            logger.log.debug('AssetView.onClickMoreQuestion');
+            logger.log.debug('AssetView.onClickMoreQuestion : object_id=',this.g_asset.object_id);
+            
+            store.getters.nav.add(this.$route);
+            CommonFunc.navQA(this,this.g_asset.symbol,this.g_asset.object_id);
         },
 
         onClickMoreBlog: function() {

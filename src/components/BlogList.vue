@@ -17,8 +17,13 @@
 						<span class="gBlogTitle">{{ v_shorten(a_post.title) }}</span>
 					</q-item-label>
 					<q-item-label lines="1">
-						<span class="gBlogUser">{{a_post.api_owner.username}}</span>&nbsp;
-						<span class="gBlogDatetime">{{ v_updated_at(a_post.pub_date) }}</span>
+
+						<WSubinfo 
+							:username="a_post.api_owner.username" 
+							:pub_date="a_post.pub_date" 
+							:like_count="a_post.like_count" 
+							:dislike_count="a_post.dislike_count" />
+
 					</q-item-label>
 				</q-item-section>
 				<!--
@@ -43,6 +48,7 @@ import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
 import WAvatar from "src/components/WAvatar";
+import WSubinfo from 'components/WSubinfo';
 import LoadMore from "src/components/LoadMore";
 import { PostPageModel, PostPageListModel } from "src/models/PageModel";
 
@@ -50,6 +56,7 @@ import { PostPageModel, PostPageListModel } from "src/models/PageModel";
 export default {
 	components: {
 		WAvatar,
+		WSubinfo,
 		LoadMore
 	},
     computed: {

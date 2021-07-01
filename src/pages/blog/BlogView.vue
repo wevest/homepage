@@ -38,25 +38,13 @@
 
                     <q-space />
 
-                    <div class="gPageEditStyle">
-                        <q-icon 
-                            class="gPageEditBtn"
-                            flat
-                            name="share" 
-                            @click="onClickShare(v_post)" />
-                        <q-icon 
-                            class="gPageEditBtn"
-                            v-if="v_post.is_owner"
-                            flat       
-                            name="build"
-                            @click="onClickUpdate" />
-                        <q-icon
-                            class="gPageEditBtn"
-                            v-if="v_post.is_owner"
-                            flat       
-                            name="delete" 
-                            @click="onClickDelete" />
-                    </div>                  
+                    <WCommandBar :data="v_post" :isOwner="v_post.is_owner" 
+                        shareBtn="share" updateBtn="update" deleteBtn="delete" 
+                        @onClickShare="onClickShare" 
+                        @onClickUpdate="onClickUpdate" 
+                        @onClickDelete="onClickDelete" 
+                    />
+                    
                 </div>                   
             </div>
         </div>
@@ -144,6 +132,7 @@ import {PostPageModel,CommentModel,CommentListModel} from "src/models/PageModel"
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
 import WAvatar from "components/WAvatar.vue";
+import WCommandBar from "components/WCommandBar.vue";
 import WWriterButton from 'components/WWriterButton';
 import WRatingButton from 'components/WRatingButton';
 import WSubinfo from 'components/WSubinfo';
@@ -164,16 +153,12 @@ export default {
         BlogWriterDialog,
         WWriterButton,
         WRatingButton,
-        WSubinfo
+        WSubinfo,
+        WCommandBar
     },
     computed: {
         v_me() {
             return store.getters.me;
-        },
-        v_updated_at() {
-            return (value) => {
-                return CommonFunc.minifyDatetime(value);
-            };
         },
         v_shorten() {
             return (value) => {
@@ -323,14 +308,12 @@ export default {
             a_post.category = this.v_post.category_id;
             a_post.setContentType(CONST.CONENT_TYPE_BLOGPAGE);
 
-            this.$refs.blogWriter.show(a_post);
-            
-/*            
-            let params = {category_id:this.v_post.category_id};
+            //this.$refs.blogWriter.show(a_post);            
+            store.getters.nav.add(this.$route); 
+
+            let params = {post:a_post};
             let dic_param = { name:'blog_writer', params:params };
             this.$router.push(dic_param);
-*/
-
         },
 
 

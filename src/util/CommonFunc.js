@@ -568,6 +568,26 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);
     }
 
+    static navQADetail(a_this,page_id,url_only=false) {
+        let dic_param = {
+            name: "assetqa_detail",path: "assetqa_detail", query: { id: page_id },
+        };
+        if (url_only) {            
+            let a_url = "/#/" + dic_param.path+"?id="+page_id;
+            return a_url;
+        }
+
+        a_this.$router.push(dic_param);
+    }
+
+    static navQA(a_this,symbol,id) {
+        let dic_param = {
+            name: "assetqa",path: "assetqa", query: {symbol:symbol, parent_id:id},
+        };
+
+        a_this.$router.push(dic_param);
+    }
+
     static navAsset(a_this,symbol) {
         logger.log.debug("CommonFunc.navAsset - ",symbol);
 
