@@ -32,36 +32,10 @@
                             </div>                            
                         </div>
 
-                        <div class="row">
-                            <div>                                
-                                <span class="gBlogUser">
-                                    {{props.row.owner.username}}
-                                </span> &nbsp;
-                                <span class="gBlogDatetime">
-                                    {{v_updated_at(props.row.pub_date)}}
-                                </span>
-                            </div>
-                            <q-space />
-                            <div class="gBlogRatingBox">
-                                <span> 
-                                    <q-btn 
-                                        class="gBlogRatingBtn" 
-                                        icon="thumb_up_off_alt"
-                                        dense
-                                        flat  
-                                        @click="onClickRating(1,props.row)" />
-                                </span> 
-                                    <span class="gBlogDateTime"> {{props.row.like_count}}</span>&nbsp;
-                                <span>
-                                    <q-btn 
-                                        class="gBlogRatingBtn" 
-                                        icon="thumb_down_off_alt"
-                                        dense
-                                        flat 
-                                        @click="onClickRating(-1,props.row)" />
-                                </span>
-                                    <span class="gBlogDateTime"> {{props.row.dislike_count}}</span>    
-                            </div>
+                        <div>                            
+                            <WSubinfo :username="props.row.owner.username" 
+                                :pub_date="props.row.pub_date" 
+                                :like_count="props.row.like_count" :dislike_count="props.row.dislike_count" />
                         </div>                        
                     </q-td>
                 </q-tr>
@@ -78,17 +52,20 @@
 
 
 <script>
+import { store } from 'src/store/store';
 import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
 import WAvatar from "components/WAvatar.vue";
+import WSubinfo from 'components/WSubinfo';
 
 import { PostPageModel, QuestionPageListModel } from "src/models/PageModel";
 
 export default {
     components: {
         WAvatar,
+        WSubinfo
     },
     computed: {
         v_updated_at() {
@@ -158,8 +135,12 @@ export default {
         },
 
         onClickQuestion: function(jsonObject) {
-            logger.log.debug('onClickQuestion - ',jsonObject);
-            this.$emit("onClickQuestion",jsonObject);          
+            logger.log.debug('onClickQuestion - ',jsonObject); 
+            
+            store.getters.nav.add(this.$route);
+            CommonFunc.navQADetail(this,jsonObject.id);
+            
+            //this.$emit("onClickQuestion",jsonObject);          
         },
 
         onClickLoadMore: function() {

@@ -20,10 +20,12 @@
                         
                         <WSubinfo username="" :pub_date="a_answer.pub_date" :like_count="a_answer.like_count" :dislike_count="a_answer.dislike_count" />
 
-                        <div v-if="a_answer.is_owner">
-                            <q-btn label="updte" @click="onClickAnswerUpdate(a_answer)" />
-                            <q-btn label="delete" @click="onClickAnswerDelete(a_answer)" />
-                        </div>
+                        <WCommandBar :data="a_answer" :isOwner="a_answer.is_owner" 
+                            shareBtn="" updateBtn="update" deleteBtn="delete" 
+                            @onClickUpdate="onClickAnswerUpdate" 
+                            @onClickDelete="onClickAnswerDelete" 
+                        />
+
                     </div>
                     <q-space />
                     <div class="gAnswerAcceptBox">
@@ -73,12 +75,8 @@
                                     <WAvatar :avatar="a_comment.owner.avatar_thumb" :username="a_comment.owner.username" />
                                 </div>
                                 <div class="col gCommentUserDateBox">
-                                    <div class="gCommentUserName">
-                                        <span>{{ a_comment.owner.username}}</span>
-                                    </div>
-                                    <div class="gCommentDatetime">
-                                        <span>{{ v_updated_at(a_comment.pub_date) }}</span>
-                                    </div>
+                                    <div> {{a_comment.owner.username}} </div>
+                                    <WSubinfo username="" :pub_date="a_comment.pub_date" like_count="-1" dislike_count="-1" />
                                 </div>
                             </div>
                             
@@ -88,27 +86,27 @@
                             
                             <div class="row">
 
-                            <q-space />
+                                <q-space />
 
-                            <div class="gCommentRatingBox">
-                                <q-btn v-if="v_is_owner(a_comment)" label="delete" @click="onClickDeleteComment(a_answer,a_comment)" />
+                                <div class="gCommentRatingBox">
+                                    <q-btn v-if="v_is_owner(a_comment)" label="delete" @click="onClickDeleteComment(a_answer,a_comment)" />
 
-                                <q-icon 
-                                    class="gCommentRatingBtn"
-                                    name="thumb_up"
-                                    @click="onClickVoteComment(1,a_comment)" />&nbsp;
-                                    <span class="gCommentRatingCount"> {{ a_comment.like_count}} </span>&nbsp;
-                                <q-icon 
-                                    class="gCommentRatingBtn"
-                                    name="thumb_down"                                                                                                   
-                                    @click="onClickVoteComment(-1,a_comment)" />&nbsp;
-                                    <span class="gCommentRatingCount"> {{ a_comment.dislike_count}} </span>
-                            </div>                          
+                                    <q-icon 
+                                        class="gCommentRatingBtn"
+                                        name="thumb_up"
+                                        @click="onClickVoteComment(1,a_comment)" />&nbsp;
+                                        <span class="gCommentRatingCount"> {{ a_comment.like_count}} </span>&nbsp;
+                                    <q-icon 
+                                        class="gCommentRatingBtn"
+                                        name="thumb_down"                                                                                                   
+                                        @click="onClickVoteComment(-1,a_comment)" />&nbsp;
+                                        <span class="gCommentRatingCount"> {{ a_comment.dislike_count}} </span>
+                                </div>                          
 
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>                
+                </div>                
             
             </div>
 
@@ -134,6 +132,7 @@ import CommentForm from "components/comments/comment-form.vue";
 
 import WAvatar from "components/WAvatar.vue";
 import WSubinfo from 'components/WSubinfo';
+import WCommandBar from "components/WCommandBar.vue";
 import WRatingButton from 'components/WRatingButton';
 
 import {AnswerCommentListModel} from "src/models/CommentModel";
@@ -145,6 +144,7 @@ export default {
         WAvatar,
         WSubinfo,
         LoadMore,
+        WCommandBar,
         CommentTree,
         CommentForm,
         WRatingButton

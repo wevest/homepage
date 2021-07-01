@@ -18,10 +18,6 @@
                             class="DoneAddBtn float-right" 
                             name="done_all"
                             v-if="v_question.closed" />
-                        <q-icon 
-                            class="DoneAddBtn float-right"
-                            v-else 
-                            name="add" />           
                     </div>
 
                     <div class="row globalUDRBox">  
@@ -30,21 +26,13 @@
                         
                         <q-space />
 
-                        <div v-if="v_question.is_owner">
-                            <q-btn            
-                                class="toolBtn"              
-                                outlined
-                                size="9px"
-                                icon="build"
-                                @click="onClickUpdate" />
-                            <q-btn            
-                                class="toolBtn"              
-                                outlined
-                                size="9px"
-                                icon="remove"
-                                @click="onClickDelete" />
+                        <WCommandBar :data="v_question" :isOwner="v_question.is_owner" 
+                            shareBtn="share" updateBtn="update" deleteBtn="delete" 
+                            @onClickShare="onClickShare" 
+                            @onClickUpdate="onClickUpdate" 
+                            @onClickDelete="onClickDelete" 
+                        />
 
-                        </div>   
                     </div>                                 
                 </div>
                         
@@ -68,14 +56,8 @@
 
         <q-separator class="gSeparator" />
 
-        <div class="row" v-if="! v_question.closed">     
-            <q-space />
-            <div class="pageAnswerBox">                
-                <q-btn 
-                    dense
-                    class="pageAnswerBtn"                
-                    label="Answer" @click="onClickAnswer" />
-            </div>            
+        <div v-if="! v_question.closed">     
+            <WWriterButton placeholder="Please share your knowledges" @onClickWrite="onClickAnswer" />
         </div>
 
         <q-separator class="gSeparator" />
@@ -91,8 +73,6 @@
             </div>
         </div>
 
-        <QuestionWriterDialog ref="questionWriter" @onQuestionAdded="onQuestionAdded"></QuestionWriterDialog>
-        <AnswerWriterDialog ref="answerWriter" @onAnswerAdded="onAnswerAdded"></AnswerWriterDialog>
     </div>
           
 </template>
@@ -111,21 +91,22 @@ import logger from "src/error/Logger";
 import {QuestionPageModel, AnswerPageModel, AnswerPageListModel} from "src/models/PageModel";
 
 import WSubinfo from 'components/WSubinfo';
+import WCommandBar from "components/WCommandBar.vue";
 import WRatingButton from 'components/WRatingButton';
-import QuestionWriterDialog from 'components/dialogs/QuestionWriterDialog';        
-import AnswerWriterDialog from 'components/dialogs/AnswerWriterDialog';        
-import AssetAnswerList from 'src/pages/asset/component/AssetAnswerList';
+import WWriterButton from 'components/WWriterButton';
+
+import AssetAnswerList from 'src/pages/assetqa/component/AssetAnswerList';
 
 
 export default {
     name:'assetView',
     components: {
         Viewer,
-        AnswerWriterDialog,
-        QuestionWriterDialog,
         AssetAnswerList,
         WRatingButton,
-        WSubinfo
+        WSubinfo,
+        WCommandBar,
+        WWriterButton
     },
     props: [],
     computed: {
@@ -218,11 +199,13 @@ export default {
                 a_post.title = this.v_question.title;
                 a_post.setContentType(CONST.CONENT_TYPE_ASSET_ANSWER);
 
-                //logger.log.debug("AssetQAView.onClickAnswer - a_post=",a_post);
+                store.getters.nav.add(this.$route);
 
-                this.$refs.answerWriter.show(a_post);
+                let dic_param = {
+                    name: "assetqa_answer_writer",path: "assetqa_answer_writer", params: {post:a_post},
+                };
+                this.$router.push(dic_param);                    
                 return;
-
             }
             
             const _this=this;
@@ -326,7 +309,16 @@ export default {
         onClickAnswerUpdate: function(answer) {
             logger.log.debug('AssetQAView.onClickAnswerUpdate : answer=',answer);
             this.$refs.answerWriter.show(answer);
+        },
+
+        onClickShare:function(question) {
+            let a_url = CommonFunc.navQA(this,question.id,true);
+            logger.log.debug("WCommandBar.onClickShare : url=",a_url);
+            
+            CommonFunc.copyUrl(this,a_url);
+
         }
+
     },
 
 }

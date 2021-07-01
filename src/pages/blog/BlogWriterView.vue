@@ -3,13 +3,17 @@
     <div class="q-ma-md">
 
         <div class="row">
+            <!--
             <div>
                 <q-btn label="Back" @click="onClickBack" />
             </div>
+            -->
             <q-space />
             <div>
                 <q-btn label="Save" @click="onClickSave" />
+                <!--
                 <q-btn label="Delete" @click="onClickDelete" v-if="! isNewPost" />
+                -->
             </div>
         </div>
 
