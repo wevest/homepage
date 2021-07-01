@@ -47,7 +47,7 @@
                             <q-btn 
                                 class="gCommentReplyBtn"
                                 flat
-                                no-wrap                            
+                                dense                    
                                 type="text"                                
                                 @click="replyHandler('editorContainer')" 
                                 v-if="data.children && data.children.length==0">
@@ -56,7 +56,6 @@
                             <q-btn
                                 class="gCommentReplyBtn"
                                 flat
-                                no-wrap
                                 size="15px"                  
                                 type="text"
                                 color="grey-8"

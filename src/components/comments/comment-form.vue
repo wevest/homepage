@@ -1,5 +1,5 @@
 <template>
-	<div class="row no-wrap q-pa-md commentBox" v-show="visible">
+	<div class="row no-wrap q-px-md q-pb-md commentBox" v-show="visible">
 		<!-- items-center-->
 		<div class="col">
 			<div>
@@ -22,14 +22,14 @@
 				</div>	
 						<q-space />				
 					<q-btn
-						class="saveBtn"
+						class="saveCloseBtn"
 						label="save"
 						size="12px"
 						@click.stop="onClickSubmit"
 						v-if="showSaveButton" />&nbsp;
 
 					<q-btn 
-						class="saveBtn"
+						class="saveCloseBtn"
 						label="Close" 
 						size="12px"
 						@click="onClickClose" 
@@ -287,7 +287,7 @@ export default {
 	border-radius: 7px; 
 	/* height:125px; */
 }
-.saveBtn {
+.saveCloseBtn {
 	margin-top:8px;
 	font-weight:700;
 	color:#FFFFFF;

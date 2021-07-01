@@ -14,72 +14,73 @@
                         <span class="gPageTitle">{{v_post.title}}</span>
                         <br>
                         <span class="gPageDatetime">{{v_post.api_owner.username}}</span>&nbsp;
+                        <span class="gPageDatetime material-icons">alarm</span>&nbsp;
                         <span class="gPageDatetime">{{v_updated_at(v_post.pub_date)}}</span>
                     </div>    
-                </div>
-                <div class="boxRate q-pa-md">
-                    <div class="float-left q-gutter-sm">   
+                </div>    
+                  
+                <div class="row boxRate q-gutter-sm">
+                    <div>   
                         <span>
                             <q-icon 
-                            class="RatingBtn"
-                            name="sentiment_very_satisfied"  
-                            size="23px" />&nbsp;
-                            <span class="RatingCount">{{v_post.like_count}}</span>
+                                class="RatingBtn"
+                                name="sentiment_very_satisfied"  
+                                size="23px" />&nbsp;
+                                <span class="RatingCount">{{v_post.like_count}}</span>&nbsp;
                         </span>
                         <span>
                             <q-icon 
-                            class="RatingBtn"
-                            name="sentiment_very_dissatisfied"
-                            size="23px" />&nbsp;
-                            <span class="RatingCount">{{v_post.dislike_count}}</span>
+                                class="RatingBtn"
+                                name="sentiment_very_dissatisfied"
+                                size="23px" />&nbsp;
+                                <span class="RatingCount">{{v_post.dislike_count}}</span>&nbsp;
                         </span>
                         <span>
                             <q-icon 
-                            class="RatingBtn"
-                            name="chat_bubble_outline" 
-                            size="23px" />&nbsp;                            
-                            <span class="RatingCount">{{v_post.read_count}}</span>
+                                class="RatingBtn"
+                                name="chat_bubble_outline" 
+                                size="23px" />&nbsp;                            
+                                <span class="RatingCount">{{v_post.read_count}}</span>
                         </span>
-                    </div>
+                    </div>         
 
-                    <div class="float-right q-gutter-sm">
+                    <q-space />
 
-                        <q-btn 
-                            outlined
-                            size="9px"
-                            color="primary"
-                            icon="checklist"
-                            label="Share" 
+                    <div>
+                        <q-icon 
+                            class="gPageOwnerBtn"
+                            flat
+                            size="20px"            
+                            color="grey-8"
+                            name="share" 
                             @click="onClickShare(v_post)" />
 <!--
-                        <q-btn 
-                            outlined
-                            size="9px"
-                            color="primary"
-                            icon="mode"
-                            label="Write" 
+                        <q-icon 
+                            class="gPageOwnerBtn"
+                            flat      
+                            size="20px"      
+                            color="grey-8"
+                            name="mode" 
                             @click="onClickWrite" />
 -->
-                        <q-btn 
+                        <q-icon 
+                            class="gPageOWnerBtn"
                             v-if="v_post.is_owner"
-                            outlined
-                            size="9px"
-                            color="primary"
-                            icon="mode"
-                            label="Update" 
+                            flat       
+                            size="20px"     
+                            color="grey-8"
+                            name="build"
                             @click="onClickUpdate" />
-                        <q-btn 
+                        <q-icon
+                            class="gPageOwnerBtn"
                             v-if="v_post.is_owner"
-                            outlined
-                            size="9px"
-                            color="primary"
-                            icon="mode"
-                            label="Delete" 
+                            flat       
+                            size="20px"     
+                            color="grey-8"
+                            name="delete" 
                             @click="onClickDelete" />
-                    </div>
-
-                </div>
-
+                    </div>                  
+                </div>                   
             </div>
         </div>
 
@@ -104,8 +105,7 @@
                         
                         <div>
                             <span class="username"> {{v_post.api_owner.username}}</span>&nbsp;
-                            <q-btn class="followBtn" icon="add_circle" size="13px" dense flat @click="onClickFollow(1)" v-if="! v_owner" />
-                            <span class="followText"> Follow</span>
+                            <q-btn class="followBtn" icon="add_circle" label="Follow" size="13px" dense flat @click="onClickFollow(1)" v-if="! v_owner" />
                             <br>
                             <!-- <span>First name : {{v_post.api_owner.first_name}}</span> -->
                             <!-- <span>Last name : {{v_post.api_owner.last_name}}</span> -->
@@ -551,13 +551,8 @@ export default {
 }
 
 .boxRate {
-    /* width:400px; */
-    /* margin:0 auto; */    
-    /* text-align:center;  */
-    /* margin:0 auto; */
     text-align:center;
-    padding:15px 0px 15px 0px;
-    
+    padding:25px 0px 7px 0px;  
 }
 
 .rateButton {
@@ -586,6 +581,7 @@ export default {
     padding:15px 0px;
 }
 
+
 .username {
     font-size:17px;
     color:#222222;
@@ -605,10 +601,6 @@ export default {
 
 .followBtn {
     color:#4978F4;;
-}
-
-.followText {
-    color:#4978F4;
 }
 
 .separator {

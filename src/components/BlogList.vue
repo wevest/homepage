@@ -27,6 +27,8 @@
                 </q-item-section>
 -->
 			</q-item>
+			<q-separator class="loadmoreSeparator" size="1px" />
+
 		</q-list>
 
 		<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
@@ -168,5 +170,9 @@ export default {
 .news-date {
 	font-size: 10px;
 	color: #888888;
+}
+
+.loadmoreSeparator {
+	margin-bottom:10px;
 }
 </style>
