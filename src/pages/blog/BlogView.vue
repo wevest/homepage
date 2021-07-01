@@ -109,32 +109,36 @@
                             <br>
                             <!-- <span>First name : {{v_post.api_owner.first_name}}</span> -->
                             <!-- <span>Last name : {{v_post.api_owner.last_name}}</span> -->
-                            <span class="biography"> {{v_shorten(v_post.api_owner.biography)}}</span>
+                            <div>
+                                <p class="biography"> {{v_shorten(v_post.api_owner.biography)}}</p>
+                            </div>
                         </div>
                     </div>
                 </blockquote> 
-                <div class="boxRate-parent">
-                    <div class="row ratingBox">
-                         <div>
-                            <q-btn 
-                                class="rateButton"
-                                flat
-                                size="18px" 
-                                icon="sentiment_very_satisfied" 
-                                @click="onClickBlogRate(1)"/><br>
-                                <span>도움이 돼요</span>   
-                        </div> &nbsp;                         
+
+                <div class="row ratingBox justify-center">
+                    <div>
+                        <q-btn 
+                            class="rateButton"
+                            flat                            
+                            icon="sentiment_very_satisfied" 
+                            @click="onClickBlogRate(1)" />
                         <div>
-                            <q-btn
-                                class="rateButton"
-                                flat
-                                size="18px"
-                                icon="sentiment_very_dissatisfied"
-                                @click="onClickBlogRate(-1)" /><br>
-                                <span>도움이 안 돼요</span>
-                        </div>        
+                            <span>도움이 돼요</span>   
+                        </div>
                     </div>
+                    <div>
+                        <q-btn
+                            class="rateButton"
+                            flat                            
+                            icon="sentiment_very_dissatisfied"
+                            @click="onClickBlogRate(-1)" />
+                        <div>
+                            <span>도움이 안 돼요</span>
+                        </div>
+                    </div>        
                 </div>
+
             </div>
         </div>
         
@@ -557,15 +561,13 @@ export default {
 
 .rateButton {
     color:#616161;
-    width:80px;
+    width:100px;
+    font-size:18px;
 }
 
 .ratingBox {
     text-align:center;
-    width:194px;
     padding:15px;
-    margin:0 auto;
-   
 }
 
 .boxCommentCount {
