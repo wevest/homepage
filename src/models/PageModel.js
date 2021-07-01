@@ -13,9 +13,6 @@ import {AnswerCommentModel, CommentListModel} from 'src/models/CommentModel';
 
 
 
-
-
-
 export class PostPageModel {
     id = null;
     category = null;
@@ -29,7 +26,7 @@ export class PostPageModel {
     dislike_count=null;
     like_count=null;
     meta=null;
-    owner=null;
+    owner={id:null, avatar:'', avatar_thumb:'', username:null, first_name:'', last_name:'', biography:''};
     pub_date=null;
     read_count=null;
     title=null;

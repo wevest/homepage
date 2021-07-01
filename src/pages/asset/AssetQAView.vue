@@ -25,16 +25,9 @@
                     </div>
 
                     <div class="row globalUDRBox">  
-                        <div class="gPageUDRBox">
-                            <span class="gPageUser" v-if="v_question.owner"> {{ v_question.owner.username }} </span>&nbsp;
-                            <span class="gPageDatetime">{{ v_updated_at(v_question.pub_date) }} </span>&nbsp;
-
-                            <q-icon name="thumb_up_off_alt" />&nbsp;
-                            <span class="gPageRating">{{ v_question.like_count }}</span>&nbsp;
-                            <q-icon name="thumb_down_off_alt" />&nbsp;
-                            <span class="gPageRating">{{ v_question.dislike_count }} </span>
-                        </div>
-
+                        
+                        <WSubinfo :username="v_question.owner.username" :pub_date="v_question.pub_date" :like_count="v_question.like_count" :dislike_count="v_question.dislike_count" />
+                        
                         <q-space />
 
                         <div v-if="v_question.is_owner">
@@ -67,20 +60,8 @@
                     />
                 </div>
 
-                <div class="q-pa-md q-gutter-sm gPageRatingBox">
-                    <q-btn                        
-                        class="gPageRatingBtn"                        
-                        icon="thumb_up_off_alt"
-                        dense 
-                        flat 
-                        @click="onClickQuestionVote(1)"/>&nbsp; 
-                    <q-btn 
-                        class="gPageRatingBtn"
-                        icon="thumb_down_off_alt"                        
-                        dense
-                        flat                                                                       
-                        @click="onClickQuestionVote(-1)" />
-                </div>
+                <WRatingButton ref="ratingButton" likeCaption="도움돼요" dislikeCaption="도움 안돼요"
+                    @onClickRating="onClickQuestionVote" />
 
             </div>
         </div>
@@ -129,7 +110,8 @@ import logger from "src/error/Logger";
 
 import {QuestionPageModel, AnswerPageModel, AnswerPageListModel} from "src/models/PageModel";
 
-import BaseEditor from 'components/BaseEditor';
+import WSubinfo from 'components/WSubinfo';
+import WRatingButton from 'components/WRatingButton';
 import QuestionWriterDialog from 'components/dialogs/QuestionWriterDialog';        
 import AnswerWriterDialog from 'components/dialogs/AnswerWriterDialog';        
 import AssetAnswerList from 'src/pages/asset/component/AssetAnswerList';
@@ -139,10 +121,11 @@ export default {
     name:'assetView',
     components: {
         Viewer,
-        BaseEditor,
         AnswerWriterDialog,
         QuestionWriterDialog,
-        AssetAnswerList
+        AssetAnswerList,
+        WRatingButton,
+        WSubinfo
     },
     props: [],
     computed: {
@@ -249,15 +232,13 @@ export default {
                     CommonFunc.navSignin(_this);
                 }
             });
-
         },
 
-        onClickQuestionVote: function(value) {
-            logger.log.debug("AssetQAView.onClickQuestionVote - value=",value);
+        onClickQuestionVote: function(dicParam) {
+            logger.log.debug("AssetQAView.onClickQuestionVote - value=",dicParam);
             
-
             const _this=this;
-            let dic_param = {value:value};
+            let dic_param = {value:dicParam.value};
             this.v_question.vote(dic_param).then(response=>{
                 logger.log.debug("AssetQAView.onClickQuestionVote - response=",response);
                 CommonFunc.showOkMessage(_this,'Question rated');
