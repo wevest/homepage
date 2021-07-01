@@ -274,9 +274,20 @@ export default {
         },
 
         onClickLike(rate,item) {
-            logger.log.debug("CommentItem.onClickLike",item);
-            let dic_payload = {rate:rate, data:item};
-            this.$messageTree.$emit("onClickRate", dic_payload);
+            
+            if (this.v_me.isLoggedIn()) {
+                logger.log.debug("CommentItem.onClickLike",item);
+                let dic_payload = {rate:rate, data:item};
+                this.$messageTree.$emit("onClickRate", dic_payload);
+                return;
+            }
+
+            const _this=this;
+            store.getters.components.getComponent('confirmDialog').show('Please login first',function(value) {
+                logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
+                if (! value) return;
+                CommonFunc.navSignin(_this);                
+            });            
         },
 
         onClickAvatar: function(username) {

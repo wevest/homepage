@@ -9,6 +9,7 @@
 
         <div class="titleBox">
             <div class="col">
+<<<<<<< HEAD
                 <div>
                     <div class="gPageTitle">{{v_post.title}}</div>
                     
@@ -21,6 +22,15 @@
                             <span>{{v_updated_at(v_post.pub_date)}}</span>
                         </div>                    
                     </div>
+=======
+                
+                <div>
+                    <div>
+                        <span class="gPageTitle">{{v_post.title}}</span>
+                    </div>
+                                            
+                    <WSubinfo :username="v_post.api_owner.username" :pub_date="v_post.pub_date" like_count=-1 dislike_count=-1 />
+>>>>>>> c5302804c69445b4fede5aa06b1564729fc62d75
                 </div>    
                   
                   
@@ -59,15 +69,6 @@
                             color="grey-8"
                             name="share" 
                             @click="onClickShare(v_post)" />
-<!--
-                        <q-icon 
-                            class="gPageOwnerBtn"
-                            flat      
-                            size="20px"      
-                            color="grey-8"
-                            name="mode" 
-                            @click="onClickWrite" />
--->
                         <q-icon 
                             class="gPageOWnerBtn"
                             v-if="v_post.is_owner"
@@ -102,47 +103,25 @@
                     />
                     <p> {{ v_post.tags }} </p>
                 </div>
-                <blockquote class="blockquote"> 
-                    <div class="row postOwnerBox">
+
+
+                <div class="blockquote">
+                    <div class="row">
                         <div class="gPageAvatar">
                             <WAvatar :avatar="v_post.api_owner.avatar_thumb" :username="v_post.api_owner.username" />
-                        </div>&nbsp;&nbsp;    
-                        
-                        <div>
+                        </div>
+                        <div style="padding-left:15px; padding-top:10px;">
                             <span class="username"> {{v_post.api_owner.username}}</span>&nbsp;
                             <q-btn class="followBtn" icon="add_circle" label="Follow" size="13px" dense flat @click="onClickFollow(1)" v-if="! v_owner" />
-                            <br>
-                            <!-- <span>First name : {{v_post.api_owner.first_name}}</span> -->
-                            <!-- <span>Last name : {{v_post.api_owner.last_name}}</span> -->
-                            <div>
-                                <p class="biography"> {{v_shorten(v_post.api_owner.biography)}}</p>
-                            </div>
                         </div>
-                    </div>
-                </blockquote> 
-
-                <div class="row ratingBox justify-center">
+                    </div>                    
                     <div>
-                        <q-btn 
-                            class="rateButton"
-                            flat                            
-                            icon="sentiment_very_satisfied" 
-                            @click="onClickBlogRate(1)" />
-                        <div>
-                            <span>도움이 돼요</span>   
-                        </div>
+                        <p class="biography"> {{v_shorten(v_post.api_owner.biography)}}</p>
                     </div>
-                    <div>
-                        <q-btn
-                            class="rateButton"
-                            flat                            
-                            icon="sentiment_very_dissatisfied"
-                            @click="onClickBlogRate(-1)" />
-                        <div>
-                            <span>도움이 안 돼요</span>
-                        </div>
-                    </div>        
                 </div>
+
+
+                <WRatingButton ref="ratingButton" @onClickRating="onClickBlogRate" />
 
             </div>
         </div>
@@ -162,9 +141,7 @@
                 <CommentForm ref="commentForm" type="comment"
                     :contentType="v_conent_type" :post="v_post"
                     @onClickCommentSave="onClickCommentSave" />
-<!--                
-                    @onEditorFocus="onEditorFocus" @onEditorFocusOut="onEditorFocusOut" />
--->
+
                 <CommentTree ref="commentTree" 
                     :data-list="v_post.comments.items" 
                     :contentType="v_conent_type" :post="v_post"
@@ -197,6 +174,8 @@ import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
 import WAvatar from "components/WAvatar.vue";
 import WWriterButton from 'components/WWriterButton';
+import WRatingButton from 'components/WRatingButton';
+import WSubinfo from 'components/WSubinfo';
 import BlogWriterDialog from 'components/dialogs/BlogWriterDialog';
 import CommentForm from "components/comments/comment-form.vue";
 import CommentTree from "components/comments/comment-tree.vue";
@@ -212,7 +191,9 @@ export default {
         CommentTree,
         CommentForm,
         BlogWriterDialog,
-        WWriterButton
+        WWriterButton,
+        WRatingButton,
+        WSubinfo
     },
     computed: {
         v_me() {
@@ -382,10 +363,10 @@ export default {
         },
 
 
-        onClickBlogRate: function(value) {
+        onClickBlogRate: function(dicParam) {
             const _this = this;            
             
-            let dic_param = {id:this.v_post.id, value:value};            
+            let dic_param = {id:this.v_post.id, value:dicParam.value};            
             this.v_post.vote(dic_param).then( response => {
                 
                 let msg = "Liked" ;
@@ -537,14 +518,11 @@ export default {
 }
 
 .blockquote {  
-
     border: 1px solid #D8D8D8;
     border-radius: 3px;  
-    margin-left: 0px;  
-    margin-right: 0px;  
-    padding-left: 20px;  
-    padding-right: 20px;  
-    border-left: 10px solid #D8D8D8;  
+    border-left: 7px solid #DDDDDD;  
+    padding: 12px 12px 0px 12px;  
+    margin: 0px 15px 0px 15px;
 } 
 
 .blog-write {
@@ -599,6 +577,7 @@ export default {
 .biography {
    font-size:14px;
    color:#222222;
+   padding-top:10px;
 }
 
 .copyright {

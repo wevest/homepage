@@ -140,7 +140,7 @@ export default {
         }
     },
     mounted: function() {
-        logger.log.debug("AssetReviewList.mounted");
+        logger.log.debug("AssetReviewList.mounted : reviewEditor=",this.$refs.reviewEditor);
 
         this.$refs.reviewEditor.hide();
     },

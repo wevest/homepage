@@ -29,8 +29,7 @@ export default {
         placeholder: {
             type:String,
             default: "Waht is on your minds?",
-        },
-    
+        },    
     },
     computed: {
         v_me() {

@@ -8,7 +8,8 @@
                         <WAvatar :avatar="a_answer.owner.avatar_thumb" :username="a_answer.owner.username" />
                     </div>
                     <div class="gAnswerUserDatetime">
-                        <span class="gAnswerUser">{{a_answer.owner.username}}&nbsp;님 답변 
+                        <span class="gAnswerUser">
+                            {{a_answer.owner.username}}&nbsp;님 답변 
                         </span>&nbsp;
 
                         <span class="accepted">
@@ -16,7 +17,9 @@
                             <q-icon v-else name="money" />
                         </span>
                         <br>
-                        <span class="gAnswerDatetime">{{ v_updated_at(a_answer.pub_date) }}</span>        
+                        
+                        <WSubinfo username="" :pub_date="a_answer.pub_date" :like_count="a_answer.like_count" :dislike_count="a_answer.dislike_count" />
+
                         <div v-if="a_answer.is_owner">
                             <q-btn label="updte" @click="onClickAnswerUpdate(a_answer)" />
                             <q-btn label="delete" @click="onClickAnswerDelete(a_answer)" />
@@ -39,26 +42,12 @@
                 <div class="gAnswerContent">
                     <div v-html="a_answer.body">  </div>
                 </div>
-                    <div class="gAnswerRatingBox">              
-                        <q-btn 
-                            class="gAnswerRatingBtn" 
-                            icon="thumb_up_off_alt" 
-                            dense
-                            flat 
-                            @click="onClickRating(1,a_answer)" />&nbsp;                            
-                        <span class="gAnswerRatingCount">{{a_answer.like_count}}</span>&nbsp;
-                
-                        <q-btn 
-                            class="gAnswerRatingBtn"
-                            icon="thumb_down_off_alt"                            
-                            dense
-                            flat 
-                            @click="onClickRating(-1,a_answer)" />&nbsp; 
-                        <span class="gAnswerRatingCount">{{a_answer.dislike_count}}</span>  
-                </div>
+
+                <WRatingButton ref="ratingButton" 
+                    likeCaption="도움돼요" dislikeCaption="도움 안돼요" :data="a_answer"
+                    @onClickRating="onClickRating" />
 
                 <q-separator size="2px" />
-
 
                 <div>
                     
@@ -144,6 +133,8 @@ import CommentTree from "components/comments/comment-tree.vue";
 import CommentForm from "components/comments/comment-form.vue";
 
 import WAvatar from "components/WAvatar.vue";
+import WSubinfo from 'components/WSubinfo';
+import WRatingButton from 'components/WRatingButton';
 
 import {AnswerCommentListModel} from "src/models/CommentModel";
 import {QuestionPageModel, AnswerPageListModel} from "src/models/PageModel";
@@ -152,9 +143,11 @@ export default {
     name:'assetAnswerList',
     components: {
         WAvatar,
+        WSubinfo,
         LoadMore,
         CommentTree,
-        CommentForm
+        CommentForm,
+        WRatingButton
     },
     computed: {
         v_me() {
@@ -241,12 +234,13 @@ export default {
 
 
 
-        onClickRating: function(value,question) {
-            logger.log.debug('onClickRating : json_question = ',question);
+        onClickRating: function(dicParam) {
+            logger.log.debug('onClickRating : dicParam = ',dicParam);
             //let dic_param = {'rtype':rtype, 'obj':json_review};
             
             const _this=this;
-            let dic_param = {method:'vote',value:value};
+            const question = dicParam.data;
+            let dic_param = {method:'vote',value:dicParam.value};            
             question.vote(dic_param).then(response=>{
                 CommonFunc.showOkMessage(_this,'Answer post rated');
                 _this.$emit("onClickAnswerRating",question);
