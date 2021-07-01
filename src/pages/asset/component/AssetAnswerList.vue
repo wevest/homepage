@@ -8,8 +8,7 @@
                         <WAvatar :avatar="a_answer.owner.avatar_thumb" :username="a_answer.owner.username" />
                     </div>
                     <div class="gAnswerUserDatetime">
-                        <span class="gAnswerUser">
-                            {{a_answer.owner.username}}&nbsp;님 답변 
+                        <span class="gAnswerUser">{{a_answer.owner.username}}&nbsp;님 답변 
                         </span>&nbsp;
 
                         <span class="accepted">
@@ -17,11 +16,9 @@
                             <q-icon v-else name="money" />
                         </span>
                         <br>
-                        
-                        <WSubinfo username="" :pub_date="a_answer.pub_date" :like_count="a_answer.like_count" :dislike_count="a_answer.dislike_count" />
-
+                        <span class="gAnswerDatetime">{{ v_updated_at(a_answer.pub_date) }}</span>        
                         <div v-if="a_answer.is_owner">
-                            <q-btn label="updte" @click="onClickAnswerUpdate(a_answer)" />
+                            <q-btn label="update" @click="onClickAnswerUpdate(a_answer)" />
                             <q-btn label="delete" @click="onClickAnswerDelete(a_answer)" />
                         </div>
                     </div>
@@ -42,12 +39,26 @@
                 <div class="gAnswerContent">
                     <div v-html="a_answer.body">  </div>
                 </div>
-
-                <WRatingButton ref="ratingButton" 
-                    likeCaption="도움돼요" dislikeCaption="도움 안돼요" :data="a_answer"
-                    @onClickRating="onClickRating" />
+                    <div class="gAnswerRatingBox">              
+                        <q-btn 
+                            class="gAnswerRatingBtn" 
+                            icon="thumb_up_off_alt" 
+                            dense
+                            flat 
+                            @click="onClickRating(1,a_answer)" />&nbsp;                            
+                        <span class="gAnswerRatingCount">{{a_answer.like_count}}</span>&nbsp;
+                
+                        <q-btn 
+                            class="gAnswerRatingBtn"
+                            icon="thumb_down_off_alt"                            
+                            dense
+                            flat 
+                            @click="onClickRating(-1,a_answer)" />&nbsp; 
+                        <span class="gAnswerRatingCount">{{a_answer.dislike_count}}</span>  
+                </div>
 
                 <q-separator size="2px" />
+
 
                 <div>
                     
@@ -72,43 +83,51 @@
                                 <div class="gCommentAvatar">
                                     <WAvatar :avatar="a_comment.owner.avatar_thumb" :username="a_comment.owner.username" />
                                 </div>
-                                <div class="col gCommentUserDateBox">
-                                    <div class="gCommentUserName">
-                                        <span>{{ a_comment.owner.username}}</span>
-                                    </div>
-                                    <div class="gCommentDatetime">
-                                        <span>{{ v_updated_at(a_comment.pub_date) }}</span>
+                             
+                            <div class="gCommentUserDateBox">
+                                <div class="gCommentUserName">
+                                    {{ a_comment.owner.username}}
+                                </div>
+                                <div class="row gCommentDateInfo">  
+                                    <div class="material-icons">
+                                        alarm                              
+                                    </div>&nbsp;
+                                    <div>
+                                        {{ v_updated_at(a_comment.pub_date) }}
                                     </div>
                                 </div>
-                            </div>
-                            
-                            <div class="gCommentText">
-                                <p> {{ a_comment.comment_text}} </p>
-                            </div>
-                            
-                            <div class="row">
-
-                            <q-space />
-
-                            <div class="gCommentRatingBox">
-                                <q-btn v-if="v_is_owner(a_comment)" flat icon="delete" @click="onClickDeleteComment(a_answer,a_comment)" />
-
-                                <q-icon 
-                                    class="gCommentRatingBtn"
-                                    name="thumb_up"
-                                    @click="onClickVoteComment(1,a_comment)" />&nbsp;
-                                    <span class="gCommentRatingCount"> {{ a_comment.like_count}} </span>&nbsp;
-                                <q-icon 
-                                    class="gCommentRatingBtn"
-                                    name="thumb_down"                                                                                                   
-                                    @click="onClickVoteComment(-1,a_comment)" />&nbsp;
-                                    <span class="gCommentRatingCount"> {{ a_comment.dislike_count}} </span>
-                            </div>                          
-
+                                </div>
+                                <q-space />                                 
+                                <q-btn 
+                                    class="deleteBtn"
+                                    v-if="v_is_owner(a_comment)" 
+                                    flat 
+                                    icon="delete" 
+                                    @click="onClickDeleteComment(a_answer,a_comment)" />
                         </div>
+                            
+                        <div class="gCommentText">
+                            <p> {{ a_comment.comment_text}} </p>
+                        </div>
+                        
+                        <div class="row">
+                        <q-space />
+                        <div class="gCommentRatingBox">
+                            <q-icon 
+                                class="gCommentRatingBtn"
+                                name="thumb_up"
+                                @click="onClickVoteComment(1,a_comment)" />&nbsp;
+                                <span class="gCommentRatingCount"> {{ a_comment.like_count}} </span>&nbsp;
+                            <q-icon 
+                                class="gCommentRatingBtn"
+                                name="thumb_down"                                                                                                   
+                                @click="onClickVoteComment(-1,a_comment)" />&nbsp;
+                                <span class="gCommentRatingCount"> {{ a_comment.dislike_count}} </span>
+                        </div>                          
                     </div>
                 </div>
-            </div>                
+            </div>
+        </div>                
             
             </div>
 
@@ -119,6 +138,7 @@
         </div>
                 
     </div>
+
     
   
 </template>
@@ -133,8 +153,6 @@ import CommentTree from "components/comments/comment-tree.vue";
 import CommentForm from "components/comments/comment-form.vue";
 
 import WAvatar from "components/WAvatar.vue";
-import WSubinfo from 'components/WSubinfo';
-import WRatingButton from 'components/WRatingButton';
 
 import {AnswerCommentListModel} from "src/models/CommentModel";
 import {QuestionPageModel, AnswerPageListModel} from "src/models/PageModel";
@@ -143,11 +161,9 @@ export default {
     name:'assetAnswerList',
     components: {
         WAvatar,
-        WSubinfo,
         LoadMore,
         CommentTree,
-        CommentForm,
-        WRatingButton
+        CommentForm
     },
     computed: {
         v_me() {
@@ -234,13 +250,12 @@ export default {
 
 
 
-        onClickRating: function(dicParam) {
-            logger.log.debug('onClickRating : dicParam = ',dicParam);
+        onClickRating: function(value,question) {
+            logger.log.debug('onClickRating : json_question = ',question);
             //let dic_param = {'rtype':rtype, 'obj':json_review};
             
             const _this=this;
-            const question = dicParam.data;
-            let dic_param = {method:'vote',value:dicParam.value};            
+            let dic_param = {method:'vote',value:value};
             question.vote(dic_param).then(response=>{
                 CommonFunc.showOkMessage(_this,'Answer post rated');
                 _this.$emit("onClickAnswerRating",question);
@@ -406,5 +421,10 @@ export default {
 .accepted {
     font-size:20px;
     color:green;
+}
+
+.deleteBtn {
+   color:#777777;
+   font-size:14px;
 }
 </style>

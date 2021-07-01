@@ -1,18 +1,26 @@
 <template>
     
-    <div class="row gPageUDRBox">
+    <div class="row gPageUDRBox gPageUserDateInfo">
         <div>
-            <span class="gPageUser"> {{ username }} </span>
+            <span> {{ username }} </span>
         </div>
         <div :style="v_style">
-            <span class="material-icons">alarm</span>&nbsp;
-            <span class="gPageDatetime">{{ v_updated_at(pub_date) }} </span>
+            <span class="material-icons">
+                alarm
+            </span>&nbsp;
+            <span>
+                {{ v_updated_at(pub_date) }} 
+            </span>
         </div>
         <div style="padding-left:20px;" v-if=" (v_like_count>-1) && (v_dislike_count>-1)">
-            <q-icon name="thumb_up_off_alt" />&nbsp;
-            <span class="gPageRating">{{ like_count }}</span>&nbsp;
-            <q-icon name="thumb_down_off_alt" />&nbsp;
-            <span class="gPageRating">{{ dislike_count }} </span>
+            <q-icon name="thumb_up_off_alt" />
+            <span>
+                {{ like_count }}
+            </span>&nbsp;
+            <q-icon name="thumb_down_off_alt" />
+            <span> 
+                {{ dislike_count }} 
+            </span>
         </div>
     </div>
 

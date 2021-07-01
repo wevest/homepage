@@ -14,23 +14,26 @@
                         </q-avatar>
 -->
                     </div>
-                    <div>
-                        <span class="gCommentUser">{{ data.user_name }}</span>
-                        <br>
-                        <time class="gCommentDatetime">{{ getMinifiedDatetime(data.submit_date) }}</time>
-                    </div>
-
-                    <q-space />
-
-                        <div> 
-                            <q-icon
-                                class="deleteBtn" 
-                                name="delete" 
-                                @click="onClickDelete(data)" 
-                                v-if="v_is_owner(data) && (! data.is_removed)" />
+                    <div class="col">
+                        <div class="gCommentUser">
+                            {{ data.user_name }}
                         </div>
+                        <div class="gCommentDateInfo">
+                            <span class="material-icons">alarm</span>&nbsp;
+                            <time class="gCommentDatetime">{{ getMinifiedDatetime(data.submit_date) }}</time>
+                        </div>    
+                    </div>
+                     <q-space />
 
+                    <div> 
+                        <q-icon 
+                            class="deleteBtn" 
+                            name="delete" 
+                            @click="onClickDelete(data)" 
+                            v-if="v_is_owner(data) && (! data.is_removed)" />
+                    </div>
                 </div>
+             </div>
 
                 <div class="boxMessage">
                     <p class="gCommentText">
@@ -440,7 +443,7 @@ dd.reply-container {
 }
 
 .deleteBtn {
-   font-size:18px;
+   font-size:20px;
    color:#777777;
 }
 

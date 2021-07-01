@@ -162,15 +162,12 @@
   padding-bottom:5px;
 }
 
-.gPageUser {
+.gPageUserDateInfo {
   color: #909090;
-  font-size:13px;
+  font-size:15px;
 }
 
-.gPageDatetime {
-  color: #909090;
-  font-size:13px;
-}
+
 
 .gPageContent {
   color: #292626;
@@ -186,14 +183,18 @@
 }
 
 .gPageRatingBtn {
-  color: #616161;
-  font-size:17px;
+  color: #909090;
+  font-size:14px;
 }
 
-.gPageOwnerBtn {
+.gPageEditBtn {
   width:40px;
 }
 
+.gPageEditStyle {
+  font-size:20px;
+  color:#616161;
+}
 
 
 .gAnswerBox {
@@ -270,8 +271,8 @@
 
 }
 
-.gCommentDatetime {
-  color:#8C8C8C;
+.gCommentDateInfo {
+  color:#777777;
   font-size:12px;
 }
 .gCommentRatingBox {

@@ -10,69 +10,50 @@
         <div class="titleBox">
             <div class="col">
                 <div>
-                    <div class="gPageTitle">{{v_post.title}}</div>
+                    <div class="gPageTitle">
+                        {{v_post.title}}
+                    </div>
                     
-                    <div class="row gPageDatetime">
+                    <div class="row gPageUserDateInfo">
                         <div>
                             {{v_post.api_owner.username}}
                         </div>
                         <div style="padding-left:20px;">
-                            <span class="material-icons">alarm</span>&nbsp;
+                            <span class="material-icons">alarm</span>
                             <span>{{v_updated_at(v_post.pub_date)}}</span>
                         </div>                    
                     </div>
                 </div>    
                   
                   
-                <div class="row boxRate q-gutter-sm">
+                <div class="row boxRate q-gutter-sm RatingBtn">
                     <div>   
-                        <span>
-                            <q-icon 
-                                class="RatingBtn"
-                                name="sentiment_very_satisfied"  
-                                size="23px" />&nbsp;
-                                <span class="RatingCount">{{v_post.like_count}}</span>&nbsp;
-                        </span>
-                        <span>
-                            <q-icon 
-                                class="RatingBtn"
-                                name="sentiment_very_dissatisfied"
-                                size="23px" />&nbsp;
-                                <span class="RatingCount">{{v_post.dislike_count}}</span>&nbsp;
-                        </span>
-                        <span>
-                            <q-icon 
-                                class="RatingBtn"
-                                name="chat_bubble_outline" 
-                                size="23px" />&nbsp;                            
-                                <span class="RatingCount">{{v_post.read_count}}</span>
-                        </span>
+                        <q-icon name="sentiment_very_satisfied" />&nbsp;
+                            <span class="RatingCount">{{v_post.like_count}}</span>&nbsp;                  
+                        <q-icon name="sentiment_very_dissatisfied" />&nbsp;
+                            <span class="RatingCount">{{v_post.dislike_count}}</span>&nbsp;
+                       <q-icon name="chat_bubble_outline"/>&nbsp;                            
+                            <span class="RatingCount">{{v_post.read_count}}</span>
                     </div>         
 
                     <q-space />
 
-                    <div>
+                    <div class="gPageEditStyle">
                         <q-icon 
-                            class="gPageOwnerBtn"
+                            class="gPageEditBtn"
                             flat
-                            size="20px"            
-                            color="grey-8"
                             name="share" 
                             @click="onClickShare(v_post)" />
                         <q-icon 
-                            class="gPageOWnerBtn"
+                            class="gPageEditBtn"
                             v-if="v_post.is_owner"
                             flat       
-                            size="20px"     
-                            color="grey-8"
                             name="build"
                             @click="onClickUpdate" />
                         <q-icon
-                            class="gPageOwnerBtn"
+                            class="gPageEditBtn"
                             v-if="v_post.is_owner"
                             flat       
-                            size="20px"     
-                            color="grey-8"
                             name="delete" 
                             @click="onClickDelete" />
                     </div>                  
@@ -585,6 +566,7 @@ export default {
 
 .RatingBtn {
     color:#616161;
+    font-size:18PX;
 }
 
 .authorIntro {

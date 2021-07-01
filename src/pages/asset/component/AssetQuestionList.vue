@@ -19,25 +19,29 @@
 
                     <q-td key="detail" :props="props" dense class="caption_color gBlogUserDateBox">
                         <div @click="onClickQuestion(props.row)">
-                            <q-badge
-                                class="RewardPoint" 
-                                color="purple-4"
-                                text-color="white">
-                                <span>{{props.row.reward}}</span>
-                            </q-badge>
-                            <span class="gBlogTitle">&nbsp;{{v_shorten(props.row.title)}}</span>
-
-                            <div>
-                                <q-icon name="done_all" v-if="props.row.closed" />
-                            </div>                            
+                            
+                            <div class="row">
+                                <q-badge 
+                                    style="margin-right:10px;"
+                                    class="RewardPoint" 
+                                    color="purple-4"
+                                    text-color="white">
+                                    <span>{{props.row.reward}}</span>
+                                </q-badge>
+                                
+                                <div class="gBlogTitle">{{v_shorten(props.row.title)}}</div>
+                                <div style="padding-left:10px;">
+                                    <q-icon name="done_all" size="25px" color="positive" v-if="props.row.closed" />
+                                </div> 
+                            </div>                               
                         </div>
 
                         <div class="row">
-                            <div>                                
-                                <span class="gBlogUser">
+                            <div class="gCommentDateInfo">                                
+                                <span>
                                     {{props.row.owner.username}}
                                 </span> &nbsp;
-                                <span class="gBlogDatetime">
+                                <span>
                                     {{v_updated_at(props.row.pub_date)}}
                                 </span>
                             </div>
