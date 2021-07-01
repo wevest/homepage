@@ -9,7 +9,6 @@
 
         <div class="titleBox">
             <div class="col">
-<<<<<<< HEAD
                 <div>
                     <div class="gPageTitle">{{v_post.title}}</div>
                     
@@ -22,15 +21,6 @@
                             <span>{{v_updated_at(v_post.pub_date)}}</span>
                         </div>                    
                     </div>
-=======
-                
-                <div>
-                    <div>
-                        <span class="gPageTitle">{{v_post.title}}</span>
-                    </div>
-                                            
-                    <WSubinfo :username="v_post.api_owner.username" :pub_date="v_post.pub_date" like_count=-1 dislike_count=-1 />
->>>>>>> c5302804c69445b4fede5aa06b1564729fc62d75
                 </div>    
                   
                   
