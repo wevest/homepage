@@ -4,7 +4,7 @@
             v-if="avatar && avatar.length > 0"
             class="gBlogAvatar"
             :src="avatar"
-        />
+        />        
         <q-icon
             v-else
             name="person"

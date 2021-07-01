@@ -277,14 +277,18 @@ export default {
         onClickUpdate: function() {
             logger.log.debug('AssetQAView.onClickUpdate');
 
+            /*
             let a_post = new QuestionPageModel();
             a_post.question_id = this.v_question.id;
             a_post.title = this.v_question.title;
             a_post.setContentType(CONST.CONENT_TYPE_ASSET_ANSWER);
+            */
 
-            //logger.log.debug("AssetQAView.onClickAnswer - a_post=",a_post);
+            store.getters.nav.add(this.$route); 
 
-            this.$refs.questionWriter.show(this.v_question);
+            let params = {post:this.v_question};
+            let dic_param = { name:'assetqa_question_writer', params:params };
+            this.$router.push(dic_param);
         },
 
         onClickDelete: function() {
@@ -312,11 +316,10 @@ export default {
         },
 
         onClickShare:function(question) {
-            let a_url = CommonFunc.navQA(this,question.id,true);
+            let a_url = CommonFunc.navQADetail(this,question.id,true);
             logger.log.debug("WCommandBar.onClickShare : url=",a_url);
             
             CommonFunc.copyUrl(this,a_url);
-
         }
 
     },

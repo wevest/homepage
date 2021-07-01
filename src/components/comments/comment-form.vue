@@ -175,7 +175,7 @@ export default {
 		},
 		setCommentItem(item) {
 			this.v_comment_item = item;
-		},
+		},		
 		activate() {
 			// await this.$nextTick()
 			if (this.$refs.contentInput) {

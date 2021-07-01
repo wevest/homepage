@@ -1,11 +1,55 @@
 
 <template>
-<!-- Blog Question List Page-->
+
     <div>
 
+		<q-list separator class="rounded-borders">
+			<q-item 
+				class="gBlogTitleBox"
+				clickable
+				v-ripple
+				v-for="(a_question, index) in v_questions.items"
+				:key="index"
+				@click.stop="onClickQuestion(a_question)"
+			>
+				<q-item-section avatar top>
+					<WAvatar :avatar="a_question.owner.avatar_thumb" :username="a_question.owner.username" />
+				</q-item-section>
+				<q-item-section top>
+					<q-item-label lines="1">
+                        <q-badge
+                            class="RewardPoint" 
+                            color="purple-4"
+                            text-color="white">
+                            <span>{{a_question.reward}}</span>
+                        </q-badge>&nbsp;
+
+						<span class="gBlogTitle">{{ v_shorten(a_question.title) }}</span>
+
+                        &nbsp;<q-icon name="done_all" v-if="a_question.closed" />
+					</q-item-label>
+					<q-item-label lines="1">
+
+						<WSubinfo 
+							:username="a_question.owner.username" 
+							:pub_date="a_question.pub_date" 
+							:like_count="a_question.like_count" 
+							:dislike_count="a_question.dislike_count" />
+
+					</q-item-label>
+				</q-item-section>
+			</q-item>
+			<q-separator class="loadmoreSeparator" size="1px" />
+
+		</q-list>
+
+		<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+
+<!--
         <q-table
             row-key="name"       
             hide-header 
+            hide-bottom
             :data="v_questions.items"
             :columns="v_questions_header"
             :rows-per-page-options="[50]"        
@@ -14,29 +58,33 @@
             <template v-slot:body="props">
                 <q-tr :props="props" >
                     <q-td class="gBlogAvatar" key="avatar" :props="props">                        
-                        <WAvatar :avatar="props.row.owner.avatar_thumb" :username="props.row.owner.username" />
+                        <div>
+                            <WAvatar :avatar="props.row.owner.avatar_thumb" :username="props.row.owner.username" />
+                        </div>
                     </q-td>
 
-                    <q-td key="detail" :props="props" dense class="caption_color gBlogUserDateBox">
-                        <div @click="onClickQuestion(props.row)">
-                            <q-badge
-                                class="RewardPoint" 
-                                color="purple-4"
-                                text-color="white">
-                                <span>{{props.row.reward}}</span>
-                            </q-badge>
-                            <span class="gBlogTitle">&nbsp;{{v_shorten(props.row.title)}}</span>
+                    <q-td key="detail" :props="props" dense style="padding:0px !important;" >
+                        <div class="gBlogUserDateBox">
+                            <div @click="onClickQuestion(props.row)">
+                                <q-badge
+                                    class="RewardPoint" 
+                                    color="purple-4"
+                                    text-color="white">
+                                    <span>{{props.row.reward}}</span>
+                                </q-badge>
+                                <span class="gBlogTitle">&nbsp;{{v_shorten(props.row.title)}}</span>
 
-                            <div>
-                                <q-icon name="done_all" v-if="props.row.closed" />
-                            </div>                            
+                                <div>
+                                    <q-icon name="done_all" v-if="props.row.closed" />
+                                </div>                            
+                            </div>
+
+                            <div>                            
+                                <WSubinfo :username="props.row.owner.username" 
+                                    :pub_date="props.row.pub_date" 
+                                    :like_count="props.row.like_count" :dislike_count="props.row.dislike_count" />
+                            </div>                        
                         </div>
-
-                        <div>                            
-                            <WSubinfo :username="props.row.owner.username" 
-                                :pub_date="props.row.pub_date" 
-                                :like_count="props.row.like_count" :dislike_count="props.row.dislike_count" />
-                        </div>                        
                     </q-td>
                 </q-tr>
             </template>
@@ -45,6 +93,8 @@
         <div v-if="v_visible_loadmore">>
             <q-btn label="load More" @click="onClickLoadMore" />
         </div>
+-->
+
 
   </div>  
   
@@ -59,20 +109,17 @@ import logger from "src/error/Logger";
 
 import WAvatar from "components/WAvatar.vue";
 import WSubinfo from 'components/WSubinfo';
+import LoadMore from "src/components/LoadMore";
 
 import { PostPageModel, QuestionPageListModel } from "src/models/PageModel";
 
 export default {
     components: {
         WAvatar,
-        WSubinfo
+        WSubinfo,
+        LoadMore
     },
     computed: {
-        v_updated_at() {
-            return (value) => {
-                return CommonFunc.minifyDatetime(value);
-            };
-        },
         v_shorten() {
             return (value) => {
                 return CommonFunc.shortenString(value,MoaConfig.setting.maxTitleLength);
@@ -84,9 +131,10 @@ export default {
         g_data: null,
 
         v_questions: new QuestionPageListModel(),
+
         v_questions_header: [
             { name:'avatar', label: this.$t('name.name'), align:'left', field: 'avatar' },
-            { name:'detail', label: this.$t('name.detail'), field: 'detail' },
+            { name:'detail', label: this.$t('name.detail'), field: 'detail', align:'left' },
 /*            
             { name:'reward', label: this.$t('name.reward'), sortable:true,  field: 'reward' ,
               format: (val, row) => `${Number(val).toLocaleString()}`, 
@@ -97,7 +145,6 @@ export default {
 */            
         ],
 
-        v_visible_loadmore: false,
       }
     },
 

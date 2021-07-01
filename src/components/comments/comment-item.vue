@@ -24,14 +24,13 @@
 
                     <q-space />
 
-                        <div> 
-                            <q-icon
-                                class="deleteBtn" 
-                                name="delete" 
-                                @click="onClickDelete(data)" 
-                                v-if="v_is_owner(data) && (! data.is_removed)" />
-                        </div>
-
+                    <div> 
+                        <q-icon
+                            class="deleteBtn" 
+                            name="delete" 
+                            @click="onClickDelete(data)" 
+                            v-if="v_is_owner(data) && (! data.is_removed)" />
+                    </div>
                 </div>
 
                 <div class="boxMessage">

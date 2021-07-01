@@ -314,7 +314,12 @@ export default {
 
         onClickAnswerUpdate:function(answer) {
             logger.log.debug("AssetAnswerList.onClickUpdate=",answer);
-            this.$emit("onClickAnswerUpdate",answer);
+
+            store.getters.nav.add(this.$route); 
+
+            let params = {post:answer};
+            let dic_param = { name:'assetqa_answer_writer', params:params };
+            this.$router.push(dic_param);
         },
 
         onClickAnswerDelete:function(answer) {
