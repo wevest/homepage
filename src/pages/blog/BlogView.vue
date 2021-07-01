@@ -7,17 +7,22 @@
 
         <q-separator class="gSeparator" />
 
-        <div class="row titleBox">
+        <div class="titleBox">
             <div class="col">
-                <div class="row">
-                    <div>
-                        <span class="gPageTitle">{{v_post.title}}</span>
-                        <br>
-                        <span class="gPageDatetime">{{v_post.api_owner.username}}</span>&nbsp;
-                        <span class="gPageDatetime material-icons">alarm</span>&nbsp;
-                        <span class="gPageDatetime">{{v_updated_at(v_post.pub_date)}}</span>
-                    </div>    
+                <div>
+                    <div class="gPageTitle">{{v_post.title}}</div>
+                    
+                    <div class="row gPageDatetime">
+                        <div>
+                            {{v_post.api_owner.username}}
+                        </div>
+                        <div style="padding-left:20px;">
+                            <span class="material-icons">alarm</span>&nbsp;
+                            <span>{{v_updated_at(v_post.pub_date)}}</span>
+                        </div>                    
+                    </div>
                 </div>    
+                  
                   
                 <div class="row boxRate q-gutter-sm">
                     <div>   

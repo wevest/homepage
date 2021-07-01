@@ -102,7 +102,7 @@
                             <q-space />
 
                             <div class="gCommentRatingBox">
-                                <q-btn v-if="v_is_owner(a_comment)" label="delete" @click="onClickDeleteComment(a_answer,a_comment)" />
+                                <q-btn v-if="v_is_owner(a_comment)" flat icon="delete" @click="onClickDeleteComment(a_answer,a_comment)" />
 
                                 <q-icon 
                                     class="gCommentRatingBtn"
