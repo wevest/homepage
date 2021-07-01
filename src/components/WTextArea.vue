@@ -66,6 +66,9 @@ export default{
         setEnabled(value) {
             this.v_disabled = ! value;
         },
+        setRows(value) {
+            this.v_rows = value;
+        },
 
         updateValue(value) {
             //this.$emit('update:modelValue',value);

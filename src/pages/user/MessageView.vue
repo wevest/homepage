@@ -145,11 +145,17 @@ export default {
             logger.log.debug("onClickDelete: thread=",thread);
 
             const _this=this;
-            thread.remove().then(response=>{
-                _this.v_thread.removeThread(thread.id);
-                CommonFunc.showOkMessage(_this,'Message Deleted');
-            }).catch(err=>{
-                CommonFunc.showErrorMessage(_this,"Message error");
+            store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
+                logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
+                if (! value) return;
+
+                thread.remove().then(response=>{
+                    _this.v_thread.removeThread(thread.id);
+                    CommonFunc.showOkMessage(_this,'Message Deleted');
+                }).catch(err=>{
+                    CommonFunc.showErrorMessage(_this,"Message error");
+                });
+
             });
 
         }

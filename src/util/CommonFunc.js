@@ -541,11 +541,18 @@ export default class CommonFunc {
         a_this.$router.back();
     }
 
+    static navSignin(a_this) {
+        logger.log.debug("CommonFunc.navSignin - ",a_this.$route);
+        
+        let dic_param = {name:'signin', params:{ path:a_this.$route.name, query:a_this.$route.query }};
+        a_this.$router.push(dic_param);
+    }
+
     static navProfile(a_this,username) {
         logger.log.debug("CommonFunc.navProfile - ",username);
 
         //CommonFunc.setAppData('selected_author',author);
-        let dic_param = { name:'profile', path:'profile', params:{ username:username, back:true } };
+        let dic_param = { name:'profile', path:'profile', query:{ username:username, back:true } };
         a_this.$router.push(dic_param);
     }
     
@@ -1392,5 +1399,6 @@ export default class CommonFunc {
 
         CommonFunc.showOkMessage(a_this,'Link Copied');
     }    
+
 }
 

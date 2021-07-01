@@ -172,6 +172,11 @@ export default {
                 }
                 return false;
             }
+        },
+        v_shorten() {
+            return (value) => {
+                return CommonFunc.shortenString(value,MoaConfig.setting.maxTitleLength);
+            };
         }
     },
     data () {
@@ -322,11 +327,17 @@ export default {
             logger.log.debug("AssetAnswerList.onClickAnswerDelete=",answer);
 
             const _this=this;
-            this.v_answers.remove(answer.id).then( response=> {
-                this.$emit("onClickAnswerDelete",answer);
-                CommonFunc.showOkMessage(_this,"Answer Deleted");
-            }).catch(err=>{
-                CommonFunc.showErrorMessage(_this,"Answer Deleted Error");
+
+            store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
+                if (! value) return;
+
+                _this.v_answers.remove(answer.id).then( response=> {
+                    _this.$emit("onClickAnswerDelete",answer);
+                    CommonFunc.showOkMessage(_this,"Answer Deleted");
+                }).catch(err=>{
+                    CommonFunc.showErrorMessage(_this,"Answer Deleted Error");
+                });
+
             });
 
         },
@@ -335,13 +346,19 @@ export default {
             logger.log.debug("AssetAnswerList.onClickDeleteComment=",answer,comment);
             
             const _this=this;
-            comment.remove().then(response=>{
-                logger.log.debug("AssetAnswerList.onClickDeleteComment : response=",response);
-                _this.v_answers_comments.remove(answer.comments,comment.id);                
-                CommonFunc.showOkMessage(_this,"Answer comment Deleted");
-            }).catch(err=>{
-                logger.log.debug("AssetAnswerList.onClickDeleteComment : err=",err);
-                CommonFunc.showErrorMessage(_this,"Answer Deleted Error");
+
+            store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
+                logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
+                if (! value) return;
+
+                comment.remove().then(response=>{
+                    logger.log.debug("AssetAnswerList.onClickDeleteComment : response=",response);
+                    _this.v_answers_comments.remove(answer.comments,comment.id);                
+                    CommonFunc.showOkMessage(_this,"Answer comment Deleted");
+                }).catch(err=>{
+                    logger.log.debug("AssetAnswerList.onClickDeleteComment : err=",err);
+                    CommonFunc.showErrorMessage(_this,"Answer Deleted Error");
+                });
             });
 
         }

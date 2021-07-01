@@ -154,8 +154,10 @@ export default {
         },
 
 
+
         onClickCommentSave: function(value) {
-            console.log("onClickCommentReply-",value);
+            logger.log.debug("onClickCommentReply-",value);
+            this.$refs.commentForm.clear();
             this.$emit('onClickCommentReply',value);
         },
         onClickMore: function(value) {

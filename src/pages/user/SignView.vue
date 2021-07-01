@@ -192,7 +192,7 @@ export default {
     }),
 
     mounted: function() {
-        //console.log("HomeView.mounted - ");
+        logger.log.debug("SigninView.mounted - params=",this.$route.params);
         //this.refresh();
         this.fillUserdata();
     },
@@ -272,6 +272,17 @@ export default {
             this.v_me.signIn(dic_param).then( response => {
                 logger.log.debug("SignIn.response=",response);
                 CommonFunc.showOkMessage(_this,'Signed in');
+
+                // if it is redirected, then move to the redirected url
+                if (_this.$route.params.hasOwnProperty('path')) {
+                    const dic_param = {
+                        name:_this.$route.params.path, 
+                        query:_this.$route.params.query 
+                    };
+                    _this.$router.push(dic_param);                    
+                    return;
+                }
+
                 _this.navHome();
                 
             }).catch( err => {

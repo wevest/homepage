@@ -15,7 +15,6 @@
                     @onFocus="onFocus"
                     @onFocusOut="onFocusOut"
 				/>
-
 			</div>
 
 			<q-rating
@@ -87,7 +86,11 @@ export default {
 			default: true,
 		},
 	},
-
+	computed: {
+        v_me() {
+            return store.getters.me;
+        },
+	},
 	data() {
 		return {
             v_review: null,
@@ -103,20 +106,25 @@ export default {
 			},
 		};
 	},
-
-	computed: {
-        v_me() {
-            return store.getters.me;
-        },
-	},
 	watch: {},
 
 	mounted() {
 		logger.log.debug("AssetReviewForm.mounted");
-		//this.$emit("update:saving", this.saving);
+		this.prepare();
 	},
 
 	methods: {
+		prepare() {
+			//logger.log.debug("Comment-Form.prepare : v_me=",this.v_me);
+			if (this.v_me.loggedIn) {
+				this.$refs.descText.setHint("");
+				this.$refs.descText.setEnabled(true);
+			} else {
+				this.$refs.descText.setHint("Please log-in to write comments");
+				this.$refs.descText.setEnabled(false);
+			}
+		},
+
 		show() {
 			// this.visible = true
 			this.v_style="display:block";
@@ -129,6 +137,7 @@ export default {
             this.v_comments = "";
             this.v_rating = 5;
             this.$refs.descText.setValue(this.v_comments);
+			this.$refs.descText.setRows(1);
         },
 
 		setReview(review) {
@@ -182,7 +191,8 @@ export default {
             a_review.save(dic_param).then( response => {
                 logger.log.debug('AssetView.onClickReviewSave - response = ',response);
                 //_this.$refs.reviewList.addReview(response.data);
-                dic_param.response = response;
+                _this.clear();
+				dic_param.response = response;
                 CommonFunc.showOkMessage(_this,'review posted');
                 _this.$emit("onClickReviewSave", dic_param);
             }).catch( er => {
@@ -206,6 +216,7 @@ export default {
 
 		onFocus(event) {
 			logger.log.debug("onFocus=", this.$parent);
+			this.$refs.descText.setRows(7);
 			this.$emit("onEditorFocus", event);
 		},
 

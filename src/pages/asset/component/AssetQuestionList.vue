@@ -25,8 +25,13 @@
                                 text-color="white">
                                 <span>{{props.row.reward}}</span>
                             </q-badge>
-                            <span class="gBlogTitle">&nbsp;{{props.row.title}}</span>
+                            <span class="gBlogTitle">&nbsp;{{v_shorten(props.row.title)}}</span>
+
+                            <div>
+                                <q-icon name="done_all" v-if="props.row.closed" />
+                            </div>                            
                         </div>
+
                         <div class="row">
                             <div>                                
                                 <span class="gBlogUser">
@@ -73,8 +78,8 @@
 
 
 <script>
+import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
-import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
 import WAvatar from "components/WAvatar.vue";
@@ -91,6 +96,11 @@ export default {
                 return CommonFunc.minifyDatetime(value);
             };
         },
+        v_shorten() {
+            return (value) => {
+                return CommonFunc.shortenString(value,MoaConfig.setting.maxTitleLength);
+            };
+        }
     },
     data () {
       return {

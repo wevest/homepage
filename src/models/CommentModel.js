@@ -7,7 +7,6 @@ import CommonFunc from 'src/util/CommonFunc';
 import {baseCollection} from 'src/models/baseModel';
 
 import CMSAPI from 'src/services/cmsService';
-import { a } from 'hangul-js';
 
 
 export class CommentModel {

@@ -200,6 +200,7 @@ export default {
 
         removeEditor() {
             this.v_show_editor = false;
+            this.$refs.reviewEditor.hide();
         },
 
 
@@ -236,14 +237,20 @@ export default {
             logger.log.debug('onClickDelete : review=',review);
 
             const _this=this;
-            review.remove().then(response=>{
-                if (response.data.ret==0) {
-                    _this.removeReview(review);
-                    CommonFunc.showOkMessage(_this,'Review post deleted');
-                    _this.$emit("onClickDeleteReview",review);
-                }
-            }).catch(err=>{
-                CommonFunc.showErrorMessage(_this,'Review delete error');
+
+            store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
+                if (! value) return;
+
+                review.remove().then(response=>{
+                    if (response.data.ret==0) {
+                        _this.removeReview(review);
+                        _this.removeEditor();
+                        _this.$emit("onClickDeleteReview",review);                        
+                        CommonFunc.showOkMessage(_this,'Review post deleted');
+                    }
+                }).catch(err=>{
+                    CommonFunc.showErrorMessage(_this,'Review delete error');
+                });
             });
         },
 

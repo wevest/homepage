@@ -14,7 +14,7 @@
 				</q-item-section>
 				<q-item-section top>
 					<q-item-label lines="1">
-						<span class="gBlogTitle">{{ a_post.title }}</span>
+						<span class="gBlogTitle">{{ v_shorten(a_post.title) }}</span>
 					</q-item-label>
 					<q-item-label lines="1">
 						<span class="gBlogUser">{{a_post.api_owner.username}}</span>&nbsp;
@@ -36,6 +36,7 @@
 
 
 <script>
+import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
@@ -55,6 +56,11 @@ export default {
                 return CommonFunc.minifyDatetime(value);
             };
         },
+        v_shorten() {
+            return (value) => {
+                return CommonFunc.shortenString(value,MoaConfig.setting.maxTitleLength);
+            };
+        }
     },
 
 	data() {

@@ -35,7 +35,7 @@
                             <span class="gPageRating">{{ v_question.dislike_count }} </span>
                         </div>
 
-                            <q-space />
+                        <q-space />
 
                         <div v-if="v_question.is_owner">
                             <q-btn            
@@ -85,19 +85,19 @@
             </div>
         </div>
 
-        <q-separator size="10px"/>
+        <q-separator class="gSeparator" />
 
         <div class="row" v-if="! v_question.closed">     
             <q-space />
             <div class="pageAnswerBox">                
-            <q-btn 
-                class="pageAnswerBtn"
-                dense                                  
-                label="Answer" @click="onClickAnswer" />
+                <q-btn 
+                    dense
+                    class="pageAnswerBtn"                
+                    label="Answer" @click="onClickAnswer" />
             </div>            
         </div>
 
-        <q-separator size="10px" />
+        <q-separator class="gSeparator" />
 
         <div class="row">
             <div class="col">
@@ -229,24 +229,41 @@ export default {
         onClickAnswer: function() {
             logger.log.debug("AssetQAView.onClickAnswer - v_question=",this.v_question);
 
-            let a_post = new AnswerPageModel();
-            a_post.question_id = this.v_question.id;
-            a_post.title = this.v_question.title;
-            a_post.setContentType(CONST.CONENT_TYPE_ASSET_ANSWER);
+            if (this.v_me.isLoggedIn()) {
+                let a_post = new AnswerPageModel();
+                a_post.question_id = this.v_question.id;
+                a_post.title = this.v_question.title;
+                a_post.setContentType(CONST.CONENT_TYPE_ASSET_ANSWER);
 
-            //logger.log.debug("AssetQAView.onClickAnswer - a_post=",a_post);
+                //logger.log.debug("AssetQAView.onClickAnswer - a_post=",a_post);
 
-            this.$refs.answerWriter.show(a_post);
+                this.$refs.answerWriter.show(a_post);
+                return;
+
+            }
+            
+            const _this=this;
+            store.getters.components.getComponent('confirmDialog').show('Please login first',function(value) {
+                logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
+                if (value) {
+                    CommonFunc.navSignin(_this);
+                }
+            });
+
         },
 
         onClickQuestionVote: function(value) {
             logger.log.debug("AssetQAView.onClickQuestionVote - value=",value);
             
+
+            const _this=this;
             let dic_param = {value:value};
             this.v_question.vote(dic_param).then(response=>{
                 logger.log.debug("AssetQAView.onClickQuestionVote - response=",response);
+                CommonFunc.showOkMessage(_this,'Question rated');
             }).catch(err=>{
                 logger.log.debug("AssetQAView.onClickQuestionVote - err=",err);
+                CommonFunc.showErrorMessage(_this,err.data.msg);                
             });
         },
 
@@ -268,7 +285,6 @@ export default {
 
             logger.log.debug("AssetQAView.onClickQuestionAccept : answer=",answer);
             
-
             answer.accept().then(response=>{
                 logger.log.debug('AssetView.onClickAnswerRating - response = ',response);
                 if (response.data.ret==0) {
@@ -309,6 +325,21 @@ export default {
 
         onClickDelete: function() {
             logger.log.debug('AssetQAView.onClickDelete');
+
+            const _this=this;
+            store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
+                if (! value) return;
+
+                _this.v_question.remove().then(response=>{
+                    logger.log.debug('AssetQAView.onClickDelete : response=',response);
+                    CommonFunc.showOkMessage(_this,'Question Deleted');
+                    CommonFunc.navBack(_this);
+
+                }).catch(err=>{
+                    CommonFunc.showErrorMessage(_this,err.data.msg);    
+                });
+
+            });
         },
 
         onClickAnswerUpdate: function(answer) {
@@ -347,6 +378,8 @@ export default {
     width:40px;
     margin-left:5px;
 }
+
+
 </style>
  
 

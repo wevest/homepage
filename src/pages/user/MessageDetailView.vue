@@ -180,6 +180,12 @@ export default {
 
         onClickDelete: function(message) {
             logger.log.debug("onClickDelete=",message);
+
+            store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
+                logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
+            
+            });
+
         },
 
         onClickEdit: function() {                        

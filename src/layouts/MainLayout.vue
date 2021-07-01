@@ -130,10 +130,12 @@
 		</q-drawer>
 
 		<q-page-container>
-			<router-view> </router-view>
-
+			<router-view :key="$route.fullPath"> </router-view>
 			<Spinner ref="loading" />
 		</q-page-container>
+
+		<WConfirmDialog ref="confirmDialog" title="Do you want to delete the item?" @onClickConfirm="onClickDeleteConfirm" />
+
 	</q-layout>
 </template>
 
@@ -150,11 +152,15 @@ import { MoaConfig } from "src/data/MoaConfig";
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
+import WConfirmDialog from "src/components/dialogs/WConfirmDialog";
+
+
 export default {
 	name: "MainLayout",
 	components: {
 		SideBar,
 		Spinner,
+		WConfirmDialog
 	},
 	computed: {
 		v_login: function () {
@@ -198,6 +204,7 @@ export default {
 	methods: {
 		prepare() {
 			store.getters.components.addToolbar(this);
+			store.getters.components.addComponent('confirmDialog',this.$refs.confirmDialog);
 		},
 		setBackButton:function(value) {
 			this.v_show_back_button = value;
@@ -310,7 +317,7 @@ export default {
 		},
 
 		onClickUser: function () {
-			logger.log.debug("MainToolbar.onClickUser");
+			logger.log.debug("MainToolbar.onClickUser : $route=",this.$route);
 			let dic_param = { name: "profile", params: {} };
 			this.$router.push(dic_param);
 		},
@@ -360,6 +367,11 @@ export default {
 			
 			store.getters.nav.back(this);
 		},
+
+		onClickDeleteConfirm: function() {
+			logger.log.debug("onClickDeleteConfirm");
+		}
+
 	},
 };
 </script>

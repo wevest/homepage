@@ -126,7 +126,7 @@
                             <q-btn size="15px" flat dense round icon="delete" @click="onClickDelete(a_portfolio)"/>&nbsp;
                             <q-btn size="15px" flat dense round icon="add" 
                                 v-if="! v_is_owner"
-                                label="내 포트폴리오추가" 
+                                label="포트폴리오복사" 
                                 @click="onClickAddToMyPortfolio(a_portfolio)" />&nbsp;
                             <q-btn size="15px" flat dense round icon="more_vert" />
                         </div>                            
@@ -159,9 +159,11 @@
         </div>
 
         <AddPortfolioDialog ref="addPortfolio" @onPortfolioItemAdded="onPortfolioItemAdded" />
+<!--        
         <br /><br /><br />
+        
         <WConfirmDialog ref="confirmDialog" title="Do you want to delete the item?" @onClickConfirm="onClickDeleteConfirm" />
-
+-->
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
             <q-btn fab icon="add" color="accent" @click="onClickAdd" />
         </q-page-sticky>
@@ -180,7 +182,7 @@ import {PortfolioModel,PortfolioItemModel} from "src/models/PortfolioModel";
 import CommentForm from "components/comments/comment-form.vue";
 import CommentTree from "components/comments/comment-tree.vue";
 
-import WConfirmDialog from 'components/dialogs/WConfirmDialog';
+//import WConfirmDialog from 'components/dialogs/WConfirmDialog';
 import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 import PortfolioChart from 'src/pages/user/component/PortfolioChart';
 
@@ -193,7 +195,7 @@ export default {
         CommentForm,
         CommentTree,
         AddPortfolioDialog,
-        WConfirmDialog,
+        //WConfirmDialog,
         PortfolioChart
     },    
     mixins: [],
@@ -346,14 +348,26 @@ export default {
         onClickDelete: function(portfolio_item) {
             logger.log.debug("PortfolioDetail.onClickDelete : v_selected=",portfolio_item);
             this.v_selected = portfolio_item;
-            this.$refs.confirmDialog.show();
+            
+            const _this=this;
+            store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
+                logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
+                if (! value) return;
+                _this.onClickDeleteConfirm();
+            });
         },
 
         onClickDeletePortfolio: function() {
             logger.log.debug("PortfolioDetail.onClickDeletePortfolio = ",this.v_portfolio);
 
             this.v_selected = this.v_portfolio;
-            this.$refs.confirmDialog.show();
+            
+            const _this=this;
+            store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
+                logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
+                if (! value) return;
+                _this.onClickDeleteConfirm();
+            });
         },
 
         onClickDeleteConfirm: function() {            

@@ -132,7 +132,7 @@ export default {
 
 	mounted() {
 		// Emit initial values of local properties
-		logger.log.debug("Comment-Form.mounted");
+		//logger.log.debug("Comment-Form.mounted");
 		this.prepare();
 	},
 
@@ -143,7 +143,7 @@ export default {
 
 	methods: {
 		prepare() {
-			logger.log.debug("Comment-Form.prepare : v_me=",this.v_me);
+			//logger.log.debug("Comment-Form.prepare : v_me=",this.v_me);
 			if (this.v_me.loggedIn) {
 				this.$refs.descText.setHint("");
 				this.$refs.descText.setEnabled(true);
@@ -164,6 +164,7 @@ export default {
 			this.v_input = "";
 			this.v_comments = null;
 			this.$refs.descText.clear();
+			this.$refs.descText.setRows(1);
 		},
 		remove() {
 			this.$el.remove();
@@ -201,6 +202,7 @@ export default {
 			if (this.save) {
 				dic_param.post = this.post;
 				dic_param.editor = this;
+				this.clear();
 				this.$emit("onClickCommentSave", dic_param);
 				return;
 			}
@@ -208,7 +210,8 @@ export default {
             const _this = this;
             this.post.comments.post(dic_param).then( response => {
                 dic_param.response = response;
-                _this.$emit("onClickCommentSave", dic_param);
+                _this.clear();
+				_this.$emit("onClickCommentSave", dic_param);
                 //CommonFunc.showOkMessage(_this,'comments posted');                
             }).catch( err=> {
 
@@ -252,12 +255,12 @@ export default {
 		onFocus(event) {
 			logger.log.debug("onFocus=", this.$parent);
             //this.$refs.commentForm.v_comments = "";
-            //this.$refs.commentForm.v_rows= "5";
-			
+            this.$refs.descText.setRows(5);			
 			this.$emit("onEditorFocus", event);
 		},
 		onFocusOut(event) {
 			logger.log.debug("onFocusOut=", this.$parent);
+			//this.$refs.descText.setRows(1);
 			this.$emit("onEditorFocusOut", event);
 		},
 

@@ -144,7 +144,7 @@
         <div class="row q-gutter-sm">
             <div class="col">
                 <CTitle title="$t('page.profile.portfolio')" desc="$t('page.profile.portfolio')"></CTitle>
-                <q-btn class="addBtn" label="Add" @click="onClickAddPortfolio" />
+                <q-btn v-if="isOwner" class="addBtn" label="Add" @click="onClickAddPortfolio" />
                 <PortfolioList ref='portfolioList' @onClickPortfolio="onClickPortfolio"></PortfolioList>
             </div>
         </div>
@@ -226,9 +226,9 @@ export default {
     }),
     mounted: function() {
         //console.log("HomeView.mounted - ");
-        console.log("ProfileView.mounted - symbol=",this.$route.params);
+        console.log("ProfileView.mounted - symbol=",this.$route.query);
         
-        this.setUser(this.$route.params);
+        this.setUser(this.$route.query);
         this.refresh();
     },
 

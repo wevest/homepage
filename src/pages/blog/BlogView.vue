@@ -1,13 +1,12 @@
 <template>
     
     <div class="q-ma-md">
-<!--
-        <div class="row">
-            <div class="col">
-                <BlogList ref='blogList'></BlogList>
-            </div>
+        <div>
+            <WWriterButton placeholder="Please share your knowledges" @onClickWrite="onClickWrite" />
         </div>
--->
+
+        <q-separator class="gSeparator" />
+
         <div class="row titleBox">
             <div class="col">
                 <div class="row">
@@ -52,7 +51,7 @@
                             icon="checklist"
                             label="Share" 
                             @click="onClickShare(v_post)" />
-
+<!--
                         <q-btn 
                             outlined
                             size="9px"
@@ -60,7 +59,7 @@
                             icon="mode"
                             label="Write" 
                             @click="onClickWrite" />
-
+-->
                         <q-btn 
                             v-if="v_post.is_owner"
                             outlined
@@ -138,10 +137,9 @@
                 </div>
             </div>
         </div>
-        <div class="separator">
-             <q-separator size="10px" color="grey-"/>
-        </div>
-
+        
+        <q-separator class="gSeparator" />
+        
         <div class="row">
             <div class="col">
 <!--                
@@ -189,6 +187,7 @@ import {PostPageModel,CommentModel,CommentListModel} from "src/models/PageModel"
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
 import WAvatar from "components/WAvatar.vue";
+import WWriterButton from 'components/WWriterButton';
 import BlogWriterDialog from 'components/dialogs/BlogWriterDialog';
 import CommentForm from "components/comments/comment-form.vue";
 import CommentTree from "components/comments/comment-tree.vue";
@@ -203,7 +202,8 @@ export default {
         WAvatar,
         CommentTree,
         CommentForm,
-        BlogWriterDialog
+        BlogWriterDialog,
+        WWriterButton
     },
     computed: {
         v_me() {
@@ -263,7 +263,7 @@ export default {
     },
     mounted: function() {        
 
-        logger.log.debug("BlogView.mounted - params=",this.$route.params,this.$route.query);
+        logger.log.debug("BlogView.mounted - params=",this.$route.query);
 
         if (! this.$route.query.page_id) {
             return;
@@ -283,18 +283,24 @@ export default {
 
 
         refresh: function(page_id) {
+            logger.log.debug("BlogView.mounted - refresh");
+            
+            this.loadBlogPost(page_id);
+            this.loadBlogComments(page_id);
+/*
             const _this = this;
         
             let funcs = [            
                 //this.loadCalendarEffectData('1h'),
                 this.loadBlogPost(page_id),
-                this.loadBlogComments(page_id),
+                
                 //this.loadCryptoTopAssetData('1h')
             ];
+
             Promise.all(funcs).then(function() {
                 
             });
-
+*/
         },
         
         handlePostPage: function(post) {
@@ -311,9 +317,11 @@ export default {
             if (! page_id) {
                 return;
             }
+            logger.log.debug("loadBlogPost.response - 1");
 
             const _this = this;
             this.v_post.load(page_id).then( response => {
+                logger.log.debug("loadBlogPost.response=",response);
                 _this.g_data = response.data;
                 _this.handlePostPage(_this.g_data.results[0]);
             }).catch( err => {
@@ -396,15 +404,24 @@ export default {
             const _this = this;
             //let dic_param = { id:this.v_post.id, token:store.getters.token};
             logger.log.debug('BlogPage.onClickDelete');
-            this.v_post.remove().then( response => {
-                CommonFunc.showOkMessage(_this,'Blog deleted');                
-            }).catch(err=>{
-                CommonFunc.showErrorMessage(_this,err.data.msg);
+            
+            store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
+                logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
+                if (! value) return;
+
+                _this.v_post.remove().then( response => {
+                    CommonFunc.showOkMessage(_this,'Blog deleted');       
+                    CommonFunc.navBack(_this);
+                }).catch(err=>{
+                    CommonFunc.showErrorMessage(_this,err.data.msg);
+                });
+
             });
+
         },
 
-        onClickWrite: function() {
-            logger.log.debug('onClickWrite - ');
+        onClickWrite: function(dic_param) {
+            logger.log.debug('onClickWrite - ',dic_param);
             this.navWriter("new");
         },
 

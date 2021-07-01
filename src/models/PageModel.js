@@ -127,9 +127,12 @@ export class PostPageModel {
 
 
     load(page_id) {        
+        logger.log.debug("PostModel.load");
+
         return new Promise(function(resolve,reject) {
             //let dic_param = {page_id:page_id, token:store.getters.token};
             let dic_param = {page_id:page_id};
+            logger.log.debug("PostModel.load - dic_param",dic_param);
             CMSAPI.getBlogData(dic_param,function(response) {
                 logger.log.debug("PostModel.loadPost - response",response);
                 resolve(response);
@@ -269,7 +272,7 @@ export class QuestionPageModel extends PostPageModel{
     load() {
         const _this = this;
 
-        let dic_param = {'id': this.id, token:store.getters.token};
+        let dic_param = {'id': this.id};
         return new Promise(function(resolve,reject) {
             //dic_param.id = _this.id;
             CMSAPI.getAssetQuestion(dic_param,function(response) {
@@ -315,6 +318,21 @@ export class QuestionPageModel extends PostPageModel{
             });          
         });
     }    
+
+    remove() {
+        const _this = this;
+        
+        const dic_param = { id:this.id, token:store.getters.token };
+        return new Promise(function(resolve,reject) {                        
+            CMSAPI.deleteAssetQuestion(dic_param,function(response) {
+                logger.log.debug('onClickQuestionRemove - ',response);                
+                resolve(response);
+            }, function(err) {
+                logger.log.debug('onClickQuestionRating - ',err);
+                reject(err);
+            });          
+        });
+    }
 }
 
 
