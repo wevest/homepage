@@ -15,7 +15,7 @@
                 <CTitle ttype='subtitle' title="Market Trend" desc=""
                     loadMoreCaption="More"
                     @onClickTitleMore="onClickMoreBlog"></CTitle>
-                <BlogList ref='blogList' @onClickBlog="onClickBlog"></BlogList>
+                <BlogList ref='blogList' ></BlogList>
             </div>
         </div>
 
@@ -28,7 +28,6 @@
                     @onClickTitleMore="onClickMoreQuestion"></CTitle>
 
                 <AssetQuestionList ref="questionList" 
-                    @onClickQuestion="onClickQuestion"
                     @onClickQuestionRating="onClickQuestionRating"
                 >
                 </AssetQuestionList>
@@ -44,13 +43,6 @@
                     loadMoreCaption="More"
                     @onClickTitleMore="onClickMoreReview"></CTitle>
 
-                <AssetReviewForm ref="reviewForm" 
-                    :category="g_asset.symbol" :objectId="g_asset.object_id"
-                    @onClickReviewSave="onClickReviewSave" 
-                    @onEditorFocus="onFocusReviewForm"
-                    @onEditorFocusOut="onFocusoutReviewForm"
-                > 
-                </AssetReviewForm>
                 <AssetReviewList ref="reviewList" 
                     :category="g_asset.symbol" :objectId="g_asset.object_id"
                     @onClickRating="onClickReviewRating" 
@@ -86,8 +78,8 @@ import AssetQuestionList from 'components/AssetQuestionList';
 
 import CAssetChart from 'src/pages/asset/CAssetChart';
 import CAssetInfoTable from 'src/pages/asset/CAssetInfoTable';
-import AssetReviewForm from 'src/pages/asset/component/AssetReviewForm';
-import AssetReviewList from 'src/pages/asset/component/AssetReviewList';
+//import AssetReviewForm from 'src/pages/asset/component/AssetReviewForm';
+import AssetReviewList from 'components/AssetReviewList';
 
 
 
@@ -98,7 +90,6 @@ export default {
         ChartTimeframe,
         CAssetChart,
         CAssetInfoTable,
-        AssetReviewForm,
         AssetReviewList,
         AssetQuestionList,
         BlogList,
@@ -356,12 +347,6 @@ export default {
             this.$refs.blogList.updateByCategory(category);
         },
 
-        navBlogWriter: function() {
-            logger.log.debug('AssetView.navBlogWriter');
-            let dic_param = { name:'blog_writer', params:{} };
-            this.$router.push(dic_param);            
-        },
-
 
         onClickTimeframe: function(offset,timeframe) {
             console.log('AssetView.onClickTimeframe - ',offset,timeframe);
@@ -500,10 +485,15 @@ export default {
 
         onClickMoreBlog: function() {
             logger.log.debug('AssetView.onClickMoreBlog');
+
+            store.getters.nav.add(this.$route);
+            CommonFunc.navBlog(this,this.g_asset.symbol,this.g_asset.object_id);
         },
 
         onClickMoreReview: function() {
             logger.log.debug('AssetView.onClickMoreReview');
+            store.getters.nav.add(this.$route);
+            CommonFunc.navReview(this,this.g_asset.symbol,this.g_asset.object_id);
         },
 
     },
