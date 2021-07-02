@@ -2,14 +2,20 @@
     
     <div class="q-ma-md">
 
-        <div class="row">
-            <div class="col">
+        <div class="">
+            <CTitle class="gBoxNoMargin" ttype='title' title="글쓰기"></CTitle>          
+        </div>
+
+        <div>
+            <div>
                 <q-input 
                     v-model="v_post.title" 
                     label="Title" 
                     :error="v_error.title.error"
                     :error-message="v_error.title.msg"
                 />
+            </div>
+            <div class="gBoxNoMargin">
                 <Editor 
                     ref="toastEditor"
                     :value="v_post.text"
@@ -24,23 +30,21 @@
                 <div v-if="v_error.text.error">
                     {{v_error.text.msg}}
                 </div>
+            </div>
+            <div>
                 <q-input v-model="v_post.tags" label="Tags" />
+            </div>
+            <div>
+                <q-select v-model="v_category" :options="v_options" behavior="menu" label="Category" />
             </div>
         </div>
 
-        <div class="row">
+
+        <div style="padding:20px;">
+            <q-btn class="gSaveBtn full-width" label="Save" @click="onClickSave" />
             <!--
-            <div>
-                <q-btn label="Back" @click="onClickBack" />
-            </div>
+            <q-btn label="Delete" @click="onClickDelete" v-if="! isNewPost" />
             -->
-            <q-space />
-            <div>
-                <q-btn label="Save" @click="onClickSave" />
-                <!--
-                <q-btn label="Delete" @click="onClickDelete" v-if="! isNewPost" />
-                -->
-            </div>
         </div>
 
     </div>
@@ -52,7 +56,6 @@ import AWS from 'aws-sdk';
 import 'codemirror/lib/codemirror.css'; 
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/vue-editor';
-
 
 import { store } from 'src/store/store';
 import { CONST } from 'src/data/const';
@@ -95,7 +98,12 @@ export default {
                 title: {error:false, msg:''},
                 text: {error:false, msg:''},
             },
-                    
+
+            v_category:null,
+            v_options: [
+                'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
+            ],
+
             editorOptions: {
                 hideModeSwitch: true,
                 hooks:{                      
@@ -248,10 +256,10 @@ export default {
             const a_text = this.$refs.toastEditor.invoke('getHtml');
 
             let dic_param = {
-                content_type: CONST.CONENT_TYPE_BLOGPAGE,
+                content_type: this.v_post.content_type,
                 title:this.v_post.title,
                 tags:this.v_post.tags, 
-                category_id:this.v_post.category_id, 
+                category_name:this.v_post.category_name, 
                 text:a_text
             };
 

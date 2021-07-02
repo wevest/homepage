@@ -14,6 +14,8 @@ const routes = [
       { name: 'message', path: 'message', component: () => import('pages/user/MessageView.vue') },
       { name: 'message_detail', path: 'message_detail', component: () => import('pages/user/MessageDetailView.vue') },
       { name: 'portfolio_detail', path: 'portfolio_detail', component: () => import('pages/user/PortfolioDetailView.vue') },
+      
+      { name: 'asset_index', path: '/asset_index', component: () => import('pages/asset/AssetIndexView.vue') },
       { name: 'asset', path: '/asset', component: () => import('pages/asset/AssetView.vue') },
       { name: 'assetqa', path: '/assetqa', component: () => import('pages/assetqa/AssetQAView.vue') },
       { name: 'assetreview', path: '/assetreview', component: () => import('pages/assetreview/AssetReviewView.vue') },

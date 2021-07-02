@@ -8,11 +8,11 @@
                     <!-- <q-icon v-if="v_question.closed" name="done" /> -->
                     <!-- <q-icon v-else name="add" /> -->
 
-                    <div class="gPageTitleBox">  
+                    <div class="gPageTitleBox gPageTitle">  
                         <q-icon
                             class="gPageIcon" 
                             name="help_outline" />                       
-                            <span class="gPageTitle">{{ v_question.title }}</span> 
+                            <span>{{ v_question.title }}</span> 
 
                         <q-icon 
                             class="DoneAddBtn float-right" 

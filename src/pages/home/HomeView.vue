@@ -15,23 +15,21 @@
 
         <div class="row">
             <div class="col">
-                <CTitle ttype='subtitle' :title="$t('page.home.blog.title')" :desc="$t('page.home.blog.desc')"></CTitle>
-                <BlogList ref='blogList' @onClickBlog="onClickBlog"></BlogList>
+                <BlogList ref='blogList' title="Market Trend" maxLength="10" moreCaption="More" 
+                    category="MarketTrend" symbol="" objectId="-1"></BlogList>
             </div>
         </div>
 
         <div class="row">
             <div class="col">
-                <CTitle ttype='subtitle' :title="$t('page.home.portfolio.title')" :desc="$t('page.home.portfolio.desc')"></CTitle>
-                <PortfolioList ref="portfolioList" />
+                <PortfolioList ref="portfolioList" title="Portfolio List" maxLength="10" moreCaption=""></PortfolioList>
             </div>
         </div>
 
 
         <div class="row">
             <div class="col">
-                <CTitle ttype='subtitle' :title="$t('page.home.asset.title')" :desc="$t('page.home.asset.desc')"></CTitle>
-                <AssetList ref='assetList' @onClickAsset="onClickAsset"></AssetList>
+                <AssetList ref='assetList' title="Asset List" maxLength="10" moreCaption="More" ></AssetList>
             </div>
         </div>
 
@@ -47,17 +45,16 @@
 
 
 <script>
-import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
-import MoaBackendAPI from 'src/services/apiService';
-import DataService from 'src/services/dataService';
 
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
-import BlogList from 'components/BlogList';
-import AssetList from 'components/AssetList';
-import PortfolioList from 'pages/home/components/PortfolioList';
+
+import BlogList from 'components/lists/BlogList';
+import AssetList from 'components/lists/AssetList';
+import PortfolioList from 'components/lists/PortfolioList';
+
 import CTopTable from 'pages/home/CTopTable';
 import CIndexChart from 'pages/home/CIndexChart';
 import CExchangeIndexChart from 'pages/home/CExchangeIndexChart';
@@ -149,7 +146,7 @@ export default {
         },
 
         loadBlogList: function() {
-            this.$refs.blogList.update();
+            this.$refs.blogList.updateByCategory(this.$refs.blogList.category);
         },
 
         loadAssetList: function() {
@@ -211,14 +208,6 @@ export default {
             this.$router.push(dic_param);            
         },
         
-        onClickAsset: function(dic_param) {
-            logger.log.debug('onClickAsset');
-            this.$router.push(dic_param);
-        },
-
-        onClickBlog: function(param) {
-            CommonFunc.navBlog(this,param.page_id);
-        }
     }
 };
 

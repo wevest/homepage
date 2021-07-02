@@ -1,36 +1,30 @@
 <template>
 
     <div class="q-pa-md q-gutter-sm">            
-        <div class="row">
-            <q-space />
-            <div>
-                <q-btn label="Save" @click="onClickSave" />
-                <!--
-                <q-btn label="Delete" @click="onClickDelete" v-if="! isNewPost" />
-                -->
+
+        <div>
+            <CTitle class="gBoxNoMargin" ttype='title' title="글쓰기"></CTitle>          
+        </div>
+
+        <div class="col">
+
+            <div style="padding:6px 0px 15px 0px">
+                <q-icon class="QuestionIcon" name="help_outline" /> <span class="Question">{{v_post.title}}</span>
+            </div>
+
+            <div class="gBoxNoMargin" >
+                <BaseEditor ref="baseEditor" @onPostSave="onPostSave" />
+            </div>
+
+            <div v-if="v_error.text.error">
+                {{v_error.text.msg}}
             </div>
         </div>
 
-        <div class="row">
-            <div class="col">
-                <!--
-                <q-input 
-                    readonly
-                    v-model="v_post.title" 
-                    label="Title" 
-                    :error="v_error.title.error"
-                    :error-message="v_error.title.msg"
-                />
-                -->
-                <BaseEditor ref="baseEditor" @onPostSave="onPostSave" />
-                <div v-if="v_error.text.error">
-                    {{v_error.text.msg}}
-                </div>
-                <!--
-                <q-input v-model="v_post.tags" label="Tags" />
-                -->
-            </div>
+        <div>
+            <q-btn class="gSaveBtn full-width" label="Save" @click="onClickSave" />
         </div>
+
     </div>
 
 </template>
@@ -47,6 +41,7 @@ import BaseEditor from 'components/BaseEditor';
 export default {
     name: 'AnswerWriterView',
     components: {
+        CTitle,
         BaseEditor,
     },
     computed: {
@@ -130,16 +125,6 @@ export default {
             this.$refs.baseEditor.save(v_post);
         },
 
-        onClickBack: function() {
-            logger.log.debug('onClickBack - ');
-            this.hide();
-        },
-        
-        onClickDelete: function() {
-            logger.log.debug('onClickDelete - ');
-            this.$refs.baseEditor.delete(this.v_post);
-        },
-
         onPostSave: function(dic_param) {
             logger.log.debug('onPostSave - ',dic_param);
 
@@ -158,5 +143,14 @@ export default {
 
 
 <style scoped>
+.QuestionIcon {
+    color:#00C73C;
+    font-size:35px;
+    padding:0px 8px 9px 0px;
+}
 
+.Question {
+    font-size:20px;
+    color:#000000;
+}
 </style>

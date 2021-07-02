@@ -2,9 +2,14 @@
 
     <div>
 
+		<CTitle ttype='subtitle' :title="v_title" desc=""
+			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreAsset"></CTitle>
+
         <q-list separator class="rounded-borders">
 
-            <q-item clickable v-ripple v-for="(a_post,index) in v_posts.items" :key="index" 
+            <q-item clickable v-ripple 
+                v-for="(a_post,index) in v_posts.items" :key="index" 
+                v-if="index<v_maxLength"
                 @click.stop="onClickAsset(a_post)"
             >
                 <q-item-section avatar top>
@@ -31,21 +36,40 @@
 
 <script>
 import CommonFunc from 'src/util/CommonFunc';
-import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
+import CTitle from 'components/CTitle';
 import { AssetPageListModel } from "src/models/PageModel";
 
 
 export default {
-    data () {
-      return {
-        g_data: null,
-        g_exchange: null,
-        g_sector: null,
+	components: {
+		CTitle,
+	},
+    props: {
+        maxLength: {
+            default: 20,
+        },
+		title: {
+			type:String,
+			default: "Blog List"
+		},
+		moreCaption: {
+			type:String,
+			default: ""
+		}
+    },
 
-        v_posts: new AssetPageListModel(),
-      }
+    data () {
+        return {
+            g_data: null,
+
+            v_title: this.title,
+            v_maxLength: this.maxLength,
+            v_more_caption: this.moreCaption,								
+
+            v_posts: new AssetPageListModel(),
+        }
     },
 
     methods: {
@@ -62,14 +86,17 @@ export default {
 
         },
 
-
         onClickAsset: function(post) {
           logger.log.debug('onClickBlog : asset = ',post);
           
           let dic_param = { name:'asset', path:'asset', query:{ symbol:post.title, id:post.id } };          
-          this.$emit("onClickAsset",dic_param);          
+          this.$router.push(dic_param);
+          //this.$emit("onClickAsset",dic_param);          
         },
 
+        onClickMoreAsset: function() {
+            logger.log.debug('AssetList.onClickMoreAsset');
+        }
     }
 }
 </script>

@@ -5,11 +5,22 @@ import logger from "src/error/Logger";
 import CommonFunc from "src/util/CommonFunc";
 
 export default class CMSAPI {
-  constructor() {}
+  	constructor() {}
 
-  static getUrl(host, url) {
-    return host + url;
-  }
+  	static getUrl(host, url) {
+    	return host + url;
+  	}
+
+  	static getBlogCategory(dic_param, func, funcErr) {
+		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/blog/categories/");
+		callCMSAPI("GET", url, {}, dic_param)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+  	}
 
   	static getBlogData(reqParam, func, funcErr) {
 		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/blog/posts/");
@@ -170,6 +181,7 @@ export default class CMSAPI {
       MoaConfig.urls.cms,
       "/api/review/reviews/?object_id=" + reqParam.object_id
     );
+	url = CommonFunc.addLimitOffsetToQuery(url, reqParam);
     callCMSAPI("GET", url, {}, reqParam)
       .then(response => {
         func(response);
@@ -253,6 +265,7 @@ export default class CMSAPI {
     }
 
     let url = CMSAPI.getUrl(MoaConfig.urls.cms, a_method);
+	url = CommonFunc.addLimitOffsetToQuery(url, dic_param);
 
     callCMSAPI("GET", url, {}, dic_param)
       .then(response => {

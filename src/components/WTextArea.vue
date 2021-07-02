@@ -1,7 +1,20 @@
 <template>
-    
+
     <div>
-        <q-field :label="label" borderless filled stack-label>            
+        <textarea class="self-center full-width boxTextarea" 
+            tabindex="0" rounded
+            :disabled="v_disabled"
+            :placeholder="v_hint"
+            :maxlength="maxlength"
+            :value="v_value" :rows="v_rows" 
+            @input="updateValue($event.target.value)"
+            @focus="onFocus" @focusout="onFocusOut">
+        </textarea>
+    </div>
+
+<!--
+    <div>
+        <q-field label="" borderless filled stack-label>            
             <template v-slot:control>
                 <textarea class="self-center full-width boxTextarea" 
                     tabindex="0" 
@@ -15,6 +28,7 @@
             </template>              
         </q-field>
     </div>
+-->
 
 </template>
 
@@ -106,7 +120,7 @@ export default{
 <style scoped>
 
 .boxTextarea {
-    border: none;
+    border: 1px solid #d6d6d8; 
     margin-top:5px;
 }
 

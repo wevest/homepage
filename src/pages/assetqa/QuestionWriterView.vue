@@ -1,37 +1,44 @@
 <template>
 
     <div class="q-pa-md q-gutter-sm">            
-        <div class="row">
-            <q-space />
-            <div>
-                <q-btn label="Save" @click="onClickSave" />
-                <!--
-                <q-btn label="Delete" @click="onClickDelete" v-if="! isNewPost" />
-                -->
-            </div>
+        <div>
+            <CTitle class="gBoxNoMargin" ttype='title' title="글쓰기"></CTitle>          
         </div>
 
         <div class="row">
             <div class="col">
-                <q-input 
-                    v-model="v_post.title" 
-                    label="Title" 
-                    :error="v_error.title.error"
-                    :error-message="v_error.title.msg"
-                />
-                <q-input 
-                    v-model="v_post.reward" 
-                    label="Reward" 
-                    :error="v_error.reward.error"
-                    :error-message="v_error.reward.msg"
-                />
-                <BaseEditor ref="baseEditor" @onPostSave="onPostSave" />
+                <div>
+                    <q-input 
+                        v-model="v_post.title" 
+                        label="Title" 
+                        :error="v_error.title.error"
+                        :error-message="v_error.title.msg"
+                    />
+                </div>
+                <div>
+                    <q-input 
+                        v-model="v_post.reward" 
+                        label="Reward" 
+                        :error="v_error.reward.error"
+                        :error-message="v_error.reward.msg"
+                    />
+                </div>
+                <div class="gBoxNoMargin">
+                    <BaseEditor ref="baseEditor" @onPostSave="onPostSave" />
+                </div>
                 <div v-if="v_error.text.error">
                     {{v_error.text.msg}}
                 </div>
-                <q-input v-model="v_post.tags" label="Tags" />
+                <div>
+                    <q-input v-model="v_post.tags" label="Tags" />
+                </div>
             </div>
         </div>
+
+        <div>
+            <q-btn class="gSaveBtn full-width" label="Save" @click="onClickSave" />
+        </div>
+
     </div>
 
 </template>
@@ -49,6 +56,7 @@ import BaseEditor from 'components/BaseEditor';
 export default {
     name: 'BlogWriterDialog',
     components: {
+        CTitle,
         BaseEditor,
     },
     computed: {

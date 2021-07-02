@@ -8,22 +8,23 @@
                         <WAvatar :avatar="a_answer.owner.avatar_thumb" :username="a_answer.owner.username" />
                     </div>
                     <div class="gAnswerUserDatetime">
-                        <span class="gAnswerUser">{{a_answer.owner.username}}&nbsp;님 답변 
-                        </span>&nbsp;
+                        <div class="gAnswerUser">
+                            {{a_answer.owner.username}}&nbsp;님 답변 
+                        </div>
 
-                        <span class="accepted">
-                            <q-icon name="done_all" v-if="a_answer.answered" />
-                            <q-icon v-else name="money" />
-                        </span>
-                        <br>
-                        
-                        <WSubinfo username="" :pub_date="a_answer.pub_date" :like_count="a_answer.like_count" :dislike_count="a_answer.dislike_count" />
-
-                        <WCommandBar :data="a_answer" :isOwner="a_answer.is_owner" 
-                            shareBtn="" updateBtn="update" deleteBtn="delete" 
-                            @onClickUpdate="onClickAnswerUpdate" 
-                            @onClickDelete="onClickAnswerDelete" 
-                        />
+                        <div class="row">                        
+                            <div>
+                                <WSubinfo username="" :pub_date="a_answer.pub_date" :like_count="a_answer.like_count" :dislike_count="a_answer.dislike_count" />
+                            </div>
+                            <q-space />
+                            <div>
+                                <WCommandBar :data="a_answer" :isOwner="a_answer.is_owner" 
+                                    shareBtn="" updateBtn="update" deleteBtn="delete" 
+                                    @onClickUpdate="onClickAnswerUpdate" 
+                                    @onClickDelete="onClickAnswerDelete" 
+                                />
+                            </div>
+                        </div>
 
                     </div>
                     <q-space />
@@ -42,6 +43,11 @@
 
                 <div class="gAnswerContent">
                     <div v-html="a_answer.body">  </div>
+
+                    <div class="accepted">
+                        <q-icon name="done_all" v-if="a_answer.answered" />
+                    </div>
+
                 </div>
                     <div class="gAnswerRatingBox">              
                         <q-btn 

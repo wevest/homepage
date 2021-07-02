@@ -176,7 +176,7 @@ import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListMod
 
 import AvatarCropper from "vue-avatar-cropper";
 import CTitle from 'components/CTitle';
-import BlogList from 'components/BlogList';
+import BlogList from 'components/lists/BlogList';
 import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 import MessageWriterDialog from 'components/dialogs/MessageWriterDialog';
 import PortfolioList from 'src/pages/user/component/PortfolioList';

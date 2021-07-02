@@ -21,6 +21,7 @@
 
                 <AssetReviewList ref="reviewList" 
                     :category="g_asset.symbol" :objectId="g_asset.object_id"
+                    moreCaption="" maxLength="20000" title="Review List"
                     @onClickRating="onClickReviewRating" 
                     @onClickLoadmore="onClickLoadmore"> 
                 </AssetReviewList>
@@ -42,7 +43,7 @@ import {PostPageModel,QuestionPageModel,AssetReviewPageModel,AssetReviewPageList
 
 import CTitle from 'components/CTitle';
 import AssetReviewForm from 'src/pages/assetreview/component/AssetReviewForm';
-import AssetReviewList from 'components/AssetReviewList';
+import AssetReviewList from 'components/lists/AssetReviewList';
 
 
 
