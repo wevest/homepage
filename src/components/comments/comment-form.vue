@@ -1,42 +1,42 @@
 <template>
-	<div class="row no-wrap q-px-md q-pb-md commentBox" v-show="visible">
-		<!-- items-center-->
-		<div class="col">
-			<div>
-				<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
-				<span> {{v_me.username}} </span>
-			</div>
+	<div class="no-wrap q-px-md q-pb-md commentBox" v-show="visible">
 
-			<div>
-                <WTextArea v-model="v_comments" :rows="v_rows" :maxlength="maxlength" ref="descText" 
-                    label="Please type your comments" 
-                    @onTextChange="onTextChange"
-					@onFocus="onFocus"
-                    @onFocusOut="onFocusOut"                
-                />
-			</div>
+		<div v-if="v_show">
+			<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
+			<span> {{v_me.username}} </span>
+		</div>
 
-			<div class="row boxEditorCommand">
-				<div class="typeLength">
-					<span> {{v_length_msg}} </span>
-				</div>	
-						<q-space />				
-					<q-btn
-						class="saveCloseBtn"
-						label="save"
-						size="12px"
-						@click.stop="onClickSubmit"
-						v-if="showSaveButton" />&nbsp;
+		<div>
+			<WTextArea ref="descText" v-model="v_comments" :rows="v_rows" :maxlength="maxlength" 
+				label="Please type your comments" 
+				hint="Please write comments"
+				@onTextChange="onTextChange"
+				@onFocus="onFocus"
+				@onFocusOut="onFocusOut"                
+			/>
+		</div>
 
-					<q-btn 
-						class="saveCloseBtn"
-						label="Close" 
-						size="12px"
-						@click="onClickClose" 
-						v-if="type=='reply'" />
-			</div>
+		<div v-if="v_show" class="row boxEditorCommand">
+			<div class="typeLength">
+				<span> {{v_length_msg}} </span>
+			</div>	
+			<q-space />				
+			<q-btn
+				class="saveCloseBtn"
+				label="save"
+				size="12px"
+				@click.stop="onClickSubmit"
+				v-if="showSaveButton" />&nbsp;
+
+			<q-btn 
+				class="saveCloseBtn"
+				label="Close" 
+				size="12px"
+				@click="onClickClose" 
+				v-if="type=='reply'" />
 		</div>
 	</div>
+
 </template>
 
 
@@ -57,9 +57,6 @@ export default {
     },
 	//mixins: [hasComments],
 	props: {
-		/**
-		 * Whether to show the save button.
-		 */
         post: {
             default: null,
         },
@@ -89,6 +86,10 @@ export default {
 		maxlength: {
 			type:Number,
 			default:300,
+		},
+		hint: {
+			type:String,
+			default: "Please type comments"
 		}
 	},
     computed: {
@@ -100,8 +101,11 @@ export default {
 		return {
 			saving: false,
 			ownerMessage: null,
+			
 			v_comments: null,
 			v_comment_item: null,
+
+			v_show: false,
 
 			v_input: "",
 			v_style: "",
@@ -145,7 +149,8 @@ export default {
 		prepare() {
 			//logger.log.debug("Comment-Form.prepare : v_me=",this.v_me);
 			if (this.v_me.loggedIn) {
-				this.$refs.descText.setHint("");
+				const msg = this.v_me.username + "    " + this.hint;
+				this.$refs.descText.setHint(msg);
 				this.$refs.descText.setEnabled(true);
 			} else {
 				this.$refs.descText.setHint("Please log-in to write comments");
@@ -253,15 +258,22 @@ export default {
 		},
 
 		onFocus(event) {
-			logger.log.debug("onFocus=", this.$parent);
+			logger.log.debug("CommentForm.onFocus=", this.$parent);
             //this.$refs.commentForm.v_comments = "";
-            this.$refs.descText.setRows(5);			
-			this.$emit("onEditorFocus", event);
+            
+			this.v_show = true;	
+
+			setTimeout( () => {
+				this.$refs.descText.setRows(5);		
+				this.$refs.descText.setFocus();			
+			},100);
+
+			//this.$emit("CommentForm.onEditorFocus", event);
 		},
 		onFocusOut(event) {
 			logger.log.debug("onFocusOut=", this.$parent);
 			//this.$refs.descText.setRows(1);
-			this.$emit("onEditorFocusOut", event);
+			//this.$emit("onEditorFocusOut", event);
 		},
 
 		onClickClose:function() {

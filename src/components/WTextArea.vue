@@ -1,8 +1,10 @@
 <template>
 
-    <div>
-        <textarea class="self-center full-width boxTextarea" 
-            tabindex="0" rounded
+    <div class="boxTextarea">
+        <textarea class="self-center full-width" 
+            ref="txtMemo"
+            tabindex="0" style="border:none;"
+            :style="v_style"
             :disabled="v_disabled"
             :placeholder="v_hint"
             :maxlength="maxlength"
@@ -48,14 +50,22 @@ export default{
         modelValue: { default:"" },
 
         maxlength: {required:false, type:Number, default:300},
-        hint: {required:false, type:String, default:""},
-        label: {required:false, type:String, default:""},
+        hint: {
+            required:false, 
+            type:String, 
+            default:""
+        },
+        label: {
+            required:false, type:String, default:""},
         rows: {required:false, type:String},
     },
     data() {    
         return {
             v_hint: this.hint,
             v_length: '0 of 300',
+            
+            v_style:"",
+
             v_rows: this.rows,
             v_model: this.model,
             v_value: this.modelValue,
@@ -81,7 +91,12 @@ export default{
             this.v_disabled = ! value;
         },
         setRows(value) {
-            this.v_rows = value;
+            logger.log.debug("WTextArea.setRows : txtMemo=",this.$refs.txtMemo);
+            this.v_rows = value;            
+        },
+
+        setFocus() {
+            this.$refs.txtMemo.focus();
         },
 
         updateValue(value) {
@@ -101,15 +116,15 @@ export default{
 
 
         onFocus(event) {
-            logger.log.debug("onFocus=",this.v_model);
+            logger.log.debug("WTextArea.onFocus:event=",event);
             //this.model = this.v_model;
             this.$emit('onFocus',event);
         },
 
         onFocusOut(event) {
-            logger.log.debug("onFocusOut=",this.v_model);
+            logger.log.debug("WTextArea.onFocusOut:event=",event);
             //this.model = this.v_model;
-            this.$emit('onFocusOut',event);
+            //this.$emit('onFocusOut',event);
         }
     }
 
@@ -120,7 +135,7 @@ export default{
 <style scoped>
 
 .boxTextarea {
-    border: 1px solid #d6d6d8; 
+/*    border: 1px solid #d6d6d8;  */
     margin-top:5px;
 }
 

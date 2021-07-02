@@ -31,7 +31,7 @@
                     {{v_error.text.msg}}
                 </div>
             </div>
-            <div>
+            <div style="padding-top:10px;">
                 <q-input v-model="v_post.tags" label="Tags" />
             </div>
             <div>
