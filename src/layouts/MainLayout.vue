@@ -129,9 +129,10 @@
 			<SideBar ref="sidebar"></SideBar>
 		</q-drawer>
 
-		<q-page-container>
-			<router-view :key="$route.fullPath"> </router-view>
-			<Spinner ref="loading" />
+		<q-page-container>	
+			<transition name="slide" mode="out-in">		
+				<router-view :key="$route.fullPath"></router-view>			
+			</transition>
 		</q-page-container>
 
 		<WConfirmDialog ref="confirmDialog" title="Do you want to delete the item?" @onClickConfirm="onClickDeleteConfirm" />
@@ -401,5 +402,53 @@ export default {
   width:100%; */
 }
 
+ .slide-enter-active, .slide-leave-active {
+   transition: 300ms;
 
+  }
+ .slide-enter-to{
+    position: relative;
+    left: 0;
+ }
+ .slide-leave{
+    position: absolute;
+   }
+ .slide-enter,  {
+    left: -100vw;
+    position: absolute;
+  }
+ .slide-leave-to {
+    right: -100vw;
+ }
+
+/*
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.01s ease-out;
+}
+
+
+.slide-enter-to {
+  position: absolute;
+  right: 0;
+}
+
+
+.slide-enter-from {
+  position: absolute;
+  right: -100%;
+}
+
+
+.slide-leave-to {
+  position: absolute;
+  left: -100%;
+}
+
+
+.slide-leave-from {
+  position: absolute;
+  left: 0;
+}
+*/
 </style>

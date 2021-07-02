@@ -572,14 +572,9 @@ height:88px;
     color:#222222;
 }
 
-.ratingBox {
-    text-align:center;
-}
-
-
 .portfolioRatingBtn {
-font-size:30px;
-color:#555555;
+    font-size:30px;
+    color:#555555;
 }
 .portfolioRatingCount {
     font-size:15px;

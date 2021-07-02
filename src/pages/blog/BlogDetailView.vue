@@ -1,12 +1,13 @@
 <template>
-    
+
+
     <div class="q-ma-md">
         <div class="row titleBox">
             <div class="col">
                 
                 <div>
-                    <div>
-                        <span class="gPageTitle">{{v_post.title}}</span>
+                    <div class="gPageTitle">
+                        <span>{{v_post.title}}</span>
                     </div>
                                             
                     <WSubinfo :username="v_post.api_owner.username" :pub_date="v_post.pub_date" like_count=-1 dislike_count=-1 />
@@ -90,7 +91,7 @@
         
         <div class="row">
             <div class="col">
-                
+
                 <div class="boxCommentCount"> 
                     <span>Comments : {{v_post.comments.items.length}}</span>
                 </div>
@@ -110,6 +111,7 @@
         </div>
 
     </div>
+    
 
 </template>
 
@@ -487,17 +489,6 @@ export default {
 .boxRate {
     text-align:center;
     padding:25px 0px 7px 0px;  
-}
-
-.rateButton {
-    color:#616161;
-    width:100px;
-    font-size:18px;
-}
-
-.ratingBox {
-    text-align:center;
-    padding:15px;
 }
 
 .boxCommentCount {

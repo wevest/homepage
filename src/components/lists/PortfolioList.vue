@@ -1,30 +1,29 @@
 <template>
 
-    <div class="row">
-        <div class="col">
-            <div> 
+    <div> 
 
-                <q-card class="portfolioListBox" bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
-                    <q-card-section horizontal class="groupTitleBox"> 
-                        <div>
-                            <WAvatar :avatar="a_portfolio.api_user.avatar_thumb" :username="a_portfolio.api_user.username" />
+		<CTitle ttype='subtitle' :title="v_title" desc=""
+			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMorePortfolio"></CTitle>
 
-                            <span>{{a_portfolio.name}}</span>
-                            
-                            &nbsp;| &nbsp; 
-                            <span class="groupDesc">{{v_shorten(a_portfolio.description)}}</span>
-                            
-                        </div> 
-                        <q-space />
-                        <div>
-                            <q-btn size="14px" flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
-                        </div>                       
-                    </q-card-section>
+        <q-card class="portfolioListBox" bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
+            <q-card-section horizontal class="groupTitleBox"> 
+                <div>
+                    <WAvatar :avatar="a_portfolio.api_user.avatar_thumb" :username="a_portfolio.api_user.username" />
+
+                    <span>{{a_portfolio.name}}</span>
                     
-                </q-card>
+                    &nbsp;| &nbsp; 
+                    <span class="groupDesc">{{v_shorten(a_portfolio.description)}}</span>
+                    
+                </div> 
+                <q-space />
+                <div>
+                    <q-btn size="14px" flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
+                </div>                       
+            </q-card-section>
+            
+        </q-card>
 
-            </div>
-        </div>
     </div>
 
 </template>
@@ -36,23 +35,44 @@ import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
 import WAvatar from "src/components/WAvatar";
+import CTitle from 'components/CTitle';
 
 import UserModel from "src/models/UserModel";
 import { PortfolioListModel, PortfolioModel, PortfolioItemModel} from "src/models/PortfolioModel";
 
+
 export default {
     components: {
+        CTitle,
         WAvatar
     },
-    props: {},
+    props: {
+        maxLength: {
+            default: 20,
+        },
+		title: {
+			type:String,
+			default: "Portfolio List"
+		},
+		moreCaption: {
+			type:String,
+			default: ""
+		}
+    },
 
-    data: () => ({
-        g_data: null,
+    data () {
+        return {
+            g_data: null,
 
-        v_user: new UserModel(),
-        v_portfolio: new PortfolioListModel(),
+            v_title: this.title,
+            v_maxLength: this.maxLength,
+            v_more_caption: this.moreCaption,								
 
-    }),
+            v_user: new UserModel(),
+            v_portfolio: new PortfolioListModel(),
+
+        }
+    },
     computed: {
         v_updated_at() {
             return (value) => {
@@ -65,8 +85,6 @@ export default {
             };
         }
     },
-
-    mounted: function() {},
 
     methods: {        
 
@@ -90,6 +108,10 @@ export default {
             store.getters.nav.add(this.$route);
             let dic_param = { name:'portfolio_detail', path:'portfolio_detail', params:{ user:this.v_user, portfolio:a_portfolio } };
             this.$router.push(dic_param);
+        },
+
+        onClickMorePortfolio: function() {
+            logger.log.debug("PortfolioList.onClickMorePortfolio:");
         }
     },
 

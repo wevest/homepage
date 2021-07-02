@@ -1,10 +1,8 @@
 <template>
     
     <div class="q-pa-md">
-        <div class="row">
-            <div class="col">
-                <CTitle ttype='title' title="v_page_title" desc=""></CTitle>          
-            </div>
+        <div>
+            <CTitle ttype='title' title="v_page_title" desc=""></CTitle>          
         </div>
 
         <div>
@@ -15,11 +13,9 @@
 
         <div class="row">
             <div class="col">
-                <!--
-                <q-btn label="Write" @click="onClickWriteBlog" />
-                -->
-                <CTitle ttype='subtitle' title="Market Trend" desc="" ></CTitle>
-                <BlogList ref='blogList' ></BlogList>
+                <BlogList ref='blogList' maxLength="2000000" title="Blog List"
+                    category="" :symbol="g_asset.symbol" :objectId="g_asset.object_id"
+                ></BlogList>
             </div>
         </div>
 
@@ -37,9 +33,8 @@ import logger from "src/error/Logger";
 import {PostPageModel,QuestionPageModel} from "src/models/PageModel";
 
 import CTitle from 'components/CTitle';
-import BlogList from 'components/BlogList';
 import WWriterButton from 'components/WWriterButton';
-
+import BlogList from 'components/lists/BlogList';
 
 export default {
     name: 'BlogIndex',
@@ -51,6 +46,7 @@ export default {
     data: function() {
         return {
             g_asset: {
+                category:null,
                 symbol:null,
                 object_id: null
             },
@@ -58,8 +54,9 @@ export default {
     },
     created: function () {
         //console.log("HomeView.created");
-        console.log("AssetView.created - query=",this.$route.query);
+        console.log("BlogView.created - query=",this.$route.query);
 
+        this.g_asset.category = this.$route.query.category;
         this.g_asset.symbol = this.$route.query.symbol;
         this.g_asset.object_id = parseInt(this.$route.query.id);
     },
@@ -82,20 +79,19 @@ export default {
         },
 
         loadBlogList: function() {
-            const category = CONST.ASSETPAGE_CATEGORY+this.g_asset.symbol;
-            console.log('AssetView.loadBlogList - ',category);            
-            this.$refs.blogList.updateByCategory(category);
+            //const category = CONST.ASSETPAGE_CATEGORY+this.g_asset.symbol;
+            //console.log('AssetView.loadBlogList - ',category);            
+            this.$refs.blogList.updateByCategory(this.g_asset.category);
         },
 
         navWriter:function() {
             let a_post = new PostPageModel();            
             a_post.setContentType(CONST.CONENT_TYPE_BLOGPAGE);
-
+            a_post.category_name = this.g_asset.category;
 
             store.getters.nav.add(this.$route); 
 
-            let params = {post:a_post};
-            let dic_param = { name:'blog_writer', params:params };
+            let dic_param = { name:'blog_writer', params:{post:a_post} };
             this.$router.push(dic_param);
         },
 

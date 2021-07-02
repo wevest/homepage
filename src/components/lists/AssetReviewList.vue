@@ -1,13 +1,22 @@
 <template>
 
     <div>
+
+		<CTitle ttype='subtitle' :title="v_title" desc=""
+			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreReview"></CTitle>
+
+<!--
         <div>
             <span>Review Count : {{v_reviews_count}}</span>
         </div>
+-->
 
         <q-list separator class="rounded-borders">
 
-            <q-item class="ReviewBox" clickable v-for="(a_review,index) in v_reviews.items" :key="index">
+            <q-item class="ReviewBox" clickable :key="index"
+                v-for="(a_review,index) in v_reviews.items" 
+                v-if="index<v_max_length"
+            >
                 <q-item-section avatar top>
                     <WAvatar :avatar="a_review.user.avatar_thumb" :username="a_review.user.username" />
                 </q-item-section>
@@ -94,6 +103,7 @@ import CommonFunc from 'src/util/CommonFunc';
 import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
+import CTitle from 'components/CTitle';
 import WAvatar from "components/WAvatar.vue";
 import WSubinfo from 'components/WSubinfo';
 import WCommandBar from "components/WCommandBar.vue";
@@ -105,6 +115,7 @@ import { AssetReviewPageModel, AssetReviewPageListModel } from "src/models/PageM
 
 export default {
     components: {
+        CTitle,
         WAvatar,
         WSubinfo,
         WCommandBar,
@@ -112,6 +123,17 @@ export default {
         AssetReviewForm
     },
 	props: {
+        maxLength: {
+            default: 20,
+        },
+		title: {
+			type:String,
+			default: "Blog List"
+		},
+		moreCaption: {
+			type:String,
+			default: ""
+		},
         category: {
             required: true,
             type:String,
@@ -124,16 +146,16 @@ export default {
         },
     },
 
-    computed: {
-        v_updated_at() {
-            return (value) => {
-                return CommonFunc.minifyDatetime(value);
-            };
-        },
-    },
+    computed: {},
+    
     data () {
         return {
             g_data: null,        
+
+            v_title: this.title,
+            v_max_length: this.maxLength,
+            v_more_caption: this.moreCaption,
+
             v_reviews: new AssetReviewPageListModel(),
             v_reviews_count: 0,
             v_visible_loadmore: false,
@@ -157,7 +179,8 @@ export default {
 
             this.v_reviews.load(dic_param).then( response => {
                 logger.log.debug("assetReviewList.update : response=",response.data);
-                _this.v_reviews_count = response.data.count;
+                _this.$refs.loadMore.setPageParameter(response.data.next);
+                _this.v_reviews_count = response.data.count;                
                 _this.g_data = response.data;
             });
 
@@ -226,8 +249,13 @@ export default {
         },
 
         onClickLoadMore: function() {
-            logger.log.debug('onClickLoadMore');
+            logger.log.debug('AssetReviewList.onClickLoadMore');
             this.$emit("onClickLoadmore",{});
+
+            let dic_param = {'category':this.symbol, 'object_id':this.objectId};
+			dic_param.limit = this.$refs.loadMore.v_next.limit;
+			dic_param.offset = this.$refs.loadMore.v_next.offset;
+			this.update(dic_param);
         },
 
         onClickEdit: function(review) {
@@ -269,6 +297,12 @@ export default {
             //this.$emit("onClickReviewSave",review);
         },
 
+        onClickMoreReview: function() {
+            logger.log.debug('AssetReviewList.onClickMoreReview');
+
+            store.getters.nav.add(this.$route);
+            CommonFunc.navReview(this,this.symbol,this.objectId);
+        }
     }
 }
 </script>

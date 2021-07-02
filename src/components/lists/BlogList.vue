@@ -1,12 +1,17 @@
 <template>
 	<div>
+
+		<CTitle ttype='subtitle' :title="v_title" desc=""
+			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreBlog"></CTitle>
+
 		<q-list separator class="rounded-borders">
 			<q-item 
 				class="gBlogTitleBox"
 				clickable
 				v-ripple
-				v-for="(a_post, index) in v_posts.items"
 				:key="index"
+				v-for="(a_post, index) in v_posts.items"
+				v-if="index<v_maxLength"
 				@click.stop="onClickBlog(a_post.id)"
 			>
 				<q-item-section avatar top>
@@ -26,11 +31,7 @@
 
 					</q-item-label>
 				</q-item-section>
-				<!--
-                <q-item-section top side>
-                    <div class="text-grey-8 q-gutter-xs"></div>
-                </q-item-section>
--->
+
 			</q-item>
 			<q-separator class="loadmoreSeparator" size="1px" />
 
@@ -48,6 +49,7 @@ import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
+import CTitle from 'components/CTitle';
 import WAvatar from "src/components/WAvatar";
 import WSubinfo from 'components/WSubinfo';
 import LoadMore from "src/components/LoadMore";
@@ -56,10 +58,38 @@ import { PostPageModel, PostPageListModel } from "src/models/PageModel";
 
 export default {
 	components: {
+		CTitle,
 		WAvatar,
 		WSubinfo,
 		LoadMore
 	},
+    props: {
+        maxLength: {
+            default: 20,
+        },
+		title: {
+			type:String,
+			default: "Blog List"
+		},
+		moreCaption: {
+			type:String,
+			default: ""
+		},
+		category: {
+			required:true,
+			type:String,
+			default: ""
+		},
+		symbol: {
+			required:true,
+			type:String,
+			default: ""
+		},
+		objectId: {
+			required:true,
+			default:-1
+		}
+    },
     computed: {
         v_shorten() {
             return (value) => {
@@ -70,11 +100,12 @@ export default {
 
 	data() {
 		return {
-			v_tab: "upbit",
 			g_data: null,
-			g_exchange: null,
-			g_sector: null,
-
+			
+			v_title: this.title,
+			v_maxLength: this.maxLength,
+			v_more_caption: this.moreCaption,								
+		
 			v_query: {
 				user_id: null,
 				category: null,
@@ -159,7 +190,15 @@ export default {
 			this.v_query.limit = this.$refs.loadMore.v_next.limit;
 			this.v_query.offset = this.$refs.loadMore.v_next.offset;
 			this.loadBlogData(this.v_query);
+		},
+
+		onClickMoreBlog: function() {
+			logger.log.debug("BlogList.onClickMoreBlog : 1");
+			
+			store.getters.nav.add(this.$route);
+            CommonFunc.navBlog(this,this.category,this.symbol,this.objectId);
 		}
+
 	},
 };
 </script>

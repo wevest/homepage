@@ -569,15 +569,17 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);
     }
 
-    static navBlog(a_this,symbol,page_id,url_only=false) {
+    static navBlog(a_this,category,symbol,page_id,url_only=false) {
         let dic_param = {
-            name: "blog",path: "blog", query: { symbol:symbol, id: page_id },
+            name: "blog",path: "blog", query: { category:category, symbol:symbol, id: page_id },
         };
+        //logger.log.debug("navBlog : dic_param=",dic_param);
         if (url_only) {            
-            let a_url = "/#/" + dic_param.path+"?symbol="+symbol+"&id="+page_id;
+            let a_url = "/#/" + dic_param.path+"?category=" + category+ "&symbol="+symbol+"&id="+page_id;
             return a_url;
         }
-
+        
+        logger.log.debug("navBlog : dic_param=",dic_param);
         a_this.$router.push(dic_param);
     }
     

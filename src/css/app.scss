@@ -139,7 +139,7 @@
 .gPageTitleBox {
   font-size:20px;
   color:#222222;
-  }
+}
 
 .gPageIcon {
   font-size:50px;
@@ -308,7 +308,13 @@
 .gSeparator {
   margin:0px -20px 0px -20px !important;
   height:7px;
+  background: #e6e6e8;
 }
 
+
+.gBoxNoMargin {
+  margin-left: -16px;
+  margin-right: -16px;
+}
 
 /* end */

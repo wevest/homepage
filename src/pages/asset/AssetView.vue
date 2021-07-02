@@ -1,58 +1,38 @@
 <template>
 
     <div class="q-pa-md">
-        <div class="row">
-            <div class="col">
-                <CTitle ttype='title' :title="v_page_title" desc=""></CTitle>          
-            </div>
+        <div class="col">
+            <CTitle ttype='title' :title="v_page_title" desc=""></CTitle>          
         </div>
 
-        <div class="row">
-            <div class="col">
-                <!--
-                <q-btn label="Write" @click="onClickWriteBlog" />
-                -->
-                <CTitle ttype='subtitle' title="Market Trend" desc=""
-                    loadMoreCaption="More"
-                    @onClickTitleMore="onClickMoreBlog"></CTitle>
-                <BlogList ref='blogList' ></BlogList>
-            </div>
+        <div class="col">
+            <!--
+            <q-btn label="Write" @click="onClickWriteBlog" />
+            -->
+            <BlogList ref='blogList' title="Market Trend" maxLength="10" moreCaption="More" 
+                :category="g_asset.category" :symbol="g_asset.symbol" :objectId="g_asset.object_id"
+            />
+            
         </div>
 
 
-        <div class="row">
-            <div class="col">
-                                        
-                <CTitle ttype='subtitle' title="무엇이든 물고 뜯어요" desc="" 
-                    loadMoreCaption="More"
-                    @onClickTitleMore="onClickMoreQuestion"></CTitle>
+        <div class="col">
+                                    
+            <AssetQuestionList ref="questionList" title="Question List" maxLength="10" moreCaption="More"
+                :symbol="g_asset.symbol" :objectId="g_asset.object_id"
+                @onClickQuestionRating="onClickQuestionRating"
+            >
+            </AssetQuestionList>
 
-                <AssetQuestionList ref="questionList" 
-                    @onClickQuestionRating="onClickQuestionRating"
-                >
-                </AssetQuestionList>
-
-            </div>
         </div>
 
-
-        <div class="row">
-            <div class="col">
-                
-                <CTitle ttype='subtitle' title="당신의 평가는?" desc=""
-                    loadMoreCaption="More"
-                    @onClickTitleMore="onClickMoreReview"></CTitle>
-
-                <AssetReviewList ref="reviewList" 
-                    :category="g_asset.symbol" :objectId="g_asset.object_id"
-                    @onClickRating="onClickReviewRating" 
-                    @onClickLoadmore="onClickLoadmore"> 
-                </AssetReviewList>
-            </div>
+        <div class="col">                
+            <AssetReviewList ref="reviewList" 
+                moreCaption="More" maxLength="10" title="Review List"
+                :category="g_asset.symbol" :objectId="g_asset.object_id" 
+                @onClickRating="onClickReviewRating"> 
+            </AssetReviewList>
         </div>
-
-        <BlogWriterDialog ref="blogWriter" @onBlogAdded="onBlogAdded" @onBlogDeleted="onBlogDeleted" />
-        <QuestionWriterDialog ref="questionWriter" @onQuestionAdded="onQuestionAdded"> </QuestionWriterDialog>
 
     </div>
 
@@ -70,16 +50,15 @@ import {PostPageModel,QuestionPageModel,AssetReviewPageModel,AssetReviewPageList
 
 import CTitle from 'components/CTitle';
 import ChartTimeframe from 'components/ChartTimeframe';
-import BlogList from 'components/BlogList';
-import BlogWriterDialog from 'components/dialogs/BlogWriterDialog';
-import QuestionWriterDialog from 'components/dialogs/QuestionWriterDialog';
 
-import AssetQuestionList from 'components/AssetQuestionList';
+import BlogList from 'components/lists/BlogList';
+import AssetQuestionList from 'components/lists/AssetQuestionList';
+import AssetReviewList from 'components/lists/AssetReviewList';
 
 import CAssetChart from 'src/pages/asset/CAssetChart';
 import CAssetInfoTable from 'src/pages/asset/CAssetInfoTable';
 //import AssetReviewForm from 'src/pages/asset/component/AssetReviewForm';
-import AssetReviewList from 'components/AssetReviewList';
+
 
 
 
@@ -93,8 +72,6 @@ export default {
         AssetReviewList,
         AssetQuestionList,
         BlogList,
-        BlogWriterDialog,
-        QuestionWriterDialog,        
     },
     computed: {
         v_me() {
@@ -116,6 +93,7 @@ export default {
             },
             g_period: 30,
             g_asset: {
+                category:null,
                 symbol:null,
                 object_id: null
             },
@@ -147,8 +125,9 @@ export default {
     created: function () {
         //console.log("HomeView.created");
         console.log("AssetView.created - query=",this.$route.query);
-
+        
         this.g_asset.symbol = this.$route.query.symbol;
+        this.g_asset.category = CONST.ASSETPAGE_CATEGORY+this.g_asset.symbol;
         this.g_asset.object_id = parseInt(this.$route.query.id);
     },
     mounted: function() {
@@ -342,9 +321,8 @@ export default {
 
 
         loadBlogList: function() {
-            const category = CONST.ASSETPAGE_CATEGORY+this.g_asset.symbol;
-            console.log('AssetView.loadBlogList - ',category);            
-            this.$refs.blogList.updateByCategory(category);
+            console.log('AssetView.loadBlogList - ',this.g_asset.category);            
+            this.$refs.blogList.updateByCategory(this.g_asset.category);
         },
 
 
@@ -412,9 +390,6 @@ export default {
             });            
         },
 
-        onClickLoadmore: function() {
-            logger.log.debug('AssetView.onClickLoadmore');
-        },
 
         onTabChange: function(newValue,oldValue) {
             logger.log.debug('AssetView.onTabChange',newValue);
@@ -474,20 +449,6 @@ export default {
         onQuestionAdded: function(dic_param) {
             logger.log.debug('AssetView.onQuestionAdded : dic_param=',dic_param);
             this.$refs.questionList.addQuestion(dic_param.response);
-        },
-
-        onClickMoreQuestion: function() {
-            logger.log.debug('AssetView.onClickMoreQuestion : object_id=',this.g_asset.object_id);
-            
-            store.getters.nav.add(this.$route);
-            CommonFunc.navQA(this,this.g_asset.symbol,this.g_asset.object_id);
-        },
-
-        onClickMoreBlog: function() {
-            logger.log.debug('AssetView.onClickMoreBlog');
-
-            store.getters.nav.add(this.$route);
-            CommonFunc.navBlog(this,this.g_asset.symbol,this.g_asset.object_id);
         },
 
         onClickMoreReview: function() {

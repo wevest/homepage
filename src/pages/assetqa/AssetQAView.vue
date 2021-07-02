@@ -1,10 +1,8 @@
 <template>
 
     <div class="q-pa-md">
-        <div class="row">
-            <div class="col">
-                <CTitle ttype='title' title="무엇이든 물고 뜯어요" desc=""></CTitle>
-            </div>
+        <div>
+            <CTitle ttype='title' title="무엇이든 물고 뜯어요" desc=""></CTitle>
         </div>
 
         <div>
@@ -13,14 +11,15 @@
         
         <q-separator size="16px" color="white" />
 
-        <div class="row">
-            <div class="col">                                                    
 
-                <AssetQuestionList ref="questionList"                     
-                    @onClickQuestionRating="onClickQuestionRating">
-                </AssetQuestionList>
+        <div class="col">                                                    
 
-            </div>
+            <AssetQuestionList ref="questionList" title="Question List" maxLength="20000" moreCaption=""
+                :symbol="g_asset.symbol" :objectId="g_asset.object_id"
+                @onClickQuestionRating="onClickQuestionRating"
+            >
+            </AssetQuestionList>
+
         </div>
 
     </div>
@@ -37,7 +36,7 @@ import {PostPageModel,QuestionPageModel,AssetReviewPageModel,AssetReviewPageList
 
 import CTitle from 'components/CTitle';
 import WWriterButton from 'components/WWriterButton';
-import AssetQuestionList from 'components/AssetQuestionList';
+import AssetQuestionList from 'components/lists/AssetQuestionList';
 
 
 export default {
@@ -77,7 +76,7 @@ export default {
         //console.log("HomeView.created");
         console.log("AssetQAView.created - query=",this.$route.query);
 
-        this.g_asset.symbol = parseInt(this.$route.query.symbol);
+        this.g_asset.symbol = this.$route.query.symbol;
         this.g_asset.object_id = parseInt(this.$route.query.parent_id);
     },
     mounted: function() {

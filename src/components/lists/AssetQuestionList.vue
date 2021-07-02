@@ -3,12 +3,16 @@
 
     <div>
 
+		<CTitle ttype='subtitle' :title="v_title" desc=""
+			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreQuestion"></CTitle>
+
 		<q-list separator class="rounded-borders">
 			<q-item 
 				class="gBlogTitleBox"
 				clickable
 				v-ripple
 				v-for="(a_question, index) in v_questions.items"
+                v-if="index<v_maxLength"
 				:key="index"
 				@click.stop="onClickQuestion(a_question)"
 			>
@@ -110,15 +114,39 @@ import logger from "src/error/Logger";
 import WAvatar from "components/WAvatar.vue";
 import WSubinfo from 'components/WSubinfo';
 import LoadMore from "src/components/LoadMore";
+import CTitle from 'components/CTitle';
 
 import { PostPageModel, QuestionPageListModel } from "src/models/PageModel";
 
 export default {
     components: {
+        CTitle,
         WAvatar,
         WSubinfo,
         LoadMore
     },
+    props: {
+        maxLength: {
+            default: 20,
+        },
+		title: {
+			type:String,
+			default: "Blog List"
+		},
+		moreCaption: {
+			type:String,
+			default: ""
+		},
+		symbol: {
+			required:true,
+			type:String,
+			default: ""
+		},
+		objectId: {
+			required:true,
+			default:-1
+		}
+    },    
     computed: {
         v_shorten() {
             return (value) => {
@@ -127,25 +155,29 @@ export default {
         }
     },
     data () {
-      return {
-        g_data: null,
+        return {
+            g_data: null,
 
-        v_questions: new QuestionPageListModel(),
+            v_title: this.title,
+            v_maxLength: this.maxLength,
+            v_more_caption: this.moreCaption,								
 
-        v_questions_header: [
-            { name:'avatar', label: this.$t('name.name'), align:'left', field: 'avatar' },
-            { name:'detail', label: this.$t('name.detail'), field: 'detail', align:'left' },
-/*            
-            { name:'reward', label: this.$t('name.reward'), sortable:true,  field: 'reward' ,
-              format: (val, row) => `${Number(val).toLocaleString()}`, 
-            },
-            { name:'title', label: this.$t('name.title'), sortable:true, field: 'title',},
-            { name:'pub_date', label: this.$t('name.homepage'), align:'left', field: 'pub_date'},
-            { name:'username', label: this.$t('name.username'), align:'left', field: 'username'},
-*/            
-        ],
+            v_questions: new QuestionPageListModel(),
 
-      }
+            v_questions_header: [
+                { name:'avatar', label: this.$t('name.name'), align:'left', field: 'avatar' },
+                { name:'detail', label: this.$t('name.detail'), field: 'detail', align:'left' },
+    /*            
+                { name:'reward', label: this.$t('name.reward'), sortable:true,  field: 'reward' ,
+                format: (val, row) => `${Number(val).toLocaleString()}`, 
+                },
+                { name:'title', label: this.$t('name.title'), sortable:true, field: 'title',},
+                { name:'pub_date', label: this.$t('name.homepage'), align:'left', field: 'pub_date'},
+                { name:'username', label: this.$t('name.username'), align:'left', field: 'username'},
+    */            
+            ],
+
+        }
     },
 
     methods: {
@@ -155,6 +187,7 @@ export default {
 
             this.v_questions.load(dic_param).then( response => {
                 _this.g_data = response;
+                _this.$refs.loadMore.setPageParameter(response.data.next);
             }).catch( err=> {
 
             });
@@ -190,14 +223,26 @@ export default {
             //this.$emit("onClickQuestion",jsonObject);          
         },
 
-        onClickLoadMore: function() {
-            logger.log.debug('onClickLoadMore');
-            this.$emit("onClickLoadmore",{});
+        onClickLoadMore: function() {                        
+            let dic_param = {'parent_id':this.objectId};
+			dic_param.limit = this.$refs.loadMore.v_next.limit;
+			dic_param.offset = this.$refs.loadMore.v_next.offset;
+            
+            logger.log.debug('AssetQuestionList.onClickLoadMore : dic_param=',dic_param);
+
+            this.update(dic_param);
         },
 
         onClickAvatar: function(username) {
             logger.log.debug('onClickAvatar');
             CommonFunc.navProfile(this,username);
+        },
+
+        onClickMoreQuestion:function() {
+            logger.log.debug('AssetQuestionList.onClickMoreQuestion');
+
+            store.getters.nav.add(this.$route);
+            CommonFunc.navQA(this,this.symbol,this.objectId);
         }
 
     }

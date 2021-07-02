@@ -68,6 +68,7 @@ export default {
 
 .boxWriteButton {    
     display:flex;
+    padding: 15px 0px 10px 0px;
 }
 
 .boxWriteButtonText {    

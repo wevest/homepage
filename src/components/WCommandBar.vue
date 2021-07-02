@@ -1,18 +1,24 @@
 <template>
     
-    <div class="boxCommandBar">        
+    <div class="row boxCommandBar">        
         <q-icon         
             v-if="shareBtn.length>0"   
-            flat name="share" 
+            class="boxCommandBtn"
+            name="share" 
             @click="onClickShare" />
+
         <q-icon 
             v-if="(isOwner) && (updateBtn.length>0) "
-            flat name="build"
+            class="boxCommandBtn"
+            name="mode_edit_outline"
             @click="onClickUpdate" />
+
         <q-icon
             v-if="(isOwner) && (deleteBtn.length>0) "
-            flat name="delete" 
+            class="boxCommandBtn"
+            name="delete_outline" 
             @click="onClickDelete" />
+
     </div>                  
 
 
@@ -77,6 +83,8 @@ export default {
     color:grey;
 }
 
-
+.boxCommandBtn {
+    padding-right:10px;
+}
 </style>
         

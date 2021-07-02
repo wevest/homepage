@@ -90,6 +90,6 @@ export default {
 
 .ratingBox {
     text-align:center;
-    padding:15px;
+    padding:25px;
 }
 </style>

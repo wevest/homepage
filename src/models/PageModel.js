@@ -10,13 +10,12 @@ import AuthService from 'src/services/authService';
 
 import {baseCollection} from 'src/models/baseModel';
 import {AnswerCommentModel, CommentListModel} from 'src/models/CommentModel';
+import { normalizeTickInterval } from 'highcharts';
 
 
 
 export class PostPageModel {
     id = null;
-    category = null;
-    category_id = null;
     api_categories = null;
     api_tags = null;
     api_owner = {id:null, avatar:'', avatar_thumb:'', username:null, first_name:'', last_name:'', biography:''};
@@ -747,6 +746,57 @@ export class AssetPageListModel extends baseCollection {
 
             },function(err) {
                 logger.log.error("AssetPageListModel.load - error",err);
+                reject(err);
+            });
+        });            
+    
+    }
+    
+}
+
+
+
+export class BlogCategoryModel {
+    id=null;
+    slug=null;
+    name=null;
+
+    assign(obj) {
+        //this = new PostPage();
+        this.id = obj.id;        
+        this.slug = obj.slug;
+        this.name = obj.name;
+    }    
+}
+
+
+export class BlogCategoryListModel extends baseCollection {
+
+    assign(jsonData) {
+        logger.log.debug("BlogCategoryListModel.assign=",jsonData);
+
+        for (let index=0; index<jsonData.length;index++) {
+            let a_category = new BlogCategoryModel();
+            a_category.assign(jsonData[index]);
+            this.add(a_category);
+        }
+    }
+
+    load() {
+        const _this=this;
+
+        let dic_param = {};
+        logger.log.debug("BlogCategoryListModel.load - dic_param=",dic_param);
+
+        return new Promise(function(resolve,reject) {    
+            CMSAPI.getBlogCategory(dic_param,function(response) {
+                //_this.g_data = response.data;
+                logger.log.debug("BlogCategoryListModel.load - response",response);
+                _this.assign(response.data.results);
+                resolve(response);
+
+            },function(err) {
+                logger.log.error("BlogCategoryListModel.load - error",err);
                 reject(err);
             });
         });            
