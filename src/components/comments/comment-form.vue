@@ -168,6 +168,7 @@ export default {
 		clear() {
 			this.v_input = "";
 			this.v_comments = null;
+			this.v_show = false;	
 			this.$refs.descText.clear();
 			this.$refs.descText.setRows(1);
 		},

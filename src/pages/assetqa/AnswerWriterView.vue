@@ -3,13 +3,14 @@
     <div class="q-pa-md q-gutter-sm">            
 
         <div>
-            <CTitle class="gBoxNoMargin" ttype='title' title="글쓰기"></CTitle>          
+            <CTitle class="text-center gBoxNoMargin" ttype='title' title="답변쓰기" desc=""></CTitle>
         </div>
 
         <div class="col">
 
-            <div style="padding:6px 0px 15px 0px">
-                <q-icon class="QuestionIcon" name="help_outline" /> <span class="Question">{{v_post.title}}</span>
+            <div style="padding:6px 0px 18px 0px">
+                <q-icon class="QuestionIcon" name="help_outline" /> 
+                <span class="Question">{{v_post.title}}</span>
             </div>
 
             <div class="gBoxNoMargin" >
@@ -21,8 +22,8 @@
             </div>
         </div>
 
-        <div>
-            <q-btn class="gSaveBtn full-width" label="Save" @click="onClickSave" />
+        <div class="gBoxWriterSave">
+            <q-btn class="full-width" label="Save" color="primary" @click="onClickSave" />
         </div>
 
     </div>

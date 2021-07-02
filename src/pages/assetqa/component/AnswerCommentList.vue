@@ -1,50 +1,54 @@
 <template>
     
-    <div v-if="data.comments && data.comments.length>0">
-        <div class="gCommentBox" v-for="(a_comment,index2) in data.comments" :key="index2">
-            <div class="row gCommentAvatarBox">
-                <div class="gCommentAvatar">
-                    <WAvatar :avatar="a_comment.owner.avatar_thumb" :username="a_comment.owner.username" />
+    <div>
+        <div v-if="data.comments.items && data.comments.items.length>0">
+            <div class="gCommentBox" v-for="(a_comment,index2) in data.comments.items" :key="index2">
+                <div class="row gCommentAvatarBox">
+                    <div class="gCommentAvatar">
+                        <WAvatar :avatar="a_comment.owner.avatar_thumb" :username="a_comment.owner.username" />
+                    </div>
+                    <div class="col gCommentUserDateBox">
+                        <div> {{a_comment.owner.username}} </div>
+                        <WSubinfo username="" :pub_date="a_comment.pub_date" like_count="-1" dislike_count="-1" />
+                    </div>
+                    <q-space />
+                    <div> 
+                        <q-icon
+                            class="deleteBtn" 
+                            name="delete_outline" 
+                            v-if="v_is_owner(a_comment)"
+                            @click="onClickDeleteComment(data,a_comment)" 
+                            />
+                    </div>
+
                 </div>
-                <div class="col gCommentUserDateBox">
-                    <div> {{a_comment.owner.username}} </div>
-                    <WSubinfo username="" :pub_date="a_comment.pub_date" like_count="-1" dislike_count="-1" />
+                
+                <div class="gCommentText">
+                    <p> {{ a_comment.comment_text}} </p>
                 </div>
-                <q-space />
-                <div> 
-                    <q-icon
-                        class="deleteBtn" 
-                        name="delete_outline" 
-                        v-if="v_is_owner(a_comment)"
-                        @click="onClickDeleteComment(data,a_comment)" 
-                        />
+                
+                <div class="row">
+
+                    <q-space />
+
+                    <div class="gCommentRatingBox">
+                        <q-icon 
+                            class="gCommentRatingBtn"
+                            name="thumb_up"
+                            @click="onClickVoteComment(1,a_comment)" />&nbsp;
+                            <span class="gCommentRatingCount"> {{ a_comment.like_count}} </span>&nbsp;
+                        <q-icon 
+                            class="gCommentRatingBtn"
+                            name="thumb_down"                                                                                                   
+                            @click="onClickVoteComment(-1,a_comment)" />&nbsp;
+                            <span class="gCommentRatingCount"> {{ a_comment.dislike_count}} </span>
+                    </div>                          
+
                 </div>
-
-            </div>
-            
-            <div class="gCommentText">
-                <p> {{ a_comment.comment_text}} </p>
-            </div>
-            
-            <div class="row">
-
-                <q-space />
-
-                <div class="gCommentRatingBox">
-                    <q-icon 
-                        class="gCommentRatingBtn"
-                        name="thumb_up"
-                        @click="onClickVoteComment(1,a_comment)" />&nbsp;
-                        <span class="gCommentRatingCount"> {{ a_comment.like_count}} </span>&nbsp;
-                    <q-icon 
-                        class="gCommentRatingBtn"
-                        name="thumb_down"                                                                                                   
-                        @click="onClickVoteComment(-1,a_comment)" />&nbsp;
-                        <span class="gCommentRatingCount"> {{ a_comment.dislike_count}} </span>
-                </div>                          
-
             </div>
         </div>
+
+        <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
     </div>
 
 </template>
@@ -104,7 +108,28 @@ export default {
     },
 
     methods: {
-     
+        setPageParameter: function(response) {
+            //logger.log.debug("AssetAnswerList.setPageParameter:response=",response);
+            this.$refs.loadMore.setPageParameter(response.data.next);
+        },
+
+        loadComments: function() {
+            const _this=this;
+
+            logger.log.debug("AssetAnswerList.loadComments");    
+            
+			const a_limit = this.$refs.loadMore.v_next.limit;
+			const a_offset = this.$refs.loadMore.v_next.offset;
+            
+            this.v_data.loadComment(a_offset,a_limit).then( response => {                    
+                logger.log.debug("AssetAnswerList.loadAnswerComments : resp=",response);                    
+                _this.setPageParameter(response);
+            }).catch( err => {
+
+            });
+
+        },
+
         onClickDeleteComment: function(answer,comment) {
             logger.log.debug("AssetAnswerList.onClickDeleteComment=",answer,comment);
             
@@ -141,7 +166,11 @@ export default {
             });
 
         },
-     
+        
+        onClickLoadMore: function() {
+            logger.log.debug("AssetAnswerList.onClickLoadMore");
+            this.loadComments();
+        }
     }
 
 };

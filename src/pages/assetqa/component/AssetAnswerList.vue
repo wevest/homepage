@@ -43,12 +43,7 @@
             <q-separator />
 
             <div class="gAnswerContent">
-                <div v-html="a_answer.body">  </div>
-
-                <div class="accepted">
-                    <q-icon name="done_all" v-if="a_answer.answered" />
-                </div>
-
+                <div v-html="a_answer.body">  </div>            
             </div>
             <div class="gAnswerRatingBox">              
                 <WRatingButton ref="ratingButton" 
@@ -57,32 +52,34 @@
                     @onClickRating="onClickRating" />
             </div>
 
-            <q-separator size="2px" />
+            <q-separator size="0.1px" />
+
+            <div class="row boxAccepted justify-center" v-if="a_answer.answered">
+                <q-icon class="AcceptedIcon" name="task_alt" />
+                <div class="AcceptedText">
+                    <span>질문자 채택</span>
+                </div>
+            </div>
+
 
             <div>
-                
-                <div class="CommentBox">
-                    <span class="Comments">Comments :</span> 
-                    <span class="CommentsCount"> {{a_answer.comments.length}}</span>
-                </div>
-
                 <div>
                     <CommentForm ref="commentEditor" type="comment"
                         :contentType="v_conent_type" :post="a_answer" save="custom"
                         @onClickCommentSave="onClickSaveComment" />
                 </div>                                    
                 
-                <AnswerCommentList ref="commentList" 
+                <AnswerCommentList :ref="v_ref(a_answer)" 
                     :data="a_answer" 
                     @onCommentDelete="onClickDeleteComment" />
 
             </div>             
 
-        </div>
+            <q-separator class="gSeparator" />
 
-        <div v-if="v_visible_loadmore">>
-            <q-btn label="load More" @click="onClickLoadMore" />
         </div>
+        
+        <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />       
             
     </div>
           
@@ -110,6 +107,7 @@ export default {
     name:'assetAnswerList',
     components: {
         WAvatar,
+        WSubinfo,
         LoadMore,
         WSubinfo,
         WCommandBar,
@@ -138,7 +136,12 @@ export default {
             return (value) => {
                 return CommonFunc.shortenString(value,MoaConfig.setting.maxTitleLength);
             };
-        }
+        },
+        v_ref() {
+            return (value) => {
+                return "commentList"+value.id;
+            };
+        },
     },
     data () {
       return {
@@ -173,22 +176,40 @@ export default {
             this.v_question = question;
         },
 
-        update: function(question_id) {                        
+        update: function(question_id,a_offset=null,a_limit=null) {                        
             
             const _this=this;
-            this.v_answers.load(question_id).then(response=>{             
-                logger.log.debug("AssetAnswerList.loadAnswers : response=",response);
-                _this.v_answers_comments.load(question_id).then( resp => {                    
-                    _this.v_answers.addComments(_this.v_answers_comments);
-                }).catch( err => {
 
-                });
-
+            this.v_answers.load(question_id,a_offset,a_limit).then(response=>{             
+                //logger.log.debug("AssetAnswerList.loadAnswers : response=",response);
+                _this.$refs.loadMore.setPageParameter(response.data.next);
+                _this.loadAnswerComments(question_id);
             }).catch(err=>{
 
             });
 
         },
+
+        loadAnswerComments: function(question_id) {
+            const _this=this;
+
+            logger.log.debug("AssetAnswerList.loadAnswerComments");    
+
+            for (let index=0; index<this.v_answers.items.length;index++) {
+                let a_answer = this.v_answers.items[index];
+                //logger.log.debug("AssetAnswerList.loadAnswerComments : answer=",a_answer);    
+                a_answer.loadComment().then( response => {                    
+                    //logger.log.debug("AssetAnswerList.loadAnswerComments : resp=",a_answer,response);                        
+                    let a_list = _this.$refs['commentList'+a_answer.id.toString()][0];
+                    //logger.log.debug("AssetAnswerList.loadAnswerComments : list=",a_list);    
+                    a_list.setPageParameter(response);
+                }).catch( err => {
+
+                });
+            }
+
+        },
+        
 
         addAnswer(response) {
             logger.log.debug("assetAnswerList.addAnswer : response=",response);
@@ -235,8 +256,13 @@ export default {
         },
 
         onClickLoadMore: function() {
-            logger.log.debug('onClickLoadMore');
-            this.$emit("onClickLoadmore",{});
+            logger.log.debug('onClickLoadMore : ref=',this.$refs);
+            
+			const a_limit = this.$refs.loadMore.v_next.limit;
+			const a_offset = this.$refs.loadMore.v_next.offset;
+            this.update(this.v_question.id,a_offset,a_limit);
+
+            //this.$emit("onClickLoadmore",{});
         },
 
         onClickAccept: function(jsonObject) {
@@ -325,11 +351,6 @@ export default {
 
 <style scope>
 
-
-
-
-
-
 .boxAnswerContent {
     padding:10px;
 }
@@ -364,9 +385,20 @@ export default {
     color:#555555;
 }
 
-.accepted {
-    font-size:20px;
-    color:green;
+.boxAccepted {
+     padding:30px 0px;
+}
+
+.AcceptedIcon {
+    font-size:40px;
+    color:#FE5F56;
+}
+
+.AcceptedText {
+    font-size:19px;
+    font-weight:700;
+    color:#FE5F56;
+    padding:6px 0px 0px 8px;
 }
 
 .deleteBtn {

@@ -9,7 +9,7 @@ import CMSAPI from 'src/services/cmsService';
 import AuthService from 'src/services/authService';
 
 import {baseCollection} from 'src/models/baseModel';
-import {AnswerCommentModel, CommentListModel} from 'src/models/CommentModel';
+import {AnswerCommentListModel, AnswerCommentModel, CommentListModel} from 'src/models/CommentModel';
 import { normalizeTickInterval } from 'highcharts';
 
 
@@ -503,8 +503,7 @@ export class AnswerPageModel extends PostPageModel{
     addCommentFirst(jsonComment) {
         let a_comment = new AnswerCommentModel();
         a_comment.assign(jsonComment);
-        //this.insertAtFirst(a_comment);
-        this.comments.unshift(a_comment);
+        this.comments.insertAtFirst(a_comment);
     }
 
     assign(obj) {
@@ -529,6 +528,8 @@ export class AnswerPageModel extends PostPageModel{
                 this.is_owner = true;
             }
         }
+
+        this.comments = new AnswerCommentListModel();        
     }
   
 
@@ -544,6 +545,20 @@ export class AnswerPageModel extends PostPageModel{
                 resolve(response);
             },function(err) {
                 logger.log.error("QuestionPageModel.load - error",err);
+                reject(err);
+            });
+        });
+    }
+
+    loadComment(a_offset=null,a_limit=null) {
+        const _this = this;
+
+        //let dic_param = {'id': this.id};
+        return new Promise(function(resolve,reject) {
+            _this.comments.load(_this.id,a_offset,a_limit).then( resp => {                    
+                //logger.log.debug("AssetAnswerList.loadAnswerComments : resp=",resp);    
+                resolve(resp);
+            }).catch( err => {
                 reject(err);
             });
         });
@@ -650,16 +665,16 @@ export class AnswerPageListModel extends baseCollection {
         for (let index=0; index<answers.length;index++) {
             let a_page = new AnswerPageModel();
             a_page.assign(answers[index]);
-            a_page.comments = [];
+            //a_page.comments = [];
             this.add(a_page);
         }
     }
 
-    load(question_id) {
+    load(question_id,a_offset=null,a_limit=null) {
         const _this=this;
 
         return new Promise(function(resolve,reject) {
-            let dic_param = {question_id:question_id};
+            let dic_param = {question_id:question_id,offset:a_offset,limit:a_limit};
             logger.log.debug("AnswerPageListModel.load - dic_param=",dic_param);
 
             CMSAPI.getAssetAnswer(dic_param,function(response) {

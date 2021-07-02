@@ -9,15 +9,14 @@
             <WWriterButton placeholder="Please share your knowledges" @onClickWrite="onClickWrite" />
         </div>
         
-        <q-separator size="16px" color="white" />
+        <q-separator class="gSeparator" />
 
 
-        <div class="col">                                                    
+        <div>
 
             <AssetQuestionList ref="questionList" title="Question List" maxLength="20000" moreCaption=""
                 :symbol="g_asset.symbol" :objectId="g_asset.object_id"
-                @onClickQuestionRating="onClickQuestionRating"
-            >
+                @onClickQuestionRating="onClickQuestionRating">
             </AssetQuestionList>
 
         </div>

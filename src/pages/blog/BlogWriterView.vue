@@ -3,7 +3,7 @@
     <div class="q-ma-md">
 
         <div class="">
-            <CTitle class="gBoxNoMargin" ttype='title' title="글쓰기"></CTitle>          
+            <CTitle class="gBoxNoMargin text-center" ttype='title' title="글쓰기" desc="" ></CTitle>          
         </div>
 
         <div>
@@ -40,11 +40,8 @@
         </div>
 
 
-        <div style="padding:20px;">
-            <q-btn class="gSaveBtn full-width" label="Save" @click="onClickSave" />
-            <!--
-            <q-btn label="Delete" @click="onClickDelete" v-if="! isNewPost" />
-            -->
+        <div class="gBoxWriterSave">
+            <q-btn class="full-width" label="Save" color="primary" @click="onClickSave" />
         </div>
 
     </div>

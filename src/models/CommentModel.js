@@ -360,15 +360,15 @@ export class AnswerCommentListModel extends baseCollection {
         }
     }
 
-    load(question_id) {
+    load(answer_id,a_offset,a_limit) {
         const _this = this;
 
         return new Promise(function(resolve,reject) {
-            let dic_param = {question_id:question_id};
-            logger.log.debug("AnswerCommentListModel.load - dic_param=",dic_param);
+            let dic_param = {answer_id:answer_id, limit:a_limit, offset:a_offset};
+            //logger.log.debug("AnswerCommentListModel.load - dic_param=",dic_param);
 
             CMSAPI.getAssetAnswerComment(dic_param,function(response) {
-                logger.log.debug("AnswerCommentListModel.load - response",response.data);
+                //logger.log.debug("AnswerCommentListModel.load - response",response.data);
                 _this.assign(response.data.results);
                 resolve(response);
             },function(err) {
