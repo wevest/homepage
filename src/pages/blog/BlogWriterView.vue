@@ -3,21 +3,6 @@
     <div class="q-ma-md">
 
         <div class="row">
-            <!--
-            <div>
-                <q-btn label="Back" @click="onClickBack" />
-            </div>
-            -->
-            <q-space />
-            <div>
-                <q-btn label="Save" @click="onClickSave" />
-                <!--
-                <q-btn label="Delete" @click="onClickDelete" v-if="! isNewPost" />
-                -->
-            </div>
-        </div>
-
-        <div class="row">
             <div class="col">
                 <q-input 
                     v-model="v_post.title" 
@@ -40,6 +25,21 @@
                     {{v_error.text.msg}}
                 </div>
                 <q-input v-model="v_post.tags" label="Tags" />
+            </div>
+        </div>
+
+        <div class="row">
+            <!--
+            <div>
+                <q-btn label="Back" @click="onClickBack" />
+            </div>
+            -->
+            <q-space />
+            <div>
+                <q-btn label="Save" @click="onClickSave" />
+                <!--
+                <q-btn label="Delete" @click="onClickDelete" v-if="! isNewPost" />
+                -->
             </div>
         </div>
 
@@ -116,22 +116,25 @@ export default {
     },
     mounted: function() {        
         logger.log.debug("BlogWriterView.mounted : params=",this.$route.params);
-
-        this.v_post.id = this.$route.params.page_id;
-        this.v_post.category_id = this.$route.params.category_id;
-        if (this.v_post.id) {
-            this.loadPost(this.v_post.id);
-        }
-        
-        //this.g_category_id = 1;
-        //this.v_post.title = "Image Title";
-        //this.v_post.tags = "image,s3,bucket";
+        this.prepare();
     },
     updated: function() {
         //console.log("HomeView.updated");
     },
     
     methods: {
+        prepare() {
+            this.setPost(this.$route.params.post);
+            //this.v_post.category_id = this.$route.params.category_id;
+            if (this.v_post.id) {
+                this.handlePostPage(this.v_post);
+            }
+            
+        },
+
+        setPost(post) {
+            this.v_post = post;
+        },
         setContent(content) {
             this.$refs.toastEditor.invoke('setMarkdown', content);
         },

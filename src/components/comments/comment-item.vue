@@ -24,6 +24,7 @@
 
                     <q-space />
 
+<<<<<<< HEAD
                         <div> 
                             <q-icon
                                 class="deleteBtn" 
@@ -40,6 +41,10 @@
 
                     <div> 
                         <q-icon 
+=======
+                    <div> 
+                        <q-icon
+>>>>>>> dca0d0cbc704f89413ab9343ce2961e233967cc1
                             class="deleteBtn" 
                             name="delete" 
                             @click="onClickDelete(data)" 

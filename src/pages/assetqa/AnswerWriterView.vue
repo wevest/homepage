@@ -74,13 +74,15 @@ export default {
     },
 
     created: function () {
-        console.log("BlogWriterView.created");
+        logger.log.debug("AnswerWriterView.created");
     },
     mounted: function() {
+        logger.log.debug("AnswerWriterView.mounted : param=",this.$route.params);
         this.setPost(this.$route.params.post);
+        this.prepare();
     },
     updated: function() {
-        this.fillData();
+        
     },
     
     methods: {      
@@ -88,8 +90,8 @@ export default {
             this.v_post = post;
         },
 
-        fillData: function() {
-            //this.$refs.baseEditor.setConent(this.v_post.body);
+        prepare: function() {
+            logger.log.debug("AnswerWriterView.prepare");
             if (this.$refs.baseEditor) {
                 this.$refs.baseEditor.setPostModel(this.v_post);
             }            
@@ -147,7 +149,6 @@ export default {
             } else {
                 CommonFunc.showErrorMessage(this,'Blog error');
             }
-            this.$emit("onAnswerAdded",dic_param);
         },
 
     }

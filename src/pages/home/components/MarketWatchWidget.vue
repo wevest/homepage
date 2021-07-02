@@ -70,7 +70,7 @@ export default {
             let dic_param = { name:'cwatch', path:'cwatch', params:{} };
             this.$router.push(dic_param);            
         },
-
+        
     }
 
 }

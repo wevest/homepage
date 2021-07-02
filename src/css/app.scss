@@ -9,11 +9,6 @@
     margin-right:-16px;
 }
 
-.caption_color {
-  color: #292626;
-  font-weight: 200;
-  text-align: left;
-}
 
 .value_color {
   color: #292626;
@@ -104,8 +99,8 @@
 
 .gBlogAvatar {
   padding:15px 3px 15px 3px !important;
-  height:50px;
-  width:50px;
+  height:40px;
+  width:40px;
   border:1px;
 }
 
@@ -159,15 +154,25 @@
 }
 
 .gPageUDRBox {
-  padding-bottom:5px;
+  padding-bottom:0px;
+  color: #909090;
+  font-size:13px;
 }
 
+<<<<<<< HEAD
 .gPageUserDateInfo {
   color: #909090;
   font-size:15px;
 }
 
 
+=======
+.gPageUser {
+}
+
+.gPageDatetime {
+}
+>>>>>>> dca0d0cbc704f89413ab9343ce2961e233967cc1
 
 .gPageContent {
   color: #292626;

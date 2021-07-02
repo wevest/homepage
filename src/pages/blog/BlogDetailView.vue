@@ -90,10 +90,7 @@
         
         <div class="row">
             <div class="col">
-<!--                
-                <q-btn label="comment" @click="onClickComment" />
-                <q-input v-model="v_post.comment" label="Comments" />
--->                
+                
                 <div class="boxCommentCount"> 
                     <span>Comments : {{v_post.comments.items.length}}</span>
                 </div>
@@ -112,7 +109,6 @@
             </div>
         </div>
 
-        <BlogWriterDialog ref="blogWriter" @onBlogAdded="onBlogAdded" @onBlogDeleted="onBlogDeleted" />
     </div>
 
 </template>
@@ -136,7 +132,6 @@ import WAvatar from "components/WAvatar.vue";
 import WCommandBar from "components/WCommandBar.vue";
 import WRatingButton from 'components/WRatingButton';
 import WSubinfo from 'components/WSubinfo';
-import BlogWriterDialog from 'components/dialogs/BlogWriterDialog';
 import CommentForm from "components/comments/comment-form.vue";
 import CommentTree from "components/comments/comment-tree.vue";
 
@@ -150,7 +145,6 @@ export default {
         WAvatar,
         CommentTree,
         CommentForm,
-        BlogWriterDialog,
         WRatingButton,
         WSubinfo,
         WCommandBar
@@ -414,7 +408,7 @@ export default {
         },
         
         onClickShare: function(post) {
-            let a_url = CommonFunc.navBlog(this,post.id,true);
+            let a_url = CommonFunc.navBlogDetail(this,post.id,true);
             logger.log.debug("BlogPage.onClickShare=",post,a_url);            
             CommonFunc.copyUrl(this,a_url);
         },
