@@ -1,6 +1,7 @@
 <template>
     
     <div class="boxCommandBar">        
+        
         <q-icon         
             v-if="shareBtn.length>0"   
             flat name="share" 
@@ -9,12 +10,12 @@
             v-if="(isOwner) && (updateBtn.length>0) "
             flat name="build"
             @click="onClickUpdate" />
+            
         <q-icon
             v-if="(isOwner) && (deleteBtn.length>0) "
             flat name="delete" 
             @click="onClickDelete" />
     </div>                  
-
 
 </template>
 
@@ -75,7 +76,9 @@ export default {
 .boxCommandBar {    
     font-size:20px;
     color:grey;
+    padding:0px 10px;
 }
+
 
 
 </style>

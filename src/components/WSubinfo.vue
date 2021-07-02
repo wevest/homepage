@@ -13,7 +13,6 @@
             />                        
         </div>
         <div>
-<<<<<<< HEAD
             {{ username }}
         </div>
         <div :style="v_style">         
@@ -28,21 +27,6 @@
             <span> 
                 {{ dislike_count }} 
             </span>
-=======
-            <span> {{ username }} </span>
-        </div>
-        <div :style="v_style">
-            <!--
-            <span class="material-icons">alarm</span>&nbsp;
-            -->
-            <span>{{ v_updated_at(pub_date) }} </span>
-        </div>
-        <div :style="v_padding" v-if=" (v_like_count>-1) && (v_dislike_count>-1)">
-            <q-icon name="thumb_up_off_alt" />&nbsp;
-            <span>{{ like_count }}</span>&nbsp;
-            <q-icon name="thumb_down_off_alt" />&nbsp;
-            <span>{{ dislike_count }} </span>
->>>>>>> dca0d0cbc704f89413ab9343ce2961e233967cc1
         </div>
     </div>
 
@@ -113,7 +97,7 @@ export default {
             }
 
             if ( (this.username.length>0) ) {
-                return this.v_padding;
+                return "padding-left:20px;";
             }
             return "";
         }
@@ -122,7 +106,6 @@ export default {
     data() {    
         return {
             v_disabled:false,
-            v_padding:"padding-left:15px;",
         }
     },
     methods: {

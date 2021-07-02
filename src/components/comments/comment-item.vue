@@ -24,27 +24,8 @@
 
                     <q-space />
 
-<<<<<<< HEAD
-                        <div> 
-                            <q-icon
-                                class="deleteBtn" 
-                                name="delete" 
-                                @click="onClickDelete(data)" 
-                                v-if="v_is_owner(data) && (! data.is_removed)" />
-                        </div>
-                        <div class="gCommentDateInfo">
-                            <span class="material-icons">alarm</span>&nbsp;
-                            <time class="gCommentDatetime">{{ getMinifiedDatetime(data.submit_date) }}</time>
-                        </div>    
-                    </div>
-                     <q-space />
-
-                    <div> 
-                        <q-icon 
-=======
                     <div> 
                         <q-icon
->>>>>>> dca0d0cbc704f89413ab9343ce2961e233967cc1
                             class="deleteBtn" 
                             name="delete" 
                             @click="onClickDelete(data)" 
