@@ -10,14 +10,9 @@
 
                     <div class="gPageTitleBox gPageTitle">  
                         <q-icon
-                            class="gPageIcon" 
+                            class="qIcon" 
                             name="help_outline" />                       
                             <span>{{ v_question.title }}</span> 
-
-                        <q-icon 
-                            class="DoneAddBtn float-right" 
-                            name="done_all"
-                            v-if="v_question.closed" />
                     </div>
 
                     <div class="row globalUDRBox">  
@@ -339,11 +334,6 @@ export default {
     width:100px;
 }
 
-.DoneAddBtn {
-    font-size:30px;
-    padding-top:5px;
-    color:green;
-}
 
 .globalUDRBox {
    padding:0px 0px 10px 0px;
@@ -354,7 +344,12 @@ export default {
     width:40px;
     margin-left:5px;
 }
-
+.qIcon {
+    color:#00C73C;
+    font-size:50px;
+    padding:0px 5px 9px 0px;
+    margin-left:-4px;
+}
 
 </style>
  

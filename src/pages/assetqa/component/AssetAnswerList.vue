@@ -44,9 +44,6 @@
                 <div class="gAnswerContent">
                     <div v-html="a_answer.body">  </div>
 
-                    <div class="accepted">
-                        <q-icon name="done_all" v-if="a_answer.answered" />
-                    </div>
 
                 </div>
                     <div class="gAnswerRatingBox">              
@@ -66,6 +63,12 @@
                             @click="onClickRating(-1,a_answer)" />&nbsp; 
                         <span class="gAnswerRatingCount">{{a_answer.dislike_count}}</span>  
                 </div>
+                <div class="row accepted justify-center">
+                    <q-icon class="AcceptedIcon" name="task_alt" v-if="a_answer.answered" />
+                    <div class="AcceptedText">질문자 채택
+                    </div>
+                </div>
+             
 
                 <q-separator size="2px" />
 
@@ -87,7 +90,7 @@
                     <q-separator size="2px" />
                     
 
-                    <div v-if="a_answer.comments && a_answer.comments.length>0">
+                    <div v-if="a_answer && a_answer.comments && a_answer.comments.length>0">
                         <div class="gCommentBox" v-for="(a_comment,index2) in a_answer.comments" :key="index2">
                             <div class="row gCommentAvatarBox">
                                 <div class="gCommentAvatar">
@@ -97,14 +100,14 @@
                                     <div> {{a_comment.owner.username}} </div>
                                     <WSubinfo username="" :pub_date="a_comment.pub_date" like_count="-1" dislike_count="-1" />
                                 </div>
-                                </div>
-                                <q-space />                                 
-                                <q-btn 
-                                    class="deleteBtn"
-                                    v-if="v_is_owner(a_comment)" 
-                                    flat 
-                                    icon="delete" 
-                                    @click="onClickDeleteComment(a_answer,a_comment)" />
+                            </div>
+                            <q-space />                                 
+                            <q-btn 
+                                class="deleteBtn"
+                                v-if="v_is_owner(a_comment)" 
+                                flat 
+                                icon="delete" 
+                                @click="onClickDeleteComment(a_answer,a_comment)" />
                         </div>
                             
                             <div class="row">
@@ -127,8 +130,8 @@
                                 </div>                          
 
                             </div>
-                        </div>
-                        
+                    </div>
+<!--                        
                         <div class="row">
                         <q-space />
                         <div class="gCommentRatingBox">
@@ -144,8 +147,9 @@
                                 <span class="gCommentRatingCount"> {{ a_comment.dislike_count}} </span>
                         </div>                          
                     </div>
+-->                    
                 </div>                
-            
+          
             </div>
 
         </div>
@@ -181,7 +185,9 @@ export default {
     name:'assetAnswerList',
     components: {
         WAvatar,
+        WSubinfo,
         LoadMore,
+        WRatingButton,
         WCommandBar,
         CommentTree,
         CommentForm
@@ -445,8 +451,19 @@ export default {
 }
 
 .accepted {
-    font-size:20px;
-    color:green;
+     padding:50px 0px;
+}
+
+.AcceptedIcon {
+    font-size:40px;
+    color:#FE5F56;
+}
+
+.AcceptedText {
+    font-size:19px;
+    font-weight:700;
+    color:#FE5F56;
+    padding:6px 0px 0px 8px;
 }
 
 .deleteBtn {
