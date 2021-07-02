@@ -27,7 +27,7 @@
                     <div> 
                         <q-icon
                             class="deleteBtn" 
-                            name="delete" 
+                            name="delete_outline" 
                             @click="onClickDelete(data)" 
                             v-if="v_is_owner(data) && (! data.is_removed)" />
                     </div>

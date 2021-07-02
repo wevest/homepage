@@ -10,6 +10,16 @@
                     <div> {{a_comment.owner.username}} </div>
                     <WSubinfo username="" :pub_date="a_comment.pub_date" like_count="-1" dislike_count="-1" />
                 </div>
+                <q-space />
+                <div> 
+                    <q-icon
+                        class="deleteBtn" 
+                        name="delete_outline" 
+                        v-if="v_is_owner(a_comment)"
+                        @click="onClickDeleteComment(data,a_comment)" 
+                        />
+                </div>
+
             </div>
             
             <div class="gCommentText">
@@ -21,8 +31,6 @@
                 <q-space />
 
                 <div class="gCommentRatingBox">
-                    <q-btn v-if="v_is_owner(a_comment)" label="delete" @click="onClickDeleteComment(a_answer,a_comment)" />
-
                     <q-icon 
                         class="gCommentRatingBtn"
                         name="thumb_up"
@@ -62,8 +70,7 @@ export default {
         WAvatar,
         WSubinfo,
         LoadMore,
-        WCommandBar,
-        WRatingButton
+        WCommandBar,        
     },
 	props: {
         data: {
@@ -80,11 +87,20 @@ export default {
                 return CommonFunc.minifyDatetime(value);
             };
         },
-    },
-    data () {
-      return {
-            v_data: this.data,
+        v_is_owner() {
+            return (comment) => {
+                if (this.v_me.id==comment.owner.id) {
+                    return true;
+                }
+                return false;
+            }
         },
+    },
+
+    data() {
+        return {
+            v_data: this.data,
+        }
     },
 
     methods: {
@@ -100,15 +116,31 @@ export default {
 
                 comment.remove().then(response=>{
                     logger.log.debug("AssetAnswerList.onClickDeleteComment : response=",response);
-                    _this.v_answers_comments.remove(answer.comments,comment.id);                
+                    //_this.v_answers_comments.remove(answer.comments,comment.id);                
+                    _this.$emit("onCommentDelete",{answer:answer,comment:comment});
                     CommonFunc.showOkMessage(_this,"Answer comment Deleted");
                 }).catch(err=>{
                     logger.log.debug("AssetAnswerList.onClickDeleteComment : err=",err);
                     CommonFunc.showErrorMessage(_this,"Answer Deleted Error");
                 });
             });
+        },
 
-        }
+        onClickVoteComment: function(value,comment) {
+            const _this = this;
+
+            logger.log.debug("AssetAnswerList.onClickVoteComment=",comment);
+                        
+            let dic_param = {method:'vote',value:value};            
+            comment.vote(dic_param).then(response=>{
+                logger.log.debug("AssetList.onClickVoteComment - response",response);
+                CommonFunc.showOkMessage(_this,"Comments Posted");
+            }).catch(err=>{
+                logger.log.error("AssetList.onClickVoteComment - error",err);
+                CommonFunc.showErrorMessage(_this,"Comments Posted");
+            });
+
+        },
      
     }
 

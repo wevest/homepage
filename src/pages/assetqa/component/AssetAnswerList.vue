@@ -1,33 +1,32 @@
 <template>
-<!-- comment page -->
-    <div class="row">
-        <div class="col">
-            <div class="gcomment" v-for="(a_answer,index) in v_answers.items" :key="index">
-                <div class="row gAnswerBox">
-                    <div>
-                        <WAvatar :avatar="a_answer.owner.avatar_thumb" :username="a_answer.owner.username" />
-                    </div>
-                    <div class="gAnswerUserDatetime">
-                        <div class="gAnswerUser">
-                            {{a_answer.owner.username}}&nbsp;님 답변 
-                        </div>
 
-                        <div class="row">                        
-                            <div>
-                                <WSubinfo username="" :pub_date="a_answer.pub_date" :like_count="a_answer.like_count" :dislike_count="a_answer.dislike_count" />
-                            </div>
-                            <q-space />
-                            <div>
-                                <WCommandBar :data="a_answer" :isOwner="a_answer.is_owner" 
-                                    shareBtn="" updateBtn="update" deleteBtn="delete" 
-                                    @onClickUpdate="onClickAnswerUpdate" 
-                                    @onClickDelete="onClickAnswerDelete" 
-                                />
-                            </div>
-                        </div>
+    <div class="col">
+        <div class="gcomment" v-for="(a_answer,index) in v_answers.items" :key="index">
+            <div class="row gAnswerBox">
+                <div>
+                    <WAvatar :avatar="a_answer.owner.avatar_thumb" :username="a_answer.owner.username" />
+                </div>
 
+                <div class="col gAnswerUserDatetime">
+                    <div class="gAnswerUser">
+                        {{a_answer.owner.username}}&nbsp;님 답변 
                     </div>
-                    <q-space />
+
+                    <div class="row">                        
+                        
+                        <WSubinfo username="" :pub_date="a_answer.pub_date" 
+                            :like_count="a_answer.like_count" :dislike_count="a_answer.dislike_count" />
+                    
+                        <q-space />
+                    
+                        <WCommandBar :data="a_answer" :isOwner="a_answer.is_owner" 
+                            shareBtn="" updateBtn="update" deleteBtn="delete" 
+                            @onClickUpdate="onClickAnswerUpdate" 
+                            @onClickDelete="onClickAnswerDelete" 
+                        />
+                        
+                    </div>
+
                     <div class="gAnswerAcceptBox">
                         <span v-if="v_question.is_owner && (! v_question.closed)">
                             <q-btn class="AnswerAcceptBtn"
@@ -37,127 +36,56 @@
                                 @click="onClickAccept(a_answer)" /> 
                         </span>                                
                     </div>
-                </div>
-
-                <q-separator />
-
-                <div class="gAnswerContent">
-                    <div v-html="a_answer.body">  </div>
-
-                    <div class="accepted">
-                        <q-icon name="done_all" v-if="a_answer.answered" />
-                    </div>
 
                 </div>
-                    <div class="gAnswerRatingBox">              
-                        <q-btn 
-                            class="gAnswerRatingBtn" 
-                            icon="thumb_up_off_alt" 
-                            dense
-                            flat 
-                            @click="onClickRating(1,a_answer)" />&nbsp;                            
-                        <span class="gAnswerRatingCount">{{a_answer.like_count}}</span>&nbsp;
+            </div>
+
+            <q-separator />
+
+            <div class="gAnswerContent">
+                <div v-html="a_answer.body">  </div>
+
+                <div class="accepted">
+                    <q-icon name="done_all" v-if="a_answer.answered" />
+                </div>
+
+            </div>
+            <div class="gAnswerRatingBox">              
+                <WRatingButton ref="ratingButton" 
+                    :data="a_answer"
+                    likeCaption="도움돼요" dislikeCaption="도움 안돼요"
+                    @onClickRating="onClickRating" />
+            </div>
+
+            <q-separator size="2px" />
+
+            <div>
                 
-                        <q-btn 
-                            class="gAnswerRatingBtn"
-                            icon="thumb_down_off_alt"                            
-                            dense
-                            flat 
-                            @click="onClickRating(-1,a_answer)" />&nbsp; 
-                        <span class="gAnswerRatingCount">{{a_answer.dislike_count}}</span>  
+                <div class="CommentBox">
+                    <span class="Comments">Comments :</span> 
+                    <span class="CommentsCount"> {{a_answer.comments.length}}</span>
                 </div>
-
-                <q-separator size="2px" />
-
 
                 <div>
-                    
-                    <div class="CommentBox">
-                        <span class="Comments">Comments :</span> 
-                        <span class="CommentsCount"> {{a_answer.comments.length}}</span>
-                    </div>
+                    <CommentForm ref="commentEditor" type="comment"
+                        :contentType="v_conent_type" :post="a_answer" save="custom"
+                        @onClickCommentSave="onClickSaveComment" />
+                </div>                                    
+                
+                <AnswerCommentList ref="commentList" 
+                    :data="a_answer" 
+                    @onCommentDelete="onClickDeleteComment" />
 
-                    <div>
-                        <CommentForm ref="commentEditor" type="comment"
-                            :contentType="v_conent_type" :post="a_answer" save="custom"
-                            @onClickCommentSave="onClickSaveComment" />
-                    </div>
-
-                    
-                    <q-separator size="2px" />
-                    
-
-                    <div v-if="a_answer.comments && a_answer.comments.length>0">
-                        <div class="gCommentBox" v-for="(a_comment,index2) in a_answer.comments" :key="index2">
-                            <div class="row gCommentAvatarBox">
-                                <div class="gCommentAvatar">
-                                    <WAvatar :avatar="a_comment.owner.avatar_thumb" :username="a_comment.owner.username" />
-                                </div>
-                                <div class="col gCommentUserDateBox">
-                                    <div> {{a_comment.owner.username}} </div>
-                                    <WSubinfo username="" :pub_date="a_comment.pub_date" like_count="-1" dislike_count="-1" />
-                                </div>
-                                </div>
-                                <q-space />                                 
-                                <q-btn 
-                                    class="deleteBtn"
-                                    v-if="v_is_owner(a_comment)" 
-                                    flat 
-                                    icon="delete" 
-                                    @click="onClickDeleteComment(a_answer,a_comment)" />
-                        </div>
-                            
-                            <div class="row">
-
-                                <q-space />
-
-                                <div class="gCommentRatingBox">
-                                    <q-btn v-if="v_is_owner(a_comment)" label="delete" @click="onClickDeleteComment(a_answer,a_comment)" />
-
-                                    <q-icon 
-                                        class="gCommentRatingBtn"
-                                        name="thumb_up"
-                                        @click="onClickVoteComment(1,a_comment)" />&nbsp;
-                                        <span class="gCommentRatingCount"> {{ a_comment.like_count}} </span>&nbsp;
-                                    <q-icon 
-                                        class="gCommentRatingBtn"
-                                        name="thumb_down"                                                                                                   
-                                        @click="onClickVoteComment(-1,a_comment)" />&nbsp;
-                                        <span class="gCommentRatingCount"> {{ a_comment.dislike_count}} </span>
-                                </div>                          
-
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                        <q-space />
-                        <div class="gCommentRatingBox">
-                            <q-icon 
-                                class="gCommentRatingBtn"
-                                name="thumb_up"
-                                @click="onClickVoteComment(1,a_comment)" />&nbsp;
-                                <span class="gCommentRatingCount"> {{ a_comment.like_count}} </span>&nbsp;
-                            <q-icon 
-                                class="gCommentRatingBtn"
-                                name="thumb_down"                                                                                                   
-                                @click="onClickVoteComment(-1,a_comment)" />&nbsp;
-                                <span class="gCommentRatingCount"> {{ a_comment.dislike_count}} </span>
-                        </div>                          
-                    </div>
-                </div>                
-            
-            </div>
+            </div>             
 
         </div>
 
         <div v-if="v_visible_loadmore">>
             <q-btn label="load More" @click="onClickLoadMore" />
         </div>
-                
+            
     </div>
-
-    
-  
+          
 </template>
 
 
@@ -166,13 +94,14 @@ import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 import LoadMore from "src/components/LoadMore";
-import CommentTree from "components/comments/comment-tree.vue";
 import CommentForm from "components/comments/comment-form.vue";
 
 import WAvatar from "components/WAvatar.vue";
 import WSubinfo from 'components/WSubinfo';
 import WCommandBar from "components/WCommandBar.vue";
 import WRatingButton from 'components/WRatingButton';
+
+import AnswerCommentList from "src/pages/assetqa/component/AnswerCommentList.vue";
 
 import {AnswerCommentListModel} from "src/models/CommentModel";
 import {QuestionPageModel, AnswerPageListModel} from "src/models/PageModel";
@@ -182,8 +111,10 @@ export default {
     components: {
         WAvatar,
         LoadMore,
+        WSubinfo,
         WCommandBar,
-        CommentTree,
+        WRatingButton,
+        AnswerCommentList,
         CommentForm
     },
     computed: {
@@ -271,15 +202,20 @@ export default {
 
 
 
-        onClickRating: function(value,question) {
-            logger.log.debug('onClickRating : json_question = ',question);
+        onClickRating: function(dicParam) {
+            //value,question
+            logger.log.debug('onClickRating : json_question = ',dicParam);
             //let dic_param = {'rtype':rtype, 'obj':json_review};
-            
+                                    
             const _this=this;
-            let dic_param = {method:'vote',value:value};
+            let question = dicParam.data;
+
+            let dic_param = {method:'vote',value:dicParam.value};
             question.vote(dic_param).then(response=>{
-                CommonFunc.showOkMessage(_this,'Answer post rated');
+                logger.log.debug('AnswerList.onClickRating : response = ',response);    
                 _this.$emit("onClickAnswerRating",question);
+                CommonFunc.showOkMessage(_this,'Answer post rated');
+                
             }).catch(err=>{
                 CommonFunc.showErrorMessage(_this,'Answer rated error');
             });
@@ -377,25 +313,9 @@ export default {
 
         },
 
-        onClickDeleteComment: function(answer,comment) {
-            logger.log.debug("AssetAnswerList.onClickDeleteComment=",answer,comment);
-            
-            const _this=this;
-
-            store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
-                logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
-                if (! value) return;
-
-                comment.remove().then(response=>{
-                    logger.log.debug("AssetAnswerList.onClickDeleteComment : response=",response);
-                    _this.v_answers_comments.remove(answer.comments,comment.id);                
-                    CommonFunc.showOkMessage(_this,"Answer comment Deleted");
-                }).catch(err=>{
-                    logger.log.debug("AssetAnswerList.onClickDeleteComment : err=",err);
-                    CommonFunc.showErrorMessage(_this,"Answer Deleted Error");
-                });
-            });
-
+        onClickDeleteComment: function(dicParam) {
+            logger.log.debug("AssetAnswerList.onClickDeleteComment=",dicParam);            
+            this.v_answers_comments.remove(dicParam.answer.comments,dicParam.comment.id);                
         }
 
     }

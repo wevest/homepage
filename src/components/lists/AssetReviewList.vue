@@ -147,7 +147,7 @@ export default {
     },
 
     computed: {},
-    
+
     data () {
         return {
             g_data: null,        
@@ -321,6 +321,7 @@ export default {
 }
 
 .ReviewText {
+    padding-top:10px;
     font-size:16px;
 }
 
