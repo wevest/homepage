@@ -70,15 +70,16 @@
                 </div>
              
 
-                <q-separator size="2px" />
+                <q-separator size="8px" />
 
 
                 <div>
                     
                     <div class="CommentBox">
-                        <span class="Comments">Comments :</span> 
                         <span class="CommentsCount"> {{a_answer.comments.length}}</span>
+                        <span class="Comments">개의 댓글</span> 
                     </div>
+
 
                     <div>
                         <CommentForm ref="commentEditor" type="comment"
@@ -433,7 +434,7 @@ export default {
     }
 .CommentsCount {
     font-size:20px;
-    color:green;
+    font-weight:600;
     }
 
 

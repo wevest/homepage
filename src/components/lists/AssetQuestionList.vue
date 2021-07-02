@@ -30,7 +30,10 @@
 
 						<span class="gBlogTitle">{{ v_shorten(a_question.title) }}</span>
 
-                        &nbsp;<q-icon name="done_all" v-if="a_question.closed" />
+                        <q-icon 
+                            class="acceptMark" 
+                            name="task_alt" 
+                            v-if="a_question.closed" />
 					</q-item-label>
 					<q-item-label lines="1">
 
@@ -67,42 +70,15 @@
                         </div>
                     </q-td>
 
-<<<<<<< HEAD
-                    <q-td key="detail" :props="props" dense class="caption_color gBlogUserDateBox">
-                        <div @click="onClickQuestion(props.row)">
-                            
-                            <div class="row">
-                                <q-badge 
-                                    style="margin-right:10px;"
-=======
                     <q-td key="detail" :props="props" dense style="padding:0px !important;" >
                         <div class="gBlogUserDateBox">
                             <div @click="onClickQuestion(props.row)">
                                 <q-badge
->>>>>>> dca0d0cbc704f89413ab9343ce2961e233967cc1
                                     class="RewardPoint" 
                                     color="purple-4"
                                     text-color="white">
                                     <span>{{props.row.reward}}</span>
                                 </q-badge>
-<<<<<<< HEAD
-                                
-                                <div class="gBlogTitle">
-                                    {{v_shorten(props.row.title)}}
-                                </div>
-                                <div style="padding-left:10px;">
-                                    <q-icon name="done_all" size="25px" color="positive" v-if="props.row.closed" />
-                                </div> 
-                            </div>                               
-                        </div>
-
-                        <div>                            
-                            <WSubinfo :username="props.row.owner.username" 
-                                :pub_date="props.row.pub_date" 
-                                :like_count="props.row.like_count" :dislike_count="props.row.dislike_count" />
-                        </div>  
-                                  
-=======
                                 <span class="gBlogTitle">&nbsp;{{v_shorten(props.row.title)}}</span>
 
                                 <div>
@@ -116,7 +92,6 @@
                                     :like_count="props.row.like_count" :dislike_count="props.row.dislike_count" />
                             </div>                        
                         </div>
->>>>>>> dca0d0cbc704f89413ab9343ce2961e233967cc1
                     </q-td>
                 </q-tr>
             </template>
@@ -294,6 +269,12 @@ export default {
     color:#888888;
 }
 
+.acceptMark {
+    color:#FE5E56;
+    font-size:20px;
+    font-weight:700;
+    padding:0px 3px 7px 10px;
+}
 
 
 
