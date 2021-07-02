@@ -32,6 +32,7 @@
                             v-if="v_is_owner(data) && (! data.is_removed)" />
                     </div>
                 </div>
+            </div>
 
                 <div class="boxMessage">
                     <p class="gCommentText">
@@ -108,7 +109,7 @@
                 </div>
                  <q-separator />
                 <div class="editor-container editor-box" ref="editorContainer"></div>            
-            </div>
+            
             
         </dt>
 
@@ -442,7 +443,7 @@ dd.reply-container {
 }
 
 .deleteBtn {
-   font-size:18px;
+   font-size:20px;
    color:#777777;
 }
 

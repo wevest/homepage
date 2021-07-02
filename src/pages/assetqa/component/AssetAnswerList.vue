@@ -49,12 +49,26 @@
                     </div>
 
                 </div>
-
-                <WRatingButton ref="ratingButton" 
-                    likeCaption="도움돼요" dislikeCaption="도움 안돼요" :data="a_answer"
-                    @onClickRating="onClickRating" />
+                    <div class="gAnswerRatingBox">              
+                        <q-btn 
+                            class="gAnswerRatingBtn" 
+                            icon="thumb_up_off_alt" 
+                            dense
+                            flat 
+                            @click="onClickRating(1,a_answer)" />&nbsp;                            
+                        <span class="gAnswerRatingCount">{{a_answer.like_count}}</span>&nbsp;
+                
+                        <q-btn 
+                            class="gAnswerRatingBtn"
+                            icon="thumb_down_off_alt"                            
+                            dense
+                            flat 
+                            @click="onClickRating(-1,a_answer)" />&nbsp; 
+                        <span class="gAnswerRatingCount">{{a_answer.dislike_count}}</span>  
+                </div>
 
                 <q-separator size="2px" />
+
 
                 <div>
                     
@@ -83,11 +97,15 @@
                                     <div> {{a_comment.owner.username}} </div>
                                     <WSubinfo username="" :pub_date="a_comment.pub_date" like_count="-1" dislike_count="-1" />
                                 </div>
-                            </div>
-                            
-                            <div class="gCommentText">
-                                <p> {{ a_comment.comment_text}} </p>
-                            </div>
+                                </div>
+                                <q-space />                                 
+                                <q-btn 
+                                    class="deleteBtn"
+                                    v-if="v_is_owner(a_comment)" 
+                                    flat 
+                                    icon="delete" 
+                                    @click="onClickDeleteComment(a_answer,a_comment)" />
+                        </div>
                             
                             <div class="row">
 
@@ -110,6 +128,21 @@
 
                             </div>
                         </div>
+                        
+                        <div class="row">
+                        <q-space />
+                        <div class="gCommentRatingBox">
+                            <q-icon 
+                                class="gCommentRatingBtn"
+                                name="thumb_up"
+                                @click="onClickVoteComment(1,a_comment)" />&nbsp;
+                                <span class="gCommentRatingCount"> {{ a_comment.like_count}} </span>&nbsp;
+                            <q-icon 
+                                class="gCommentRatingBtn"
+                                name="thumb_down"                                                                                                   
+                                @click="onClickVoteComment(-1,a_comment)" />&nbsp;
+                                <span class="gCommentRatingCount"> {{ a_comment.dislike_count}} </span>
+                        </div>                          
                     </div>
                 </div>                
             
@@ -122,6 +155,7 @@
         </div>
                 
     </div>
+
     
   
 </template>
@@ -147,12 +181,10 @@ export default {
     name:'assetAnswerList',
     components: {
         WAvatar,
-        WSubinfo,
         LoadMore,
         WCommandBar,
         CommentTree,
-        CommentForm,
-        WRatingButton
+        CommentForm
     },
     computed: {
         v_me() {
@@ -239,13 +271,12 @@ export default {
 
 
 
-        onClickRating: function(dicParam) {
-            logger.log.debug('onClickRating : dicParam = ',dicParam);
+        onClickRating: function(value,question) {
+            logger.log.debug('onClickRating : json_question = ',question);
             //let dic_param = {'rtype':rtype, 'obj':json_review};
             
             const _this=this;
-            const question = dicParam.data;
-            let dic_param = {method:'vote',value:dicParam.value};            
+            let dic_param = {method:'vote',value:value};
             question.vote(dic_param).then(response=>{
                 CommonFunc.showOkMessage(_this,'Answer post rated');
                 _this.$emit("onClickAnswerRating",question);
@@ -416,5 +447,10 @@ export default {
 .accepted {
     font-size:20px;
     color:green;
+}
+
+.deleteBtn {
+   color:#777777;
+   font-size:14px;
 }
 </style>

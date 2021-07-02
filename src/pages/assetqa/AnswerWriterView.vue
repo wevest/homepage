@@ -3,13 +3,13 @@
     <div class="q-pa-md q-gutter-sm">            
 
         <div>
-            <CTitle class="gBoxNoMargin" ttype='title' title="글쓰기" desc=""></CTitle>          
+            <CTitle class="gBoxNoMargin" ttype='title' title="글쓰기"></CTitle>          
         </div>
 
         <div class="col">
 
-            <div>
-                <q-icon name="help_outline" /> <span>{{v_post.title}}</span>
+            <div style="padding:6px 0px 15px 0px">
+                <q-icon class="QuestionIcon" name="help_outline" /> <span class="Question">{{v_post.title}}</span>
             </div>
 
             <div class="gBoxNoMargin" >
@@ -22,7 +22,7 @@
         </div>
 
         <div>
-            <q-btn class="full-width" label="Save" @click="onClickSave" />
+            <q-btn class="gSaveBtn full-width" label="Save" @click="onClickSave" />
         </div>
 
     </div>
@@ -143,5 +143,14 @@ export default {
 
 
 <style scoped>
+.QuestionIcon {
+    color:#00C73C;
+    font-size:35px;
+    padding:0px 8px 9px 0px;
+}
 
+.Question {
+    font-size:20px;
+    color:#000000;
+}
 </style>

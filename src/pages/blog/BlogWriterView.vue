@@ -2,8 +2,8 @@
     
     <div class="q-ma-md">
 
-        <div>
-            <CTitle class="gBoxNoMargin" ttype='title' title="글쓰기" desc=""></CTitle>          
+        <div class="">
+            <CTitle class="gBoxNoMargin" ttype='title' title="글쓰기"></CTitle>          
         </div>
 
         <div>
@@ -41,7 +41,7 @@
 
 
         <div style="padding:20px;">
-            <q-btn class="full-width" label="Save" @click="onClickSave" />
+            <q-btn class="gSaveBtn full-width" label="Save" @click="onClickSave" />
             <!--
             <q-btn label="Delete" @click="onClickDelete" v-if="! isNewPost" />
             -->
@@ -343,6 +343,5 @@ export default {
 
 
 <style scoped>
-
 
 </style>

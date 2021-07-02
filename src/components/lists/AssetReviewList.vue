@@ -108,7 +108,7 @@ import WAvatar from "components/WAvatar.vue";
 import WSubinfo from 'components/WSubinfo';
 import WCommandBar from "components/WCommandBar.vue";
 import LoadMore from "src/components/LoadMore";
-import AssetReviewForm from 'src/pages/asset/component/AssetReviewForm';
+import AssetReviewForm from 'src/pages/assetreview/component/AssetReviewForm';
 
 
 import { AssetReviewPageModel, AssetReviewPageListModel } from "src/models/PageModel";

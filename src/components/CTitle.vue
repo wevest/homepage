@@ -3,7 +3,7 @@
     <div>
 
         <div class="ctitle" v-if="ttype==='title'">
-            <h5 class="title">{{ title }} <span class="desc">{{ desc }} </span></h5> 
+            <h5 class="title row justify-center">{{ title }}</h5> 
         </div>
 
         <div class="row ctitle" v-if="ttype==='subtitle'">
@@ -83,7 +83,8 @@ export default {
     color:#343434;
     margin-block-start:0.5rem;
     margin-block-end:0.2rem;
-    border-bottom: 3px solid #333333; 
+    padding-bottom:5px;
+    border-bottom: 3px solid #777777; 
 
     /* 
         margin : 0.1rem 0 0.1rem 0;    

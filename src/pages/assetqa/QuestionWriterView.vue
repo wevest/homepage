@@ -2,7 +2,7 @@
 
     <div class="q-pa-md q-gutter-sm">            
         <div>
-            <CTitle class="gBoxNoMargin" ttype='title' title="글쓰기" desc=""></CTitle>          
+            <CTitle class="gBoxNoMargin" ttype='title' title="글쓰기"></CTitle>          
         </div>
 
         <div class="row">
@@ -36,7 +36,7 @@
         </div>
 
         <div>
-            <q-btn class="full-width" label="Save" @click="onClickSave" />
+            <q-btn class="gSaveBtn full-width" label="Save" @click="onClickSave" />
         </div>
 
     </div>

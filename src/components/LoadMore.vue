@@ -2,7 +2,7 @@
     
     <div>
         
-		<div class="loadMoreBox" v-if="v_next_url">
+		<div class="row justify-center loadMoreBox" v-if="v_next_url">
             <q-btn 
                 class="expandMore" 
                 icon-right="expand_more" 
@@ -69,9 +69,7 @@ export default {
 }
 
 .loadMoreBox {
-    width:114px;
-    padding:0px 0px;
-    margin:0px auto;
+    padding:5px 0px;
     color:#333333;
 
 }
