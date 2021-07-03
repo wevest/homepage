@@ -36,11 +36,10 @@
                     </q-item>
                 </q-list>
             </div>
-            <div v-else> 
-                <div class="NoMessageBox">
-                        <q-icon name="email" style="color: #666666; font-size: 100px;" />
-                        <div class="Message">No Messages!!!</div>
-                </div>
+
+            <div class="NoMessageBox" v-if="v_no_message">
+                <q-icon name="email" style="color: #666666; font-size: 100px;" />
+                <div class="Message">No Messages!!!</div>
             </div>
 
 <!--
@@ -101,10 +100,7 @@ export default {
 
         v_chat: new MessageModel(),
 
-        v_reply: {mode:'new',content:'', to_user:null, uuid:null},
-
-        v_buttons: false,
-        v_back: false,
+        v_no_message: false,
     }),
     mounted: function() {
         //console.log("HomeView.mounted - ");
@@ -114,18 +110,27 @@ export default {
         this.v_message.to_user = "11";
         this.v_message.content = "private message";
 
-
         //this.loadInboxMessages().then( threads => {
         //    _this.handleThreads(threads.results);
         //});
         this.refresh();
     },
 
-    methods: {        
+    methods: {     
+        showNoMessage(value) {
+            this.v_no_message = value;
+        },
+
         refresh: function() {
             const _this = this;
+            
             this.v_thread.load().then(response=> {
-                logger.log.debug("refresh : response=",response);    
+                logger.log.debug("MessageView.refresh : response=",response);    
+                if (response.count>0) {
+                    _this.showNoMessage(false);
+                } else {
+                    _this.showNoMessage(true);
+                }
             });
 
         },
