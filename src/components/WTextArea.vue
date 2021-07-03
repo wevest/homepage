@@ -3,7 +3,7 @@
     <div class="boxTextarea">
         <textarea class="self-center full-width" 
             ref="txtMemo"
-            tabindex="0" style="border:none;"
+            tabindex="0"
             :style="v_style"
             :disabled="v_disabled"
             :placeholder="v_hint"
@@ -56,15 +56,23 @@ export default{
             default:""
         },
         label: {
-            required:false, type:String, default:""},
+            required:false, 
+            type:String, 
+            default:""
+        },
         rows: {required:false, type:String},
+        customStyle: {
+            type:String,
+            default:"border:none;"
+        }
+
     },
     data() {    
         return {
             v_hint: this.hint,
             v_length: '0 of 300',
             
-            v_style:"",
+            v_style: this.customStyle,
 
             v_rows: this.rows,
             v_model: this.model,

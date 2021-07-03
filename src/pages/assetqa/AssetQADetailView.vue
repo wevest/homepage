@@ -285,19 +285,15 @@ export default {
             logger.log.debug('AssetQAView.onClickDelete');
 
             const _this=this;
-            store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
-                if (! value) return;
+            this.v_question.remove().then(response=>{
+                logger.log.debug('AssetQAView.onClickDelete : response=',response);
+                CommonFunc.showOkMessage(_this,'Question Deleted');
+                CommonFunc.navBack(_this);
 
-                _this.v_question.remove().then(response=>{
-                    logger.log.debug('AssetQAView.onClickDelete : response=',response);
-                    CommonFunc.showOkMessage(_this,'Question Deleted');
-                    CommonFunc.navBack(_this);
-
-                }).catch(err=>{
-                    CommonFunc.showErrorMessage(_this,err.data.msg);    
-                });
-
+            }).catch(err=>{
+                CommonFunc.showErrorMessage(_this,err.data.msg);    
             });
+
         },
 
         onClickAnswerUpdate: function(answer) {

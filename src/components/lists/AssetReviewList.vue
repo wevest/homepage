@@ -44,24 +44,9 @@
                         
                         <div class="row">
 
-                            <div>
-                                <span> 
-                                    <q-btn flat class="gCommentRatingBtn"                            
-                                        icon="thumb_up_off_alt"                            
-                                        @click="onClickRating('like',a_review)" />  
-                                    <span class="gCommentRatingCount">
-                                        {{a_review.like_count}}
-                                    </span>
-                                </span>                            
-                                <span> 
-                                    <q-btn flat class="gCommentRatingBtn"
-                                        icon="thumb_down_off_alt"                                                                 
-                                        @click="onClickRating('dislike',a_review)" /> 
-                                    <span class="gCommentRatingCount">
-                                        {{a_review.dislike_count}}
-                                    </span>
-                                </span>                                            
-                            </div>
+                            <WRatingSmallButton ref="ratingButton" 
+                                :data="a_review" :likeCount="a_review.like_count" :dislikeCount="a_review.dislike_count" 
+                                @onClickRating="onClickRating" />
 
                             <q-space />
                             <div>
@@ -108,6 +93,7 @@ import WAvatar from "components/WAvatar.vue";
 import WSubinfo from 'components/WSubinfo';
 import WCommandBar from "components/WCommandBar.vue";
 import LoadMore from "src/components/LoadMore";
+import WRatingSmallButton from 'components/WRatingSmallButton';
 import AssetReviewForm from 'src/pages/assetreview/component/AssetReviewForm';
 
 
@@ -120,6 +106,7 @@ export default {
         WSubinfo,
         WCommandBar,
         LoadMore,
+        WRatingSmallButton,
         AssetReviewForm
     },
 	props: {
@@ -231,14 +218,24 @@ export default {
 
 
 
-        onClickRating: function(rtype,review) {
-            logger.log.debug('onClickRating : rtype = ',review);
+        onClickRating: function(dicParam) {
+            logger.log.debug('onClickRating : dicParam = ',dicParam);
             
+            let review = dicParam.data;
             review.value = -1;
-            if (rtype=="like") {
+            if (dicParam.value=="like") {
                 review.value = 1;
             }
-            this.$emit("onClickRating",review);
+
+            const _this = this;
+            review.vote().then(response => {
+                logger.log.debug('onClickReviewRating - ',response);
+                CommonFunc.showOkMessage(_this,"Review voted");
+            }).catch( err => {
+
+            });
+
+            //this.$emit("onClickRating",review);
         },
 
         onClickAsset: function(asset) {
@@ -269,19 +266,15 @@ export default {
 
             const _this=this;
 
-            store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
-                if (! value) return;
-
-                review.remove().then(response=>{
-                    if (response.data.ret==0) {
-                        _this.removeReview(review);
-                        _this.removeEditor();
-                        _this.$emit("onClickDeleteReview",review);                        
-                        CommonFunc.showOkMessage(_this,'Review post deleted');
-                    }
-                }).catch(err=>{
-                    CommonFunc.showErrorMessage(_this,'Review delete error');
-                });
+            review.remove().then(response=>{
+                if (response.data.ret==0) {
+                    _this.removeReview(review);
+                    _this.removeEditor();
+                    _this.$emit("onClickDeleteReview",review);                        
+                    CommonFunc.showOkMessage(_this,'Review post deleted');
+                }
+            }).catch(err=>{
+                CommonFunc.showErrorMessage(_this,'Review delete error');
             });
         },
 

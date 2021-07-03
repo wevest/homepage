@@ -1,23 +1,17 @@
 <template>
     <div class="q-pa-md">
 
-        <div class="row">
-            <div class="col">
-                <CTitle title="$t('page.profile.title')" desc="$t('page.profile.desc')"></CTitle>
-            </div>
+        <div class="q-mt-md q-mb-sm">
+            <CTitle title="$t('page.profile.title')" desc="$t('page.profile.desc')"></CTitle>
         </div>
+
 
         <q-card style="text-align: center;"> 
             <q-card-actions align="right">
-                <q-btn color="primary" @click="onClickPortfolio2" label="Portfolio" />
-<!--
-                <q-btn color="primary" @click="onClickBack" v-show="v_back" label="Back" />
--->                
-                <q-btn color="primary" @click="onClickEdit" v-show="isOwner" label="Edit" />
             </q-card-actions>
                         
             <q-item-section>
-                <div>
+                <div style="padding-top:20px;">
                     <q-avatar size="20rem" square>
                         <img :src="v_user.avatar" v-if="v_user.avatar">        
                         <q-icon v-else name="person" color="black" size="120px"/>
@@ -41,9 +35,21 @@
 
             </q-item-section>
 
-            <q-card-section class="boxNumber1">
-                <div class="text-h6">{{ v_user.username }}</div>
-                <div class="row">
+            <q-card-section>
+                <div class="text-h5">{{ v_user.username }}</div>
+                <div class="row" style="padding-top:14px;">
+                    <div>Biography</div>
+                    <q-space />
+                    <div>
+                        <q-btn flat @click="onClickEdit" v-show="isOwner" label="Edit" />
+                    </div>
+                </div>
+                <div  style="padding-bottom:14px;">
+                    <q-input filled type="textarea" v-model="v_user.biography" :readonly="! v_edit" />
+                </div>
+
+<!--                
+                <div class="row" style="padding-top:14px;">
                     <div class="col-2"></div>
                     <div class="col-4">
                         <q-input 
@@ -63,51 +69,44 @@
                     </div>
                     <div class="col-2"></div>
                 </div>
+-->                
             </q-card-section>
-
-            <q-card-section>
-                <q-input filled type="textarea" v-model="v_user.biography" :readonly="! v_edit" />
-            </q-card-section>
-
+            
             <q-card-actions v-if="v_edit" align="center">
                 <q-btn color="primary" label="Save" @click="onClickSave" />
             </q-card-actions>
         </q-card>
 
-        <q-card style="text-align: center;">
-            <q-card-section class="boxNumber">
-                <div class="row boxNumber2">                    
-                    <div class="col-6 roiBox">
+        <q-card class="boxCard">
+            <q-card-section>
+                <div class="row boxNumber">                    
+                    <div class="col-6">
                         <div> 
-                            <span class="roiCount"> {{ v_roi }} % </span>
+                            <span class="txtBigNumber"> {{ v_roi }} % </span>
                         </div>
                         <div> 
-                            <span class="valueDesc"> $ {{ v_evaluated_value }} </span>
+                            <span class="txtDesc"> $ {{ v_evaluated_value }} </span>
                         </div>
                     </div>
-                    <div class="col-6 countBox">
-                        <div class="align-center"> 
-                            <span class="roiCount"> {{ v_user.portfolio.item_count }} </span>
+                    <div class="col-6">
+                        <div> 
+                            <span class="txtBigNumber"> {{ v_user.portfolio.item_count }} </span>
                         </div>
                         <div> 
-                            <span class="valueDesc">portfolio item count </span>
+                            <span class="txtDesc">portfolio item count </span>
                         </div>
                     </div>                
                 </div>
             </q-card-section>
         </q-card>
 
-            <!-- <q-card-actions class="boxNumber2" align="center"> -->
-                    <!-- <q-btn color="primary" label="Message" @click="onClickMessage" /> -->
-                    <!-- <q-btn color="primary" label="Endorsement" @click="onClickEndorsement" /> -->
-            <!-- </q-card-actions> -->        
 
-        <q-card style="text-align: center;"> 
-            <q-card-section class="boxNumber3">
+        <q-card class="boxCard">
+            <q-card-section>
                 <div class="row">
                     <div class="col-4" @click="onClickFollower(v_user)">
                         <div>
-                            <span class="count">{{v_user.follower_count}}</span>
+                            <span class="txtBigNumber">{{v_user.follower_count}}</span>
                         </div>
                         <div>
                             <span>Follower Count</span>
@@ -115,7 +114,7 @@
                     </div>
                     <div class="col-4">
                         <div>
-                            <span class="count">{{v_user.like_count}}</span>
+                            <span class="txtBigNumber">{{v_user.like_count}}</span>
                         </div>
                         <div>
                             <span>좋아요</span>
@@ -133,26 +132,33 @@
             </q-card-section>
         </q-card>
 
-            <q-card-actions class="boxNumber2" align="center">
-                <div v-if="! isOwner">
-                    <q-btn color="primary" label="Unfollow" @click="onClickFollow(-1)" v-if="v_user.is_following" />
-                    <q-btn v-else color="primary" label="Follow" @click="onClickFollow(1)" />
-                </div>
+        <div class="row q-col-gutter-md boxCard justify-center  q-mb-xl">
+            <div v-if="! isOwner">
+                <q-btn color="primary" label="Unfollow" @click="onClickFollow(-1)" v-if="v_user.is_following" />
+                <q-btn v-else color="primary" label="Follow" @click="onClickFollow(1)" />
+            </div>
+            <div>
                 <q-btn color="primary" label="Message" @click="onClickMessage" />
-            </q-card-actions>
-
-        <div class="row q-gutter-sm">
-            <div class="col">
-                <CTitle title="$t('page.profile.portfolio')" desc="$t('page.profile.portfolio')"></CTitle>
-                <q-btn v-if="isOwner" class="addBtn" label="Add" @click="onClickAddPortfolio" />
-                <PortfolioList ref='portfolioList' @onClickPortfolio="onClickPortfolio"></PortfolioList>
             </div>
         </div>
 
-        <div class="row q-gutter-sm">
-            <div class="col">
-                <CTitle title="$t('page.profile.gift')" desc="$t('page.profile.gift')"></CTitle>
+        <q-separator class="gSeparator" />
+
+        <div>
+            <div class="row q-mt-xl q-mb-sm">
+                <CTitle ttype="subtitle" title="$t('page.profile.portfolio')" desc="$t('page.profile.portfolio')"></CTitle>
+                <q-space />
+                <div>   
+                    <q-btn label="Portfolio" @click="onClickMorePortfolio" />&nbsp;
+                    <q-btn v-if="isOwner" label="Add" @click="onClickAddPortfolio" />
+                </div>
             </div>
+            <PortfolioList ref='portfolioList' @onClickPortfolio="onClickPortfolio"></PortfolioList>
+        </div>
+
+        <div class="q-mt-xl q-mb-sm">
+            <CTitle ttype="subtitle" title="$t('page.profile.follower')" desc=""
+                loadMoreCaption="More" @onClickTitleMore="onClickMoreFollower"></CTitle>            
         </div>
 
         <AddPortfolioDialog ref="addPortfolio" />
@@ -424,6 +430,7 @@ export default {
 
         onClickSave: function() {
             logger.log.debug("onClickSave");
+            this.v_edit = false;
             this.updateUserProfile(this.v_user);
         },
 
@@ -467,8 +474,8 @@ export default {
             this.$refs.addPortfolio.show(this.v_user,null);
         },
 
-        onClickPortfolio2: function(portfolio) {
-
+        onClickMorePortfolio: function() {
+            logger.log.debug("ProfileView.onClickMorePortfolio");
         },
 
         onClickPortfolio: function(portfolio) {
@@ -484,7 +491,9 @@ export default {
             logger.log.debug("onClickFollower",user);
         },
 
-
+        onClickMoreFollower: function() {
+            logger.log.debug("ProfileView.onClickFollower");
+        }
     },
 
 }
@@ -494,27 +503,20 @@ export default {
 
 <style scope> 
 
-.addBtn {
-    margin-bottom:7px;
-}
-
-.roiCount {
+.txtBigNumber {
   font-size:25px;  
   color:#222222;
   font-weight: bold;
 }
 
-.valueDesc {
+.txtDesc {
    font-size:14px;  
    color:#8C8C8C;
 }
 
-.roiBox {
-    padding-right:20px;
-}
-
-.countBox {
-    padding-left:20px;
+.boxCard {
+    text-align: center;
+    margin-top:20px;
 }
 
 .btnAvatar {
@@ -529,22 +531,4 @@ export default {
     margin-top:5px;
 }
 
-.boxNumber1 {
-    padding:2px 16px;
-}
-
-.boxNumber2 {
-    padding:16px 2px;
-}
-
-.boxNumber3 {
-     padding:16px 2px;
-     margin-top:5px;
-}
-
-.count {
-    color:#222222;
-    font-size:15px;
-    font-weight:bold;
-}
 </style>

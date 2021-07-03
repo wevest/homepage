@@ -22,7 +22,6 @@
                 <AssetReviewList ref="reviewList" 
                     :category="g_asset.symbol" :objectId="g_asset.object_id"
                     moreCaption="" maxLength="20000" title="Review List"
-                    @onClickRating="onClickReviewRating" 
                     @onClickLoadmore="onClickLoadmore"> 
                 </AssetReviewList>
 
@@ -81,9 +80,6 @@ export default {
         this.g_asset.object_id = parseInt(this.$route.query.id);
     },
     mounted: function() {
-        //this.g_asset.symbol = 'BTC';
-        //this.g_asset.object_id = 20;
-
         this.refresh(this.g_asset);
     },
     updated: function() {
@@ -91,9 +87,7 @@ export default {
         
         if (this.$route.query.symbol) {
             this.g_asset.symbol = this.$route.query.symbol;
-        }
-        
-        //CommonFunc.setAppData('onSearchEvent',this.onSearchEvent);
+        }        
     },
     
     methods: {
@@ -132,49 +126,8 @@ export default {
             });
         },
 
-        onClickReviewRating: function(review) {
-            logger.log.debug('AssetView.onClickReviewRating - ',review);
-            
-            const _this = this;
-            review.vote().then(response => {
-                logger.log.debug('onClickReviewRating - ',response);
-                CommonFunc.showOkMessage(_this,review.method);
-            }).catch( err => {
-
-            });
-        },
-
-        onClickQuestionRating: function(question) {
-            logger.log.debug('AssetView.onClickQuestionRating - ',question);
-            
-            const _this = this;
-            let dic_param = {id:question.id, value:question.value, method:'vote'};            
-            question.vote(dic_param).then( response => {
-                CommonFunc.showOkMessage(_this,"done");
-            }).catch( err => {
-                logger.log.debug('onClickQuestionRating - ',err);
-            });            
-        },
-
         onClickLoadmore: function() {
             logger.log.debug('AssetView.onClickLoadmore');
-        },
-
-        onTabChange: function(newValue,oldValue) {
-            logger.log.debug('AssetView.onTabChange',newValue);
-
-            if (newValue=="qa") {
-                this.loadAssetQuestionData();
-            }
-
-            if (newValue=="review") {
-                this.loadAssetReviewData();                
-            }
-
-            if (newValue=="blog") {
-                const category = CONST.ASSETPAGE_CATEGORY+this.g_asset.symbol;
-                this.$refs.blogList.update(null,category);
-            }
         },
 
 

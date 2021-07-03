@@ -1425,9 +1425,9 @@ export default class CommonFunc {
         return url;
     }
 
-    static copyUrl(a_this,link_url) {
+    static copyToClipboard(a_this,value) {
         const el = document.createElement('textarea');  
-        el.value = window.location.host+link_url;                                 
+        el.value = value;
         el.setAttribute('readonly', '');                
         el.style.position = 'absolute';                     
         el.style.left = '-9999px';                      
@@ -1444,7 +1444,12 @@ export default class CommonFunc {
             document.getSelection().addRange(selected);   
         }
 
-        CommonFunc.showOkMessage(a_this,'Link Copied');
+        CommonFunc.showOkMessage(a_this,'Copy to clipboard');
+    }
+
+    static copyUrl(a_this,link_url) {
+        const value = window.location.host+link_url;
+        CommonFunc.copyToClipboard(a_this,value);        
     }    
 
 }

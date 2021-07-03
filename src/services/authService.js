@@ -1,5 +1,6 @@
 //import api from '@/services/api'
 import {callAPI, callCMSAPI, callPostAPI, callJsonRPC} from 'src/util/Http';
+import {store} from 'src/store/store';
 import {MoaConfig} from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
@@ -139,7 +140,8 @@ export default class AuthService{
     }    
 
     static postPrivateMessage(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/dm/message/thread/"+MoaConfig.auth.id+"/send/");
+        let a_method = "/api/dm/message/thread/"+store.getters.me.id+"/send/";
+        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -174,7 +176,8 @@ export default class AuthService{
     }    
 
     static editThreadMessage(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/dm/message/thread/"+MoaConfig.auth.id+"/"+reqParam.thread+"/edit/");
+        let a_method = "/api/dm/message/thread/"+store.getters.me.id+"/"+reqParam.thread+"/edit/"
+        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
         callCMSAPI("PUT",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -184,8 +187,22 @@ export default class AuthService{
         });
     }    
 
+
+    static deleteThreadMessage(reqParam,func,funcErr) {
+        let a_method = "/api/dm/message/thread/"+store.getters.me.id+"/"+reqParam.thread+"/remove/"
+        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        callCMSAPI("DELETE",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }    
+
     static replyThreadMessage(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/dm/message/thread/"+reqParam.uuid+"/"+MoaConfig.auth.id+"/send/");
+        let a_method = "/api/dm/message/thread/"+reqParam.uuid+"/"+store.getters.me.id+"/send/";
+        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);

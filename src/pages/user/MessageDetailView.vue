@@ -1,53 +1,49 @@
 <template>
     
     <div>
-        <div>        
-            <q-bar>
-<!--                
-                <q-btn flat icon="arrow_back" @click="onClickBack" />
--->                
-                <div class="text-h6">{{ v_thread.username }}</div>
-            </q-bar>
-
-            <q-card>
-                <q-card-section>
-                    <q-chat-message v-for="(a_message,index) in v_thread.messages.items" :key="index"
-                        :name="a_message.username"
-                        :avatar="a_message.sender.avatar_thumb"
-                        :text="[a_message.content]"
-                        :stamp="v_updated_at(a_message.sent_at)"
-                        :sent="a_message.is_sender"
-                        @click="onClickChat(a_message)"
-                    />
-                </q-card-section>
-<!--                
-                <q-card-section horizontal class="boxMessageInput">
-                    <q-input filled type="textarea" v-model="v_reply.content" label="Message" class="full-width" />                    
-                    <q-btn dense flat icon="send" @click="onClickReply" />
-                </q-card-section>
--->
-            </q-card>
-
-            <div class="row no-wrap">
-                <q-input filled type="textarea" v-model="v_reply.content" label="Message" class="fit" />                
-                <q-btn dense flat icon="send" @click="onClickReply" />
+        <div class="q-ma-md">
+            <div class="boxTitle">
+                <div class="text-h6 text-center">{{ v_thread.username }}</div>
             </div>
+
+
+            <q-scroll-area :style="v_message_style" ref="messageList">
+                <q-chat-message 
+                    v-for="(a_message,index) in v_thread.messages.items" 
+                    v-if="! a_message.deleted"
+                    :key="index"
+                    :name="a_message.username"
+                    :avatar="a_message.sender.avatar_thumb"
+                    :text="[a_message.content]"
+                    :stamp="v_updated_at(a_message.sent_at)"
+                    :sent="a_message.is_sender"
+                    @click="onClickChat(a_message)"
+                />
+            </q-scroll-area>
+
+            <div class="boxInput">
+                <div class="row no-wrap">
+                    <q-input filled ref="txtMessage" type="textarea" v-model="v_reply.content" label="Message" class="fit" />                
+                    <q-btn dense flat icon="send" @click="onClickReply" />
+                </div>
+            </div>
+
         </div>    
 
 
-        <q-dialog v-model="v_buttons" transition-show="fade" transition-hide="fade">
-            <q-card>
-                 <q-card-section>
-                    <div v-if="v_is_mine">
-                        <q-btn label="Edit" @click="onClickEdit" />
-                        <q-btn label="Delete" @click="onClickDelete" />
-                    </div>              
-                    <div v-else>
-                        <q-btn label="Copy" @click="onClickEdit" />
-                    </div>          
-
+        <q-dialog v-model="v_buttons" 
+            position="bottom"
+            persistent
+            transition-show="slide-up"
+            transition-hide="slide-down"        
+        >
+            <q-card class="cardCommand">
+                 <q-card-actions align="stretch" vertical>
+                    <q-btn label="Edit" @click="onClickEdit" v-if="v_is_mine" />
+                    <q-btn label="Delete" @click="onClickDelete" v-if="v_is_mine" />
+                    <q-btn label="Copy" @click="onClickCopy" />
                     <q-btn label="Cancel" @click="onClickCancel" />
-                 </q-card-section>
+                 </q-card-actions>
             </q-card>
         </q-dialog>
 
@@ -89,41 +85,88 @@ export default {
             v_is_mine: false,
             v_buttons: false,
             v_show: false,
+
+            v_height:0,
+            v_width:0,
+            v_message_style: '',
         }
     },
 
-    created: function () {},
-    beforeMounted: function() {
-        logger.log.debug("MessageDetailView.beforeMounted - symbol=",this.$route.params);
-        this.v_portfolio = this.$route.params.portfolio;        
+    created: function () {
+        window.addEventListener('resize', this.handleResize);
     },
+    beforeMounted: function() {},
     mounted: function() {
-        logger.log.debug("MessageDetailView.Mounted - symbol=",this.$route.params);
-        
-        this.setThread(this.$route.params.thread);
+        logger.log.debug("MessageDetailView.Mounted - query=",this.$route.query);        
+                
+        this.setThread(this.$route.query);
+        this.setChatMessageHeight(window.innerHeight);
+        this.load(this.v_thread.uuid);
     },
     updated: function() {},
-    
-    methods: {      
-        setThread(thread) {
-            this.v_thread = thread;
-            this.v_thread.messages.load(this.v_thread.uuid).then( response=> {
-                logger.log.debug("MessageDetailView.Mounted - response=",response);
+    destroyed:function() {
+        // console.log("beforeDestroy...");
+        window.removeEventListener('resize', this.handleResize);
+    },    
+    methods: {
+        setChatMessageHeight(windowHeight) {
+            const toolbarHeight=50;
+            const titleHeight=40;
+            const inputHeight=100;
+
+            let a_height = windowHeight-toolbarHeight-titleHeight-inputHeight-90;
+            
+            logger.log.debug("handleResize:height=",windowHeight,a_height);
+            
+            this.v_message_style = "height:" +a_height.toString()+"px;";
+        },
+
+        setThread(query) {
+            this.v_thread.uuid = query.id;
+            this.v_thread.username = query.username;
+            this.v_thread.subject = query.subject;
+        },
+
+        setScrollPosition(value) {
+            logger.log.debug("MessageDetailView.setScrollPosition - value=",value);
+            //this.$refs.messageList.setScrollPercentage(percent);
+            this.$refs.messageList.setScrollPosition(value);
+        },
+
+        load(id) {
+            const _this=this;
+
+            this.v_thread.messages.load(id).then( response=> {
+                logger.log.debug("MessageDetailView.load - response=",response);
+                _this.setScrollPosition(100000);
             });
         },
 
-        setPageTitle(messages) {
-
+        clearReply() {
+            this.v_reply.content = '';
         },
 
+        handleResize(event) {
+            this.v_width = window.innerWidth;
+            
+            if (this.v_height!=window.innerHeight) {
+                this.v_height = window.innerHeight;                
+                this.setChatMessageHeight(this.v_height);
+            }
+        },
 
         handleReply: function() {
             const _this=this;
 
             this.v_thread.sendReply(this.v_reply.content).then( response => {
                 _this.v_thread.messages.addMessage(response);
-                _this.v_reply.content = '';
+                _this.clearReply();                                
                 CommonFunc.showOkMessage(_this,'Message updated');
+
+                setTimeout( () => {
+                    _this.setScrollPosition(100000);
+                },350);
+
             });
 
         },
@@ -133,12 +176,25 @@ export default {
 
             this.v_thread.editReply(this.v_reply.uuid,this.v_reply.thread_id,this.v_reply.content).then( response => {
                 logger.log.debug("handleEdit=",response);
-                _this.v_reply.content = '';
+                _this.clearReply();
                 CommonFunc.showOkMessage(_this,'Message updated');
             });
             
         },
 
+        handleDelete: function() {
+            const _this=this;
+
+            this.v_thread.deleteReply(this.v_selected.uuid,this.v_selected.thread_id).then( response => {
+                logger.log.debug("handleDelete=",response);
+                CommonFunc.showOkMessage(_this,'Message deleted');
+            });
+            this.setButtonVisible(false);
+        },
+
+        setButtonVisible:function(value) {
+            this.v_buttons = value;
+        },
 
         onClickSave: function() {                        
             if (! this.validate(this.v_post)) {
@@ -146,11 +202,6 @@ export default {
             }
 
             this.$refs.baseEditor.save(this.v_post);
-        },
-
-        onClickBack: function() {
-            logger.log.debug('onClickBack - ');
-            CommonFunc.navBack(this);
         },
 
 
@@ -174,16 +225,17 @@ export default {
             }
 
             this.v_selected = message;
-            this.v_buttons = true;
+            this.setButtonVisible(true);
         },
 
 
         onClickDelete: function(message) {
             logger.log.debug("onClickDelete=",message);
 
+            const _this = this;
             store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
                 logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
-            
+                _this.handleDelete();
             });
 
         },
@@ -198,19 +250,43 @@ export default {
             logger.log.debug("onClickEdit.v_reply=",this.v_reply);            
         },
 
-        onClickCancel: function() {
-            logger.log.debug("onClickCancel=");
-            this.v_buttons = false;
+        onClickCopy: function() {
+            logger.log.debug("onClickCopy=");
+
+            if (this.v_selected) {
+                CommonFunc.copyToClipboard(this,this.v_selected.content);
+            }
+            
+            this.setButtonVisible(false);
         },
 
-    }
+        onClickCancel: function() {
+            logger.log.debug("onClickCancel=");
+            this.setButtonVisible(false);
+        },
 
+
+    }
 };
 </script>
 
 
 <style scoped>
-.boxMessageInput {
-    padding:8px;
+
+.boxTitle {
+    height: 40px;
 }
+
+.boxInput {
+    height:100px;
+    margin:10px 0px 10px 0px;
+}
+
+
+.cardCommand {
+    width:200px;
+}
+
+
+
 </style>

@@ -1,16 +1,25 @@
 <template>
     
-    <q-dialog v-model="v_show">
+    <q-dialog v-model="v_show"
+        position="top"
+        persistent
+        transition-show="slide-down"
+        transition-hide="slide-up"
+
+    >
         <q-card class="MessageCard">
+            <q-card-section>
+                <WDialogCloseButton @onClick="onClickClose" />                
+            </q-card-section>
 
             <q-card-section class="MessageAvatarBox">
-                <q-avatar class="MesageAvatar" size="80px">
+                <q-avatar size="80px">
                     <q-img basic :src="v_message.avatar" />
                 </q-avatar>
             </q-card-section>
             
-            <q-card-section class="UsernameBox">            
-                <div class="text-h6 MessageUsername">{{v_message.to_username}}</div>
+            <q-card-section class="boxUser">            
+                <div class="text-h5 text-bold">{{v_message.to_username}}</div>
                 <div class="ProfileMessage">메시지를 전달하세요!</div>
             </q-card-section>
 
@@ -25,8 +34,7 @@
             </q-card-section>
 
             <q-card-actions align="center">
-                <q-btn class="MessageButton" label="Send" @click="onClickSend" />
-                <q-btn class="MessageButton" label="Close" @click="onClickClose" />                
+                <q-btn class="fit" label="Send" color="primary" @click="onClickSend" />
             </q-card-actions>
 
         </q-card>
@@ -40,14 +48,16 @@ import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 
-import AuthService from 'src/services/authService';
+import WDialogCloseButton from "src/components/WDialogCloseButton";
 
 import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/models/MessageModel";
 
 
 export default {
     name: 'MessageWriterDialog',
-    components: {},
+    components: {
+        WDialogCloseButton
+    },
     computed: {},
     data: function () {
         return {
@@ -108,25 +118,21 @@ export default {
 }
 .MessageAvatarBox {
     text-align:center;
-    padding:70px 0px 0px 0px;
+    padding:20px 0px 0px 0px;
 }
 
-.UserameBox {
-    padding-top:5px;
+.boxUser {
+    padding-top:25px;
+    text-align:center;
 }
 .MessageUsername {
-    text-align:center;
     font-size:25px;
     color:#000000;
-
 }
 
-.ProfileMessage {
-    text-align:center;
+.ProfileMessage { 
+    padding-top:10px;
     color:#8c8c8c;
 }
 
-.MessageButton {
-    width:100px;
-}
 </style>

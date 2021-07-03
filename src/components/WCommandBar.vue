@@ -1,20 +1,21 @@
 <template>
     
-    <div class="row boxCommandBar">        
+    <div class="row q-col-gutter-x-sm boxCommandBar">
         <q-icon         
-            v-if="shareBtn.length>0"   
-            class="boxCommandBtn"
+            v-if="shareBtn.length>0"               
+            :size="size"
             name="share" 
             @click="onClickShare" />
 
         <q-icon 
             v-if="(isOwner) && (updateBtn.length>0) "
-            class="boxCommandBtn"
+            :size="size"
             name="mode_edit_outline"
             @click="onClickUpdate" />
+
         <q-icon
             v-if="(isOwner) && (deleteBtn.length>0) "
-            class="boxCommandBtn"
+            :size="size"
             name="delete_outline" 
             @click="onClickDelete" />
 
@@ -50,6 +51,9 @@ export default {
         deleteBtn: {
             type:String,
             default: ''
+        },
+        size: {
+            default: '20px'
         }
     },
     methods: {
@@ -59,11 +63,20 @@ export default {
         
         onClickDelete() {
             logger.log.debug("WCommandBar.onClickDelete");
-            this.$emit("onClickDelete",this.data);
+
+            const _this=this;
+            store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
+                logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
+                if (! value) return;
+
+                _this.$emit("onClickDelete",_this.data);
+            });
+
         },
 
         onClickUpdate() {
             logger.log.debug("WCommandBar.onClickUpdate");
+
             this.$emit("onClickUpdate",this.data);
         },
 
@@ -79,11 +92,13 @@ export default {
 .boxCommandBar {    
     font-size:20px;
     color:grey;
+/*    
     padding:0px 10px;
+*/    
 }
 
 .boxCommandBtn {
-    padding-right:10px;
+    /* padding-right:10px; */
 }
 </style>
         

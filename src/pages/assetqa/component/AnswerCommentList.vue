@@ -12,13 +12,21 @@
                         <WSubinfo username="" :pub_date="a_comment.pub_date" like_count="-1" dislike_count="-1" />
                     </div>
                     <q-space />
-                    <div> 
+                    <div v-if="v_is_owner(a_comment)"> 
+
+
+                        <WCommandBar :data="{answer:data,comment:a_comment}" :isOwner="v_is_owner(a_comment)" 
+                            shareBtn="" updateBtn="" deleteBtn="delete" 
+                            @onClickDelete="onClickDeleteComment" 
+                        />
+<!--
                         <q-icon
                             class="deleteBtn" 
                             name="delete_outline" 
                             v-if="v_is_owner(a_comment)"
                             @click="onClickDeleteComment(data,a_comment)" 
                             />
+-->                            
                     </div>
 
                 </div>
@@ -31,18 +39,9 @@
 
                     <q-space />
 
-                    <div class="gCommentRatingBox">
-                        <q-icon 
-                            class="gCommentRatingBtn"
-                            name="thumb_up"
-                            @click="onClickVoteComment(1,a_comment)" />&nbsp;
-                            <span class="gCommentRatingCount"> {{ a_comment.like_count}} </span>&nbsp;
-                        <q-icon 
-                            class="gCommentRatingBtn"
-                            name="thumb_down"                                                                                                   
-                            @click="onClickVoteComment(-1,a_comment)" />&nbsp;
-                            <span class="gCommentRatingCount"> {{ a_comment.dislike_count}} </span>
-                    </div>                          
+                    <WRatingSmallButton ref="ratingButton" 
+                        :data="a_comment" :likeCount="a_comment.like_count" :dislikeCount="a_comment.dislike_count" 
+                        @onClickRating="onClickVoteComment" />
 
                 </div>
             </div>
@@ -63,6 +62,7 @@ import LoadMore from "src/components/LoadMore";
 import WAvatar from "components/WAvatar.vue";
 import WSubinfo from 'components/WSubinfo';
 import WCommandBar from "components/WCommandBar.vue";
+import WRatingSmallButton from 'components/WRatingSmallButton';
 
 import {AnswerCommentListModel} from "src/models/CommentModel";
 import {QuestionPageModel, AnswerPageListModel} from "src/models/PageModel";
@@ -74,7 +74,8 @@ export default {
         WAvatar,
         WSubinfo,
         LoadMore,
-        WCommandBar,        
+        WCommandBar,     
+        WRatingSmallButton,   
     },
 	props: {
         data: {
@@ -130,33 +131,35 @@ export default {
 
         },
 
-        onClickDeleteComment: function(answer,comment) {
-            logger.log.debug("AssetAnswerList.onClickDeleteComment=",answer,comment);
+        //onClickDeleteComment: function(answer,comment) {
+        onClickDeleteComment: function(data) {
+            logger.log.debug("AssetAnswerList.onClickDeleteComment=",data);
             
-            const _this=this;
-
-            store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
-                logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
-                if (! value) return;
-
-                comment.remove().then(response=>{
-                    logger.log.debug("AssetAnswerList.onClickDeleteComment : response=",response);
-                    //_this.v_answers_comments.remove(answer.comments,comment.id);                
-                    _this.$emit("onCommentDelete",{answer:answer,comment:comment});
-                    CommonFunc.showOkMessage(_this,"Answer comment Deleted");
-                }).catch(err=>{
-                    logger.log.debug("AssetAnswerList.onClickDeleteComment : err=",err);
-                    CommonFunc.showErrorMessage(_this,"Answer Deleted Error");
-                });
+            const _this=this;            
+            data.comment.remove().then(response=>{
+                logger.log.debug("AssetAnswerList.onClickDeleteComment : response=",response);
+                data.answer.comments.delete(data.comment.id);                
+                //_this.$emit("onCommentDelete",{answer:data.answer,comment:data.comment});
+                CommonFunc.showOkMessage(_this,"Answer comment Deleted");
+            }).catch(err=>{
+                logger.log.debug("AssetAnswerList.onClickDeleteComment : err=",err);
+                CommonFunc.showErrorMessage(_this,"Answer Deleted Error");
             });
         },
 
-        onClickVoteComment: function(value,comment) {
+        onClickVoteComment: function(dicParam) {
             const _this = this;
 
-            logger.log.debug("AssetAnswerList.onClickVoteComment=",comment);
+            logger.log.debug("AssetAnswerList.onClickVoteComment=",dicParam);
                         
-            let dic_param = {method:'vote',value:value};            
+            
+            let dic_param = {method:'vote',value:-1};
+
+            if (dicParam.value=="like") {
+                dic_param.value = 1;
+            }
+            
+            let comment = dicParam.data;
             comment.vote(dic_param).then(response=>{
                 logger.log.debug("AssetList.onClickVoteComment - response",response);
                 CommonFunc.showOkMessage(_this,"Comments Posted");

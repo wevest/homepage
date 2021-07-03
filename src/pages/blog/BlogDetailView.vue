@@ -1,6 +1,5 @@
 <template>
 
-
     <div class="q-ma-md">
         <div class="row titleBox">
             <div class="col">
@@ -27,7 +26,7 @@
                                 class="RatingBtn"
                                 name="sentiment_very_dissatisfied"
                                 size="23px" />&nbsp;
-                                <span class="RatingCount">{{v_post.dislike_count}}</span>&nbsp;
+                                <span class="RatingCount">{{v_post.dislike_count}}</span>&nbsp;&nbsp;
                         </span>
                         <span>
                             <q-icon 
@@ -315,17 +314,19 @@ export default {
         onClickBlogRate: function(dicParam) {
             const _this = this;            
             
+            logger.log.debug('BlogDetailView.onClickBlogRate : dicParam=',dicParam);
+
             let dic_param = {id:this.v_post.id, value:dicParam.value};            
-            this.v_post.vote(dic_param).then( response => {
-                
+            this.v_post.vote(dic_param).then( response => {            
+
                 let msg = "Liked" ;
-                if (value==-1) {
+                if (dicParam.value==-1) {
                     msg = "Disliked";
                 }
                 CommonFunc.showOkMessage(_this,msg);
 
             }).catch( err=> {
-
+                
             });
         },
 
@@ -344,17 +345,11 @@ export default {
             //let dic_param = { id:this.v_post.id, token:store.getters.token};
             logger.log.debug('BlogPage.onClickDelete');
             
-            store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
-                logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
-                if (! value) return;
-
-                _this.v_post.remove().then( response => {
-                    CommonFunc.showOkMessage(_this,'Blog deleted');       
-                    CommonFunc.navBack(_this);
-                }).catch(err=>{
-                    CommonFunc.showErrorMessage(_this,err.data.msg);
-                });
-
+            this.v_post.remove().then( response => {
+                CommonFunc.showOkMessage(_this,'Blog deleted');       
+                CommonFunc.navBack(_this);
+            }).catch(err=>{
+                CommonFunc.showErrorMessage(_this,err.data.msg);
             });
 
         },

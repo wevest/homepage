@@ -10,8 +10,9 @@
             <div>
                 <h6 class="subtitle">{{ title }} <span class="desc">{{ desc }} </span></h6> 
             </div>
-            <q-space />
-            <div>
+            
+            <q-space v-if="loadMoreCaption.length>0" />
+            <div>                
                 <q-btn :label="loadMoreCaption" @click="onClickMore" v-if="loadMoreCaption.length>0" />
             </div>
         </div>
@@ -66,10 +67,9 @@ export default {
 
 .ctitle {
     text-transform: uppercase;
+/*     
     margin-top: 1.5rem;    
-    margin-bottom: 1.0rem; 
-
-    /* 
+    margin-bottom: 1.0rem;     
     padding: 0.0rem;       
     border-bottom: 1px solid #ccc;
     -webkit-box-flex: 1;

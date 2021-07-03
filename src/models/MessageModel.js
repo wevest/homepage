@@ -16,7 +16,7 @@ export class MessageModel{
     content='';
     username=null;
     is_sender=null;
-
+    deleted=false;
     to_avatar=null;
     to_username=null;
 
@@ -28,6 +28,7 @@ export class MessageModel{
         this.thread_id=obj.thread;
         this.username=obj.sender.username;
         this.subject=obj.subject;
+        this.deleted=obj.deleted;
 
         if (store.getters.me.id==obj.sender.id) {
             this.username = "me";
@@ -172,6 +173,36 @@ export class MessageThreadModel{
         });            
     }
 
+
+    deleteReply(uuid,thread_id) {
+        const _this = this;
+        
+        let dic_param = {
+            token: store.getters.token, 
+            uuid:uuid, thread:thread_id, sender_id:store.getters.me.id, 
+        };
+        logger.log.debug("MessageThreadModel.deleteReply - dic_param=",dic_param);
+
+        return new Promise(function(resolve,reject) {
+            AuthService.deleteThreadMessage(dic_param,function(response) {
+                logger.log.debug("MessageThreadModel.deleteReply - response",response);
+
+                //return _.find(this.items,{id:id} );
+                let index = _.findIndex(_this.messages.items,{uuid:response.data.uuid});
+                //logger.log.debug("MessageThreadModel.editReply - index=",index);
+                if (index>-1) {                    
+                    let a_message = _this.messages.items[index];
+                    a_message.deleted = true;
+                    _this.messages.items[index] = a_message;
+                }
+
+                resolve(response);
+            },function(err) {
+                logger.log.error("MessageThreadModel.deleteReply - error",err);
+                reject(err);
+            });
+        });            
+    }
 
     send() {
         const _this = this;

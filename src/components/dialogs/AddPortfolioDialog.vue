@@ -3,17 +3,22 @@
     <div>
         <q-dialog v-model="v_show" 
             class="full-width window-height"
-            position="bottom"
+            position="top"
             persistent
-            transition-show="slide-up"
-            transition-hide="slide-down"
+            transition-show="slide-down"
+            transition-hide="slide-up"
         >
             <q-card>
                 <q-card-section>
-                    <div class="text-h6">Add Portfolio Item</div>
-<!--                    
-                    <div class="text-subtitle2">by John Doe</div>
--->                    
+                    <div class="row">
+                        <WDialogCloseButton @onClick="onClickClose" />&nbsp;
+                        <span class="text-h6">Add Portfolio Item</span>
+                    </div>
+
+                    <div class="text-subtitle2">
+                        Please select your item
+                    </div>
+
                 </q-card-section>       
                 <q-separator />         
                 <q-card-section>
@@ -42,15 +47,15 @@
                             </q-select>
                             <br />
 
-                            <WTextArea v-model="v_portfolio_item.description" label="Description" rows="3" ref="descText" />
+                            <WTextArea v-model="v_portfolio_item.description" ref="descText"
+                                label="Description" rows="3" hint="Please type description" customStyle="border:none;background:#f2f2f2;" />
                        
                         </div>
                     </div>
                 </q-card-section>       
                 
-                <q-card-actions>
-                    <q-btn label="Save" @click="onClickSave" />
-                    <q-btn label="Close" @click="onClickClose" />
+                <q-card-actions >
+                    <q-btn class="fit" label="Save"  color="primary" @click="onClickSave" />
                 </q-card-actions>        
 
             </q-card>
@@ -70,6 +75,7 @@ import logger from 'src/error/Logger';
 import CMSAPI from 'src/services/cmsService';
 
 import WTextArea from "src/components/WTextArea";
+import WDialogCloseButton from "src/components/WDialogCloseButton";
 import CryptoSelect from "src/components/CryptoSelect";
 
 import UserModel from "src/models/UserModel";
@@ -81,7 +87,8 @@ export default {
     name: 'AddPortfolioDialog',
     components: {
         WTextArea,
-        CryptoSelect
+        CryptoSelect,
+        WDialogCloseButton
     },
     computed: {
         v_me() {

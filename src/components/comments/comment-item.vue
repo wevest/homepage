@@ -24,12 +24,11 @@
 
                     <q-space />
 
-                    <div> 
-                        <q-icon
-                            class="deleteBtn" 
-                            name="delete_outline" 
-                            @click="onClickDelete(data)" 
-                            v-if="v_is_owner(data) && (! data.is_removed)" />
+                    <div v-if="v_is_owner(data) && (! data.is_removed)">                         
+                        <WCommandBar :data="data" :isOwner="v_is_owner(data)" 
+                            shareBtn="" updateBtn="" deleteBtn="delete" 
+                            @onClickDelete="onClickDelete" 
+                        />
                     </div>
                 </div>
             </div>
@@ -81,29 +80,9 @@
 
                         <q-space />
                         
-                        <div class="RatingBtnBox">
-                            <!--
-                            <q-icon name="edit" @click="onClickEdit(data)" v-if="v_is_owner(data)" />
-                            -->
-                            <span>                              
-                                <q-icon 
-                                    class="gCommentRatingBtn"                                                                    
-                                    name="thumb_up_off_alt"
-                                    @click="onClickLike('like',data)" />
-                                    <span class="gCommentRatingCount">{{ data.like_count }}</span>
-                            </span>&nbsp;
-                              
-                            
-                            <span>
-                                <q-icon 
-                                    class="gCommentRatingBtn"                                                             
-                                    name="thumb_down_off_alt"
-                                    @click="onClickLike('dislike',data)"> 
-                                </q-icon>
-                                <span class="gCommentRatingCount">{{ data.dislike_count }}</span>
-                            </span>
-                        </div>
-
+                        <WRatingSmallButton ref="ratingButton" 
+                            :data="data" :likeCount="data.like_count" :dislikeCount="data.dislike_count" 
+                            @onClickRating="onClickLike" />
 
                     </div>
                 </div>
@@ -135,13 +114,16 @@ import CommonFunc from 'src/util/CommonFunc';
 
 import WAvatar from "src/components/WAvatar";
 import WSubinfo from 'components/WSubinfo';
-
+import WCommandBar from "components/WCommandBar.vue";
+import WRatingSmallButton from 'components/WRatingSmallButton';
 
 export default {
     name: "CommentItem",
     components: {
         WAvatar,
         WSubinfo,
+        WCommandBar,
+        WRatingSmallButton,
         CommentList: () => import("components/comments/comment-list"),    
     },
     inject: {
@@ -276,21 +258,10 @@ export default {
           return count;
         },
 
-        onClickLike(rate,item) {
-            
-            if (this.v_me.isLoggedIn()) {
-                logger.log.debug("CommentItem.onClickLike",item);
-                let dic_payload = {rate:rate, data:item};
-                this.$messageTree.$emit("onClickRate", dic_payload);
-                return;
-            }
-
-            const _this=this;
-            store.getters.components.getComponent('confirmDialog').show('Please login first',function(value) {
-                logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
-                if (! value) return;
-                CommonFunc.navSignin(_this);                
-            });            
+        onClickLike(dicParam) {            
+            logger.log.debug("CommentItem.onClickLike:dicParam=",dicParam);
+            let dic_payload = {rate:dicParam.value, data:dicParam.data};
+            this.$messageTree.$emit("onClickRate", dic_payload);
         },
 
         onClickAvatar: function(username) {
