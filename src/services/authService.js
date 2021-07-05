@@ -311,5 +311,23 @@ export default class AuthService{
             funcErr(err);
         });
     }
+
+
+    static getRelations(dic_param, func, funcErr) {
+        logger.log.debug("AuthService.getRelations");
+
+        let a_method = "/api/user/users/" + dic_param.id + "/relation/";
+        const url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+
+        //logger.log.debug("AuthService.followUser : URL=",url);
+
+        callCMSAPI("POST", url, {}, dic_param)
+        .then(response => {
+            func(response);
+        })
+        .catch(err => {
+            funcErr(err);
+        });
+    }
     
 }

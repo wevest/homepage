@@ -258,6 +258,7 @@ export default {
                 _this.v_user.loadPortfolio().then( response => {
                     logger.log.debug("setUser=>",response);
                     _this.updatePortfolioWidget();
+                    _this.loadRelation();
                 });
             });
         },
@@ -276,7 +277,7 @@ export default {
             const _this = this;
                     
             let funcs = [
-                //this.loadUserProfile(this.v_user.username),
+                //this.loadRelation(),
                 //this.loadBlogList(this.v_user.id)
                 //store.state.assets.load(),
             ];
@@ -416,6 +417,16 @@ export default {
             return files;
         },
 
+        loadRelation() {
+
+            this.v_user.getRelation().then( response => {
+                logger.log.debug("ProfileView.loadRelation - response=",response);
+            }).catch(err=>{
+
+            });
+
+        },
+
 
 
         onClickEdit: function() {
@@ -450,15 +461,7 @@ export default {
 
         onClickFollow: function(value) {
             logger.log.debug("onClickFollow");
-            
-            /*
-            this.v_user.getRelation().then( response => {
-                logger.log.debug("onClickFollow - response=",response);
-            }).catch(err=>{
-
-            });
-            */
-            
+                        
             const _this=this;
             this.v_user.follow(this.v_user.id,value).then( response => {
                 logger.log.debug("onClickFollow - response=",response);

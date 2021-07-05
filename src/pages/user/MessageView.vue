@@ -2,7 +2,7 @@
     <div class="q-pa-md">
 
         <div>
-            <CTitle :title="$t('채팅')" :desc="$t('page.message.desc')"></CTitle>
+            <CTitle :title="$t('Inbox')" :desc="$t('page.message.desc')"></CTitle>
         </div>            
 
 
@@ -106,13 +106,6 @@ export default {
         //console.log("HomeView.mounted - ");
         console.log("MessageView.mounted - params=",this.$route.params, this.v_message);
         
-        this.v_message.subject = "test";
-        this.v_message.to_user = "11";
-        this.v_message.content = "private message";
-
-        //this.loadInboxMessages().then( threads => {
-        //    _this.handleThreads(threads.results);
-        //});
         this.refresh();
     },
 

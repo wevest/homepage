@@ -368,7 +368,7 @@ export default {
     }
 .CommentsCount {
     font-size:20px;
-    color:green;
+    font-weight:600;
     }
 
 

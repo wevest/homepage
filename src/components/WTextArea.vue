@@ -1,6 +1,6 @@
 <template>
 
-    <div class="boxTextarea">
+    <div class="TextareaBox">
         <textarea class="self-center full-width" 
             ref="txtMemo"
             tabindex="0"
@@ -142,7 +142,7 @@ export default{
 
 <style scoped>
 
-.boxTextarea {
+.TextareaBox {
 /*    border: 1px solid #d6d6d8;  */
     margin-top:5px;
 }

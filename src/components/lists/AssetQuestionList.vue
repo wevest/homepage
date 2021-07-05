@@ -216,6 +216,12 @@ export default {
     color:#888888;
 }
 
+.acceptMark {
+    color:#FE5E56;
+    font-size:20px;
+    font-weight:700;
+    padding:0px 3px 7px 10px;
+}
 
 
 
