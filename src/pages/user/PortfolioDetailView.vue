@@ -1,111 +1,96 @@
 <template>
-    <div>
-        <div class="row">
-            <q-space />
-            
-            <div class="row deleteBtn">
-                <div>
-<!--                
-                    <q-btn label="back" @click="onClickBack" />
--->                
-                    <q-btn icon="delete" flat color="grey-8" @click="onClickDeletePortfolio" />
-                </div>
-            </div>
-        </div>
-        
+    <div>               
         <div class="row">
             <div class="col">
-                <div class="groupNameBox">
-                    <span class="groupName"> {{v_portfolio.name}}  </span> 
-<!--
-                    &nbsp;|&nbsp;
-                    <span class="name1"> {{v_shorten(v_portfolio.description)}}  </span>
--->                    
-                </div>
+                <div>
+                    <div class="row">
+                        <div class="groupNameBox">
+                            <span class="groupName"> {{v_portfolio.name}}  </span>             
+                        </div>
+                        
+                            <q-space />
+                        
+                        <div class="groupDeleteBtn">
+                            <q-btn icon="delete_outline" flat @click="onClickDeletePortfolio" />
+                        </div>
+                    </div>
+                     <div class="ratingViewBox">
+                            <q-icon class="ratingBtn"                           
+                                name="thumb_up_off_alt" flat />                                                              
+                                <span class="count">{{ v_portfolio.like_count }}</span>&nbsp;&nbsp;
+                            
+                            <q-icon class="ratingBtn"                               
+                                name="thumb_down_off_alt" flat />   
+                                <span class="count">{{ v_portfolio.dislike_count }}</span>&nbsp;&nbsp;
+                            
+                            <q-icon class="ratingBtn"              
+                                name="chat_bubble_outline" flat />   
+                                <span class="count">{{ v_portfolio.read_count }}</span>
+                    </div> 
+                </div>               
 
-                <q-separator size="2px" />
+                <q-separator size="1px" />
 
                 <div class="row box1">                    
                     <div class="col">
-                        <div class="bigValue">{{ v_format(v_portfolio.roi) }}% </div>
+                        <div class="groupValue">{{ v_format(v_portfolio.roi) }}% </div>
                         <div class="name1">ROI</div>                         
                     </div>  
 
                     <q-separator vertical />
                     
                     <div class="col">   
-                        <div class="bigValue">{{ v_format(v_portfolio.evaluated_value) }}</div>
+                        <div class="groupValue">{{ v_format(v_portfolio.evaluated_value) }}</div>
                         <div class="name1">Evaluated Value</div>                         
                     </div>
                 </div>
-
-                <div>
-                    <div class="q-pa-md text-center">
-                        <q-icon class="portfolioRatingBtn"                           
-                            name="thumb_up_off_alt" flat size="25px" color="grey-8" />&nbsp;                                                              
-                            <span class="portfolioRatingCount">{{ v_portfolio.like_count }}</span>&nbsp;&nbsp;
-                        
-                        <q-icon class="portfolioRatingBtn"                               
-                            name="thumb_down_off_alt" flat size="25px" color="grey-8" />&nbsp;   
-                            <span class="portfolioRatingCount">{{ v_portfolio.dislike_count }}</span>&nbsp;&nbsp;
-                        
-                        <q-icon class="portfolioRatingBtn"              
-                            name="check" flat size="25px" color="grey-8" />&nbsp;   
-                            <span class="portfolioRatingCount">{{ v_portfolio.read_count }}</span>
-                    </div>                    
-                </div>
-
             </div>
         </div>
-        <q-separator size="2px" />
+        <q-separator size="1px" />
 
         <div class="row">
             <div class="col">
                 <div>
-                    <h4 class="chartTitleBox"> ROI Chart </h4>
+                    <h6 class="chartTitleBox"> ROI Chart </h6>
                 </div>
-                <q-separator size="2px" />
+                <q-separator size="1px" />
                 <PortfolioChart ref="portfolioChart" />
-                <div class="q-gutter-sm text-center">
-                    <q-btn icon=thumb_up_off_alt flat size="15px" color="grey-8" @click="onClickVote(1)" />
-                    <q-btn icon=thumb_down_off_alt flat size="15px" color="grey-8" @click="onClickVote(-1)" />
+                <div class="q-gutter-sm text-center thumb">
+                    <q-btn icon=thumb_up_off_alt flat size="15px" @click="onClickVote(1)" />
+                    <q-btn icon=thumb_down_off_alt flat size="15px" @click="onClickVote(-1)" />
                 </div>
             </div>
         </div>
 
         <div class="row cardBox">
             <div class="col">
-                <q-card class="coinBox" flat bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index">
-                    <q-card-section>
-
+                <q-card class="q-my-sm" flat bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index">
+                    <q-card-section class="cardSection">
                         <div class="row">
-
-                            <div class="box2-1">  
+                            <div class="box2">  
                                 <q-icon class="coinIcon" name="account_tree" color="black" size="34px" />                                    
                             </div>    
-                            <div class="box2-2" @click="onClickSymbol(a_portfolio.api_asset.symbol)">
-                                <div>
+                            <div @click="onClickSymbol(a_portfolio.api_asset.symbol)">
+                                <div class="symbolBox">
                                     <span class="symbolName"> {{a_portfolio.api_asset.symbol}}</span>
-                                    <span> ({{a_portfolio.api_asset.name}}) </span>
+                                    <span class="coinName"> ({{a_portfolio.api_asset.name}}) </span>
                                 </div>
                                 <div>
-                                    <span class="value">{{v_updated_at(a_portfolio.updated_at)}}</span>
+                                    <span class="inceptionDate">{{v_updated_at(a_portfolio.updated_at)}}</span>
                                 </div>
                             </div>        
                             <q-space />
-                            <div class="text-grey-8 q-gutter-xs">
-                                <q-btn size="15px" flat dense round icon="delete" @click="onClickDelete(a_portfolio)"/>&nbsp;
-                                <q-btn size="15px" flat dense round icon="add" 
-                                    v-if="! v_is_owner"
-                                    label="포트폴리오복사" 
-                                    @click="onClickAddToMyPortfolio(a_portfolio)" />&nbsp;
-                                <q-btn size="15px" flat dense round icon="more_vert" />
+                            <div class="q-gutter-xs btns">
+                                <q-btn flat dense size="11px" icon="content_copy" v-if="! v_is_owner" 
+                                    @click="onClickAddToMyPortfolio(a_portfolio)" />
+                                <q-btn flat dense size="11px" icon="mode_edit_outline" />
+                                <q-btn flat dense size="11px" icon="delete_outline" @click="onClickDelete(a_portfolio)"/>                                
                             </div>                            
                         </div>  
                     </q-card-section>
 
-                    <q-card-section>                        
-                        <div class="row box3">
+                    <q-card-section class="cardSection2">                        
+                        <div class="row">
                             <div class="col box2-3 align-items">
                                 <span class="name2">ROI</span>
                                 <br>
@@ -137,7 +122,7 @@
                         </div>
                     </q-card-section>
 
-                    <q-card-section>
+                    <q-card-section class="cardSection2">
 
                         <div class="desc"> 
                             {{a_portfolio.description}} 
@@ -150,8 +135,11 @@
             </div>
         </div>
 
+        <q-separator class="separator" />
+
+
         <div class="row">
-            <div class="col">
+            <div class="col q-mx-sm">
                 <CommentForm ref="commentForm" type="comment"
                     :contentType="v_content_type" :post="v_portfolio"
                     @onClickCommentSave="onClickCommentSave" />
@@ -484,8 +472,9 @@ export default {
 
 
 <style scoped>
-.deleteBtn {
-    padding:20px 0px 15px 10px; 
+.groupDeleteBtn {
+    color:#999999;
+    padding:23px 0px 0px 0px; 
 
 }
 
@@ -494,7 +483,9 @@ export default {
 }
 
 .groupName {
-    font-size:15px;
+    font-size:30px;
+    font-weight:bold;
+    color:#222222;
 
 }
 
@@ -507,30 +498,28 @@ export default {
 }
 
 .name2 {
-    font-size:15px;
+    font-size:14px;
     color:#8C8C8C;
     text-align:center;
 
 }
 
-.bigValue {
+.groupValue {
    font-size:35px ;
    color: darkgreen;
 }
 
-.value {
-    font-size:14px;
-    color:#202124;
-    text-align:center;
-}
+
 .box1 {
     padding:20px 0px 20px 10px;
     text-align:center;
 }
 
 .box2 {
-    padding:0px 0px 5px 0px;
+    padding-right:15px; 
 }
+
+
 
 .box3 {
     padding:0px 0px 15px 0px;
@@ -541,37 +530,82 @@ export default {
 }
 
 .chartTitleBox {
-    color:#555555;
+    color:#222222;
     margin:15px 20px 15px 20px;
 
 }
 
 .coinIcon {
     height:50px;
+    margin-top:-3px;
+}
+
+.symbolBox {
+    margin-bottom:-7px;
 }
 
 .symbolName {
-    font-size:14px;
-    color:#555555;
+    font-size:20px;
+    color:#222222;
     font-weight:bold;
+}
+
+.coinName {
+    font-size:12px;
+    color:#999999;
+}
+
+
+.inceptionDate {
+    font-size:11px;
+    color:#999999;
 }
 
 .roiValue {
     font-size:25px;
-    color:darkgreen;
-}
-
-.desc {
-    font-size:15px;
     color:#222222;
 }
 
-.portfolioRatingBtn {
-    font-size:30px;
-    color:#555555;
+.desc {
+    font-size:13px;
+    color:#999999;
 }
-.portfolioRatingCount {
-    font-size:15px;
-    color:#555555;
+
+.ratingViewBox {
+    padding:0px 0px 10px 12px;
+    margin-top:-10px;
+}
+
+
+.ratingBtn {
+    font-size:13px;
+    color:#999999;
+    padding-right:2px;
+}
+.count {
+    font-size:13px;
+    color:#999999;
+}
+
+.cardSection {
+    padding:10px 10px 5px 10px;
+}
+
+.cardSection2 {
+    padding:5px 10px 5px 59px;
+}
+
+.btns {
+    color:#999999;
+}
+
+.thumb {
+    color:#999999;
+}
+
+.separator {
+  margin:0px 0px 15px 0px;
+  height:10px;
+  background: #f0f1f6;
 }
 </style>
