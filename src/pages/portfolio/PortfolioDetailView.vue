@@ -10,7 +10,7 @@
                     <q-space />
                     
                     <div>
-
+                        
                         <WCommandBar 
                             :data="v_portfolio" :isOwner="v_is_owner" 
                             shareBtn="share" updateBtn="" deleteBtn="delete" 
@@ -30,17 +30,17 @@
                 </div> 
             </div>                           
 
-            <div class="row box1">                    
+            <div class="row text-center">                    
                 <div class="col">
                     <div class="text-h4 text-weight-bolder" :style="v_color(v_portfolio.roi)">{{ v_format(v_portfolio.roi) }}% </div>
-                    <div class="name1">ROI</div>                         
+                    <div class="text-caption text-grey-6">ROI</div>                         
                 </div>  
 
                 <q-separator vertical />
                 
                 <div class="col">   
                     <div class="text-h4 text-weight-bold">$ {{ v_format(v_portfolio.evaluated_value) }}</div>
-                    <div class="name1">Evaluated Value</div>                         
+                    <div class="text-caption text-grey-6">Evaluated Value</div>                         
                 </div>
             </div>
         </div>
@@ -464,7 +464,6 @@ export default {
 .symbolBox {
     margin-bottom:-7px;
 }
-
 
 .coinName {
     font-size:12px;
