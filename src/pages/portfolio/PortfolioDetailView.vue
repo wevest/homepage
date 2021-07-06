@@ -1,110 +1,106 @@
 <template>
-    <div class="q-pa-md">
-        <div class="row">
-            <q-space />
-            
-            <div class="row deleteBtn">
-                <div>
-<!--                
-                    <q-btn label="back" @click="onClickBack" />
--->                
-                    <q-btn icon="delete" flat color="grey-8" @click="onClickDeletePortfolio" />
-                </div>
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="col">
-                <div class="groupNameBox">
-                    <span class="groupName"> {{v_portfolio.name}}  </span> 
-<!--
-                    &nbsp;|&nbsp;
-                    <span class="name1"> {{v_shorten(v_portfolio.description)}}  </span>
--->                    
-                </div>
-
-                <q-separator size="2px" />
-
-                <div class="row box1">                    
-                    <div class="col">
-                        <div class="bigValue">{{ v_format(v_portfolio.roi) }}% </div>
-                        <div class="name1">ROI</div>                         
-                    </div>  
-
-                    <q-separator vertical />
+    <div class="q-ma-md">                       
+        <div class="col">
+            <div>
+                <div class="row">
+                    <div class="groupNameBox">
+                        <span class="groupName"> {{v_portfolio.name}}  </span>             
+                    </div>
                     
-                    <div class="col">   
-                        <div class="bigValue">{{ v_format(v_portfolio.evaluated_value) }}</div>
-                        <div class="name1">Evaluated Value</div>                         
+                        <q-space />
+                    
+                    <div class="groupDeleteBtn">
+                        
+                        <WCommandBar 
+                            :data="v_portfolio" :isOwner="v_is_owner" 
+                            shareBtn="share" updateBtn="" deleteBtn="delete" 
+                            @onClickShare="onClickShare" 
+                            @onClickDelete="onClickDeletePortfolio" 
+                        />
+
                     </div>
                 </div>
+                    <div class="ratingViewBox">
 
-                <div>
-                    <div class="q-pa-md text-center">
-                        <q-icon class="portfolioRatingBtn"                           
-                            name="thumb_up_off_alt" flat size="25px" color="grey-8" />&nbsp;                                                              
-                            <span class="portfolioRatingCount">{{ v_portfolio.like_count }}</span>&nbsp;&nbsp;
-                        
-                        <q-icon class="portfolioRatingBtn"                               
-                            name="thumb_down_off_alt" flat size="25px" color="grey-8" />&nbsp;   
-                            <span class="portfolioRatingCount">{{ v_portfolio.dislike_count }}</span>&nbsp;&nbsp;
-                        
-                        <q-icon class="portfolioRatingBtn"              
-                            name="check" flat size="25px" color="grey-8" />&nbsp;   
-                            <span class="portfolioRatingCount">{{ v_portfolio.read_count }}</span>
-                    </div>                    
+                    <WSubinfo 
+                        :username="v_user.username" 
+                        :pub_date="v_portfolio.created_at" 
+                        :like_count="v_portfolio.like_count" 
+                        :dislike_count="v_portfolio.dislike_count" 
+                        :read_count="v_portfolio.read_count" />
+                </div> 
+            </div>               
+
+            <q-separator size="1px" />
+
+            <div class="row box1">                    
+                <div class="col">
+                    <div class="groupValue">{{ v_format(v_portfolio.roi) }}% </div>
+                    <div class="name1">ROI</div>                         
+                </div>  
+
+                <q-separator vertical />
+                
+                <div class="col">   
+                    <div class="groupValue">{{ v_format(v_portfolio.evaluated_value) }}</div>
+                    <div class="name1">Evaluated Value</div>                         
                 </div>
-
             </div>
         </div>
-        <q-separator size="2px" />
 
-        <div>
+        <q-separator size="1px" />
+
+
+        <div class="col">
             <div>
-                <h4 class="chartTitleBox"> ROI Chart </h4>
+                <h6 class="chartTitleBox"> ROI Chart </h6>
             </div>
-            <q-separator size="2px" />
+            <q-separator size="1px" />
             <PortfolioChart ref="portfolioChart" />
-            <div class="q-gutter-sm text-center">
-                <q-btn icon=thumb_up_off_alt flat size="15px" color="grey-8" @click="onClickVote(1)" />
-                <q-btn icon=thumb_down_off_alt flat size="15px" color="grey-8" @click="onClickVote(-1)" />
+            <div class="q-gutter-sm text-center thumb">
+                <q-btn icon=thumb_up_off_alt flat size="15px" @click="onClickVote(1)" />
+                <q-btn icon=thumb_down_off_alt flat size="15px" @click="onClickVote(-1)" />
             </div>
         </div>
 
 
-        <div class="cardBox q-gutter-md">
-            
-            <q-card class="coinBox" flat bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index">
-                <q-card-section>
-
+        <div class="cardBox">
+            <q-card class="q-my-sm" flat bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index">
+                <q-card-section class="cardSection">
                     <div class="row">
-
-                        <div class="box2-1">  
+                        <div class="box2">  
                             <q-icon class="coinIcon" name="account_tree" color="black" size="34px" />                                    
                         </div>    
-                        <div class="box2-2" @click="onClickSymbol(a_portfolio.api_asset.symbol)">
-                            <div>
+                        <div @click="onClickSymbol(a_portfolio.api_asset.symbol)">
+                            <div class="symbolBox">
                                 <span class="symbolName"> {{a_portfolio.api_asset.symbol}}</span>
-                                <span> ({{a_portfolio.api_asset.name}}) </span>
+                                <span class="coinName"> ({{a_portfolio.api_asset.name}}) </span>
                             </div>
                             <div>
-                                <span class="value">{{v_updated_at(a_portfolio.updated_at)}}</span>
+                                <span class="inceptionDate">{{v_updated_at(a_portfolio.updated_at)}}</span>
                             </div>
                         </div>        
                         <q-space />
-                        <div class="text-grey-8 q-gutter-xs">
-                            <q-btn size="15px" flat dense round icon="delete" @click="onClickDelete(a_portfolio)"/>&nbsp;
-                            <q-btn size="15px" flat dense round icon="add" 
-                                v-if="! v_is_owner"
-                                label="포트폴리오복사" 
-                                @click="onClickAddToMyPortfolio(a_portfolio)" />&nbsp;
-                            <q-btn size="15px" flat dense round icon="more_vert" @click="onClickEdit(a_portfolio)" />
+                        <div class="q-gutter-xs btns">
+
+                            <WCommandBar :data="a_portfolio" :isOwner="v_is_owner" 
+                                shareBtn="" updateBtn="update" deleteBtn="delete" copyBtn="copy"
+                                @onClickUpdate="onClickUpdate" 
+                                @onClickCopy="onClickAddToMyPortfolio"
+                                @onClickDelete="onClickDelete" 
+                            />
+<!--
+                            <q-btn flat dense size="11px" icon="content_copy" v-if="! v_is_owner" 
+                                @click="onClickAddToMyPortfolio(a_portfolio)" />
+                            <q-btn flat dense size="11px" icon="mode_edit_outline" />
+                            <q-btn flat dense size="11px" icon="delete_outline" @click="onClickDelete(a_portfolio)"/>                                
+-->                            
                         </div>                            
                     </div>  
                 </q-card-section>
 
-                <q-card-section>                        
-                    <div class="row box3">
+                <q-card-section class="cardSection2">                        
+                    <div class="row">
                         <div class="col box2-3 align-items">
                             <span class="name2">ROI</span>
                             <br>
@@ -114,14 +110,13 @@
                             <span class="text-grey-8">{{ v_format(a_portfolio.last*a_portfolio.qty)}} </span>
 -->                                
                         </div>    
-
                         <div class="col">  
                             <span class="name2">Current Price</span>
                             <br>
                             <span class="roiValue">{{ v_format(a_portfolio.last) }}</span>                                
-                        </div>
-
+                        </div>                            
                     </div>
+
                 </q-card-section>
 
                 <q-card-section>
@@ -136,22 +131,11 @@
 
         </div>
 
+        <q-separator class="gSeparator" />
 
-        <div class="col">
-            <CommentForm ref="commentForm" type="comment"
-                :contentType="v_content_type" :post="v_portfolio"
-                @onClickCommentSave="onClickCommentSave" />
-
-            <CommentTree ref="commentTree" 
-                :data-list="v_portfolio.comments.items" 
-                :contentType="v_content_type" :post="v_portfolio"
-                @onClickCommentReply="onClickCommentReply"
-                @onClickLoadMore="onClickLoadMore"
-                @onClickRate="onClickRate"                    
-            />
-            
-            <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
-
+        <div class="q-ma-sm">
+            <CommentBox ref="commentBox"             
+                :contentType="v_content_type" :post="v_portfolio" :items="v_portfolio.comments.items" />            
         </div>
 
         <AddPortfolioDialog ref="addPortfolio" @onPortfolioItemAdded="onPortfolioItemAdded" />
@@ -172,24 +156,22 @@ import logger from "src/error/Logger";
 import UserModel from "src/models/UserModel";
 import {PortfolioModel,PortfolioItemModel} from "src/models/PortfolioModel";
 
-import CommentForm from "components/comments/comment-form.vue";
-import CommentTree from "components/comments/comment-tree.vue";
-import LoadMore from "src/components/LoadMore";
+import CommentBox from "components/comments/CommentBox.vue";
 
 import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 import PortfolioChart from 'src/pages/user/component/PortfolioChart';
-
-
+import WSubinfo from 'components/WSubinfo';
+import WCommandBar from "components/WCommandBar.vue";
 
 export default {
     name: 'PortfolioDetail',
     props: [],
     components: {
-        CommentForm,
-        CommentTree,
         AddPortfolioDialog,
         PortfolioChart,
-        LoadMore
+        WSubinfo,
+        WCommandBar,        
+        CommentBox
     },    
     mixins: [],
     computed: {
@@ -210,6 +192,9 @@ export default {
             };
         },
         v_is_owner() {
+            if (! this.v_user) {
+                return false;
+            }
             if (this.v_me.username==this.v_user.username) {
                 return true;
             }
@@ -243,7 +228,6 @@ export default {
 
         this.prepare();
         this.refresh();
-        this.loadComments(this.v_query.portfolio_id);
         this.updateRead(this.v_query.portfolio_id);
         //this.$refs.portfolioChart.update(this.v_portfolio);
     },
@@ -282,8 +266,8 @@ export default {
             const _this=this;
             this.v_user.loadPortfolio().then( response => {
                 logger.log.debug("PortfolioDetailView.refresh=>",response);
-                logger.log.debug("PortfolioDetailView.portfolio.items=",_this.v_user.portfolio.items);
                 _this.selectPortfolio(_this.v_query.portfolio_id);
+                _this.loadComments(_this.v_query.portfolio_id);
                 _this.forceUpdate();
             });
         },
@@ -304,7 +288,8 @@ export default {
 
             //let dic_param = {content_type:'portfolio-portfolio' , id:page_id, limit:limit, offset:offset};
             this.v_portfolio.loadComments('portfolio-portfolio',offset,limit).then(response=>{
-                logger.log.debug("PortfolioDetailView.loadComments - comments=",this.v_portfolio);
+                logger.log.debug("PortfolioDetailView.loadComments - comments=",_this.v_portfolio);
+                _this.$refs.commentBox.update(_this.v_portfolio,_this.v_portfolio.comments.items);
             }).catch(err=>{
 
             });
@@ -347,41 +332,16 @@ export default {
         
         onClickDelete: function(portfolio_item) {
             logger.log.debug("PortfolioDetail.onClickDelete : v_selected=",portfolio_item);
-            this.v_selected = portfolio_item;
             
-            const _this=this;
-            store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
-                logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
-                if (! value) return;
-                _this.onClickDeleteConfirm();
-            });
+            this.v_selected = portfolio_item;
+            this.handlePortfolioItemDelete();
         },
 
         onClickDeletePortfolio: function() {
             logger.log.debug("PortfolioDetail.onClickDeletePortfolio = ",this.v_portfolio);
 
-            this.v_selected = this.v_portfolio;
-            
-            const _this=this;
-            store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
-                logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
-                if (! value) return;
-                _this.onClickDeleteConfirm();
-            });
-        },
-
-        onClickDeleteConfirm: function() {            
-            //let a_portfolio_item = this.v_portfolio.getItem(this.v_selected.id);
-            logger.log.debug("PortfolioDetail.onClickDeleteConfirm");
-            //logger.log.debug("PortfolioDetail.onClickDeleteConfirm",this.v_selected.constructor.name);
-                        
-            if (this.v_selected instanceof PortfolioModel) {
-                this.handlePortfolioDelete();
-            } else {
-                this.handlePortfolioItemDelete();
-            }
-
-            //this.v_selected = null;
+            this.v_selected = this.v_portfolio;            
+            this.handlePortfolioDelete();
         },
 
         onClickVote: function(value) {
@@ -465,7 +425,7 @@ export default {
             CommonFunc.navAsset(this,symbol);
         },
 
-        onClickEdit:function(portfolio) {
+        onClickUpdate:function(portfolio) {
             logger.log.debug("PortfolioDetail.onClickEdit : portfolio=",portfolio);
             this.$refs.addPortfolio.show(this.v_user,portfolio);
         },
@@ -477,6 +437,11 @@ export default {
 			this.v_query.offset = this.$refs.loadMore.v_next.offset;
 			//this.loadBlogData(this.v_query);
 		},
+        onClickShare: function(data) {
+            let a_url = CommonFunc.navPortfolio(this,this.v_user,this.v_portfolio,true);
+            logger.log.debug("PortfolioDetail.onClickShare=",data,a_url);            
+            CommonFunc.copyUrl(this,a_url);
+        }
 
     }
 };
@@ -484,8 +449,9 @@ export default {
 
 
 <style scoped>
-.deleteBtn {
-    padding:20px 0px 15px 10px; 
+.groupDeleteBtn {
+    color:#999999;
+    padding:23px 0px 0px 0px; 
 
 }
 
@@ -494,7 +460,9 @@ export default {
 }
 
 .groupName {
-    font-size:15px;
+    font-size:30px;
+    font-weight:bold;
+    color:#222222;
 
 }
 
@@ -507,30 +475,28 @@ export default {
 }
 
 .name2 {
-    font-size:15px;
+    font-size:14px;
     color:#8C8C8C;
     text-align:center;
 
 }
 
-.bigValue {
+.groupValue {
    font-size:35px ;
    color: darkgreen;
 }
 
-.value {
-    font-size:14px;
-    color:#202124;
-    text-align:center;
-}
+
 .box1 {
     padding:20px 0px 20px 10px;
     text-align:center;
 }
 
 .box2 {
-    padding:0px 0px 5px 0px;
+    padding-right:15px; 
 }
+
+
 
 .box3 {
     padding:0px 0px 15px 0px;
@@ -541,37 +507,82 @@ export default {
 }
 
 .chartTitleBox {
-    color:#555555;
+    color:#222222;
     margin:15px 20px 15px 20px;
 
 }
 
 .coinIcon {
     height:50px;
+    margin-top:-3px;
+}
+
+.symbolBox {
+    margin-bottom:-7px;
 }
 
 .symbolName {
-    font-size:14px;
-    color:#555555;
+    font-size:20px;
+    color:#222222;
     font-weight:bold;
+}
+
+.coinName {
+    font-size:12px;
+    color:#999999;
+}
+
+
+.inceptionDate {
+    font-size:11px;
+    color:#999999;
 }
 
 .roiValue {
     font-size:25px;
-    color:darkgreen;
-}
-
-.desc {
-    font-size:15px;
     color:#222222;
 }
 
-.portfolioRatingBtn {
-    font-size:30px;
-    color:#555555;
+.desc {
+    font-size:13px;
+    color:#999999;
 }
-.portfolioRatingCount {
-    font-size:15px;
-    color:#555555;
+
+.ratingViewBox {
+    padding:0px 0px 10px 12px;
+    margin-top:-10px;
+}
+
+
+.ratingBtn {
+    font-size:13px;
+    color:#999999;
+    padding-right:2px;
+}
+.count {
+    font-size:13px;
+    color:#999999;
+}
+
+.cardSection {
+    padding:10px 10px 5px 10px;
+}
+
+.cardSection2 {
+    padding:5px 10px 5px 59px;
+}
+
+.btns {
+    color:#999999;
+}
+
+.thumb {
+    color:#999999;
+}
+
+.separator {
+  margin:0px 0px 15px 0px;
+  height:10px;
+  background: #f0f1f6;
 }
 </style>

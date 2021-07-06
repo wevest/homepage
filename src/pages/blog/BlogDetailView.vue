@@ -106,6 +106,7 @@
                     @onClickLoadMore="onClickLoadMore"
                     @onClickRate="onClickRate"                    
                 />
+                
             </div>
         </div>
 

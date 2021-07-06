@@ -556,12 +556,16 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);
     }
 
-    static navPortfolio(a_this,user,portfolio) {        
+    static navPortfolio(a_this,user,portfolio,url_only=false) {        
         store.getters.nav.add(a_this.$route);
         let dic_param = { 
             name:'portfolio_detail', path:'portfolio_detail', 
-            query:{ username:user.username, portfolio_id:portfolio.id, portfolio_name:portfolio.name } 
+            query:{ username:user.username, portfolio_id:portfolio.id} 
         };
+        if (url_only) {            
+            let a_url = "/#/" + dic_param.path+"?username="+dic_param.query.username+"&portfolio_id="+dic_param.query.portfolio_id;
+            return a_url;
+        }        
         a_this.$router.push(dic_param);    
     }
 

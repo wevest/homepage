@@ -12,7 +12,7 @@
                 <q-card-section>
                     <div class="row">
                         <WDialogCloseButton @onClick="onClickClose" />&nbsp;
-                        <span class="text-h6">{{v_title}}}}</span>
+                        <span class="text-h6">{{v_title}}</span>
                     </div>
 
                     <div class="text-subtitle2">
@@ -137,8 +137,9 @@ export default {
         logger.log.debug("AddPortfolioDialog.mounted");
     },
     updated: function() {
-        logger.log.debug("AddPortfolioDialog.updated");
-        if (this.v_portfolio_item) {
+        logger.log.debug("AddPortfolioDialog.updated : v_portfolio_item=",this.v_portfolio_item);
+        
+        if ( (this.v_portfolio_item) && (this.v_portfolio_item.id)) {
             this.fillValue();
         }
     },
@@ -147,7 +148,9 @@ export default {
         fillValue: function() {
             logger.log.debug("AddPortfolioDialog.fillValue");
             this.v_input = this.v_portfolio_item.portfolio_name;
-            this.$refs.cryptoSelector.setValue(this.v_portfolio_item.api_asset.symbol);            
+            if (this.$refs.cryptoSelector) {
+                this.$refs.cryptoSelector.setValue(this.v_portfolio_item.api_asset.symbol);            
+            }
         },
         setPortfolioItem: function(v_portfolio) {
             this.v_portfolio_item = v_portfolio;
@@ -179,7 +182,7 @@ export default {
 
 
         show: function(v_user,v_portfolio_item) {
-            //logger.log.debug("AddPortfolioDialog.show : v_portfolio=",v_portfolio_item);
+            logger.log.debug("AddPortfolioDialog.show : v_portfolio=",v_portfolio_item);
             
             this.v_user = v_user;
 

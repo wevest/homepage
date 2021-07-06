@@ -8,6 +8,12 @@
             @click="onClickShare" />
 
         <q-icon 
+            v-if="(v_me.loggedIn) && (! isOwner) && (copyBtn.length>0) "
+            :size="size"
+            name="content_copy" 
+            @click="onClickCopy" />
+
+        <q-icon 
             v-if="(v_me.loggedIn) && (isOwner) && (updateBtn.length>0) "
             :size="size"
             name="mode_edit_outline"
@@ -52,6 +58,10 @@ export default {
             type:String,
             default: ''
         },
+        copyBtn: {
+            type:String,
+            default: ''
+        },
         size: {
             default: '20px'
         }
@@ -83,6 +93,12 @@ export default {
             logger.log.debug("WCommandBar.onClickUpdate");
 
             this.$emit("onClickUpdate",this.data);
+        },
+
+        onClickCopy() {
+            logger.log.debug("WCommandBar.onClickCopy");
+
+            this.$emit("onClickCopy",this.data);
         },
 
     }
