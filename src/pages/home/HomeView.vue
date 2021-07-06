@@ -1,43 +1,34 @@
 <template>
     
   <div class="q-pa-md">
-        <div class="row">
-            <div class="col">
-                <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>
-            </div>
+        <div class="col">
+            <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>
         </div>
 
-        <div class="row">
-            <div class="col">
-                <MarketWatchWidget ref="watchWidget" />
-            </div>
+        <div class="col">
+            <MarketWatchWidget ref="watchWidget" />
         </div>
 
-        <div class="row">
-            <div class="col">
-                <BlogList ref='blogList' title="Market Trend" maxLength="10" moreCaption="More" 
-                    category="MarketTrend" symbol="" objectId="-1"></BlogList>
-            </div>
+        <div class="col">
+            <BlogList ref='blogList' title="Market Trend" maxLength="10" moreCaption="More" 
+                category="MarketTrend" symbol="" objectId="-1"></BlogList>
         </div>
 
-        <div class="row">
-            <div class="col">
-                <PortfolioList ref="portfolioList" title="Portfolio List" maxLength="10" moreCaption=""></PortfolioList>
-            </div>
+        <div class="col">
+            <PortfolioList ref="portfolioList" title="Portfolio List" maxLength="10" moreCaption=""></PortfolioList>
         </div>
 
 
-        <div class="row">
-            <div class="col">
-                <AssetList ref='assetList' title="Asset List" maxLength="10" moreCaption="More" ></AssetList>
-            </div>
+        <div class="col">
+            <AssetList ref='assetList' title="Asset List" maxLength="10" moreCaption="More" ></AssetList>
         </div>
 
-        <div class="row">
-            <div class="col">
-                <q-separator class="sector_seperator" />
-            </div>
+
+        <div class="col">
+            <UserFeedList ref='feedList' title="$t('page.profile.userfeed')" 
+                maxLength="10" moreCaption="More" user="v_me"></UserFeedList>
         </div>
+
                                                 
   </div> 
 
@@ -45,6 +36,7 @@
 
 
 <script>
+import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 
@@ -54,6 +46,7 @@ import CBigLabel from 'components/CBigLabel';
 import BlogList from 'components/lists/BlogList';
 import AssetList from 'components/lists/AssetList';
 import PortfolioList from 'components/lists/PortfolioList';
+import UserFeedList from 'components/lists/UserFeedList';
 
 import CTopTable from 'pages/home/CTopTable';
 import CIndexChart from 'pages/home/CIndexChart';
@@ -62,48 +55,54 @@ import MarketWatchWidget from 'pages/home/components/MarketWatchWidget';
 
 
 export default {
-  name: 'PageIndex',
-  components: {
-      CTitle,
-      CBigLabel,
-      CTopTable,
-      CIndexChart,
-      CExchangeIndexChart,
-      MarketWatchWidget,
-      BlogList,
-      PortfolioList,
-      AssetList
-  },
-
-  data: function () {
-    return {
-        v_tab:'upbit',     
-        v_tab_toplist:'ret' ,
-        v_toplist_visible:false,  
-        v_page: {title:this.$t('page.home.title'), desc:''},
-        v_subpage: { 
-            cwatch: { title:this.$t('page.home.cwatch.title'), desc:''} 
+    name: 'PageIndex',
+    components: {
+        CTitle,
+        CBigLabel,
+        CTopTable,
+        CIndexChart,
+        CExchangeIndexChart,
+        MarketWatchWidget,
+        BlogList,
+        PortfolioList,
+        AssetList,
+        UserFeedList
+    },
+    computed: {
+        v_me() {
+            return store.getters.me;
         },
-            
-        v_toplist:[
-            {label:this.$t('name.price_surge'),value:'ret', icon:"auto_awesome"},
-            {label:this.$t('name.yester_ret'),value:'yester_ret', icon:"auto_graph"},
-            {label:this.$t('name.volume_surge'),value:'volume', icon:"signal_cellular_alt"},
-            {label:this.$t('name.volume_change'),value:'tvz', icon:"insert_chart"},            
-        ],
-        v_eureka:[
-            {
-                title:'Crypto VC 그들의 투자성적은?', 
-                subtitle:'전문적인 식견을 가진 그들의 성과는?', desc:'그들로부터 배울것이 있는가?', 
-                color: 'background:#FFDC46;', link:'cryptovc'
+    },
+
+    data: function () {
+        return {
+            v_tab:'upbit',     
+            v_tab_toplist:'ret' ,
+            v_toplist_visible:false,  
+            v_page: {title:this.$t('page.home.title'), desc:''},
+            v_subpage: { 
+                cwatch: { title:this.$t('page.home.cwatch.title'), desc:''} 
             },
-            {
-                title:'Crypto VC이 사랑한 프로젝트들?', subtitle:'전문적인 식견을 가진 그들의 성과는?', desc:'그들로부터 배울것이 있는가?', 
-                color:'background:#D7F1FA;', link:'vcportfolio'
-            },
-        ],
-    }
-  },
+                
+            v_toplist:[
+                {label:this.$t('name.price_surge'),value:'ret', icon:"auto_awesome"},
+                {label:this.$t('name.yester_ret'),value:'yester_ret', icon:"auto_graph"},
+                {label:this.$t('name.volume_surge'),value:'volume', icon:"signal_cellular_alt"},
+                {label:this.$t('name.volume_change'),value:'tvz', icon:"insert_chart"},            
+            ],
+            v_eureka:[
+                {
+                    title:'Crypto VC 그들의 투자성적은?', 
+                    subtitle:'전문적인 식견을 가진 그들의 성과는?', desc:'그들로부터 배울것이 있는가?', 
+                    color: 'background:#FFDC46;', link:'cryptovc'
+                },
+                {
+                    title:'Crypto VC이 사랑한 프로젝트들?', subtitle:'전문적인 식견을 가진 그들의 성과는?', desc:'그들로부터 배울것이 있는가?', 
+                    color:'background:#D7F1FA;', link:'vcportfolio'
+                },
+            ],
+        }
+    },
     created: function () {
         //console.log("HomeView.created");
     },
@@ -132,6 +131,8 @@ export default {
                 this.loadBlogList(),
                 this.loadAssetList(),
                 this.loadPortfolioList(),
+                this.loadFeedList(),
+
                 /*
                 this.loadIndexData(),
                 this.loadCryptoTopAssetData('1h'),
@@ -151,6 +152,10 @@ export default {
 
         loadAssetList: function() {
             this.$refs.assetList.update();
+        },
+
+        loadFeedList: function() {
+            this.$refs.feedList.update(this.v_me,0);
         },
 
         loadPortfolioList: function() {

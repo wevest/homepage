@@ -4,6 +4,8 @@ import {MoaConfig} from 'src/data/MoaConfig';
 import CMSAPI from 'src/services/cmsService';
 import AuthService from 'src/services/authService';
 
+import {baseCollection} from 'src/models/baseModel';
+
 import CommonFunc from 'src/util/CommonFunc';
 import Hasher from 'src/util/Hasher';
 import logger from "src/error/Logger";
@@ -11,6 +13,96 @@ import logger from "src/error/Logger";
 import LocalStorageService from 'src/services/localStorage';
 
 import { PortfolioListModel, PortfolioModel, PortfolioItemModel} from "src/models/PortfolioModel";
+
+
+export class FeedModel {
+    id=null;
+    uuid=null;
+    object=null;
+    username=null;
+    user_id=null;
+    avatar=null;
+    pub_date=null;
+    title=null;
+    verb=null;
+    url= null;
+
+    assign(obj) {
+        //logger.log.debug("FeedModel : obj=",obj);
+
+        this.id = obj.object;
+        this.verb = obj.verb;
+        this.pub_date = obj.time;
+        this.avatar = obj.avatar;
+        this.username = obj.actor;
+        this.user_id = obj.user_id;
+        this.title = obj.title;
+        this.uuid = obj.id;
+
+        //this.url = this.getUrl();
+    }
+
+    getUrl() {
+        let a_url = "";
+
+        if (this.verb=='post') {
+            a_url = CommonFunc.navBlogDetail(null,this.id,true);
+        }
+        
+        return a_url;
+    }
+}
+
+export class FeedListModel extends baseCollection{
+    next_url= null;
+
+    assign(response) {
+        logger.log.debug("FeedListModel : response=",response);
+
+        this.next_url = response.next;
+        for (let index=0; index<response.results.length; index++) {
+            let a_feed = new FeedModel();
+            a_feed.assign(response.results[index]);
+            this.add(a_feed);
+        }
+    }
+}
+
+
+export class FriendModel {
+    username=null;
+    created_at=null;
+    updated_at=null;    
+    avatar=null;
+    feed_id=null;
+    target_id=null;
+
+    assign(obj) {
+        this.username = obj.username;
+        this.created_at = obj.created_at;
+        this.updated_at = obj.updated_at;
+        this.avatar = obj.avatar;
+        this.feed_id = obj.feed_id;
+        this.target_id = obj.target_id;
+    }
+
+
+}
+
+
+export class FriendListModel extends baseCollection{
+    next_url= null;
+
+    assign(items) {
+        for (let index=0; index<items.length; index++) {
+            let a_friend = new FriendModel();
+            a_friend.assign(items[index]);
+            this.add(a_friend);
+        }
+    }
+
+    
+}
 
 
 export default class User {
@@ -39,8 +131,12 @@ export default class User {
     following_count=0;
     is_following=false;
 
-    portfolio=new PortfolioListModel();
+    portfolio = new PortfolioListModel();
 
+    follower = new FriendListModel();
+    following = new FriendListModel();
+
+    feeds = new FeedListModel();
 
     constructor() {
 
@@ -72,6 +168,9 @@ export default class User {
         this.follower_count = CommonFunc.safeGetKeyValue(obj,'follower_count');
         this.following_count = CommonFunc.safeGetKeyValue(obj,'following_count');
         this.is_following = CommonFunc.safeGetKeyValue(obj,'is_following');
+
+        this.follower = new FriendListModel();
+        this.following = new FriendListModel();    
     }
 
     isLoggedIn() {
@@ -330,12 +429,17 @@ export default class User {
         });            
     }
     
-    getRelation() {
-        let dic_param = {id:this.id};
-
+    getRelation(offset,limit) {
+        let dic_param = {id:this.id,username:this.username,offset:offset,limit:limit};
+        
+        const _this = this;
         return new Promise(function(resolve,reject) {
             CMSAPI.getUserRelation(dic_param,function(response) {
                 logger.log.debug("UserModel.getRelation - response",response.data);
+                
+                _this.following.assign(response.data.data.following);
+                _this.follower.assign(response.data.data.follower);
+
                 resolve(response.data);
             },function(err) {
                 logger.log.error("UserModel.getRelation - error",err);                
@@ -344,4 +448,23 @@ export default class User {
         });            
     }
 
+    loadFeeds(offset,limit,uuid='') {
+        let dic_param = {user_id:this.id,username:this.username,uuid:uuid,offset:offset,limit:limit};
+        
+        const _this = this;
+        return new Promise(function(resolve,reject) {
+            CMSAPI.getUserFeeds(dic_param,function(response) {
+                logger.log.debug("UserModel.loadFeeds - response",response.data);
+                
+                _this.feeds.assign(response.data.data);
+
+                resolve(response.data);
+            },function(err) {
+                logger.log.error("UserModel.loadFeeds - error",err);                
+                reject(err);
+            });
+        });            
+    }
+
 }
+

@@ -77,27 +77,53 @@
             <div class="col">
                 <q-card class="coinBox" flat bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index">
                     <q-card-section>
-                        <div class="row box2">
+
+                        <div class="row">
+
                             <div class="box2-1">  
                                 <q-icon class="coinIcon" name="account_tree" color="black" size="34px" />                                    
                             </div>    
                             <div class="box2-2" @click="onClickSymbol(a_portfolio.api_asset.symbol)">
-                                <span class="symbolName"> ({{a_portfolio.api_asset.symbol}})<br> {{a_portfolio.api_asset.name}} </span>                        
+                                <div>
+                                    <span class="symbolName"> {{a_portfolio.api_asset.symbol}}</span>
+                                    <span> ({{a_portfolio.api_asset.name}}) </span>
+                                </div>
+                                <div>
+                                    <span class="value">{{v_updated_at(a_portfolio.updated_at)}}</span>
+                                </div>
+                            </div>        
+                            <q-space />
+                            <div class="text-grey-8 q-gutter-xs">
+                                <q-btn size="15px" flat dense round icon="delete" @click="onClickDelete(a_portfolio)"/>&nbsp;
+                                <q-btn size="15px" flat dense round icon="add" 
+                                    v-if="! v_is_owner"
+                                    label="포트폴리오복사" 
+                                    @click="onClickAddToMyPortfolio(a_portfolio)" />&nbsp;
+                                <q-btn size="15px" flat dense round icon="more_vert" />
                             </div>                            
-                            <div class="col box2-3">                            
-                                <span class="name2">ROI</span><br><span class="roiValue">{{v_format(a_portfolio.roi)}} %</span><br>                                                       
-                                <span class="text-grey-8">{{ v_format(a_portfolio.last*a_portfolio.qty)}} </span>                            
-                            </div>    
                         </div>  
-                        <q-separator size="1px" />
                     </q-card-section>
+
                     <q-card-section>                        
                         <div class="row box3">
+                            <div class="col box2-3 align-items">
+                                <span class="name2">ROI</span>
+                                <br>
+                                <span class="roiValue">{{v_format(a_portfolio.roi)}} %</span>
+<!--    
+                                <br>
+                                <span class="text-grey-8">{{ v_format(a_portfolio.last*a_portfolio.qty)}} </span>
+-->                                
+                            </div>    
+
                             <div class="col">  
-                                <span class="value">{{ v_format(a_portfolio.last) }}</span><br>
                                 <span class="name2">Current Price</span>
+                                <br>
+                                <span class="roiValue">{{ v_format(a_portfolio.last) }}</span>                                
                             </div>
-                            <q-separator vertical inset />
+
+<!--
+                            <q-separator vertical inset />                                
                             <div class="col">
                                 <span class="value">{{ v_format(a_portfolio.price) }}</span><br>
                                 <span class="name2 cursor-pointer">Fist Price</span>
@@ -107,30 +133,17 @@
                                 <span class="value">{{v_updated_at(a_portfolio.updated_at)}}</span><br>
                                 <span class="name2">Inception Date</span>
                             </div>
+-->                            
                         </div>
                     </q-card-section>
 
-                     <q-separator size="1px" />
-
                     <q-card-section>
+
                         <div class="desc"> 
                             {{a_portfolio.description}} 
                         </div>
                         
                     </q-card-section>
-                    
-                    <q-separator size="1px" />
-
-                    <q-card-actions>
-                        <div class="text-grey-8 q-gutter-xs">
-                            <q-btn size="15px" flat dense round icon="delete" @click="onClickDelete(a_portfolio)"/>&nbsp;
-                            <q-btn size="15px" flat dense round icon="add" 
-                                v-if="! v_is_owner"
-                                label="포트폴리오복사" 
-                                @click="onClickAddToMyPortfolio(a_portfolio)" />&nbsp;
-                            <q-btn size="15px" flat dense round icon="more_vert" />
-                        </div>                            
-                    </q-card-actions>                        
 
                 </q-card>
 
@@ -526,25 +539,6 @@ export default {
 .cardBox {
     padding:10px 10px 10px 10px;
 }
-
-.box2-1 {
-width:50px;
-height:88px;
-}
-
-.box2-3 {
-    padding:0px 10px;
-    text-align:center;
-}
-
-.box3 div {
-    padding-top:0px;
-    text-align:center;
-    font-size:16px;
-    color:#8C8C8C;
-}
-
-
 
 .chartTitleBox {
     color:#555555;

@@ -5,169 +5,10 @@
             <CTitle title="$t('page.profile.title')" desc="$t('page.profile.desc')"></CTitle>
         </div>
 
-
-        <q-card style="text-align: center;"> 
-            <q-card-actions align="right">
-            </q-card-actions>
-                        
-            <q-item-section>
-                <div style="padding-top:20px;">
-                    <q-avatar size="20rem" square>
-                        <img :src="v_user.avatar" v-if="v_user.avatar">        
-                        <q-icon v-else name="person" color="black" size="120px"/>
-                    </q-avatar>
-                    
-                    <form>
-                        <q-btn fab id="pick-avatar" color="primary" label="change" class="btnAvatar" 
-                            v-show="isOwner" @click="onClickChangeProfile" />
-                        <AvatarCropper
-                            ref="avatar" 
-                            :labels="v_labels"
-                            :uploadHandler="uploadAvatarHandler" 
-                            @uploading="handleUploading"
-                            @uploaded="handleUploaded"
-                            @completed="handleCompleted"
-                            @error="handlerError"        
-                            trigger="#pick-avatar"
-                            upload-url="" />
-                    </form>
-                </div>
-
-            </q-item-section>
-
-            <q-card-section>
-                <div class="text-h5">{{ v_user.username }}</div>
-                <div class="row" style="padding-top:14px;">
-                    <div>Biography</div>
-                    <q-space />
-                    <div>
-                        <q-btn flat @click="onClickEdit" v-show="isOwner" label="Edit" />
-                    </div>
-                </div>
-                <div  style="padding-bottom:14px;">
-                    <q-input filled type="textarea" v-model="v_user.biography" :readonly="! v_edit" />
-                </div>
-
-<!--                
-                <div class="row" style="padding-top:14px;">
-                    <div class="col-2"></div>
-                    <div class="col-4">
-                        <q-input 
-                            v-model="v_user.first_name" 
-                            label="First name"
-                            dense
-                            label-color="teal-10"
-                            :readonly="! v_edit" /> 
-                    </div>
-                    <div class="col-4">
-                        <q-input 
-                            v-model="v_user.last_name" 
-                            label="Last name"
-                            dense
-                            label-color="teal-10"
-                            :readonly="! v_edit" />
-                    </div>
-                    <div class="col-2"></div>
-                </div>
--->                
-            </q-card-section>
-            
-            <q-card-actions v-if="v_edit" align="center">
-                <q-btn color="primary" label="Save" @click="onClickSave" />
-            </q-card-actions>
-        </q-card>
-
-        <q-card class="boxCard">
-            <q-card-section>
-                <div class="row boxNumber">                    
-                    <div class="col-6">
-                        <div> 
-                            <span class="txtBigNumber"> {{ v_roi }} % </span>
-                        </div>
-                        <div> 
-                            <span class="txtDesc"> $ {{ v_evaluated_value }} </span>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div> 
-                            <span class="txtBigNumber"> {{ v_user.portfolio.item_count }} </span>
-                        </div>
-                        <div> 
-                            <span class="txtDesc">portfolio item count </span>
-                        </div>
-                    </div>                
-                </div>
-            </q-card-section>
-        </q-card>
-
-
-        <q-card class="boxCard">
-            <q-card-section>
-                <div class="row">
-                    <div class="col-4" @click="onClickFollower(v_user)">
-                        <div>
-                            <span class="txtBigNumber">{{v_user.follower_count}}</span>
-                        </div>
-                        <div>
-                            <span>Follower Count</span>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div>
-                            <span class="txtBigNumber">{{v_user.like_count}}</span>
-                        </div>
-                        <div>
-                            <span>좋아요</span>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div>
-                            <span class="count">{{v_user.dislike_count}}</span>
-                        </div>
-                        <div>
-                            <span>싫어요</span>
-                        </div>
-                    </div>
-                </div>
-            </q-card-section>
-        </q-card>
-
-        <div class="row q-col-gutter-md boxCard justify-center  q-mb-xl">
-            <div v-if="! isOwner">
-                <q-btn color="primary" label="Unfollow" @click="onClickFollow(-1)" v-if="v_user.is_following" />
-                <q-btn v-else color="primary" label="Follow" @click="onClickFollow(1)" />
-            </div>
-            <div>
-                <q-btn color="primary" label="Message" @click="onClickMessage" />
-            </div>
-        </div>
-
-        <q-separator class="gSeparator" />
-
-        <div>
-            <div class="row q-mt-xl q-mb-sm">
-                <CTitle ttype="subtitle" title="$t('page.profile.portfolio')" desc="$t('page.profile.portfolio')"></CTitle>
-                <q-space />
-                <div>   
-                    <q-btn label="Portfolio" @click="onClickMorePortfolio" />&nbsp;
-                    <q-btn v-if="isOwner" label="Add" @click="onClickAddPortfolio" />
-                </div>
-            </div>
-            <PortfolioList ref='portfolioList' @onClickPortfolio="onClickPortfolio"></PortfolioList>
-        </div>
-
-        <div class="q-mt-xl q-mb-sm">
-            <FriendList ref='friendList' title="$t('page.profile.follower')" 
-                maxLength="10" moreCaption="" user="v_user"></FriendList>
-        </div>
-
         <div class="q-mt-xl q-mb-sm">
             <UserFeedList ref='feedList' title="$t('page.profile.userfeed')" 
                 maxLength="10" moreCaption="" user="v_user"></UserFeedList>
         </div>
-
-        <AddPortfolioDialog ref="addPortfolio" />
-        <MessageWriterDialog ref="messageWriter" />
 
     </div>
 
@@ -181,28 +22,13 @@ import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
 import UserModel from "src/models/UserModel";
-import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/models/MessageModel";
 
-import AvatarCropper from "vue-avatar-cropper";
 import CTitle from 'components/CTitle';
-import BlogList from 'components/lists/BlogList';
 import UserFeedList from 'components/lists/UserFeedList';
-import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
-import MessageWriterDialog from 'components/dialogs/MessageWriterDialog';
-import PortfolioList from 'src/pages/user/component/PortfolioList';
-import FriendList from 'src/pages/user/component/FriendList';
-
-
 
 export default {
     components: {
         CTitle,
-        BlogList,
-        AvatarCropper,
-        AddPortfolioDialog,
-        MessageWriterDialog,
-        PortfolioList,
-        FriendList,
         UserFeedList
     },
     props: {},
@@ -210,24 +36,6 @@ export default {
         v_me() {
             return store.getters.me;
         },
-        isOwner() {
-            if (this.v_user.username==this.v_me.username) {
-                return true;
-            }
-            return false;
-        },
-        v_roi() {
-            if (! this.v_user.portfolio.roi) {
-                return 0;
-            }
-            return CommonFunc.formatNumber(this.v_user.portfolio.roi,2);
-        },
-        v_evaluated_value() {
-            if (! this.v_user.portfolio.evaluated_value) {
-                return 0;
-            }
-            return CommonFunc.formatNumber(this.v_user.portfolio.evaluated_value,2);
-        }
     },
     data: () => ({
         g_data: null,

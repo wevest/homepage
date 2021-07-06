@@ -440,4 +440,20 @@ export default class CMSAPI {
         funcErr(err);
       });
   }
+
+
+  static getUserFeeds(dic_param, func, funcErr) {
+    let url = CMSAPI.getUrl(
+      MoaConfig.urls.cms,
+      "/api/user/users/" + dic_param.user_id + "/feed/"
+    );
+    callCMSAPI("POST", url, {}, dic_param)
+      .then(response => {
+        func(response);
+      })
+      .catch(err => {
+        funcErr(err);
+      });
+  }
+  
 }

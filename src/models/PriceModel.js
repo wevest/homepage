@@ -76,13 +76,13 @@ export class PriceListModel extends baseCollection{
 
     findPrice(symbol,quotePair="USDT") {
         let a_pair = symbol + "_" + quotePair;
-        logger.log.debug("findPrice.pair=",a_pair,this.items);
+        //logger.log.debug("findPrice.pair=",a_pair,this.items);
         return _.find(this.items,{currency_pair:a_pair} );
     }
 
     getPrice(symbol,quotePair="USDT") {
         let a_pair = symbol + "_" + quotePair;
-        logger.log.debug("findPrice.pair=",a_pair);
+        //logger.log.debug("findPrice.pair=",a_pair);
         return _.find(this.items,{currency_pair:a_pair} );
     }
 

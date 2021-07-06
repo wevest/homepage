@@ -588,7 +588,8 @@ export default class CommonFunc {
             name: "blog_detail",path: "blog_detail", query: { page_id: page_id },
         };
         if (url_only) {            
-            let a_url = "/#/" + dic_param.path+"?page_id="+page_id;
+            //const value = window.location.host+link_url;
+            let a_url = window.location.host+"/#/" + dic_param.path+"?page_id="+page_id;
             return a_url;
         }
 

@@ -32,7 +32,8 @@ export default {
             v_next_url:null,
             v_next: {
                 limit:null,
-                offset:null
+                offset:null,
+                uuid:null,
             },
         }
     },
@@ -46,6 +47,26 @@ export default {
 
             this.v_next.limit = limit[0];
             this.v_next.offset = offset[0];
+        },
+
+        setPagination:function(items,offset,limit) {
+            
+            if (items.length<limit) {
+                this.v_next_url = "";
+            } else {
+                this.v_next_url = "next_url";
+            }
+            
+            this.v_next.limit = limit;
+            this.v_next.offset = offset;
+        },
+
+        setFeedPagination:function(next_url) {                                    
+            logger.log.debug("setFeedPagination:next_url=",next_url);
+            this.v_next_url = next_url;
+            this.v_next.uuid = CommonFunc.substrInBetween(next_url,"lt=","&limit")[0];
+            this.v_next.limit = CommonFunc.substrInBetween(next_url+"*","limit=","*")[0];
+            this.v_next.offset = null;
         },
 
         onClickLoadMore: function() {

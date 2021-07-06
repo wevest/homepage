@@ -126,14 +126,14 @@ export class PortfolioModel extends baseCollection {
     }
 
     calcPerformance(prices) {
-        logger.log.debug("PortfolioModel.calcPerformance : prices=",prices);
+        //logger.log.debug("PortfolioModel.calcPerformance : prices=",prices);
         let dic_perf = {value:0, roi:0, count:0};
         
         const _this=this;
         for (let index=0;index<this.items.length;index++) {
             //const price = prices.getPrice(this.items[index])
             const a_price = prices.getPrice(this.items[index].api_asset.symbol)
-            logger.log.debug("PortfolioModel.calcPerformance .item =",this.items[index],a_price);
+            //logger.log.debug("PortfolioModel.calcPerformance .item =",this.items[index],a_price);
             if (a_price) {
                 this.items[index].last = a_price.last;
                 this.items[index].roi = CommonFunc.calcRet(this.items[index].price,a_price.last)*100;
