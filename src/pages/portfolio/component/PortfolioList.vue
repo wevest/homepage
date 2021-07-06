@@ -36,7 +36,6 @@
             
             <q-card-section>
                 <div>
-
                     <q-linear-progress class="q-mt-md" size="20px" 
                         :value="v_progress(a_portfolio.roi)"
                         :color="v_color(a_portfolio.roi)"
@@ -93,9 +92,10 @@ export default {
         v_color() {
             return (value) => {
                 if (value>0) {
-                    return "negative"
+                    return "#005dde"
                 }
-                return "#005dde";
+                return "#005dde"
+                //return "#005dde";
             };
         },
         v_color_style() {
