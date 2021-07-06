@@ -9,8 +9,7 @@ import CMSAPI from 'src/services/cmsService';
 import AuthService from 'src/services/authService';
 
 import {baseCollection} from 'src/models/baseModel';
-import {AnswerCommentListModel, AnswerCommentModel, CommentListModel} from 'src/models/CommentModel';
-import { normalizeTickInterval } from 'highcharts';
+import {AnswerCommentListModel, AnswerCommentModel,QuestionCommentListModel, QuestionCommentModel, CommentListModel} from 'src/models/CommentModel';
 
 
 
@@ -235,141 +234,6 @@ export class PostPageListModel extends baseCollection {
 }
 
 
-
-export class QuestionPageModel extends PostPageModel{
-
-    assign(obj) {
-        //this = new PostPage();
-        this.id = obj.id;
-        this.title = obj.title;
-        this.body = obj.body;
-        
-        this.comment_count=obj.comment_count;
-        this.dislike_count= obj.dislike_count;
-        this.like_count = obj.like_count;
-        this.pub_date = obj.pub_date;        
-        this.parent_id = obj.parent_id;
-
-        this.reward = obj.reward;
-        this.closed = obj.closed;
-        this.total_points = obj.total_porints;
-
-        this.owner = obj.api_owner;
-        this.is_owner = false;
-        // is logged-in?
-        if (store.getters.me.id) {
-            if (this.owner.id==store.getters.me.id) {
-                this.is_owner = true;
-            }
-        }
-    }
-  
-
-    load() {
-        const _this = this;
-
-        let dic_param = {'id': this.id};
-        return new Promise(function(resolve,reject) {
-            //dic_param.id = _this.id;
-            CMSAPI.getAssetQuestion(dic_param,function(response) {
-                logger.log.debug("QuestionPageModel.load - response",response.data);
-                _this.assign(response.data.results[0]);
-                resolve(response);
-            },function(err) {
-                logger.log.error("QuestionPageModel.load - error",err);
-                reject(err);
-            });
-        });
-    }
-
-    post(dic_param) {
-        return new Promise(function(resolve,reject) {
-            dic_param.token = store.getters.token;
-            CMSAPI.postAssetQuestion(dic_param,function(response) {
-                logger.log.debug("onClickSave : response=",response);
-                resolve(response);
-                //_this.$emit("onPostSave",{ret:1, response:response});
-            }, function(error) {
-                //_this.$emit("onPostSave",{ret:0, response:error});
-                reject(error);
-            });
-        });
-    }
-
-    vote(dic_param) {
-        const _this = this;
-        
-        dic_param.method="vote";
-        dic_param.id = this.id;
-        dic_param.token = store.getters.token;
-        return new Promise(function(resolve,reject) {                        
-            CMSAPI.voteAssetQuestion(dic_param,function(response) {
-                logger.log.debug('onClickQuestionRating - ',response);
-                
-                CommonFunc.updateRatingCount(_this,response);
-                resolve(response);
-            }, function(err) {
-                logger.log.debug('onClickQuestionRating - ',err);
-                reject(err);
-            });          
-        });
-    }    
-
-    remove() {
-        const _this = this;
-        
-        const dic_param = { id:this.id, token:store.getters.token };
-        return new Promise(function(resolve,reject) {                        
-            CMSAPI.deleteAssetQuestion(dic_param,function(response) {
-                logger.log.debug('onClickQuestionRemove - ',response);                
-                resolve(response);
-            }, function(err) {
-                logger.log.debug('onClickQuestionRating - ',err);
-                reject(err);
-            });          
-        });
-    }
-}
-
-
-export class QuestionPageListModel extends baseCollection {
-
-    addFirst(jsonQuestion) {
-        let a_question = new QuestionPageModel();
-        a_question.assign(jsonQuestion);
-        this.insertAtFirst(a_question);
-    }
-
-    assign(questions) {
-        //logger.log.debug("updateAssetQuestion=",questions);
-
-        //let v_questions = [];
-        for (let index=0; index<questions.length;index++) {
-            let a_question = new QuestionPageModel();
-            a_question.assign(questions[index]);
-            this.add(a_question);
-        }
-    }
-
-    load(dic_param) {
-        //let dic_param = {'parent_id': parent_id};
-        const _this=this;
-
-        return new Promise(function(resolve,reject) {
-            CMSAPI.getAssetQuestion(dic_param,function(response) {
-                logger.log.debug("QuestionPageListModel.load - response",response);
-                _this.assign(response.data.results);
-                resolve(response);
-            },function(err) {
-                logger.log.error("AssetView.loadAssetQuestionData - error",err);
-                reject(err);
-            });
-        });
-    }
-
-}
-
-
 export class AssetReviewPageModel {
     id = null;
     content = null;
@@ -493,6 +357,165 @@ export class AssetReviewPageListModel extends baseCollection {
 }
 
 
+
+
+export class QuestionPageModel extends PostPageModel{
+    comments = new QuestionCommentListModel();
+
+    assign(obj) {
+        //this = new PostPage();
+        this.id = obj.id;
+        this.title = obj.title;
+        this.body = obj.body;
+        
+        this.comment_count=obj.comment_count;
+        this.dislike_count= obj.dislike_count;
+        this.like_count = obj.like_count;
+        this.pub_date = obj.pub_date;        
+        this.parent_id = obj.parent_id;
+
+        this.reward = obj.reward;
+        this.closed = obj.closed;
+        this.total_points = obj.total_porints;
+
+        this.owner = obj.api_owner;
+        this.is_owner = false;
+        // is logged-in?
+        if (store.getters.me.id) {
+            if (this.owner.id==store.getters.me.id) {
+                this.is_owner = true;
+            }
+        }
+
+        this.comments = new QuestionCommentListModel();
+    }
+  
+    addCommentFirst(jsonComment) {
+        let a_comment = new QuestionCommentModel();
+        a_comment.assign(jsonComment);
+        this.comments.insertAtFirst(a_comment);
+    }
+
+    load() {
+        const _this = this;
+
+        let dic_param = {'id': this.id};
+        return new Promise(function(resolve,reject) {
+            //dic_param.id = _this.id;
+            CMSAPI.getAssetQuestion(dic_param,function(response) {
+                logger.log.debug("QuestionPageModel.load - response",response.data);
+                _this.assign(response.data.results[0]);
+                resolve(response);
+            },function(err) {
+                logger.log.error("QuestionPageModel.load - error",err);
+                reject(err);
+            });
+        });
+    }
+
+    post(dic_param) {
+        return new Promise(function(resolve,reject) {
+            dic_param.token = store.getters.token;
+            CMSAPI.postAssetQuestion(dic_param,function(response) {
+                logger.log.debug("onClickSave : response=",response);
+                resolve(response);
+                //_this.$emit("onPostSave",{ret:1, response:response});
+            }, function(error) {
+                //_this.$emit("onPostSave",{ret:0, response:error});
+                reject(error);
+            });
+        });
+    }
+
+    vote(dic_param) {
+        const _this = this;
+        
+        dic_param.method="vote";
+        dic_param.id = this.id;
+        dic_param.token = store.getters.token;
+        return new Promise(function(resolve,reject) {                        
+            CMSAPI.voteAssetQuestion(dic_param,function(response) {
+                logger.log.debug('onClickQuestionRating - ',response);
+                
+                CommonFunc.updateRatingCount(_this,response);
+                resolve(response);
+            }, function(err) {
+                logger.log.debug('onClickQuestionRating - ',err);
+                reject(err);
+            });          
+        });
+    }    
+
+    remove() {
+        const _this = this;
+        
+        const dic_param = { id:this.id, token:store.getters.token };
+        return new Promise(function(resolve,reject) {                        
+            CMSAPI.deleteAssetQuestion(dic_param,function(response) {
+                logger.log.debug('onClickQuestionRemove - ',response);                
+                resolve(response);
+            }, function(err) {
+                logger.log.debug('onClickQuestionRating - ',err);
+                reject(err);
+            });          
+        });
+    }
+
+    comment(dic_param) {        
+        dic_param.question_id = this.id;
+        dic_param.token = store.getters.token;
+
+        return new Promise(function(resolve,reject) {
+            CMSAPI.postAssetQuestionComment(dic_param,function(response) {
+                logger.log.debug("QuestionPageModel.comment - response",response);
+                resolve(response);
+
+            },function(err) {
+                logger.log.error("QuestionPageModel.comment - error",err);
+                reject(err);
+            });
+        });
+    }
+
+}
+
+
+export class QuestionPageListModel extends baseCollection {
+
+    addFirst(jsonQuestion) {
+        let a_question = new QuestionPageModel();
+        a_question.assign(jsonQuestion);
+        this.insertAtFirst(a_question);
+    }
+
+    assign(questions) {
+        //logger.log.debug("updateAssetQuestion=",questions);
+
+        //let v_questions = [];
+        for (let index=0; index<questions.length;index++) {
+            let a_question = new QuestionPageModel();
+            a_question.assign(questions[index]);
+            this.add(a_question);
+        }
+    }
+
+    load(dic_param) {
+        //let dic_param = {'parent_id': parent_id};
+        const _this=this;
+
+        return new Promise(function(resolve,reject) {
+            CMSAPI.getAssetQuestion(dic_param,function(response) {
+                logger.log.debug("QuestionPageListModel.load - response",response);
+                _this.assign(response.data.results);
+                resolve(response);
+            },function(err) {
+                logger.log.error("AssetView.loadAssetQuestionData - error",err);
+                reject(err);
+            });
+        });
+    }
+
+}
 
 export class AnswerPageModel extends PostPageModel{
     question_id = null;

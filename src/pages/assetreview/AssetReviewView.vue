@@ -85,9 +85,9 @@ export default {
     updated: function() {
         console.log("AssetView.updated - query=",this.$route.query);
         
-        if (this.$route.query.symbol) {
-            this.g_asset.symbol = this.$route.query.symbol;
-        }        
+        //if (this.$route.query.symbol) {
+        //    this.g_asset.symbol = this.$route.query.symbol;
+        //}        
     },
     
     methods: {

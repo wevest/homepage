@@ -194,6 +194,23 @@ export class PortfolioModel extends baseCollection {
         });
     }
 
+    loadComments(content_type,offset,limit) {
+        let dic_param = {content_type:content_type , id:this.id, limit:limit, offset:offset};
+        logger.log.debug("PortfolioModel.loadComments - dic_param=",dic_param);
+        
+        const _this=this;
+        return new Promise(function(resolve,reject) {
+            _this.comments.load(dic_param).then( response => {
+                logger.log.debug("PortfolioModel.loadComments - response=",response);
+                _this.comments.assign(response.data.results);
+                //logger.log.debug("PortfolioModel.loadComments - comments.items=",_this.comments.items);
+                resolve(response);
+            }).catch( err => {
+                logger.log.error("PortfolioModel.loadComments - error",err);
+                reject(err);
+            });
+        });
+    }
 }
 
 

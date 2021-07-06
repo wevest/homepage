@@ -1,6 +1,6 @@
 <template>
     
-    <div class="row gPageUDRBox">
+    <div class="row q-gutter-md gPageUDRBox">
         <div v-if="v_rating>-1">
             <q-rating                        
                 dense
@@ -12,21 +12,25 @@
                 color="amber-9"
             />                        
         </div>
-        <div>
+        <div v-if="(username) && (username.length>0)">
             {{ username }}
         </div>
-        <div :style="v_style">         
+        <div v-if="(pub_date) && (pub_date.length>0)">
              {{ v_updated_at(pub_date) }} 
         </div>
         <div v-if=" (v_like_count>-1) && (v_dislike_count>-1)">
             <q-icon name="thumb_up_off_alt" />
             <span>
-                {{ like_count }}
+                &nbsp;{{ like_count }}
             </span>
             <q-icon name="thumb_down_off_alt" />
             <span> 
-                {{ dislike_count }} 
-            </span>
+                &nbsp;{{ dislike_count }} 
+            </span>            
+        </div>
+        <div v-if="v_read_count>-1">
+            <q-icon name="chat_bubble_outline" />
+            <span> &nbsp;{{ read_count }}</span>
         </div>
     </div>
 
@@ -58,6 +62,9 @@ export default {
         dislike_count: {
             default: 0,
         },
+        read_count: {
+            default: 0
+        }
     },
     computed: {
         v_me() {
@@ -91,13 +98,19 @@ export default {
             }
             return parseInt(this.dislike_count);
         },
+        v_read_count() {
+            if (typeof this.read_count == "number") {
+                return this.read_count;
+            }
+            return parseInt(this.read_count);
+        },
         v_style() {
             if (! this.username) {
                 return "";
             }
 
             if ( (this.username.length>0) ) {
-                return "padding-left:20px;";
+                //return "padding-left:20px;";
             }
             return "";
         }

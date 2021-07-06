@@ -294,7 +294,7 @@ export default {
             logger.log.debug('AssetReviewList.onClickMoreReview');
 
             store.getters.nav.add(this.$route);
-            CommonFunc.navReview(this,this.symbol,this.objectId);
+            CommonFunc.navReview(this,this.category,this.objectId);
         }
     }
 }

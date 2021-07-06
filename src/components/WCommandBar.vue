@@ -8,13 +8,19 @@
             @click="onClickShare" />
 
         <q-icon 
-            v-if="(isOwner) && (updateBtn.length>0) "
+            v-if="(v_me.loggedIn) && (! isOwner) && (copyBtn.length>0) "
+            :size="size"
+            name="content_copy" 
+            @click="onClickCopy" />
+
+        <q-icon 
+            v-if="(v_me.loggedIn) && (isOwner) && (updateBtn.length>0) "
             :size="size"
             name="mode_edit_outline"
             @click="onClickUpdate" />
 
         <q-icon
-            v-if="(isOwner) && (deleteBtn.length>0) "
+            v-if="(v_me.loggedIn) && (isOwner) && (deleteBtn.length>0) "
             :size="size"
             name="delete_outline" 
             @click="onClickDelete" />
@@ -52,9 +58,18 @@ export default {
             type:String,
             default: ''
         },
+        copyBtn: {
+            type:String,
+            default: ''
+        },
         size: {
             default: '20px'
         }
+    },
+    computed: {
+        v_me() {
+            return store.getters.me;
+        },
     },
     methods: {
         onClickShare() {
@@ -78,6 +93,12 @@ export default {
             logger.log.debug("WCommandBar.onClickUpdate");
 
             this.$emit("onClickUpdate",this.data);
+        },
+
+        onClickCopy() {
+            logger.log.debug("WCommandBar.onClickCopy");
+
+            this.$emit("onClickCopy",this.data);
         },
 
     }

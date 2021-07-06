@@ -12,6 +12,11 @@
             @input="updateValue($event.target.value)"
             @focus="onFocus" @focusout="onFocusOut">
         </textarea>
+
+        <div class="gErrorMsg" v-if="v_error.msg">
+            {{v_error.msg}}
+        </div>
+
     </div>
 
 <!--
@@ -78,6 +83,10 @@ export default{
             v_model: this.model,
             v_value: this.modelValue,
             v_disabled:false,
+
+            v_error: {
+                msg:null
+            }
         }
     },
     methods: {
@@ -87,11 +96,9 @@ export default{
         getValue() {
             return this.v_value;
         },
-
         setValue(value) {
             this.v_value = value;
         },
-
         setHint(value) {
             this.v_hint = value;
         },
@@ -102,6 +109,20 @@ export default{
             logger.log.debug("WTextArea.setRows : txtMemo=",this.$refs.txtMemo);
             this.v_rows = value;            
         },
+        setErrorMessage(msg) {
+            this.v_error.msg = msg;
+        },
+        setStyle(value) {
+            this.v_style=value;
+        },
+
+        showBorder() {
+            this.setStyle("border:1px solid #e1e1e1;");
+        },
+        hideBorder() {
+            this.setStyle("border:none;");
+        },
+        
 
         setFocus() {
             this.$refs.txtMemo.focus();

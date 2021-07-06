@@ -26,7 +26,7 @@
                             v-if="v_is_owner(a_comment)"
                             @click="onClickDeleteComment(data,a_comment)" 
                             />
--->                            
+-->                                            
                     </div>
 
                 </div>
@@ -133,17 +133,17 @@ export default {
 
         //onClickDeleteComment: function(answer,comment) {
         onClickDeleteComment: function(data) {
-            logger.log.debug("AssetAnswerList.onClickDeleteComment=",data);
+            logger.log.debug("AssetAnswerList.onClickDeleteComment:data=",data);
             
             const _this=this;            
             data.comment.remove().then(response=>{
                 logger.log.debug("AssetAnswerList.onClickDeleteComment : response=",response);
                 data.answer.comments.delete(data.comment.id);                
                 //_this.$emit("onCommentDelete",{answer:data.answer,comment:data.comment});
-                CommonFunc.showOkMessage(_this,"Answer comment Deleted");
+                CommonFunc.showOkMessage(_this,"Comment Deleted");
             }).catch(err=>{
                 logger.log.debug("AssetAnswerList.onClickDeleteComment : err=",err);
-                CommonFunc.showErrorMessage(_this,"Answer Deleted Error");
+                CommonFunc.showErrorMessage(_this,"Comment Deleted Error");
             });
         },
 
@@ -151,8 +151,7 @@ export default {
             const _this = this;
 
             logger.log.debug("AssetAnswerList.onClickVoteComment=",dicParam);
-                        
-            
+                                    
             let dic_param = {method:'vote',value:-1};
 
             if (dicParam.value=="like") {
@@ -162,10 +161,10 @@ export default {
             let comment = dicParam.data;
             comment.vote(dic_param).then(response=>{
                 logger.log.debug("AssetList.onClickVoteComment - response",response);
-                CommonFunc.showOkMessage(_this,"Comments Posted");
+                CommonFunc.showOkMessage(_this,"Comments Voted");
             }).catch(err=>{
                 logger.log.error("AssetList.onClickVoteComment - error",err);
-                CommonFunc.showErrorMessage(_this,"Comments Posted");
+                CommonFunc.showErrorMessage(_this,"Comments Voting Error");
             });
 
         },

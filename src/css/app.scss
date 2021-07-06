@@ -301,7 +301,7 @@
 }
 
 .gSeparator {
-  margin:0px -20px 0px -20px !important;
+  margin:10px -20px 20px -20px !important;
   height:7px;
   background: #f0f1f6;
 }
@@ -314,5 +314,10 @@
 
 .gBoxWriterSave {
   padding:20px 10px 20px 10px;
+}
+
+.gErrorMsg {
+  color:#C10015;
+  font-size:12px;
 }
 /* end */

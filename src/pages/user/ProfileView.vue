@@ -41,11 +41,11 @@
                     <div>Biography</div>
                     <q-space />
                     <div>
-                        <q-btn flat @click="onClickEdit" v-show="isOwner" label="Edit" />
+                        <q-btn flat @click="onClickEdit" v-show="isOwner" :label="v_edit_button" />
                     </div>
                 </div>
                 <div  style="padding-bottom:14px;">
-                    <q-input filled type="textarea" v-model="v_user.biography" :readonly="! v_edit" />
+                    <q-input filled type="textarea" v-model="v_user.biography" :readonly="! v_mode.length>0" />
                 </div>
 
 <!--                
@@ -69,12 +69,12 @@
                     </div>
                     <div class="col-2"></div>
                 </div>
--->                
-            </q-card-section>
-            
             <q-card-actions v-if="v_edit" align="center">
                 <q-btn color="primary" label="Save" @click="onClickSave" />
             </q-card-actions>
+-->                
+            </q-card-section>
+            
         </q-card>
 
         <q-card class="boxCard">
@@ -232,10 +232,10 @@ export default {
     data: () => ({
         g_data: null,
 
-        v_user: new UserModel(),
-        v_edit: false,
-        v_back: false,
-
+        v_user: new UserModel(),        
+        
+        v_mode: "",
+        v_edit_button: 'Edit',
         v_labels: {'submit': 'Upload', 'cancel': 'Cancel'},
     }),
     mounted: function() {
@@ -437,18 +437,16 @@ export default {
 
         onClickEdit: function() {
             logger.log.debug("onClickEdit - edit=",this.v_edit);
-            this.v_edit = ! this.v_edit;
-        },
-
-        onClickBack: function() {
-            logger.log.debug("onClickBack - back=");
-            CommonFunc.navBack(this);
-        },
-
-        onClickSave: function() {
-            logger.log.debug("onClickSave");
-            this.v_edit = false;
-            this.updateUserProfile(this.v_user);
+            
+            if (this.v_mode.length==0) {
+                this.v_mode = "edit";
+                this.v_edit_button = "Save";
+                return;
+            }
+                        
+            this.updateUserProfile(this.v_user);      
+            this.v_edit_button = "Edit";
+            this.v_mode = "";
         },
 
         onClickChangeProfile: function() {
@@ -488,12 +486,12 @@ export default {
         },
 
         onClickPortfolio: function(portfolio) {
-            logger.log.debug("onClickPortfolio",portfolio);
+            logger.log.debug("ProfileView.onClickPortfolio:portfolio=",portfolio);
             //this.$refs.addPortfolio.show();
-            
-            store.getters.nav.add(this.$route);
-            let dic_param = { name:'portfolio_detail', path:'portfolio_detail', params:{ user:this.v_user, portfolio:portfolio, back:true } };
-            this.$router.push(dic_param);
+            CommonFunc.navPortfolio(this,this.v_user,portfolio);
+            //store.getters.nav.add(this.$route);
+            //let dic_param = { name:'portfolio_detail', path:'portfolio_detail', params:{ user:this.v_user, portfolio:portfolio, back:true } };
+            //this.$router.push(dic_param);
         },
 
         onClickFollower: function(user) {

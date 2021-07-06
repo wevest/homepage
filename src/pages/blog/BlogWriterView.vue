@@ -15,7 +15,7 @@
                     :error-message="v_error.title.msg"
                 />
             </div>
-            <div class="gBoxNoMargin">
+            <div class="gBoxNoMargin q-mt-md">
                 <Editor 
                     ref="toastEditor"
                     :value="v_post.text"
@@ -27,8 +27,8 @@
                     mode="wysiwyg"
                     initialEditType="wysiwyg"
                 />
-                <div v-if="v_error.text.error">
-                    {{v_error.text.msg}}
+                <div class="gErrorMsg" v-if="v_error.text.error">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{v_error.text.msg}}
                 </div>
             </div>
             <div style="padding-top:10px;">
@@ -232,19 +232,20 @@ export default {
         },
 
         validate: function(dic_data) {
+            let validated = true;
             if (CommonFunc.isEmptyObject(dic_data.title)) {
                 this.v_error.title.error = true;
                 this.v_error.title.msg = 'Please type title';
-                return false;
+                validated = false;
             }
 
             if (CommonFunc.isEmptyObject(dic_data.text)) {
                 this.v_error.text.error = true;
                 this.v_error.text.msg = 'Please type something';
-                return false;
+                validated = false;
             }
 
-            return true;
+            return validated;
         },
 
 
@@ -265,7 +266,7 @@ export default {
             }
 
             if (! this.validate(dic_param)) {
-                CommonFunc.showOkMessage(_this,'Blog posted');
+                //CommonFunc.showErrorMessage(_this,'Please ');
                 return;
             }
 

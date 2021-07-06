@@ -413,33 +413,92 @@ export default class CMSAPI {
       	});
   	}
 
-  static voteAssetAnswerComment(dic_param, func, funcErr) {
-    let url = CMSAPI.getUrl(
-      MoaConfig.urls.cms,
-      "/api/qa/acomments/" + dic_param.id + "/" + dic_param.method + "/"
-    );
-    callCMSAPI("POST", url, {}, dic_param)
-      .then(response => {
-        func(response);
-      })
-      .catch(err => {
-        funcErr(err);
-      });
-  }
+	static voteAssetAnswerComment(dic_param, func, funcErr) {
+		let url = CMSAPI.getUrl(
+		MoaConfig.urls.cms,
+		"/api/qa/acomments/" + dic_param.id + "/" + dic_param.method + "/"
+		);
+		callCMSAPI("POST", url, {}, dic_param)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+	}
 
-  static getUserRelation(dic_param, func, funcErr) {
-    let url = CMSAPI.getUrl(
-      MoaConfig.urls.cms,
-      "/api/user/users/" + dic_param.id + "/relation/"
-    );
-    callCMSAPI("POST", url, {}, dic_param)
-      .then(response => {
-        func(response);
-      })
-      .catch(err => {
-        funcErr(err);
-      });
-  }
+
+	static getAssetQuestionComment(dic_param, func, funcErr) {
+    	let url = CMSAPI.getUrl(
+      		MoaConfig.urls.cms,
+      		"/api/qa/qcomments/?question_id=" + dic_param.question_id
+    	);
+
+		url = CommonFunc.addLimitOffsetToQuery(url, dic_param);
+		
+    	callCMSAPI("GET", url, {}, dic_param)
+      	.then(response => {
+        	func(response);
+      	})
+      	.catch(err => {
+        	funcErr(err);
+      	});
+  	}
+
+  	static postAssetQuestionComment(dic_param, func, funcErr) {
+		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/qa/qcomments/");
+		callCMSAPI("POST", url, {}, dic_param)
+	  	.then(response => {
+			func(response);
+	  	})
+	  	.catch(err => {
+			funcErr(err);
+	  	});
+  	}
+
+
+  	static deleteAssetQuestionComment(dic_param, func, funcErr) {
+    	let url = CMSAPI.getUrl(
+			MoaConfig.urls.cms, 
+			"/api/qa/qcomments/" + dic_param.id + "/"
+		);
+    	callCMSAPI("Delete", url, {}, dic_param)
+      	.then(response => {
+        	func(response);
+      	})
+      	.catch(err => {
+        	funcErr(err);
+      	});
+  	}
+
+
+	  static voteAssetQuestionComment(dic_param, func, funcErr) {
+		let url = CMSAPI.getUrl(
+		MoaConfig.urls.cms,
+		"/api/qa/qcomments/" + dic_param.id + "/" + dic_param.method + "/"
+		);
+		callCMSAPI("POST", url, {}, dic_param)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+	}
+
+	static getUserRelation(dic_param, func, funcErr) {
+		let url = CMSAPI.getUrl(
+			MoaConfig.urls.cms,
+			"/api/user/users/" + dic_param.id + "/relation/"
+		);
+		callCMSAPI("POST", url, {}, dic_param)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+	}
 
 
   static getUserFeeds(dic_param, func, funcErr) {

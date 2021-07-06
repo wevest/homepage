@@ -1,5 +1,5 @@
 <template>
-	<div class="no-wrap q-px-md q-pb-md commentBox" v-show="visible">
+	<div class="no-wrap q-px-md q-pb-md commentBox" v-show="visible" @click="onClick">
 
 		<div v-if="v_show">
 			<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
@@ -169,6 +169,8 @@ export default {
 			this.v_input = "";
 			this.v_comments = null;
 			this.v_show = false;	
+
+			this.$refs.descText.hideBorder();
 			this.$refs.descText.clear();
 			this.$refs.descText.setRows(1);
 		},
@@ -265,6 +267,7 @@ export default {
 			this.v_show = true;	
 
 			setTimeout( () => {
+				this.$refs.descText.showBorder();
 				this.$refs.descText.setRows(5);		
 				this.$refs.descText.setFocus();			
 			},100);
@@ -285,9 +288,25 @@ export default {
 		onTextChange: function(value) {
 			//logger.log.debug("onTextChange : value=",value);
 			this.v_input = value;
+		},
+
+		onClick: function() {
+			logger.log.debug("CommentForm.onClick : parent=",this.$parent);
+
+			if (this.v_me.isLoggedIn()) {
+				return;
+			}
+
+			const _this=this;
+			store.getters.nav.add(this.$route);
+            store.getters.components.getComponent('confirmDialog').show('Please login first',function(value) {
+                logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
+                if (value) {
+                    CommonFunc.navSignin(_this);
+                }
+            });
+
 		}
-
-
 	},
 };
 </script>
@@ -299,6 +318,7 @@ export default {
 	border: 1px solid #cccccc;
 	border-radius: 7px; 
 	/* height:125px; */
+	margin-bottom:15px;
 }
 .saveCloseBtn {
 	margin-top:8px;
