@@ -85,11 +85,15 @@ export default {
     },
 
     methods: {
-
         update(post,comments) {
             logger.log.debug("CommentBox.update : comments=",comments);
             this.v_post = post;
             this.v_items = comments;
+        },
+
+        setPageParameter(next_url) {
+            logger.log.debug('CommentBox.setPageParameter - ',next_url);
+            this.$refs.commentTree.setPageParameter(next_url);
         },
 
         onClickCommentSave: function(payload) {            

@@ -30,7 +30,7 @@
 
                         <WSubinfo username="" 
                             :pub_date="a_review.creation_date" :rating="a_review.average_rating"
-                            like_count="-1" dislike_count="-1" />
+                            like_count="-1" dislike_count="-1" read_count="-1" />
                     
                     </q-item-label>  
                 

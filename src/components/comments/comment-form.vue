@@ -298,10 +298,10 @@ export default {
 			}
 
 			const _this=this;
-			store.getters.nav.add(this.$route);
             store.getters.components.getComponent('confirmDialog').show('Please login first',function(value) {
                 logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
                 if (value) {
+					store.getters.nav.add(this.$route);					
                     CommonFunc.navSignin(_this);
                 }
             });

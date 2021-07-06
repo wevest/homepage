@@ -342,17 +342,12 @@ export default {
             
             const _this=this;
 
-            store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
-                logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
-                if (! value) return;
-
-                let dic_param = {id:comment.id};
-                _this.post.comments.removeComment(dic_param).then(response=>{
-                    logger.log.debug("CommentItem.onClickDelete : response=",response);
-                    CommonFunc.showOkMessage(_this,'comments deleted');                                   
-                }).catch(err=>{
-                    CommonFunc.showErrorMessage(_this,'comments deleted failed');                
-                });
+            let dic_param = {id:comment.id};
+            this.post.comments.removeComment(dic_param).then(response=>{
+                logger.log.debug("CommentItem.onClickDelete : response=",response);
+                CommonFunc.showOkMessage(_this,'comments deleted');                                   
+            }).catch(err=>{
+                CommonFunc.showErrorMessage(_this,'comments deleted failed');                
             });
 
         },

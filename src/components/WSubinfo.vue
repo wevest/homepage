@@ -63,7 +63,7 @@ export default {
             default: 0,
         },
         read_count: {
-            default: 0
+            default: -1
         }
     },
     computed: {

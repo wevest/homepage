@@ -552,7 +552,7 @@ export default class CommonFunc {
         logger.log.debug("CommonFunc.navProfile - ",username);
 
         //CommonFunc.setAppData('selected_author',author);
-        let dic_param = { name:'profile', path:'profile', query:{ username:username, back:true } };
+        let dic_param = { name:'profile', path:'profile', query:{ username:username } };
         a_this.$router.push(dic_param);
     }
 
@@ -1467,5 +1467,46 @@ export default class CommonFunc {
         CommonFunc.copyToClipboard(a_this,value);        
     }    
 
+    static checkButtonPermission(a_this,is_signin,is_delete) {
+        const _this=this;
+
+        return new Promise(function(resolve,reject) {        
+            
+            if (is_signin) {
+
+                if (! store.getters.me.isLoggedIn()) {
+
+                    store.getters.components.getComponent('confirmDialog').show('Please login first',function(value) {
+                        if (! value) {
+                            resolve(0);
+                            return;
+                        } else {
+                            resolve(0);
+                            store.getters.nav.add(this.$route);
+                            CommonFunc.navSignin(a_this);
+                        }                    
+                    });                                
+                } else {
+                    resolve(1);
+                }
+            }
+
+            else if (is_delete) {
+
+                store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
+                    if (! value) {
+                        resolve(0);
+                    } else {
+                        resolve(1);
+                    }                    
+                });
+            
+            } else {
+                resolve(1);
+            }
+
+        });
+
+    }
 }
 
