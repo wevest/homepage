@@ -20,7 +20,7 @@
 
                     </div>
                 </div>
-                <div class="">
+                <div class="q-my-sm">
                     <WSubinfo 
                         :username="v_user.username" 
                         :pub_date="v_portfolio.created_at" 
@@ -49,7 +49,7 @@
         <q-separator class="gSeparator" />
 
         <div>
-            <div>
+            <div class="q-my-lg">
                 <span class="text-h5 text-weight-bold"> ROI Chart </span>
             </div>
             
@@ -64,16 +64,16 @@
         <q-separator class="gSeparator" />
 
         <div class="cardBox">
-            <q-card class="q-my-sm" flat bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index">
-                <q-card-section class="cardSection">
+            <q-card class="q-my-md" flat bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index">
+                <q-card-section>
                     <div class="row">
-                        <div class="box2">  
+                        <div class="boxIcon">  
                             <q-icon class="coinIcon" name="account_tree" color="black" size="34px" />                                    
                         </div>    
                         <div @click="onClickSymbol(a_portfolio.api_asset.symbol)">
                             <div class="symbolBox">
-                                <span class="symbolName"> {{a_portfolio.api_asset.symbol}}</span>
-                                <span class="coinName"> ({{a_portfolio.api_asset.name}}) </span>
+                                <span class="text-h6 text-weight-bold"> {{a_portfolio.api_asset.symbol}}</span>
+                                <span class="text-caption text-grey-6"> &nbsp; ({{a_portfolio.api_asset.name}}) </span>
                             </div>
                             <div>
                                 <span class="text-caption text-grey-6 q-mt-sm">{{v_updated_at(a_portfolio.updated_at)}}</span>
@@ -95,7 +95,7 @@
 
                 <q-card-section class="cardSection2">                        
                     <div class="row">
-                        <div class="col box2-3 align-items">
+                        <div class="col align-items">
                             <span class="text-caption text-grey-6">ROI</span>
                             <br>
                             <span class="text-h5 text-weight-bolder" :style="v_color(a_portfolio.roi)">{{v_format(a_portfolio.roi)}} %</span>
@@ -109,9 +109,9 @@
 
                 </q-card-section>
 
-                <q-card-section>
+                <q-card-section class="cardSection2">
 
-                    <div class="desc"> 
+                    <div class="text-body2 text-grey-8"> 
                         {{a_portfolio.description}} 
                     </div>
                     
@@ -447,36 +447,13 @@ export default {
 
 
 <style scoped>
-.groupName {
-    font-size:30px;
-    font-weight:bold;
-    color:#222222;
-}
 
-
-.box1 {
-    padding:20px 0px 20px 10px;
-    text-align:center;
-}
-
-.box2 {
+.boxIcon {
     padding-right:15px; 
-}
-
-
-
-.box3 {
-    padding:0px 0px 15px 0px;
 }
 
 .cardBox {
     padding:10px 10px 10px 10px;
-}
-
-.chartTitleBox {
-    color:#222222;
-    margin:15px 20px 15px 20px;
-
 }
 
 .coinIcon {
@@ -488,19 +465,10 @@ export default {
     margin-bottom:-7px;
 }
 
-.symbolName {
-    font-size:20px;
-    color:#222222;
-    font-weight:bold;
-}
 
 .coinName {
     font-size:12px;
     color:#999999;
-}
-
-.cardSection {
-    padding:10px 10px 5px 10px;
 }
 
 .cardSection2 {
