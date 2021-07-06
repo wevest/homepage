@@ -72,7 +72,7 @@
                         </div>
                         <div style="padding-left:15px; padding-top:10px;">
                             <span class="username"> {{v_post.api_owner.username}}</span>&nbsp;
-                            <q-btn class="followBtn" icon="add_circle" label="Follow" size="13px" dense flat @click="onClickFollow(1)" v-if="! v_owner" />
+                            <q-btn class="followBtn" icon="add_circle" :label="v_follow_button" size="13px" dense flat @click="onClickFollow(1)" v-if="! v_owner" />
                         </div>
                     </div>                    
                     <div>
@@ -181,6 +181,7 @@ export default {
             v_comments: [],
             v_comments_readonly:false,
             v_comments_count: 0,
+            v_follow_button:'Follow',
 
             editorOptions: {
                 hideModeSwitch: true,
@@ -424,6 +425,7 @@ export default {
             const _this=this;
             this.v_me.follow(this.v_post.api_owner.id,value).then( response => {
                 logger.log.debug("onClickFollow - response=",response);
+                _this.v_follow_button = 'Followed';
                 CommonFunc.showOkMessage(_this,'Followed');                
             }).catch(err=>{
                 CommonFunc.showErrorMessage(_this,err.data.msg);

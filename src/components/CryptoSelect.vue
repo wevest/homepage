@@ -123,6 +123,9 @@ export default {
             this.$emit("onSelectAsset",a_asset);
         },
 
+        setValue: function(value) {
+            this.g_asset = value;
+        },
 
         onSearch: function(value) {
         //logger.log.debug('onSearch=',value);

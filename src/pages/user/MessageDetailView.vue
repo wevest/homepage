@@ -141,9 +141,12 @@ export default {
                 _this.setScrollPosition(100000);
             });
         },
-
+        setMode(mode) {
+            this.v_reply.mode=mode;
+        },
         clearReply() {
             this.v_reply.content = '';
+            this.setMode("new");
         },
 
         handleResize(event) {
@@ -212,7 +215,7 @@ export default {
                 this.handleReply();
             } else {
                 this.handleEdit();
-            }            
+            }
         },
 
         onClickChat: function(message) {
@@ -237,11 +240,10 @@ export default {
                 logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
                 _this.handleDelete();
             });
-
         },
 
         onClickEdit: function() {                        
-            this.v_reply.mode = "edit";
+            this.setMode("edit");
             this.v_reply.thread_id = this.v_selected.thread_id;
             this.v_reply.content = this.v_selected.content;
             this.v_reply.uuid = this.v_selected.uuid;

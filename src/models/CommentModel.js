@@ -66,6 +66,8 @@ export class CommentModel {
 
 export class CommentListModel extends baseCollection {
     assign (comments) {
+        //logger.log.debug("CommentListModel.assign:comments=",comments);
+
         for (let index = 0; index < comments.length; index++) {
             let a_comment = new CommentModel();
             a_comment.assign(comments[index]);
@@ -373,6 +375,104 @@ export class AnswerCommentListModel extends baseCollection {
                 resolve(response);
             },function(err) {
                 logger.log.error("AnswerCommentListModel.load - error",err);
+                reject(err);
+            });
+        });            
+
+    }
+
+    remove(comments,id) {
+        const index = _.findIndex(comments,{id:id});
+        if (index>-1) {
+            comments.splice(index,1);
+        }        
+    }    
+}
+
+
+
+export class QuestionCommentModel {
+    id=null;
+    question_id=null;
+    owner=null;
+    comment_text=null;
+    like_count=null;
+    dislike_count=null;
+    pub_date = null;   
+    comments = null;
+
+    assign(obj) {
+        this.id=obj.id;
+        this.question_id=obj.question_id;
+        this.owner=obj.api_owner;
+        this.comment_text=obj.comment_text;
+        this.like_count=obj.like_count;
+        this.dislike_count=obj.dislike_count;
+        this.pub_date=obj.pub_date;
+    }
+
+    vote(dic_param) {
+        const _this=this;
+        
+        dic_param.id = this.id;
+        dic_param.token = store.getters.token;
+        return new Promise(function(resolve,reject) {
+            CMSAPI.voteAssetQuestionComment(dic_param,function(response) {
+                //_this.g_data = response.data;
+                logger.log.debug("AnswerCommentModel.vote - response",response);
+
+                _this.like_count = response.data.data.like_count;
+                _this.dislike_count = response.data.data.dislike_count;
+
+                resolve(response);
+
+            },function(err) {
+                logger.log.error("AnswerCommentModel.vote - error",err);
+                reject(err);
+            });
+        });
+    }
+
+
+    remove() {
+        let dic_param = { id:this.id, token:store.getters.token};
+        return new Promise(function(resolve,reject) {
+            logger.log.debug('AnswerCommentModel.delete - ',dic_param);
+            CMSAPI.deleteAssetQuestionComment(dic_param,function(response) {                
+                resolve(response);
+            }, function(error) {
+                reject(error);
+            });
+        });
+    }
+
+}
+
+
+
+export class QuestionCommentListModel extends baseCollection {
+
+    assign(comments) {
+        for (let index=0; index<comments.length;index++) {
+            let a_comment = new QuestionCommentModel();
+            a_comment.assign(comments[index]);
+            this.add(a_comment);
+        }
+    }
+
+    load(question_id,a_offset,a_limit) {
+        const _this = this;
+
+        return new Promise(function(resolve,reject) {
+            let dic_param = {question_id:question_id, limit:a_limit, offset:a_offset};
+            //logger.log.debug("AnswerCommentListModel.load - dic_param=",dic_param);
+
+            CMSAPI.getAssetQuestionComment(dic_param,function(response) {
+                //logger.log.debug("AnswerCommentListModel.load - response",response.data);
+                _this.assign(response.data.results);
+                resolve(response);
+            },function(err) {
+                logger.log.error("QuestionCommentListModel.load - error",err);
                 reject(err);
             });
         });            

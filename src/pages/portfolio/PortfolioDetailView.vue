@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="q-pa-md">
         <div class="row">
             <q-space />
             
@@ -59,124 +59,103 @@
         </div>
         <q-separator size="2px" />
 
-        <div class="row">
-            <div class="col">
-                <div>
-                    <h4 class="chartTitleBox"> ROI Chart </h4>
-                </div>
-                <q-separator size="2px" />
-                <PortfolioChart ref="portfolioChart" />
-                <div class="q-gutter-sm text-center">
-                    <q-btn icon=thumb_up_off_alt flat size="15px" color="grey-8" @click="onClickVote(1)" />
-                    <q-btn icon=thumb_down_off_alt flat size="15px" color="grey-8" @click="onClickVote(-1)" />
-                </div>
+        <div>
+            <div>
+                <h4 class="chartTitleBox"> ROI Chart </h4>
+            </div>
+            <q-separator size="2px" />
+            <PortfolioChart ref="portfolioChart" />
+            <div class="q-gutter-sm text-center">
+                <q-btn icon=thumb_up_off_alt flat size="15px" color="grey-8" @click="onClickVote(1)" />
+                <q-btn icon=thumb_down_off_alt flat size="15px" color="grey-8" @click="onClickVote(-1)" />
             </div>
         </div>
 
-        <div class="row cardBox">
-            <div class="col">
-                <q-card class="coinBox" flat bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index">
-                    <q-card-section>
 
-                        <div class="row">
+        <div class="cardBox q-gutter-md">
+            
+            <q-card class="coinBox" flat bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index">
+                <q-card-section>
 
-                            <div class="box2-1">  
-                                <q-icon class="coinIcon" name="account_tree" color="black" size="34px" />                                    
-                            </div>    
-                            <div class="box2-2" @click="onClickSymbol(a_portfolio.api_asset.symbol)">
-                                <div>
-                                    <span class="symbolName"> {{a_portfolio.api_asset.symbol}}</span>
-                                    <span> ({{a_portfolio.api_asset.name}}) </span>
-                                </div>
-                                <div>
-                                    <span class="value">{{v_updated_at(a_portfolio.updated_at)}}</span>
-                                </div>
-                            </div>        
-                            <q-space />
-                            <div class="text-grey-8 q-gutter-xs">
-                                <q-btn size="15px" flat dense round icon="delete" @click="onClickDelete(a_portfolio)"/>&nbsp;
-                                <q-btn size="15px" flat dense round icon="add" 
-                                    v-if="! v_is_owner"
-                                    label="포트폴리오복사" 
-                                    @click="onClickAddToMyPortfolio(a_portfolio)" />&nbsp;
-                                <q-btn size="15px" flat dense round icon="more_vert" />
-                            </div>                            
-                        </div>  
-                    </q-card-section>
+                    <div class="row">
 
-                    <q-card-section>                        
-                        <div class="row box3">
-                            <div class="col box2-3 align-items">
-                                <span class="name2">ROI</span>
-                                <br>
-                                <span class="roiValue">{{v_format(a_portfolio.roi)}} %</span>
+                        <div class="box2-1">  
+                            <q-icon class="coinIcon" name="account_tree" color="black" size="34px" />                                    
+                        </div>    
+                        <div class="box2-2" @click="onClickSymbol(a_portfolio.api_asset.symbol)">
+                            <div>
+                                <span class="symbolName"> {{a_portfolio.api_asset.symbol}}</span>
+                                <span> ({{a_portfolio.api_asset.name}}) </span>
+                            </div>
+                            <div>
+                                <span class="value">{{v_updated_at(a_portfolio.updated_at)}}</span>
+                            </div>
+                        </div>        
+                        <q-space />
+                        <div class="text-grey-8 q-gutter-xs">
+                            <q-btn size="15px" flat dense round icon="delete" @click="onClickDelete(a_portfolio)"/>&nbsp;
+                            <q-btn size="15px" flat dense round icon="add" 
+                                v-if="! v_is_owner"
+                                label="포트폴리오복사" 
+                                @click="onClickAddToMyPortfolio(a_portfolio)" />&nbsp;
+                            <q-btn size="15px" flat dense round icon="more_vert" @click="onClickEdit(a_portfolio)" />
+                        </div>                            
+                    </div>  
+                </q-card-section>
+
+                <q-card-section>                        
+                    <div class="row box3">
+                        <div class="col box2-3 align-items">
+                            <span class="name2">ROI</span>
+                            <br>
+                            <span class="roiValue">{{v_format(a_portfolio.roi)}} %</span>
 <!--    
-                                <br>
-                                <span class="text-grey-8">{{ v_format(a_portfolio.last*a_portfolio.qty)}} </span>
+                            <br>
+                            <span class="text-grey-8">{{ v_format(a_portfolio.last*a_portfolio.qty)}} </span>
 -->                                
-                            </div>    
+                        </div>    
 
-                            <div class="col">  
-                                <span class="name2">Current Price</span>
-                                <br>
-                                <span class="roiValue">{{ v_format(a_portfolio.last) }}</span>                                
-                            </div>
-
-<!--
-                            <q-separator vertical inset />                                
-                            <div class="col">
-                                <span class="value">{{ v_format(a_portfolio.price) }}</span><br>
-                                <span class="name2 cursor-pointer">Fist Price</span>
-                            </div>
-                            <q-separator vertical inset />
-                            <div class="col">
-                                <span class="value">{{v_updated_at(a_portfolio.updated_at)}}</span><br>
-                                <span class="name2">Inception Date</span>
-                            </div>
--->                            
+                        <div class="col">  
+                            <span class="name2">Current Price</span>
+                            <br>
+                            <span class="roiValue">{{ v_format(a_portfolio.last) }}</span>                                
                         </div>
-                    </q-card-section>
 
-                    <q-card-section>
+                    </div>
+                </q-card-section>
 
-                        <div class="desc"> 
-                            {{a_portfolio.description}} 
-                        </div>
-                        
-                    </q-card-section>
+                <q-card-section>
 
-                </q-card>
+                    <div class="desc"> 
+                        {{a_portfolio.description}} 
+                    </div>
+                    
+                </q-card-section>
 
-            </div>
+            </q-card>
+
         </div>
 
-        <div class="row">
-            <div class="col">
-                <CommentForm ref="commentForm" type="comment"
-                    :contentType="v_content_type" :post="v_portfolio"
-                    @onClickCommentSave="onClickCommentSave" />
 
-<!--                
-                @onEditorFocus="onEditorFocus" @onEditorFocusOut="onEditorFocusOut" />
--->
+        <div class="col">
+            <CommentForm ref="commentForm" type="comment"
+                :contentType="v_content_type" :post="v_portfolio"
+                @onClickCommentSave="onClickCommentSave" />
 
-                <CommentTree ref="commentTree" 
-                    :data-list="v_portfolio.comments.items" 
-                    :contentType="v_content_type" :post="v_portfolio"
-                    @onClickCommentReply="onClickCommentReply"
-                    @onClickLoadMore="onClickLoadMore"
-                    @onClickRate="onClickRate"                    
-                />
+            <CommentTree ref="commentTree" 
+                :data-list="v_portfolio.comments.items" 
+                :contentType="v_content_type" :post="v_portfolio"
+                @onClickCommentReply="onClickCommentReply"
+                @onClickLoadMore="onClickLoadMore"
+                @onClickRate="onClickRate"                    
+            />
+            
+            <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
 
-            </div>
         </div>
 
         <AddPortfolioDialog ref="addPortfolio" @onPortfolioItemAdded="onPortfolioItemAdded" />
-<!--        
-        <br /><br /><br />
-        
-        <WConfirmDialog ref="confirmDialog" title="Do you want to delete the item?" @onClickConfirm="onClickDeleteConfirm" />
--->
+
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
             <q-btn fab icon="add" color="accent" @click="onClickAdd" />
         </q-page-sticky>
@@ -190,12 +169,13 @@ import {store} from 'src/store/store';
 import {MoaConfig} from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
+import UserModel from "src/models/UserModel";
 import {PortfolioModel,PortfolioItemModel} from "src/models/PortfolioModel";
 
 import CommentForm from "components/comments/comment-form.vue";
 import CommentTree from "components/comments/comment-tree.vue";
+import LoadMore from "src/components/LoadMore";
 
-//import WConfirmDialog from 'components/dialogs/WConfirmDialog';
 import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 import PortfolioChart from 'src/pages/user/component/PortfolioChart';
 
@@ -208,8 +188,8 @@ export default {
         CommentForm,
         CommentTree,
         AddPortfolioDialog,
-        //WConfirmDialog,
-        PortfolioChart
+        PortfolioChart,
+        LoadMore
     },    
     mixins: [],
     computed: {
@@ -230,7 +210,7 @@ export default {
             };
         },
         v_is_owner() {
-            if (this.v_me.id==this.v_user.id) {
+            if (this.v_me.username==this.v_user.username) {
                 return true;
             }
             return false;
@@ -244,9 +224,11 @@ export default {
     data() {
         return {
             v_content_type:"portfolio.portfolio",
-            v_user: null,
-            //v_portfolio: new PortfolioModel(),
-            v_portfolio: null,
+            
+            v_query: null,
+            v_user: new UserModel(),
+            v_portfolio: new PortfolioModel(),
+            
             v_selected: null,
         }
     },
@@ -254,20 +236,15 @@ export default {
         logger.log.debug("PortfolioDetailView.created");
     },
     beforeMount() {
-        logger.log.debug("PortfolioDetailView.beforeMounted - params=",this.$route.params);
-        
-        this.v_user = this.$route.params.user;
-        this.setPortfolio(this.$route.params.portfolio);
-        this.updateRead();
+        logger.log.debug("PortfolioDetailView.beforeMounted - query=",this.$route.query);    
     },
     mounted() {
         logger.log.debug("PortfolioDetailView.mounted");
 
-        //this.$parent.$parent.$refs.header.setBackArrow(true,this);
-        //this.profile = store.getters.moa.user.profile;
-        //this.avatarUrl = store.getters.moa.user.firebase.photoURL;
-        //this.getProfile();
-        this.loadComments(this.v_portfolio.id);
+        this.prepare();
+        this.refresh();
+        this.loadComments(this.v_query.portfolio_id);
+        this.updateRead(this.v_query.portfolio_id);
         //this.$refs.portfolioChart.update(this.v_portfolio);
     },
     beforeDestroy() {
@@ -276,28 +253,37 @@ export default {
     },
 
     methods: {
-        updateRead() {
-            this.v_user.portfolio.readPortfolio(this.v_portfolio.id).then(response=>{
+        prepare() {
+            this.v_user.username = this.$route.query.username;
+            this.v_portfolio.id = this.$route.query.portfolio_id;
+
+            this.v_query = this.$route.query;
+        },
+
+        updateRead(portfolio_id) {
+            this.v_user.portfolio.readPortfolio(portfolio_id).then(response=>{
                 logger.log.debug("PortfolioDetailView.updateRead : response=",response);    
             });
         },
 
-        setPortfolio(portfolio) {
-            //this.v_portfolio = this.v_user.portfolio.getItem(portfolio_id);
-            this.v_portfolio = portfolio;
-            
+        selectPortfolio(portfolio_id) {
             const _this=this;
+            this.v_portfolio = this.v_user.portfolio.getItem(parseInt(portfolio_id));
+
+            logger.log.debug("PortfolioDetailView.setPortfolio : v_portfolio=",portfolio_id,this.v_portfolio);
+
             store.state.prices.load().then( response => {
                 _this.v_portfolio.calcPerformance(store.state.prices);
                 _this.$refs.portfolioChart.update(_this.v_portfolio);
-            })
-            logger.log.debug("PortfolioDetailView.setPortfolio : v_portfolio=",this.v_portfolio);
+            })            
         },
 
         refresh: function() {
             const _this=this;
             this.v_user.loadPortfolio().then( response => {
                 logger.log.debug("PortfolioDetailView.refresh=>",response);
+                logger.log.debug("PortfolioDetailView.portfolio.items=",_this.v_user.portfolio.items);
+                _this.selectPortfolio(_this.v_query.portfolio_id);
                 _this.forceUpdate();
             });
         },
@@ -311,15 +297,16 @@ export default {
             this.v_user.portfolio.calcPerformance(store.state.prices);
         },
 
-        loadComments: function(page_id,limit=null,offset=null) {
+        loadComments: function(limit=null,offset=null) {
             const _this = this;
             
-            let dic_param = {content_type:'portfolio-portfolio' , id:page_id, limit:limit, offset:offset};
-            this.v_portfolio.comments.load(dic_param).then( response => {
-                //_this.g_data_comments = response.data;
-                //_this.handleComments(_this.g_data_comments);
-            }).catch( err => {
-                logger.log.error("BlogView.loadBlogComments - error",err);
+            logger.log.debug("PortfolioDetailView.loadComments - v_portfolio=",this.v_portfolio);
+
+            //let dic_param = {content_type:'portfolio-portfolio' , id:page_id, limit:limit, offset:offset};
+            this.v_portfolio.loadComments('portfolio-portfolio',offset,limit).then(response=>{
+                logger.log.debug("PortfolioDetailView.loadComments - comments=",this.v_portfolio);
+            }).catch(err=>{
+
             });
         },
 
@@ -476,7 +463,20 @@ export default {
         onClickSymbol:function(symbol) {
             logger.log.debug("PortfolioDetail.onClickSymbol : symbol=",symbol);        
             CommonFunc.navAsset(this,symbol);
-        }
+        },
+
+        onClickEdit:function(portfolio) {
+            logger.log.debug("PortfolioDetail.onClickEdit : portfolio=",portfolio);
+            this.$refs.addPortfolio.show(this.v_user,portfolio);
+        },
+
+		onClickLoadMore: function() {
+			logger.log.debug("PortfolioDetail.onClickLoadMore : next_url = ", this.v_next_url);
+
+			this.v_query.limit = this.$refs.loadMore.v_next.limit;
+			this.v_query.offset = this.$refs.loadMore.v_next.offset;
+			//this.loadBlogData(this.v_query);
+		},
 
     }
 };

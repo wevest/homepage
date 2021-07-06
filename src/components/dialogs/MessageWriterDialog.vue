@@ -74,12 +74,19 @@ export default {
     
 
     methods: {      
+        
+        clear() {
+            this.v_message.subject = "";
+            this.v_message.content = "";
+        },
 
         sendMessage: function() {
             const _this = this;
 
             this.v_message.send().then( response => {
                 CommonFunc.showOkMessage(_this,'Message sent');
+                _this.clear();
+                _this.hide();
             });
         },
 

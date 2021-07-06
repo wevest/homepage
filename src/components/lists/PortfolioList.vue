@@ -105,9 +105,7 @@ export default {
             this.v_user.id = a_portfolio.api_user.id;
             this.v_user.username = a_portfolio.api_user.username;
             
-            store.getters.nav.add(this.$route);
-            let dic_param = { name:'portfolio_detail', path:'portfolio_detail', params:{ user:this.v_user, portfolio:a_portfolio } };
-            this.$router.push(dic_param);
+            CommonFunc.navPortfolio(this,this.v_user,a_portfolio);
         },
 
         onClickMorePortfolio: function() {

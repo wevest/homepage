@@ -2,46 +2,44 @@
 <!-- Blog Question Page 질문 페이지와 코멘트 목록 -->
     <div class="q-pa-md">
 
-        <div class="row">
-            <div class="col">
-                <div>       
-                    <div class="gPageTitleBox gPageTitle">  
-                        <q-icon class="qIcon" name="help_outline" />&nbsp;
-                            <span>{{ v_question.title }}</span> 
-                    </div>
-
-                    <div class="row globalUDRBox">  
-                        
-                        <WSubinfo :username="v_question.owner.username" :pub_date="v_question.pub_date" :like_count="v_question.like_count" :dislike_count="v_question.dislike_count" />
-                        
-                        <q-space />
-
-                        <WCommandBar :data="v_question" :isOwner="v_question.is_owner" 
-                            shareBtn="share" updateBtn="update" deleteBtn="delete" 
-                            @onClickShare="onClickShare" 
-                            @onClickUpdate="onClickUpdate" 
-                            @onClickDelete="onClickDelete" 
-                        />
-
-                    </div>                                 
+        <div class="col">
+            <div>       
+                <div class="gPageTitleBox gPageTitle">  
+                    <q-icon class="qIcon" name="help_outline" />&nbsp;
+                        <span>{{ v_question.title }}</span> 
                 </div>
-                        
-                <q-separator size="1px" />                                                
 
-                <div class="gPageContent">
-                    <Viewer 
-                        ref="toastViewer"
-                        :value="v_question.body"
-                        :options="editorOptions"
-                        :visible="v_show_editor"
-                        previewStyle="vertical"
+                <div class="row globalUDRBox">  
+                    
+                    <WSubinfo :username="v_question.owner.username" :pub_date="v_question.pub_date" like_count="-1" dislike_count="-1" />
+                    
+                    <q-space />
+
+                    <WCommandBar :data="v_question" :isOwner="v_question.is_owner" 
+                        shareBtn="share" updateBtn="update" deleteBtn="delete" 
+                        @onClickShare="onClickShare" 
+                        @onClickUpdate="onClickUpdate" 
+                        @onClickDelete="onClickDelete" 
                     />
-                </div>
 
-                <WRatingButton ref="ratingButton" likeCaption="도움돼요" dislikeCaption="도움 안돼요"
-                    @onClickRating="onClickQuestionVote" />
-
+                </div>                                 
             </div>
+                    
+            <q-separator size="1px" />                                                
+
+            <div class="gPageContent">
+                <Viewer 
+                    ref="toastViewer"
+                    :value="v_question.body"
+                    :options="editorOptions"
+                    :visible="v_show_editor"
+                    previewStyle="vertical"
+                />
+            </div>
+<!--
+            <WRatingButton ref="ratingButton" likeCaption="도움돼요" dislikeCaption="도움 안돼요"
+                @onClickRating="onClickQuestionVote" />
+-->
         </div>
 
         <q-separator class="gSeparator" />
@@ -50,17 +48,19 @@
             <WWriterButton placeholder="Please share your knowledges" @onClickWrite="onClickAnswer" />
         </div>
 
+        <div>
+            <QuestionCommentBox ref="commentBox" :question="v_question" :contentType="v_content_type" />
+        </div>
+
         <q-separator class="gSeparator" />
 
-        <div class="row">
-            <div class="col">
-                <AssetAnswerList ref="answerList" 
-                    @onClickAnswerRating="onClickAnswerRating"
-                    @onClickQuestionAccept="onClickQuestionAccept"
-                    @onClickAnswerUpdate="onClickAnswerUpdate"
-                > 
-                </AssetAnswerList>
-            </div>
+        <div class="col">
+            <AssetAnswerList ref="answerList" 
+                @onClickAnswerRating="onClickAnswerRating"
+                @onClickQuestionAccept="onClickQuestionAccept"
+                @onClickAnswerUpdate="onClickAnswerUpdate"
+            > 
+            </AssetAnswerList>
         </div>
 
     </div>
@@ -79,13 +79,16 @@ import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
 import {QuestionPageModel, AnswerPageModel, AnswerPageListModel} from "src/models/PageModel";
+import {AnswerCommentListModel} from "src/models/CommentModel";
 
 import WSubinfo from 'components/WSubinfo';
 import WCommandBar from "components/WCommandBar.vue";
 import WRatingButton from 'components/WRatingButton';
 import WWriterButton from 'components/WWriterButton';
+import CommentForm from "components/comments/comment-form.vue";
 
 import AssetAnswerList from 'src/pages/assetqa/component/AssetAnswerList';
+import QuestionCommentBox from "src/pages/assetqa/component/QuestionCommentBox.vue";
 
 
 export default {
@@ -96,7 +99,8 @@ export default {
         WRatingButton,
         WSubinfo,
         WCommandBar,
-        WWriterButton
+        WWriterButton,
+        QuestionCommentBox
     },
     props: [],
     computed: {
@@ -119,6 +123,7 @@ export default {
             v_answers: new AnswerPageListModel(),
 
             v_show_editor: false,
+            v_content_type: "blog.postpage",
 
             editorOptions: {
                 hideModeSwitch: true,
@@ -165,6 +170,15 @@ export default {
             this.v_question.load().then( response => {
                 logger.log.debug("AssetQAView.loadQuestion : response=",response);
                 _this.setContent(_this.v_question.body);
+                _this.loadQuestionComment();
+            });
+        },
+        loadQuestionComment: function() {
+            const _this=this;
+            this.v_question.comments.load().then( response => {
+                logger.log.debug("AssetQAView.loadQuestionComment : response=",response);
+                //_this.setContent(_this.v_question.body);
+                //_this.loadQuestionComment();
             });
         },
 
@@ -199,6 +213,7 @@ export default {
             }
             
             const _this=this;
+            store.getters.nav.add(this.$route);
             store.getters.components.getComponent('confirmDialog').show('Please login first',function(value) {
                 logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
                 if (value) {
@@ -306,7 +321,8 @@ export default {
             logger.log.debug("WCommandBar.onClickShare : url=",a_url);
             
             CommonFunc.copyUrl(this,a_url);
-        }
+        },
+
 
     },
 

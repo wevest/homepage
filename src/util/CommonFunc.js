@@ -556,6 +556,14 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);
     }
 
+    static navPortfolio(a_this,user,portfolio) {        
+        store.getters.nav.add(a_this.$route);
+        let dic_param = { 
+            name:'portfolio_detail', path:'portfolio_detail', 
+            query:{ username:user.username, portfolio_id:portfolio.id, portfolio_name:portfolio.name } 
+        };
+        a_this.$router.push(dic_param);    
+    }
 
     static navReview(a_this,symbol,page_id,url_only=false) {
         let dic_param = {
@@ -565,10 +573,12 @@ export default class CommonFunc {
             let a_url = "/#/" + dic_param.path+"?symbol="+symbol+"&id="+page_id;
             return a_url;
         }
-
+        
+        logger.log.debug("CommonFunc.navReview - ",dic_param);
         a_this.$router.push(dic_param);
     }
 
+    
     static navBlog(a_this,category,symbol,page_id,url_only=false) {
         let dic_param = {
             name: "blog",path: "blog", query: { category:category, symbol:symbol, id: page_id },

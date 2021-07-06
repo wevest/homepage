@@ -8,13 +8,13 @@
             @click="onClickShare" />
 
         <q-icon 
-            v-if="(isOwner) && (updateBtn.length>0) "
+            v-if="(v_me.loggedIn) && (isOwner) && (updateBtn.length>0) "
             :size="size"
             name="mode_edit_outline"
             @click="onClickUpdate" />
 
         <q-icon
-            v-if="(isOwner) && (deleteBtn.length>0) "
+            v-if="(v_me.loggedIn) && (isOwner) && (deleteBtn.length>0) "
             :size="size"
             name="delete_outline" 
             @click="onClickDelete" />
@@ -55,6 +55,11 @@ export default {
         size: {
             default: '20px'
         }
+    },
+    computed: {
+        v_me() {
+            return store.getters.me;
+        },
     },
     methods: {
         onClickShare() {

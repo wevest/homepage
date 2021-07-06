@@ -12,7 +12,7 @@
                 <q-card-section>
                     <div class="row">
                         <WDialogCloseButton @onClick="onClickClose" />&nbsp;
-                        <span class="text-h6">Add Portfolio Item</span>
+                        <span class="text-h6">{{v_title}}}}</span>
                     </div>
 
                     <div class="text-subtitle2">
@@ -90,6 +90,12 @@ export default {
         CryptoSelect,
         WDialogCloseButton
     },
+	props: {
+        title: {
+            type:String,
+            default: 'Add Portfolio Item',
+        },
+    },
     computed: {
         v_me() {
             return store.getters.me;
@@ -102,7 +108,7 @@ export default {
             v_user: null,
             v_show: false,
             
-            v_portfolio: new PortfolioItemModel(),
+            //v_portfolio: new PortfolioItemModel(),
             v_portfolio_item: new PortfolioItemModel(),
             
             v_selected_asset: null,
@@ -113,7 +119,7 @@ export default {
             
             v_input: null,
             v_options: this.v_group_list,
-
+            v_title: this.title,
             v_error: {
                 title: {error:false, msg:''},
                 text: {error:false, msg:''},
@@ -122,21 +128,29 @@ export default {
     },
 
     created: function () {
-        console.log("AddPortfolioDialog.created");
+        logger.log.debug("AddPortfolioDialog.created");
     },
     beforeMount() {
         logger.log.debug("AddPortfolioDialog.beforeMounted - params=",this.$route.params);        
     },
     mounted: function() {
-        //this.loadPrice();
+        logger.log.debug("AddPortfolioDialog.mounted");
     },
     updated: function() {
-        //this.$refs.selectPortfolio.setOptionIndex(0);
+        logger.log.debug("AddPortfolioDialog.updated");
+        if (this.v_portfolio_item) {
+            this.fillValue();
+        }
     },
     
     methods: {      
-        setPortfolio: function(v_portfolio) {
-            this.v_portfolio = v_portfolio;
+        fillValue: function() {
+            logger.log.debug("AddPortfolioDialog.fillValue");
+            this.v_input = this.v_portfolio_item.portfolio_name;
+            this.$refs.cryptoSelector.setValue(this.v_portfolio_item.api_asset.symbol);            
+        },
+        setPortfolioItem: function(v_portfolio) {
+            this.v_portfolio_item = v_portfolio;
         },
 
         setPortfolioSelector: function(v_portfolio) {
@@ -172,7 +186,7 @@ export default {
             this.setPortfolioSelector(this.v_user.portfolio);
 
             if (v_portfolio_item) {
-                this.v_portfolio_item = v_portfolio_item;
+                this.setPortfolioItem(v_portfolio_item);
             } else {
                 this.v_portfolio_item.asset_id = 1;
                 this.v_portfolio_item.portfolio_id = -1;
@@ -218,7 +232,7 @@ export default {
 
         onClickSave: function() {                        
             const _this = this;
-            logger.log.debug('onClickSave - ',this.v_portfolio_item);
+            logger.log.debug('AddPortfolioDialog.onClickSave - ',this.v_portfolio_item);
             this.v_portfolio_item.description = this.$refs.descText.getValue();
 
             this.v_portfolio_item.addToServer().then( response => {

@@ -69,7 +69,7 @@
                         @onClickCommentSave="onClickSaveComment" />
                 </div>                                    
                 
-                <AnswerCommentList :ref="v_ref(a_answer)" 
+                <QACommentList :ref="v_ref(a_answer)" 
                     :data="a_answer" 
                     @onCommentDelete="onClickDeleteComment" />
 
@@ -98,7 +98,7 @@ import WSubinfo from 'components/WSubinfo';
 import WCommandBar from "components/WCommandBar.vue";
 import WRatingButton from 'components/WRatingButton';
 
-import AnswerCommentList from "src/pages/assetqa/component/AnswerCommentList.vue";
+import QACommentList from "src/pages/assetqa/component/QACommentList.vue";
 
 import {AnswerCommentListModel} from "src/models/CommentModel";
 import {QuestionPageModel, AnswerPageListModel} from "src/models/PageModel";
@@ -112,7 +112,7 @@ export default {
         WSubinfo,
         WCommandBar,
         WRatingButton,
-        AnswerCommentList,
+        QACommentList,
         CommentForm
     },
     computed: {

@@ -1,23 +1,24 @@
 <template>
 	<div class="row no-wrap q-pa-md ReviewTextBox" :style="v_style" v-show="visible">
 		<div class="col">
-			<div>
+			<div v-if="v_me.loggedIn">
 				<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
 				<span> {{v_me.username}} </span>
 			</div>
 
 			<div>
 				<WTextArea
-					label="Please Type your review"                
+					ref="descText"				
+					hint="Please Type your review"                
 					v-model="v_comments"
 					:rows="v_rows"
-					ref="descText"
                     @onFocus="onFocus"
                     @onFocusOut="onFocusOut"
 				/>
 			</div>
 
 			<q-rating
+				v-if="v_me.loggedIn"
 				v-model="v_rating"
 				size="2.0em"
 				icon="star_border"
@@ -29,7 +30,7 @@
 				
 				<q-space />
 
-				<div class="ReviewSaveBtn" align="right">
+				<div class="ReviewSaveBtn" align="right" v-if="v_me.loggedIn">
 					<q-btn
 						label="save"
 						@click.stop="onClickSubmit"
@@ -117,7 +118,7 @@ export default {
 		prepare() {
 			//logger.log.debug("Comment-Form.prepare : v_me=",this.v_me);
 			if (this.v_me.loggedIn) {
-				this.$refs.descText.setHint("");
+				this.$refs.descText.setHint("Please type your review");
 				this.$refs.descText.setEnabled(true);
 			} else {
 				this.$refs.descText.setHint("Please log-in to write comments");
@@ -136,6 +137,7 @@ export default {
         clear() {
             this.v_comments = "";
             this.v_rating = 5;
+			this.$refs.descText.setStyle("border:none;");
             this.$refs.descText.setValue(this.v_comments);
 			this.$refs.descText.setRows(1);
         },
@@ -209,19 +211,25 @@ export default {
 
             this.v_comments = this.$refs.descText.getValue();
 			if (! this.validate()) {
-                return;
+                this.$refs.descText.setErrorMessage('Please type your review');
+				return;
             }
+			this.$refs.descText.setErrorMessage(null);
             this.save();
 		},
 
 		onFocus(event) {
 			logger.log.debug("onFocus=", this.$parent);
+			if (! this.v_me.isLoggedIn()) {
+				return;
+			}
+			this.$refs.descText.setStyle("border:1px solid #e0e0e0;");
 			this.$refs.descText.setRows(7);
 			this.$emit("onEditorFocus", event);
 		},
 
 		onFocusOut(event) {
-			logger.log.debug("onFocusOut=", this.$parent);
+			logger.log.debug("onFocusOut=", this.$parent);			
 			this.$emit("onEditorFocusOut", event);
 		},
 	},
