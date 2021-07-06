@@ -29,11 +29,11 @@
                             </div>
                             <div class="col-4">
                                 <div class="value"> $ {{a_portfolio.evaluated_value.toLocaleString() }} </div>
-                                <div class="valueTitle">Market</div>                            
+                                <div class="valueTitle">Current Price</div>                            
                             </div>                           
                             <div class="col-4">
                                 <div class="value"> {{ v_updated_at(a_portfolio.updated_at) }} </div>
-                                <div class="valueTitle">Time</div>
+                                <div class="valueTitle">Inception Date</div>
                             </div>
                             <!-- </div> -->
                             <!-- <div class="col-4 editBox" > -->
