@@ -365,14 +365,19 @@ export default {
             logger.log.debug("BlogPage.onClickFollow=");
             
             const _this=this;
-            this.v_me.follow(this.v_post.api_owner.id,value).then( response => {
-                logger.log.debug("onClickFollow - response=",response);
-                _this.v_follow_button = 'Followed';
-                CommonFunc.showOkMessage(_this,'Followed');                
-            }).catch(err=>{
-                CommonFunc.showErrorMessage(_this,err.data.msg);
-            });
 
+            CommonFunc.checkButtonPermission(this,1,0).then(ret=>{
+                logger.log.debug("ProfileView.onClickFollow : ret=",ret);
+                if (ret==0) return;
+
+                _this.v_me.follow(_this.v_post.api_owner.id,value).then( response => {
+                    logger.log.debug("onClickFollow - response=",response);
+                    _this.v_follow_button = 'Followed';
+                    CommonFunc.showOkMessage(_this,'Followed');                
+                }).catch(err=>{
+                    CommonFunc.showErrorMessage(_this,err.data.msg);
+                });
+            });
         }
     }
 

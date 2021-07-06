@@ -6,10 +6,10 @@
             <q-card-section horizontal class="groupTitleBox"> 
                 <div>
                     <div>
-                        <span>{{a_portfolio.name}}</span>
+                        <span class="text-weight-bolder groupName">{{a_portfolio.name}}</span>
                     </div>
                     <div> 
-                        <span class="value">{{ v_updated_at(a_portfolio.updated_at) }} </span>                        
+                        <span class="valueDate">{{ v_updated_at(a_portfolio.updated_at) }} </span>                        
                     </div>
                 </div> 
                 <q-space />
@@ -24,7 +24,7 @@
                         <!--
                         <div class="valueTitle">ROI</div>
                         -->
-                        <div class="value"> $ {{a_portfolio.evaluated_value.toLocaleString() }} </div>
+                        <div class="valueDate"> $ {{a_portfolio.evaluated_value.toLocaleString() }} </div>
                     </div>
                 </div>
                 <div>
@@ -36,9 +36,10 @@
             
             <q-card-section>
                 <div>
-                    <q-linear-progress class="q-mt-md" size="20px" 
+
+                    <q-linear-progress size="20px" 
                         :value="v_progress(a_portfolio.roi)"
-                        :color="v_color(a_portfolio.roi)"
+                        :style="v_color_style(a_portfolio.roi)"
                     />
                 </div>
             </q-card-section>
@@ -89,15 +90,6 @@ export default {
                 return a_roi;
             };
         },
-        v_color() {
-            return (value) => {
-                if (value>0) {
-                    return "#005dde"
-                }
-                return "#005dde"
-                //return "#005dde";
-            };
-        },
         v_color_style() {
             return (value) => {
                 if (value>0) {
@@ -140,7 +132,7 @@ export default {
 }
 
 .groupName {
-    font-size:14px;
+    font-size:18px;
     color:#202124;
 
 }
@@ -156,13 +148,12 @@ export default {
 }    
 
 .roiValue {
-    font-size:15px;
-    color:#5a9591;
+    font-size:25px;
 }
 
-.value {
-    font-size:14px;
-    color:#202124;
+.valueDate {
+    font-size:13px;
+    color:#999999;
     text-align:center;
 }
 .valueTitle {

@@ -1,15 +1,15 @@
 <template>
     <div class="q-ma-md">                       
-        <div class="col">
-            <div>
+        <div>
+            <div class="q-my-lg">
                 <div class="row">
-                    <div class="groupNameBox">
-                        <span class="groupName"> {{v_portfolio.name}}  </span>             
+                    <div>
+                        <span class="text-h4 text-weight-bolder"> {{v_portfolio.name}}  </span>             
                     </div>
                     
-                        <q-space />
+                    <q-space />
                     
-                    <div class="groupDeleteBtn">
+                    <div>
 
                         <WCommandBar 
                             :data="v_portfolio" :isOwner="v_is_owner" 
@@ -20,8 +20,7 @@
 
                     </div>
                 </div>
-                    <div class="ratingViewBox">
-
+                <div class="">
                     <WSubinfo 
                         :username="v_user.username" 
                         :pub_date="v_portfolio.created_at" 
@@ -29,40 +28,40 @@
                         :dislike_count="v_portfolio.dislike_count" 
                         :read_count="v_portfolio.read_count" />
                 </div> 
-            </div>               
-
-            <q-separator size="1px" />
+            </div>                           
 
             <div class="row box1">                    
                 <div class="col">
-                    <div class="groupValue">{{ v_format(v_portfolio.roi) }}% </div>
+                    <div class="text-h4 text-weight-bolder" :style="v_color(v_portfolio.roi)">{{ v_format(v_portfolio.roi) }}% </div>
                     <div class="name1">ROI</div>                         
                 </div>  
 
                 <q-separator vertical />
                 
                 <div class="col">   
-                    <div class="groupValue">{{ v_format(v_portfolio.evaluated_value) }}</div>
+                    <div class="text-h4 text-weight-bold">$ {{ v_format(v_portfolio.evaluated_value) }}</div>
                     <div class="name1">Evaluated Value</div>                         
                 </div>
             </div>
         </div>
 
-        <q-separator size="1px" />
+        
+        <q-separator class="gSeparator" />
 
-
-        <div class="col">
+        <div>
             <div>
-                <h6 class="chartTitleBox"> ROI Chart </h6>
+                <span class="text-h5 text-weight-bold"> ROI Chart </span>
             </div>
-            <q-separator size="1px" />
+            
             <PortfolioChart ref="portfolioChart" />
-            <div class="q-gutter-sm text-center thumb">
-                <q-btn icon=thumb_up_off_alt flat size="15px" @click="onClickVote(1)" />
-                <q-btn icon=thumb_down_off_alt flat size="15px" @click="onClickVote(-1)" />
+            <div>
+                <WRatingButton ref="ratingButton" 
+                    likeCaption="훌륭합니다." dislikeCaption="리밸런싱해요"
+                    @onClickRating="onClickVote" />
             </div>
         </div>
 
+        <q-separator class="gSeparator" />
 
         <div class="cardBox">
             <q-card class="q-my-sm" flat bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index">
@@ -77,11 +76,11 @@
                                 <span class="coinName"> ({{a_portfolio.api_asset.name}}) </span>
                             </div>
                             <div>
-                                <span class="inceptionDate">{{v_updated_at(a_portfolio.updated_at)}}</span>
+                                <span class="text-caption text-grey-6 q-mt-sm">{{v_updated_at(a_portfolio.updated_at)}}</span>
                             </div>
                         </div>        
                         <q-space />
-                        <div class="q-gutter-xs btns">
+                        <div>
 
                             <WCommandBar :data="a_portfolio" :isOwner="v_is_owner" 
                                 shareBtn="" updateBtn="update" deleteBtn="delete" copyBtn="copy"
@@ -89,12 +88,7 @@
                                 @onClickCopy="onClickAddToMyPortfolio"
                                 @onClickDelete="onClickDelete" 
                             />
-<!--
-                            <q-btn flat dense size="11px" icon="content_copy" v-if="! v_is_owner" 
-                                @click="onClickAddToMyPortfolio(a_portfolio)" />
-                            <q-btn flat dense size="11px" icon="mode_edit_outline" />
-                            <q-btn flat dense size="11px" icon="delete_outline" @click="onClickDelete(a_portfolio)"/>                                
--->                            
+
                         </div>                            
                     </div>  
                 </q-card-section>
@@ -102,18 +96,14 @@
                 <q-card-section class="cardSection2">                        
                     <div class="row">
                         <div class="col box2-3 align-items">
-                            <span class="name2">ROI</span>
+                            <span class="text-caption text-grey-6">ROI</span>
                             <br>
-                            <span class="roiValue">{{v_format(a_portfolio.roi)}} %</span>
-<!--    
-                            <br>
-                            <span class="text-grey-8">{{ v_format(a_portfolio.last*a_portfolio.qty)}} </span>
--->                                
+                            <span class="text-h5 text-weight-bolder" :style="v_color(a_portfolio.roi)">{{v_format(a_portfolio.roi)}} %</span>
                         </div>    
                         <div class="col">  
-                            <span class="name2">Current Price</span>
+                            <span class="text-caption text-grey-6">Current Price</span>
                             <br>
-                            <span class="roiValue">{{ v_format(a_portfolio.last) }}</span>                                
+                            <span class="text-h5 text-weight-bold">$ {{ v_format(a_portfolio.last) }}</span>                                
                         </div>                            
                     </div>
 
@@ -162,6 +152,7 @@ import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 import PortfolioChart from 'src/pages/portfolio/component/PortfolioChart';
 import WSubinfo from 'components/WSubinfo';
 import WCommandBar from "components/WCommandBar.vue";
+import WRatingButton from 'components/WRatingButton';
 
 export default {
     name: 'PortfolioDetail',
@@ -171,7 +162,8 @@ export default {
         PortfolioChart,
         WSubinfo,
         WCommandBar,        
-        CommentBox
+        WRatingButton,
+        CommentBox,
     },    
     mixins: [],
     computed: {
@@ -204,7 +196,13 @@ export default {
             return (value) => {
                 return CommonFunc.shortenString(value,MoaConfig.setting.maxPortfolioDescriptionLength);
             };
+        },
+        v_color() {
+            return (value) => {
+                return CommonFunc.getPerfColor(value);
+            };
         }
+
     },
     data() {
         return {
@@ -344,15 +342,15 @@ export default {
             this.handlePortfolioDelete();
         },
 
-        onClickVote: function(value) {
+        onClickVote: function(dicParam) {
             const _this=this;
 
-            logger.log.debug("PortfolioDetail.onClickVote = ",value);
+            logger.log.debug("PortfolioDetail.onClickVote = ",dicParam);
             
-            let dic_param = {id:this.v_portfolio.id, value:value};
+            let dic_param = {id:this.v_portfolio.id, value:dicParam.value};
             this.v_portfolio.vote(dic_param).then(response => {
                 logger.log.debug('onClickReviewRating - ',response);
-                CommonFunc.showOkMessage(_this,'ok');
+                CommonFunc.showOkMessage(_this,'Voted');
             }).catch( err => {
 
             });
@@ -449,41 +447,10 @@ export default {
 
 
 <style scoped>
-.groupDeleteBtn {
-    color:#999999;
-    padding:23px 0px 0px 0px; 
-
-}
-
-.groupNameBox {
-    padding:10px 0px 5px 10px;
-}
-
 .groupName {
     font-size:30px;
     font-weight:bold;
     color:#222222;
-
-}
-
-
-.name1 {
-    font-size:15px;
-    color:#8C8C8C;
-    text-align:center;
-
-}
-
-.name2 {
-    font-size:14px;
-    color:#8C8C8C;
-    text-align:center;
-
-}
-
-.groupValue {
-   font-size:35px ;
-   color: darkgreen;
 }
 
 
@@ -532,38 +499,6 @@ export default {
     color:#999999;
 }
 
-
-.inceptionDate {
-    font-size:11px;
-    color:#999999;
-}
-
-.roiValue {
-    font-size:25px;
-    color:#222222;
-}
-
-.desc {
-    font-size:13px;
-    color:#999999;
-}
-
-.ratingViewBox {
-    padding:0px 0px 10px 12px;
-    margin-top:-10px;
-}
-
-
-.ratingBtn {
-    font-size:13px;
-    color:#999999;
-    padding-right:2px;
-}
-.count {
-    font-size:13px;
-    color:#999999;
-}
-
 .cardSection {
     padding:10px 10px 5px 10px;
 }
@@ -572,17 +507,4 @@ export default {
     padding:5px 10px 5px 59px;
 }
 
-.btns {
-    color:#999999;
-}
-
-.thumb {
-    color:#999999;
-}
-
-.separator {
-  margin:0px 0px 15px 0px;
-  height:10px;
-  background: #f0f1f6;
-}
 </style>

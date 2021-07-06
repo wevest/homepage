@@ -1508,5 +1508,12 @@ export default class CommonFunc {
         });
 
     }
+
+    static getPerfColor(value) {
+        if (value>0) {
+            return "color:#c10015;"
+        }
+        return "color:#005dde;";
+    }
 }
 
