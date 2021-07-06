@@ -1,32 +1,29 @@
 <template>
     
     <div class="q-pa-md">
-        <div class="row">
-            <div class="col">
-                <CTitle ttype='title' :title="v_page_title" desc=""></CTitle>          
-            </div>
+        <div>
+            <CTitle ttype='title' :title="v_page_title" desc=""></CTitle>          
         </div>
 
-        <div class="row">
-            <div class="col">
 
+        <div>
 
-                <AssetReviewForm ref="reviewForm" 
-                    :category="g_asset.symbol" :objectId="g_asset.object_id"
-                    @onClickReviewSave="onClickReviewSave" 
-                    @onEditorFocus="onFocusReviewForm"
-                    @onEditorFocusOut="onFocusoutReviewForm"
-                > 
-                </AssetReviewForm>                
+            <AssetReviewForm ref="reviewForm" 
+                :category="g_asset.symbol" :objectId="g_asset.object_id"
+                @onClickReviewSave="onClickReviewSave" 
+                @onEditorFocus="onFocusReviewForm"
+                @onEditorFocusOut="onFocusoutReviewForm"
+            > 
+            </AssetReviewForm>                
 
-                <AssetReviewList ref="reviewList" 
-                    :category="g_asset.symbol" :objectId="g_asset.object_id"
-                    moreCaption="" maxLength="20000" title="Review List"
-                    @onClickLoadmore="onClickLoadmore"> 
-                </AssetReviewList>
+            <AssetReviewList ref="reviewList" 
+                :category="g_asset.symbol" :objectId="g_asset.object_id"
+                moreCaption="" maxLength="20000" title="Review List"
+                @onClickLoadmore="onClickLoadmore"> 
+            </AssetReviewList>
 
-            </div>
         </div>
+
     </div>
 
 </template>

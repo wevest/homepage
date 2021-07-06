@@ -1,54 +1,51 @@
 <template>
 
-    <div class="row">
-        <div class="col">
-            <div> 
-
-                <q-card class="portfolioListBox" bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
-                    <q-card-section horizontal class="groupTitleBox"> 
-                        <div>
-                            <span>{{a_portfolio.name}}</span>
-                            <!--
-                            &nbsp;| &nbsp; 
-                            <span class="groupDesc">{{v_shorten(a_portfolio.description)}}</span>
-                            -->
-                        </div> 
-                        <q-space />
-                        <div>
-                            <q-btn size="14px" flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
-                        </div>                       
-                    </q-card-section>
-                    
-                    <q-separator />
-                    
-                    <q-card-section>
-                        <div class="row">                            
-                            <div class="col-4 roiBox">
-                                <div class="roiValue"> {{ Number(a_portfolio.roi).toLocaleString() }} % </div>
-                                <div class="valueTitle">ROI</div>
-                            </div>
-                            <div class="col-4">
-                                <div class="value"> $ {{a_portfolio.evaluated_value.toLocaleString() }} </div>
-                                <div class="valueTitle">Market</div>                            
-                            </div>                           
-                            <div class="col-4">
-                                <div class="value"> {{ v_updated_at(a_portfolio.updated_at) }} </div>
-                                <div class="valueTitle">Time</div>
-                            </div>
-                            <!-- </div> -->
-                            <!-- <div class="col-4 editBox" > -->
-                                <!-- <div class="text-grey-8"> -->
-                                    <!-- <q-btn size="12px" flat dense round icon="add" @click="onClickAdd(a_portfolio)" /> -->
-                                    <!-- <q-btn size="12px" flat dense round icon="remove" @click="onClickDelete(a_portfolio)" /> -->
-                                    <!-- <q-btn size="12px" flat dense round icon="edit" @click="onClickEdit(a_portfolio)" /> -->
-                                <!-- </div> -->                                                              
+    <div>
+        
+        <q-card class="portfolioListBox" bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
+            <q-card-section horizontal class="groupTitleBox"> 
+                <div>
+                    <div>
+                        <span>{{a_portfolio.name}}</span>
+                    </div>
+                    <div> 
+                        <span class="value">{{ v_updated_at(a_portfolio.updated_at) }} </span>                        
+                    </div>
+                </div> 
+                <q-space />
+                <div>
+                    <div class="roiBox">
+                        <div class="roiValue"> 
+                            <span :style="v_color_style(a_portfolio.roi)" class="text-weight-bolder"> 
+                                {{ Number(a_portfolio.roi).toLocaleString() }} % 
+                            </span>
+                            
                         </div>
-                    </q-card-section>
+                        <!--
+                        <div class="valueTitle">ROI</div>
+                        -->
+                        <div class="value"> $ {{a_portfolio.evaluated_value.toLocaleString() }} </div>
+                    </div>
+                </div>
+                <div>
+                    <q-btn size="14px" flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
+                </div>                       
+            </q-card-section>
+            
+            <q-separator />
+            
+            <q-card-section>
+                <div>
 
-                </q-card>
+                    <q-linear-progress class="q-mt-md" size="20px" 
+                        :value="v_progress(a_portfolio.roi)"
+                        :color="v_color(a_portfolio.roi)"
+                    />
+                </div>
+            </q-card-section>
 
-            </div>
-        </div>
+        </q-card>
+
     </div>
 
 </template>
@@ -82,7 +79,34 @@ export default {
             return (value) => {
                 return CommonFunc.shortenString(value,MoaConfig.setting.maxPortfolioDescriptionLength);
             };
-        }
+        },
+        v_progress() {
+            return (value) => {
+                let a_roi = Math.abs(value/100);
+                if (a_roi>1.0) {
+                    return 1.0;
+                }
+                
+                return a_roi;
+            };
+        },
+        v_color() {
+            return (value) => {
+                if (value>0) {
+                    return "negative"
+                }
+                return "#005dde";
+            };
+        },
+        v_color_style() {
+            return (value) => {
+                if (value>0) {
+                    return "color:#c10015;"
+                }
+                return "color:#005dde;";
+            };
+        },
+
     },
 
     mounted: function() {},
@@ -134,7 +158,6 @@ export default {
 .roiValue {
     font-size:15px;
     color:#5a9591;
-    font-weight:700;
 }
 
 .value {

@@ -229,7 +229,11 @@ export default class User {
 
 
     static loadProfile(username) {    
-        let dic_param = {'username':username, 'token':store.getters.token};
+        let dic_param = {'username':username};
+        if (store.getters.me.isLoggedIn() ) {
+            dic_param['token'] = store.getters.token;
+        }
+        
         return new Promise(function(resolve,reject) {
             AuthService.getUserProfile(dic_param,function(response) {
                 logger.log.debug("UserModel.loadProfile - response",response);

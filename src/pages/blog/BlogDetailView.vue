@@ -1,113 +1,97 @@
 <template>
 
     <div class="q-ma-md">
-        <div class="row titleBox">
-            <div class="col">
+        <div class="titleBox">            
+            <div>
+                <div class="gPageTitle">
+                    <span>{{v_post.title}}</span>
+                </div>
+                                        
+                <WSubinfo :username="v_post.api_owner.username" :pub_date="v_post.pub_date" like_count=-1 dislike_count=-1 />
+            </div>    
                 
-                <div>
-                    <div class="gPageTitle">
-                        <span>{{v_post.title}}</span>
-                    </div>
-                                            
-                    <WSubinfo :username="v_post.api_owner.username" :pub_date="v_post.pub_date" like_count=-1 dislike_count=-1 />
-                </div>    
-                  
-                <div class="row boxRate q-gutter-sm">
-                    <div>   
-                        <span>
-                            <q-icon 
-                                class="RatingBtn"
-                                name="sentiment_very_satisfied"  
-                                size="23px" />&nbsp;
-                                <span class="RatingCount">{{v_post.like_count}}</span>&nbsp;
-                        </span>
-                        <span>
-                            <q-icon 
-                                class="RatingBtn"
-                                name="sentiment_very_dissatisfied"
-                                size="23px" />&nbsp;
-                                <span class="RatingCount">{{v_post.dislike_count}}</span>&nbsp;&nbsp;
-                        </span>
-                        <span>
-                            <q-icon 
-                                class="RatingBtn"
-                                name="chat_bubble_outline" 
-                                size="23px" />&nbsp;                            
-                                <span class="RatingCount">{{v_post.read_count}}</span>
-                        </span>
-                    </div>         
+            <div class="row boxRate q-gutter-sm">
+                <div>   
+                    <span>
+                        <q-icon 
+                            class="RatingBtn"
+                            name="sentiment_very_satisfied"  
+                            size="23px" />&nbsp;
+                            <span class="RatingCount">{{v_post.like_count}}</span>&nbsp;
+                    </span>
+                    <span>
+                        <q-icon 
+                            class="RatingBtn"
+                            name="sentiment_very_dissatisfied"
+                            size="23px" />&nbsp;
+                            <span class="RatingCount">{{v_post.dislike_count}}</span>&nbsp;&nbsp;
+                    </span>
+                    <span>
+                        <q-icon 
+                            class="RatingBtn"
+                            name="chat_bubble_outline" 
+                            size="23px" />&nbsp;                            
+                            <span class="RatingCount">{{v_post.read_count}}</span>
+                    </span>
+                </div>         
 
-                    <q-space />
+                <q-space />
 
-                    <WCommandBar :data="v_post" :isOwner="v_post.is_owner" 
-                        shareBtn="share" updateBtn="update" deleteBtn="delete" 
-                        @onClickShare="onClickShare" 
-                        @onClickUpdate="onClickUpdate" 
-                        @onClickDelete="onClickDelete" 
-                    />
-                    
-                </div>                   
-            </div>
+                <WCommandBar :data="v_post" :isOwner="v_post.is_owner" 
+                    shareBtn="share" updateBtn="update" deleteBtn="delete" 
+                    @onClickShare="onClickShare" 
+                    @onClickUpdate="onClickUpdate" 
+                    @onClickDelete="onClickDelete" 
+                />
+                
+            </div>                   
         </div>
 
-        <div class="row">
-            <div class="col">
-                <div class="bodyBox">
-                    <Viewer 
-                        ref="toastViewer"
-                        :value="v_post.body"
-                        :options="editorOptions"
-                        :visible="editorVisible"
-                        previewStyle="vertical"
-                        height="200px"
-                    />
-                    <p> {{ v_post.tags }} </p>
-                </div>
-
-
-                <div class="blockquote">
-                    <div class="row">
-                        <div class="gPageAvatar">
-                            <WAvatar :avatar="v_post.api_owner.avatar_thumb" :username="v_post.api_owner.username" />
-                        </div>
-                        <div style="padding-left:15px; padding-top:10px;">
-                            <span class="username"> {{v_post.api_owner.username}}</span>&nbsp;
-                            <q-btn class="followBtn" icon="add_circle" :label="v_follow_button" size="13px" dense flat @click="onClickFollow(1)" v-if="! v_owner" />
-                        </div>
-                    </div>                    
-                    <div>
-                        <p class="biography"> {{v_shorten(v_post.api_owner.biography)}}</p>
-                    </div>
-                </div>
-
-
-                <WRatingButton ref="ratingButton" @onClickRating="onClickBlogRate" />
-
+        <div>
+            <div class="bodyBox">
+                <Viewer 
+                    ref="toastViewer"
+                    :value="v_post.body"
+                    :options="editorOptions"
+                    :visible="editorVisible"
+                    previewStyle="vertical"
+                    height="200px"
+                />
+                <p> {{ v_post.tags }} </p>
             </div>
+
+
+            <div class="blockquote">
+                <div class="row">
+                    <div class="gPageAvatar">
+                        <WAvatar :avatar="v_post.api_owner.avatar_thumb" :username="v_post.api_owner.username" />
+                    </div>
+                    <div style="padding-left:15px; padding-top:10px;">
+                        <span class="username"> {{v_post.api_owner.username}}</span>&nbsp;
+                        <q-btn class="followBtn" icon="add_circle" :label="v_follow_button" size="13px" dense flat @click="onClickFollow(1)" v-if="! v_owner" />
+                    </div>
+                </div>                    
+                <div>
+                    <p class="biography"> {{v_shorten(v_post.api_owner.biography)}}</p>
+                </div>
+            </div>
+
+
+            <WRatingButton ref="ratingButton" @onClickRating="onClickBlogRate" />
+
         </div>
         
         <q-separator class="gSeparator" />
         
-        <div class="row">
-            <div class="col">
 
+
+        <div class="q-ma-sm">
                 <div class="boxCommentCount"> 
                     <span>Comments : {{v_post.comments.items.length}}</span>
                 </div>
 
-                <CommentForm ref="commentForm" type="comment"
-                    :contentType="v_conent_type" :post="v_post"
-                    @onClickCommentSave="onClickCommentSave" />
-
-                <CommentTree ref="commentTree" 
-                    :data-list="v_post.comments.items" 
-                    :contentType="v_conent_type" :post="v_post"
-                    @onClickCommentReply="onClickCommentReply"
-                    @onClickLoadMore="onClickLoadMore"
-                    @onClickRate="onClickRate"                    
-                />
-                
-            </div>
+            <CommentBox ref="commentBox"             
+                :contentType="v_content_type" :post="v_post" :items="v_post.comments.items" />            
         </div>
 
     </div>
@@ -134,8 +118,8 @@ import WAvatar from "components/WAvatar.vue";
 import WCommandBar from "components/WCommandBar.vue";
 import WRatingButton from 'components/WRatingButton';
 import WSubinfo from 'components/WSubinfo';
-import CommentForm from "components/comments/comment-form.vue";
-import CommentTree from "components/comments/comment-tree.vue";
+
+import CommentBox from "components/comments/CommentBox.vue";
 
 
 export default {
@@ -145,8 +129,7 @@ export default {
         CBigLabel,
         Viewer,
         WAvatar,
-        CommentTree,
-        CommentForm,
+        CommentBox,
         WRatingButton,
         WSubinfo,
         WCommandBar
@@ -176,8 +159,8 @@ export default {
             //v_comments_list: new CommentListModel(),
 
             v_page: {title:this.$t('page.cryptovc.title'), desc:''},
-            //v_post: {title:null,header_image_url:null, pub_date:null},
-            v_conent_type:'blog.postpage',
+            
+            v_content_type:'blog.postpage',
 
             v_comments: [],
             v_comments_readonly:false,
@@ -229,27 +212,12 @@ export default {
             
             this.loadBlogPost(page_id);
             this.loadBlogComments(page_id);
-/*
-            const _this = this;
-        
-            let funcs = [            
-                //this.loadCalendarEffectData('1h'),
-                this.loadBlogPost(page_id),
-                
-                //this.loadCryptoTopAssetData('1h')
-            ];
-
-            Promise.all(funcs).then(function() {
-                
-            });
-*/
         },
         
         handlePostPage: function(post) {
             logger.log.debug("handlePostPage.post=",post);
 
-            this.v_post.assign(post);
-            
+            this.v_post.assign(post);            
             logger.log.debug("handlePostPage.v_post=",this.v_post);
                     
             this.setContent(this.v_post.body);
@@ -285,9 +253,10 @@ export default {
         },
         
         handleComments: function(json_data) {
-            //console.log("nodes=",nodes);
+            logger.log.debug("BlogView.handleComments - v_post",this.v_post);
             
-            this.$refs.commentTree.setPageParameter(json_data.next);
+            this.$refs.commentBox.update(this.v_post,this.v_post.comments.items);
+            this.$refs.commentBox.setPageParameter(json_data.next);
             this.v_comments_count = json_data.count;
         },
 
@@ -332,15 +301,6 @@ export default {
             });
         },
 
-        onClickTest: function() {            
-            logger.log.debug('onClickTest - ');
-            //console.log( this.$refs.toastuiEditor.invoke('getHtml') );
-            let dic_param = {content_type:'blog-postpage',pk:'6'};
-            CMSAPI.getComments(dic_param,function(response) {
-                logger.log.debug('getComments - ',response);
-            });
-            
-        },
 
         onClickDelete: function() {                        
             const _this = this;
@@ -366,11 +326,6 @@ export default {
             this.navWriter("update");
         },
 
-        onClickCommentSave: function(dic_param) {            
-            logger.log.debug('onClickCommentSave - ',dic_param);
-            CommonFunc.showOkMessage(this,'Comments posted');  
-        },
-
         onClickCommentReply: function(dic_param) {
             logger.log.debug('onClickCommentReply : dic_param=',dic_param);
             CommonFunc.showOkMessage(this,'Comments posted');  
@@ -390,20 +345,6 @@ export default {
             this.v_post.comments.vote(dic_param).then( response => {
                 CommonFunc.showOkMessage(_this,'Comments rate updated');
             });
-        },
-
-        onEditorFocus: function(event) {
-            logger.log.debug("BlogPage.onEditorFocus=",event);
-            this.$refs.commentForm.v_comments = "";
-            this.$refs.commentForm.v_rows= "5";
-            //contentInput
-        },
-
-        onEditorFocusOut: function(event) {
-            logger.log.debug("BlogPage.onEditorFocusOut=",event);
-            this.$refs.commentForm.v_comments = "";
-            this.$refs.commentForm.v_rows= "1";
-            //contentInput
         },
         
         onClickShare: function(post) {

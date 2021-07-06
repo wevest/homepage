@@ -1,5 +1,5 @@
 <template>
-	<div class="row no-wrap q-pa-md ReviewTextBox" :style="v_style" v-show="visible">
+	<div class="row no-wrap q-pa-md ReviewTextBox" :style="v_style" v-show="visible" @click="onClick">
 		<div class="col">
 			<div v-if="v_me.loggedIn">
 				<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
@@ -232,6 +232,24 @@ export default {
 			logger.log.debug("onFocusOut=", this.$parent);			
 			this.$emit("onEditorFocusOut", event);
 		},
+
+		onClick() {
+			logger.log.debug("AssetReviewForm.onClick : parent=",this.$parent);
+
+			if (this.v_me.isLoggedIn()) {
+				return;
+			}
+
+			const _this=this;
+            store.getters.components.getComponent('confirmDialog').show('Please login first',function(value) {
+                logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
+                if (value) {
+					store.getters.nav.add(this.$route);					
+                    CommonFunc.navSignin(_this);
+                }
+            });
+
+		}
 	},
 };
 </script>

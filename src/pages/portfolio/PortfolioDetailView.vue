@@ -10,7 +10,7 @@
                         <q-space />
                     
                     <div class="groupDeleteBtn">
-                        
+
                         <WCommandBar 
                             :data="v_portfolio" :isOwner="v_is_owner" 
                             shareBtn="share" updateBtn="" deleteBtn="delete" 
@@ -159,7 +159,7 @@ import {PortfolioModel,PortfolioItemModel} from "src/models/PortfolioModel";
 import CommentBox from "components/comments/CommentBox.vue";
 
 import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
-import PortfolioChart from 'src/pages/user/component/PortfolioChart';
+import PortfolioChart from 'src/pages/portfolio/component/PortfolioChart';
 import WSubinfo from 'components/WSubinfo';
 import WCommandBar from "components/WCommandBar.vue";
 

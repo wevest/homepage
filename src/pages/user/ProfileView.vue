@@ -185,18 +185,19 @@ import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListMod
 
 import AvatarCropper from "vue-avatar-cropper";
 import CTitle from 'components/CTitle';
+import WButton from 'components/WButton.vue';
 import BlogList from 'components/lists/BlogList';
 import UserFeedList from 'components/lists/UserFeedList';
 import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 import MessageWriterDialog from 'components/dialogs/MessageWriterDialog';
-import PortfolioList from 'src/pages/user/component/PortfolioList';
 import FriendList from 'src/pages/user/component/FriendList';
-
+import PortfolioList from 'src/pages/portfolio/component/PortfolioList';
 
 
 export default {
     components: {
         CTitle,
+        WButton,
         BlogList,
         AvatarCropper,
         AddPortfolioDialog,
@@ -454,26 +455,42 @@ export default {
         },
 
         onClickMessage: function() {
-            logger.log.debug("onClickMessage");
+            logger.log.debug("ProfileView.onClickMessage");
 
-            let v_message = new MessageThreadModel();
-            v_message.to_user = this.v_user.id;
-            v_message.to_username = this.v_user.username;
-            v_message.avatar = this.v_user.avatar;
-            this.$refs.messageWriter.show(v_message);
+            const _this=this;
+            CommonFunc.checkButtonPermission(this,1,0).then(ret=>{
+                logger.log.debug("ProfileView.onClickMessage : ret=",ret);
+                if (ret==0) return;
+
+                let v_message = new MessageThreadModel();
+                v_message.to_user = _this.v_user.id;
+                v_message.to_username = _this.v_user.username;
+                v_message.avatar = _this.v_user.avatar;
+                _this.$refs.messageWriter.show(v_message);
+            });
         },
 
         onClickFollow: function(value) {
             logger.log.debug("onClickFollow");
                         
             const _this=this;
-            this.v_user.follow(this.v_user.id,value).then( response => {
-                logger.log.debug("onClickFollow - response=",response);
-                CommonFunc.showOkMessage(_this,'Followed');                
-            }).catch(err=>{
 
+            CommonFunc.checkButtonPermission(this,1,0).then(ret=>{
+                logger.log.debug("ProfileView.onClickFollow : ret=",ret);
+                if (ret==0) return;
+
+                _this.v_user.follow(_this.v_user.id,value).then( response => {
+                    logger.log.debug("onClickFollow - response=",response);
+                    
+                    let msg = "Followed";
+                    if (value==-1) msg = "Unfollowed";
+                    CommonFunc.showOkMessage(_this,msg);
+                    
+                }).catch(err=>{
+
+                });
             });
-            
+
         },
 
         onClickAddPortfolio: function() {
