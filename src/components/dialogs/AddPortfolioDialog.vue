@@ -72,7 +72,6 @@ import { store } from 'src/store/store';
 import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
-import CMSAPI from 'src/services/cmsService';
 
 import WTextArea from "src/components/WTextArea";
 import WDialogCloseButton from "src/components/WDialogCloseButton";
@@ -241,11 +240,14 @@ export default {
             this.v_portfolio_item.addToServer().then( response => {
                 if (response.data.ret!=0) {
                     CommonFunc.showErrorMessage(_this,response.data.msg);
-                } else {
-                    CommonFunc.showOkMessage(_this,'Portfolio added');
-                    _this.$emit("onPortfolioItemAdded",response.data);
-                }
-                
+                    return;
+                } 
+                CommonFunc.showOkMessage(_this,'Portfolio added');
+
+                _this.v_user.portfolio.addPortfolioItem(response.data.portfolio_item);
+                _this.v_user.portfolio.calcPerformance(store.state.prices);
+                _this.$emit("onPortfolioItemAdded",response.data);
+
             }).catch( err=> {
                 CommonFunc.showErrorMessage(_this,'Portfolio error');
             });

@@ -67,6 +67,8 @@ export default {
             let a_option = CommonFunc.getChartOption(series);
             this.g_chart['chart1'] = a_option;
             this.v_chart_loaded = true;
+
+            logger.log.debug('CAssetChart.updateChart : =',json_data);
         },
 
         update: function(json_data) {

@@ -30,17 +30,32 @@
                 </div> 
             </div>                           
 
-            <div class="row text-center">                    
+            <div class="q-my-md">
+                <div class="row">
+                    <div>
+                        <span class="gCaption"> Description </span>
+                    </div>
+                    <q-space />
+                    <div>
+                        <q-btn flat @click="onClickEdit" v-show="v_is_owner" :label="v_edit_button" />
+                    </div>
+                </div>
+                <div >
+                    <q-input filled type="textarea" class="text-body1" v-model="v_portfolio.description" :readonly="! v_mode.length>0" />
+                </div>
+            </div>
+
+            <div class="row q-my-lg text-center">                    
                 <div class="col">
                     <div class="text-h4 text-weight-bolder" :style="v_color(v_portfolio.roi)">{{ v_format(v_portfolio.roi) }}% </div>
-                    <div class="text-caption text-grey-6">ROI</div>                         
+                    <div class="gCaption">ROI</div>                         
                 </div>  
 
                 <q-separator vertical />
                 
                 <div class="col">   
                     <div class="text-h4 text-weight-bold">$ {{ v_format(v_portfolio.evaluated_value) }}</div>
-                    <div class="text-caption text-grey-6">Evaluated Value</div>                         
+                    <div class="gCaption">Evaluated Value</div>                         
                 </div>
             </div>
         </div>
@@ -50,15 +65,28 @@
 
         <div>
             <div class="q-my-lg">
-                <span class="text-h5 text-weight-bold"> ROI Chart </span>
+                <span class="gSubtitle"> ROI Chart </span>
             </div>
             
             <PortfolioChart ref="portfolioChart" />
-            <div>
+            
+            <div class="q-my-xl">
                 <WRatingButton ref="ratingButton" 
-                    likeCaption="훌륭합니다." dislikeCaption="리밸런싱해요"
-                    @onClickRating="onClickVote" />
+                    :data="v_portfolio"
+                    likeCaption="훌륭합니다." dislikeCaption="리밸런싱해요" />
             </div>
+
+            <div v-if="! v_is_owner" class="q-my-xl">
+                <WUserProfileBox ref="userProfile" 
+                    :data="v_portfolio"
+                    :avatar="v_user.avatar_thumb"
+                    :username="v_user.username"
+                    :userid="v_user.id"
+                    :biography="v_user.biography"
+                    :isOwner="v_is_owner" 
+                    shortenBiography="0" />            
+            </div>
+
         </div>
 
         <q-separator class="gSeparator" />
@@ -87,9 +115,12 @@
                                 @onClickUpdate="onClickUpdate" 
                                 @onClickCopy="onClickAddToMyPortfolio"
                                 @onClickDelete="onClickDelete" 
-                            />
+                            />                            
 
-                        </div>                            
+                        </div>
+                        <div>
+                            <q-btn flat label=">" @click="onClickMore(a_portfolio)" />
+                        </div>
                     </div>  
                 </q-card-section>
 
@@ -128,8 +159,6 @@
                 :contentType="v_content_type" :post="v_portfolio" :items="v_portfolio.comments.items" />            
         </div>
 
-        <AddPortfolioDialog ref="addPortfolio" @onPortfolioItemAdded="onPortfolioItemAdded" />
-
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
             <q-btn fab icon="add" color="accent" @click="onClickAdd" />
         </q-page-sticky>
@@ -148,22 +177,22 @@ import {PortfolioModel,PortfolioItemModel} from "src/models/PortfolioModel";
 
 import CommentBox from "components/comments/CommentBox.vue";
 
-import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 import PortfolioChart from 'src/pages/portfolio/component/PortfolioChart';
 import WSubinfo from 'components/WSubinfo';
 import WCommandBar from "components/WCommandBar.vue";
 import WRatingButton from 'components/WRatingButton';
+import WUserProfileBox from 'components/WUserProfileBox';
 
 export default {
     name: 'PortfolioDetail',
     props: [],
     components: {
-        AddPortfolioDialog,
         PortfolioChart,
         WSubinfo,
         WCommandBar,        
         WRatingButton,
         CommentBox,
+        WUserProfileBox
     },    
     mixins: [],
     computed: {
@@ -212,6 +241,9 @@ export default {
             v_user: new UserModel(),
             v_portfolio: new PortfolioModel(),
             
+            v_mode: "",
+            v_edit_button: 'Edit',
+
             v_selected: null,
         }
     },
@@ -260,7 +292,25 @@ export default {
             })            
         },
 
+        loadProfile(username) {
+            const _this=this;
+            UserModel.loadProfile(username).then( a_user => {
+                _this.v_user = a_user;
+                //_this.$refs.profileBox.update(_this.v_user);
+
+                _this.v_user.loadPortfolio().then( response => {
+                    logger.log.debug("setUser=>",response);
+                    _this.selectPortfolio(_this.v_query.portfolio_id);
+                    _this.loadComments(_this.v_query.portfolio_id);
+                    _this.forceUpdate();
+                });
+            });
+        },
+
         refresh: function() {
+            this.loadProfile(this.$route.query.username);
+            return;
+
             const _this=this;
             this.v_user.loadPortfolio().then( response => {
                 logger.log.debug("PortfolioDetailView.refresh=>",response);
@@ -317,17 +367,39 @@ export default {
 
 
 
-
-        onClickBack: function() {
-            logger.log.debug("PortfolioDetail.onClickBack");
-            CommonFunc.navBack(this);
+        onClickEdit: function() {
+            logger.log.debug("PortfolioDetailView.onClickEdit");
+            
+            if (this.v_mode.length==0) {
+                this.v_mode = "edit";
+                this.v_edit_button = "Save";
+                return;
+            }
+            
+            const _this=this;
+            this.v_portfolio.update(this.v_portfolio.description).then(response=>{
+                logger.log.debug("PortfolioDetailView.onClickEdit - response=",response);
+                _this.v_edit_button = "Edit";
+                _this.v_mode = "";
+                CommonFunc.showOkMessage(_this,'Success');
+            }).catch(err=>{
+                logger.log.error("PortfolioDetailView.onClickEdit - err=",err);
+            });  
         },
 
         onClickAdd: function() {
             logger.log.debug("PortfolioDetail.onClickAdd");
-            this.$refs.addPortfolio.show(this.v_user,null);
+            
+            store.getters.components.getComponent('portfolioDialog').show(this.v_user,null); 
+            //this.$refs.addPortfolio.show(this.v_user,null);
         },
-        
+
+        onClickUpdate:function(portfolio) {
+            logger.log.debug("PortfolioDetail.onClickEdit : portfolio=",portfolio);
+            store.getters.components.getComponent('portfolioDialog').show(this.v_user,portfolio); 
+            //this.$refs.addPortfolio.show(this.v_user,portfolio);
+        },
+
         onClickDelete: function(portfolio_item) {
             logger.log.debug("PortfolioDetail.onClickDelete : v_selected=",portfolio_item);
             
@@ -342,20 +414,6 @@ export default {
             this.handlePortfolioDelete();
         },
 
-        onClickVote: function(dicParam) {
-            const _this=this;
-
-            logger.log.debug("PortfolioDetail.onClickVote = ",dicParam);
-            
-            let dic_param = {id:this.v_portfolio.id, value:dicParam.value};
-            this.v_portfolio.vote(dic_param).then(response => {
-                logger.log.debug('onClickReviewRating - ',response);
-                CommonFunc.showOkMessage(_this,'Voted');
-            }).catch( err => {
-
-            });
-
-        },
 
         onPortfolioItemAdded: function(jsonItem) {
             logger.log.debug("PortfolioDetail.onPortfolioItemAdded = ",jsonItem);
@@ -420,12 +478,7 @@ export default {
 
         onClickSymbol:function(symbol) {
             logger.log.debug("PortfolioDetail.onClickSymbol : symbol=",symbol);        
-            CommonFunc.navAsset(this,symbol);
-        },
-
-        onClickUpdate:function(portfolio) {
-            logger.log.debug("PortfolioDetail.onClickEdit : portfolio=",portfolio);
-            this.$refs.addPortfolio.show(this.v_user,portfolio);
+            //CommonFunc.navAsset(this,symbol);
         },
 
 		onClickLoadMore: function() {
@@ -439,6 +492,13 @@ export default {
             let a_url = CommonFunc.navPortfolio(this,this.v_user,this.v_portfolio,true);
             logger.log.debug("PortfolioDetail.onClickShare=",data,a_url);            
             CommonFunc.copyUrl(this,a_url);
+        },
+
+        onClickMore: function(portfolio_item) {
+            logger.log.debug("PortfolioDetail.onClickMore : portfolio_item=",portfolio_item);
+            
+            store.getters.nav.add(this.$route);
+            CommonFunc.navAssetDetail(this,portfolio_item.api_asset.symbol,portfolio_item.api_asset.id);
         }
 
     }

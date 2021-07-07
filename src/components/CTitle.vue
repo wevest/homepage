@@ -1,22 +1,13 @@
 <template>
 
-    <div>
-
-        <div class="ctitle" v-if="ttype==='title'">
-            <h5 class="title row justify-center">{{ title }}</h5> 
+    <div class="row ctitle">
+        <div :class="v_class">                
+            {{ title }}
         </div>
-
-        <div class="row ctitle" v-if="ttype==='subtitle'">
-            <div>
-                <h6 class="subtitle">{{ title }} <span class="desc">{{ desc }} </span></h6> 
-            </div>
-            
-            <q-space v-if="loadMoreCaption.length>0" />
-            <div>                
-                <q-btn :label="loadMoreCaption" @click="onClickMore" v-if="loadMoreCaption.length>0" />
-            </div>
+        <q-space v-if="loadMoreCaption.length>0" />
+        <div>                
+            <q-btn :label="loadMoreCaption" @click="onClickMore" v-if="loadMoreCaption.length>0" />
         </div>
-
     </div>
 
 </template>
@@ -48,6 +39,12 @@ export default {
         }
     },
     computed: {
+        v_class() {
+            if (this.ttype=="title") {
+                return "text-h4 text-weight-bolder q-my-lg text-center";
+            }
+            return "text-h6 text-weight-bold q-my-md";
+        },
     },
     data: function () {
         return {
@@ -81,11 +78,7 @@ export default {
 .title {
     font-weight: bold;
     color:#343434;
-    margin-block-start:0.5rem;
-    margin-block-end:0.2rem;
-    padding-bottom:5px;
-    border-bottom: 3px solid #777777; 
-
+    border-bottom: 3px solid #777777;     
     /* 
         margin : 0.1rem 0 0.1rem 0;    
         font-size: 1.0rem; 

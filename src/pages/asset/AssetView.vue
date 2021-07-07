@@ -43,7 +43,6 @@ import { CONST } from 'src/data/const';
 import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import MoaBackendAPI from 'src/services/apiService';
-import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
 import {PostPageModel,QuestionPageModel,AssetReviewPageModel,AssetReviewPageListModel} from "src/models/PageModel";

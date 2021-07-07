@@ -52,12 +52,33 @@ export default {
         },
     },
     methods: {
+
+        vote: function(dicParam) {
+            const _this = this;            
+            
+            logger.log.debug('WRatingButton.vote : dicParam=',dicParam);
+
+            let dic_param = {id:this.data.id, value:dicParam.value};            
+            this.data.vote(dic_param).then( response => {            
+
+                let msg = "Liked" ;
+                if (dicParam.value==-1) {
+                    msg = "Disliked";
+                }
+                CommonFunc.showOkMessage(_this,msg);
+
+            }).catch( err=> {
+                logger.log.error('WRatingButton.vote : err=',err);
+            });
+        },
+
         onClickRate(value) {
 
             if (this.v_me.isLoggedIn()) {
                 logger.log.debug("onClickRate=",value);
                 const dic_param = {value:value, data:this.data};
-                this.$emit("onClickRating",dic_param);
+                this.vote(dic_param);
+                //this.$emit("onClickRating",dic_param);
                 return;
             }
 

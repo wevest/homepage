@@ -5,10 +5,11 @@
 		<CTitle ttype='subtitle' :title="v_title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMorePortfolio"></CTitle>
 
-        <q-card class="portfolioListBox" bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
-            <q-card-section> 
-                <div class="row boxContainer">
-                    <div class="boxAvatar">
+        <q-card class="portfolioListBox" bordered 
+            v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
+            <q-card-section class="no-margin no-padding"> 
+                <div class="row boxContainer q-my-md">
+                    <div class="boxAvatar q-mr-xs">
                         <WAvatar :avatar="a_portfolio.api_user.avatar_thumb" :username="a_portfolio.api_user.username" />
                     </div>
                     <div class="boxInfo">
@@ -133,7 +134,7 @@ export default {
 <style scope> 
 
 .portfolioListBox {
-    margin:10px 0px;
+     margin:10px 0px; 
 }
 
 .groupName {

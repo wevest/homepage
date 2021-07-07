@@ -17,6 +17,7 @@ const routes = [
       
       { name: 'asset_index', path: '/asset_index', component: () => import('pages/asset/AssetIndexView.vue') },
       { name: 'asset', path: '/asset', component: () => import('pages/asset/AssetView.vue') },
+      { name: 'asset_detail', path: '/asset_detail', component: () => import('pages/asset/AssetDetailView.vue') },
       { name: 'assetqa', path: '/assetqa', component: () => import('pages/assetqa/AssetQAView.vue') },
       { name: 'assetreview', path: '/assetreview', component: () => import('pages/assetreview/AssetReviewView.vue') },
       { name: 'assetqa_detail', path: '/assetqa_detail', component: () => import('pages/assetqa/AssetQADetailView.vue') },

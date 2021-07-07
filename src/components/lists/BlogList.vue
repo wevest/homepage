@@ -19,7 +19,7 @@
 				</q-item-section>
 				<q-item-section top>
 					<q-item-label lines="1">
-						<span class="gBlogTitle">{{ v_shorten(a_post.title) }}</span>
+						<span class="gListTitle">{{ v_shorten(a_post.title) }}</span>
 					</q-item-label>
 					<q-item-label lines="1">
 
@@ -77,12 +77,10 @@ export default {
 		},
 		category: {
 			required:true,
-			type:String,
 			default: ""
 		},
 		symbol: {
 			required:true,
-			type:String,
 			default: ""
 		},
 		objectId: {

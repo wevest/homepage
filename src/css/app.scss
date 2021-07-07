@@ -112,14 +112,6 @@
   padding: 16px 16px 16px 4px;
 }
 
-.gBlogTitle {
-  font-size:20px;
-  color:#000000;
-  font-weight:bold;
-  line-height:normal;
-}
-
-
 
 .gBlogRatingBox {
   text-align: center;
@@ -141,12 +133,6 @@
   color:#222222;
 }
 
-.gPageTitle {
-  color:#222222;
-  font-size:30px;
-  font-weight:bold;
-  padding-top:20px;
-}
 
 .gPageUDRBox {
   padding-bottom:0px;
@@ -320,4 +306,40 @@
   color:#C10015;
   font-size:12px;
 }
+
+
+
+.gCaption {
+  font-size: map-get($caption,"size");
+  line-height: map-get($caption,"line-height");
+  font-weight: map-get($caption,"weight");
+  color: $grey-6;
+}
+
+.gSubtitle {
+  font-size: map-get($h5,"size");
+  line-height: map-get($h5,"line-height");
+  font-weight: map-get($text-weights,"bold");
+}
+
+.gPageTitle {
+  color: $grey-10;
+  font-size: map-get($h4,"size");
+  line-height: map-get($h4,"line-height");
+  letter-spacing: map-get($h4,"letter-spacing");
+  font-weight: map-get($text-weights,"bolder");
+  margin: map-get($space-lg,"y") 0px map-get($space-md,"y") 0px;
+}
+
+.gListTitle {
+  font-size: map-get($h6,"size");
+  line-height: map-get($h6,"line-height");
+  font-weight: map-get($text-weights,"bold");
+  letter-spacing: map-get($h6,"letter-spacing");
+  color:$grey-10;
+  
+  margin: map-get($space-sm,"y") 0px map-get($space-sm,"y") 0px;
+}
+
+
 /* end */

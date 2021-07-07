@@ -136,10 +136,42 @@
 		</q-page-container>
 
 		<WConfirmDialog ref="confirmDialog" title="Do you want to delete the item?" @onClickConfirm="onClickDeleteConfirm" />
+		<AddPortfolioDialog ref="portfolioDialog" @onPortfolioItemAdded="onPortfolioItemAdded" />
+
+		<!--
+		dropdown-icon="change_history"
+		-->
+
+        <q-page-sticky position="bottom-right" :offset="[18, 18]">
+
+			<q-btn-dropdown fab color="pink" dropdown-icon="add">
+
+			    <q-list>
+					<q-item clickable v-close-popup @click="onClickPortfolio">
+					    <q-item-section>
+            				<q-item-label>Portfolio</q-item-label>
+          				</q-item-section>
+        			</q-item>
+					<q-item clickable v-close-popup @click="onClickFab">
+					    <q-item-section>
+            				<q-item-label>Blog</q-item-label>
+          				</q-item-section>
+        			</q-item>
+					<q-item clickable v-close-popup @click="onClickFab">
+					    <q-item-section>
+            				<q-item-label>Question</q-item-label>
+          				</q-item-section>
+        			</q-item>
+				</q-list>
+<!--				
+					<q-btn fab icon="add" color="accent" @click="onClickFab" />
+-->
+			</q-btn-dropdown>
+
+        </q-page-sticky>
 
 	</q-layout>
 </template>
-
 
 
 <script>
@@ -154,14 +186,15 @@ import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
 import WConfirmDialog from "src/components/dialogs/WConfirmDialog";
-
+import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 
 export default {
 	name: "MainLayout",
 	components: {
 		SideBar,
 		Spinner,
-		WConfirmDialog
+		WConfirmDialog,
+		AddPortfolioDialog
 	},
 	computed: {
 		v_login: function () {
@@ -206,6 +239,7 @@ export default {
 		prepare() {
 			store.getters.components.addToolbar(this);
 			store.getters.components.addComponent('confirmDialog',this.$refs.confirmDialog);
+			store.getters.components.addComponent('portfolioDialog',this.$refs.portfolioDialog);
 		},
 		setBackButton:function(value) {
 			this.v_show_back_button = value;
@@ -364,15 +398,28 @@ export default {
 		},
 
 		onClickBack: function() {
-			logger.log.debug("onClickBack");
+			logger.log.debug("MainLayout.onClickBack");
 			
 			store.getters.nav.back(this);
 		},
 
 		onClickDeleteConfirm: function() {
-			logger.log.debug("onClickDeleteConfirm");
-		}
+			logger.log.debug("MainLayout.onClickDeleteConfirm");
+		},
 
+        onPortfolioItemAdded: function(jsonItem) {
+            logger.log.debug("MainLayout.onPortfolioItemAdded = ",jsonItem);
+            //this.v_user.portfolio.addPortfolioItem(jsonItem.portfolio_item);
+            //this.v_user.portfolio.calcPerformance(store.state.prices);
+        },
+
+		onClickFab: function() {
+			logger.log.debug("MainLayout.onClickFab");
+		},
+
+		onClickPortfolio: function() {
+			logger.log.debug("MainLayout.onClickPortfolio");
+		}
 	},
 };
 </script>

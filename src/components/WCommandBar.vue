@@ -46,6 +46,9 @@ export default {
             type:Boolean,
             default: false,
         },
+        size: {
+            default: '20px'
+        },
         shareBtn: {
             type:String,
             default: ''
@@ -62,9 +65,10 @@ export default {
             type:String,
             default: ''
         },
-        size: {
-            default: '20px'
-        }
+        moreBtn: {
+            type:String,
+            default: ''
+        },
     },
     computed: {
         v_me() {
@@ -72,6 +76,31 @@ export default {
         },
     },
     methods: {
+
+        addToMyPortfolio: function(jsonPortfolio) {
+            logger.log.debug("WCommandBar.addToMyPortfolio : portfolio=",jsonPortfolio);
+            
+            const _this=this;
+            
+            let portfolio = new PortfolioItemModel();
+            portfolio.assign(jsonPortfolio);
+            portfolio.portfolio_id = -1;
+            portfolio.description += '\r\n Copied from ' + this.v_user.username;
+
+            portfolio.addToServer().then(response=>{
+                logger.log.debug("WCommandBar.onClickAddToMyPortfolio : response=",response);    
+                if (response.data.ret==0) {
+                    CommonFunc.showOkMessage(_this,'portfolio added');
+                } else {
+                    CommonFunc.showErrorMessage(_this,response.data.msg);
+                }
+                
+            }).catch(err=>{
+                logger.log.error("WCommandBar.onClickAddToMyPortfolio : err=",err);    
+            });
+        },
+
+
         onClickShare() {
             this.$emit("onClickShare",this.data);
         },
@@ -81,10 +110,10 @@ export default {
 
             const _this=this;
             store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
-                logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
+                logger.log.debug("WCommandBar.onClickDelete - confirm=",value,_this.$route);
                 if (! value) return;
 
-                _this.$emit("onClickDelete",_this.data);
+                _this.$emit("WCommandBar.onClickDelete",_this.data);
             });
 
         },
