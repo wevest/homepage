@@ -152,6 +152,11 @@
             				<q-item-label>Portfolio</q-item-label>
           				</q-item-section>
         			</q-item>
+					<q-item clickable v-close-popup @click="onClickShare">
+					    <q-item-section>
+            				<q-item-label>Share</q-item-label>
+          				</q-item-section>
+        			</q-item>
 					<q-item clickable v-close-popup @click="onClickFab">
 					    <q-item-section>
             				<q-item-label>Blog</q-item-label>
@@ -419,6 +424,10 @@ export default {
 
 		onClickPortfolio: function() {
 			logger.log.debug("MainLayout.onClickPortfolio");
+		},
+
+		onClickShare: function() {
+			logger.log.debug("MainLayout.onClickShare");
 		}
 	},
 };
