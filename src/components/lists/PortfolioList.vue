@@ -6,20 +6,31 @@
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMorePortfolio"></CTitle>
 
         <q-card class="portfolioListBox" bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
-            <q-card-section horizontal class="groupTitleBox"> 
-                <div>
-                    <WAvatar :avatar="a_portfolio.api_user.avatar_thumb" :username="a_portfolio.api_user.username" />
+            <q-card-section> 
+                <div class="row boxContainer">
+                    <div class="boxAvatar">
+                        <WAvatar :avatar="a_portfolio.api_user.avatar_thumb" :username="a_portfolio.api_user.username" />
+                    </div>
+                    <div class="boxInfo">
+                        <div class="row">
+                            <div>
+                                <span>{{a_portfolio.name}}</span>
+                            </div>
+                            <q-space />
+                            <div>
+                                123.4243%
+                            </div>
+                        </div>
+                        <div>
+                            <span class="groupDesc">{{v_shorten(a_portfolio.description)}}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="boxMore">
+                        <q-btn size="14px" flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
+                    </div>                       
 
-                    <span>{{a_portfolio.name}}</span>
-                    
-                    &nbsp;| &nbsp; 
-                    <span class="groupDesc">{{v_shorten(a_portfolio.description)}}</span>
-                    
                 </div> 
-                <q-space />
-                <div>
-                    <q-btn size="14px" flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
-                </div>                       
             </q-card-section>
             
         </q-card>
@@ -125,14 +136,9 @@ export default {
     margin:10px 0px;
 }
 
-.groupTitleBox {
-    padding:10px 0px 10px 10px;
-}
-
 .groupName {
     font-size:14px;
     color:#202124;
-
 }
 
 .valueTitle {
@@ -161,5 +167,21 @@ export default {
     text-align:center;
 }
 
+.boxContainer {
+    display:flex;
+    flex-direction: row;
+}
+
+.boxAvatar {
+
+}
+
+.boxInfo {
+    flex-grow:1;
+}
+
+.boxMore {
+
+}
 
 </style>

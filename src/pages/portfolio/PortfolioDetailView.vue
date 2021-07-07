@@ -471,7 +471,7 @@ export default {
 }
 
 .cardSection2 {
-    padding:5px 10px 5px 59px;
+     padding:5px 10px 5px 59px; 
 }
 
 </style>
