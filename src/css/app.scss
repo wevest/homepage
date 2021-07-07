@@ -320,4 +320,67 @@
   color:#C10015;
   font-size:12px;
 }
+
+
+.gUserNameLG {
+  font-size: map-get($h5,"size");
+  line-height: map-get($h5,"line-height");
+  letter-spacing: map-get($h5,"letter-spacing");
+  font-weight: map-get($h5,"weight");
+  color: $grey-10;
+}
+
+.gCaption {
+  font-size: map-get($caption,"size");
+  line-height: map-get($caption,"line-height");
+  font-weight: map-get($caption,"weight");
+  color: $grey-6;
+}
+
+
+.gPageTitle {
+  color: $grey-10;
+  font-size: map-get($h4,"size");
+  line-height: map-get($h4,"line-height");
+  letter-spacing: map-get($h4,"letter-spacing");
+  font-weight: map-get($text-weights,"bolder");
+  color: $grey-10;
+}
+
+
+.gSubtitleLG {
+  font-size: map-get($h5,"size");
+  line-height: map-get($h5,"line-height");
+  letter-spacing: map-get($h5,"letter-spacing");
+  font-weight: map-get($text-weights,"bold");
+  color: $grey-10;
+}
+
+.gSubTitleMD {
+  font-size: map-get($h6,"size");
+  line-height: map-get($h6,"line-height");
+  letter-spacing: map-get($h6,"letter-spacing");
+  font-weight: map-get($text-weights,"bold");
+  color: $grey-10;
+
+} 
+
+
+
+.gParagraphSM {
+  color: $grey-14;
+  font-size: map-get($body2,"size");
+  line-height: map-get($h1,"line-height");
+  letter-spacing: map-get($body2,"letter-spacing");
+  font-weight: map-get($body2,"weight");
+}
+
+.gROILG {
+  font-size: map-get($h5,"size");
+  line-height: map-get($h5,"line-height");
+  letter-spacing: map-get($h5,"letter-spacing");
+  font-weight: map-get($text-weights,"bold");
+}
+
+
 /* end */

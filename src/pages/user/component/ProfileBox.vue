@@ -30,16 +30,16 @@
         </q-item-section>
 
         <q-card-section>
-            <div class="text-h5">{{ v_user.username }}</div>
+            <div class="gUserNameLG">{{ v_user.username }}</div>
             <div class="row" style="padding-top:14px;">
-                <div>Biography</div>
+                <div class="gSubTitleMD">Biography</div>
                 <q-space />
                 <div>
                     <q-btn flat @click="onClickEdit" v-show="isOwner" :label="v_edit_button" />
                 </div>
             </div>
-            <div  style="padding-bottom:14px;">
-                <q-input filled type="textarea" v-model="v_user.biography" :readonly="! v_mode.length>0" />
+            <div style="padding-bottom:14px;">
+                <q-input class="gParagraphSM" filled type="textarea" v-model="v_user.biography" :readonly="! v_mode.length>0" />
             </div>
 
 <!--                

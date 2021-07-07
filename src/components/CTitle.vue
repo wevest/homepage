@@ -2,7 +2,7 @@
 
     <div>
 
-        <div class="ctitle" v-if="ttype==='title'">
+        <div class="gPageTitle text-uppercase" v-if="ttype==='title'">
             <h5 class="title row justify-center">{{ title }}</h5> 
         </div>
 
@@ -65,18 +65,6 @@ export default {
 
 <style scoped>
 
-.ctitle {
-    text-transform: uppercase;
-/*     
-    margin-top: 1.5rem;    
-    margin-bottom: 1.0rem;     
-    padding: 0.0rem;       
-    border-bottom: 1px solid #ccc;
-    -webkit-box-flex: 1;
-    flex: 1 1 auto;
-    -ms-flex: 1 1 auto;
-    */
-}
 
 .title {
     font-weight: bold;
@@ -111,6 +99,8 @@ export default {
   font-weight: 400;
   padding-left: 0.8rem;  
 }
+
+
 
 /* box-shadow: 5px 5px 5px; */
 </style>
