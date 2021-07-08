@@ -12,7 +12,7 @@
                 <div class="row boxNumber">                    
                     <div class="col-4">
                         <div> 
-                            <span class="txtBigNumber" :style="v_color_style(v_roi)"> {{ v_roi }} % </span>
+                            <span class="gROILG" :style="v_color_style(v_roi)"> {{ v_roi }} % </span>
                         </div>
                         <div> 
                             <span class="txtDesc"> ROI </span>
@@ -20,18 +20,18 @@
                     </div>
                     <div class="col-4">
                         <div> 
-                            <span class="txtBigNumber"> {{ v_user.portfolio.item_count }} </span>
+                            <span class="gROILG"> {{ v_user.portfolio.item_count }} </span>
                         </div>
                         <div> 
-                            <span class="txtDesc">portfolio item count </span>
+                            <span class="txtDesc">Item count </span>
                         </div>
                     </div>             
                     <div class="col-4" @click="onClickFollower(v_user)">
                         <div>
-                            <span class="txtBigNumber">{{v_user.follower_count}}</span>
+                            <span class="gROILG">{{v_user.follower_count}}</span>
                         </div>
                         <div>
-                            <span class="txtDesc">Follower Count</span>
+                            <span class="txtDesc">Follower</span>
                         </div>
                     </div>
                 </div>
@@ -294,11 +294,6 @@ export default {
 
 <style scope> 
 
-.txtBigNumber {
-  font-size:25px;  
-  color:#222222;
-  font-weight: bold;
-}
 
 .txtDesc {
    font-size:14px;  

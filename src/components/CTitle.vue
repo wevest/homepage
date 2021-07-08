@@ -41,9 +41,9 @@ export default {
     computed: {
         v_class() {
             if (this.ttype=="title") {
-                return "text-h4 text-weight-bolder q-my-lg text-center";
+                return "gPageTitle text-uppercase";
             }
-            return "text-h6 text-weight-bold q-my-md";
+            return "gSubTitleMD text-uppercase";
         },
     },
     data: function () {
@@ -62,18 +62,6 @@ export default {
 
 <style scoped>
 
-.ctitle {
-    text-transform: uppercase;
-/*     
-    margin-top: 1.5rem;    
-    margin-bottom: 1.0rem;     
-    padding: 0.0rem;       
-    border-bottom: 1px solid #ccc;
-    -webkit-box-flex: 1;
-    flex: 1 1 auto;
-    -ms-flex: 1 1 auto;
-    */
-}
 
 .title {
     font-weight: bold;
@@ -104,6 +92,8 @@ export default {
   font-weight: 400;
   padding-left: 0.8rem;  
 }
+
+
 
 /* box-shadow: 5px 5px 5px; */
 </style>

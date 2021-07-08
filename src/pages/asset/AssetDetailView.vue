@@ -4,6 +4,8 @@
         <div>
             <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc" 
                 loadMoreCaption="More" @onClickTitleMore="onClickTitleMore"></CTitle>
+            
+<!--            
             <div class="q-mb-lg">
                 <WCommandBar :data="v_asset" :isOwner="v_is_owner" 
                     shareBtn="share" updateBtn="" deleteBtn="" copyBtn="copy"
@@ -11,7 +13,7 @@
                     @onClickCopy="onClickCopy" 
                 />
             </div>
-
+-->
         </div>
         
         <PriceSummaryBox ref="priceBox" />

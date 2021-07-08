@@ -10,11 +10,32 @@ import logger from 'src/error/Logger';
 import LocalStorageService from 'src/services/localStorage';
 
 
+export class TickerModel {
+    change_percentage=null;
+    last=null;
+    high_24h=null;
+    low_24h=null;
+    base_volume=null;
+    updated_at=null;
+
+    assign(obj) {
+        logger.log.debug("TickerModel.assign:obj=",obj);
+
+        this.change_percentage=parseFloat(obj.change_percentage);
+        this.last=parseFloat(obj.last);
+        this.high_24h=parseFloat(obj.high_24h);
+        this.low_24h=parseFloat(obj.low_24h);
+        this.base_volume=parseFloat(obj.base_volume);
+        this.updated_at = CommonFunc.getCurrentDatetime(1);
+    }
+}
 
 export class AssetModel{    
     id=null;
     symbol=null;
     name=null;
+    object_id=null;
+    object_category=null;
     category=null;
     first_price=null;
     date_added=null;
@@ -48,6 +69,10 @@ export class AssetModel{
     
     is_deleted=null;
     github_network_count=null;
+
+    ticker = new TickerModel();
+
+
 
     constructor() {}
 
@@ -183,6 +208,23 @@ export class AssetModel{
         });            
     }
 
+    getPriceTicker(quoteCurrency="USDT") {
+        const _this = this;
+        let dic_param = {pair:this.symbol+"_"+quoteCurrency};
+        //logger.log.debug("AssetModel.getPriceTicker - dic_param=",dic_param);        
+
+        return new Promise(function(resolve,reject) {            
+            PriceService.getPrice(dic_param).then(response=>{
+                //logger.log.debug("AssetModel.getPriceTicker - response",response);
+                _this.ticker.assign(response.data.data[0]);
+                resolve(response);
+            }).catch(err=>{
+                logger.log.error("AssetModel.getPriceTicker - error",err);
+                reject(err);
+            });
+        });            
+
+    }
 }
 
 

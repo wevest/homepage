@@ -2,7 +2,7 @@
 
     <div>
         
-        <q-card class="portfolioListBox" bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
+        <q-card class="q-my-sm" bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
             <q-card-section horizontal class="groupTitleBox"> 
                 <div>
                     <div>
@@ -123,9 +123,6 @@ export default {
 
 <style scope> 
 
-.portfolioListBox {
-    margin:10px 0px;
-}
 
 .groupTitleBox {
     padding:10px 0px 10px 10px;

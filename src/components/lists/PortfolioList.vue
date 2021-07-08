@@ -5,35 +5,31 @@
 		<CTitle ttype='subtitle' :title="v_title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMorePortfolio"></CTitle>
 
-        <q-card class="portfolioListBox" bordered 
-            v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
-            <q-card-section class="no-margin no-padding"> 
-                <div class="row boxContainer q-my-md">
-                    <div class="boxAvatar q-mr-xs">
+        <q-card class="q-my-sm" bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
+            <q-card-section>  
+                <div class="row boxContainer">
+                    <div style="padding:7px 10px 0px 0px;">
                         <WAvatar :avatar="a_portfolio.api_user.avatar_thumb" :username="a_portfolio.api_user.username" />
                     </div>
                     <div class="boxInfo">
-                        <div class="row">
-                            <div>
-                                <span>{{a_portfolio.name}}</span>
-                            </div>
-                            <q-space />
-                            <div>
-                                123.4243%
-                            </div>
-                        </div>
-                        <div>
-                            <span class="groupDesc">{{v_shorten(a_portfolio.description)}}</span>
+                        <div class="text-h6 text-weight-bold nameRoi">
+                            <span>{{a_portfolio.name}}</span>
                         </div>
                     </div>
-                    
-                    <div class="boxMore">
-                        <q-btn size="14px" flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
-                    </div>                       
-
-                </div> 
+                <q-space />
+                <div class="text-h5 text-weight-bolder nameRoi">
+                    123.4243%
+                </div>
+                <div class="nameRoi">
+                    <q-btn size="14px" flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
+                </div>
+                </div>                     
             </q-card-section>
-            
+            <q-card-section class="no-padding desc"> 
+                <div>
+                     <span class="text-body2 text-grey-8">{{v_shorten(a_portfolio.description)}}</span>
+                </div>
+            </q-card-section>                   
         </q-card>
 
     </div>
@@ -133,56 +129,21 @@ export default {
 
 <style scope> 
 
-.portfolioListBox {
-     margin:10px 0px; 
-}
-
-.groupName {
-    font-size:14px;
-    color:#202124;
-}
-
-.valueTitle {
-   font-size:14px;
-   color:#cccccc;
-}
-
-.roiBox {
-    padding:0px 0px 0px 0px;
-    text-align:center;
-}    
-
-.roiValue {
-    font-size:15px;
-    color:#5a9591;
-    font-weight:700;
-}
-
-.value {
-    font-size:14px;
-    color:#202124;
-    text-align:center;
-}
-.valueTitle {
-    font-size:12px;
-    text-align:center;
-}
-
 .boxContainer {
     display:flex;
     flex-direction: row;
 }
 
-.boxAvatar {
-
-}
 
 .boxInfo {
     flex-grow:1;
 }
 
-.boxMore {
-
+.desc {
+    padding:0px 16px 16px 16px !important;
 }
 
+.nameRoi {
+    padding-top:15px;
+}
 </style>

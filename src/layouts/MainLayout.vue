@@ -146,23 +146,35 @@
 
 			<q-btn-dropdown fab color="pink" dropdown-icon="add">
 
-			    <q-list>
+			    <q-list separator>
 					<q-item clickable v-close-popup @click="onClickPortfolio">
+						<q-item-section avatar>
+							<q-avatar icon="folder" color="primary" text-color="white" />
+						</q-item-section>						
 					    <q-item-section>
             				<q-item-label>Portfolio</q-item-label>
           				</q-item-section>
         			</q-item>
 					<q-item clickable v-close-popup @click="onClickShare">
+						<q-item-section avatar>
+							<q-avatar icon="folder" color="primary" text-color="white" />
+						</q-item-section>						
 					    <q-item-section>
             				<q-item-label>Share</q-item-label>
           				</q-item-section>
         			</q-item>
 					<q-item clickable v-close-popup @click="onClickFab">
+						<q-item-section avatar>
+							<q-avatar icon="folder" color="primary" text-color="white" />
+						</q-item-section>						
 					    <q-item-section>
             				<q-item-label>Blog</q-item-label>
           				</q-item-section>
         			</q-item>
 					<q-item clickable v-close-popup @click="onClickFab">
+						<q-item-section avatar>
+							<q-avatar icon="folder" color="primary" text-color="white" />
+						</q-item-section>						
 					    <q-item-section>
             				<q-item-label>Question</q-item-label>
           				</q-item-section>
@@ -424,10 +436,13 @@ export default {
 
 		onClickPortfolio: function() {
 			logger.log.debug("MainLayout.onClickPortfolio");
+			store.getters.components.getComponent('portfolioDialog').show(this.v_user,null); 
 		},
 
 		onClickShare: function() {
-			logger.log.debug("MainLayout.onClickShare");
+			const a_url = window.location.href;
+			logger.log.debug("MainLayout.onClickShare : url=",a_url);
+			CommonFunc.copyToClipboard(this,a_url);
 		}
 	},
 };
