@@ -1,6 +1,6 @@
 <template>
 
-    <div class="row box_price">
+    <div class="">
         <div class="price_box">
             <div class="price_big">
                 <span>{{ g_price['price'] }}</span>
@@ -13,6 +13,34 @@
                 </div>
             </div>
         </div>
+        
+        <div>
+            <div>                
+                <h6>24H Change</h6>
+                <q-slider                
+                    v-model="data.ticker.change_percentage"
+                    label label-always
+                    :min="-10"
+                    :max="10"
+                    :step="1"
+                    :label-value="'ROI : ' + data.ticker.change_percentage + ' %'"                
+                    :color="v_color(data.ticker.change_percentage)"
+                />
+            </div>
+            <div>
+                <h6>24H Price Range : {{ v_format(data.ticker.low_24h) }} ~ {{ v_format(data.ticker.high_24h) }}</h6>
+                <q-slider
+                    v-model="data.ticker.last"
+                    label label-always
+                    :min="data.ticker.low_24h"
+                    :max="data.ticker.high_24h"
+                    :step="1"                
+                    :label-value="v_label(data)"
+                    color="orange-9"
+                />
+            </div>            
+        </div>
+<!--
         <div>
             <q-markup-table flat class="price_table">
                 <tbody>
@@ -49,19 +77,53 @@
                 </tbody>
             </q-markup-table>
         </div>
+-->        
     </div>
         
 </template>
 
 <script>
 import CommonFunc from 'src/util/CommonFunc';
-import MoaBackendAPI from 'src/services/apiService';
-import DataService from 'src/services/dataService';
 import logger from "src/error/Logger";
 
+import {AssetModel} from "src/models/AssetModel";
 
 export default {
     name:'PriceSummaryBox',
+	props: {
+        data: {
+            required: true,
+            default: new AssetModel()
+        },
+    },
+	computed: {
+        v_color() {
+            return (value) => {                
+                return CommonFunc.getPerfColor(value);
+            };            
+        },
+        v_change() {
+            return (value) => {                
+                if (value>10) { return 10 }
+                if (value<-10) { return -10 }
+                return value; 
+            };            
+        },
+        v_format() {
+            return (value) => {
+                if(!value) {
+                    return '';
+                }
+                return value.toLocaleString();
+            };
+        },
+        v_label() {
+            return (data) => {
+                const msg = 'Price : $ '+ this.v_format(data.ticker.last);
+                return msg;
+            }
+        }
+	},
     data() {
         return {
             g_price: {'price_prev':0, 'price_low':0, 'price_high':0, 'price_open':0, 

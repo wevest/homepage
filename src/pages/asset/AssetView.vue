@@ -6,7 +6,7 @@
         </div>
 
         <div>
-            <PriceSummaryBox ref="priceBox" />
+            <PriceSummaryBox ref="priceBox" :data="v_asset" />
 
             <InfoTable ref="infoTable" :data="v_asset" />
         </div>
