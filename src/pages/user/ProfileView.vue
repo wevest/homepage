@@ -15,7 +15,7 @@
                             <span class="gROILG" :style="v_color_style(v_roi)"> {{ v_roi }} % </span>
                         </div>
                         <div> 
-                            <span class="txtDesc"> ROI </span>
+                            <span class="gCaption"> ROI </span>
                         </div>
                     </div>
                     <div class="col-4">
@@ -299,14 +299,5 @@ export default {
 
 
 <style scope> 
-
-
-
-.btnAvatar {
-    text-align:right;
-    top: 0; 
-    right: 12px; 
-    transform: translateY(-50%);
-}
 
 </style>

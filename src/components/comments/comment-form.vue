@@ -1,12 +1,14 @@
 <template>
-	<div class="no-wrap q-px-md q-pb-md commentBox" v-show="visible" @click="onClick">
+	<div class="q-px-md commentBox rounded-borders" v-show="visible" @click="onClick">
 
-		<div v-if="v_show">
+		<div class="row gParagraphSM" v-if="v_show">
+			<div class="writerIcon">
 			<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
-			<span> {{v_me.username}} </span>
+			</div>
+			<div class="q-pt-md"> {{v_me.username}} </div>
 		</div>
 
-		<div>
+		<div class="gCaption">
 			<WTextArea ref="descText" v-model="v_comments" :rows="v_rows" :maxlength="maxlength" 
 				label="Please type your comments" 
 				hint="Please write comments"
@@ -21,17 +23,15 @@
 				<span> {{v_length_msg}} </span>
 			</div>	
 			<q-space />				
-			<q-btn
-				class="saveCloseBtn"
+			<q-btn 
+				class="q-mb-sm gButtonMD"
 				label="save"
-				size="12px"
 				@click.stop="onClickSubmit"
 				v-if="showSaveButton" />&nbsp;
 
 			<q-btn 
-				class="saveCloseBtn"
+				class="q-mb-sm gButtonMD"
 				label="Close" 
-				size="12px"
 				@click="onClickClose" 
 				v-if="type=='reply'" />
 		</div>
@@ -316,17 +316,10 @@ export default {
 
 .commentBox {
 	border: 1px solid #cccccc;
-	border-radius: 7px; 
-	/* height:125px; */
-	margin-bottom:15px;
+	
+
 }
-.saveCloseBtn {
-	margin-top:8px;
-	font-weight:700;
-	color:#FFFFFF;
-	background-color:#B0B3BE;
-	width:50px;
-}
+
 
 .typeLength {
 	color:#999999;
@@ -359,4 +352,7 @@ export default {
 }
 
 
+.writerIcon {
+	padding-top:-20px;
+	}
 </style>

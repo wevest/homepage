@@ -6,7 +6,7 @@
 
 		<q-list separator class="rounded-borders" v-if="v_user.follower">
 			<q-item 
-				class="gBlogTitleBox"
+				class="q-pa-sm"
 				clickable
 				v-ripple
 				:key="index"
@@ -19,7 +19,7 @@
 				</q-item-section>
 				<q-item-section top>
 					<q-item-label lines="1">
-						<span class="gBlogTitle">{{ a_user.username }}</span>
+						<span class="gUserNameSM">{{ a_user.username }}</span>
 					</q-item-label>
 					<q-item-label lines="1">
 

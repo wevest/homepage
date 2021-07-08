@@ -97,21 +97,10 @@
   css for blog list
 */
 
-.gBlogAvatar {
-  padding:15px 3px 15px 3px !important;
-  height:40px;
-  width:40px;
-  border:1px;
-}
 
 .gBlogUserDateBox {
   padding:13px 0px 0px 5px !important;
 }
-
-.gBlogTitleBox {
-  padding: 16px 16px 16px 4px;
-}
-
 
 .gBlogRatingBox {
   text-align: center;
@@ -134,11 +123,7 @@
 }
 
 
-.gPageUDRBox {
-  padding-bottom:0px;
-  color: #909090;
-  font-size:13px;
-}
+
 
 .gPageContent {
   color: #292626;
@@ -232,19 +217,13 @@
   padding:10px 0px 6px 0px;
 }
 
-.gCommentAvatar {
-  padding:0px 0px 0px 0px;
-}
+
 
 .gCommentUserDateBox {
   padding:5px 0px 0px 8px;
   vertical-align:top;
 }
-.gCommentUserName {
-  color: #000000;
-  font-size:13px;
 
-}
 
 .gCommentDateInfo {
   color:#777777;
@@ -266,25 +245,7 @@
   font-size:14px;
 }
 
-.gCommentText {
-  padding-top:10px;
-  text-transform:type;
-  font-size:14px;
-  line-height:12px;
-  word-spacing:3px;
-}
 
-.gCommentReplyBox {
-  // justify-content: space-between;
-  // align-items: center;
-  padding:0px 0px; 
-}
-
-.gCommentReplyBtn {  
-  padding-left:0px;
-  size:15px;
-  color:#555555;
-}
 
 .gSeparator {
   margin:10px -20px 20px -20px !important;
@@ -316,7 +277,7 @@
   color: $grey-10;
 }
 
-.gCaption {
+.gCaptionSM {
   font-size: map-get($caption,"size");
   line-height: map-get($caption,"line-height");
   font-weight: map-get($caption,"weight");
@@ -351,6 +312,15 @@
 
 } 
 
+.gListTitle {
+  font-size: map-get($h6,"size");
+  line-height: map-get($h6,"line-height");
+  letter-spacing: map-get($h6,"letter-spacing");
+  font-weight: map-get($text-weights,"bold");
+  color: $grey-10;
+}
+
+
 .gTextSubTitle {
   font-size: map-get($subtitle1,"size");
   line-height: map-get($subtitle1,"line-height");
@@ -376,5 +346,70 @@
   font-weight: map-get($text-weights,"bold");
 }
 
+.gUserNameSM {
+  color: $grey-10;
+  font-size: map-get($body2,"size");
+  line-height: map-get($body2,"line-height");
+  letter-spacing: map-get($body2,"letter-spacing");
+  font-weight: map-get($body2,"weight");
+}
+
+.gParagraphSM {
+  color: $grey-10;
+  font-size: map-get($body2,"size");
+  line-height: map-get($body2,"line-height");
+  letter-spacing: map-get($body2,"letter-spacing");
+  font-weight: map-get($body2,"weight");
+}
+
+.gCommentMD {
+  color: $grey-10;
+  font-size: map-get($body2,"size");
+  line-height: map-get($body2,"line-height");
+  letter-spacing: map-get($body2,"letter-spacing");
+  font-weight: map-get($body2,"weight");
+
+}
+
+
+
+.gCaption {
+  color: $grey-6;
+  font-size: map-get($caption,"size");
+  line-height: map-get($caption,"line-height");
+  letter-spacing: map-get($caption,"letter-spacing");
+  font-weight: map-get($caption,"weight");
+}
+
+.gRatingView {
+  color: $grey-7;
+  font-size: 14px;
+}
+
+.gRatingBtnMD {
+  color: $grey-8;
+  font-size: 16px;
+}
+
+.gRatingCountMD {
+  color: $grey-10;
+  font-size: 13px;
+}
+
+.gButtonMD {
+  color: $grey-1;
+  font-size: 12px;
+  font-weight: bold;
+  background-color: $primary;
+  width:60px;
+}
+
+.gButtonSM {
+  color: $grey-8;
+  font-size: 11px;
+  
+  
+
+}
 
 /* end */

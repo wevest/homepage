@@ -10,28 +10,25 @@
                 <WSubinfo :username="v_post.api_owner.username" :pub_date="v_post.pub_date" like_count=-1 dislike_count=-1 />
             </div>    
                 
-            <div class="row boxRate q-gutter-sm">
-                <div>   
-                    <span>
-                        <q-icon 
-                            class="RatingBtn"
+            <div class="row q-py-sm">
+                <div class="gRatingView">   
+                    <span class="q-pr-sm">
+                        <q-icon                            
                             name="sentiment_very_satisfied"  
                             size="23px" />&nbsp;
-                            <span class="RatingCount">{{v_post.like_count}}</span>&nbsp;
+                            <span >{{v_post.like_count}}</span>
                     </span>
-                    <span>
-                        <q-icon 
-                            class="RatingBtn"
+                    <span class="q-pr-sm">
+                        <q-icon                            
                             name="sentiment_very_dissatisfied"
                             size="23px" />&nbsp;
-                            <span class="RatingCount">{{v_post.dislike_count}}</span>&nbsp;&nbsp;
+                            <span>{{v_post.dislike_count}}</span>
                     </span>
-                    <span>
-                        <q-icon 
-                            class="RatingBtn"
+                    <span class="q-pr-sm">
+                        <q-icon                            
                             name="chat_bubble_outline" 
-                            size="23px" />&nbsp;                            
-                            <span class="RatingCount">{{v_post.read_count}}</span>
+                            size="23px" />&nbsp;                    
+                            <span >{{v_post.read_count}}</span>
                     </span>
                 </div>         
 
@@ -375,10 +372,10 @@ export default {
     margin:0 auto;    
 }
 
-.boxRate {
-    text-align:center;
-    padding:25px 0px 7px 0px;  
-}
+/* .boxRate { */
+    /* text-align:center; */
+    /* padding:25px 0px 7px 0px;   */
+/* } */
 
 .boxCommentCount {
     padding:10px 10px 10px 0px;
@@ -420,9 +417,6 @@ export default {
     padding:15px 0px;
 }
 
-.RatingBtn {
-    color:#616161;
-}
 
 .authorIntro {
   border: 1px solid #27a9e3;

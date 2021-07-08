@@ -1,6 +1,6 @@
 <template>
     
-    <div class="row q-gutter-md gPageUDRBox">
+    <div class="row q-gutter-md gCaption">
         <div v-if="v_rating>-1">
             <q-rating                        
                 dense
@@ -19,18 +19,18 @@
              {{ v_updated_at(pub_date) }} 
         </div>
         <div v-if=" (v_like_count>-1) && (v_dislike_count>-1)">
-            <q-icon name="thumb_up_off_alt" />
+            <q-icon name="sentiment_very_satisfied" />
             <span>
-                &nbsp;{{ like_count }}
+                {{ like_count }}
             </span>
-            <q-icon name="thumb_down_off_alt" />
+            <q-icon name="sentiment_very_dissatisfied" />
             <span> 
-                &nbsp;{{ dislike_count }} 
+                {{ dislike_count }} 
             </span>            
         </div>
         <div v-if="v_read_count>-1">
             <q-icon name="chat_bubble_outline" />
-            <span> &nbsp;{{ read_count }}</span>
+            <span>{{ read_count }}</span>
         </div>
     </div>
 
