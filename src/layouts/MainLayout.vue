@@ -411,7 +411,14 @@ export default {
 					store.getters.nav.clear();
 					CommonFunc.showOkMessage(_this,'Loggout');
 				})
-				.catch((err) => {});
+				.catch((err) => {
+					logger.log.error('MainLayout.onClickSignOut:err=',err);
+
+					_this.setSigninMenu();
+					store.getters.nav.clear();
+
+					CommonFunc.showErrorMessage(_this,err.data.detail);
+				});
 		},
 
 		onClickBack: function() {
