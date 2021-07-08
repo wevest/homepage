@@ -356,7 +356,7 @@
   color: $grey-10;
 }
 
-.gSubTitleMD {
+.gSubTitle {
   font-size: map-get($h6,"size");
   line-height: map-get($h6,"line-height");
   letter-spacing: map-get($h6,"letter-spacing");
@@ -365,6 +365,14 @@
 
 } 
 
+.gTextSubTitle {
+  font-size: map-get($subtitle1,"size");
+  line-height: map-get($subtitle1,"line-height");
+  letter-spacing: map-get($subtitle1,"letter-spacing");
+  font-weight: map-get($text-weights,"bold");
+  color: $grey-10;
+
+} 
 
 
 .gParagraphSM {

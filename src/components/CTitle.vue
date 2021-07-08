@@ -8,7 +8,7 @@
 
         <div class="row ctitle" v-if="ttype==='subtitle'">
             <div>
-                <h6 class="subtitle">{{ title }} <span class="desc">{{ desc }} </span></h6> 
+                <h6 class="gSubTitle">{{ title }} <span class="desc">{{ desc }} </span></h6> 
             </div>
             
             <q-space v-if="loadMoreCaption.length>0" />
@@ -81,15 +81,10 @@ export default {
     */
 }
 
-.subtitle {
-    font-weight: bold;
-    color:343434;
+.gSubTitle { 
     margin-block-start:0.5rem;
     margin-block-end:0.5rem;
-    /* 
-    font-weight: bold; 
-    margin-top: 0.5rem;     
-    */
+   
 }
 
 .desc {

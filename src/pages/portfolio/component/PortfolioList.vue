@@ -6,25 +6,22 @@
             <q-card-section horizontal class="groupTitleBox"> 
                 <div>
                     <div>
-                        <span class="text-weight-bolder groupName">{{a_portfolio.name}}</span>
+                        <span class="text-weight-bolder gSubTitle">{{a_portfolio.name}}</span>
                     </div>
                     <div> 
-                        <span class="valueDate">{{ v_updated_at(a_portfolio.updated_at) }} </span>                        
+                        <span class="gCaption">{{ v_updated_at(a_portfolio.updated_at) }} </span>                        
                     </div>
                 </div> 
                 <q-space />
                 <div>
                     <div class="roiBox">
-                        <div class="roiValue"> 
+                        <div class="gROILG"> 
                             <span :style="v_color_style(a_portfolio.roi)" class="text-weight-bolder"> 
                                 {{ Number(a_portfolio.roi).toLocaleString() }} % 
                             </span>
                             
                         </div>
-                        <!--
-                        <div class="valueTitle">ROI</div>
-                        -->
-                        <div class="valueDate"> $ {{a_portfolio.evaluated_value.toLocaleString() }} </div>
+                        <div class="gCaption"> $ {{a_portfolio.evaluated_value.toLocaleString() }} </div>
                     </div>
                 </div>
                 <div>
@@ -128,35 +125,20 @@ export default {
     padding:10px 0px 10px 10px;
 }
 
-.groupName {
-    font-size:18px;
-    color:#202124;
-
-}
-
-.valueTitle {
-   font-size:14px;
-   color:#cccccc;
-}
 
 .roiBox {
     padding:0px 0px 0px 0px;
     text-align:center;
 }    
 
-.roiValue {
-    font-size:25px;
-}
+
 
 .valueDate {
     font-size:13px;
     color:#999999;
     text-align:center;
 }
-.valueTitle {
-    font-size:12px;
-    text-align:center;
-}
+
 
 
 </style>

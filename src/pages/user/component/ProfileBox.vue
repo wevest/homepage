@@ -32,7 +32,7 @@
         <q-card-section>
             <div class="gUserNameLG">{{ v_user.username }}</div>
             <div class="row" style="padding-top:14px;">
-                <div class="gSubTitleMD">Biography</div>
+                <div class="gTextSubTitle">Biography</div>
                 <q-space />
                 <div>
                     <q-btn flat @click="onClickEdit" v-show="isOwner" :label="v_edit_button" />
