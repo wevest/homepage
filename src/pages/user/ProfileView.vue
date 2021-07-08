@@ -169,7 +169,13 @@ export default {
             if (! username) {
                 username = this.v_me.username;
             }
+            
+            logger.log.debug("setUser");
+            
             UserModel.loadProfile(username).then( a_user => {
+                
+                logger.log.debug("setUser - user=",a_user);
+
                 _this.v_user = a_user;
                 _this.$refs.profileBox.update(_this.v_user);
 

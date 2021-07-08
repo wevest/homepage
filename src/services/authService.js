@@ -95,9 +95,11 @@ export default class AuthService{
     }
 
     static getUserProfile(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/?username="+reqParam.username);
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users?username="+reqParam.username);
         callCMSAPI("GET",url,{},reqParam)
         .then( (response) => {
+            logger.log.debug("getUserProfile:dic_param=",reqParam);
+
             func(response);
         })
         .catch( (err) => {
