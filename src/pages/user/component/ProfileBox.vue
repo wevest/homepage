@@ -109,9 +109,10 @@ export default {
     data() {
 		return {
             v_user: this.user,                
+            
             v_mode: "",
-
             v_edit_button: 'Edit',
+
             v_labels: {'submit': 'Upload', 'cancel': 'Cancel'},
         }
     },

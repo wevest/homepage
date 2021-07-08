@@ -7,9 +7,9 @@
 
         <ProfileBox ref="profileBox" :user="v_user" />
 
-        <q-card class="boxCard">
+        <q-card class="q-mt-sm">
             <q-card-section>
-                <div class="row boxNumber">                    
+                <div class="row q-py-md text-center">                    
                     <div class="col-4">
                         <div> 
                             <span class="gROILG" :style="v_color_style(v_roi)"> {{ v_roi }} % </span>
@@ -23,7 +23,7 @@
                             <span class="gROILG"> {{ v_user.portfolio.item_count }} </span>
                         </div>
                         <div> 
-                            <span class="txtDesc">Item count </span>
+                            <span class="gCaption">Item count </span>
                         </div>
                     </div>             
                     <div class="col-4" @click="onClickFollower(v_user)">
@@ -31,7 +31,7 @@
                             <span class="gROILG">{{v_user.follower_count}}</span>
                         </div>
                         <div>
-                            <span class="txtDesc">Follower</span>
+                            <span class="gCaption">Follower</span>
                         </div>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
 
 
 
-        <div class="row q-col-gutter-md boxCard justify-center  q-mb-xl">
+        <div class="row q-col-gutter-md q-mt-md justify-center  q-mb-xl">
             <div v-if="! isOwner">
                 <q-btn color="primary" label="Unfollow" @click="onClickFollow(-1)" v-if="v_user.is_following" />
                 <q-btn v-else color="primary" label="Follow" @click="onClickFollow(1)" />
@@ -295,26 +295,12 @@ export default {
 <style scope> 
 
 
-.txtDesc {
-   font-size:14px;  
-   color:#8C8C8C;
-}
-
-.boxCard {
-    text-align: center;
-    margin-top:20px;
-}
 
 .btnAvatar {
     text-align:right;
     top: 0; 
     right: 12px; 
     transform: translateY(-50%);
-}
-
-.boxNumber {
-    padding:16px 2px;
-    margin-top:5px;
 }
 
 </style>

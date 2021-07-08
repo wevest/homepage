@@ -5,12 +5,18 @@
             <CTitle ttype='title' :title="v_page_title" desc=""></CTitle>          
         </div>
 
-        <div class="col">
+        <div>
+            <PriceSummaryBox ref="priceBox" />
+
+            <InfoTable ref="infoTable" :data="v_asset" />
+        </div>
+
+        <div>
             <!--
             <q-btn label="Write" @click="onClickWriteBlog" />
             -->
             <BlogList ref='blogList' title="Market Trend" maxLength="10" moreCaption="More" 
-                :category="g_asset.category" :symbol="g_asset.symbol" :objectId="g_asset.object_id"
+                :category="v_asset.object_category" :symbol="v_asset.symbol" :objectId="v_asset.object_id"
             />
             
         </div>
@@ -19,7 +25,7 @@
         <div class="col">
                                     
             <AssetQuestionList ref="questionList" title="Question List" maxLength="10" moreCaption="More"
-                :symbol="g_asset.symbol" :objectId="g_asset.object_id"
+                :symbol="v_asset.symbol" :objectId="v_asset.object_id"
                 @onClickQuestionRating="onClickQuestionRating"
             >
             </AssetQuestionList>
@@ -29,7 +35,7 @@
         <div class="col">                
             <AssetReviewList ref="reviewList" 
                 moreCaption="More" maxLength="10" title="Review List"
-                :category="g_asset.symbol" :objectId="g_asset.object_id" 
+                :category="v_asset.symbol" :objectId="v_asset.object_id" 
                 @onClickRating="onClickReviewRating"> 
             </AssetReviewList>
         </div>
@@ -43,9 +49,9 @@ import { CONST } from 'src/data/const';
 import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import MoaBackendAPI from 'src/services/apiService';
-import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
 
+import {AssetModel} from "src/models/AssetModel";
 import {PostPageModel,QuestionPageModel,AssetReviewPageModel,AssetReviewPageListModel} from "src/models/PageModel";
 
 import CTitle from 'components/CTitle';
@@ -56,8 +62,11 @@ import AssetQuestionList from 'components/lists/AssetQuestionList';
 import AssetReviewList from 'components/lists/AssetReviewList';
 
 import CAssetChart from 'src/pages/asset/CAssetChart';
-import CAssetInfoTable from 'src/pages/asset/CAssetInfoTable';
+//import CAssetInfoTable from 'src/pages/asset/CAssetInfoTable';
 //import AssetReviewForm from 'src/pages/asset/component/AssetReviewForm';
+import PriceSummaryBox from 'src/pages/asset/component/PriceSummaryBox';
+import PriceDataTable from 'src/pages/asset/component/PriceDataTable';
+import InfoTable from "src/pages/asset/component/InfoTable";
 
 
 
@@ -66,11 +75,13 @@ export default {
     name:'assetView',
     components: {
         CTitle,
+        AssetQuestionList,
         ChartTimeframe,
         CAssetChart,
-        CAssetInfoTable,
+        PriceSummaryBox,
+        PriceDataTable,
         AssetReviewList,
-        AssetQuestionList,
+        InfoTable,
         BlogList,
     },
     computed: {
@@ -78,7 +89,7 @@ export default {
             return store.getters.me;
         },
         v_page_title() {
-            return this.g_asset.symbol
+            return this.v_asset.symbol
         }
     },
     data: function() {
@@ -92,33 +103,15 @@ export default {
                 blog:null,
             },
             g_period: 30,
-            g_asset: {
-                category:null,
-                symbol:null,
-                object_id: null
-            },
             g_freq: 'y1',
-            
-            g_price: {'price_prev':0, 'price_low':0, 'price_high':0, 'price_open':0, 
-                'price':0, 'price_ret':0, 'volume':0, 'tv':0, 
-                'updated_date':'', 'icon':'arrow_drop_up', class:'text-red'},    
-                        
+                                    
             v_tab: 'review',
             v_score: {dev:5, price:5, volume:5, vc:0, avg:5},
 
             v_visible_table:false,
-            v_headers: [
-                { name:'trade_date', label: this.$t('name.trade_date'), field: 'trade_date', align:'left', required:true  },
-                { name:'price', label: this.$t('name.price'), field: 'price'},
-                { name:'volume', label: this.$t('name.volume'), field: 'volume'},
-            ],
-            v_pagination: {
-                sortBy: 'trade_date',
-                descending: true,
-            },
             v_items: [],         
 
-            v_reviews: new AssetReviewPageListModel(),
+            v_asset: new AssetModel(),
         }
     },
 
@@ -126,38 +119,30 @@ export default {
         //console.log("HomeView.created");
         console.log("AssetView.created - query=",this.$route.query);
         
-        this.g_asset.symbol = this.$route.query.symbol;
-        this.g_asset.category = CONST.ASSETPAGE_CATEGORY+this.g_asset.symbol;
-        this.g_asset.object_id = parseInt(this.$route.query.id);
+        this.v_asset.symbol = this.$route.query.symbol;
+        this.v_asset.object_category = CONST.ASSETPAGE_CATEGORY+this.v_asset.symbol;
+        this.v_asset.object_id = parseInt(this.$route.query.id);
     },
     mounted: function() {
         //this.g_asset.symbol = 'BTC';
         //this.g_asset.object_id = 20;
 
-        this.refresh(this.g_asset);
+        this.refresh(360);
     },
     updated: function() {
-        console.log("AssetView.updated - query=",this.$route.query);
-        
-        if (this.$route.query.symbol) {
-            this.g_asset.symbol = this.$route.query.symbol;
-        }
-        
+        console.log("AssetView.updated - query=",this.$route.query);        
         //CommonFunc.setAppData('onSearchEvent',this.onSearchEvent);
     },
     
     methods: {
-        refresh: function(symbol,offset=360) {
-            logger.log.debug('Refresh - ',symbol,offset);
+        refresh: function(offset=360) {
+            logger.log.debug('Refresh - ',offset);
 
-            if ( (!symbol) || ( (symbol.length)==0 ) ) {
-                return
-            }
-
-            this.loadAssetReviewData();            
-            this.loadAssetQuestionData();                    
-            this.loadBlogList();
-
+            //this.loadCryptoBaseinfo();
+            this.loadPriceTicker();
+            //this.loadAssetReviewData();            
+            //this.loadAssetQuestionData();                    
+            //this.loadBlogList();
         },
         
         updateScoreWidget: function(json_data) { 
@@ -172,57 +157,6 @@ export default {
             this.v_score['avg'] = CommonFunc.formatNumber( (this.v_score['dev']+this.v_score['price']+this.v_score['volume'])/3,2);
         },
 
-        updatePriceWiget: function(json_data) {
-            logger.log.debug("data=",json_data);
-
-            const dic_columns = CommonFunc.getColumnDic(json_data['overall'].columns,[],[]);
-            const a_price = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceClose']];
-            const a_price_prev = json_data['overall'].values[ json_data['overall'].values.length-2 ][dic_columns['priceClose']];
-
-            this.g_price['price'] = CommonFunc.formatNumber(a_price,2);
-            this.g_price['price_prev'] = CommonFunc.formatNumber(a_price_prev,2);
-            this.g_price['price_low'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceLow']],2);
-            this.g_price['price_high'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceHigh']],2);
-            this.g_price['price_open'] = CommonFunc.formatNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceOpen']],2);
-            this.g_price['volume'] = CommonFunc.milifyNumber(json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['volume']]);
-
-
-            let a_ret = ((a_price-a_price_prev)/a_price)*100;
-            
-            let a_class = 'text-red';
-            let a_icon = 'arrow_drop_down';
-            if (a_ret>0) {
-                a_class = 'text-green'
-                a_icon = 'arrow_drop_up';
-            }
-            
-            this.g_price.icon = a_icon;
-            this.g_price.class = a_class;
-            this.g_price['price_diff'] = CommonFunc.formatNumber(a_ret,2);
-            this.g_price['price_ret'] = CommonFunc.formatNumber(a_ret,2);
-
-            let a_tv = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['volume']] * json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceClose']];
-            this.g_price['tv'] = CommonFunc.milifyNumber(a_tv);
-            this.g_price['updated_date'] = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['trade_date']];
-        },
-
-        updatePriceTable: function(json_data) {            
-            let dic_column = CommonFunc.getColumnDic( json_data['overall'].columns ,[],[]);
-
-            let items = [];            
-            for (let index=0;index<json_data['overall'].values.length;index++) {
-                
-                let a_item = {
-                    trade_date: CommonFunc.safeGetJsonValue(json_data.overall.values,index,dic_column['trade_date']),
-                    price: CommonFunc.safeGetJsonValue(json_data.overall.values,index,dic_column['priceClose']),
-                    volume: CommonFunc.safeGetJsonValue(json_data.overall.values,index,dic_column['volume']),
-                };
-                items.push(a_item);
-            }
-            //logger.log.debug('items=',items);
-            this.v_items = items;
-        },
-
         updatePageHeader: function(symbol,json_data) {            
             const dic_columns = CommonFunc.getColumnDic(json_data['overall'].columns,[],[]);
             let a_date = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['time']];
@@ -232,29 +166,26 @@ export default {
             this.v_page.desc = a_date;
         },
 
-        loadCryptoBaseinfo: function(symbol) {
+        loadCryptoBaseinfo: function() {
             const _this = this;
 
-            return new Promise(function(resolve,reject) {
+            this.v_asset.loadBaseinfo().then(resp=>{
+                logger.log.debug("AssetView.loadCryptoBaseinfo - resp=",resp,_this.v_asset);
+            }).catch(err=>{
+                logger.log.debug("AssetView.loadCryptoBaseinfo - err=",err);
+            });
                 
-                let dic_param = {symbol:symbol};
-                logger.log.debug("AssetView.loadCryptoBaseinfo - dic_param=",dic_param);
-
-                MoaBackendAPI.getCryptoBaseinfo(dic_param,function(response) {
-                    _this.g_data.base = response.data.data;
-                    logger.log.debug("AssetView.loadCryptoBaseinfo - response",_this.g_data);
-                    //_this.$refs.assetTable.update(_this.g_data);
-                    _this.updateScoreWidget(_this.g_data);
-                    _this.$refs.assetinfoTable.update(_this.g_data,_this.g_vc);
-                    
-                    resolve();
-                },function(err) {
-                    logger.log.error("AssetView.loadCryptoBaseinfo - error",err);
-                    reject();
-                });
-            });            
         },
 
+        loadPriceTicker() {
+            const _this=this;
+            this.v_asset.getPriceTicker().then(resp=>{
+                logger.log.debug("AssetView.loadPriceTicker - resp=",resp,_this.v_asset);
+            }).catch(err=>{
+                logger.log.debug("AssetView.loadPriceTicker - err=",err);
+            });
+
+        },
 
         loadCryptoPriceHistory: function(symbol,offset=360) {
             const _this = this;
@@ -310,26 +241,26 @@ export default {
 
 
         loadAssetReviewData: function() {
-            let dic_param = {'category':this.g_asset.symbol, 'object_id':this.g_asset.object_id};
+            let dic_param = {'category':this.v_asset.symbol, 'object_id':this.v_asset.object_id};
             this.$refs.reviewList.update(dic_param);
         },
 
         loadAssetQuestionData: function() {
-            let dic_param = {'parent_id':this.g_asset.object_id};
+            let dic_param = {'parent_id':this.v_asset.object_id};
             this.$refs.questionList.update(dic_param);
         },
 
 
         loadBlogList: function() {
-            console.log('AssetView.loadBlogList - ',this.g_asset.category);            
-            this.$refs.blogList.updateByCategory(this.g_asset.category);
+            console.log('AssetView.loadBlogList - ',this.v_asset.object_category);
+            this.$refs.blogList.updateByCategory(this.v_asset.object_category);
         },
 
 
         onClickTimeframe: function(offset,timeframe) {
             console.log('AssetView.onClickTimeframe - ',offset,timeframe);
             this.g_freq = timeframe;
-            this.refresh(this.g_asset,offset);
+            this.refresh(this.v_asset,offset);
         },
 
         onClickExchange:function(value) {
@@ -403,7 +334,7 @@ export default {
             }
 
             if (newValue=="blog") {
-                const category = CONST.ASSETPAGE_CATEGORY+this.g_asset.symbol;
+                const category = CONST.ASSETPAGE_CATEGORY+this.v_asset.symbol;
                 this.$refs.blogList.update(null,category);
             }
         },
@@ -413,7 +344,7 @@ export default {
             //this.navBlogWriter();
 
             let a_post = new PostPageModel();
-            a_post.category = this.g_asset.symbol;
+            a_post.category = this.v_asset.symbol;
             a_post.setContentType(CONST.CONENT_TYPE_ASSETPAGE);
 
             this.$refs.blogWriter.show(a_post);
@@ -454,7 +385,7 @@ export default {
         onClickMoreReview: function() {
             logger.log.debug('AssetView.onClickMoreReview');
             store.getters.nav.add(this.$route);
-            CommonFunc.navReview(this,this.g_asset.symbol,this.g_asset.object_id);
+            CommonFunc.navReview(this,this.v_asset.symbol,this.v_asset.object_id);
         },
 
     },

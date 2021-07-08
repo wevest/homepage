@@ -211,6 +211,26 @@ export class PortfolioModel extends baseCollection {
             });
         });
     }
+
+    update(description) {
+        let dic_param = {id:this.id, 
+            description:description, 
+            portfolio_name: this.name,
+            token:store.getters.token,action:"edit"};
+        logger.log.debug("PortfolioModel.update - dic_param=",dic_param);
+        
+        const _this=this;
+        return new Promise(function(resolve,reject) {
+            AuthService.addPortfolioItem(dic_param, function(response) {
+                logger.log.debug("Portfolio.update : response=",response);
+                _this.description = description;
+                resolve(response);
+            }, function(err) {
+                reject(err);
+            });
+        });
+
+    }
 }
 
 

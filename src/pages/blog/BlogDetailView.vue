@@ -60,30 +60,20 @@
                 <p> {{ v_post.tags }} </p>
             </div>
 
+            <WUserProfileBox ref="userProfile" 
+                :data="v_post"
+                :avatar="v_post.api_owner.avatar_thumb"
+                :username="v_post.api_owner.username"
+                :userid="v_post.api_owner.id"
+                :biography="v_post.api_owner.biography"
+                :isOwner="v_owner" />
 
-            <div class="blockquote">
-                <div class="row">
-                    <div class="gPageAvatar">
-                        <WAvatar :avatar="v_post.api_owner.avatar_thumb" :username="v_post.api_owner.username" />
-                    </div>
-                    <div style="padding-left:15px; padding-top:10px;">
-                        <span class="username"> {{v_post.api_owner.username}}</span>&nbsp;
-                        <q-btn class="followBtn" icon="add_circle" :label="v_follow_button" size="13px" dense flat @click="onClickFollow(1)" v-if="! v_owner" />
-                    </div>
-                </div>                    
-                <div>
-                    <p class="biography"> {{v_shorten(v_post.api_owner.biography)}}</p>
-                </div>
-            </div>
-
-
-            <WRatingButton ref="ratingButton" @onClickRating="onClickBlogRate" />
+            <WRatingButton ref="ratingButton" :data="v_post" />
 
         </div>
         
         <q-separator class="gSeparator" />
-        
-
+    
 
         <div class="q-ma-sm">
                 <div class="boxCommentCount"> 
@@ -118,6 +108,7 @@ import WAvatar from "components/WAvatar.vue";
 import WCommandBar from "components/WCommandBar.vue";
 import WRatingButton from 'components/WRatingButton';
 import WSubinfo from 'components/WSubinfo';
+import WUserProfileBox from 'components/WUserProfileBox';
 
 import CommentBox from "components/comments/CommentBox.vue";
 
@@ -132,7 +123,8 @@ export default {
         CommentBox,
         WRatingButton,
         WSubinfo,
-        WCommandBar
+        WCommandBar,
+        WUserProfileBox
     },
     computed: {
         v_me() {
@@ -164,8 +156,7 @@ export default {
 
             v_comments: [],
             v_comments_readonly:false,
-            v_comments_count: 0,
-            v_follow_button:'Follow',
+            v_comments_count: 0,            
 
             editorOptions: {
                 hideModeSwitch: true,
@@ -282,26 +273,6 @@ export default {
         },
 
 
-        onClickBlogRate: function(dicParam) {
-            const _this = this;            
-            
-            logger.log.debug('BlogDetailView.onClickBlogRate : dicParam=',dicParam);
-
-            let dic_param = {id:this.v_post.id, value:dicParam.value};            
-            this.v_post.vote(dic_param).then( response => {            
-
-                let msg = "Liked" ;
-                if (dicParam.value==-1) {
-                    msg = "Disliked";
-                }
-                CommonFunc.showOkMessage(_this,msg);
-
-            }).catch( err=> {
-                
-            });
-        },
-
-
         onClickDelete: function() {                        
             const _this = this;
             //let dic_param = { id:this.v_post.id, token:store.getters.token};
@@ -361,24 +332,6 @@ export default {
             logger.log.debug("BlogPage.onBlogDeleted=");            
         },
 
-        onClickFollow: function(value) {
-            logger.log.debug("BlogPage.onClickFollow=");
-            
-            const _this=this;
-
-            CommonFunc.checkButtonPermission(this,1,0).then(ret=>{
-                logger.log.debug("ProfileView.onClickFollow : ret=",ret);
-                if (ret==0) return;
-
-                _this.v_me.follow(_this.v_post.api_owner.id,value).then( response => {
-                    logger.log.debug("onClickFollow - response=",response);
-                    _this.v_follow_button = 'Followed';
-                    CommonFunc.showOkMessage(_this,'Followed');                
-                }).catch(err=>{
-                    CommonFunc.showErrorMessage(_this,err.data.msg);
-                });
-            });
-        }
     }
 
 };
@@ -409,14 +362,6 @@ export default {
     padding: 45px 0px 30px 0px;
 
 }
-
-.blockquote {  
-    border: 1px solid #D8D8D8;
-    border-radius: 3px;  
-    border-left: 7px solid #DDDDDD;  
-    padding: 12px 12px 0px 12px;  
-    margin: 0px 15px 0px 15px;
-} 
 
 .blog-write {
     float:right;

@@ -228,54 +228,54 @@ export default class CMSAPI {
       });
   }
 
-  static readPortfolio(dic_param, func, funcErr) {
-    let url = CMSAPI.getUrl(
-      MoaConfig.urls.cms,
-      "/api/portfolio/portfolios/" + dic_param.id + "/read/"
-    );
-    callCMSAPI("POST", url, {}, dic_param)
-      .then(response => {
-        func(response);
-      })
-      .catch(err => {
-        funcErr(err);
-      });
-  }
+  	static readPortfolio(dic_param, func, funcErr) {
+    	let url = CMSAPI.getUrl(
+		    MoaConfig.urls.cms,
+			"/api/portfolio/portfolios/" + dic_param.id + "/read/"
+		);
+		callCMSAPI("POST", url, {}, dic_param)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+	}
 
-  static votePortfolio(dic_param, func, funcErr) {
-    let url = CMSAPI.getUrl(
-      MoaConfig.urls.cms,
-      "/api/portfolio/portfolios/" + dic_param.id + "/vote/"
-    );
-    callCMSAPI("POST", url, {}, dic_param)
-      .then(response => {
-        func(response);
-      })
-      .catch(err => {
-        funcErr(err);
-      });
-  }
+	static votePortfolio(dic_param, func, funcErr) {
+		let url = CMSAPI.getUrl(
+			MoaConfig.urls.cms,
+			"/api/portfolio/portfolios/" + dic_param.id + "/vote/"
+		);
+		callCMSAPI("POST", url, {}, dic_param)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+	}
 
-  static getAssetQuestion(dic_param, func, funcErr) {
-    let a_method = null;
-    if (dic_param.hasOwnProperty("parent_id")) {
-      a_method = "/api/qa/questions/?parent_id=" + dic_param.parent_id;
-    }
-    if (dic_param.hasOwnProperty("id")) {
-      a_method = "/api/qa/questions/?id=" + dic_param.id;
-    }
+	static getAssetQuestion(dic_param, func, funcErr) {
+		let a_method = null;
+		if (dic_param.hasOwnProperty("parent_id")) {
+			a_method = "/api/qa/questions/?parent_id=" + dic_param.parent_id;
+		}
+		if (dic_param.hasOwnProperty("id")) {
+			a_method = "/api/qa/questions/?id=" + dic_param.id;
+		}
 
-    let url = CMSAPI.getUrl(MoaConfig.urls.cms, a_method);
-	url = CommonFunc.addLimitOffsetToQuery(url, dic_param);
+		let url = CMSAPI.getUrl(MoaConfig.urls.cms, a_method);
+		url = CommonFunc.addLimitOffsetToQuery(url, dic_param);
 
-    callCMSAPI("GET", url, {}, dic_param)
-      .then(response => {
-        func(response);
-      })
-      .catch(err => {
-        funcErr(err);
-      });
-  }
+		callCMSAPI("GET", url, {}, dic_param)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+	}
 
   	static postAssetQuestion(dic_param, func, funcErr) {
     	let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/qa/questions/");

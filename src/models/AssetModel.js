@@ -4,16 +4,38 @@ import _ from 'lodash';
 
 import CommonFunc from 'src/util/CommonFunc';
 import APIService from 'src/services/apiService';
+import MoaBackendAPI from 'src/services/apiService';
 import PriceService from 'src/services/priceService';
 import logger from 'src/error/Logger';
 import LocalStorageService from 'src/services/localStorage';
 
 
+export class TickerModel {
+    change_percentage=null;
+    last=null;
+    high_24h=null;
+    low_24h=null;
+    base_volume=null;
+    updated_at=null;
+
+    assign(obj) {
+        logger.log.debug("TickerModel.assign:obj=",obj);
+
+        this.change_percentage=parseFloat(obj.change_percentage);
+        this.last=parseFloat(obj.last);
+        this.high_24h=parseFloat(obj.high_24h);
+        this.low_24h=parseFloat(obj.low_24h);
+        this.base_volume=parseFloat(obj.base_volume);
+        this.updated_at = CommonFunc.getCurrentDatetime(1);
+    }
+}
 
 export class AssetModel{    
     id=null;
     symbol=null;
     name=null;
+    object_id=null;
+    object_category=null;
     category=null;
     first_price=null;
     date_added=null;
@@ -22,12 +44,53 @@ export class AssetModel{
     description=null;
     description_kr=null;
 
+    total_supply=null;
+    max_supply=null;
+    circulating_supply=null;
+    platform=null;
+    token_address=null;
+    website=null;
+    source_code=null;
+    twitter=null;
+    announcement=null;
+    reddit=null;
+    chat=null;
+    tags=null;
+    
+    alltime_high=null;
+    alltime_low=null;
+    alltime_high_date=null;
+    alltime_low_date=null;
+
+    w52_high=null;
+    w52_low=null;
+    w52_high_date=null;
+    w52_low_date=null;
+    
+    is_deleted=null;
+    github_network_count=null;
+
+    ticker = new TickerModel();
+
+
+
     constructor() {}
 
     static create(item) {
         let a_item = new AssetModel();
         a_item.assign(item);
         return a_item;
+    }
+
+    _getPriceDate(json_data,dic_columns,column) {
+        let a_value = "$ " + CommonFunc.formatNumber(json_data['values'][0][dic_columns[column]],2) + " (" + json_data['values'][0][dic_columns[column+'_date']] + ')';
+        return a_value;
+    }
+
+    _getFirstLink(json_data,dic_columns,column) {
+        let a_links = json_data['values'][0][dic_columns[column]];          
+        if (a_links.length==0) return '';
+        return a_links.split(',')[0];
     }
 
     assign(item) {
@@ -40,6 +103,44 @@ export class AssetModel{
         this.first_price = item.first_price;
         this.description = item.description; 
         this.description_kr = item.description_kr;
+    }
+    
+    assignExt(json_data) {
+
+        const dic_columns = CommonFunc.getColumnDic(json_data.columns,[],[]);
+        //logger.log.debug('items=',dic_columns);
+
+        this.id = json_data['values'][0][dic_columns['id']];
+        this.name = json_data['values'][0][dic_columns['name']];        
+        this.first_price= json_data['values'][0][dic_columns['first_price']];    
+        this.description = json_data['values'][0][dic_columns['description']];
+        this.description_kr = json_data['values'][0][dic_columns['description_kr']];
+
+        this.alltime_high = json_data['values'][0][dic_columns['alltime_high']]; 
+        this.alltime_low = json_data['values'][0][dic_columns['alltime_low']];
+        this.w52_high = json_data['values'][0][dic_columns['w52_high']];
+        this.w52_low = json_data['values'][0][dic_columns['w52_low']];
+
+        this.alltime_high_date = json_data['values'][0][dic_columns['alltime_high_date']]; 
+        this.alltime_low_date = json_data['values'][0][dic_columns['alltime_low_date']];
+        this.w52_high_date = json_data['values'][0][dic_columns['w52_high_date']];
+        this.w52_low_date = json_data['values'][0][dic_columns['w52_low_date']];
+        
+        this.max_supply = json_data['values'][0][dic_columns['max_supply']];
+        this.total_supply = json_data['values'][0][dic_columns['total_supply']];
+        this.circulating_supply = json_data['values'][0][dic_columns['circulating_supply']];
+        
+        this.website = json_data['values'][0][dic_columns['website']];
+        this.github = json_data['values'][0][dic_columns['source_code']];
+        this.announcement = json_data['values'][0][dic_columns['announcement']];
+        this.source_code = json_data['values'][0][dic_columns['source_code']];
+        this.twitter = json_data['values'][0][dic_columns['twitter']];
+        this.chat = json_data['values'][0][dic_columns['chat']];
+        this.explorer = this._getFirstLink(json_data,dic_columns,'explorer');
+        this.tags = json_data['values'][0][dic_columns['tags']];
+        this.platform = json_data['values'][0][dic_columns['platform']];
+        this.token_address = json_data['values'][0][dic_columns['token_address']];
+        this.date_added = json_data['values'][0][dic_columns['date_added']];
     }
 
     toDict() {
@@ -55,6 +156,75 @@ export class AssetModel{
         return reqParam;
     }
 
+    loadBaseinfo() {
+        const _this = this;
+        let dic_param = {symbol:this.symbol};
+        logger.log.debug("AssetModel.loadBaseinfo - dic_param=",dic_param);
+
+        return new Promise(function(resolve,reject) {            
+            MoaBackendAPI.getCryptoBaseinfo(dic_param,function(response) {
+                //_this.g_data = response.data.data;
+                logger.log.debug("AssetView.loadCryptoBaseinfo - response",response.data);
+                _this.assignExt(response.data.data);
+                //_this.updateScoreWidget(_this.g_data);
+                //_this.$refs.assetinfoTable.update(_this.g_data,_this.g_vc);                
+                resolve(response.data.data);
+            },function(err) {
+                logger.log.error("AssetView.loadCryptoBaseinfo - error",err);
+                reject();
+            });
+        });            
+    }
+
+    loadPriceHistory(dicParam) {
+        const _this = this;
+
+        //let dic_param = {symbol:symbol,quote:'USD',freq:a_freq,start_date:a_start_date, end_date:a_end_date, exchange:'cc',quote:'USD' };
+        logger.log.debug("AssetModel.loadPriceHistory - dicParam=",dicParam);
+        
+        return new Promise(function(resolve,reject) {            
+            MoaBackendAPI.getCryptoPriceHistory(dicParam,function(response) {
+                logger.log.debug("AssetModel.loadPriceHistory - response",response.data.data);
+                resolve(response.data.data);
+            },function(err) {
+                logger.log.error("AssetModel.loadPriceHistory - error",err);
+                reject(err);
+            });
+        });
+    }
+
+
+    loadCommitData() {
+        const _this = this;
+        let dic_param = {symbol:this.symbol};
+        return new Promise(function(resolve,reject) {            
+            MoaBackendAPI.getCommitData(dic_param,function(response) {
+                logger.log.debug("AssetModel.loadCommitData - response",response.data.data);
+                resolve(response.data.data);
+            },function(err) {
+                logger.log.error("AssetModel.loadCommitData - error",err);
+                reject(err);
+            });
+        });            
+    }
+
+    getPriceTicker(quoteCurrency="USDT") {
+        const _this = this;
+        let dic_param = {pair:this.symbol+"_"+quoteCurrency};
+        //logger.log.debug("AssetModel.getPriceTicker - dic_param=",dic_param);        
+
+        return new Promise(function(resolve,reject) {            
+            PriceService.getPrice(dic_param).then(response=>{
+                //logger.log.debug("AssetModel.getPriceTicker - response",response);
+                _this.ticker.assign(response.data.data[0]);
+                resolve(response);
+            }).catch(err=>{
+                logger.log.error("AssetModel.getPriceTicker - error",err);
+                reject(err);
+            });
+        });            
+
+    }
 }
 
 
