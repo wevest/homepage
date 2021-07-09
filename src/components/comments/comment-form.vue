@@ -2,7 +2,7 @@
 	<div class="q-px-md commentBox rounded-borders" v-show="visible" @click="onClick">
 
 		<div class="row gParagraphSM" v-if="v_show">
-			<div class="writerIcon">
+			<div class="CommentWriterIcon">
 			<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
 			</div>
 			<div class="q-pt-md"> {{v_me.username}} </div>
@@ -18,7 +18,7 @@
 			/>
 		</div>
 
-		<div v-if="v_show" class="row boxEditorCommand">
+		<div v-if="v_show" class="row">
 			<div class="typeLength">
 				<span> {{v_length_msg}} </span>
 			</div>	
@@ -352,7 +352,7 @@ export default {
 }
 
 
-.writerIcon {
-	padding-top:-20px;
+.CommentWriterIcon {
+	margin:-5px 0px 0px -px;
 	}
 </style>

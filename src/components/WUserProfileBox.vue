@@ -2,12 +2,12 @@
 
     <div class="blockquote">
         <div class="row">
-            <div class="gPageAvatar">
+            <div class="gAvatarMD">
                 <WAvatar :avatar="avatar" :username="username" />
             </div>
             <div style="padding-left:15px; padding-top:10px;">
-                <span class="username"> {{username}}</span>&nbsp;
-                <q-btn class="followBtn" icon="add_circle" size="13px" dense flat 
+                <span class="gUserNameMD"> {{username}}</span>&nbsp;
+                <q-btn class="gFollowBtn" icon="add_circle" dense flat 
                     :label="v_follow_button"
                     @click="onClickFollow(1)" v-if="! isOwner" />
             </div>
@@ -130,12 +130,6 @@ export default {
     margin: 0px 15px 0px 15px;
 } 
 
-.username {
-    font-size:17px;
-    color:#222222;
-    font-weight:bold;
-    margin-right:2px;
-}
 
 .biography {
    font-size:14px;
@@ -148,7 +142,4 @@ export default {
     color:#222222;
 }
 
-.followBtn {
-    color:#4978F4;;
-}
 </style>

@@ -8,7 +8,6 @@
 
 		<q-list separator class="rounded-borders">
 			<q-item 
-				class="gBlogTitleBox"
 				clickable
 				v-ripple
 				v-for="(a_question, index) in v_questions.items"
@@ -28,7 +27,7 @@
                             <span>{{a_question.reward}}</span>
                         </q-badge>&nbsp;
 
-						<span class="gBlogTitle">{{ v_shorten(a_question.title) }}</span>
+						<span class="gListTitle">{{ v_shorten(a_question.title) }}</span>
 <!--
                         &nbsp;<q-icon name="done_all" v-if="a_question.closed" />
 -->                        
@@ -203,25 +202,11 @@ export default {
 <style scope>
 
 .RewardPoint {
-    font-size:20px;
+    font-size:15px;
 }
 
-.news-title {
-    font-size:18px;
-    color:#000000;
-}
 
-.news-date {
-    font-size:10px;
-    color:#888888;
-}
 
-.acceptMark {
-    color:#FE5E56;
-    font-size:20px;
-    font-weight:700;
-    padding:0px 3px 7px 10px;
-}
 
 
 

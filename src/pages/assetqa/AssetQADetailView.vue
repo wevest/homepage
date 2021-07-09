@@ -1,10 +1,10 @@
 <template>
-<!-- Blog Question Page 질문 페이지와 코멘트 목록 -->
+<!-- QA Detailed Page-->
     <div class="q-pa-md">
 
         <div class="col">
             <div>       
-                <div class="gPageTitleBox gPageTitle">  
+                <div class="gPageTitle">  
                     <q-icon class="qIcon" name="help_outline" />&nbsp;
                         <span>{{ v_question.title }}</span> 
                 </div>

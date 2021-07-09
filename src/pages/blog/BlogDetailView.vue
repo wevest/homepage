@@ -45,7 +45,7 @@
         </div>
 
         <div>
-            <div class="bodyBox">
+            <div class="q-py-xl">
                 <Viewer 
                     ref="toastViewer"
                     :value="v_post.body"

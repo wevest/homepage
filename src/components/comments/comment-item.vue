@@ -46,7 +46,7 @@
                 <div class="row">                    
                     <div v-if="data.level==0">
                         <q-btn 
-                            class="gButtonSM no-wrap"
+                            class="gButtonSM"
                             flat
                             dense             
                             type="text"                                
@@ -55,7 +55,7 @@
                             Reply
                         </q-btn>
                         <q-btn
-                            class="gButtonSM no-wrap"
+                            class="gButtonSM"
                             flat
                             dense               
                             type="text"
@@ -85,7 +85,7 @@
                     </div>                
                 </div>
                  <q-separator />
-                <div class="editor-container editor-box" ref="editorContainer"></div>            
+                <div class="editor-container" ref="editorContainer"></div>            
             
             
         </dt>
@@ -396,23 +396,8 @@ dd.reply-container {
 }
 
 
-   
-.editor-box {
-    margin-top:15px;
-}
 
 
 
-.deleteBtn {
-   font-size:20px;
-   color:#777777;
-}
 
-.Avatar {
-    margin-top:-4px;
-}
-
-.gButtonSM {
-    padding:6px 50px 0px 0px;
-}
 </style>

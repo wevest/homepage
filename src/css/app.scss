@@ -117,10 +117,7 @@
 }
 
 
-.gPageTitleBox {
-  font-size:20px;
-  color:#222222;
-}
+
 
 
 
@@ -233,17 +230,9 @@
   padding:0px 0px 5px 0px;
 }
 
-.gCommentRatingBtn {
-  color:#777777;
-  font-size:14px;
-  width:30px;
-  
-  }
 
-.gCommentRatingCount {
-  color:#777777;
-  font-size:14px;
-}
+
+
 
 
 
@@ -346,6 +335,20 @@
   font-weight: map-get($text-weights,"bold");
 }
 
+.gAvatarMD {
+  margin-top:-7px;
+  padding-bottom:10px; 
+}
+
+.gUserNameMD {
+  color: $grey-10;
+  font-size: 17px;
+  line-height: map-get($body1,"line-height");
+  letter-spacing: map-get($body1,"letter-spacing");
+  font-weight: map-get($body1,"weight");
+
+}
+
 .gUserNameSM {
   color: $grey-10;
   font-size: map-get($body2,"size");
@@ -379,6 +382,7 @@
   line-height: map-get($caption,"line-height");
   letter-spacing: map-get($caption,"letter-spacing");
   font-weight: map-get($caption,"weight");
+
 }
 
 .gRatingView {
@@ -407,9 +411,26 @@
 .gButtonSM {
   color: $grey-8;
   font-size: 11px;
-  
-  
+ }
 
+.gCommandBtnMD {
+  color: $grey-7; 
+ }
+
+.gRatingBtnSM {
+  font-size:16px;
+  color: $grey-8;
+  padding-right:2px;
 }
+
+ .gRatingCountSM {
+  font-size:14px;
+  color: $grey-8;
+ }
+
+.gFollowBtn {
+  font-size:13px;
+  color: $primary;
+ }
 
 /* end */
