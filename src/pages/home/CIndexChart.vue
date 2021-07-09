@@ -5,7 +5,6 @@
         <highcharts :constructorType="'stockChart'" class="hc" :options="chartOptions" ref="chart"></highcharts>
         <q-skeleton height="200px" /> 
 -->        
-
         
         <highcharts v-show="v_chart_loaded" class="hc box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
         <q-skeleton v-if="!v_chart_loaded" animation="fade" square height="450px" />

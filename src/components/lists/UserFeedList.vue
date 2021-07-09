@@ -6,7 +6,7 @@
 
 		<q-list separator class="rounded-borders" v-if="v_user.feeds">
 			<q-item 
-				class="gBlogTitleBox"
+				class="q-pa-sm"
 				clickable
 				v-ripple
 				:key="index"
@@ -14,12 +14,12 @@
 				v-if="index<v_maxLength"
 				@click.stop="onClickFeed(a_feed)"
 			>
-				<q-item-section avatar top>
+				<q-item-section class="q-pb-sm" avatar top>
 					<WAvatar :avatar="a_feed.avatar" :username="a_feed.username" />
 				</q-item-section>
 				<q-item-section top>
 					<q-item-label lines="1">
-						<span class="gBlogTitle">{{ v_shorten(a_feed.title) }}</span>
+						<span class="gListTitle">{{ v_shorten(a_feed.title) }}</span>
 					</q-item-label>
 					<q-item-label lines="1">
 
@@ -169,17 +169,4 @@ export default {
 <style lang="sass">
 </style>
 <style scope>
-.news-title {
-	font-size: 18px;
-	color: #000000;
-}
-
-.news-date {
-	font-size: 10px;
-	color: #888888;
-}
-
-.loadmoreSeparator {
-	margin-bottom:10px;
-}
 </style>

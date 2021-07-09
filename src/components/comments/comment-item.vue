@@ -1,17 +1,18 @@
 <template>
     <dl>
         <dt>
-            <div class="gCommentItem">
+            <div>
               
                 <div class="row q-gutter-sm">
-                    <div class="gCommentAvatar">                
+                    <div class="Avatar">                
                         <WAvatar :avatar="data.user_avatar" :username="data.user_name" />
                     </div>
 
                     <div>
-                        <div>
-                        <span class="gCommentUser">{{ data.user_name }}</span>
+                        <div class="gUserNameSM">
+                            <span>{{ data.user_name }}</span>
                         </div>
+                        
                         <div>
                             <WSubinfo 
                                 username="" 
@@ -33,61 +34,58 @@
                 </div>
             </div>
 
-                <div class="boxMessage">
-                    <p class="gCommentText">
+                <div>
+                    <p class="gCommentMD q-pt-md">
                         {{ data.comment }}                    
                     </p>
                     <!--
                     <span v-if="data.replyToUser">//@{{ data.replyToUser.user_name }}:{{data.replyToUser.comment}}</span>
                     -->
                 </div>
-
-                <div class="gCommentReplyBox">
-                    <div class="row">
-                        <div v-if="data.level==0">
-                            <q-btn 
-                                class="gCommentReplyBtn"
-                                flat
-                                dense                    
-                                type="text"                                
-                                @click="replyHandler('editorContainer')" 
-                                v-if="data.children && data.children.length==0">
-                                Reply
-                            </q-btn>
-                            <q-btn
-                                class="gCommentReplyBtn"
-                                flat
-                                size="15px"                  
-                                type="text"
-                                color="grey-8"
-                                @click="toggleExpandPanel"
-                                v-if="data.children && data.children.length" 
-                            >
-                              {{
-                                  isExpanded
-                                      ? `Collapse`
-                                      : `${replyCount} Reply`
-                              }}
-                              <i
-                                  :class="
-                                      !isExpanded
-                                          ? 'el-icon-arrow-down'
-                                          : 'el-icon-arrow-up'
-                                  "
-                              ></i>
-                          </q-btn>
-                        </div>
-
                         <q-space />
-                        
-                        <WRatingSmallButton ref="ratingButton" 
-                            :data="data" :likeCount="data.like_count" :dislikeCount="data.dislike_count" 
-                            @onClickRating="onClickLike" />
-
+                <div class="row">                    
+                    <div v-if="data.level==0">
+                        <q-btn 
+                            class="gButtonSM"
+                            flat
+                            dense             
+                            type="text"                                
+                            @click="replyHandler('editorContainer')" 
+                            v-if="data.children && data.children.length==0">
+                            Reply
+                        </q-btn>
+                        <q-btn
+                            class="gButtonSM"
+                            flat
+                            dense               
+                            type="text"
+                            @click="toggleExpandPanel"
+                            v-if="data.children && data.children.length" >
+                            {{
+                                isExpanded
+                                    ? `Collapse`
+                                    : `${replyCount} Reply`
+                            }}
+                            <i
+                                :class="
+                                    !isExpanded
+                                        ? 'el-icon-arrow-down'
+                                        : 'el-icon-arrow-up'
+                                "
+                            ></i>
+                        </q-btn>
                     </div>
+
+                    <q-space />
+                    
+                    <div class="q-pb-sm">
+                    <WRatingSmallButton ref="ratingButton" 
+                        :data="data" :likeCount="data.like_count" :dislikeCount="data.dislike_count" 
+                        @onClickRating="onClickLike" />
+                    </div>                
                 </div>
                  <q-separator />
-                <div class="editor-container editor-box" ref="editorContainer"></div>            
+                <div class="editor-container" ref="editorContainer"></div>            
             
             
         </dt>
@@ -398,19 +396,8 @@ dd.reply-container {
 }
 
 
-   
-.editor-box {
-    margin-top:15px;
-}
 
-.RatingBtnBox {
-    padding-top:7px;
 
-}
 
-.deleteBtn {
-   font-size:20px;
-   color:#777777;
-}
 
 </style>

@@ -1,6 +1,6 @@
 <template>
 
-    <div class="comment-list">
+    <div>
         <ul>
             <li v-for="(item,index) in dataList" :key="index">
                 <comment-item :data="item" :post="v_post"></comment-item>

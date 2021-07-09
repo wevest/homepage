@@ -244,6 +244,8 @@ export default class User {
         }
         
         return new Promise(function(resolve,reject) {
+            logger.log.debug("UserModel.loadProfile - dic_param",dic_param);
+
             AuthService.getUserProfile(dic_param,function(response) {
                 logger.log.debug("UserModel.loadProfile - response",response);
                 

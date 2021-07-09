@@ -1,8 +1,7 @@
 <template>
-    <q-avatar @click="onClickAvatar">
+    <q-avatar class="q-py-sm" @click="onClickAvatar">
         <q-img
             v-if="avatar && avatar.length > 0"
-            class="gBlogAvatar"
             :src="avatar"
         />        
         <q-icon

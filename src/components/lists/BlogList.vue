@@ -6,7 +6,8 @@
 
 		<q-list separator class="rounded-borders">
 			<q-item 
-				class="gBlogTitleBox"
+
+				class="q-pa-sm"
 				clickable
 				v-ripple
 				:key="index"
@@ -33,7 +34,7 @@
 				</q-item-section>
 
 			</q-item>
-			<q-separator class="loadmoreSeparator" size="1px" />
+			<q-separator class="q-mb-md" size="1px" />
 
 		</q-list>
 
@@ -205,17 +206,5 @@ export default {
 <style lang="sass">
 </style>
 <style scope>
-.news-title {
-	font-size: 18px;
-	color: #000000;
-}
 
-.news-date {
-	font-size: 10px;
-	color: #888888;
-}
-
-.loadmoreSeparator {
-	margin-bottom:10px;
-}
 </style>

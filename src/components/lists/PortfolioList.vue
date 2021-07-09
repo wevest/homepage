@@ -6,29 +6,29 @@
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMorePortfolio"></CTitle>
 
         <q-card class="q-my-sm" bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
-            <q-card-section>  
+            <q-card-section class="no-padding">  
                 <div class="row boxContainer">
-                    <div style="padding:7px 10px 0px 0px;">
+                    <div class="q-pt-sm q-px-md">
                         <WAvatar :avatar="a_portfolio.api_user.avatar_thumb" :username="a_portfolio.api_user.username" />
                     </div>
-                    <div class="boxInfo">
-                        <div class="text-h6 text-weight-bold nameRoi">
+                    <div class="boxInfo q-pt-lg">
+                        <div class="gSubTitle">
                             <span>{{a_portfolio.api_user.username}}</span>
-                        </div>
+                        </div>                        
                         <div class="gCaption">
                             <span>{{a_portfolio.name}}</span>
                         </div>
                     </div>
                 <q-space />
-                <div class="text-h5 text-weight-bolder nameRoi">
+                <div class="gROILG q-pt-lg">
                     <span :class="v_color(a_portfolio.roi)">{{v_format(a_portfolio.roi)}} %</span>
                 </div>
-                <div class="nameRoi">
+                <div class="q-pt-lg">
                     <q-btn size="14px" flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
                 </div>
                 </div>                     
             </q-card-section>
-            <q-card-section class="no-padding desc"> 
+            <q-card-section class="gParagraphSM"> 
                 <div>
                      <span class="text-body2 text-grey-8">{{v_shorten(a_portfolio.description)}}</span>
                 </div>
@@ -156,11 +156,5 @@ export default {
     flex-grow:1;
 }
 
-.desc {
-    padding:0px 16px 16px 16px !important;
-}
 
-.nameRoi {
-    padding-top:15px;
-}
 </style>

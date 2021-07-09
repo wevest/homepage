@@ -23,7 +23,6 @@
             <AssetList ref='assetList' title="Asset List" maxLength="10" moreCaption="More" ></AssetList>
         </div>
 
-
         <div class="col">
             <UserFeedList ref='feedList' title="$t('page.profile.userfeed')" 
                 maxLength="10" moreCaption="More" user="v_me"></UserFeedList>

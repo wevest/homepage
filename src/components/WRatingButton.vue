@@ -1,23 +1,23 @@
 <template>
 
-    <div class="row ratingBox justify-center">
-        <div>
+    <div class="row q-pa-md justify-center text-center">
+        <div class="q-pr-md">
             <q-btn 
+                class="gRatingBtnMD"
                 flat
-                class="rateButton"
                 icon="sentiment_very_satisfied" 
                 @click="onClickRate(1)" />
-            <div>
+            <div class="gRatingCountMD">
                 <span>{{likeCaption}}</span>
             </div>
         </div>
-        <div>
+        <div class="q-pl-md">
             <q-btn
+                class="gRatingBtnMD"
                 flat
-                class="rateButton"
                 icon="sentiment_very_dissatisfied"
                 @click="onClickRate(-1)" />
-            <div>
+            <div class="gRatingCountMD">
                 <span>{{dislikeCaption}}</span>
             </div>
         </div>        
@@ -98,19 +98,7 @@ export default {
 
 <style scoped>
 
-.boxRate {
-    text-align:center;
-    padding:25px 0px 7px 0px;  
-}
 
-.rateButton {
-    color:#616161;
-    width:100px;
-    font-size:18px;
-}
 
-.ratingBox {
-    text-align:center;
-    padding:25px;
-}
+
 </style>

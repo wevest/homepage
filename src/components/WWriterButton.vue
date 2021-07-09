@@ -1,12 +1,14 @@
 <template>
     
-    <div class="row boxWriteButton" @click="onClickWrite">
+    <div class="row q-pt-md boxWriteButton" @click="onClickWrite">
+        <div>
         
-        <WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
+            <WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
         
-        <div class="boxWriteButtonText">        
+        </div>        
+        <div class="commentBox">        
                         
-            <q-input outlined readonly dense :placeholder="v_placeholder" />
+            <q-input class="gCaption" outlined readonly dense :placeholder="v_placeholder" />
             
         </div>
         
@@ -28,7 +30,7 @@ export default {
 	props: {
         placeholder: {
             type:String,
-            default: "Waht is on your minds?",
+            default: "What is on your minds?",
         },    
     },
     computed: {
@@ -68,11 +70,11 @@ export default {
 
 .boxWriteButton {    
     display:flex;
-    padding: 15px 0px 10px 0px;
-}
+    }
 
-.boxWriteButtonText {    
+.commentBox {    
     flex-grow:1;
+    padding:12px 0px 12px 0px;
 }
 
 </style>

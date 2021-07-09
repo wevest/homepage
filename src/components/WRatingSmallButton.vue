@@ -3,19 +3,19 @@
     <div class="RatingBtnBox">
         <span>                              
             <q-icon 
-                class="gCommentRatingBtn"                                                                    
+                class="gRatingBtnSM"                                                                    
                 name="thumb_up_off_alt"
                 @click="onClickRate('like')" />
-                <span class="gCommentRatingCount">{{ likeCount }}</span>
+                <span class="gRatingCountSM">{{ likeCount }}</span>
         </span>&nbsp;
                     
         <span>
             <q-icon 
-                class="gCommentRatingBtn"                                                             
+                class="gRatingBtnSM"                                                             
                 name="thumb_down_off_alt"
                 @click="onClickRate('dislike')"> 
             </q-icon>
-            <span class="gCommentRatingCount">{{ dislikeCount }}</span>
+            <span class="gRatingCountSM">{{ dislikeCount }}</span>
         </span>
     </div>
 
