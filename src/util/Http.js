@@ -171,6 +171,8 @@ export const callCMSAPI = async(call_method,url,config,req_params) => {
             //reject(error);
             if (error.response.status==400) {
                 reject(error.response);
+            } else if (error.response.status==403) {
+                reject(error.response);
             } else {
                 // Something happened in setting up the request that triggered an Error
                 //ehandler.throw(new Errors.OtherNetworkError(error=error));

@@ -15,7 +15,7 @@
         </div>
 
         <div class="col">
-            <PortfolioList ref="portfolioList" title="Portfolio List" maxLength="10" moreCaption=""></PortfolioList>
+            <PortfolioList ref="portfolioList" title="Crypto VC Portfolio" maxLength="10" moreCaption=""></PortfolioList>
         </div>
 
 

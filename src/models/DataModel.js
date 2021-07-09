@@ -70,7 +70,8 @@ export class NavBackModel {
             return;
         }
         
-        const dic_param = this.pop();
+        let dic_param = this.pop();
+        dic_param.meta = {transition:'overlay-right-full'};
         logger.log.debug("NavModel.back : route=",dic_param);
 
         if ( (! dic_param) || (! dic_param.name) ) {

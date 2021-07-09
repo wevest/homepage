@@ -26,7 +26,7 @@ export class PortfolioItemModel {
     description=null;
 
     last=null;
-    evaluated_value=null;
+    estimated_value=null;
     roi=null;
 
 
@@ -42,7 +42,7 @@ export class PortfolioItemModel {
         this.state=obj.state;            
         this.description = obj.description;
         this.last=0;
-        this.evaluated_value=0;
+        this.estimated_value=0;
         this.roi=0;
     }
 
@@ -101,7 +101,7 @@ export class PortfolioModel extends baseCollection {
     description=null;
     created_at=null;
     updated_at=null;
-    evaluated_value=0;
+    estimated_value=0;
     roi=0;
     read_count=0;
     comment_count=0;
@@ -121,6 +121,9 @@ export class PortfolioModel extends baseCollection {
         this.comment_count = item.comment_count;
         this.like_count = item.like_count;
         this.dislike_count = item.dislike_count;
+        this.roi = item.roi;
+        this.estimated_value = item.estimated_value;
+
         this.api_user = item.api_user;
         this.items = item.portfolio_children;
     }
@@ -146,11 +149,11 @@ export class PortfolioModel extends baseCollection {
             }
         }
 
-        this.evaluated_value = 0;
+        this.estimated_value = 0;
         this.roi = 0;    
 
         if (dic_perf.count>0) {
-            this.evaluated_value = dic_perf.value;
+            this.estimated_value = dic_perf.value;
             this.roi = dic_perf.roi/dic_perf.count;    
         }
     }
@@ -235,7 +238,7 @@ export class PortfolioModel extends baseCollection {
 
 
 export class PortfolioListModel extends baseCollection{
-    evaluated_value=null;
+    estimated_value=null;
     roi=null;
     item_count=0;
     group_count=0;
@@ -284,7 +287,7 @@ export class PortfolioListModel extends baseCollection{
     calcPerformance(prices) {
         //logger.log.debug("PortfolioListModel.calcPerformance.items=",this.items);
         
-        this.evaluated_value = 0;
+        this.estimated_value = 0;
         this.roi = 0;
         this.item_count = 0;
         this.group_count = this.items.length;
@@ -292,7 +295,7 @@ export class PortfolioListModel extends baseCollection{
         for (let index=0;index<this.items.length;index++) {
             this.items[index].calcPerformance(prices);
             
-            this.evaluated_value += this.items[index].evaluated_value;
+            this.estimated_value += this.items[index].estimated_value;
             this.roi += this.items[index].roi;
             this.item_count += this.items[index].items.length;
         }
@@ -354,6 +357,16 @@ export class PortfolioListModel extends baseCollection{
 
     }
 
+    addPortfolioGroup(portfolioItem) {
+        logger.log.debug("addPortfolioGroup : portfolioItem=",portfolioItem);
+        let a_group = this.getItem(portfolioItem.portfolio_id);
+        if (! a_group) {
+            a_portfolio = new PortfolioModel();
+            a_portfolio.id = a_item.portfolio_id;
+        }
+        a_portfolio.add(a_item);
+    }
+
     addPortfolioItem(jsonItem) {
         logger.log.debug("addPortfolioItem : jsonItem=",jsonItem);
         let a_item = new PortfolioItemModel();
@@ -362,6 +375,7 @@ export class PortfolioListModel extends baseCollection{
         if (! a_portfolio) {
             a_portfolio = new PortfolioModel();
             a_portfolio.id = a_item.portfolio_id;
+            this.add(a_portfolio);
         }
         a_portfolio.add(a_item);
     }

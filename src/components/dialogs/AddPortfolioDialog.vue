@@ -1,7 +1,8 @@
 <template>
 
     <div>
-        <q-dialog v-model="v_show" 
+        <q-dialog 
+            v-model="v_show" 
             class="full-width window-height"
             position="top"
             persistent
@@ -11,14 +12,20 @@
             <q-card>
                 <q-card-section>
                     <div class="row">
-                        <WDialogCloseButton @onClick="onClickClose" />&nbsp;
-                        <span class="text-h6">{{v_title}}</span>
-                    </div>
+                        <div>
+                            <WDialogCloseButton @onClick="onClickClose" />&nbsp;
+                        </div>
 
-                    <div class="text-subtitle2">
-                        Please select your item
+                        <div>
+                            <div>
+                                <span class="text-h6">{{v_title}}</span>
+                            </div>
+                            <div>
+                                <span class="gCaption">Please manage your portfolio item</span>
+                            </div>
+                        </div>
+                        
                     </div>
-
                 </q-card-section>       
                 <q-separator />         
                 <q-card-section>
@@ -48,14 +55,16 @@
                             <br />
 
                             <WTextArea v-model="v_portfolio_item.description" ref="descText"
-                                label="Description" rows="3" hint="Please type description" customStyle="border:none;background:#f2f2f2;" />
+                                maxLength="300" showLength="1"
+                                label="Description" rows="5" hint="Please type description" 
+                                customStyle="border:none;background:#f2f2f2;" />
                        
                         </div>
                     </div>
                 </q-card-section>       
                 
                 <q-card-actions >
-                    <q-btn class="fit" label="Save"  color="primary" @click="onClickSave" />
+                    <q-btn class="fit" :label="v_button_label"  color="primary" @click="onClickSave" />
                 </q-card-actions>        
 
             </q-card>
@@ -99,6 +108,18 @@ export default {
         v_me() {
             return store.getters.me;
         },
+        v_title() {
+            if (this.v_portfolio_item.id) {
+                return 'Update Portfolio Item';
+            }
+            return 'Add Portfolio Item';
+        },
+        v_button_label() {
+            if (this.v_portfolio_item.id) {
+                return 'Update';
+            }
+            return 'Add';
+        },
     },
     data: function () {
         return {
@@ -110,6 +131,9 @@ export default {
             //v_portfolio: new PortfolioItemModel(),
             v_portfolio_item: new PortfolioItemModel(),
             
+            //v_button_label: 'Save',
+            //v_title: this.title,
+
             v_selected_asset: null,
             v_selected_portfolio: null,
 
@@ -118,7 +142,7 @@ export default {
             
             v_input: null,
             v_options: this.v_group_list,
-            v_title: this.title,
+            
             v_error: {
                 title: {error:false, msg:''},
                 text: {error:false, msg:''},
@@ -246,7 +270,8 @@ export default {
 
                 _this.v_user.portfolio.addPortfolioItem(response.data.portfolio_item);
                 _this.v_user.portfolio.calcPerformance(store.state.prices);
-                _this.$emit("onPortfolioItemAdded",response.data);
+                _this.$emit("onPortfolioItemAdded",_this.v_portfolio_item);
+                //_this.hide();
 
             }).catch( err=> {
                 CommonFunc.showErrorMessage(_this,'Portfolio error');

@@ -17,6 +17,9 @@
             {{v_error.msg}}
         </div>
 
+        <div v-if="showLength=='1'">
+            <span class="gCaption">{{v_length}}</span>
+        </div>
     </div>
 
 <!--
@@ -66,6 +69,10 @@ export default{
             default:""
         },
         rows: {required:false, type:String},
+        showLength: {
+            type:String,
+            default:"0",
+        },
         customStyle: {
             type:String,
             default:"border:none;"

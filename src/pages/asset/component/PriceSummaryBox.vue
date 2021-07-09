@@ -3,14 +3,11 @@
     <div class="">
         <div class="price_box">
             <div class="price_big">
-                <span>{{ g_price['price'] }}</span>
-                <div :class="g_price.class">
-                    <span class="percent_below">
-                        <q-icon class="widget-value-icon percent_icon" :name="g_price.icon"/>
-                        <span>{{ g_price['price_ret'] }}%</span>
-                    </span>
-                    <br><span class="price_date">{{ g_price['updated_date'] }}</span>
-                </div>
+                <CBigLabel ref='label_btc' 
+                    title="" :value="data.ticker.last" 
+                    :valueRet="data.ticker.change_percentage"
+                    :updatedAt="data.ticker.updated_at"
+                    @onClick="onClick"></CBigLabel>
             </div>
         </div>
         
@@ -19,7 +16,7 @@
                 <h6>24H Change</h6>
                 <q-slider                
                     v-model="data.ticker.change_percentage"
-                    label label-always
+                    label label-always readonly dense
                     :min="-10"
                     :max="10"
                     :step="1"
@@ -31,7 +28,7 @@
                 <h6>24H Price Range : {{ v_format(data.ticker.low_24h) }} ~ {{ v_format(data.ticker.high_24h) }}</h6>
                 <q-slider
                     v-model="data.ticker.last"
-                    label label-always
+                    label label-always readonly dense
                     :min="data.ticker.low_24h"
                     :max="data.ticker.high_24h"
                     :step="1"                
@@ -85,6 +82,7 @@
 <script>
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
+import CBigLabel from 'components/CBigLabel';
 
 import {AssetModel} from "src/models/AssetModel";
 
@@ -95,6 +93,9 @@ export default {
             required: true,
             default: new AssetModel()
         },
+    },
+    components: {
+        CBigLabel,
     },
 	computed: {
         v_color() {
@@ -166,12 +167,14 @@ export default {
             this.g_price['updated_date'] = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['trade_date']];
         },
         
+        onClick: function() {
+            logger.log.debug("PriceSummaryBox.onClick");
+
+        }
     },
 };
 
 </script>
-
-<style scoped>
 
 
 <style scoped>
@@ -261,5 +264,9 @@ export default {
     line-height:40px;
     font-size:16px;
     color:#E71915;
+}
+
+.q-slider div {
+    height:5px !important;
 }
 </style>

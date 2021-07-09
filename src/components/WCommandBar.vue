@@ -113,7 +113,7 @@ export default {
                 logger.log.debug("WCommandBar.onClickDelete - confirm=",value,_this.$route);
                 if (! value) return;
 
-                _this.$emit("WCommandBar.onClickDelete",_this.data);
+                _this.$emit("onClickDelete",_this.data);
             });
 
         },

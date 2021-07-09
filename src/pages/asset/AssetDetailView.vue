@@ -219,7 +219,6 @@ export default {
         onClickTimeframe: function(offset,timeframe) {
             logger.log.debug('AssetDetailView.onClickTimeframe - ',offset,timeframe);
             this.g_freq = timeframe;
-            //this.refresh(this.g_asset,offset);
             this.loadCryptoPriceHistory(offset);
         },
 

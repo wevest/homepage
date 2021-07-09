@@ -109,6 +109,7 @@ export default class User {
     id = null; 
     username = null;
     email = null;
+    display_name=null;
     password=null;
     token = null;
     loggedIn = false;
@@ -149,11 +150,8 @@ export default class User {
         this.email = obj.email;
         this.avatar = obj.avatar;
         this.avatar_thumb = obj.avatar_thumb;
-        this.password = CommonFunc.safeGetKeyValue(obj,'password');
-        this.token = CommonFunc.safeGetKeyValue(obj,'token');
-        this.loggedIn = CommonFunc.safeGetKeyValue(obj,'loggedIn');
-        this.staySignedIn = CommonFunc.safeGetKeyValue(obj,'staySignedIn');
-
+        this.display_name = CommonFunc.safeGetKeyValue(obj,'display_name');
+        
         this.first_name = CommonFunc.safeGetKeyValue(obj,'first_name');
         this.last_name = CommonFunc.safeGetKeyValue(obj,'last_name');
         this.title = CommonFunc.safeGetKeyValue(obj,'title');
@@ -171,6 +169,12 @@ export default class User {
 
         this.follower = new FriendListModel();
         this.following = new FriendListModel();    
+
+        //not necessary 
+        ///this.password = CommonFunc.safeGetKeyValue(obj,'password');        
+        //this.token = CommonFunc.safeGetKeyValue(obj,'token');
+        //this.loggedIn = CommonFunc.safeGetKeyValue(obj,'loggedIn');
+        //this.staySignedIn = CommonFunc.safeGetKeyValue(obj,'staySignedIn');
     }
 
     isLoggedIn() {
@@ -187,6 +191,7 @@ export default class User {
             username: this.username,
             avatar: this.avatar,
             avatar_thumb: this.avatar_thumb,
+            display_name:this.display_name,
             staySignedIn:this.staySignedIn,
             loggedIn:this.loggedIn,
             email: this.email,
@@ -199,6 +204,7 @@ export default class User {
     fromJson(obj) {
         this.id = obj.id;
         this.username = obj.username;
+        this.display_name = obj.display_name;
         this.avatar = obj.avatar;
         this.avatar_thumb = obj.avatar_thumb;
         this.staySignedIn =obj.staySignedIn;
@@ -210,8 +216,11 @@ export default class User {
         } else {
             this.password = '';
         }
-        
-        this.token = Hasher.decode(this.username,obj.token);
+        if (obj.hasOwnProperty('token')) {
+            this.token = Hasher.decode(this.username,obj.token);
+        } else {
+            this.token = '';
+        }
     }
 
     getToken() {
@@ -256,6 +265,32 @@ export default class User {
         });
     }
 
+    loadProfile() {    
+        let dic_param = {'username':this.username};
+        if (this.isLoggedIn() ) {
+            dic_param['token'] = this.token;
+        }
+        
+        const _this=this;
+        return new Promise(function(resolve,reject) {
+            AuthService.getUserProfile(dic_param,function(response) {
+                logger.log.debug("UserModel.loadProfile - response",response);
+                
+                if (response.data.results.length==0) {
+                    reject(response.data);
+                }
+  
+                const obj = response.data.results[0];                
+                _this.assign(obj);
+                resolve(response.data);
+  
+            },function(err) {
+                logger.log.error("UserModel.loadProfile - error",err);
+                reject(err);
+            });
+        });
+    }
+
     signUp(dic_param) {
         const _this=this;
 
@@ -285,15 +320,11 @@ export default class User {
             _this.processLogin(response.data.auth_token, dic_param.stay_loggedin).then( resp => {
                 
                 logger.log.debug("onSignIn.response2=",resp.data);
-
-                _this.username = resp.data.username;
-                _this.id = resp.data.id;
-                _this.email = resp.data.email;
+                _this.assign(resp.data);
+                _this.loggedIn = true;                
                 _this.token = response.data.auth_token;            
                 _this.staySignedIn = dic_param.stay_loggedin;
                 _this.password = dic_param.password;
-                _this.loggedIn = true;
-
                 _this.saveToCookie();
 
                 resolve(response);
@@ -318,15 +349,13 @@ export default class User {
         logger.log.debug("User.signOut");
         return new Promise(function(resolve,reject) {    
             AuthService.signOut(dic_param,function(response) {          
-            _this.processLogout();
-            logger.log.debug("User.signOut - done");
-            resolve(response);
-        }, function(response) {
-            logger.log.debug("onClickSignOut.Error - response=",response);
-            if (response.status==400) {
-                reject(response);
-            }
-        });
+                _this.processLogout();
+                logger.log.debug("User.signOut - done");
+                resolve(response);
+            }, function(response) {
+                logger.log.debug("onClickSignOut.Error - response=",response);
+                reject(response);                
+            });
         });
 
     }

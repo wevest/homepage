@@ -158,10 +158,11 @@
             <CommentBox ref="commentBox"             
                 :contentType="v_content_type" :post="v_portfolio" :items="v_portfolio.comments.items" />            
         </div>
-
+<!--
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
             <q-btn fab icon="add" color="accent" @click="onClickAdd" />
         </q-page-sticky>
+-->
 
     </div>
 </template>
@@ -249,6 +250,7 @@ export default {
     },
     created() {
         logger.log.debug("PortfolioDetailView.created");
+        this.validateQuery();
     },
     beforeMount() {
         logger.log.debug("PortfolioDetailView.beforeMounted - query=",this.$route.query);    
@@ -267,6 +269,16 @@ export default {
     },
 
     methods: {
+        validateQuery() {            
+            if (! CommonFunc.isEmptyObject(this.$route.query.username)) {
+                if (! CommonFunc.isEmptyObject(this.$route.query.portfolio_id)) {
+                    return;
+                }                
+            }                
+
+            CommonFunc.navError404(this);
+        },        
+
         prepare() {
             this.v_user.username = this.$route.query.username;
             this.v_portfolio.id = this.$route.query.portfolio_id;
@@ -498,7 +510,7 @@ export default {
             logger.log.debug("PortfolioDetail.onClickMore : portfolio_item=",portfolio_item);
             
             store.getters.nav.add(this.$route);
-            CommonFunc.navAssetDetail(this,portfolio_item.api_asset.symbol,portfolio_item.api_asset.id);
+            CommonFunc.navAsset(this,portfolio_item.api_asset.symbol,portfolio_item.api_asset.id);
         }
 
     }

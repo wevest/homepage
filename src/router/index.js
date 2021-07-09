@@ -1,9 +1,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+//import VuePageTransition from 'vue-page-transition';
 
 import routes from "./routes";
 
 Vue.use(VueRouter);
+//Vue.use(VuePageTransition);
 
 /*
  * If not building with SSR mode, you can

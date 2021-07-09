@@ -2,7 +2,7 @@
 
     <div>
         
-        <q-card class="q-my-sm" bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
+        <q-card class="q-my-sm" bordered v-for="(a_portfolio,index) in data.items" :key="index" >
             <q-card-section horizontal class="groupTitleBox"> 
                 <div>
                     <div>
@@ -24,7 +24,7 @@
                         <!--
                         <div class="valueTitle">ROI</div>
                         -->
-                        <div class="valueDate"> $ {{a_portfolio.evaluated_value.toLocaleString() }} </div>
+                        <div class="valueDate"> $ {{a_portfolio.estimated_value.toLocaleString() }} </div>
                     </div>
                 </div>
                 <div>
@@ -60,7 +60,11 @@ import { PortfolioListModel, PortfolioModel, PortfolioItemModel} from "src/model
 
 export default {
     components: {},
-    props: {},
+    props: {
+        data: {
+            default: new PortfolioListModel()
+        }
+    },
 
     data: () => ({
         g_data: null,

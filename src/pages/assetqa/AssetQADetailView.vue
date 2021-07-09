@@ -136,6 +136,7 @@ export default {
 
     created: function () {
         //console.log("HomeView.created");
+        this.validateQuery();
     },
     mounted: function() {
         logger.log.debug("AssetQAView.mounted - param=",this.$route.query);
@@ -146,6 +147,14 @@ export default {
     },
 
     methods: {
+        validateQuery() {            
+            if (! CommonFunc.isEmptyObject(this.$route.query.id)) {
+                return;
+            }                
+
+            CommonFunc.navError404(this);
+        },
+
         setContent(content) {
             this.$refs.toastViewer.invoke('setMarkdown', content);
         },

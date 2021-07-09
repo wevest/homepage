@@ -56,6 +56,8 @@ export default {
         //console.log("HomeView.created");
         console.log("BlogView.created - query=",this.$route.query);
 
+        this.validateQuery();
+        
         this.g_asset.category = this.$route.query.category;
         this.g_asset.symbol = this.$route.query.symbol;
         this.g_asset.object_id = parseInt(this.$route.query.id);
@@ -67,6 +69,18 @@ export default {
         this.refresh(this.g_asset);
     },
     methods: {
+        validateQuery() {
+            
+            if (! CommonFunc.isEmptyObject(this.$route.query.id)) {
+                if (! CommonFunc.isEmptyObject(this.$route.query.symbol)) {
+                    if (! CommonFunc.isEmptyObject(this.$route.query.category)) {
+                        return;
+                    }
+                }                
+            }                
+
+            CommonFunc.navError404(this);
+        },        
         refresh: function(symbol,offset=360) {
             logger.log.debug('Refresh - ',symbol,offset);
 

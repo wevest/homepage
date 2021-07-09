@@ -130,9 +130,11 @@
 		</q-drawer>
 
 		<q-page-container>	
-			<transition name="slide" mode="out-in">		
+
+			<PageTransition>
 				<router-view :key="$route.fullPath"></router-view>			
-			</transition>
+			</PageTransition>
+
 		</q-page-container>
 
 		<WConfirmDialog ref="confirmDialog" title="Do you want to delete the item?" @onClickConfirm="onClickDeleteConfirm" />
@@ -146,7 +148,13 @@
 
 			<q-btn-dropdown fab color="pink" dropdown-icon="add">
 
-			    <q-list separator>
+				<transition
+					appear
+					enter-active-class="animated slide-up"
+					leave-active-class="animated slide-down"
+				>
+
+			    <q-list separator   transition-show="jump-down" transition-hide="jump-up">
 					<q-item clickable v-close-popup @click="onClickPortfolio">
 						<q-item-section avatar>
 							<q-avatar icon="folder" color="primary" text-color="white" />
@@ -180,6 +188,7 @@
           				</q-item-section>
         			</q-item>
 				</q-list>
+			</transition>
 <!--				
 					<q-btn fab icon="add" color="accent" @click="onClickFab" />
 -->
@@ -204,12 +213,14 @@ import logger from "src/error/Logger";
 
 import WConfirmDialog from "src/components/dialogs/WConfirmDialog";
 import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
+import PageTransition from "src/components/transition/PageTransition";
 
 export default {
 	name: "MainLayout",
 	components: {
 		SideBar,
 		Spinner,
+		PageTransition,
 		WConfirmDialog,
 		AddPortfolioDialog
 	},
@@ -217,7 +228,7 @@ export default {
 		v_login: function () {
 			return store.getters.isLoggedIn;
 		},
-        v_user: function() {
+        v_me: function() {
             return store.getters.me;
         }
 	},
@@ -237,19 +248,15 @@ export default {
 		};
 	},
 
-	updated: function () {
-		this.setSigninMenu();
-	},
+	updated: function () {},
 	created: function () {
-		this.v_user.loadFromCookie();
+		this.v_me.loadFromCookie();
 	},
 	mounted: function () {
 		//CommonFunc.setAppData('spinner',this.$refs.loading);
 		
 		this.prepare();
-
 		this.loadCoinCodes();
-		this.setSigninMenu();		
 	},
 
 	methods: {
@@ -284,19 +291,6 @@ export default {
 					(v) => v.label.toLowerCase().indexOf(needle) > -1
 				);
 			});
-		},
-
-		setSigninMenu: function () {
-			if (CommonFunc.isEmptyObject(MoaConfig.auth)) {
-				//this.v_login = false;
-			} else {
-				if (CommonFunc.isEmptyObject(MoaConfig.auth.token)) {
-					//this.v_login = false;
-					return;
-				}
-
-				//this.v_login = MoaConfig.auth.loggedIn;
-			}
 		},
 
 		isValidInput: function (value) {
@@ -381,12 +375,6 @@ export default {
 			this.$router.push(dic_param);
 		},
 
-		onClickPortfolio: function () {
-			logger.log.debug("MainToolbar.onClickPortfolio");
-			store.getters.nav.clear();
-			let dic_param = { name: "portfolio", params: {} };
-			this.$router.push(dic_param);
-		},
 
 		onClickSignIn: function () {
 			logger.log.debug("onClickSignIn");
@@ -396,7 +384,7 @@ export default {
 
 		onClickLogo: function () {
 			logger.log.debug("onClickLogo");
-			let dic_param = { name: "home", params: {} };
+			let dic_param = { name: "home", query: {}, meta:{transition:'overlay-up-full'} };
 			this.$router.push(dic_param);
 		},
 
@@ -404,17 +392,18 @@ export default {
 			logger.log.debug("onClickSignOut");
 
 			const _this = this;
-			store.state.me
+			this.v_me
 				.signOut()
-				.then((response) => {
-					_this.setSigninMenu();
+				.then(response => {
+					//_this.setSigninMenu();
 					store.getters.nav.clear();
 					CommonFunc.showOkMessage(_this,'Loggout');
 				})
-				.catch((err) => {
-					logger.log.error('MainLayout.onClickSignOut:err=',err);
+				.catch(err => {
+					logger.log.error('MainLayout.onClickSignOut:err2=',err);
 
-					_this.setSigninMenu();
+					//_this.setSigninMenu();
+					_this.v_me.processLogout();
 					store.getters.nav.clear();
 
 					CommonFunc.showErrorMessage(_this,err.data.detail);
@@ -443,7 +432,7 @@ export default {
 
 		onClickPortfolio: function() {
 			logger.log.debug("MainLayout.onClickPortfolio");
-			store.getters.components.getComponent('portfolioDialog').show(this.v_user,null); 
+			store.getters.components.getComponent('portfolioDialog').show(this.v_me,null); 
 		},
 
 		onClickShare: function() {

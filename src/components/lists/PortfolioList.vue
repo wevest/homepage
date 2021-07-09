@@ -13,12 +13,15 @@
                     </div>
                     <div class="boxInfo">
                         <div class="text-h6 text-weight-bold nameRoi">
+                            <span>{{a_portfolio.api_user.username}}</span>
+                        </div>
+                        <div class="gCaption">
                             <span>{{a_portfolio.name}}</span>
                         </div>
                     </div>
                 <q-space />
                 <div class="text-h5 text-weight-bolder nameRoi">
-                    123.4243%
+                    <span :class="v_color(a_portfolio.roi)">{{v_format(a_portfolio.roi)}} %</span>
                 </div>
                 <div class="nameRoi">
                     <q-btn size="14px" flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
@@ -68,6 +71,32 @@ export default {
 		}
     },
 
+    computed: {
+        v_format() {
+            return (value) => {
+                if(!value) {
+                    return '';
+                }
+                return value.toLocaleString();
+            };
+        },
+        v_updated_at() {
+            return (value) => {
+                return CommonFunc.minifyDatetime(value);
+            };
+        },
+        v_shorten() {
+            return (value) => {
+                return CommonFunc.shortenString(value,MoaConfig.setting.maxPortfolioDescriptionLength);
+            };
+        },
+        v_color() {
+            return (value) => {                
+                return CommonFunc.getPerfColor(value);
+            };            
+        },
+    },
+
     data () {
         return {
             g_data: null,
@@ -79,18 +108,6 @@ export default {
             v_user: new UserModel(),
             v_portfolio: new PortfolioListModel(),
 
-        }
-    },
-    computed: {
-        v_updated_at() {
-            return (value) => {
-                return CommonFunc.minifyDatetime(value);
-            };
-        },
-        v_shorten() {
-            return (value) => {
-                return CommonFunc.shortenString(value,MoaConfig.setting.maxPortfolioDescriptionLength);
-            };
         }
     },
 

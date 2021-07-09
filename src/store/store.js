@@ -31,7 +31,7 @@ const getters = {
 
     nav: state => state.nav,
 
-    isLoggedIn:state => {
+    isLoggedIn:state => {        
         return state.me.isLoggedIn();
     },
     token:state => {

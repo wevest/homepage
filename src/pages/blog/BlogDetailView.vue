@@ -1,5 +1,5 @@
 <template>
-
+	
     <div class="q-ma-md">
         <div class="titleBox">            
             <div>
@@ -85,7 +85,6 @@
         </div>
 
     </div>
-    
 
 </template>
 
@@ -176,14 +175,11 @@ export default {
 
     created: function() {
         console.log("BlogView.created");
+        this.validateQuery();
     },
     mounted: function() {        
 
         logger.log.debug("BlogView.mounted - params=",this.$route.query);
-
-        if (! this.$route.query.page_id) {
-            return;
-        }
 
         this.v_post.id=this.$route.query.page_id;
         this.refresh(this.v_post.id);
@@ -193,6 +189,15 @@ export default {
     },
     
     methods: {
+        validateQuery() {
+            if (this.$route.query.page_id) {
+                if (! CommonFunc.isEmptyObject(this.$route.query.page_id)) {
+                    return;
+                }                
+            }   
+            CommonFunc.navError404(this);
+        },
+
         setContent(content) {
             this.$refs.toastViewer.invoke('setMarkdown', content);
         },

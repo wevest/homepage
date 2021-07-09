@@ -45,11 +45,12 @@ export default class AuthService{
             func(response);
         })
         .catch( (err) => {
+            logger.log.error("AuthService.signOut : err=",err);
             funcErr(err);
         });
     }
 
-
+/*
     static setData(json_auth) {
         MoaConfig.auth = json_auth;
         AuthService.saveToCookie()
@@ -66,7 +67,7 @@ export default class AuthService{
         MoaConfig.auth = auth_data;
         return MoaConfig.auth;
     }
-
+*/
     static processLogin(username,auth_token,staySignedIn) {
 
         let dic_param = {token:auth_token};

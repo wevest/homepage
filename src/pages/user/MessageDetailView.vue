@@ -93,8 +93,10 @@ export default {
     },
 
     created: function () {
-        window.addEventListener('resize', this.handleResize);
+        this.validateQuery();
+        window.addEventListener('resize', this.handleResize);        
     },
+    
     beforeMounted: function() {},
     mounted: function() {
         logger.log.debug("MessageDetailView.Mounted - query=",this.$route.query);        
@@ -109,6 +111,15 @@ export default {
         window.removeEventListener('resize', this.handleResize);
     },    
     methods: {
+        validateQuery() {                        
+            if (! CommonFunc.isEmptyObject(this.$route.query.username)) {
+                if (! CommonFunc.isEmptyObject(this.$route.query.id)) {
+                    return;
+                }                
+            }                
+            CommonFunc.navError404(this);
+        },        
+
         setChatMessageHeight(windowHeight) {
             const toolbarHeight=50;
             const titleHeight=40;

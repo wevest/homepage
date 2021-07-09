@@ -23,7 +23,7 @@
                             <span class="gROILG"> {{ v_user.portfolio.item_count }} </span>
                         </div>
                         <div> 
-                            <span class="txtDesc">Item count </span>
+                            <span class="txtDesc">Portfolio Item</span>
                         </div>
                     </div>             
                     <div class="col-4" @click="onClickFollower(v_user)">
@@ -61,7 +61,9 @@
                     <q-btn v-if="isOwner" label="Add" @click="onClickAddPortfolio" />
                 </div>
             </div>
-            <PortfolioList ref='portfolioList' @onClickPortfolio="onClickPortfolio"></PortfolioList>
+            <PortfolioList ref='portfolioList' 
+                :data="v_user.portfolio" 
+                @onClickPortfolio="onClickPortfolio"></PortfolioList>
         </div>
 
         <div class="q-mt-xl q-mb-sm">
@@ -122,9 +124,9 @@ export default {
             return store.getters.me;
         },
         isOwner() {
-            if (this.v_user.username==this.v_me.username) {
-                return true;
-            }
+            if (CommonFunc.isEmptyObject(this.$route.query.username)) return true;                
+            if (this.$route.query.username==this.v_me.username) return true;
+
             return false;
         },
         v_roi() {
@@ -150,34 +152,45 @@ export default {
     },
     data: () => ({
         g_data: null,
-
         v_user: new UserModel(),        
     }),
+    created: function() {
+        this.validateQuery();
+    },
     mounted: function() {
         //console.log("HomeView.mounted - ");
         console.log("ProfileView.mounted - symbol=",this.$route.query);
-        
-        this.setUser(this.$route.query);
+        this.setUser(this.$route.query);        
         this.refresh();
     },
 
-    methods: {        
-        setUser: function(params) {
-            const _this = this;
+    methods: {
+        validateQuery() {                        
+            if (this.$route.query.hasOwnProperty('username')) {
+                if (CommonFunc.isEmptyObject(this.$route.query.username)) {
+                    CommonFunc.navError404(this);
+                }
+            }            
+            
+        },        
 
-            let username = params.username;
-            if (! username) {
-                username = this.v_me.username;
+        setUser: function(query) {            
+            if (this.isOwner) {
+                this.v_user = this.v_me;
+                return;
             }
-            UserModel.loadProfile(username).then( a_user => {
-                _this.v_user = a_user;
+
+            this.v_user.username = query.username;
+        },
+
+        loadProfile() {
+            const _this = this;
+            this.v_user.loadProfile().then( a_user => {
                 _this.$refs.profileBox.update(_this.v_user);
 
                 _this.v_user.loadPortfolio().then( response => {
                     logger.log.debug("setUser=>",response);
                     _this.updatePortfolioWidget();
-                    _this.loadRelation();
-                    _this.loadFeeds();
                 });
             });
         },
@@ -188,7 +201,7 @@ export default {
             store.state.prices.load().then( response => {
                 logger.log.debug("updatePortfolioWidget",response);
                 _this.v_user.portfolio.calcPerformance(store.state.prices);
-                _this.$refs.portfolioList.update(_this.v_user.portfolio);
+                //_this.$refs.portfolioList.update(_this.v_user.portfolio);
             });
         },
 
@@ -196,9 +209,9 @@ export default {
             const _this = this;
                     
             let funcs = [
-                //this.loadRelation(),
-                //this.loadBlogList(this.v_user.id)
-                //store.state.assets.load(),
+                this.loadProfile(),
+                this.loadRelation(),
+                this.loadFeeds(),
             ];
             Promise.all(funcs).then(function() {
 

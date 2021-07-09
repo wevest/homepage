@@ -71,7 +71,7 @@
                                 type="email" id="email"
                                 v-model="v_user.email"
                                 label="Email" hint="Your email" 
-                                :rules="[ val => val.length <= 50 || 'Please use maximum 50 characters']"
+                                :rules="[ val => (val) && (val.length <= 50) || 'Please use maximum 50 characters']"
                                 @blur="updateEmailVerification"                                
                                 :error="v_error.email.error"
                                 :error-message="v_error.email.msg"                                
@@ -85,6 +85,7 @@
                                 filled lazy-rules required bottom-slots
                                 v-model="v_user.username" id="username"
                                 label="Username " hint="Name and surname" 
+                                @blur="updateUsernameVerification"
                                 :error="v_error.username.error"
                                 :error-message="v_error.username.msg"
                                 :rules="[ 
@@ -209,6 +210,23 @@ export default {
 
         },
 
+        updateUsernameVerification () {
+            // eslint-disable-next-line
+            let reg =  /[^0-9a-zA-Z-]/g
+            let valid = reg.test(this.v_user.username)
+
+            if (valid) {
+                this.v_user.usernameValid = true;
+                this.v_error.username.error = false;
+
+            } else {
+                console.log('email invalid')
+                this.v_user.usernameValid = false
+                this.v_error.username.error = true;
+                this.v_error.username.msg = 'Username is invalid, please use number and letters only';
+            }
+        },
+
         updateEmailVerification () {
             // eslint-disable-next-line
             let reg =  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/
@@ -225,7 +243,6 @@ export default {
                 this.v_error.email.msg = 'email is invalid';
             }
         },
-
 
         navHome: function() {
             let dic_param = { name:'home', params:{} };

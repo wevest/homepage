@@ -3,14 +3,14 @@
     <div v-if="!v_loaded">
         <q-skeleton height="100px" square animation="fade" />
     </div>
-    <div v-else class="widget-box widget-biglabel" :class="bg_color" @click="onClick" >
+    <div v-else class="widget-box" :class="v_color(valueRet)" @click="onClick" >
 <!--
         <div class="icon-wrapper rounded-circle">
             <div class="icon-wrapper-bg bg-primary"></div>
             <i class="lnr-cog text-primary"></i>
         </div>
 -->            
-        <div class="widget-title text-white">
+        <div class="q-mt-md widget-title text-white" v-if="(title) && (title.length>0)">
             <span class="label-name">{{title}}</span>            
             <q-badge :color="badge_color" class="badge text-black" v-if="tag">
                 <q-icon
@@ -22,10 +22,15 @@
             </q-badge>
         </div>
 
-        <div class="widget-value" :class="text_color">{{value}}</div>
-        <div class="widget-value-ret" :class="text_color">
-            <q-icon class="widget-value-icon" :name="icon"/>
-            <span class="pl-1"><span>{{value_pct_change}}%</span></span>
+        <div class="q-mt-lg widget-value" :class="text_color">
+            {{v_format(value)}}
+        </div>
+        <div class="widget-value-ret" :class="v_color(valueRet)">
+            <q-icon class="widget-value-icon" :name="v_icon(valueRet)"/>
+            <span class="pl-1"><span>{{valueRet}}%</span></span>
+        </div>
+        <div v-if="updatedAt && (updatedAt.length>0)">
+            <span class="gCaption text-grey-1">{{updatedAt}}</span>
         </div>
     </div>
 
@@ -41,25 +46,65 @@ export default {
     name:'CBigLabel',
     components: {},
     props: {
-        onclick: {
-            type: Function,
-            default: null,
+        data: {
+            default:null,
+        },
+        tag: {
+            default: null
+        },
+        title: {
+            type:String,
+            default: ''
+        },
+        value: {
+            default:0,
+        },
+        valueRet: {
+            default:0,
+        },
+        updatedAt:{
+            default:''
         }
+    },
+    computed: {
+        v_format() {
+            return (value) => {
+                if(!value) {
+                    return '';
+                }
+                return value.toLocaleString();
+            };
+        },
+        v_color() {
+            return (value) => {
+                if (value<0) {
+                    return 'bg-positive';
+                }
+                return 'bg-negative';
+            }
+        },
+        v_icon() {
+            return (value) => {
+                if (value>0) {
+                    return 'arrow_drop_up';
+                }
+                return 'arrow_drop_down';
+            }
+        },
     },
     data: function () {
         return {
-            title:'',
-            field:null,
-            tag:null,
-            value:0,
-            value_pct_change:0,
+            //title:'',
+            //tag:n,
+            //value:0,
+            //value_pct_change:0,
             
             bg_color:'bg-positive',
             text_color:'text-white',
             badge_color:'yellow-9',
             icon:'arrow_drop_down',
 
-            v_loaded: false
+            v_loaded: true
         }
     },
 
@@ -83,12 +128,8 @@ export default {
             this.v_loaded = true;
         },
 
-        onClick: function() {
-            if (! this.onclick) {
-                return;
-            }
-            
-            this.onclick(this.field);
+        onClick: function() {            
+            this.$emit("onClick",this.data);
         }
 
     }
@@ -113,12 +154,6 @@ export default {
     box-shadow: 0 0 0 transparent;
     border-width: 1.0px;
 }
-
-.widget-biglabel {
-    text-align: center;
-    padding: 0.3rem;
-    position: relative;
-    }
 
 .widget-biglabel .widget-value {
     font-weight: bold;
