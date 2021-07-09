@@ -8,7 +8,7 @@
         <q-card class="q-my-sm" bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
             <q-card-section class="no-padding">  
                 <div class="row boxContainer">
-                    <div class="q-pt-sm q-px-md">
+                    <div class="q-pt-md q-px-md">
                         <WAvatar :avatar="a_portfolio.api_user.avatar_thumb" :username="a_portfolio.api_user.username" />
                     </div>
                     <div class="boxInfo q-pt-lg">

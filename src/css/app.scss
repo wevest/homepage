@@ -248,10 +248,6 @@
   margin-right: -16px;
 }
 
-.gBoxWriterSave {
-  padding:20px 10px 20px 10px;
-}
-
 .gErrorMsg {
   color:#C10015;
   font-size:12px;
@@ -286,7 +282,7 @@
 }
 
 
-.gSubtitleLG {
+.gSubTitleLG {
   font-size: map-get($h5,"size");
   line-height: map-get($h5,"line-height");
   letter-spacing: map-get($h5,"letter-spacing");
@@ -295,11 +291,11 @@
   margin: map-get($space-lg,"y") 0px  map-get($space-lg,"y") 0px;
 }
 
-.gSubTitle {
+.gSubTitleMD {
   font-size: map-get($h6,"size");
   line-height: map-get($h6,"line-height");
   letter-spacing: map-get($h6,"letter-spacing");
-  font-weight: map-get($text-weights,"bold");
+  font-weight: map-get($h6,"weight");
   color: $grey-10;
   margin: map-get($space-xl,"y") 0px  map-get($space-lg,"y") 0px;
 } 
@@ -314,10 +310,10 @@
 
 
 .gTextSubTitle {
-  font-size: map-get($subtitle1,"size");
-  line-height: map-get($subtitle1,"line-height");
-  letter-spacing: map-get($subtitle1,"letter-spacing");
-  font-weight: map-get($text-weights,"bold");
+  font-size: map-get($subtitle2,"size");
+  line-height: map-get($subtitle2,"line-height");
+  letter-spacing: map-get($subtitle2,"letter-spacing");
+  font-weight: map-get($subtitle2,"weight");
   color: $grey-10;
 
 } 

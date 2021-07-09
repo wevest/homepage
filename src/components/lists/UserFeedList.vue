@@ -14,14 +14,14 @@
 				v-if="index<v_maxLength"
 				@click.stop="onClickFeed(a_feed)"
 			>
-				<q-item-section class="q-pb-sm" avatar top>
+				<q-item-section avatar top>
 					<WAvatar :avatar="a_feed.avatar" :username="a_feed.username" />
 				</q-item-section>
 				<q-item-section top>
-					<q-item-label lines="1">
+					<q-item-label class="q-pt-xs" lines="1">
 						<span class="gListTitle">{{ v_shorten(a_feed.title) }}</span>
 					</q-item-label>
-					<q-item-label lines="1">
+					<q-item-label class="no-margin" lines="1">
 
 						<WSubinfo 
 							:username="a_feed.username" 
@@ -169,4 +169,7 @@ export default {
 <style lang="sass">
 </style>
 <style scope>
+
+
+
 </style>

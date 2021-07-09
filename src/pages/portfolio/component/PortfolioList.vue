@@ -6,7 +6,7 @@
             <q-card-section horizontal class="groupTitleBox"> 
                 <div>
                     <div>
-                        <span class="text-weight-bolder gSubTitle">{{a_portfolio.name}}</span>
+                        <span class="text-weight-bolder gListTitle">{{a_portfolio.name}}</span>
                     </div>
                     <div> 
                         <span class="gCaption">{{ v_updated_at(a_portfolio.updated_at) }} </span>                        

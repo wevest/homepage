@@ -10,7 +10,7 @@
 
             <div style="padding:6px 0px 18px 0px">
                 <q-icon class="QuestionIcon" name="help_outline" /> 
-                <span class="Question">{{v_post.title}}</span>
+                <span class="gSubTitleMD">{{v_post.title}}</span>
             </div>
 
             <div class="gBoxNoMargin" >
@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <div class="gBoxWriterSave">
+        <div class="q-pt-sm">
             <q-btn class="full-width" label="Save" color="primary" @click="onClickSave" />
         </div>
 

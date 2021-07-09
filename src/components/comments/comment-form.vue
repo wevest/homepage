@@ -2,7 +2,7 @@
 	<div class="q-px-md commentBox rounded-borders" v-show="visible" @click="onClick">
 
 		<div class="row gParagraphSM" v-if="v_show">
-			<div class="CommentWriterIcon">
+			<div class="commentWriterIcon">
 				<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
 			</div>
 			<div class="q-pt-md q-pl-sm"> {{v_me.username}} </div>
@@ -318,8 +318,6 @@ export default {
 
 .commentBox {
 	border: 1px solid #cccccc;
-	
-
 }
 
 
@@ -328,14 +326,10 @@ export default {
 	padding-top:10px;
 }
 
+.commentWriterIcon {
+	margin:-5px 0px 0px -px;
+	}
 
-.boxEditor2 {
-	border: 1px solid #cccccc;
-}
-
-.boxEditorTextarea {
-	height: 150px !important;
-}
 
 .inline-items-wrapper {
 	display: flex;
@@ -347,14 +341,5 @@ export default {
 	}
 }
 
-/* override quasar css */
-.boxMessageTextarea {
-	height: 150px !important;
-	max-height: 200px;
-}
 
-
-.CommentWriterIcon {
-	margin:-5px 0px 0px -px;
-	}
 </style>
