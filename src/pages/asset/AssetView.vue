@@ -12,9 +12,9 @@
         <div>
             <q-expansion-item
                 expand-separator
-                icon="perm_identity"
-                label="Basic Info"
-                caption="John Doe"
+                icon=""
+                header-class="gSubTitle"
+                label="Base Info"
                 @show="onClickInfo">
 
                 <InfoTable ref="infoTable" :data="v_asset" />
@@ -24,8 +24,8 @@
         <div>
             <q-expansion-item
                 expand-separator
-                icon="perm_identity"
-                label="Chart" caption="John Doe" 
+                header-class="gSubTitle"
+                label="Show Chart"
                 @show="onClickChart">
 
                 <ChartTimeframe period='all' :onclick="onClickTimeframe" selected='y1'></ChartTimeframe>
@@ -149,7 +149,7 @@ export default {
         console.log("AssetView.created - query=",this.$route.query);
         
         this.validateQuery();
-        
+
         this.v_asset.symbol = this.$route.query.symbol;
         this.v_asset.object_category = CONST.ASSETPAGE_CATEGORY+this.v_asset.symbol;
         this.v_asset.object_id = parseInt(this.$route.query.id);

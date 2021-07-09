@@ -18,12 +18,25 @@
                 v-if="index<v_max_length"
             >
                 <q-item-section avatar top>
-                    <WAvatar :avatar="a_review.user.avatar_thumb" :username="a_review.user.username" />
+                    <WAvatar :avatar="a_review.user.avatar_thumb" :username="a_review.user.username" />                    
                 </q-item-section>
 
                 <q-item-section top>
                     <q-item-label>
-                        <span class="ReviewTitle"> {{a_review.user.username}}</span>
+                        <div class="row">
+                            <div>
+                                <span class="ReviewTitle"> {{a_review.user.username}}</span>
+                            </div>
+                            <q-space />
+                            <div>
+                                <WCommandBar :data="a_review" :isOwner="a_review.is_owner" 
+                                    updateBtn="update" deleteBtn="delete" 
+                                    @onClickUpdate="onClickEdit" 
+                                    @onClickDelete="onClickDelete" 
+                                />
+                            </div>
+                        </div>
+
                     </q-item-label>
                                     
                     <q-item-label>
@@ -35,28 +48,17 @@
                     </q-item-label>  
                 
                     <q-item-label>
-                        <p class="ReviewText">
+                        <p class="gCommentMD">
                             {{a_review.content}}                                
                         </p>
                     </q-item-label>
                 
                     <q-item-label class="q-pa-md ReviewRatingBox">
                         
-                        <div class="row">
+                        <WRatingSmallButton ref="ratingButton" 
+                            :data="a_review" :likeCount="a_review.like_count" :dislikeCount="a_review.dislike_count" 
+                            @onClickRating="onClickRating" />
 
-                            <WRatingSmallButton ref="ratingButton" 
-                                :data="a_review" :likeCount="a_review.like_count" :dislikeCount="a_review.dislike_count" 
-                                @onClickRating="onClickRating" />
-
-                            <q-space />
-                            <div>
-                                <WCommandBar :data="a_review" :isOwner="a_review.is_owner" 
-                                    updateBtn="update" deleteBtn="delete" 
-                                    @onClickUpdate="onClickEdit" 
-                                    @onClickDelete="onClickDelete" 
-                                />
-                            </div>
-                        </div>
                     </q-item-label>
 
                     <q-item-label>

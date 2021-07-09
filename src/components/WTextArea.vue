@@ -1,9 +1,11 @@
 <template>
 
     <div class="TextareaBox">
-        <textarea class="self-center full-width" 
+        <textarea 
             ref="txtMemo"
+            class="self-center full-width"             
             tabindex="0"
+            :class="customClass"
             :style="v_style"
             :disabled="v_disabled"
             :placeholder="v_hint"
@@ -21,24 +23,6 @@
             <span class="gCaption">{{v_length}}</span>
         </div>
     </div>
-
-<!--
-    <div>
-        <q-field label="" borderless filled stack-label>            
-            <template v-slot:control>
-                <textarea class="self-center full-width boxTextarea" 
-                    tabindex="0" 
-                    :disabled="v_disabled"
-                    :placeholder="v_hint"
-                    :maxlength="maxlength"
-                    :value="v_value" :rows="v_rows" 
-                    @input="updateValue($event.target.value)"
-                    @focus="onFocus" @focusout="onFocusOut">
-                </textarea>
-            </template>              
-        </q-field>
-    </div>
--->
 
 </template>
 
@@ -76,8 +60,11 @@ export default{
         customStyle: {
             type:String,
             default:"border:none;"
+        },
+        customClass: {
+            type:String,
+            default:""
         }
-
     },
     data() {    
         return {

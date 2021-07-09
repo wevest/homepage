@@ -8,7 +8,7 @@
                         <WAvatar :avatar="data.user_avatar" :username="data.user_name" />
                     </div>
 
-                    <div>
+                    <div class="q-pt-sm">
                         <div class="gUserNameSM">
                             <span>{{ data.user_name }}</span>
                         </div>
@@ -79,9 +79,9 @@
                     <q-space />
                     
                     <div class="q-pb-sm">
-                    <WRatingSmallButton ref="ratingButton" 
-                        :data="data" :likeCount="data.like_count" :dislikeCount="data.dislike_count" 
-                        @onClickRating="onClickLike" />
+                        <WRatingSmallButton ref="ratingButton" 
+                            :data="data" :likeCount="data.like_count" :dislikeCount="data.dislike_count" 
+                            @onClickRating="onClickLike" />
                     </div>                
                 </div>
                  <q-separator />

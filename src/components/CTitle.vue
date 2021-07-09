@@ -1,12 +1,13 @@
 <template>
-
-    <div class="row ctitle">
-        <div :class="v_class">                
-            {{ title }}
-        </div>
-        <q-space v-if="loadMoreCaption.length>0" />
-        <div>                
-            <q-btn :label="loadMoreCaption" @click="onClickMore" v-if="loadMoreCaption.length>0" />
+    <div :class="v_class">    
+        <div class="row">
+            <div>
+                {{ title }}
+            </div>
+            <q-space v-if="loadMoreCaption.length>0" />
+            <div>                
+                <q-btn :label="loadMoreCaption" @click="onClickMore" v-if="loadMoreCaption.length>0" />
+            </div>
         </div>
     </div>
 
@@ -61,12 +62,5 @@ export default {
 
 
 <style scoped>
-
-
-
-
-
-
-
 /* box-shadow: 5px 5px 5px; */
 </style>

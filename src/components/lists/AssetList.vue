@@ -1,7 +1,7 @@
 <template>
 
     <div>
-
+        
 		<CTitle ttype='subtitle' :title="v_title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreAsset"></CTitle>
 

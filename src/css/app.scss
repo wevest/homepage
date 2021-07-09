@@ -281,6 +281,8 @@
   letter-spacing: map-get($h4,"letter-spacing");
   font-weight: map-get($text-weights,"bolder");
   color: $grey-10;
+  margin: map-get($space-lg,"y") 0px  map-get($space-lg,"y") 0px;
+
 }
 
 
@@ -290,6 +292,7 @@
   letter-spacing: map-get($h5,"letter-spacing");
   font-weight: map-get($text-weights,"bold");
   color: $grey-10;
+  margin: map-get($space-lg,"y") 0px  map-get($space-lg,"y") 0px;
 }
 
 .gSubTitle {
@@ -298,13 +301,13 @@
   letter-spacing: map-get($h6,"letter-spacing");
   font-weight: map-get($text-weights,"bold");
   color: $grey-10;
-
+  margin: map-get($space-xl,"y") 0px  map-get($space-lg,"y") 0px;
 } 
 
 .gListTitle {
-  font-size: map-get($h6,"size");
-  line-height: map-get($h6,"line-height");
-  letter-spacing: map-get($h6,"letter-spacing");
+  font-size: map-get($subtitle1,"size");
+  line-height: map-get($subtitle1,"line-height");
+  letter-spacing: map-get($subtitle1,"letter-spacing");
   font-weight: map-get($text-weights,"bold");
   color: $grey-10;
 }

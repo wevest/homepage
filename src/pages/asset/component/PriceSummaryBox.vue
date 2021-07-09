@@ -13,7 +13,9 @@
         
         <div>
             <div>                
-                <h6>24H Change</h6>
+                <div class="gSubTitle">
+                    <span>24H Change</span>
+                </div>
                 <q-slider                
                     v-model="data.ticker.change_percentage"
                     label label-always readonly dense
@@ -25,7 +27,14 @@
                 />
             </div>
             <div>
-                <h6>24H Price Range : {{ v_format(data.ticker.low_24h) }} ~ {{ v_format(data.ticker.high_24h) }}</h6>
+                <div class="gSubTitle">
+                    <span> 
+                        Price Range : 
+                    </span>
+                    <span class="gCaption">
+                        {{ v_format(data.ticker.low_24h) }} ~ {{ v_format(data.ticker.high_24h) }}
+                    </span>
+                </div>
                 <q-slider
                     v-model="data.ticker.last"
                     label label-always readonly dense

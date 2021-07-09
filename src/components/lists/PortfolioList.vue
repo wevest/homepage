@@ -12,7 +12,7 @@
                         <WAvatar :avatar="a_portfolio.api_user.avatar_thumb" :username="a_portfolio.api_user.username" />
                     </div>
                     <div class="boxInfo q-pt-lg">
-                        <div class="gSubTitle">
+                        <div class="gListTitle">
                             <span>{{a_portfolio.api_user.username}}</span>
                         </div>                        
                         <div class="gCaption">

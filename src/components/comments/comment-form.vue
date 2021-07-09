@@ -3,13 +3,15 @@
 
 		<div class="row gParagraphSM" v-if="v_show">
 			<div class="CommentWriterIcon">
-			<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
+				<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
 			</div>
-			<div class="q-pt-md"> {{v_me.username}} </div>
+			<div class="q-pt-md q-pl-sm"> {{v_me.username}} </div>
 		</div>
 
-		<div class="gCaption">
-			<WTextArea ref="descText" v-model="v_comments" :rows="v_rows" :maxlength="maxlength" 
+		<div class="q-mt-md">
+			<WTextArea ref="descText" 
+				v-model="v_comments" :rows="v_rows" :maxlength="maxlength" 
+				customClass="gCommentMD"
 				label="Please type your comments" 
 				hint="Please write comments"
 				@onTextChange="onTextChange"
