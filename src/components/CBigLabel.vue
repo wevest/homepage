@@ -26,7 +26,7 @@
             {{v_format(value)}}
         </div>
         <div class="widget-value-ret" :class="v_color(valueRet)">
-            <q-icon class="widget-value-icon" :name="v_icon(valueRet)"/>
+            <q-icon class="widget-value-icon" :name="v_icon(valueRet)" />
             <span class="pl-1"><span>{{valueRet}}%</span></span>
         </div>
         <div v-if="updatedAt && (updatedAt.length>0)">

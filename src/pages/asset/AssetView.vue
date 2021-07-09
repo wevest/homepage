@@ -5,10 +5,11 @@
             <CTitle ttype='title' :title="v_page_title" desc=""></CTitle>          
         </div>
 
-        <div>
+        <div @click="onClickPrice">
             <PriceSummaryBox ref="priceBox" :data="v_asset" />
         </div>
 
+<!--
         <div>
             <q-expansion-item
                 expand-separator
@@ -41,11 +42,10 @@
 
             </q-expansion-item>
         </div>
+-->
+        <q-separator class="gSeparator" />
 
         <div>
-            <!--
-            <q-btn label="Write" @click="onClickWriteBlog" />
-            -->
             <BlogList ref='blogList' title="Market Trend" maxLength="10" moreCaption="More" 
                 :category="v_asset.object_category" :symbol="v_asset.symbol" :objectId="v_asset.object_id"
             />
@@ -444,6 +444,12 @@ export default {
         onClickInfo: function(evt) {
             logger.log.debug('AssetView.onClickInfo : evt=',evt);
             this.loadCryptoBaseinfo();
+        },
+
+        onClickPrice: function() {
+            logger.log.debug('AssetView.onClickPrice');
+            store.getters.nav.add(this.$route);
+            CommonFunc.navAssetDetail(this,this.v_asset.symbol,this.v_asset.object_id);
         }
     },
 
@@ -455,86 +461,4 @@ export default {
 
 <style scoped>
 
-.box_price {
-    display: grid;
-    grid-template-columns: minmax(90px, 90px) 1fr;
-}
-
-.price_box {
-    text-align:center;    
-}
-
-.price_big {
-    font-size:30px;
-    font-weight: bold;
-    color:#111111;
-}    
-
-.percent_below {
-    font-size:13px;
-    vertical-align:top;
-}
-
-
-.price_date {
-    vertical-align:top;
-    font-size:8px;
-    color:#BBBBBB;
-}
-/*
-.price_label {
-    font:12px;
-    color:#464646;
-    font-weight: bold;
-    padding-right:5px;
-}
-*/
-
-.price_table td {
-    text-align:left;
-}
-
-.score_table {
-    text-align:center;
-}
-
-.box_score {
-    display: grid;
-    grid-template-columns: minmax(90px, 90px) 1fr;
-}
-
-.box_score_table {
-    margin-top:0px;
-}
-
-.box_score_table .box_score_table_column {
-    width:20px;
-    padding-bottom:10px;
-}
-
-.box_score_table tr {
-    height:60px;
-    vertical-align: bottom;
-}
-
-.box_score_point {
-    text-align:center;
-    padding-top:13px;
-}
-
-.score_point {
-    font-size:38px;
-    font-weight:bolder; 
-}
-
-.score_label {
-    font-size:18px;
-    color:#000000;
-}
-
-.price_tag {
-    line-height:40px;
-    font-size:16px;
-    color:#E71915;
-}
 </style>

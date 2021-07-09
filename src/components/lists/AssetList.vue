@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        
+
 		<CTitle ttype='subtitle' :title="v_title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreAsset"></CTitle>
 
@@ -18,10 +18,10 @@
 
                 <q-item-section top>
                     <q-item-label lines="1">
-                        <span class="gBlogTitle">{{a_post.title}}</span>
+                        <span class="gListTitle">{{a_post.title}}</span>
                     </q-item-label>
                     <q-item-label lines="1">
-                        <span class="gBlogDatetime">{{a_post.slug}}</span>
+                        <span class="gCaption">{{a_post.slug}}</span>
                     </q-item-label>
                 </q-item-section>
 
@@ -35,6 +35,7 @@
 
 
 <script>
+import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
@@ -90,8 +91,8 @@ export default {
           logger.log.debug('onClickBlog : asset = ',post);
           
           let dic_param = { name:'asset', path:'asset', query:{ symbol:post.title, id:post.id } };          
-          this.$router.push(dic_param);
-          //this.$emit("onClickAsset",dic_param);          
+          store.getters.nav.add(this.$route);
+          this.$router.push(dic_param);          
         },
 
         onClickMoreAsset: function() {

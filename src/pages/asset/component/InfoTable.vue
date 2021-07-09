@@ -3,7 +3,7 @@
     <q-list bordered separator>
         
         <q-item clickable v-ripple>
-            <q-item-section class="col-1">symbol</q-item-section>
+            <q-item-section class="col-1 gCaption">symbol</q-item-section>
             <q-item-section>{{v_asset.symbol}}</q-item-section>
         </q-item>
 

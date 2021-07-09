@@ -647,14 +647,10 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);
     }
 
-    static navAssetDetail(a_this,symbol,page_id,url_only=false) {
+    static navAssetDetail(a_this,symbol,page_id) {
         let dic_param = {
             name: "asset_detail",path: "asset_detail", query: { symbol:symbol, id: page_id},
         };
-        if (url_only) {            
-            let a_url = "/#/" + dic_param.path+"?symbol=" + symbol + "&id="+page_id;
-            return a_url;
-        }
 
         a_this.$router.push(dic_param);
     }

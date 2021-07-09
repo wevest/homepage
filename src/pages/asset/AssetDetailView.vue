@@ -3,7 +3,7 @@
     <div class="q-pa-md">
         <div>
             <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc" 
-                loadMoreCaption="More" @onClickTitleMore="onClickTitleMore"></CTitle>
+                loadMoreCaption="" @onClickTitleMore="onClickTitleMore"></CTitle>
             
 <!--            
             <div class="q-mb-lg">
@@ -15,14 +15,21 @@
             </div>
 -->
         </div>
-        
-        <PriceSummaryBox ref="priceBox" />
 
-        <div class="q-my-md">
+        <div class="q-mb-xl">
+            <CTitle ttype='subtitle' title="Basic Info" desc=""></CTitle>
+            <InfoTable ref="infoTable" :data="v_asset" />
+        </div>
+
+        <q-separator class="gSeparator" />
+
+        <div class="q-my-xl">
             <ChartTimeframe period='all' :onclick="onClickTimeframe" selected='y1'></ChartTimeframe>
             <CAssetChart ref="assetChart"></CAssetChart>
 
-            <q-toggle v-model="v_visible_table" label="Show Table" class="q-mb-md center" />
+            <div class="text-center q-mt-md">
+                <q-toggle v-model="v_visible_table" label="Show Table" class="q-mb-md center" />
+            </div>
 
             <q-slide-transition>
                 <div v-show="v_visible_table" class="q-my-md">
@@ -31,17 +38,6 @@
             </q-slide-transition>                
         </div>            
 
-        <div>
-            <CTitle ttype='subtitle' title="v_page.title" desc=""></CTitle>
-            <InfoTable ref="infoTable" :data="v_asset" />
-<!--            
-            <CAssetInfoTable ref="assetinfoTable"></CAssetInfoTable>
--->            
-        </div>
-        <div class="q-my-md">
-            <BlogList ref='blogList' title="Market Trend" maxLength="10" moreCaption="More" 
-                :category="v_asset.category" :symbol="v_asset.symbol" :objectId="v_asset.id" />
-        </div>
 
     </div>
 
@@ -110,12 +106,12 @@ export default {
             v_asset: new AssetModel(),
             v_page: {title:this.$t('page.asset.title'), desc:''},
 
-            v_visible_table:false,
+            v_visible_table:true,
         }
     },
 
     created: function () {
-        //console.log("HomeView.created");
+        this.validateQuery();
     },
     mounted: function() {
         this.g_query = this.$route.query;
@@ -127,12 +123,22 @@ export default {
     },
     
     methods: {
+        validateQuery() {
+            
+            if (! CommonFunc.isEmptyObject(this.$route.query.id)) {
+                if (! CommonFunc.isEmptyObject(this.$route.query.symbol)) {
+                    return;
+                }                
+            }                
+
+            CommonFunc.navError404(this);
+        },
+
         refresh: function(offset=360) {
             logger.log.debug('AssetDetailView.Refresh - ',offset);
 
             this.loadCryptoBaseinfo();
             this.loadCryptoPriceHistory(offset);
-            this.loadBlogList();
         },
         setAsset(query) {
             this.v_asset.id = query.id;
@@ -196,7 +202,7 @@ export default {
 
             this.v_asset.loadPriceHistory(dic_param).then(jsonResult=>{
                 _this.updatePageHeader(jsonResult);
-                _this.updatePriceWiget(jsonResult);
+                //_this.updatePriceWiget(jsonResult);
                 _this.updatePriceTable(jsonResult);
                 _this.updatePriceChart(jsonResult);                    
             }).catch(err=>{

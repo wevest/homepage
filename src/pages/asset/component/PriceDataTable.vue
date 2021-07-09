@@ -7,7 +7,7 @@
     :columns="v_headers"
     row-key="name"
     :pagination.sync="v_pagination"
-    :rows-per-page-options="[20]"
+    :rows-per-page-options="[10]"
     >
         <template v-slot:body="props">
 
@@ -36,7 +36,7 @@ export default {
         return {
             v_headers: [
                 { name:'trade_date', label: this.$t('name.trade_date'), field: 'trade_date', align:'left', required:true  },
-                { name:'price', label: this.$t('name.price'), field: 'price'},
+                { name:'price', label: "$ "+this.$t('name.price'), field: 'price'},
                 { name:'volume', label: this.$t('name.volume'), field: 'volume'},
             ],
             v_pagination: {
