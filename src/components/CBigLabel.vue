@@ -11,26 +11,36 @@
         </div>
 -->            
         <div class="q-mt-md widget-title text-white" v-if="(title) && (title.length>0)">
-            <span class="label-name">{{title}}</span>            
-            <q-badge :color="badge_color" class="badge text-black" v-if="tag">
-                <q-icon
-                    name="warning"
-                    size="14px"
-                    class="q-ml-xs"
-                />&nbsp;          
-                {{tag}}
-            </q-badge>
+            <div>
+                <span class="label-name">{{title}}</span>   
+                <q-badge :color="badge_color" class="badge text-black" v-if="tag">
+                    <q-icon 
+                        name="warning"
+                        size="14px"
+                        class="q-ml-xs"
+                    />&nbsp;          
+                    {{tag}}
+                </q-badge>
+            </div>
         </div>
-
-        <div class="q-mt-lg widget-value" :class="text_color">
-            {{v_format(value)}}
-        </div>
-        <div class="widget-value-ret" :class="v_color(valueRet)">
-            <q-icon class="widget-value-icon" :name="v_icon(valueRet)"/>
-            <span class="pl-1"><span>{{valueRet}}%</span></span>
-        </div>
-        <div v-if="updatedAt && (updatedAt.length>0)">
-            <span class="gCaption text-grey-1">{{updatedAt}}</span>
+        <div class="text-left q-ml-md">
+            <div class="row q-mt-lg q-pt-md widget-value" :class="text_color">
+                <div>
+                    $ {{v_format(value)}}
+                </div>
+                <q-space />
+                <div class="q-pr-lg"> 
+                    <span> > </span>
+                </div>
+            </div>
+                    
+            <div class="iconBox widget-value-ret" :class="v_color(valueRet)">
+                <q-icon class="q-pt-xs widget-value-icon" size="40px" :name="v_icon(valueRet)"/>
+                <span class="pl-1"><span>{{valueRet}}%</span></span>
+            </div>
+            <div v-if="updatedAt && (updatedAt.length>0)">
+                <span class="gCaption text-grey-1">{{updatedAt}}</span>
+            </div>
         </div>
     </div>
 
@@ -199,5 +209,8 @@ export default {
     font-size:1.0rem;
 }
 
-
+.iconBox {
+    margin-top:-15px;
+    margin-left:-8px;
+}
 </style>

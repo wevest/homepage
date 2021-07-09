@@ -137,9 +137,5 @@ export default {
    padding-top:10px;
 }
 
-.copyright {
-    font-size:13px;
-    color:#222222;
-}
 
 </style>
