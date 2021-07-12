@@ -1,13 +1,13 @@
 <template>
 
-    <div class="RatingBtnBox">
-        <span>                              
+    <div>
+        <span class="q-pr-sm">                              
             <q-icon 
                 class="gRatingBtnSM"                                                                    
                 name="thumb_up_off_alt"
                 @click="onClickRate('like')" />
                 <span class="gRatingCountSM">{{ likeCount }}</span>
-        </span>&nbsp;
+        </span>
                     
         <span>
             <q-icon 
@@ -79,9 +79,6 @@ export default {
 
 <style scoped>
 
-.RatingBtnBox {
-    padding-top:7px;
 
-}
 
 </style>

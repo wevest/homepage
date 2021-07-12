@@ -189,7 +189,9 @@ export default {
         validateQuery() {
             if (this.$route.query.page_id) {
                 if (! CommonFunc.isEmptyObject(this.$route.query.page_id)) {
-                    return;
+                    if (CommonFunc.isNumeric(this.$route.query.page_id)) {    
+                        return;
+                    }
                 }                
             }   
             CommonFunc.navError404(this);

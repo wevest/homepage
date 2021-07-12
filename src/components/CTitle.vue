@@ -44,7 +44,7 @@ export default {
             if (this.ttype=="title") {
                 return "gPageTitle text-uppercase";
             }
-            return "gSubTitle text-uppercase";
+            return "gSubTitleLG text-uppercase";
         },
     },
     data: function () {

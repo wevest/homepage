@@ -19,7 +19,7 @@
                 v-for="(a_review,index) in v_reviews.items" 
                 v-if="index<v_max_length"
             >
-                <q-item-section avatar top>
+                <q-item-section class="q-pl-sm reviewAvatar" avatar top>
                     <WAvatar :avatar="a_review.user.avatar_thumb" :username="a_review.user.username" />                    
                 </q-item-section>
 
@@ -27,7 +27,7 @@
                     <q-item-label>
                         <div class="row">
                             <div>
-                                <span class="ReviewTitle"> {{a_review.user.username}}</span>
+                                <span class="gUserNameSM"> {{a_review.user.username}}</span>
                             </div>
                             <q-space />
                             <div>
@@ -43,19 +43,19 @@
                                     
                     <q-item-label>
 
-                        <WSubinfo username="" 
+                        <WSubinfo 
                             :pub_date="a_review.creation_date" :rating="a_review.average_rating"
                             like_count="-1" dislike_count="-1" read_count="-1" />
                     
                     </q-item-label>  
                 
-                    <q-item-label>
+                    <q-item-label class="q-pt-sm">
                         <p class="gCommentMD">
                             {{a_review.content}}                                
                         </p>
                     </q-item-label>
                 
-                    <q-item-label class="q-pa-md ReviewRatingBox">
+                    <q-item-label class="text-right q-pb-xs">
                         
                         <WRatingSmallButton ref="ratingButton" 
                             :data="a_review" :likeCount="a_review.like_count" :dislikeCount="a_review.dislike_count" 
@@ -306,46 +306,14 @@ export default {
 
 
 <style scope>
-.ReviewTitle {
-    font-size:14px;
-    color:#111111;
-}
-
-.ReviewDate {
-    font-size:10px;
-    color:#666666;
-    margin-left:8px;
-}
-
-.ReviewText {
-    padding-top:10px;
-    font-size:16px;
-}
-
-.ReviewRatingBox {
-     padding:5px 0px;
-}
-
-
-.ReviewBtnBox {     
-    color:#222222;
-}
+.reviewAvatar {     
+    margin-top:-6px;    
+ }
 
 .ReviewBox {
     border-bottom:1px solid #cccccc;
     padding: 15px 0px 0px 0px;
 }
 
-.cursor-pointer {
-    color:#222222;
-}
-
-.rating-icon {
-    margin-left:0px;
-}
-
-.content {
-    margin:10px 0px;
-}
 </style>
 
