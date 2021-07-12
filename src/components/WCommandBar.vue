@@ -2,28 +2,28 @@
     
     <div class="row q-col-gutter-x-sm">
         <q-icon 
-            class="gCommandBtnMD"        
+            class="gCommentBtnMD"        
             v-if="shareBtn.length>0"               
             :size="size"
             name="share" 
             @click="onClickShare" />
 
         <q-icon 
-            class="gCommandBtnMD"
+            class="gCommentBtnMD"
             v-if="(v_me.loggedIn) && (! isOwner) && (copyBtn.length>0) "
             :size="size"
             name="content_copy" 
             @click="onClickCopy" />
 
         <q-icon 
-            class="gCommandBtnMD"
+            class="gCommentBtnMD"
             v-if="(v_me.loggedIn) && (isOwner) && (updateBtn.length>0) "
             :size="size"
             name="mode_edit_outline"
             @click="onClickUpdate" />
 
         <q-icon
-            class="gCommandBtnMD"
+            class="gCommentBtnMD"
             v-if="(v_me.loggedIn) && (isOwner) && (deleteBtn.length>0) "
             :size="size"
             name="delete_outline" 

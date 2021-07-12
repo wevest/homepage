@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div>
-                    <q-btn size="14px" flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
+                    <q-btn size="15px" flat color="grey-7" dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
                 </div>                       
             </q-card-section>
             
@@ -131,8 +131,7 @@ export default {
 
 
 .roiBox {
-    padding:0px 0px 0px 0px;
-    text-align:center;
+     text-align:center;
 }    
 
 

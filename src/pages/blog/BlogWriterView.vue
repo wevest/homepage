@@ -2,28 +2,30 @@
     
     <div class="q-ma-md">
 
-        <div class="">
-            <CTitle class="gBoxNoMargin text-center" ttype='title' title="글쓰기" desc="" ></CTitle>          
-        </div>
+        <!-- <div class="">  -->
+            <!-- <CTitle class="gBoxNoMargin text-center" ttype='title' title="글쓰기" desc="" ></CTitle>   -->
+         <!-- </div> -->
         
         <div>
             <div>
                 <q-input 
+                    hide-bottom-space
                     v-model="v_post.title" 
                     label="Title" 
                     :error="v_error.title.error"
                     :error-message="v_error.title.msg"
                 />
             </div>
-            <div class="gBoxNoMargin q-mt-md">
+            <div class="gBoxNoMargin">
                 <Editor 
+                    hide-bottom-space
                     ref="toastEditor"
                     :value="v_post.text"
                     :options="editorOptions"
                     :visible="editorVisible"
                     :initialValue="editorHtml"
                     previewStyle="vertical"
-                    height="400px"
+                    height="240px"
                     mode="wysiwyg"
                     initialEditType="wysiwyg"
                 />

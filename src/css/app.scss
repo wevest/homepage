@@ -407,12 +407,22 @@
   width:60px;
 }
 
+
 .gButtonSM {
-  color: $grey-8;
-  font-size: 11px;
+  color: #777777;
+  font-size: 10px;
+  font-weight: bold;
+  border: 1px solid #e4e4e4;
+  
+
+}
+
+.gCommentBtnMD {
+  color: #999999;
+  font-size: 10px;
  }
 
-.gCommandBtnMD {
+.gCommandBtnSM {
   color: $grey-7; 
  }
 
@@ -431,5 +441,10 @@
   font-size:13px;
   color: $primary;
  }
+
+
+
+
+
 
 /* end */

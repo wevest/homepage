@@ -37,7 +37,7 @@
                     </div>
                     <q-space />
                     <div>
-                        <q-btn flat @click="onClickEdit" v-show="v_is_owner" :label="v_edit_button" />
+                        <q-btn class="q-mb-xs gButtonSM" @click="onClickEdit" v-show="v_is_owner" :label="v_edit_button" />
                     </div>
                 </div>
                 <div >
@@ -91,22 +91,24 @@
 
         <q-separator class="gSeparator" />
 
-        <div class="cardBox">
+        <div class="q-pa-xs">
             <q-card class="q-my-md" flat bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index">
                 <q-card-section>
                     <div class="row">
-                        <div class="boxIcon">  
-                            <q-icon class="coinIcon" name="account_tree" color="black" size="34px" />                                    
+                        <div class="row iconBox">
+                            <div class="q-pr-sm">  
+                                <q-icon class="coinIcon" name="account_tree" color="black" size="34px" />                                    
+                            </div>    
+                            <div @click="onClickSymbol(a_portfolio.api_asset.symbol)">
+                                <div class="symbolBox">
+                                    <span class="text-h6 text-weight-bold"> {{a_portfolio.api_asset.symbol}}</span>
+                                    <span class="text-caption text-grey-6"> &nbsp; ({{a_portfolio.api_asset.name}}) </span>
+                                </div>
+                                <div>
+                                    <span class="text-caption text-grey-6 q-mt-sm">{{v_updated_at(a_portfolio.updated_at)}}</span>
+                                </div>
+                            </div>        
                         </div>    
-                        <div @click="onClickSymbol(a_portfolio.api_asset.symbol)">
-                            <div class="symbolBox">
-                                <span class="text-h6 text-weight-bold"> {{a_portfolio.api_asset.symbol}}</span>
-                                <span class="text-caption text-grey-6"> &nbsp; ({{a_portfolio.api_asset.name}}) </span>
-                            </div>
-                            <div>
-                                <span class="text-caption text-grey-6 q-mt-sm">{{v_updated_at(a_portfolio.updated_at)}}</span>
-                            </div>
-                        </div>        
                         <q-space />
                         <div>
 
@@ -119,7 +121,7 @@
 
                         </div>
                         <div>
-                            <q-btn flat label=">" @click="onClickMore(a_portfolio)" />
+                            <q-btn class="NavigationBtn" flat label=">" @click="onClickMore(a_portfolio)" />
                         </div>
                     </div>  
                 </q-card-section>
@@ -524,13 +526,10 @@ export default {
 
 <style scoped>
 
-.boxIcon {
-    padding-right:15px; 
-}
+/* .boxIcon { */
+    /* padding-right:15px;  */
+/* } */
 
-.cardBox {
-    padding:10px 10px 10px 10px;
-}
 
 .coinIcon {
     height:50px;
@@ -541,13 +540,19 @@ export default {
     margin-bottom:-7px;
 }
 
-.coinName {
-    font-size:12px;
-    color:#999999;
-}
 
 .cardSection2 {
-     padding:5px 10px 5px 59px; 
+     padding:5px 0px 5px 58px; 
+}
+
+.NavigationBtn {
+   font-size:25px;
+   color:#222222;
+   margin:-21px -20px 0px 0px;
+}
+
+.iconBox {
+    margin-top:-6px;
 }
 
 </style>

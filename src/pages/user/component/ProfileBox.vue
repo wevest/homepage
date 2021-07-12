@@ -12,7 +12,7 @@
                 </q-avatar>
                 
                 <form>
-                    <q-btn fab id="pick-avatar" color="primary" label="change" class="btnAvatar" 
+                    <q-btn fab id="pick-avatar" color="primary" label="change" class="btnAvatar q-ml-lg" 
                         v-show="isOwner" @click="onClickChangeProfile" />
                     <AvatarCropper
                         ref="avatar" 
@@ -30,12 +30,12 @@
         </q-item-section>
 
         <q-card-section>
-            <div class="gUserNameLG">{{ v_user.username }}</div>
+            <div class="gUserNameLG UserName">{{ v_user.username }}</div>
             <div class="row" style="padding-top:14px;">
-                <div class="gTextSubTitle">Biography</div>
+                <div class="gTextSubTitle q-mt-sm">Biography</div>
                 <q-space />
                 <div>
-                    <q-btn flat @click="onClickEdit" v-show="isOwner" :label="v_edit_button" />
+                    <q-btn class="q-mb-xs gButtonSM" flat @click="onClickEdit" v-show="isOwner" :label="v_edit_button" />
                 </div>
             </div>
             <div style="padding-bottom:14px;">
@@ -364,5 +364,10 @@ export default {
     padding:16px 2px;
     margin-top:5px;
 }
+
+.UserName {
+margin: -20px 0px 15px 0px;
+}
+
 
 </style>
