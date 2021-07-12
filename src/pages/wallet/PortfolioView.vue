@@ -74,8 +74,6 @@
             </div>
         </div>
 
-        <AddPortfolioDialog ref="addPortfolio" />
-
     </div>
 
 </template>
@@ -86,9 +84,7 @@ import {MoaConfig} from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
-import AuthService from 'src/services/authService';
 import PriceService from 'src/services/priceService';
-import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 
 import { PortfolioListModel, PortfolioModel, PortfolioItemModel} from "src/models/PortfolioModel";
 
@@ -99,7 +95,6 @@ import CTitle from 'components/CTitle';
 export default {
     components: {
         CTitle,
-        AddPortfolioDialog
     },
     props: {},
 

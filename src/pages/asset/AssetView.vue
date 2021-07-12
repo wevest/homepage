@@ -6,7 +6,7 @@
         </div>
 
         <div @click="onClickPrice">
-            <PriceSummaryBox ref="priceBox" :data="v_asset" />
+            <PriceSummaryBox ref="priceBox" :data="v_asset" @onClick="onClickPrice" />
         </div>
 
 <!--
@@ -446,7 +446,7 @@ export default {
             this.loadCryptoBaseinfo();
         },
 
-        onClickPrice: function() {
+        onClickPrice: function(dicParam) {
             logger.log.debug('AssetView.onClickPrice');
             store.getters.nav.add(this.$route);
             CommonFunc.navAssetDetail(this,this.v_asset.symbol,this.v_asset.object_id);

@@ -6,7 +6,7 @@
             <q-card-section horizontal class="groupTitleBox"> 
                 <div>
                     <div>
-                        <span class="text-weight-bolder gSubTitle">{{a_portfolio.name}}</span>
+                        <span class="text-weight-bolder gSubTitle">{{v_shorten(a_portfolio.name,15)}}</span>
                     </div>
                     <div> 
                         <span class="gCaption">{{ v_updated_at(a_portfolio.updated_at) }} </span>                        
@@ -77,8 +77,8 @@ export default {
             };
         },
         v_shorten() {
-            return (value) => {
-                return CommonFunc.shortenString(value,MoaConfig.setting.maxPortfolioDescriptionLength);
+            return (value,len) => {
+                return CommonFunc.shortenString(value,len);
             };
         },
         v_progress() {

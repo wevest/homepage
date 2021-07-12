@@ -6,7 +6,7 @@
         </div>
 
         <div class="col">
-            <MarketWatchWidget ref="watchWidget" />
+            <MarketWatchWidget ref="watchWidget" title="Market Risk Alram" moreButton="More" />
         </div>
 
         <div class="col">
@@ -23,8 +23,8 @@
             <AssetList ref='assetList' title="Asset List" maxLength="10" moreCaption="More" ></AssetList>
         </div>
 
-        <div class="col">
-            <UserFeedList ref='feedList' title="$t('page.profile.userfeed')" 
+        <div>
+            <UserFeedList ref='feedList' title="userfeed" 
                 maxLength="10" moreCaption="More" user="v_me"></UserFeedList>
         </div>
 
@@ -46,6 +46,8 @@ import BlogList from 'components/lists/BlogList';
 import AssetList from 'components/lists/AssetList';
 import PortfolioList from 'components/lists/PortfolioList';
 import UserFeedList from 'components/lists/UserFeedList';
+
+import DataService from 'src/services/dataService';
 
 import CTopTable from 'pages/home/CTopTable';
 import CIndexChart from 'pages/home/CIndexChart';
@@ -83,12 +85,6 @@ export default {
                 cwatch: { title:this.$t('page.home.cwatch.title'), desc:''} 
             },
                 
-            v_toplist:[
-                {label:this.$t('name.price_surge'),value:'ret', icon:"auto_awesome"},
-                {label:this.$t('name.yester_ret'),value:'yester_ret', icon:"auto_graph"},
-                {label:this.$t('name.volume_surge'),value:'volume', icon:"signal_cellular_alt"},
-                {label:this.$t('name.volume_change'),value:'tvz', icon:"insert_chart"},            
-            ],
             v_eureka:[
                 {
                     title:'Crypto VC 그들의 투자성적은?', 
@@ -121,7 +117,6 @@ export default {
         },
 
 
-
         refresh: function() {
             const _this = this;
         
@@ -131,17 +126,21 @@ export default {
                 this.loadAssetList(),
                 this.loadPortfolioList(),
                 this.loadFeedList(),
-
+                this.loadCryptoWatch(),
                 /*
                 this.loadIndexData(),
                 this.loadCryptoTopAssetData('1h'),
-                DataService.loadCryptoWatchData(30).then(function(data) {
-                    _this.updateAlert(data);
-                }),
                 */
             ];
             Promise.all(funcs).then(function() {
 
+            });
+        },
+
+        loadCryptoWatch() {
+            const _this=this;
+            DataService.loadCryptoWatchData(30).then(function(data) {
+                _this.$refs.watchWidget.update(data);
             });
         },
 

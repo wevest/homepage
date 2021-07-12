@@ -54,8 +54,8 @@
                 <q-separator vertical />
                 
                 <div class="col">   
-                    <div class="text-h4 text-weight-bold">$ {{ v_format(v_portfolio.evaluated_value) }}</div>
-                    <div class="gCaption">Evaluated Value</div>                         
+                    <div class="text-h4 text-weight-bold">$ {{ v_format(v_portfolio.estimated_value) }}</div>
+                    <div class="gCaption">Estimated Value</div>                         
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
 
         <div>
             <div class="q-my-lg">
-                <span class="gSubtitle"> ROI Chart </span>
+                <span class="gSubTitle"> ROI Chart </span>
             </div>
             
             <PortfolioChart ref="portfolioChart" />
@@ -127,12 +127,12 @@
                 <q-card-section class="cardSection2">                        
                     <div class="row">
                         <div class="col align-items">
-                            <span class="text-caption text-grey-6">ROI</span>
+                            <span class="gCaption">ROI</span>
                             <br>
                             <span class="text-h5 text-weight-bolder" :style="v_color(a_portfolio.roi)">{{v_format(a_portfolio.roi)}} %</span>
                         </div>    
                         <div class="col">  
-                            <span class="text-caption text-grey-6">Current Price</span>
+                            <span class="gCaption">Current Price</span>
                             <br>
                             <span class="text-h5 text-weight-bold">$ {{ v_format(a_portfolio.last) }}</span>                                
                         </div>                            
@@ -287,7 +287,11 @@ export default {
         },
 
         updateRead(portfolio_id) {
-            this.v_user.portfolio.readPortfolio(portfolio_id).then(response=>{
+            if (! this.v_me.isLoggedIn()) {
+                return;
+            }
+
+            this.v_me.portfolio.readPortfolio(portfolio_id).then(response=>{
                 logger.log.debug("PortfolioDetailView.updateRead : response=",response);    
             });
         },

@@ -14,7 +14,6 @@
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
-
 export default {
 	name: "PageTransition",
 	props: ["name"],
@@ -24,6 +23,7 @@ export default {
 			mode: "out-in",
 		};
 	},
+
 	created() {
 		this.$router.beforeEach((to, from, next) => {
             

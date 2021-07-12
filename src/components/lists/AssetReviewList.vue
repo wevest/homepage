@@ -13,7 +13,9 @@
 
         <q-list separator class="rounded-borders">
 
-            <q-item class="ReviewBox" clickable :key="index"
+            <q-item 
+                clickable class="q-pa-sm"
+                :key="index"
                 v-for="(a_review,index) in v_reviews.items" 
                 v-if="index<v_max_length"
             >

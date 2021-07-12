@@ -66,6 +66,26 @@ export class FeedListModel extends baseCollection{
             this.add(a_feed);
         }
     }
+
+    load(userid,username,offset=0,limit=20,uuid='') {
+        let dic_param = {user_id:userid,username:username,uuid:uuid,offset:offset,limit:limit};
+        
+        const _this = this;
+        return new Promise(function(resolve,reject) {
+            CMSAPI.getUserFeeds(dic_param,function(response) {
+                logger.log.debug("FeedListModel.load - response",response.data);
+                
+                _this.assign(response.data.data);
+                resolve(response.data);
+
+            },function(err) {
+                logger.log.error("FeedListModel.load - error",err);                
+                reject(err);
+            });
+        });            
+
+    }
+
 }
 
 
@@ -100,8 +120,6 @@ export class FriendListModel extends baseCollection{
             this.add(a_friend);
         }
     }
-
-    
 }
 
 
@@ -169,6 +187,7 @@ export default class User {
 
         this.follower = new FriendListModel();
         this.following = new FriendListModel();    
+        this.feeds = new FeedListModel();
 
         //not necessary 
         ///this.password = CommonFunc.safeGetKeyValue(obj,'password');        
@@ -484,20 +503,15 @@ export default class User {
     }
 
     loadFeeds(offset,limit,uuid='') {
-        let dic_param = {user_id:this.id,username:this.username,uuid:uuid,offset:offset,limit:limit};
-        
+        //let dic_param = {user_id:this.id,username:this.username,uuid:uuid,offset:offset,limit:limit};        
+        logger.log.debug("UserModel.loadFeeds : feeds=",this.feeds);
         const _this = this;
         return new Promise(function(resolve,reject) {
-            CMSAPI.getUserFeeds(dic_param,function(response) {
-                logger.log.debug("UserModel.loadFeeds - response",response.data);
-                
-                _this.feeds.assign(response.data.data);
-
-                resolve(response.data);
-            },function(err) {
-                logger.log.error("UserModel.loadFeeds - error",err);                
+            _this.feeds.load(_this.id,_this.username,offset,limit,uuid).then(response=>{
+                resolve(response);
+            }).catch(err=>{
                 reject(err);
-            });
+            });                
         });            
     }
 

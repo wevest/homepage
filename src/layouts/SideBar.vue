@@ -1,7 +1,7 @@
 <template>
       <q-list>
         <q-item-label header class="text-grey-8" >
-          MoA.Finance
+          WeVest
         </q-item-label>
 
         <EssentialLink

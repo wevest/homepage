@@ -2,7 +2,7 @@
 <template>
 
     <div>
-        
+
 		<CTitle ttype='subtitle' :title="v_title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreQuestion"></CTitle>
 
@@ -10,6 +10,7 @@
 			<q-item 
 				clickable
 				v-ripple
+                class="q-pa-sm"
 				v-for="(a_question, index) in v_questions.items"
                 v-if="index<v_maxLength"
 				:key="index"

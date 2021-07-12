@@ -260,7 +260,6 @@ export default {
             return files;
         },
 
-
         onClickEdit: function() {
             logger.log.debug("onClickEdit - edit=",this.v_edit);
             

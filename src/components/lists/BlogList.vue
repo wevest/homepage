@@ -6,7 +6,6 @@
 
 		<q-list separator class="rounded-borders">
 			<q-item 
-
 				class="q-pa-sm"
 				clickable
 				v-ripple

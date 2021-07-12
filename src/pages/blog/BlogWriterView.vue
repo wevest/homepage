@@ -5,7 +5,7 @@
         <div class="">
             <CTitle class="gBoxNoMargin text-center" ttype='title' title="글쓰기" desc="" ></CTitle>          
         </div>
-
+        
         <div>
             <div>
                 <q-input 

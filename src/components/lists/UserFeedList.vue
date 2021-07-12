@@ -4,13 +4,13 @@
 		<CTitle ttype='subtitle' :title="v_title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreFeed"></CTitle>
 
-		<q-list separator class="rounded-borders" v-if="v_user.feeds">
+		<q-list separator class="rounded-borders" v-if="v_feeds">
 			<q-item 
 				class="q-pa-sm"
 				clickable
 				v-ripple
 				:key="index"
-				v-for="(a_feed, index) in v_user.feeds.items"
+				v-for="(a_feed, index) in v_feeds.items"
 				v-if="index<v_maxLength"
 				@click.stop="onClickFeed(a_feed)"
 			>
@@ -54,6 +54,7 @@ import WAvatar from "src/components/WAvatar";
 import WSubinfo from 'components/WSubinfo';
 import LoadMore from "src/components/LoadMore";
 import UserModel from "src/models/UserModel";
+import {FeedListModel} from "src/models/UserModel";
 
 
 export default {
@@ -105,7 +106,7 @@ export default {
             },
 
 			v_user: this.user,
-
+			v_feeds: new FeedListModel(),
 		};
 	},
 
@@ -124,16 +125,31 @@ export default {
         },
 
 		loadFeeds: function () {
-			const _this = this;
+			
+			logger.log.debug("UserFeedList.loadFeeds");
+			if (CommonFunc.isEmptyObject(this.v_user.id)) {
+				return;
+			}
 
+			const _this = this;
+			this.v_feeds.load(this.v_user.id,this.v_user.username,this.v_pagination.offset,this.v_pagination.limit,this.v_pagination.uuid).then(response=>{
+				_this.g_data = response.data;
+				_this.$refs.loadMore.setFeedPagination(_this.v_user.feeds.next_url);
+				logger.log.debug("UserFeedList.loadFeeds - response",_this.g_data);
+			}).catch(err=>{
+				logger.log.error("UserFeedList.loadFeeds - err",err);
+			});
+
+/*
 			this.v_user.loadFeeds(this.v_pagination.offset,this.v_pagination.limit,this.v_pagination.uuid).then( response => {
 				_this.g_data = response.data;
 				_this.$refs.loadMore.setFeedPagination(_this.v_user.feeds.next_url);
-				logger.log.debug("BlogList.loadBlogData - response",_this.g_data);
+				logger.log.debug("UserFeedList.loadFeeds - response",_this.g_data);
 			})
 			.catch((err) => {
-
+				logger.log.error("UserFeedList.loadFeeds - err",err);
 			});
+*/			
 		},
 
 		onClickFeed: function (feed) {

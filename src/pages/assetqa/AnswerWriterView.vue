@@ -25,7 +25,7 @@
         <div class="gBoxWriterSave">
             <q-btn class="full-width" label="Save" color="primary" @click="onClickSave" />
         </div>
-
+        
     </div>
 
 </template>

@@ -76,7 +76,6 @@
                 maxLength="10" moreCaption="" user="v_user"></UserFeedList>
         </div>
 
-        <AddPortfolioDialog ref="addPortfolio" />
         <MessageWriterDialog ref="messageWriter" />
 
     </div>
@@ -98,7 +97,6 @@ import CTitle from 'components/CTitle';
 import WButton from 'components/WButton.vue';
 import BlogList from 'components/lists/BlogList';
 import UserFeedList from 'components/lists/UserFeedList';
-import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 import MessageWriterDialog from 'components/dialogs/MessageWriterDialog';
 import ProfileBox from 'src/pages/user/component/ProfileBox';
 import FriendList from 'src/pages/user/component/FriendList';
@@ -111,7 +109,6 @@ export default {
         WButton,
         BlogList,
         AvatarCropper,
-        AddPortfolioDialog,
         MessageWriterDialog,
         PortfolioList,
         FriendList,

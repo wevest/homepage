@@ -1,12 +1,12 @@
 <template>
-    <div class="example">
+    <div>
 
-        <div class="row q-pa-md">
 <!--            
             <q-input outlined v-model="g_field" label="Field" :dense="dense" />
             <q-input outlined v-model="g_thresh" label="Threshold" :dense="dense" />
             <q-btn color="primary" label="Refresh" @click='onClickRefresh' /> 
 -->
+        <div class="gTextSubTitle q-mt-xl">
             <span>Change Probability Level</span>
             <q-slider
                 v-model="g_thresh"
@@ -18,66 +18,29 @@
                 color="light-green" />
         </div>
 
-        <CTitle ttype='subtitle' :title="$t('page.cwatch.btc.title')" :desc="$t('page.cwatch.btc.desc')"></CTitle>
-        <q-skeleton v-if="!v_chart_loaded" height="450px" square animation="fade" />
-        <highcharts v-show="v_chart_loaded" class="box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
+        <div class="gTextSubTitle q-mt-sm">
+            <span> {{ $t('page.cwatch.btc.title') }} </span>
+        </div>
+        <div>
+            <q-skeleton v-if="!v_chart_loaded" height="450px" square animation="fade" />
+            <highcharts v-show="v_chart_loaded" class="box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
+            
+            <div>
+                <CWatchTable ref="tableBTC" :data="v_items.BTC" />              
+            </div>
+        </div>
 
-        <q-table
-        title="" flat
-        class="sticky-column-table"
-        row-key="name"        
-        :data="v_items.BTC"
-        :columns="v_headers"
-        :pagination.sync="v_pagination"
-        :rows-per-page-options="[20]"
-        >
-            <template v-slot:body="props">
+        <div class="gTextSubTitle q-mt-sm">
+            <span> {{ $t('page.cwatch.eth.title') }} </span>
+        </div>
+        <div>
+            <q-skeleton v-if="!v_chart_loaded" height="450px" square animation="fade" />
+            <highcharts v-show="v_chart_loaded" class="box_chart" :options="g_chart['chart2']" ref="chart2"></highcharts>
 
-                <q-tr :props="props">
-                    <q-td key="utc_trade_date" :props="props">{{ props.row.utc_trade_date }}</q-td>
-                    <q-td key="index" :props="props">{{ Number(props.row.index).toLocaleString() }}</q-td>
-                    <q-td key="fall" :props="props">{{ Number(props.row.fall).toLocaleString() }}</q-td>
-                    <q-td key="rise" :props="props">{{ Number(props.row.rise).toLocaleString() }}</q-td>
-                    <q-td key="fall_prob" :props="props">{{ Number(props.row.fall_prob).toLocaleString() }}</q-td>
-                    <q-td key="rise_prob" :props="props">{{ Number(props.row.rise_prob).toLocaleString() }}</q-td>
-                </q-tr>            
-
-            </template>
-
-        </q-table>
-
-        <CTitle ttype='subtitle' :title="$t('page.cwatch.eth.title')" :desc="$t('page.cwatch.eth.desc')"></CTitle>
-        <q-skeleton v-if="!v_chart_loaded" height="450px" square animation="fade" />
-        <highcharts v-show="v_chart_loaded" class="box_chart" :options="g_chart['chart2']" ref="chart2"></highcharts>
-
-        <q-table
-        title="" flat
-        class="sticky-column-table"
-        row-key="name"        
-        :data="v_items.ETH"
-        :columns="v_headers"
-        :pagination.sync="v_pagination"
-        :rows-per-page-options="[20]"
-        >
-            <template v-slot:body="props">
-
-                <q-tr :props="props">
-                    <q-td key="utc_trade_date" :props="props">{{ props.row.utc_trade_date }}</q-td>
-                    <q-td key="index" :props="props">{{ Number(props.row.index).toLocaleString() }}</q-td>
-                    <q-td key="fall" :props="props">{{ Number(props.row.fall).toLocaleString() }}</q-td>
-                    <q-td key="rise" :props="props">{{ Number(props.row.rise).toLocaleString() }}</q-td>
-                    <q-td key="fall_prob" :props="props">{{ Number(props.row.fall_prob).toLocaleString() }}</q-td>
-                    <q-td key="rise_prob" :props="props">{{ Number(props.row.rise_prob).toLocaleString() }}</q-td>
-                </q-tr>            
-
-            </template>
-
-        </q-table>
-
-<!--
-        <CTitle ttype='subtitle' :title="$t('chart.home_tick.title')" :desc="$t('chart.home_tick.desc')"></CTitle>
-        <highcharts class="hc box_chart" :options="g_chart['chart3']" ref="chart3"></highcharts>
--->
+            <div>
+                <CWatchTable ref="tableETH" :data="v_items.ETH" />       
+            </div>
+        </div>
     </div>
 
 </template>
@@ -89,12 +52,13 @@ import logger from 'src/error/Logger';
 
 import CTitle from 'src/components/CTitle';
 import moment from 'moment-timezone';
-
+import CWatchTable from 'pages/cwatch/components/CWatchTable';
 
 export default {
     name: 'CWatchChart',
     components: {
-        CTitle
+        CTitle,
+        CWatchTable
     },
     data: function () {
         return {
@@ -112,18 +76,6 @@ export default {
                 'chart3': { series: [], },
             },
 
-            v_headers: [
-                { name:'utc_trade_date', label: '시간', field: 'utc_trade_date', align:'left', required:true, sortable:true  },
-                { name:'index', label: this.$t('name.index'), field: 'index', sortable:true},
-                { name:'fall', label: this.$t('name.fall'), field: 'fall', sortable:true},
-                { name:'rise', label: this.$t('name.rise'), field: 'rise', sortable:true},
-                { name:'fall_prob', label: this.$t('name.rise_prob'), field: 'fall_prob', sortable:true},
-                { name:'rise_prob', label: this.$t('name.fall_prob'), field: 'rise_prob', sortable:true},
-            ],
-            v_pagination: {
-                sortBy: 'utc_trade_date',
-                descending: true,
-            },
             v_items: {BTC: [], ETH:[]},
             v_chart_loaded: false,
         }

@@ -21,7 +21,7 @@
 
         <CTitle ttype='title' :title="v_page['title']" :desc="v_page['desc']" ></CTitle>          
 
-        <div class="row text-center">
+        <div class="row text-center q-mb-lg">
             <div class="col box_knob" v-for="(a_item,index) in v_risk">
                 <div class="knob_title">{{ a_item.label }}</div>
                 <q-knob
@@ -35,19 +35,13 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col">
-                <q-separator class="sector_seperator" />
-            </div>
-        </div>
+        <q-separator class="gSeparator" />
 
-        <div class="row">
-            <div class="col">
-                <CTitle ttype='subtitle' :title="v_page['title']" :desc="v_page['desc']" ></CTitle>          
-                <ChartTimeframe period='daily' :onclick="onClickTimeframe" :selected='g_timeframe'></ChartTimeframe>          
-                <CWatchChart ref='cwatchChart'></CWatchChart>
-            </div>      
-      </div>
+        <div>
+            <CTitle ttype='subtitle' :title="v_page['title']" :desc="v_page['desc']" ></CTitle>          
+            <ChartTimeframe period='daily' :onclick="onClickTimeframe" :selected='g_timeframe'></ChartTimeframe>          
+            <CWatchChart ref='cwatchChart'></CWatchChart>
+        </div>      
 
   </div> 
 
@@ -66,7 +60,7 @@ import { LoadingBar } from 'quasar';
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
 import ChartTimeframe from 'components/ChartTimeframe';
-import CWatchChart from 'pages/cwatch/CWatchChart';
+import CWatchChart from 'pages/cwatch/components/CWatchChart';
 
 
 export default {

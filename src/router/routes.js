@@ -111,7 +111,6 @@ const routes = [
       },
 
       //{ name: 'portfolio', path: 'portfolio', component: () => import('pages/user/PortfolioView.vue') },
-      //{ name: 'portfolio', path: 'portfolio', component: () => import('pages/user/PortfolioView.vue') },
 
       // market related
       {

@@ -13,7 +13,7 @@
                     </div>
                     <div class="boxInfo q-pt-lg">
                         <div class="gListTitle">
-                            <span>{{a_portfolio.api_user.username}}</span>
+                            <span>{{v_shorten_name(a_portfolio.api_user.username,13)}}</span>
                         </div>                        
                         <div class="gCaption">
                             <span>{{a_portfolio.name}}</span>
@@ -88,6 +88,11 @@ export default {
         v_shorten() {
             return (value) => {
                 return CommonFunc.shortenString(value,MoaConfig.setting.maxPortfolioDescriptionLength);
+            };
+        },
+        v_shorten_name() {
+            return (value,len) => {
+                return CommonFunc.shortenString(value,len);
             };
         },
         v_color() {

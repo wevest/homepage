@@ -4,16 +4,17 @@
         <div class="price_box">
             <div class="price_big">
                 <CBigLabel ref='label_btc' 
-                    title="" :value="data.ticker.last" 
+                    title="" moreButton="1"
+                    :value="data.ticker.last" 
                     :valueRet="data.ticker.change_percentage"
                     :updatedAt="data.ticker.updated_at"
                     @onClick="onClick"></CBigLabel>
             </div>
         </div>
         
-        <div>
+        <div class="q-mb-xl">
             <div>                
-                <div class="gSubTitle">
+                <div class="gSubTitle q-pb-sm">
                     <span>24H Change</span>
                 </div>
                 <q-slider                
@@ -27,12 +28,12 @@
                 />
             </div>
             <div>
-                <div class="gSubTitle">
+                <div class="gSubTitle q-pb-sm">
                     <span> 
-                        Price Range : 
+                        24H Price Range : 
                     </span>
-                    <span class="gCaption">
-                        {{ v_format(data.ticker.low_24h) }} ~ {{ v_format(data.ticker.high_24h) }}
+                    <span class="gTextSubTitle">
+                       $ {{ v_format(data.ticker.low_24h) }} ~ $ {{ v_format(data.ticker.high_24h) }}
                     </span>
                 </div>
                 <q-slider
@@ -178,7 +179,7 @@ export default {
         
         onClick: function() {
             logger.log.debug("PriceSummaryBox.onClick");
-
+            this.$emit("onClick",{});
         }
     },
 };
