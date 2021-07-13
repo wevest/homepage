@@ -120,13 +120,6 @@
 
 
 
-
-
-.gPageContent {
-  color: #292626;
-  font-size:16px; 
-}
-
 .gPageRating {
   color: #616161;
   font-size:13px;
@@ -205,21 +198,13 @@
 }
 
 .gCommentBox {
-  padding: 0px;
-  margin: 0px;
   border-bottom:1px solid #cccccc;
 }
 
-.gCommentAvatarBox {
-  padding:10px 0px 6px 0px;
-}
 
 
 
-.gCommentUserDateBox {
-  padding:5px 0px 0px 8px;
-  vertical-align:top;
-}
+
 
 
 .gCommentDateInfo {
@@ -237,8 +222,7 @@
 
 
 .gSeparator {
-  margin:10px -20px 20px -20px !important;
-  height:7px;
+  height:10px;
   background: #f0f1f6;
 }
 
@@ -444,6 +428,13 @@
 
 
 
+
+ .gBodyLG {
+  color: $grey-10;
+  line-height: map-get($h4,"line-height");
+  letter-spacing: map-get($body1,"letter-spacing");
+  font-weight: map-get($body1,"weight");
+}
 
 
 

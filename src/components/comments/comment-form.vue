@@ -1,7 +1,7 @@
 <template>
 	<div class="q-px-md commentBox rounded-borders" v-show="visible" @click="onClick">
 
-		<div class="row gParagraphSM q-ml-md" v-if="v_show">
+		<div class="row gParagraphSM" v-if="v_show">
 			<div class="commentWriterIcon">
 				<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
 			</div>
