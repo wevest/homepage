@@ -216,8 +216,7 @@ export default {
 		},
 
 		onClickFeed: function (feed) {
-			logger.log.debug("onClickFeed : feed = ", feed);
-			
+			logger.log.debug("onClickFeed : feed = ", feed);			
 			return;
 			
 			store.getters.nav.add(this.$route);

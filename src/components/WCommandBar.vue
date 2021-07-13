@@ -7,7 +7,6 @@
             :size="size"
             name="share" 
             @click="onClickShare" />
-
         <q-icon 
             class="gCommentBtnMD"
             v-if="(v_me.loggedIn) && (! isOwner) && (copyBtn.length>0) "
@@ -40,8 +39,8 @@ import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
 
-
 export default {
+    name:'WCommandBar',
 	props: {
         data: {
             default: null,

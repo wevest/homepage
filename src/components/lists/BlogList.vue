@@ -42,7 +42,6 @@
 	</div>
 </template>
 
-
 <script>
 import { store } from 'src/store/store';
 import { MoaConfig } from 'src/data/MoaConfig';

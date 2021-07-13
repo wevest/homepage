@@ -17,7 +17,6 @@
             ></BlogList>
         </div>
 
-
     </div>    
 
 </template>

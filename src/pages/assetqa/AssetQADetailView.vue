@@ -28,6 +28,9 @@
             <q-separator size="1px" />                                                
 
             <div class="gPageContent">
+
+                <div v-html="v_question.body"></div>
+<!--                
                 <Viewer 
                     ref="toastViewer"
                     :value="v_question.body"
@@ -35,6 +38,7 @@
                     :visible="v_show_editor"
                     previewStyle="vertical"
                 />
+-->                
             </div>
 <!--
             <WRatingButton ref="ratingButton" likeCaption="도움돼요" dislikeCaption="도움 안돼요"
@@ -178,7 +182,7 @@ export default {
             const _this=this;
             this.v_question.load().then( response => {
                 logger.log.debug("AssetQAView.loadQuestion : response=",response);
-                _this.setContent(_this.v_question.body);
+                //_this.setContent(_this.v_question.body);
                 _this.loadQuestionComment();
             });
         },

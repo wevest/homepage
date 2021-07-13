@@ -5,8 +5,7 @@
             <div>
                 <div class="gPageTitle">
                     <span>{{v_post.title}}</span>
-                </div>
-                                        
+                </div>                                        
                 <WSubinfo :username="v_post.api_owner.username" :pub_date="v_post.pub_date" like_count=-1 dislike_count=-1 />
             </div>    
                 
@@ -46,6 +45,8 @@
 
         <div>
             <div class="q-py-xl">
+                <div v-html="v_post.body"></div>
+<!--                
                 <Viewer 
                     ref="toastViewer"
                     :value="v_post.body"
@@ -54,6 +55,7 @@
                     previewStyle="vertical"
                     height="200px"
                 />
+-->                
                 <p> {{ v_post.tags }} </p>
             </div>
 
@@ -138,7 +140,7 @@ export default {
             return false;
         }
     },
-    data: function () {
+    data() {
         return {
             g_data:null,
             g_data_comments: null,
@@ -146,7 +148,7 @@ export default {
             v_post: new PostPageModel(),
             //v_comments_list: new CommentListModel(),
 
-            v_page: {title:this.$t('page.cryptovc.title'), desc:''},
+            v_page: {title:'page.cryptovc.title', desc:''},
             
             v_content_type:'blog.postpage',
 
@@ -175,7 +177,6 @@ export default {
         this.validateQuery();
     },
     mounted: function() {        
-
         logger.log.debug("BlogView.mounted - params=",this.$route.query);
 
         this.v_post.id=this.$route.query.page_id;
@@ -215,7 +216,7 @@ export default {
             this.v_post.assign(post);            
             logger.log.debug("handlePostPage.v_post=",this.v_post);
                     
-            this.setContent(this.v_post.body);
+            //this.setContent(this.v_post.body);
         },
 
         loadBlogPost: function(page_id) {

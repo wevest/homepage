@@ -1,14 +1,11 @@
 //import api from '@/services/api'
 import {callAPI, callGetAPI, callPostAPI, callJsonRPC} from 'src/util/Http';
 import {MoaConfig} from 'src/data/MoaConfig';
-//import logger from "@/error/Logger";
+import logger from 'src/error/Logger';
 
 
 export default class MoaBackendAPI{
-
-  constructor(){
-		
-  }
+  constructor(){}
   
   static getUrl(host,url) {
     return host + url;

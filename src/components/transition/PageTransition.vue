@@ -3,6 +3,7 @@
 		<transition :name="transition" :mode="mode">
 			<slot></slot>
 		</transition>
+
 		<div class="overlay-top"></div>
 		<div class="overlay-right"></div>
 		<div class="overlay-bottom"></div>
@@ -13,6 +14,7 @@
 <script>
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
+
 
 export default {
 	name: "PageTransition",

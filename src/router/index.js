@@ -1,11 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-//import VuePageTransition from 'vue-page-transition';
-
 import routes from "./routes";
 
 Vue.use(VueRouter);
-//Vue.use(VuePageTransition);
 
 /*
  * If not building with SSR mode, you can
@@ -15,6 +12,7 @@ Vue.use(VueRouter);
  * async/await or return a Promise which resolves
  * with the Router instance.
  */
+
 
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {

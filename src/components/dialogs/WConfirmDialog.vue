@@ -18,6 +18,8 @@
 
 
 <script>
+import logger from "src/error/Logger";
+
 export default {
     name:'WConfirmDialog',
     props: {

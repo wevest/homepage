@@ -1,5 +1,4 @@
 <template>
-
     <div> 
 
 		<CTitle ttype='subtitle' :title="v_title" desc=""

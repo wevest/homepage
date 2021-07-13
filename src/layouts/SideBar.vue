@@ -19,7 +19,6 @@
 <script>
 import EssentialLink from 'components/EssentialLink.vue';
 
-
 const linksMenu = [
   {
     title: 'Home',

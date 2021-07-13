@@ -24,6 +24,7 @@
 						ref="mainMenuButton"
 						@click="leftDrawerOpen = !leftDrawerOpen"
 					/>
+					
 
 					<div class="toolbar_title" @click="onClickLogo">WeVest</div>
 

@@ -10,8 +10,7 @@
             <q-item clickable v-ripple 
                 v-for="(a_post,index) in v_posts.items" :key="index" 
                 v-if="index<v_maxLength"
-                @click.stop="onClickAsset(a_post)"
-            >
+                @click.stop="onClickAsset(a_post)">
                 <q-item-section avatar top>
                     <q-icon class="gBlogAvatar" name="paid" color="black" size="55px" />
                 </q-item-section>

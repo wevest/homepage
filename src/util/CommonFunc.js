@@ -1,5 +1,5 @@
 import {store} from 'src/store/store';
-import * as Actions from 'src/store/constants'
+//import * as Actions from 'src/store/constants'
 
 import logger from "src/error/Logger";
 import Errors from 'src/error/Errors';
@@ -11,7 +11,6 @@ import moment from 'moment';
 
 //const ethUtil = require('ethereumjs-util');
 //const web3util = new Web3();
-
 
 export default class CommonFunc {
     static groupBy(xs, f) {

@@ -10,8 +10,7 @@
                 dense 
                 flat 
                 @click="onClickLoadMore" />
-		</div>    
-             <!-- <q-separator class="loadmoreSeparator2" size="1px" /> -->
+		</div>            
     </div>
 
 </template>
@@ -21,9 +20,8 @@
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
-
 export default {
-    name: 'LoadingSpinner',
+    name: 'WLoadMore',
     components: {
         //Spinner
     },

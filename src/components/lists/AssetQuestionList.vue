@@ -115,8 +115,8 @@ export default {
             v_questions: new QuestionPageListModel(),
 
             v_questions_header: [
-                { name:'avatar', label: this.$t('name.name'), align:'left', field: 'avatar' },
-                { name:'detail', label: this.$t('name.detail'), field: 'detail', align:'left' },
+                { name:'avatar', label: 'name.name', align:'left', field: 'avatar' },
+                { name:'detail', label: 'name.detail', field: 'detail', align:'left' },
     /*            
                 { name:'reward', label: this.$t('name.reward'), sortable:true,  field: 'reward' ,
                 format: (val, row) => `${Number(val).toLocaleString()}`, 

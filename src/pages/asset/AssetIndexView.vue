@@ -2,13 +2,11 @@
     
 </template>
 
+
 <script>
-
-
 export default {
     setup() {
         
-
     },
 };
 

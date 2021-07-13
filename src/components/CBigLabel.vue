@@ -49,8 +49,8 @@
 <script>
 //import {HChart} from 'highcharts-vue';
 //import stockInit from 'highcharts/modules/stock';
+import logger from "src/error/Logger";
 import CommonFunc from 'src/util/CommonFunc';
-
 
 export default {
     name:'CBigLabel',

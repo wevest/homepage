@@ -16,8 +16,7 @@
 				hint="Please write comments"
 				@onTextChange="onTextChange"
 				@onFocus="onFocus"
-				@onFocusOut="onFocusOut"                
-			/>
+				@onFocusOut="onFocusOut" />
 		</div>
 
 		<div v-if="v_show" class="row">

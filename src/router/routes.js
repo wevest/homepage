@@ -123,20 +123,20 @@ const routes = [
         path: "cwatch",
         component: () => import("pages/cwatch/CWatchView.vue")
       },
-      { path: "world", component: () => import("pages/world/WorldView.vue") },
-      {
-        name: "sector",
-        path: "sector",
-        component: () => import("pages/sector/SectorView.vue")
-      },
-      { path: "risk", component: () => import("pages/risk/RiskView.vue") },
+		{ path: "world", component: () => import("pages/world/WorldView.vue") },
+		{
+			name: "sector",
+			path: "sector",
+			component: () => import("pages/sector/SectorView.vue")
+		},
+		{ path: "risk", component: () => import("pages/risk/RiskView.vue") },
 
       //research menus
-      {
-        name: "cryptovc",
-        path: "cryptovc",
-        component: () => import("pages/cryptovc/CryptovcView.vue")
-      },
+		{
+			name: "cryptovc",
+			path: "cryptovc",
+			component: () => import("pages/cryptovc/CryptovcView.vue")
+		},
 		{
 			name: "vcportfolio",
 			path: "vcportfolio",

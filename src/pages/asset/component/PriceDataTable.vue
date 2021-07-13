@@ -21,8 +21,8 @@
 
     </q-table>
     
-
 </template>
+
 
 <script>
 import CommonFunc from 'src/util/CommonFunc';

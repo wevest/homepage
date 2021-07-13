@@ -1,6 +1,6 @@
 <template>
 
-    <div class="TextareaBox">
+    <div class="q-mt-sm">
         <textarea 
             ref="txtMemo"
             class="self-center full-width"             
@@ -30,6 +30,7 @@
 <script>
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
+
 
 export default{
     name:'WTextArea',
@@ -156,11 +157,6 @@ export default{
 
 
 <style scoped>
-
-.TextareaBox {
-/*    border: 1px solid #d6d6d8;  */
-    margin-top:5px;
-}
 
 </style>
         

@@ -25,7 +25,7 @@ export class EHandler {
     
         return value;
     }
-
+    
     _isNetworkError(err) {
         if ( (err.errCode<-1) && (err.errCode>-100) ) {
             return true;

@@ -17,7 +17,7 @@ export class TickerModel {
     low_24h=null;
     base_volume=null;
     updated_at=null;
-
+    
     assign(obj) {
         logger.log.debug("TickerModel.assign:obj=",obj);
 

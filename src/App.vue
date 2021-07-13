@@ -1,8 +1,6 @@
 <template>
 	<div id="q-app">
-
-		<router-view />
-		
+		<router-view />		
 	</div>
 </template>
 
@@ -20,4 +18,5 @@ export default {
 		//LocalStorageService.loadCoinCodes(false);
 	},
 };
+
 </script>

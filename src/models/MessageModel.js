@@ -1,10 +1,8 @@
-import {MoaConfig} from 'src/data/MoaConfig';
 import {store} from 'src/store/store';
 import {baseCollection} from 'src/models/baseModel';
 import logger from "src/error/Logger";
 
 import AuthService from 'src/services/authService';
-
 
 
 export class MessageModel{    

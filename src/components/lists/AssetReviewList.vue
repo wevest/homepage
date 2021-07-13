@@ -163,7 +163,6 @@ export default {
     beforeDestroy: function() {
         logger.log.debug("AssetReviewList.beforeDestroy");
     },
-
     methods: {
         update: function(dic_param) {                        
             const _this = this;            

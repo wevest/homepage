@@ -1,5 +1,4 @@
 import {store} from 'src/store/store';
-import {MoaConfig} from 'src/data/MoaConfig';
 import logger from "src/error/Logger";
 import _ from 'lodash';
 
@@ -10,7 +9,6 @@ import AuthService from 'src/services/authService';
 
 import {baseCollection} from 'src/models/baseModel';
 import {AnswerCommentListModel, AnswerCommentModel,QuestionCommentListModel, QuestionCommentModel, CommentListModel} from 'src/models/CommentModel';
-
 
 
 export class PostPageModel {
@@ -77,9 +75,7 @@ export class PostPageModel {
       this.content_type = value;
     }
 
-
     assign(obj) {
-        //this = new PostPage();
         this.id = obj.id;
         this.title = obj.title;
         this.slug = CommonFunc.safeGetKeyValue(obj,'slug');        

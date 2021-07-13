@@ -75,8 +75,8 @@
 
 </template>
 
+
 <script>
-import { ref } from 'vue';
 import { store } from 'src/store/store';
 import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
@@ -86,8 +86,8 @@ import WTextArea from "src/components/WTextArea";
 import WDialogCloseButton from "src/components/WDialogCloseButton";
 import CryptoSelect from "src/components/CryptoSelect";
 
-import UserModel from "src/models/UserModel";
-import { PriceModel, PriceListModel } from "src/models/PriceModel";
+//import UserModel from "src/models/UserModel";
+//import { PriceModel, PriceListModel } from "src/models/PriceModel";
 import { PortfolioListModel, PortfolioItemModel } from "src/models/PortfolioModel";
 
 

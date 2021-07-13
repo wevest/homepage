@@ -1,4 +1,5 @@
 <template>
+
   <div class="boxChart">    
     <highcharts class="hc" :options="g_chart['chart1']" ref="chart1"></highcharts>    
   </div>
@@ -21,7 +22,7 @@ export default {
       CTitle,
       ChartTimeframe
     },
-    data: function () {
+    data() {
       return {
         g_data: null,
         g_data_kvix: null,
@@ -30,7 +31,7 @@ export default {
         
         
         g_title: {
-          'title1': this.$t('chart.title.risk')
+          'title1': 'chart.title.risk'
         },
 
         g_chart: {
@@ -51,8 +52,6 @@ export default {
     },
 
     methods: {
-       
-
         showChart: function(data) {
             let series = [];
             for (let index=0; index<data.items.length; index++) {
@@ -61,7 +60,6 @@ export default {
 
             this.g_chart['chart1'] = CommonFunc.getChartOption(series);
         },
-
 
         update: function(portfolio) {
             this.showChart(portfolio);

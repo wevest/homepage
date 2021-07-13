@@ -18,7 +18,6 @@
             <PortfolioList ref="portfolioList" title="Crypto VC Portfolio" maxLength="10" moreCaption=""></PortfolioList>
         </div>
 
-
         <div class="col">
             <AssetList ref='assetList' title="Asset List" maxLength="10" moreCaption="More" ></AssetList>
         </div>
@@ -49,9 +48,9 @@ import UserFeedList from 'components/lists/UserFeedList';
 
 import DataService from 'src/services/dataService';
 
-import CTopTable from 'pages/home/CTopTable';
-import CIndexChart from 'pages/home/CIndexChart';
-import CExchangeIndexChart from 'pages/home/CExchangeIndexChart';
+//import CTopTable from 'pages/home/CTopTable';
+//import CIndexChart from 'pages/home/CIndexChart';
+//import CExchangeIndexChart from 'pages/home/CExchangeIndexChart';
 import MarketWatchWidget from 'pages/home/components/MarketWatchWidget';
 
 
@@ -60,9 +59,6 @@ export default {
     components: {
         CTitle,
         CBigLabel,
-        CTopTable,
-        CIndexChart,
-        CExchangeIndexChart,
         MarketWatchWidget,
         BlogList,
         PortfolioList,
@@ -80,9 +76,9 @@ export default {
             v_tab:'upbit',     
             v_tab_toplist:'ret' ,
             v_toplist_visible:false,  
-            v_page: {title:this.$t('page.home.title'), desc:''},
+            v_page: {title:'page.home.title', desc:''},
             v_subpage: { 
-                cwatch: { title:this.$t('page.home.cwatch.title'), desc:''} 
+                cwatch: { title:'page.home.cwatch.title', desc:''} 
             },
                 
             v_eureka:[

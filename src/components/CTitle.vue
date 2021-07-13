@@ -2,7 +2,7 @@
     <div :class="v_class">    
         <div class="row">
             <div>
-                {{ title }}
+                <span>{{ title }}</span>
             </div>
             <q-space v-if="loadMoreCaption.length>0" />
             <div>                
@@ -10,13 +10,11 @@
             </div>
         </div>
     </div>
-
 </template>
 
 
 <script>
 import logger from "src/error/Logger";
-
 
 export default {
     name: 'CTitle',

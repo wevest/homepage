@@ -13,12 +13,10 @@
     </q-avatar>
 </template>
 
-
 <script>
 import {store} from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
-
 
 
 export default {

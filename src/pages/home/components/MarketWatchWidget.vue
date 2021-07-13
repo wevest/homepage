@@ -4,8 +4,7 @@
         <CTitle ttype='subtitle' :title="title" desc=""
 			:loadMoreCaption="moreButton" @onClickTitleMore="onClickMore"></CTitle>
 
-        <div class="q-pa-md flex flex-center text-center">        
-            
+        <div class="q-pa-md flex flex-center text-center">                    
             <div class="col-6">
                 <div>
                     <span class="gTextSubTitle">BTC</span>

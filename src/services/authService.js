@@ -4,8 +4,7 @@ import {store} from 'src/store/store';
 import {MoaConfig} from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
-import LocalStorageService from 'src/services/localStorage';
-
+//import LocalStorageService from 'src/services/localStorage';
 
 
 export default class AuthService{

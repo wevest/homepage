@@ -5,9 +5,7 @@ import _ from 'lodash';
 import CommonFunc from 'src/util/CommonFunc';
 
 import {baseCollection} from 'src/models/baseModel';
-
 import CMSAPI from 'src/services/cmsService';
-
 
 export class CommentModel {
     id = null;
