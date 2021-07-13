@@ -4,10 +4,7 @@ import MoaBackendAPI from 'src/services/apiService';
 
 
 export default class DataService{
-
-    constructor(){
-        
-    }
+    constructor(){}
 
     static rowsToJson(list,columns) {
         var jsons = [];

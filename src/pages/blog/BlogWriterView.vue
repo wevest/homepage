@@ -5,7 +5,6 @@
         <!-- <div class="">  -->
             <!-- <CTitle class="gBoxNoMargin text-center" ttype='title' title="글쓰기" desc="" ></CTitle>   -->
          <!-- </div> -->
-        
         <div>
             <div>
                 <q-input 
@@ -58,7 +57,6 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/vue-editor';
 
 import { store } from 'src/store/store';
-import { CONST } from 'src/data/const';
 import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';

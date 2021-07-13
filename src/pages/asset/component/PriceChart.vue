@@ -13,7 +13,7 @@
                 <div class="box_score">
                     <div class="box_score_point">
                         <span class="score_point"> {{ v_score.avg }} </span>
-                        <br><span class="price_label">{{ $t('name.cryptovc') }}</span> 
+                        <br><span class="price_label">name.cryptovc</span> 
                         <br><span class="price_tag">{{ v_score.vc }}</span>
                     </div>
                     <div>
@@ -232,7 +232,7 @@ export default {
                 'price':0, 'price_ret':0, 'volume':0, 'tv':0, 
                 'updated_date':'', 'icon':'arrow_drop_up', class:'text-red'},    
             
-            v_page: {title:this.$t('page.asset.title'), desc:''},
+            v_page: {title:'page.asset.title', desc:''},
             v_score: {dev:5, price:5, volume:5, vc:0, avg:5},
 
             v_visible_table:false,

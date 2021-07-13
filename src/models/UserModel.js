@@ -30,6 +30,7 @@ export class FeedModel {
     parent_id=null;
     foreign_id=null;
     
+    
     assign(obj) {
         //logger.log.debug("FeedModel : obj=",obj);
 

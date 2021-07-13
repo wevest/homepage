@@ -163,7 +163,6 @@ export default {
     beforeDestroy: function() {
         logger.log.debug("AssetReviewList.beforeDestroy");
     },
-
     methods: {
         update: function(dic_param) {                        
             const _this = this;            
@@ -307,7 +306,7 @@ export default {
 
 <style scope>
 .reviewAvatar {     
-    margin-top:-6px;    
+    margin-top:-3px;    
  }
 
 .ReviewBox {

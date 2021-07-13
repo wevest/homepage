@@ -13,6 +13,7 @@ import { PriceModel, PriceListModel } from "src/models/PriceModel";
 
 Vue.use(Vuex);
 
+
 const state = {
     data: {},
     components:new DataModel(),

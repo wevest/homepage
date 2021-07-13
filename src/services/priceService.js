@@ -1,6 +1,5 @@
 //import api from '@/services/api'
 import { callAPI, callGetAPI, callPostAPI, callJsonRPC } from "src/util/Http";
-import { jsonp } from "vue-jsonp";
 import { MoaConfig } from "src/data/MoaConfig";
 import logger from "src/error/Logger";
 

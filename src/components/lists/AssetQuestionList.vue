@@ -22,11 +22,11 @@
 				<q-item-section top>
 					<q-item-label lines="1">
                         <q-badge
-                            class="RewardPoint" 
+                            class="RewardPoint q-mr-sm" 
                             color="purple-4"
                             text-color="white">
                             <span>{{a_question.reward}}</span>
-                        </q-badge>&nbsp;
+                        </q-badge>
 
 						<span class="gListTitle">{{ v_shorten(a_question.title) }}</span>
 <!--
@@ -115,8 +115,8 @@ export default {
             v_questions: new QuestionPageListModel(),
 
             v_questions_header: [
-                { name:'avatar', label: this.$t('name.name'), align:'left', field: 'avatar' },
-                { name:'detail', label: this.$t('name.detail'), field: 'detail', align:'left' },
+                { name:'avatar', label: 'name.name', align:'left', field: 'avatar' },
+                { name:'detail', label: 'name.detail', field: 'detail', align:'left' },
     /*            
                 { name:'reward', label: this.$t('name.reward'), sortable:true,  field: 'reward' ,
                 format: (val, row) => `${Number(val).toLocaleString()}`, 

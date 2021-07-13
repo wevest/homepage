@@ -8,16 +8,15 @@
 			<div class="userName q-pl-sm"> {{v_me.username}} </div>
 		</div>
 
-		<div class="q-mt-md q-pl-md">
-			<WTextArea ref="descText" 
+		<div class="q-mt-md">
+			<WTextArea ref="descText"  
 				v-model="v_comments" :rows="v_rows" :maxlength="maxlength" 
 				customClass="gCommentMD"
 				label="Please type your comments" 
 				hint="Please write comments"
 				@onTextChange="onTextChange"
 				@onFocus="onFocus"
-				@onFocusOut="onFocusOut"                
-			/>
+				@onFocusOut="onFocusOut" />
 		</div>
 
 		<div v-if="v_show" class="row">
@@ -326,9 +325,7 @@ export default {
 	padding-top:10px;
 }
 
-.commentWriterIcon {
-	margin:-5px 10px 0px 0px;
-	}
+
 
 
 .inline-items-wrapper {

@@ -1,8 +1,9 @@
-import Vue from 'vue';
+//import Vue from 'vue';
 import {MoaConfig} from 'src/data/MoaConfig';
 import Errors from 'src/error/Errors';
 
 const logLevels = ['debug', 'info', 'warn', 'error', 'fatal'];
+
 
 //const firebaseApp = Firebase.initializeApp(MoaConfig.firebase);
 /*
@@ -19,7 +20,6 @@ export class Logger {
         //console.log("Logger.constructor",MoaConfig.log);
     }
     
-
 
     _toJson(obj) {
         let jsonStr = JSON.stringify(obj);

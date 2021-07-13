@@ -5,6 +5,7 @@ import logger from '@/error/Logger';
 import Errors from '@/error/Errors';
 
 
+
 export class ContactAccount {
     constructor(){
         this.blockchain = '';

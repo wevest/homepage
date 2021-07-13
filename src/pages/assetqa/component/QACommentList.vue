@@ -33,7 +33,7 @@
 
                 </div>
                 
-                <div class="gCommentText">
+                <div class="gBodySM">
                     <p> {{ a_comment.comment_text}} </p>
                 </div>
                 

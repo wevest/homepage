@@ -1,5 +1,5 @@
 <template>
-    <q-avatar class="q-py-sm" @click="onClickAvatar">
+    <q-avatar class="avatar q-py-sm" @click="onClickAvatar">
         <q-img
             v-if="avatar && avatar.length > 0"
             :src="avatar"
@@ -13,12 +13,10 @@
     </q-avatar>
 </template>
 
-
 <script>
 import {store} from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
-
 
 
 export default {
@@ -42,3 +40,8 @@ export default {
     }
 }
 </script>
+<style scope>
+.avatar {
+    margin-top:-2px;
+}
+</style>

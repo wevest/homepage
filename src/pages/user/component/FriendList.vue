@@ -14,7 +14,7 @@
 				v-for="(a_user, index) in v_items"
 				@click.stop="onClickUser(a_user.username)"
 			>
-				<q-item-section avatar top>
+				<q-item-section class="avatar" avatar top>
 					<WAvatar :avatar="a_user.avatar" :username="a_user.username" />
 				</q-item-section>
 				<q-item-section top>
@@ -187,6 +187,9 @@ export default {
 
 
 <style scope>
+.avatar {
+	margin-top:-4px;
+}
 .news-title {
 	font-size: 18px;
 	color: #000000;

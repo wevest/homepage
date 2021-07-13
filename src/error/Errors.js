@@ -15,7 +15,6 @@ const ERRCODE = {
     SwapServerError:-1101,
     OtherError:-1999,
 
-
     DatabaseError: -51,
     FirebaseUpdateError: -52,
     FirebaseDeleteError: -53,

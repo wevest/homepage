@@ -3,8 +3,7 @@
     <div class="q-pa-md">
         <div>
             <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc" 
-                loadMoreCaption="" @onClickTitleMore="onClickTitleMore"></CTitle>
-            
+                loadMoreCaption="" @onClickTitleMore="onClickTitleMore"></CTitle>         
 <!--            
             <div class="q-mb-lg">
                 <WCommandBar :data="v_asset" :isOwner="v_is_owner" 

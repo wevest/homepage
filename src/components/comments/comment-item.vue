@@ -34,15 +34,15 @@
                 </div>
             </div>
 
-                <div>
-                    <p class="gCommentMD q-pt-md">
-                        {{ data.comment }}                    
-                    </p>
-                    <!--
-                    <span v-if="data.replyToUser">//@{{ data.replyToUser.user_name }}:{{data.replyToUser.comment}}</span>
-                    -->
-                </div>
-                        <q-space />
+            <div>
+                <p class="gCommentMD q-pt-md">
+                    {{ data.comment }}                    
+                </p>
+                <!--
+                <span v-if="data.replyToUser">//@{{ data.replyToUser.user_name }}:{{data.replyToUser.comment}}</span>
+                -->
+            </div>
+            <q-space />
                 <div class="row">                    
                     <div v-if="data.level==0">
                         <q-btn 
@@ -68,9 +68,7 @@
                             }}
                             <i
                                 :class="
-                                    !isExpanded
-                                        ? 'el-icon-arrow-down'
-                                        : 'el-icon-arrow-up'
+                                    !isExpanded ? 'el-icon-arrow-down' : 'el-icon-arrow-up'
                                 "
                             ></i>
                         </q-btn>
@@ -86,7 +84,6 @@
                 </div>
                  <q-separator />
                 <div class="editor-container" ref="editorContainer"></div>            
-            
             
         </dt>
 

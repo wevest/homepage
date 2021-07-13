@@ -1,7 +1,3 @@
-/***
- * THIS HTTP SERVICE IS ONLY USED FOR HARDWARE WALLET CONNECTIONS
- *
- */
 import axios from 'axios';
 import jsonpAdapter from 'axios-jsonp';
 import rpc,{query} from 'jsonrpc-client-http';

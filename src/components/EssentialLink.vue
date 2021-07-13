@@ -9,8 +9,8 @@
 
         <q-item-section>{{title}}</q-item-section>
       </q-item>
-
     </div>
+    
     <div v-else>
       <div v-if="children.length > 0">
         

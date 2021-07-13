@@ -8,7 +8,7 @@
           <span>{{ v_question.title }}</span>
         </div>
 
-        <div class="row q-mb-md">
+        <div class="row q-pb-sm">
           <WSubinfo
             :username="v_question.owner.username"
             :pub_date="v_question.pub_date"
@@ -33,14 +33,17 @@
 
       <q-separator size="1px" />
 
-      <div class="q-py-xl gBodyLG">
-        <Viewer
-          ref="toastViewer"
-          :value="v_question.body"
-          :options="editorOptions"
-          :visible="v_show_editor"
-          previewStyle="vertical"
-        />
+      <div class="gPageContent q-my-xl">
+        <div class="gBodyLG" v-html="v_question.body"></div>
+        <!--                
+                <Viewer 
+                    ref="toastViewer"
+                    :value="v_question.body"
+                    :options="editorOptions"
+                    :visible="v_show_editor"
+                    previewStyle="vertical"
+                />
+-->
       </div>
       <!--
             <WRatingButton ref="ratingButton" likeCaption="도움돼요" dislikeCaption="도움 안돼요"
@@ -50,7 +53,7 @@
 
     <q-separator class="gSeparator" />
 
-    <div class="q-" v-if="!v_question.closed" >
+    <div class="q-" v-if="!v_question.closed">
       <WWriterButton
         placeholder="Please share your knowledges"
         @onClickWrite="onClickAnswer"
@@ -65,7 +68,6 @@
       />
     </div>
 
-    <q-separator class="gSeparator" />
 
     <div class="col">
       <AssetAnswerList
@@ -180,6 +182,161 @@ export default {
 
     refresh() {
       logger.log.debug("AssetQAView.refresh");
+
+      if (!this.v_question.id) {
+        return;
+      }
+
+      this.loadQuestion();
+      this.loadAssetAnswer(this.v_question.id);
+    },
+
+    loadQuestion: function () {
+      const _this = this;
+      this.v_question.load().then((response) => {
+        logger.log.debug("AssetQAView.loadQuestion : response=", response);
+        //_this.setContent(_this.v_question.body);
+        _this.loadQuestionComment();
+      });
+    },
+    loadQuestionComment: function () {
+      const _this = this;
+      this.v_question.comments.load().then((response) => {
+        logger.log.debug(
+          "AssetQAView.loadQuestionComment : response=",
+          response
+        );
+        //_this.setContent(_this.v_question.body);
+        //_this.loadQuestionComment();
+      });
+    },
+
+    loadAssetAnswer: function (question_id) {
+      this.$refs.answerList.setQuestionPage(this.v_question);
+      this.$refs.answerList.update(question_id);
+    },
+
+    handleAceeptAnswer: function (response) {
+      logger.log.debug("AssetQAView.handleAceeptAnswer - response=", response);
+      this.v_question.closed = true;
+      this.$refs.answerList.updateAcceptedAnswer(response);
+    },
+
+    onClickAnswer: function () {
+      logger.log.debug(
+        "AssetQAView.onClickAnswer - v_question=",
+        this.v_question
+      );
+
+      if (this.v_me.isLoggedIn()) {
+        let a_post = new AnswerPageModel();
+        a_post.question_id = this.v_question.id;
+        a_post.title = this.v_question.title;
+        a_post.setContentType(CONST.CONENT_TYPE_ASSET_ANSWER);
+
+        store.getters.nav.add(this.$route);
+
+        let dic_param = {
+          name: "assetqa_answer_writer",
+          path: "assetqa_answer_writer",
+          params: { post: a_post },
+        };
+        this.$router.push(dic_param);
+        return;
+      }
+
+      const _this = this;
+      store.getters.nav.add(this.$route);
+      store.getters.components
+        .getComponent("confirmDialog")
+        .show("Please login first", function (value) {
+          logger.log.debug(
+            "AssetQAView.onClickAnswer - confirm=",
+            value,
+            _this.$route
+          );
+          if (value) {
+            CommonFunc.navSignin(_this);
+          }
+        });
+    },
+
+    onClickQuestionVote: function (dicParam) {
+      logger.log.debug("AssetQAView.onClickQuestionVote - value=", dicParam);
+
+      const _this = this;
+      let dic_param = { value: dicParam.value };
+      this.v_question
+        .vote(dic_param)
+        .then((response) => {
+          logger.log.debug(
+            "AssetQAView.onClickQuestionVote - response=",
+            response
+          );
+          CommonFunc.showOkMessage(_this, "Question rated");
+        })
+        .catch((err) => {
+          logger.log.debug("AssetQAView.onClickQuestionVote - err=", err);
+          CommonFunc.showErrorMessage(_this, err.data.msg);
+        });
+    },
+
+    onClickClear: function () {
+      logger.log.debug("AssetQAView.onClickClear");
+    },
+
+    onClickClose: function () {
+      logger.log.debug("AssetQAView.onClickClose");
+      this.v_show_editor = false;
+    },
+
+    onClickAnswerRating: function (dic_param) {
+      logger.log.debug("AssetQAView.onClickAnswerRating", dic_param);
+    },
+
+    onClickQuestionAccept: function (answer) {
+      const _this = this;
+
+      logger.log.debug("AssetQAView.onClickQuestionAccept : answer=", answer);
+
+      answer
+        .accept()
+        .then((response) => {
+          logger.log.debug(
+            "AssetView.onClickAnswerRating - response = ",
+            response
+          );
+          if (response.data.ret == 0) {
+            _this.handleAceeptAnswer(response.data);
+            CommonFunc.showOkMessage(_this, "Answer accepted ");
+          } else {
+            CommonFunc.showErrorMessage(_this, response.data.msg);
+          }
+        })
+        .catch((err) => {
+          CommonFunc.showErrorMessage(_this, "Answer acception error");
+        });
+    },
+
+    onAnswerAdded: function (dic_param) {
+      logger.log.debug("AssetQAView.onAnswerAdded : dic_param=", dic_param);
+      this.$refs.answerList.addAnswer(dic_param.response);
+    },
+
+    onQuestionAdded: function (dicParam) {
+      logger.log.debug("AssetQAView.onQuestionAdded : dicParam=", dicParam);
+      this.v_question.body = dicParam.response.data.body;
+    },
+
+    onClickUpdate: function () {
+      logger.log.debug("AssetQAView.onClickUpdate");
+
+      /*
+            let a_post = new QuestionPageModel();
+            a_post.question_id = this.v_question.id;
+            a_post.title = this.v_question.title;
+            a_post.setContentType(CONST.CONENT_TYPE_ASSET_ANSWER);
+            */
 
       if (!this.v_question.id) {
         return;
@@ -376,9 +533,6 @@ export default {
 
 
 <style scope>
-
-
-
 .qIcon {
   color: #00c73c;
   font-size: 50px;
@@ -386,5 +540,3 @@ export default {
   margin-left: -4px;
 }
 </style>
- 
-

@@ -67,7 +67,7 @@
                 <CTitle ttype="subtitle" title="$t('page.profile.portfolio')" desc="$t('page.profile.portfolio')"></CTitle>
                 <q-space />
                 <div>   
-                    <q-btn label="Portfolio" @click="onClickMorePortfolio" />&nbsp;
+                    <!-- <q-btn label="Portfolio" @click="onClickMorePortfolio" />&nbsp; -->
                     <q-btn class="gButtonSM" v-if="isOwner" label="Add" @click="onClickAddPortfolio" />
                 </div>
             </div>

@@ -19,7 +19,6 @@ export class PriceModel{
     low_24h=null;            
 
     constructor() {
-
     }
 
     static create(item) {

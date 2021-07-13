@@ -2,13 +2,14 @@
 
     <div class="col">
         <div class="gcomment" v-for="(a_answer,index) in v_answers.items" :key="index">
-            <div class="row gAnswerBox">
+            <div class="row q-py-md">
                 <div>
                     <WAvatar :avatar="a_answer.owner.avatar_thumb" :username="a_answer.owner.username" />
                 </div>
 
-                <div class="col gAnswerUserDatetime">
-                    <div class="gAnswerUser">
+                <div class="col">
+                    <div class="q-pt-xs q-pl-md">
+                    <div class="gUserNameQA">
                         {{a_answer.owner.username}}&nbsp;님 답변 
                     </div>
 
@@ -26,10 +27,11 @@
                         />
                         
                     </div>
+                    </div>
 
-                    <div class="gAnswerAcceptBox">
+                    <div class="AnswerAcceptBox">
                         <span v-if="v_question.is_owner && (! v_question.closed)">
-                            <q-btn class="AnswerAcceptBtn"
+                            <q-btn class="gButtonSM"
                                 dense
                                 size="15px"
                                 label="Accept" 
@@ -43,7 +45,7 @@
             <q-separator />
 
             <div class="gAnswerContent">
-                <div v-html="a_answer.body">  </div>            
+                <div class="q-py-lg gBodyMD" v-html="a_answer.body">  </div>            
             </div>
             <div class="gAnswerRatingBox">              
                 <WRatingButton ref="ratingButton" 
@@ -405,4 +407,5 @@ export default {
    color:#777777;
    font-size:14px;
 }
+
 </style>

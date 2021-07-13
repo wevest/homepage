@@ -28,6 +28,7 @@
   margin:16px -16px 16px -16px;
 }
 
+
 .sticky-column-table {
   /* height or max-height is important */
   /* height: 310px */
@@ -143,18 +144,7 @@
 }
 
 
-.gAnswerBox {
-  padding:15px 0px;
-}
 
-
-.gAnswerUserDatetime {
-  padding:1px 0px 0px 10px;
-}
-
-.gAnswerBox {
-  padding:18px 0px;
-}
 
 .gAnswerUser {
   color: #000000;
@@ -168,9 +158,6 @@
   font-size:15px;
 }
 
-.gAnswerAcceptBox {
-    padding-top:8px;
-}
 .gAnswerRatingBox {
   text-align: center;
   padding-bottom:8px;
@@ -245,6 +232,34 @@
   font-weight: map-get($h5,"weight");
   color: $grey-10;
 }
+
+.gUserNameMD {
+  color: $grey-10;
+  font-size: 17px;
+  line-height: map-get($body1,"line-height");
+  letter-spacing: map-get($body1,"letter-spacing");
+  font-weight: map-get($body1,"weight");
+
+}
+
+.gUserNameQA {
+  font-size: map-get($subtitle1,"size");
+  line-height: map-get($h5,"line-height");
+  letter-spacing: map-get($h6,"letter-spacing");
+  font-weight: bold;
+  color: $grey-10;
+}
+
+
+.gUserNameSM {
+  color: $grey-10;
+  font-size: map-get($body2,"size");
+  line-height: map-get($body2,"line-height");
+  letter-spacing: map-get($body2,"letter-spacing");
+  font-weight: map-get($body2,"weight");
+}
+
+
 
 .gCaptionSM {
   font-size: map-get($caption,"size");
@@ -323,22 +338,7 @@
   padding-bottom:10px; 
 }
 
-.gUserNameMD {
-  color: $grey-10;
-  font-size: 17px;
-  line-height: map-get($body1,"line-height");
-  letter-spacing: map-get($body1,"letter-spacing");
-  font-weight: map-get($body1,"weight");
 
-}
-
-.gUserNameSM {
-  color: $grey-10;
-  font-size: map-get($body2,"size");
-  line-height: map-get($body2,"line-height");
-  letter-spacing: map-get($body2,"letter-spacing");
-  font-weight: map-get($body2,"weight");
-}
 
 .gParagraphSM {
   color: $grey-10;
@@ -427,15 +427,27 @@
  }
 
 
-
-
  .gBodyLG {
-  color: $grey-10;
-  line-height: map-get($h4,"line-height");
+  color: #000000;;
+  font-size: 15px;
+  line-height: map-get($h5,"line-height");
   letter-spacing: map-get($body1,"letter-spacing");
-  font-weight: map-get($body1,"weight");
-}
+  font-weight: map-get($body2,"weight");;
+ }
 
-
+ .gBodyMD {
+  color: #000000;;
+  font-size: 14px;
+  line-height: map-get($h6,"line-height");
+  letter-spacing: map-get($body2,"letter-spacing");
+  font-weight: map-get($body2,"weight");;
+ }
+ .gBodySM {
+  color: #000000;;
+  font-size: 14px;
+  line-height: map-get($subtitle1,"line-height");
+  letter-spacing: map-get($body2,"letter-spacing");
+  font-weight: map-get($body2,"weight");;
+ }
 
 /* end */

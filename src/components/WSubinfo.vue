@@ -1,5 +1,5 @@
 <template>
-    
+
     <div class="row q-gutter-md gCaption">
         <div v-if="v_rating>-1">
             <q-rating                        

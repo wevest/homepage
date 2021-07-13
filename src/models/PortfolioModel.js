@@ -29,7 +29,6 @@ export class PortfolioItemModel {
     estimated_value=null;
     roi=null;
 
-
     assign(obj) {
         this.id=obj.id;
         this.portfolio_id=obj.portfolio_id;

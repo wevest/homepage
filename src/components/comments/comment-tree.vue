@@ -26,7 +26,6 @@ import logger from "src/error/Logger";
 import CommentForm from 'src/components/comments/comment-form'
 import CommentList from 'src/components/comments/comment-list'
 
-
 function normalizeData(dataList, renderLayer, level) {
     // console.log('dataList', dataList)
 

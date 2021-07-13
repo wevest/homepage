@@ -6,12 +6,9 @@
             <WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
         
         </div>        
-        <div class="commentBox">        
-                        
-            <q-input class="gCaption" outlined readonly dense :placeholder="v_placeholder" />
-            
-        </div>
-        
+        <div class="commentBox">                                
+            <q-input class="gCaption" outlined readonly dense :placeholder="v_placeholder" />            
+        </div>        
 
     </div>
 
@@ -22,6 +19,7 @@ import {store} from "src/store/store";
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 import WAvatar from "components/WAvatar.vue";
+
 
 export default {
 	components: {

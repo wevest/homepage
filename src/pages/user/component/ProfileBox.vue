@@ -32,13 +32,13 @@
         <q-card-section>
             <div class="gUserNameLG UserName">{{ v_user.username }}</div>
             <div class="row" style="padding-top:14px;">
-                <div class="gTextSubTitle q-mt-sm">Biography</div>
+                <div class="gTextSubTitle q-mb-xs">Biography</div>
                 <q-space />
                 <div>
                     <q-btn class="q-mb-xs gButtonSM" flat @click="onClickEdit" v-show="isOwner" :label="v_edit_button" />
                 </div>
             </div>
-            <div style="padding-bottom:14px;">
+            <div class="q-pb-xs ">
                 <q-input class="gParagraphSM" filled type="textarea" v-model="v_user.biography" :readonly="! v_mode.length>0" />
             </div>
 
@@ -337,21 +337,10 @@ export default {
 
 <style scope> 
 
-.txtBigNumber {
-  font-size:25px;  
-  color:#222222;
-  font-weight: bold;
-}
 
-.txtDesc {
-   font-size:14px;  
-   color:#8C8C8C;
-}
 
-.boxCard {
-    text-align: center;
-    margin-top:20px;
-}
+
+
 
 .btnAvatar {
     text-align:right;
@@ -360,13 +349,10 @@ export default {
     transform: translateY(-50%);
 }
 
-.boxNumber {
-    padding:16px 2px;
-    margin-top:5px;
-}
+
 
 .UserName {
-margin: -20px 0px 15px 0px;
+margin: -20px 0px 30px 0px;
 }
 
 

@@ -19,14 +19,13 @@
     
 </template>
 
+
 <script>
 import { MoaConfig } from 'src/data/MoaConfig';
 import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 
-
-import CTitle from 'components/CTitle';
 import WAvatar from "components/WAvatar.vue";
 import WCommandBar from "components/WCommandBar.vue";
 import WRatingButton from 'components/WRatingButton';

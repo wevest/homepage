@@ -22,7 +22,6 @@
             <div class="col q-mt-md">
                 <CBigLabel ref='label_usd' title="abc"></CBigLabel>
             </div>
-
         </div>
 
         <div class="row">
