@@ -74,7 +74,7 @@ export default {
 
 .commentBox {    
     flex-grow:1;
-    padding:12px 0px 12px 0px;
+    padding:12px 0px 12px 12px;
 }
 
 </style>

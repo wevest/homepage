@@ -4,14 +4,14 @@
 		<CTitle ttype='subtitle' :title="v_title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreFriend"></CTitle>
 
-		<q-list separator class="rounded-borders" v-if="v_user.follower">
+		<q-list separator class="rounded-borders" v-if="v_items">
 			<q-item 
 				class="q-pa-sm"
 				clickable
 				v-ripple
 				:key="index"
-				v-if="index<v_maxLength && v_user.follower"
-				v-for="(a_user, index) in v_user.follower.items"
+				v-if="index<v_maxLength && v_items"
+				v-for="(a_user, index) in v_items"
 				@click.stop="onClickUser(a_user.username)"
 			>
 				<q-item-section avatar top>
@@ -63,6 +63,9 @@ export default {
 		LoadMore
 	},
     props: {
+		items: {
+			default: null
+		},
         maxLength: {
             default: 20,
         },
@@ -79,7 +82,7 @@ export default {
 		},
 		user: {
 			required: true,
-			default: new UserModel()
+			default: null
 		}
     },
     computed: {
@@ -98,13 +101,13 @@ export default {
 			v_maxLength: this.maxLength,
 			v_more_caption: this.moreCaption,								
 		
-
             v_pagination: {
                 offset: 0,
                 limit: this.limit,
             },
 
-			v_user: this.user,
+			v_user: null,
+			v_items: null,
 		};
 	},
 
@@ -115,27 +118,52 @@ export default {
             this.loadRelation();
 		},
 
+		updateFollower: function (user,offset=0) {
+			this.setUser(user);
+            this.v_pagination.offset = offset;
+            this.loadFollower();
+		},
+
+		updateFollowing: function (user,offset=0) {
+			this.setUser(user);
+            this.v_pagination.offset = offset;
+            this.loadFollowing();
+		},
+
 		setUser(user) {
             logger.log.debug("setUser",user);
             this.v_user = user;
         },
 
-        loadRelation() {
+        loadFollower() {
             const _this=this;
-            this.v_user.getRelation(this.v_pagination.offset,this.v_pagination.limit).then( response => {
-                logger.log.debug("ProfileView.loadRelation - response=",response);                
-                _this.$refs.loadMore.setPagination(response.data.data.follower,_this.v_pagination.offset,_this.v_pagination.limit);
+            this.v_user.loadFollower(this.v_pagination.offset,this.v_pagination.limit).then( response => {
+                logger.log.debug("ProfileView.loadFollower - response=",response, _this.v_user.follower );                
+                _this.v_items = _this.v_user.follower.items;
+				_this.$refs.loadMore.setPagination(response.data.results,_this.v_pagination.offset,_this.v_pagination.limit);
             }).catch(err=>{
-
+				logger.log.error("ProfileView.loadFollower - err=",err);
             });
 
         },
 
-		onClickUser: function (page_id) {
-			logger.log.debug("onClickUser : page_id = ", page_id);
+        loadFollowing() {
+            const _this=this;
+            this.v_user.loadFollowing(this.v_pagination.offset,this.v_pagination.limit).then( response => {
+                logger.log.debug("ProfileView.loadFollowing - response=",response, _this.v_user.following );
+                _this.v_items = _this.v_user.following.items;
+				_this.$refs.loadMore.setPagination(response.data.results,_this.v_pagination.offset,_this.v_pagination.limit);
+            }).catch(err=>{
+				logger.log.error("ProfileView.loadFollowing - err=",err);
+            });
+
+        },
+
+		onClickUser: function (username) {
+			logger.log.debug("onClickUser : username = ", username);
 			
 			store.getters.nav.add(this.$route);
-			CommonFunc.navBlogDetail(this,page_id);
+			CommonFunc.navProfile(this,username);
 			//this.$emit("onClickBlog",{page_id:page_id});
 		},
 
@@ -149,8 +177,8 @@ export default {
 		onClickMoreFriend: function() {
 			logger.log.debug("FriendList.onClickMoreFriend : 1");
 			
-			store.getters.nav.add(this.$route);
-            CommonFunc.navBlog(this,this.category,this.symbol,this.objectId);
+			//store.getters.nav.add(this.$route);
+            //CommonFunc.navProfile(this,this.v_user.username);
 		}
 
 	},

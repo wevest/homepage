@@ -171,7 +171,7 @@ export default {
     },
 
     created: function() {
-        console.log("BlogView.created");
+        console.log("BlogView.created : query=",this.$route.query);
         this.validateQuery();
     },
     mounted: function() {        
@@ -187,13 +187,13 @@ export default {
     
     methods: {
         validateQuery() {
-            if (this.$route.query.page_id) {
-                if (! CommonFunc.isEmptyObject(this.$route.query.page_id)) {
-                    if (CommonFunc.isNumeric(this.$route.query.page_id)) {    
-                        return;
-                    }
-                }                
-            }   
+
+            if (! CommonFunc.isEmptyObject(this.$route.query.page_id)) {
+                if (CommonFunc.isNumeric(this.$route.query.page_id)) {    
+                    return;
+                }
+            }                
+
             CommonFunc.navError404(this);
         },
 

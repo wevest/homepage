@@ -29,6 +29,8 @@ export default class AuthService{
 
     static signIn(reqParam,func,funcErr) {
         let url = AuthService.getUrl(MoaConfig.urls.cms,"/auth/token/login/");
+        //reqParam.no_token = "1";
+
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -323,6 +325,36 @@ export default class AuthService{
         const url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
 
         //logger.log.debug("AuthService.followUser : URL=",url);
+
+        callCMSAPI("POST", url, {}, dic_param)
+        .then(response => {
+            func(response);
+        })
+        .catch(err => {
+            funcErr(err);
+        });
+    }
+
+    static getFollower(dic_param, func, funcErr) {
+        logger.log.debug("AuthService.getFollower");
+
+        let a_method = "/api/user/users/" + dic_param.id + "/follower/";
+        const url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+
+        callCMSAPI("POST", url, {}, dic_param)
+        .then(response => {
+            func(response);
+        })
+        .catch(err => {
+            funcErr(err);
+        });
+    }
+
+    static getFollowing(dic_param, func, funcErr) {
+        logger.log.debug("AuthService.getFollowing");
+
+        let a_method = "/api/user/users/" + dic_param.id + "/following/";
+        const url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
 
         callCMSAPI("POST", url, {}, dic_param)
         .then(response => {

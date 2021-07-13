@@ -11,11 +11,12 @@
                 <q-input 
                     v-model="v_post.title" 
                     label="Title" 
+                    hide-bottom-space
                     :error="v_error.title.error"
                     :error-message="v_error.title.msg"
                 />
             </div>
-            <div class="gBoxNoMargin q-mt-md">
+            <div class="gBoxNoMargin">
                 <Editor 
                     ref="toastEditor"
                     :value="v_post.text"

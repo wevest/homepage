@@ -10,6 +10,7 @@ import logger from 'src/error/Logger';
 import ehandler from 'src/error/EHandler';
 import Errors from 'src/error/Errors';
 
+import {store} from 'src/store/store';
 
 
 /*
@@ -151,16 +152,20 @@ export const callCMSAPI = async(call_method,url,config,req_params) => {
             //json: true
         };
         
-        if ('token' in req_params) {
-            config.headers['Authorization'] = 'Token ' + req_params.token;
-            delete req_params.token;
+        //logger.log.debug("callCMS -- 1");
+        if (url.indexOf('/auth/token/login/')==-1) {
+            //logger.log.debug("callCMS -- 2, url=",url);
+            if (store.getters.me.isLoggedIn()) {
+                //logger.log.debug("callCMS -- 3");
+                config.headers['Authorization'] = 'Token ' + store.getters.me.token;
+            }    
         }
 
         config['url'] = url;
         config['method'] = call_method;
         config['data'] = req_params;
         //config['data'] = JSON.stringify(req_params);
-        logger.log.debug('callCMSAPI',config);           
+        logger.log.debug('HTTP.callCMSAPI',config);           
 
         axios(config)
         .then(function(response) {

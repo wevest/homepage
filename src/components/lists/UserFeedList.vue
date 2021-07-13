@@ -19,7 +19,7 @@
 				</q-item-section>
 				<q-item-section top>
 					<q-item-label class="q-pt-xs" lines="1">
-						<span class="gListTitle">{{ v_shorten(a_feed.title) }}</span>
+						<span class="gListTitle">{{ v_title_item(a_feed) }}</span>
 					</q-item-label>
 					<q-item-label class="no-margin" lines="1">
 
@@ -81,14 +81,20 @@ export default {
 		},
         user: {
             default: new UserModel()
-        }
+        },
     },
     computed: {
+        v_title_item() {
+            return (feed) => {
+				return CommonFunc.shortenString(this.getTitleMsg(feed),MoaConfig.setting.maxTitleLength);
+            };
+        },
         v_shorten() {
             return (value) => {
                 return CommonFunc.shortenString(value,MoaConfig.setting.maxTitleLength);
             };
         }
+
     },
 
 	data() {
@@ -111,12 +117,50 @@ export default {
 	},
 
 	methods: {
+		getTitleMsg(feed) {
+			let msg = "";
+			
+			if (feed.verb=="ReviewVote") {
+				msg = "Like a Review";
+			} else if (feed.verb=="AnswerVote") {
+				msg = "Like a Answer";
+			} else if (feed.verb=="PortfolioVote") {
+				msg = "Like a Portfolio";
+			} else if (feed.verb=="PostPageVote") {
+				msg = "Like a Post";
+			} else if (feed.verb=="PostPageVote") {
+				msg = "Like a Post";
+			} else if (feed.verb=="Review") {
+				msg = "Write a Review";
+			} else if (feed.verb=="PortfolioItem") {
+				msg = "Portfolio : "+feed.title;
+			} else if (feed.verb=="AnswerComment") {
+				msg = "Write a Comment on AnswerPage";
+			} else if (feed.verb=="QuestionComment") {
+				msg = "Write a Comment on QuestionPage";
+			} else if (feed.verb=="CustomComment") {
+				msg = "Write a Comment on Post : " + feed.title;
+			} else if (feed.verb=="PostPage") {
+				msg = "Write a Post" + feed.title;
+			} else {
+				msg = feed.title;
+			}
+
+			return msg;
+		},
 
 		update: function (user,offset=0) {
 			logger.log.debug("UserFeedList.update - user",user);
 			this.setUser(user);
             this.v_pagination.offset = offset;
             this.loadFeeds();
+		},
+
+		updateMine: function (user,offset=0) {
+			logger.log.debug("UserFeedList.updateMine - user",user);
+			this.setUser(user);
+            this.v_pagination.offset = offset;
+            this.loadMyFeeds();
 		},
 
 		setUser(user) {
@@ -152,13 +196,58 @@ export default {
 */			
 		},
 
+
+		loadMyFeeds: function () {
+			
+			logger.log.debug("UserFeedList.loadFeeds");
+			if (CommonFunc.isEmptyObject(this.v_user.id)) {
+				return;
+			}
+
+			const _this = this;
+			this.v_feeds.loadMine(this.v_user.id,this.v_user.username,this.v_pagination.offset,this.v_pagination.limit,this.v_pagination.uuid).then(response=>{
+				_this.g_data = response.data;
+				_this.$refs.loadMore.setFeedPagination(_this.v_user.feeds.next_url);
+				logger.log.debug("UserFeedList.loadMyFeeds - response",_this.g_data);
+			}).catch(err=>{
+				logger.log.error("UserFeedList.loadMyFeeds - err",err);
+			});
+
+		},
+
 		onClickFeed: function (feed) {
 			logger.log.debug("onClickFeed : feed = ", feed);
 			
+			return;
+			
 			store.getters.nav.add(this.$route);
-            if (feed.verb=="post"){
+
+			if (feed.verb=="ReviewVote") {
+				msg = "Like a Review";
+			} else if (feed.verb=="AnswerVote") {
+				msg = "Like a Answer";
+			} else if (feed.verb=="PortfolioVote") {
+				msg = "Like a Portfolio";
+			} else if (feed.verb=="PostPageVote") {
+				msg = "Like a Post";
+			} else if (feed.verb=="PostPageVote") {
+				msg = "Like a Post";
+			} else if (feed.verb=="Review") {
+				msg = "Write a Review";
+			} else if (feed.verb=="PortfolioItem") {
+				msg = "Portfolio : "+feed.title;
+			} else if (feed.verb=="AnswerComment") {
+				msg = "Write a Comment on AnswerPage";
+			} else if (feed.verb=="QuestionComment") {
+				msg = "Write a Comment on QuestionPage";
+			} else if (feed.verb=="CustomComment") {
+				msg = "Write a Comment on Post : " + feed.title;
+			} else if (feed.verb=="PostPage") {
                 CommonFunc.navBlogDetail(this,feed.id);
-            }
+			} else {
+				
+			}
+
 			
 		},
 

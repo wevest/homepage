@@ -18,6 +18,7 @@
                             <span class="gCaption"> ROI </span>
                         </div>
                     </div>
+<!--                    
                     <div class="col-4">
                         <div> 
                             <span class="gROILG"> {{ v_user.portfolio.item_count }} </span>
@@ -26,12 +27,21 @@
                             <span class="gCaption">Item count </span>
                         </div>
                     </div>             
+-->                    
                     <div class="col-4" @click="onClickFollower(v_user)">
                         <div>
                             <span class="gROILG">{{v_user.follower_count}}</span>
                         </div>
                         <div>
                             <span class="gCaption">Follower</span>
+                        </div>
+                    </div>
+                    <div class="col-4" @click="onClickFollower(v_user)">
+                        <div>
+                            <span class="gROILG">{{v_user.following_count}}</span>
+                        </div>
+                        <div>
+                            <span class="gCaption">Following</span>
                         </div>
                     </div>
                 </div>
@@ -67,8 +77,13 @@
         </div>
 
         <div class="q-mt-xl q-mb-sm">
-            <FriendList ref='friendList' title="$t('page.profile.follower')" 
-                maxLength="10" moreCaption="" user="v_user"></FriendList>
+            <FriendList ref='followerList' title="$t('page.profile.follower')" 
+                maxLength="10" moreCaption="" :user="v_user"></FriendList>
+        </div>
+
+        <div class="q-mt-xl q-mb-sm">
+            <FriendList ref='followingList' title="$t('page.profile.following')" 
+                maxLength="10" moreCaption="" :user="v_user"></FriendList>
         </div>
 
         <div class="q-mt-xl q-mb-sm">
@@ -183,6 +198,10 @@ export default {
         loadProfile() {
             const _this = this;
             this.v_user.loadProfile().then( a_user => {
+
+                _this.loadFollower();
+                _this.loadFollowing();
+
                 _this.$refs.profileBox.update(_this.v_user);
 
                 _this.v_user.loadPortfolio().then( response => {
@@ -207,7 +226,6 @@ export default {
                     
             let funcs = [
                 this.loadProfile(),
-                this.loadRelation(),
                 this.loadFeeds(),
             ];
             Promise.all(funcs).then(function() {
@@ -220,11 +238,21 @@ export default {
         },
 
         loadFeeds() {
-            this.$refs.feedList.update(this.v_user,0);
+            this.$refs.feedList.updateMine(this.v_user,0);
         },
 
-        loadRelation() {
-            this.$refs.friendList.update(this.v_user,0);
+        loadFollower() {
+            logger.log.debug("UserProfileView.loadFollower");
+            this.$refs.followerList.updateFollower(this.v_user,0);
+        },
+
+        loadFollowing() {
+            logger.log.debug("UserProfileView.loadFollower");
+            this.$refs.followingList.updateFollowing(this.v_user,0);
+        },
+
+        doFollow() {
+
         },
 
         onClickMessage: function() {

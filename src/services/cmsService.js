@@ -486,6 +486,7 @@ export default class CMSAPI {
 		});
 	}
 
+/*
 	static getUserRelation(dic_param, func, funcErr) {
 		let url = CMSAPI.getUrl(
 			MoaConfig.urls.cms,
@@ -499,20 +500,64 @@ export default class CMSAPI {
 			funcErr(err);
 		});
 	}
+*/
 
+    static getFollower(dic_param, func, funcErr) {
+        logger.log.debug("CMSAPI.getFollower");
 
-  static getUserFeeds(dic_param, func, funcErr) {
-    let url = CMSAPI.getUrl(
-      MoaConfig.urls.cms,
-      "/api/user/users/" + dic_param.user_id + "/feed/"
-    );
-    callCMSAPI("POST", url, {}, dic_param)
-      .then(response => {
-        func(response);
-      })
-      .catch(err => {
-        funcErr(err);
-      });
-  }
+        let a_method = "/api/user/users/" + dic_param.id + "/follower/";
+        const url = CMSAPI.getUrl(MoaConfig.urls.cms,a_method);
+
+        callCMSAPI("POST", url, {}, dic_param)
+        .then(response => {
+            func(response);
+        })
+        .catch(err => {
+            funcErr(err);
+        });
+    }
+
+    static getFollowing(dic_param, func, funcErr) {
+        logger.log.debug("CMSAPI.getFollowing");
+
+        let a_method = "/api/user/users/" + dic_param.id + "/following/";
+        const url = CMSAPI.getUrl(MoaConfig.urls.cms,a_method);
+
+        callCMSAPI("POST", url, {}, dic_param)
+        .then(response => {
+            func(response);
+        })
+        .catch(err => {
+            funcErr(err);
+        });
+    }
+
+	static getMyFeeds(dic_param, func, funcErr) {
+    	let url = CMSAPI.getUrl(
+      		MoaConfig.urls.cms,
+      		"/api/user/users/" + dic_param.user_id + "/myfeed/"
+    	);
+    	callCMSAPI("POST", url, {}, dic_param)
+      	.then(response => {
+        	func(response);
+      	})
+      	.catch(err => {
+        	funcErr(err);
+      	});
+  	}
+
+  	static getUserFeeds(dic_param, func, funcErr) {
+    	let url = CMSAPI.getUrl(
+      		MoaConfig.urls.cms,
+      		"/api/user/users/" + dic_param.user_id + "/feed/"
+    	);
+    	callCMSAPI("POST", url, {}, dic_param)
+      	.then(response => {
+        	func(response);
+      	})
+      	.catch(err => {
+        	funcErr(err);
+      	});
+  	}
   
 }

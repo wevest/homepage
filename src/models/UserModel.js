@@ -26,7 +26,10 @@ export class FeedModel {
     title=null;
     verb=null;
     url= null;
-
+    parent=null;
+    parent_id=null;
+    foreign_id=null;
+    
     assign(obj) {
         //logger.log.debug("FeedModel : obj=",obj);
 
@@ -38,6 +41,10 @@ export class FeedModel {
         this.user_id = obj.user_id;
         this.title = obj.title;
         this.uuid = obj.id;
+        this.foreign_id = CommonFunc.safeGetKeyValue(obj,'foreign_id');
+
+        this.parent = CommonFunc.safeGetKeyValue(obj,'parent');
+        this.parent_id = CommonFunc.safeGetKeyValue(obj,'parent_id');
 
         //this.url = this.getUrl();
     }
@@ -86,24 +93,44 @@ export class FeedListModel extends baseCollection{
 
     }
 
+    loadMine(userid,username,offset=0,limit=20,uuid='') {
+        let dic_param = {user_id:userid,username:username,uuid:uuid,offset:offset,limit:limit};
+        
+        const _this = this;
+        return new Promise(function(resolve,reject) {
+            CMSAPI.getMyFeeds(dic_param,function(response) {
+                logger.log.debug("FeedListModel.loadMine - response",response.data);
+                
+                _this.assign(response.data.data);
+                resolve(response.data);
+
+            },function(err) {
+                logger.log.error("FeedListModel.loadMine - error",err);                
+                reject(err);
+            });
+        });            
+
+    }
+
 }
 
 
 export class FriendModel {
     username=null;
-    created_at=null;
-    updated_at=null;    
+    id=null;
+    created_at=null;    
     avatar=null;
-    feed_id=null;
+    avatar_thumb=null;
+    biography=null;
     target_id=null;
 
     assign(obj) {
-        this.username = obj.username;
+        this.id = obj.api_user.id;
+        this.username = obj.api_user.username;        
+        this.biography = obj.api_user.biography;
+        this.avatar = obj.api_user.avatar;
+        this.avatar_thumb = obj.api_user.avatar_thumb;
         this.created_at = obj.created_at;
-        this.updated_at = obj.updated_at;
-        this.avatar = obj.avatar;
-        this.feed_id = obj.feed_id;
-        this.target_id = obj.target_id;
     }
 
 
@@ -116,6 +143,9 @@ export class FriendListModel extends baseCollection{
     assign(items) {
         for (let index=0; index<items.length; index++) {
             let a_friend = new FriendModel();
+            
+            //logger.log.debug("FriendListModel.assign : item=",items[index]);
+
             a_friend.assign(items[index]);
             this.add(a_friend);
         }
@@ -261,10 +291,9 @@ export default class User {
         if (store.getters.me.isLoggedIn() ) {
             dic_param['token'] = store.getters.token;
         }
-        
+        logger.log.debug("UserModel.loadProfile - dic_param",dic_param);
         return new Promise(function(resolve,reject) {
-            logger.log.debug("UserModel.loadProfile - dic_param",dic_param);
-
+            
             AuthService.getUserProfile(dic_param,function(response) {
                 logger.log.debug("UserModel.loadProfile - response",response);
                 
@@ -291,7 +320,7 @@ export default class User {
         if (this.isLoggedIn() ) {
             dic_param['token'] = this.token;
         }
-        
+        logger.log.debug("UserModel.loadProfile - dic_param",dic_param);
         const _this=this;
         return new Promise(function(resolve,reject) {
             AuthService.getUserProfile(dic_param,function(response) {
@@ -336,21 +365,21 @@ export default class User {
 
         return new Promise(function(resolve,reject) {    
             AuthService.signIn(dic_param,function(response) {
-            logger.log.debug("onSignIn.response=",response);
-            
-            _this.processLogin(response.data.auth_token, dic_param.stay_loggedin).then( resp => {
-                
-                logger.log.debug("onSignIn.response2=",resp.data);
-                _this.assign(resp.data);
+                logger.log.debug("onSignIn.response=",response);
+
                 _this.loggedIn = true;                
                 _this.token = response.data.auth_token;            
                 _this.staySignedIn = dic_param.stay_loggedin;
                 _this.password = dic_param.password;
-                _this.saveToCookie();
 
-                resolve(response);
-            });
+                _this.processLogin(response.data.auth_token, dic_param.stay_loggedin).then( resp => {
+                
+                    logger.log.debug("onSignIn.response2=",resp.data);
+                    _this.assign(resp.data);
+                    _this.saveToCookie();
 
+                    resolve(response);
+                });
 
             }, function(response) {
                 logger.log.debug("onSignIn.Error - response=",response);
@@ -472,6 +501,7 @@ export default class User {
         logger.log.debug("UserModel.follow :  dic_param=",dic_param);
 
         return new Promise(function(resolve,reject) {
+
             AuthService.followUser(dic_param,function(response) {
                 logger.log.debug("UserModel.follow - response",response.data);                
                 _this.updateFollowProperty(response);
@@ -502,12 +532,67 @@ export default class User {
         });            
     }
 
+    loadFollower(offset,limit) {
+        let dic_param = {id:this.id,username:this.username,offset:offset,limit:limit};
+        
+        const _this = this;
+        return new Promise(function(resolve,reject) {
+            CMSAPI.getFollower(dic_param,function(response) {
+                logger.log.debug("UserModel.loadFollower - response",response.data);
+                
+                //_this.following.assign(response.data.data.following);
+                _this.follower_count = response.data.data.count;
+                _this.follower.assign(response.data.data.results);
+                
+                logger.log.debug("UserModel.loadFollower - this=",_this);
+
+                resolve(response.data);
+            },function(err) {
+                logger.log.error("UserModel.getFollower - error",err);                
+                reject(err);
+            });
+        });            
+    }
+
+    loadFollowing(offset,limit) {
+        let dic_param = {id:this.id,username:this.username,offset:offset,limit:limit};
+        
+        const _this = this;
+        return new Promise(function(resolve,reject) {
+            CMSAPI.getFollowing(dic_param,function(response) {
+                logger.log.debug("UserModel.loadFollowing - response",response.data);
+                
+                //_this.following.assign(response.data.data.following);
+                _this.following_count = response.data.data.count;
+                _this.following.assign(response.data.data.results);
+
+                resolve(response.data);
+            },function(err) {
+                logger.log.error("UserModel.loadFollowing - error",err);                
+                reject(err);
+            });
+        });            
+    }
+
     loadFeeds(offset,limit,uuid='') {
         //let dic_param = {user_id:this.id,username:this.username,uuid:uuid,offset:offset,limit:limit};        
         logger.log.debug("UserModel.loadFeeds : feeds=",this.feeds);
         const _this = this;
         return new Promise(function(resolve,reject) {
             _this.feeds.load(_this.id,_this.username,offset,limit,uuid).then(response=>{
+                resolve(response);
+            }).catch(err=>{
+                reject(err);
+            });                
+        });            
+    }
+
+    loadMyFeeds(offset,limit,uuid='') {
+        //let dic_param = {user_id:this.id,username:this.username,uuid:uuid,offset:offset,limit:limit};        
+        logger.log.debug("UserModel.loadMyFeeds : feeds=",this.feeds);
+        const _this = this;
+        return new Promise(function(resolve,reject) {
+            _this.feeds.loadMine(_this.id,_this.username,offset,limit,uuid).then(response=>{
                 resolve(response);
             }).catch(err=>{
                 reject(err);
