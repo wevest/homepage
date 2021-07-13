@@ -6,7 +6,7 @@
             </div>
             <q-space v-if="loadMoreCaption.length>0" />
             <div>                
-                <q-btn :label="loadMoreCaption" @click="onClickMore" v-if="loadMoreCaption.length>0" />
+                <q-btn class="gButtonSM" :label="loadMoreCaption" @click="onClickMore" v-if="loadMoreCaption.length>0" />
             </div>
         </div>
     </div>

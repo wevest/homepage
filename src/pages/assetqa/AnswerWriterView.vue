@@ -2,9 +2,9 @@
 
     <div class="q-pa-md q-gutter-sm">            
 
-        <div>
-            <CTitle class="text-center gBoxNoMargin" ttype='title' title="답변쓰기" desc=""></CTitle>
-        </div>
+        <!-- <div> -->
+            <!-- <CTitle class="text-center gBoxNoMargin" ttype='title' title="답변쓰기" desc=""></CTitle> -->
+        <!-- </div> -->
 
         <div class="col">
 

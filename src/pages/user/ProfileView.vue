@@ -68,7 +68,7 @@
                 <q-space />
                 <div>   
                     <q-btn label="Portfolio" @click="onClickMorePortfolio" />&nbsp;
-                    <q-btn v-if="isOwner" label="Add" @click="onClickAddPortfolio" />
+                    <q-btn class="gButtonSM" v-if="isOwner" label="Add" @click="onClickAddPortfolio" />
                 </div>
             </div>
             <PortfolioList ref='portfolioList' 

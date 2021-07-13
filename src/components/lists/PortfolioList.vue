@@ -24,9 +24,9 @@
                     <span :class="v_color(a_portfolio.roi)">{{v_format(a_portfolio.roi)}} %</span>
                 </div>
                 <div class="q-pt-lg">
-                    <q-btn size="14px" flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
+                    <q-btn class="q-mb-md" size="14px"  flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
                 </div>
-                </div>                     
+            </div>                     
             </q-card-section>
             <q-card-section class="gParagraphSM"> 
                 <div>

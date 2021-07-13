@@ -1,14 +1,14 @@
 <template>
 	<div class="q-px-md commentBox rounded-borders" v-show="visible" @click="onClick">
 
-		<div class="row gParagraphSM" v-if="v_show">
+		<div class="row gParagraphSM q-ml-md" v-if="v_show">
 			<div class="commentWriterIcon">
 				<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
 			</div>
-			<div class="q-pt-md q-pl-sm"> {{v_me.username}} </div>
+			<div class="userName q-pl-sm"> {{v_me.username}} </div>
 		</div>
 
-		<div class="q-mt-md">
+		<div class="q-mt-md q-pl-md">
 			<WTextArea ref="descText" 
 				v-model="v_comments" :rows="v_rows" :maxlength="maxlength" 
 				customClass="gCommentMD"
@@ -327,7 +327,7 @@ export default {
 }
 
 .commentWriterIcon {
-	margin:-5px 0px 0px -px;
+	margin:-5px 10px 0px 0px;
 	}
 
 
@@ -341,5 +341,8 @@ export default {
 	}
 }
 
+.userName {
+	padding:20px 0px 0px 10px;
+}
 
 </style>

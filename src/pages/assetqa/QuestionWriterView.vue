@@ -1,14 +1,15 @@
 <template>
 
     <div class="q-pa-md q-gutter-sm">            
-        <div>
-            <CTitle class="gBoxNoMargin text-center" ttype='title' title="질문쓰기" desc=""></CTitle>          
-        </div>
+        <!-- <div> -->
+            <!-- <CTitle class="gBoxNoMargin text-center" ttype='title' title="질문쓰기" desc=""></CTitle>           -->
+        <!-- </div> -->
 
         <div class="row">
             <div class="col">
                 <div>
-                    <q-input 
+                    <q-input
+                        hide-bottom-space
                         v-model="v_post.title" 
                         label="Title" 
                         :error="v_error.title.error"
@@ -17,6 +18,7 @@
                 </div>
                 <div>
                     <q-input 
+                        hide-bottom-space
                         v-model="v_post.reward" 
                         label="Reward" 
                         :error="v_error.reward.error"

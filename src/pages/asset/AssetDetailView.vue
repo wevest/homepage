@@ -24,7 +24,7 @@
         <q-separator class="gSeparator" />
 
         <div class="q-my-xl">
-            <ChartTimeframe period='all' :onclick="onClickTimeframe" selected='y1'></ChartTimeframe>
+            <ChartTimeframe class="q-mt-md" period='all' :onclick="onClickTimeframe" selected='y1'></ChartTimeframe>
             <CAssetChart ref="assetChart"></CAssetChart>
 
             <div class="text-center q-mt-md">

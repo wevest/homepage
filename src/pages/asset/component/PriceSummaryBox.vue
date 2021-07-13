@@ -13,9 +13,9 @@
         </div>
         
         <div class="q-mb-xl">
-            <div>                
-                <div class="gSubTitle q-pb-sm">
-                    <span>24H Change</span>
+            <div class="q-pt-lg">                
+                <div class="gSubTitle q-pb-xl">
+                    <span class="gTextSubTitle">24H Change</span>
                 </div>
                 <q-slider                
                     v-model="data.ticker.change_percentage"
@@ -27,9 +27,9 @@
                     :color="v_color(data.ticker.change_percentage)"
                 />
             </div>
-            <div>
-                <div class="gSubTitle q-pb-sm">
-                    <span> 
+            <div class="q-pt-lg">
+                <div class="gSubTitle q-pb-xl">
+                    <span class="gTextSubTitle"> 
                         24H Price Range : 
                     </span>
                     <span class="gTextSubTitle">
