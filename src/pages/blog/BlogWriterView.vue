@@ -25,7 +25,7 @@
                     :visible="editorVisible"
                     :initialValue="editorHtml"
                     previewStyle="vertical"
-                    height="240px"
+                    height="360px"
                     mode="wysiwyg"
                     initialEditType="wysiwyg"
                 />

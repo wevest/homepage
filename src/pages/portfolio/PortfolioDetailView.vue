@@ -547,8 +547,8 @@ export default {
 
 .NavigationBtn {
    font-size:25px;
-   color:#222222;
-   margin:-21px -20px 0px 0px;
+   color:#999999;
+   margin:-22px -20px 0px 0px;
 }
 
 .iconBox {

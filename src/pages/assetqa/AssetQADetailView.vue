@@ -51,14 +51,17 @@
 -->
     </div>
 
-    <q-separator class="gSeparator" />
+    <q-separator class="Separator" />
 
-    <div class="q-" v-if="!v_question.closed">
+    <div class="q-pb-md" v-if="!v_question.closed">
       <WWriterButton
         placeholder="Please share your knowledges"
         @onClickWrite="onClickAnswer"
       />
     </div>
+
+      <q-separator class="Separator" />
+
 
     <div>
       <QuestionCommentBox
@@ -516,5 +519,10 @@ export default {
   font-size: 50px;
   padding: 0px 0px 9px 0px;
   margin-left: -4px;
+}
+.Separator {
+  height:10px;
+  margin:5px 0px 5px 0px;
+  background: #f0f1f6;
 }
 </style>
