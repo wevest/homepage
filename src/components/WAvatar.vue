@@ -1,5 +1,5 @@
 <template>
-    <q-avatar class="q-py-sm" @click="onClickAvatar">
+    <q-avatar class="avatar q-py-sm" @click="onClickAvatar">
         <q-img
             v-if="avatar && avatar.length > 0"
             :src="avatar"
@@ -40,3 +40,8 @@ export default {
     }
 }
 </script>
+<style scope>
+.avatar {
+    margin-top:-2px;
+}
+</style>

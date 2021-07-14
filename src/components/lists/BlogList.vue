@@ -14,10 +14,10 @@
 				v-if="index<v_maxLength"
 				@click.stop="onClickBlog(a_post.id)"
 			>
-				<q-item-section class="Avatar" avatar top>
+				<q-item-section class="blogAvatar" avatar top>
 					<WAvatar :avatar="a_post.api_owner.avatar_thumb" :username="a_post.api_owner.username" />
 				</q-item-section>
-				<q-item-section class="q-mt-xs" top>
+				<q-item-section top>
 					<q-item-label lines="1">
 						<span class="gListTitle">{{ v_shorten(a_post.title) }}</span>
 					</q-item-label>
@@ -204,6 +204,8 @@ export default {
 <style lang="sass">
 </style>
 <style scope>
-
+.blogAvatar {
+	margin-top:-4px;
+}
 
 </style>

@@ -305,7 +305,7 @@ export default {
 
 <style scope>
 .reviewAvatar {     
-    margin-top:-6px;    
+    margin-top:-3px;    
  }
 
 .ReviewBox {

@@ -14,7 +14,7 @@
 				v-if="index<v_maxLength"
 				@click.stop="onClickFeed(a_feed)"
 			>
-				<q-item-section avatar top>
+				<q-item-section class="feedAvatar" avatar top>
 					<WAvatar :avatar="a_feed.avatar" :username="a_feed.username" />
 				</q-item-section>
 				<q-item-section top>
@@ -274,6 +274,8 @@ export default {
 </style>
 <style scope>
 
-
+.feedAvatar {
+margin-top:2px;
+}
 
 </style>

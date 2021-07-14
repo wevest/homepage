@@ -12,7 +12,7 @@
                 v-if="index<v_maxLength"
                 @click.stop="onClickAsset(a_post)">
                 <q-item-section avatar top>
-                    <q-icon class="gBlogAvatar" name="paid" color="black" size="55px" />
+                    <q-icon name="paid" color="black" size="50px" />
                 </q-item-section>
 
                 <q-item-section top>
@@ -105,17 +105,4 @@ export default {
 <style lang="sass">
 </style>
 <style scope>
-.news-title {
-    font-size:18px;
-    color:#000000;
-}
-
-.news-date {
-    font-size:10px;
-    color:#888888;
-}
-
-.gBlogAvatar {
-    margin:-3px 0px 0px -3px;
-}
 </style>

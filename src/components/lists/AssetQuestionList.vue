@@ -22,11 +22,11 @@
 				<q-item-section top>
 					<q-item-label lines="1">
                         <q-badge
-                            class="RewardPoint" 
+                            class="RewardPoint q-mr-sm" 
                             color="purple-4"
                             text-color="white">
                             <span>{{a_question.reward}}</span>
-                        </q-badge>&nbsp;
+                        </q-badge>
 
 						<span class="gListTitle">{{ v_shorten(a_question.title) }}</span>
 <!--

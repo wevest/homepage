@@ -12,11 +12,11 @@
             <q-card>
                 <q-card-section>
                     <div class="row">
-                        <div>
+                        <div class="closeButton">
                             <WDialogCloseButton @onClick="onClickClose" />&nbsp;
                         </div>
 
-                        <div>
+                        <div class="q-pl-sm">
                             <div>
                                 <span class="text-h6">{{v_title}}</span>
                             </div>
@@ -307,5 +307,7 @@ export default {
 
 
 <style scoped>
-
+.closeButton {
+    margin:-10px 10px 0px -10px;
+}
 </style>

@@ -45,7 +45,7 @@
 
         <div>
             <div class="q-py-xl">
-                <div v-html="v_post.body"></div>
+                <div class="gBodyLG" v-html="v_post.body"></div>
 <!--                
                 <Viewer 
                     ref="toastViewer"

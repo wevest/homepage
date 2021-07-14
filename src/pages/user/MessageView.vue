@@ -9,18 +9,18 @@
         <div class="col">
             <div v-if="v_thread.items.length>0">
                 <q-list separator>
-                    <q-item class="MessagePageBox" clickable v-for="(a_thread,index) in v_thread.items" :key="index">
+                    <q-item class="avatar" clickable v-for="(a_thread,index) in v_thread.items" :key="index">
                         <q-item-section top avatar>
                             <WAvatar :avatar="a_thread.sender.avatar_thumb" :username="a_thread.sender.username" />
                         </q-item-section>                        
 
-                        <q-item-section class="MessageBox"  @click="onClickMessage(index,a_thread)">
+                        <q-item-section @click="onClickMessage(index,a_thread)">
                             <q-item-label>{{a_thread.subject}}</q-item-label>
                             <q-item-label caption lines="2">{{a_thread.last_message}}</q-item-label>
                         </q-item-section>
 
                         <q-item-section side bottom>
-                            <q-item-label class="MessageDate" caption>{{v_updated_at(a_thread.sent_at)}}</q-item-label>
+                            <q-item-label class="gCaption" caption>{{v_updated_at(a_thread.sent_at)}}</q-item-label>
                             <!-- <q-icon name="star" color="yellow" /> -->
                         </q-item-section>
                         <q-item-section side bottom>
@@ -165,16 +165,8 @@ export default {
 
 
 <style scope> 
-.MessagePageBox {
-    padding:16px 0px 16px 0px;
-}
-
-.MessageBox {
-    padding:0px 0px 0px 0px;
-}
-
-.MessageDate {
-    color:#8C8C8C;
+.avatar {
+    margin:-6px 0px 8px 0px;
 }
 
 .NoMessageBox {

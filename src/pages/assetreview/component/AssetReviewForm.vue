@@ -1,12 +1,14 @@
 <template>
 	<div class="row no-wrap q-pa-md ReviewTextBox" :style="v_style" v-show="visible" @click="onClick">
 		<div class="col">
-			<div v-if="v_me.loggedIn">
+			<div class="q-pb-lg row" v-if="v_me.loggedIn">
+				<div class="q-pr-md">
 				<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
-				<span> {{v_me.username}} </span>
+				</div>
+				<div class="q-pt-md"> {{v_me.username}} </div>
 			</div>
 
-			<div>
+			<div class="q-pb-sm">
 				<WTextArea
 					ref="descText"				
 					hint="Please Type your review"                
@@ -30,8 +32,9 @@
 				
 				<q-space />
 
-				<div class="ReviewSaveBtn" align="right" v-if="v_me.loggedIn">
+				<div align="right" v-if="v_me.loggedIn">
 					<q-btn
+						class="gButtonMD"
 						label="save"
 						@click.stop="onClickSubmit"
 						v-if="showSaveButton"
@@ -260,17 +263,10 @@ export default {
 <style scoped>
 .ReviewTextBox {
 	border: 1px solid #cccccc;
+	border-radius: 8px;
 }
 
-.ReviewTextBorder {
-	border: 1px solid #cccccc;
-}
 
-.ReviewSaveBtn {
-	padding-top: 5px;
-	color: #555555;
-	width: 100px;
-}
 
 .boxEditorTextarea {
 	height: 150px !important;
