@@ -71,7 +71,7 @@ export default {
 
     created: function () {
         //console.log("HomeView.created");
-        console.log("AssetView.created - query=",this.$route.query);
+        console.log("AssetReviewView.created - query=",this.$route.query);
 
         this.validateQuery();
         

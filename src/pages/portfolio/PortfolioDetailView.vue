@@ -507,7 +507,7 @@ export default {
 			//this.loadBlogData(this.v_query);
 		},
         onClickShare: function(data) {
-            let a_url = CommonFunc.navPortfolio(this,this.v_user,this.v_portfolio,true);
+            let a_url = CommonFunc.navPortfolio(this,this.v_user.username,this.v_portfolio.id,true);
             logger.log.debug("PortfolioDetail.onClickShare=",data,a_url);            
             CommonFunc.copyUrl(this,a_url);
         },

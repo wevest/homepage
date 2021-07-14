@@ -55,8 +55,8 @@
                     previewStyle="vertical"
                     height="200px"
                 />
+                <p> {{ v_post.tags }} </p>                
 -->                
-                <p> {{ v_post.tags }} </p>
             </div>
 
             <WUserProfileBox ref="userProfile" 

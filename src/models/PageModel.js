@@ -31,6 +31,7 @@ export class PostPageModel {
 
     //computed fields
     is_owner=null;
+    category=null;
     category_id=null;
     category_name=null;
     tags=null;
@@ -377,6 +378,9 @@ export class QuestionPageModel extends PostPageModel{
 
         this.owner = obj.api_owner;
         this.is_owner = false;
+
+        this.category = CommonFunc.safeGetKeyValue(obj,'symbol');
+
         // is logged-in?
         if (store.getters.me.id) {
             if (this.owner.id==store.getters.me.id) {
@@ -473,7 +477,7 @@ export class QuestionPageModel extends PostPageModel{
             });
         });
     }
-    
+
 /*
     loadComments(limit=null, offset=null) {
         const _this=this;

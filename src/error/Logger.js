@@ -20,7 +20,6 @@ export class Logger {
         //console.log("Logger.constructor",MoaConfig.log);
     }
     
-
     _toJson(obj) {
         let jsonStr = JSON.stringify(obj);
         return JSON.parse(jsonStr);

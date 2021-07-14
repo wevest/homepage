@@ -11,7 +11,6 @@ import Hasher from 'src/util/Hasher';
 import logger from "src/error/Logger";
 
 import LocalStorageService from 'src/services/localStorage';
-
 import { PortfolioListModel, PortfolioModel, PortfolioItemModel} from "src/models/PortfolioModel";
 
 
@@ -29,7 +28,11 @@ export class FeedModel {
     parent=null;
     parent_id=null;
     foreign_id=null;
-    
+    category=null;
+    question=null;
+    question_id=null;
+    owner=null;
+    action=null;
     
     assign(obj) {
         //logger.log.debug("FeedModel : obj=",obj);
@@ -46,6 +49,13 @@ export class FeedModel {
 
         this.parent = CommonFunc.safeGetKeyValue(obj,'parent');
         this.parent_id = CommonFunc.safeGetKeyValue(obj,'parent_id');
+        this.category = CommonFunc.safeGetKeyValue(obj,'category');
+
+        this.question = CommonFunc.safeGetKeyValue(obj,'question');
+        this.question_id = CommonFunc.safeGetKeyValue(obj,'question_id');
+
+        this.owner = CommonFunc.safeGetKeyValue(obj,'owner');
+        this.action = CommonFunc.safeGetKeyValue(obj,'action');
 
         //this.url = this.getUrl();
     }

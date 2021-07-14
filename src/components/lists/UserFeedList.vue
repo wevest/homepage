@@ -125,7 +125,7 @@ export default {
 			} else if (feed.verb=="AnswerVote") {
 				msg = "Like a Answer";
 			} else if (feed.verb=="PortfolioVote") {
-				msg = "Like a Portfolio";
+				msg = feed.title + " - Like a Portfolio";
 			} else if (feed.verb=="PostPageVote") {
 				msg = "Like a Post";
 			} else if (feed.verb=="PostPageVote") {
@@ -217,36 +217,49 @@ export default {
 
 		onClickFeed: function (feed) {
 			logger.log.debug("onClickFeed : feed = ", feed);			
-			return;
+			//return;
 			
 			store.getters.nav.add(this.$route);
-
-			if (feed.verb=="ReviewVote") {
-				msg = "Like a Review";
-			} else if (feed.verb=="AnswerVote") {
-				msg = "Like a Answer";
-			} else if (feed.verb=="PortfolioVote") {
-				msg = "Like a Portfolio";
-			} else if (feed.verb=="PostPageVote") {
-				msg = "Like a Post";
-			} else if (feed.verb=="PostPageVote") {
-				msg = "Like a Post";
-			} else if (feed.verb=="Review") {
-				msg = "Write a Review";
-			} else if (feed.verb=="PortfolioItem") {
-				msg = "Portfolio : "+feed.title;
-			} else if (feed.verb=="AnswerComment") {
-				msg = "Write a Comment on AnswerPage";
-			} else if (feed.verb=="QuestionComment") {
-				msg = "Write a Comment on QuestionPage";
-			} else if (feed.verb=="CustomComment") {
-				msg = "Write a Comment on Post : " + feed.title;
-			} else if (feed.verb=="PostPage") {
+			if (feed.verb=="PostPage") {
                 CommonFunc.navBlogDetail(this,feed.id);
-			} else {
+			} else if (feed.verb=="PostPageVote") {
+				CommonFunc.navBlogDetail(this,feed.parent_id);
+			} else if (feed.verb=="Review") {
+				CommonFunc.navReview(this,feed.category,feed.id);
+			} else if (feed.verb=="ReviewVote") {
+				CommonFunc.navReview(this,feed.category,feed.id);
+			} else if (feed.verb=="QuestionPage") {
+				CommonFunc.navQADetail(this,feed.id);
+			} else if (feed.verb=="AnswerVote") {
+				CommonFunc.navQADetail(this,feed.question_id);
+			} else if (feed.verb=="CustomComment") {
 				
+				if (feed.parent=="portfolio.portfolio") {
+					CommonFunc.navPortfolio(this,feed.owner,feed.parent_id);
+				} else {
+					CommonFunc.navBlogDetail(this,feed.parent_id);
+				}
+				
+			} else if (feed.verb=="AnswerPage") {
+				CommonFunc.navQADetail(this,feed.question_id);
+			} else if (feed.verb=="AnswerComment") {
+				CommonFunc.navQADetail(this,feed.question_id);
+			} else if (feed.verb=="QuestionComment") {
+				CommonFunc.navQADetail(this,feed.parent_id);
+			} else if (feed.verb=="PortfolioVote") {
+				CommonFunc.navPortfolio(this,feed.owner,feed.parent_id);
+			} else if (feed.verb=="PortfolioItem") {
+				CommonFunc.navPortfolio(this,feed.owner,feed.parent_id);
 			}
 
+			return;
+
+
+			//lse {
+			/*
+			} else if (feed.verb=="PortfolioItem") {
+				msg = "Portfolio : "+feed.title;
+*/
 			
 		},
 

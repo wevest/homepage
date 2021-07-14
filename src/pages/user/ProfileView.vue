@@ -296,17 +296,12 @@ export default {
 
         onClickMorePortfolio: function() {
             logger.log.debug("ProfileView.onClickMorePortfolio");
-            store.getters.nav.add(this.$route);  
             CommonFunc.navPortfolioView(this,this.v_user);
         },
 
         onClickPortfolio: function(portfolio) {
             logger.log.debug("ProfileView.onClickPortfolio:portfolio=",portfolio);
-            store.getters.nav.add(this.$route);  
-            CommonFunc.navPortfolio(this,this.v_user,portfolio);
-            //store.getters.nav.add(this.$route);
-            //let dic_param = { name:'portfolio_detail', path:'portfolio_detail', params:{ user:this.v_user, portfolio:portfolio, back:true } };
-            //this.$router.push(dic_param);
+            CommonFunc.navPortfolio(this,this.v_user.username,portfolio.id);
         },
 
         onClickFollower: function(user) {

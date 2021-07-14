@@ -10,7 +10,7 @@
                     <div class="portfolioAvatar q-px-md">
                         <WAvatar :avatar="a_portfolio.api_user.avatar_thumb" :username="a_portfolio.api_user.username" />
                     </div>
-                    <div class="boxInfo q-pt-lg">
+                    <div class="boxInfo q-pt-lg" @click="onClickPortfolio(a_portfolio)">
                         <div class="gListTitle">
                             <span>{{v_shorten_name(a_portfolio.api_user.username,13)}}</span>
                         </div>                        
@@ -18,14 +18,14 @@
                             <span>{{a_portfolio.name}}</span>
                         </div>
                     </div>
-                <q-space />
-                <div class="gROILG q-pt-lg">
-                    <span :class="v_color(a_portfolio.roi)">{{v_format(a_portfolio.roi)}} %</span>
-                </div>
-                <div class="q-pt-lg">
-                    <q-btn class="q-mb-md" size="14px"  flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
-                </div>
-            </div>                     
+                    <q-space />
+                    <div class="gROILG q-pt-lg">
+                        <span :class="v_color(a_portfolio.roi)">{{v_format(a_portfolio.roi)}} %</span>
+                    </div>
+                    <div class="q-pt-lg">
+                      <q-btn class="q-mb-md" size="14px"  flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
+                    </div>
+                </div>                     
             </q-card-section>
             <q-card-section class="gParagraphSM"> 
                 <div>
@@ -134,7 +134,7 @@ export default {
             this.v_user.id = a_portfolio.api_user.id;
             this.v_user.username = a_portfolio.api_user.username;
             
-            CommonFunc.navPortfolio(this,this.v_user,a_portfolio);
+            CommonFunc.navPortfolio(this,this.v_user.username,a_portfolio.id);
         },
 
         onClickMorePortfolio: function() {
