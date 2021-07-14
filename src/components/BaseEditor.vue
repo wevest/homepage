@@ -161,10 +161,10 @@ export default {
             });
         },
 
-        save: function(v_post) {                        
+        save: function(v_post,a_tag) {                        
             const _this = this;
-            const a_text = this.getContents();
-
+            let a_text = this.getContents();
+            
             let dic_param = {
                 id: v_post.id,
                 title: v_post.title,
@@ -173,7 +173,7 @@ export default {
                 content_type: v_post.content_type,
                 parent_id: v_post.parent_id,
                 token:MoaConfig.auth.token,
-                text:a_text, 
+                text: CommonFunc.addHashTag(a_text,a_tag)
             };
 
             if (v_post.content_type==CONST.CONENT_TYPE_ASSET_ANSWER) {

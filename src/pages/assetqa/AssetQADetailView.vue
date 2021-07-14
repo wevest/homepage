@@ -168,7 +168,7 @@ export default {
         },
 
         refresh() {
-            logger.log.debug("AssetQAView.refresh");
+            logger.log.debug("AssetQAView.refresh : v_question=",this.v_question);
             
             if (! this.v_question.id) {
                 return;
@@ -188,7 +188,7 @@ export default {
         },
         loadQuestionComment: function() {
             const _this=this;
-            this.v_question.comments.load().then( response => {
+            this.v_question.comments.load(this.v_question.id).then( response => {
                 logger.log.debug("AssetQAView.loadQuestionComment : response=",response);
                 //_this.setContent(_this.v_question.body);
                 //_this.loadQuestionComment();
@@ -214,6 +214,7 @@ export default {
                 let a_post = new AnswerPageModel();
                 a_post.question_id = this.v_question.id;
                 a_post.title = this.v_question.title;
+                a_post.api_tags = this.v_question.api_tags;
                 a_post.setContentType(CONST.CONENT_TYPE_ASSET_ANSWER);
 
                 store.getters.nav.add(this.$route);

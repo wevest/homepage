@@ -63,14 +63,9 @@
         <q-separator class="gSeparator" />
 
         <div>
-            <div class="row q-mt-xl q-mb-sm">
-                <CTitle ttype="subtitle" title="$t('page.profile.portfolio')" desc="$t('page.profile.portfolio')"></CTitle>
-                <q-space />
-                <div>   
-                    <q-btn label="Portfolio" @click="onClickMorePortfolio" />&nbsp;
-                    <q-btn class="gButtonSM" v-if="isOwner" label="Add" @click="onClickAddPortfolio" />
-                </div>
-            </div>
+            <CTitle ttype="subtitle" title="$t('page.profile.portfolio')" desc="$t('page.profile.portfolio')"
+                loadMoreCaption="Portfolio" @onClickTitleMore="onClickMorePortfolio"></CTitle>
+
             <PortfolioList ref='portfolioList' 
                 :data="v_user.portfolio" 
                 @onClickPortfolio="onClickPortfolio"></PortfolioList>
@@ -301,11 +296,13 @@ export default {
 
         onClickMorePortfolio: function() {
             logger.log.debug("ProfileView.onClickMorePortfolio");
+            store.getters.nav.add(this.$route);  
+            CommonFunc.navPortfolioView(this,this.v_user);
         },
 
         onClickPortfolio: function(portfolio) {
             logger.log.debug("ProfileView.onClickPortfolio:portfolio=",portfolio);
-            //this.$refs.addPortfolio.show();
+            store.getters.nav.add(this.$route);  
             CommonFunc.navPortfolio(this,this.v_user,portfolio);
             //store.getters.nav.add(this.$route);
             //let dic_param = { name:'portfolio_detail', path:'portfolio_detail', params:{ user:this.v_user, portfolio:portfolio, back:true } };

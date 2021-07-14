@@ -120,7 +120,7 @@ export default {
         },
 
         loadAssetQuestionData: function() {
-            let dic_param = {'parent_id':this.g_asset.object_id};
+            let dic_param = {'category':this.g_asset.symbol};
             this.$refs.questionList.update(dic_param);
         },
 

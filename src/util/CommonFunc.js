@@ -555,6 +555,15 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);
     }
 
+    static navPortfolioView(a_this,user) {        
+        store.getters.nav.add(a_this.$route);
+        let dic_param = { 
+            name:'portfolio', path:'portfolio', 
+            query:{ username:user.username} 
+        };
+        a_this.$router.push(dic_param);    
+    }
+
     static navPortfolio(a_this,user,portfolio,url_only=false) {        
         store.getters.nav.add(a_this.$route);
         let dic_param = { 
@@ -1537,5 +1546,21 @@ export default class CommonFunc {
         return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
                !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
     }    
+
+    static addHashTag(str,tags,addBR="<br><br>") {
+        let ret = str;
+        let tag_count = 0;
+        for (let index=0;index<tags.length;index++) {
+            let tag = tags[index];
+            if (ret.search('#'+tag)==-1) {
+                if ( (addBR.length>0) && (tag_count==0) ) {
+                    ret += addBR;
+                }
+                ret += " #"+tag+" ";
+                tag_count += 1;
+            }
+        }
+        return ret;
+    }
 }
 

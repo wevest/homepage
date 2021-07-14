@@ -120,10 +120,17 @@ export default {
                 return;
             }
             
-
             let v_post = this.v_post;
             v_post.question_id = this.v_post.question_id;
-            this.$refs.baseEditor.save(v_post);
+
+            let tags = [];
+            for (let index=0;index<this.v_post.api_tags.length;index++) {
+                tags.push(this.v_post.api_tags[index].name);
+            }
+
+            this.$refs.baseEditor.save(this.v_post,tags);
+
+            //this.$refs.baseEditor.save(v_post);
         },
 
         onPostSave: function(dic_param) {

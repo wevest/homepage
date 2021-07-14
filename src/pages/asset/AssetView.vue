@@ -294,7 +294,7 @@ export default {
         },
 
         loadAssetQuestionData: function() {
-            let dic_param = {'parent_id':this.v_asset.object_id};
+            let dic_param = {'category':this.v_asset.symbol};
             this.$refs.questionList.update(dic_param);
         },
 

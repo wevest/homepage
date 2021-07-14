@@ -110,7 +110,7 @@ const routes = [
 		meta: { transition: "overlay-right" }
       },
 
-      //{ name: 'portfolio', path: 'portfolio', component: () => import('pages/user/PortfolioView.vue') },
+      { name: 'portfolio', path: 'portfolio', component: () => import('pages/portfolio/PortfolioView.vue') },
 
       // market related
       {

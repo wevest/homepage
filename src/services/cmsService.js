@@ -180,7 +180,7 @@ export default class CMSAPI {
 	static getAssetReview(reqParam, func, funcErr) {
 		let url = CMSAPI.getUrl(
 			MoaConfig.urls.cms,
-			"/api/review/reviews/?object_id=" + reqParam.object_id
+			"/api/review/reviews/?category=" + reqParam.category
 		);
 		url = CommonFunc.addLimitOffsetToQuery(url, reqParam);
 		
@@ -259,8 +259,8 @@ export default class CMSAPI {
 
 	static getAssetQuestion(dic_param, func, funcErr) {
 		let a_method = null;
-		if (dic_param.hasOwnProperty("parent_id")) {
-			a_method = "/api/qa/questions/?parent_id=" + dic_param.parent_id;
+		if (dic_param.hasOwnProperty("category")) {
+			a_method = "/api/qa/questions/?category=" + dic_param.category;
 		}
 		if (dic_param.hasOwnProperty("id")) {
 			a_method = "/api/qa/questions/?id=" + dic_param.id;

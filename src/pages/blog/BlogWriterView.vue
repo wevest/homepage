@@ -33,12 +33,14 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{v_error.text.msg}}
                 </div>
             </div>
+<!--            
             <div style="padding-top:10px;">
                 <q-input v-model="v_post.tags" label="Tags" />
             </div>
             <div>
                 <q-select v-model="v_category" :options="v_options" behavior="menu" label="Category" />
             </div>
+-->            
         </div>
 
 
@@ -134,8 +136,7 @@ export default {
             //this.v_post.category_id = this.$route.params.category_id;
             if (this.v_post.id) {
                 this.handlePostPage(this.v_post);
-            }
-            
+            }            
         },
 
         setPost(post) {
@@ -252,14 +253,15 @@ export default {
 
         onClickSave: function() {                        
             const _this = this;
-            const a_text = this.$refs.toastEditor.invoke('getHtml');
+            let a_text = this.$refs.toastEditor.invoke('getHtml');
+            //a_text += "<br>#" + this.v_post.category_name;
 
             let dic_param = {
                 content_type: this.v_post.content_type,
                 title:this.v_post.title,
-                tags:this.v_post.tags, 
-                category_name:this.v_post.category_name, 
-                text:a_text
+                //tags:this.v_post.tags, 
+                //category_name:this.v_post.category_name, 
+                text: CommonFunc.addHashTag(a_text,[this.v_post.category_name])
             };
 
             if (! this.isNewPost) {

@@ -31,9 +31,11 @@
                 <div v-if="v_error.text.error">
                     {{v_error.text.msg}}
                 </div>
+<!--                
                 <div>
                     <q-input v-model="v_post.tags" label="Tags" />
                 </div>
+-->                
             </div>
         </div>
         
@@ -46,7 +48,7 @@
 </template>
 
 <script>
-import { MoaConfig } from 'src/data/MoaConfig';
+import { CONST } from 'src/data/const';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 
@@ -87,9 +89,10 @@ export default {
     },
 
     created: function () {
-        logger.log.debug("QuestionWriterView.created");
+        
     },
     mounted: function() {
+        logger.log.debug("QuestionWriterView.mounted:post=",this.$route.params.post);
         this.setPost(this.$route.params.post);
         this.fillData();
     },
@@ -153,8 +156,9 @@ export default {
             if (! this.validate(this.v_post)) {
                 return;
             }
-
-            this.$refs.baseEditor.save(this.v_post);
+            
+            let a_tag = CONST.QUESTION_CATEGORY + this.v_post.category;
+            this.$refs.baseEditor.save(this.v_post,[a_tag,this.v_post.category]);
         },
 
         onClickBack: function() {

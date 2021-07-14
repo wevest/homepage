@@ -50,9 +50,8 @@
                     </q-item-label>  
                 
                     <q-item-label class="q-pt-sm">
-                        <p class="gCommentMD">
-                            {{a_review.content}}                                
-                        </p>
+                        <div v-html="a_review.content" class="gCommentMD">                           
+                        </div>
                     </q-item-label>
                 
                     <q-item-label class="text-right q-pb-xs">

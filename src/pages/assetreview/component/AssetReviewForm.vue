@@ -45,6 +45,7 @@
 
 
 <script>
+import { CONST } from 'src/data/const';
 import {store} from "src/store/store";
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
@@ -175,10 +176,11 @@ export default {
         save: function() {
             const _this = this;
             
+			let tags = [this.category,CONST.REVIEW_CATEGORY + this.category];
 			let dic_param = {
 				object_id: this.objectId,
                 category: this.category,
-                review: this.v_comments,
+                review: CommonFunc.addHashTag(this.v_comments,tags),
 				rating: this.v_rating,
 			};
             

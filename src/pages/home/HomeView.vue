@@ -11,7 +11,7 @@
 
         <div class="col">
             <BlogList ref='blogList' title="Market Trend" maxLength="10" moreCaption="More" 
-                category="MarketTrend" symbol="" objectId="-1"></BlogList>
+                category="news_market" symbol="" objectId="-1"></BlogList>
         </div>
 
         <div class="col">

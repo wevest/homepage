@@ -363,7 +363,8 @@ export class QuestionPageModel extends PostPageModel{
         this.id = obj.id;
         this.title = obj.title;
         this.body = obj.body;
-        
+        this.api_tags = obj.api_tags;
+
         this.comment_count=obj.comment_count;
         this.dislike_count= obj.dislike_count;
         this.like_count = obj.like_count;
@@ -472,6 +473,20 @@ export class QuestionPageModel extends PostPageModel{
             });
         });
     }
+    
+/*
+    loadComments(limit=null, offset=null) {
+        const _this=this;
+        let dic_param = {id:this.id,limit:limit, offset:offset};
+        return new Promise(function(resolve,reject) {
+            _this.comments.load(dic_param).then(resp=>{
+                resolve(resp);
+            }).catch(err=>{
+                reject(err);
+            });
+        });
+    }
+*/
 
 }
 
@@ -529,6 +544,7 @@ export class AnswerPageModel extends PostPageModel{
         //this = new PostPage();
         this.id = obj.id;        
         this.body = obj.body;
+        this.api_tags = obj.api_tags;
         this.answered = obj.answered;
 
         this.comment_count=obj.comment_count;
