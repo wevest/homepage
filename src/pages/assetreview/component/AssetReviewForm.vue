@@ -25,7 +25,7 @@
 				size="2.0em"
 				icon="star_border"
 				icon-selected="star"
-				color="amber-9"
+				color="red-5"
 			/>
 
 			<div class="row">

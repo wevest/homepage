@@ -2,27 +2,29 @@
     <div>
         <CTitle ttype='subtitle' :title="title" desc=""></CTitle>          
         <div class="row q-my-md">
-            <div class="col-6 q-px-sm">
-                <div>
+            <div class="col-6 q-px-sm q-pr-md text-center">
+                <div class="reviewRatingTitle q-pb-md" review>
                     Review Rating
                 </div>
-                <div>
-                    <span>{{reviews.stat.average_rating}}</span>
-                </div>
                 <q-rating
+                    class="q-pt-lg"
                     name="quality"
                     v-model="reviews.stat.average_rating"
                     max="5"
-                    size="1.5em"
-                    color="yellow"
+                    size="1.8em"
+                    color="red-5"
                     icon="star_outline"
                     icon-selected="star"
                     no-dimming
                     v-if="reviews.stat.average_rating"
-                />                 
+                />   
+                <div class="q-pt-md">
+                    <span class="reviewRating">{{v_format(reviews.stat.average_rating)}}</span>
+                    <span class="five">/5</span>
+                </div>              
             </div>
-            <div class="col-6 q-px-sm">
-                <div>
+            <div class="col-6 q-px-sm text-center">
+                <div class="reviewRatingTitle">
                     Rating Ratio
                 </div>
                 
@@ -32,7 +34,7 @@
                             <span>{{index}}</span>
                         </div>
                         <div class="boxProgress">
-                            <q-linear-progress stripe rounded size="15px" :value="v_value(index)" color="secondary" class="q-mt-sm" >
+                            <q-linear-progress stripe rounded size="15px" :value="v_value(index)" color="red-5" class="q-mt-sm" >
                                 <div class="flex flex-center">
                                     <q-badge color="white" text-color="accent" :label="v_label(index)" />
                                 </div>
@@ -96,6 +98,12 @@ export default {
                 return value;
             }
         },
+        v_format() {
+            return (value) => {   
+                return CommonFunc.formatNumber(value,1);
+            }
+
+        }
 	},
 	data() {
 		return {
@@ -112,11 +120,28 @@ export default {
 
 <style scoped>
 
+.reviewRatingTitle {
+    font-size:17px;
+    font-weight:500;
+}
+
+.reviewRating {
+    font-size:35px;
+    font-weight:bold;
+}
+
+.five {
+    font-size:35px;
+    color:#e0e3e5;
+    font-weight:bold;
+}
+
 .boxRating {    
     display:flex;
 }
 
 .boxLabel {
+    padding-top:5px;
     width:20px;
 }
 
