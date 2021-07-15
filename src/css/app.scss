@@ -203,11 +203,6 @@
 }
 
 
-
-
-
-
-
 .gSeparator {
   height:8px;
   background: #f0f1f6;
@@ -257,7 +252,7 @@
   font-size: map-get($body2,"size");
   line-height: map-get($body2,"line-height");
   letter-spacing: map-get($body2,"letter-spacing");
-  font-weight: map-get($body2,"weight");
+  font-weight: bold;
 }
 
 

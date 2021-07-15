@@ -3,9 +3,9 @@
 		<div class="col">
 			<div class="q-pb-lg row" v-if="v_me.loggedIn">
 				<div class="q-pr-md">
-				<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
+					<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
 				</div>
-				<div class="q-pt-md"> {{v_me.username}} </div>
+				<div class="gUserNameSM q-pt-md"> {{v_me.username}} </div>
 			</div>
 
 			<div class="q-pb-sm">
@@ -172,7 +172,6 @@ export default {
 				this.v_error.msg = "Please type something";
 				return false;
 			}
-
             return true;
 		},
 

@@ -7,10 +7,10 @@
                     Review Rating
                 </div>
                 <q-rating
-                    class="q-pt-lg"
+                    class="q-pt-lg" 
                     name="quality"
                     v-model="reviews.stat.average_rating"
-                    max="5"
+                    max="5" readonly
                     size="1.8em"
                     color="red-5"
                     icon="star_outline"
@@ -20,7 +20,7 @@
                 />   
                 <div class="q-pt-md">
                     <span class="reviewRating">{{v_format(reviews.stat.average_rating)}}</span>
-                    <span class="five">/5</span>
+                    <span class="five"> / 5</span>
                 </div>              
             </div>
             <div class="col-6 q-px-sm text-center">
@@ -88,21 +88,22 @@ export default {
                     return "";
                 }
 
-                return this.reviews.stat['rating_'+index].toLocaleString() + " %";
+                return CommonFunc.formatNumber(this.reviews.stat['rating_'+index],0) + " %";
             }
         },
         v_value() {
             return (index) => {   
                 const value = this.reviews.stat['rating_'+index]/100;
-                logger.log.debug("v_value=",index,value);
+                //logger.log.debug("v_value=",index,value);
                 return value;
             }
         },
         v_format() {
             return (value) => {   
+                if (! value) return 0;
+
                 return CommonFunc.formatNumber(value,1);
             }
-
         }
 	},
 	data() {

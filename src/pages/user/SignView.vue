@@ -212,19 +212,19 @@ export default {
 
         updateUsernameVerification () {
             // eslint-disable-next-line
-            let reg =  /[^0-9a-zA-Z-]/g
-            let valid = reg.test(this.v_user.username)
-
+            let reg = /^[0-9a-zA-Z]+$/;
+            let valid = reg.test(this.v_user.username)            
+            
             if (valid) {
                 this.v_user.usernameValid = true;
                 this.v_error.username.error = false;
-
             } else {
-                console.log('email invalid')
+                logger.log.debug('username invalid')
                 this.v_user.usernameValid = false
                 this.v_error.username.error = true;
                 this.v_error.username.msg = 'Username is invalid, please use number and letters only';
             }
+            return valid;
         },
 
         updateEmailVerification () {
@@ -233,15 +233,14 @@ export default {
             let valid = reg.test(this.v_user.email)
 
             if (valid) {
-                console.log('email is valid');
                 this.v_user.emailValid = true;
                 this.v_error.email.error = false;
             } else {
-                console.log('email invalid')
                 this.v_user.emailValid = false
                 this.v_error.email.error = true;
                 this.v_error.email.msg = 'email is invalid';
             }
+            return valid;
         },
 
         navHome: function() {
@@ -259,6 +258,12 @@ export default {
         },
 
         onSignUp: function() {
+            logger.log.debug("SignView.onSignup");
+
+            if (!this.updateEmailVerification()) return;
+            if (!this.updateUsernameVerification()) return;
+            
+
             const _this = this;
             let dic_param = {
                 username:this.v_user.username,

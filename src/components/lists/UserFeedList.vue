@@ -104,9 +104,8 @@ export default {
 			v_title: this.title,
 			v_maxLength: this.maxLength,
 			v_more_caption: this.moreCaption,								
-		
+
             v_pagination: {
-                offset: 0,
                 limit: this.limit,
                 uuid:''
             },
@@ -135,10 +134,35 @@ export default {
 				msg = "Portfolio : "+feed.title;
 			} else if (feed.verb=="AnswerComment") {
 				msg = "Write a Comment on AnswerPage : "+feed.title;
+			} else if (feed.verb=="AnswerCommentVote") {
+				msg = "Like a Comment on AnswerPage : "+feed.title;
 			} else if (feed.verb=="QuestionComment") {
 				msg = "Write a Comment on QuestionPage : "+feed.title;
+			} else if (feed.verb=="QuestionCommentVote") {
+				msg = "Like a Comment on QuestionPage : "+feed.title;
 			} else if (feed.verb=="CustomComment") {
-				msg = "Write a Comment on Post : " + feed.title;
+				
+				let target = "";
+				let action = "";
+
+				if (feed.parent=="portfolio.portfolio") {
+					target = "Portfolio";
+				} else {
+					target = "Blog";
+				}
+
+				if (feed.hasOwnProperty('extra')) {
+					if (feed.extra=="CommentLike") {
+						action = "Like";
+					} else {
+						action = "Write";
+					}
+				} else {
+					action = "Write";
+				}
+				
+				msg = action + " a Comment on " + target + " : " + feed.title;
+
 			} else if (feed.verb=="PostPage") {
 				msg = "Write a Post" + feed.title;
 			} else {
@@ -148,19 +172,17 @@ export default {
 			return msg;
 		},
 
-		update: function (user,offset=0) {
+		update: function (user) {
 			logger.log.debug("UserFeedList.update - user",user);
 			this.v_type = "user";
 			this.setUser(user);
-            this.v_pagination.offset = offset;
             this.loadFeeds();
 		},
 
-		updateMine: function (user,offset=0) {
+		updateMine: function (user) {
 			logger.log.debug("UserFeedList.updateMine - user",user);
 			this.v_type = "mine";
 			this.setUser(user);
-            this.v_pagination.offset = offset;
             this.loadMyFeeds();
 		},
 
@@ -177,24 +199,14 @@ export default {
 			}
 
 			const _this = this;
-			this.v_feeds.load(this.v_user.id,this.v_user.username,this.v_pagination.offset,this.v_pagination.limit,this.v_pagination.uuid).then(response=>{
+			this.v_feeds.load(this.v_user.id,this.v_user.username,this.v_pagination.limit,this.v_pagination.uuid).then(response=>{
 				_this.g_data = response.data;
 				_this.$refs.loadMore.setFeedPagination(response.data.next);
 				logger.log.debug("UserFeedList.loadFeeds - response",_this.g_data);
 			}).catch(err=>{
 				logger.log.error("UserFeedList.loadFeeds - err",err);
 			});
-
-/*
-			this.v_user.loadFeeds(this.v_pagination.offset,this.v_pagination.limit,this.v_pagination.uuid).then( response => {
-				_this.g_data = response.data;
-				_this.$refs.loadMore.setFeedPagination(_this.v_user.feeds.next_url);
-				logger.log.debug("UserFeedList.loadFeeds - response",_this.g_data);
-			})
-			.catch((err) => {
-				logger.log.error("UserFeedList.loadFeeds - err",err);
-			});
-*/			
+		
 		},
 
 
@@ -232,8 +244,9 @@ export default {
 				CommonFunc.navQADetail(this,feed.id);
 			} else if (feed.verb=="AnswerVote") {
 				CommonFunc.navQADetail(this,feed.question_id);
+
 			} else if (feed.verb=="CustomComment") {
-				
+
 				if (feed.parent=="portfolio.portfolio") {
 					CommonFunc.navPortfolio(this,feed.owner,feed.parent_id);
 				} else {
@@ -244,8 +257,12 @@ export default {
 				CommonFunc.navQADetail(this,feed.question_id);
 			} else if (feed.verb=="AnswerComment") {
 				CommonFunc.navQADetail(this,feed.question_id);
+			} else if (feed.verb=="AnswerCommentVote") {
+				CommonFunc.navQADetail(this,feed.question_id);
 			} else if (feed.verb=="QuestionComment") {
 				CommonFunc.navQADetail(this,feed.parent_id);
+			} else if (feed.verb=="QuestionCommentVote") {
+				CommonFunc.navQADetail(this,feed.question_id);
 			} else if (feed.verb=="PortfolioVote") {
 				CommonFunc.navPortfolio(this,feed.owner,feed.parent_id);
 			} else if (feed.verb=="PortfolioItem") {
@@ -261,8 +278,8 @@ export default {
 
 			this.v_pagination.uuid = this.$refs.loadMore.v_next.uuid;
 			this.v_pagination.limit = this.$refs.loadMore.v_next.limit;
-			this.v_pagination.offset = null;
-			
+			this.v_maxLength = 9999999;
+
 			if (this.v_user=="user") {
 				this.loadFeeds();
 			} else {

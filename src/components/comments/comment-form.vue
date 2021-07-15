@@ -1,46 +1,45 @@
 <template>
-	<div class="q-my-md commentBox rounded-borders" v-show="visible" @click="onClick">
-
-		<div class="row gParagraphSM" v-if="v_show">
-			<div class="commentWriterIcon">
-				<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
+	<div class="commentBox rounded-borders" v-show="visible" @click="onClick">
+		<div class="q-px-md">
+			
+			<div class="row gParagraphSM" :class="v_text_class" v-show="v_show">
+				<div class="commentWriterIcon">
+					<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
+				</div>
+				<div class="gUserNameSM q-ml-md q-mt-md"> {{v_me.username}} </div>
 			</div>
-			<div class="userName q-ml-md"> {{v_me.username}} </div>
-		</div>
 
-		<div class="q-mt-md">
-			<WTextArea ref="descText"  
-				v-model="v_comments" :rows="v_rows" :maxlength="maxlength" 
-				customClass="gCommentMD"
-				label="Please type your comments" 
-				hint="Please write comments"
-				@onTextChange="onTextChange"
-				@onFocus="onFocus"
-				@onFocusOut="onFocusOut" />
-		</div>
+			<div :class="v_text_class">
+				<WTextArea ref="descText"  
+					v-model="v_comments" :rows="v_rows" :maxlength="maxlength" 
+					customClass="gCommentMD"
+					label="Please type your comments" 
+					hint="Please write comments"
+					@onTextChange="onTextChange"
+					@onFocus="onFocus"
+					@onFocusOut="onFocusOut" />
+			</div>
 
-		<div v-if="v_show" class="row">
-			<div class="typeLength">
-				<span> {{v_length_msg}} </span>
-			</div>	
-			<q-space />				
-			<q-btn 
-				class="q-mb-sm gButtonMD"
-				label="save"
-				@click.stop="onClickSubmit"
-				v-if="showSaveButton" />&nbsp;
+			<div v-if="v_show" class="row">
+				<div class="typeLength">
+					<span> {{v_length_msg}} </span>
+				</div>	
+				<q-space />				
+				<q-btn class="q-mb-sm gButtonMD" label="Save"
+					@click.stop="onClickSubmit"
+					v-if="showSaveButton" />&nbsp;
 
-			<q-btn 
-				class="q-mb-sm gButtonMD"
-				label="Close" 
-				@click="onClickClose" />
-<!--
-			<q-btn 
-				class="q-mb-sm gButtonMD"
-				label="Close" 
-				@click="onClickClose" 
-				v-if="type=='reply'" />
--->				
+				<q-btn 
+					class="q-mb-sm gButtonMD" label="Close" 
+					@click="onClickClose" />
+	<!--
+				<q-btn 
+					class="q-mb-sm gButtonMD"
+					label="Close" 
+					@click="onClickClose" 
+					v-if="type=='reply'" />
+	-->				
+			</div>
 		</div>
 	</div>
 
@@ -103,6 +102,16 @@ export default {
         v_me() {
             return store.getters.me;
         },
+/*		
+		v_text_class() {
+			if (this.v_show) {
+				logger.log.debug("v_text_class:q_pt_md");
+				return 'q-pt-md';
+			}
+			logger.log.debug("v_text_class");
+			return '';
+		}
+*/		
 	},
 	data() {
 		return {
@@ -113,6 +122,7 @@ export default {
 			v_comment_item: null,
 
 			v_show: false,
+			v_text_class: '',
 
 			v_input: "",
 			v_style: "",
@@ -176,6 +186,7 @@ export default {
 			this.v_input = "";
 			this.v_comments = null;
 			this.v_show = false;	
+			this.v_text_class = '';
 
 			this.$refs.descText.hideBorder();
 			this.$refs.descText.clear();
@@ -272,7 +283,8 @@ export default {
             //this.$refs.commentForm.v_comments = "";
             
 			this.v_show = true;	
-
+			this.v_text_class = 'q-pt-md';
+			
 			setTimeout( () => {
 				this.$refs.descText.showBorder();
 				this.$refs.descText.setRows(5);		
@@ -346,7 +358,7 @@ export default {
 }
 
 .userName {
-	padding:20px 0px 0px 10px;
+	padding:15px 0px 0px 10px;
 }
 
 </style>

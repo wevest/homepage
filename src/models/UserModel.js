@@ -33,7 +33,8 @@ export class FeedModel {
     question_id=null;
     owner=null;
     action=null;
-
+    extra=null;
+    
     assign(obj) {
         //logger.log.debug("FeedModel : obj=",obj);
 
@@ -56,6 +57,7 @@ export class FeedModel {
 
         this.owner = CommonFunc.safeGetKeyValue(obj,'owner');
         this.action = CommonFunc.safeGetKeyValue(obj,'action');
+        this.extra = CommonFunc.safeGetKeyValue(obj,'extra');
 
         //this.url = this.getUrl();
     }
@@ -85,8 +87,8 @@ export class FeedListModel extends baseCollection{
         }
     }
 
-    load(userid,username,offset=0,limit=20,uuid='') {
-        let dic_param = {user_id:userid,username:username,uuid:uuid,offset:offset,limit:limit};
+    load(userid,username,limit=20,uuid='') {
+        let dic_param = {user_id:userid,username:username,uuid:uuid,limit:limit};
         
         const _this = this;
         return new Promise(function(resolve,reject) {

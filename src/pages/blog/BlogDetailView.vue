@@ -34,8 +34,7 @@
                 <q-space />
 
                 <WCommandBar :data="v_post" :isOwner="v_post.is_owner" 
-                    shareBtn="share" updateBtn="update" deleteBtn="delete" 
-                    @onClickShare="onClickShare" 
+                    shareBtn="" updateBtn="update" deleteBtn="delete" 
                     @onClickUpdate="onClickUpdate" 
                     @onClickDelete="onClickDelete" 
                 />

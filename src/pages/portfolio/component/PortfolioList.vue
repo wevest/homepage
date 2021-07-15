@@ -17,11 +17,11 @@
                     <div class="roiBox">
                         <div class="gROILG"> 
                             <span :style="v_color_style(a_portfolio.roi)" class="text-weight-bolder"> 
-                                {{ Number(a_portfolio.roi).toLocaleString() }} % 
+                                {{ v_format(a_portfolio.roi) }} % 
                             </span>
                             
                         </div>
-                        <div class="gCaption"> $ {{a_portfolio.estimated_value.toLocaleString() }} </div>
+                        <div class="gCaption"> $ {{v_format(a_portfolio.estimated_value,3) }} </div>
                     </div>
                 </div>
                 <div>
@@ -99,7 +99,15 @@ export default {
                 return "color:#005dde;";
             };
         },
-
+        v_format() {
+            return (value,decimal=1) => {                
+                if(!value) {
+                    return '';
+                }
+                return CommonFunc.formatNumber(value,decimal);
+                //return value.toLocaleString();
+            };
+        },
     },
 
     mounted: function() {},

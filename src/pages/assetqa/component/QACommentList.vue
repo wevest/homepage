@@ -7,20 +7,20 @@
             header-class="text-primary text-center"
         >
 
-            <div>
+            <div class="q-my-md">
                 <CommentForm ref="commentEditor" type="comment"
                     :contentType="contentType" :post="data" save="custom"
                     @onClickCommentSave="onClickSaveComment" />
             </div>                                    
 
             <div v-if="data.comments.items && data.comments.items.length>0">
-                <div class="gCommentBox q-pb-sm" v-for="(a_comment,index2) in data.comments.items" :key="index2">
+                <div class="gCommentBox q-py-md" v-for="(a_comment,index2) in data.comments.items" :key="index2">
                     <div class="row">
                         <div class="q-pr-md">
                             <WAvatar :avatar="a_comment.owner.avatar_thumb" :username="a_comment.owner.username" />
                         </div>
                         <div class="col">
-                            <div class="q-pt-sm"> {{a_comment.owner.username}} </div>
+                            <div class="gUserNameSM q-pt-sm"> {{a_comment.owner.username}} </div>
                             <WSubinfo username="" :pub_date="a_comment.pub_date" like_count="-1" dislike_count="-1" />
                         </div>
                         
@@ -32,19 +32,12 @@
                                 shareBtn="" updateBtn="" deleteBtn="delete" 
                                 @onClickDelete="onClickDeleteComment" 
                             />
-    <!--
-                            <q-icon
-                                class="deleteBtn" 
-                                name="delete_outline" 
-                                v-if="v_is_owner(a_comment)"
-                                @click="onClickDeleteComment(data,a_comment)" 
-                                />
-    -->                                            
+    
                         </div>
 
                     </div>
                     
-                    <div class="gBodySM">
+                    <div class="q-pt-md gBodySM">
                         <p> {{ a_comment.comment_text}} </p>
                     </div>
                     

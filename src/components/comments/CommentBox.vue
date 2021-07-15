@@ -110,7 +110,7 @@ export default {
             logger.log.debug("BlogPage.onClickRate=",dic_payload);
 
             let dic_param = {comment: dic_payload.data.id, flag:dic_payload.rate};
-            this.v_portfolio.comments.vote(dic_param).then( response => {
+            this.v_post.comments.vote(dic_param).then( response => {
                 CommonFunc.showOkMessage(_this,'Comments rate updated');
             });
         },

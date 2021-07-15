@@ -13,8 +13,7 @@
                         
                         <WCommandBar 
                             :data="v_portfolio" :isOwner="v_is_owner" 
-                            shareBtn="share" updateBtn="" deleteBtn="delete" 
-                            @onClickShare="onClickShare" 
+                            shareBtn="" updateBtn="" deleteBtn="delete" 
                             @onClickDelete="onClickDeletePortfolio" 
                         />
 
@@ -92,13 +91,13 @@
 
         <q-separator class="gSeparator" />
 
-        <div class="q-pa-xs">
-            <q-card class="q-my-md" flat bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index">
+        <div class="q-py-xs">
+            <q-card class="q-my-md " flat bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index">
                 <q-card-section>
                     <div class="row">
                         <div class="row iconBox">
                             <div class="q-pr-sm">  
-                                <q-icon class="coinIcon" name="account_tree" color="black" size="34px" />                                    
+                                <q-icon class="coinIcon" name="paid" color="black" size="34px" />                                    
                             </div>    
                             <div @click="onClickMore(a_portfolio)">
                                 <div class="symbolBox">
@@ -137,7 +136,7 @@
                         <div class="col">  
                             <span class="gCaption">Current Price</span>
                             <br>
-                            <span class="text-h5 text-weight-bold">$ {{ v_format(a_portfolio.last) }}</span>                                
+                            <span class="text-h5 text-weight-bold">$ {{ v_format(a_portfolio.last,3) }}</span>                                
                         </div>                            
                     </div>
 
@@ -157,7 +156,7 @@
 
         <q-separator class="gSeparator" />
 
-        <div class="q-ma-sm">
+        <div class="q-mt-md">
             <CommentBox ref="commentBox"             
                 :contentType="v_content_type" :post="v_portfolio" :items="v_portfolio.comments.items" />            
         </div>
@@ -204,11 +203,12 @@ export default {
             return store.getters.me;
         },
         v_format() {
-            return (value) => {
+            return (value,decimal=1) => {                
                 if(!value) {
                     return '';
                 }
-                return value.toLocaleString();
+                return CommonFunc.formatNumber(value,decimal);
+                //return value.toLocaleString();
             };
         },
         v_updated_at() {
