@@ -98,7 +98,7 @@
                     <div class="row">
                         <div class="row iconBox">
                             <div class="q-pr-sm">  
-                                <q-icon class="coinIcon" name="account_tree" color="black" size="34px" />                                    
+                                <q-icon class="coinIcon" name="monetization_on" color="black" size="34px" />                                    
                             </div>    
                             <div @click="onClickMore(a_portfolio)">
                                 <div class="symbolBox">
@@ -534,7 +534,7 @@ export default {
 
 .coinIcon {
     height:50px;
-    margin-top:-3px;
+    margin:-3px 3px 0px -8px;
 }
 
 .symbolBox {
@@ -543,7 +543,7 @@ export default {
 
 
 .cardSection2 {
-     padding:5px 0px 5px 58px; 
+     padding:5px 0px 5px 53px; 
 }
 
 .NavigationBtn {

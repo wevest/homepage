@@ -158,7 +158,7 @@
 			    <q-list separator   transition-show="jump-down" transition-hide="jump-up">
 					<q-item clickable v-close-popup @click="onClickPortfolio">
 						<q-item-section avatar>
-							<q-avatar icon="folder" color="primary" text-color="white" />
+							<q-avatar icon="work" color="primary" text-color="white" />
 						</q-item-section>						
 					    <q-item-section>
             				<q-item-label>Portfolio</q-item-label>
@@ -166,7 +166,7 @@
         			</q-item>
 					<q-item clickable v-close-popup @click="onClickShare">
 						<q-item-section avatar>
-							<q-avatar icon="folder" color="primary" text-color="white" />
+							<q-avatar icon="share" color="primary" text-color="white" />
 						</q-item-section>						
 					    <q-item-section>
             				<q-item-label>Share</q-item-label>
@@ -174,7 +174,7 @@
         			</q-item>
 					<q-item clickable v-close-popup @click="onClickFab">
 						<q-item-section avatar>
-							<q-avatar icon="folder" color="primary" text-color="white" />
+							<q-avatar icon="article" color="primary" text-color="white" />
 						</q-item-section>						
 					    <q-item-section>
             				<q-item-label>Blog</q-item-label>
@@ -182,7 +182,7 @@
         			</q-item>
 					<q-item clickable v-close-popup @click="onClickFab">
 						<q-item-section avatar>
-							<q-avatar icon="folder" color="primary" text-color="white" />
+							<q-avatar icon="help" color="primary" text-color="white" />
 						</q-item-section>						
 					    <q-item-section>
             				<q-item-label>Question</q-item-label>

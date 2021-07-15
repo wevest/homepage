@@ -14,37 +14,38 @@
             </div>                                    
 
             <div v-if="data.comments.items && data.comments.items.length>0">
-                <div class="gCommentBox q-pb-sm" v-for="(a_comment,index2) in data.comments.items" :key="index2">
-                    <div class="row">
+                <div class="gCommentBox q-py-sm" v-for="(a_comment,index2) in data.comments.items" :key="index2">
+                    <div class="row boxWidth">
                         <div class="q-pr-md">
                             <WAvatar :avatar="a_comment.owner.avatar_thumb" :username="a_comment.owner.username" />
                         </div>
-                        <div class="col">
-                            <div class="q-pt-sm"> {{a_comment.owner.username}} </div>
-                            <WSubinfo username="" :pub_date="a_comment.pub_date" like_count="-1" dislike_count="-1" />
-                        </div>
-                        
-                        <q-space />
+                        <div class="row nameDeleteBox">  
+                            <div class="col">
+                                <div> {{a_comment.owner.username}} </div>
+                                <WSubinfo username="" :pub_date="a_comment.pub_date" like_count="-1" dislike_count="-1" />
+                            </div>
+                            
+                            <q-space />
 
-                        <div v-if="v_is_owner(a_comment)"> 
+                            <div v-if="v_is_owner(a_comment)"> 
 
-                            <WCommandBar :data="{answer:data,comment:a_comment}" :isOwner="v_is_owner(a_comment)" 
-                                shareBtn="" updateBtn="" deleteBtn="delete" 
-                                @onClickDelete="onClickDeleteComment" 
-                            />
-    <!--
-                            <q-icon
-                                class="deleteBtn" 
-                                name="delete_outline" 
-                                v-if="v_is_owner(a_comment)"
-                                @click="onClickDeleteComment(data,a_comment)" 
+                                <WCommandBar :data="{answer:data,comment:a_comment}" :isOwner="v_is_owner(a_comment)" 
+                                    shareBtn="" updateBtn="" deleteBtn="delete" 
+                                    @onClickDelete="onClickDeleteComment" 
                                 />
-    -->                                            
+        <!--
+                                <q-icon
+                                    class="deleteBtn" 
+                                    name="delete_outline" 
+                                    v-if="v_is_owner(a_comment)"
+                                    @click="onClickDeleteComment(data,a_comment)" 
+                                    />
+        -->                                            
+                            </div>
                         </div>
-
                     </div>
                     
-                    <div class="gBodySM">
+                    <div class="q-pt-md gBodySM">
                         <p> {{ a_comment.comment_text}} </p>
                     </div>
                     
@@ -230,5 +231,15 @@ export default {
 
 </script>
 <style scoped>
+
+.boxWidth {
+    display:flex;
+} 
+
+.nameDeleteBox {
+    margin-top:11px;
+    flex:1 auto;
+}
+
 
 </style>
