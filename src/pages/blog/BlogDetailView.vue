@@ -322,12 +322,6 @@ export default {
                 CommonFunc.showOkMessage(_this,'Comments rate updated');
             });
         },
-        
-        onClickShare: function(post) {
-            let a_url = CommonFunc.navBlogDetail(this,post.id,true);
-            logger.log.debug("BlogPage.onClickShare=",post,a_url);            
-            CommonFunc.copyUrl(this,a_url);
-        },
 
         onBlogAdded: function() {
             logger.log.debug("BlogPage.onBlogAdded=");            

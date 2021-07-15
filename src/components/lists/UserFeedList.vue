@@ -220,7 +220,6 @@ export default {
 			logger.log.debug("onClickFeed : feed = ", feed);			
 			//return;
 			
-			store.getters.nav.add(this.$route);
 			if (feed.verb=="PostPage") {
                 CommonFunc.navBlogDetail(this,feed.id);
 			} else if (feed.verb=="PostPageVote") {
@@ -254,13 +253,6 @@ export default {
 			}
 
 			return;
-
-
-			//lse {
-			/*
-			} else if (feed.verb=="PortfolioItem") {
-				msg = "Portfolio : "+feed.title;
-*/
 			
 		},
 

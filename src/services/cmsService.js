@@ -232,7 +232,7 @@ export default class CMSAPI {
 	static getAssetReviewStat(reqParam, func, funcErr) {
 		let url = CMSAPI.getUrl(
 			MoaConfig.urls.cms,
-			"/api/review/reviews/1/stat?category="+reqParam.category			
+			"/api/review/reviewstat?category="+reqParam.category			
 		);
 		
 		callCMSAPI("GET", url, {}, reqParam)
@@ -318,7 +318,7 @@ export default class CMSAPI {
       	});
   	}
 
-	  static deleteAssetQuestion(dic_param, func, funcErr) {
+	static deleteAssetQuestion(dic_param, func, funcErr) {
     	let url = CMSAPI.getUrl(
       		MoaConfig.urls.cms,
       		"/api/qa/questions/" + dic_param.id + "/"
@@ -332,16 +332,16 @@ export default class CMSAPI {
       	});
   	}
 
-  static postAssetAnswer(dic_param, func, funcErr) {
-    let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/qa/answers/");
-    callCMSAPI("POST", url, {}, dic_param)
-      .then(response => {
-        func(response);
-      })
-      .catch(err => {
-        funcErr(err);
-      });
-  }
+	static postAssetAnswer(dic_param, func, funcErr) {
+		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/qa/answers/");
+		callCMSAPI("POST", url, {}, dic_param)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+	}
 
   	static getAssetAnswer(dic_param, func, funcErr) {
     	let url = CMSAPI.getUrl(
@@ -358,19 +358,19 @@ export default class CMSAPI {
     	});
   	}
 
-  static voteAssetAnswer(dic_param, func, funcErr) {
-    let url = CMSAPI.getUrl(
-      MoaConfig.urls.cms,
-      "/api/qa/answers/" + dic_param.id + "/" + dic_param.method + "/"
-    );
-    callCMSAPI("POST", url, {}, dic_param)
-      .then(response => {
-        func(response);
-      })
-      .catch(err => {
-        funcErr(err);
-      });
-  }
+	static voteAssetAnswer(dic_param, func, funcErr) {
+		let url = CMSAPI.getUrl(
+		MoaConfig.urls.cms,
+		"/api/qa/answers/" + dic_param.id + "/" + dic_param.method + "/"
+		);
+		callCMSAPI("POST", url, {}, dic_param)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+	}
 
 	static deleteAnswerPost(dic_param, func, funcErr) {
 		let url = CMSAPI.getUrl(
@@ -488,7 +488,7 @@ export default class CMSAPI {
   	}
 
 
-	  static voteAssetQuestionComment(dic_param, func, funcErr) {
+	static voteAssetQuestionComment(dic_param, func, funcErr) {
 		let url = CMSAPI.getUrl(
 		MoaConfig.urls.cms,
 		"/api/qa/qcomments/" + dic_param.id + "/" + dic_param.method + "/"

@@ -409,9 +409,7 @@ export default {
         },
 
         onClickBlog: function(param) {
-            logger.log.debug('AssetView.onClickBlog',this.$route);
-			
-            store.getters.nav.add(this.$route);            
+            logger.log.debug('AssetView.onClickBlog',this.$route);			
 			CommonFunc.navBlog(this,param.page_id);
         },
 

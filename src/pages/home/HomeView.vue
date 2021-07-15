@@ -22,12 +22,14 @@
             <AssetList ref='assetList' title="Asset List" maxLength="10" moreCaption="More" ></AssetList>
         </div>
 
+        <div class="col">
+            <ReviewStatList ref='reviewList' title="Review List" category="" maxLength="10" moreCaption="More"></ReviewStatList>
+        </div>
+
         <div>
             <UserFeedList ref='feedList' title="userfeed" 
                 maxLength="10" moreCaption="More" user="v_me"></UserFeedList>
-        </div>
-
-                                                
+        </div>                                               
   </div> 
 
 </template>
@@ -44,6 +46,7 @@ import CBigLabel from 'components/CBigLabel';
 import BlogList from 'components/lists/BlogList';
 import AssetList from 'components/lists/AssetList';
 import PortfolioList from 'components/lists/PortfolioList';
+import ReviewStatList from 'components/lists/ReviewStatList';
 import UserFeedList from 'components/lists/UserFeedList';
 
 import DataService from 'src/services/dataService';
@@ -63,7 +66,8 @@ export default {
         BlogList,
         PortfolioList,
         AssetList,
-        UserFeedList
+        UserFeedList,
+        ReviewStatList
     },
     computed: {
         v_me() {
@@ -122,6 +126,7 @@ export default {
                 this.loadAssetList(),
                 this.loadPortfolioList(),
                 this.loadFeedList(),
+                this.loadReviewStatList(),
                 this.loadCryptoWatch(),
                 /*
                 this.loadIndexData(),
@@ -154,6 +159,10 @@ export default {
 
         loadPortfolioList: function() {
             this.$refs.portfolioList.update();
+        },
+
+        loadReviewStatList: function() {
+            this.$refs.reviewList.update();
         },
 
         showChart: function(asset,dates,a_date) {

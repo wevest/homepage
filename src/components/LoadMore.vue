@@ -85,12 +85,11 @@ export default {
 
 .loadmoreSeparator2 {
     margin-bottom:10px;
-
 }
 
 .loadMoreBox {
     padding:5px 0px;
     color:#333333;
-
 }
+
 </style>

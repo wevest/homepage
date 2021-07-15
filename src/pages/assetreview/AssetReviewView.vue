@@ -96,11 +96,17 @@ export default {
     
     methods: {
         validateQuery() {            
+            /*
             if (! CommonFunc.isEmptyObject(this.$route.query.id)) {
                 if (! CommonFunc.isEmptyObject(this.$route.query.symbol)) {
                     return;
                 }
             }                
+            */
+           
+            if (! CommonFunc.isEmptyObject(this.$route.query.symbol)) {
+                return;
+            }
 
             CommonFunc.navError404(this);
         },

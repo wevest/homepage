@@ -165,11 +165,8 @@ export default {
         },
 
         onClickQuestion: function(jsonObject) {
-            logger.log.debug('onClickQuestion - ',jsonObject); 
-            
-            store.getters.nav.add(this.$route);
-            CommonFunc.navQADetail(this,jsonObject.id);
-            
+            logger.log.debug('onClickQuestion - ',jsonObject);             
+            CommonFunc.navQADetail(this,jsonObject.id);            
             //this.$emit("onClickQuestion",jsonObject);          
         },
 
@@ -190,8 +187,6 @@ export default {
 
         onClickMoreQuestion:function() {
             logger.log.debug('AssetQuestionList.onClickMoreQuestion');
-
-            store.getters.nav.add(this.$route);
             CommonFunc.navQA(this,this.symbol,this.objectId);
         }
 

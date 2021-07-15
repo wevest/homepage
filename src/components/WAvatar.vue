@@ -32,9 +32,7 @@ export default {
     },
     methods: {
         onClickAvatar: function() {
-            logger.log.debug("WAvatar.onClick");
-            
-            store.getters.nav.add(this.$route); 
+            logger.log.debug("WAvatar.onClick");            
             CommonFunc.navProfile(this,this.username);
         }
     }

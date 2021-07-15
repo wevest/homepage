@@ -549,7 +549,8 @@ export default class CommonFunc {
 
     static navProfile(a_this,username) {
         logger.log.debug("CommonFunc.navProfile - ",username);
-
+        
+        store.getters.nav.add(a_this.$route);
         //CommonFunc.setAppData('selected_author',author);
         let dic_param = { name:'profile', path:'profile', query:{ username:username } };
         a_this.$router.push(dic_param);
@@ -573,12 +574,13 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);    
     }
 
-    static navReview(a_this,symbol,page_id,url_only=false) {
+    static navReview(a_this,symbol,page_id) {
         let dic_param = {
             name: "assetreview",path: "assetreview", query: { symbol:symbol, id: page_id },
         };
         
         logger.log.debug("CommonFunc.navReview - ",dic_param);
+        store.getters.nav.add(a_this.$route);
         a_this.$router.push(dic_param);
     }
 
@@ -591,31 +593,21 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);
     }
 
-    static navBlog(a_this,category,symbol,page_id,url_only=false) {
+    static navBlog(a_this,category,symbol,page_id) {
         let dic_param = {
             name: "blog",path: "blog", query: { category:category, symbol:symbol, id: page_id },
-        };
-        //logger.log.debug("navBlog : dic_param=",dic_param);
-        if (url_only) {            
-            let a_url = "/#/" + dic_param.path+"?category=" + category+ "&symbol="+symbol+"&id="+page_id;
-            return a_url;
-        }
-        
-        logger.log.debug("navBlog : dic_param=",dic_param);
+        };        
+        store.getters.nav.add(a_this.$route);
         a_this.$router.push(dic_param);
     }
     
-    static navBlogDetail(a_this,page_id,url_only=false) {
+    static navBlogDetail(a_this,page_id) {
         let dic_param = {
             name: "blog_detail",path: "blog_detail", query: { page_id: page_id }, meta: {transition:'zoom'} 
         };
-        if (url_only) {            
-            //const value = window.location.host+link_url;
-            let a_url = window.location.host+"/#/" + dic_param.path+"?page_id="+page_id;
-            return a_url;
-        }
         
         logger.log.debug("navBlogDetail : dic_param=",dic_param);
+        store.getters.nav.add(a_this.$route);
         a_this.$router.push(dic_param);
     }
 
@@ -623,6 +615,7 @@ export default class CommonFunc {
         let dic_param = {
             name: "assetqa_detail",path: "assetqa_detail", query: { id: page_id },
         };
+        store.getters.nav.add(a_this.$route);
         a_this.$router.push(dic_param);
     }
 
@@ -630,7 +623,7 @@ export default class CommonFunc {
         let dic_param = {
             name: "assetqa",path: "assetqa", query: {symbol:symbol, parent_id:id},
         };
-
+        store.getters.nav.add(a_this.$route);
         a_this.$router.push(dic_param);
     }
 
@@ -639,6 +632,7 @@ export default class CommonFunc {
 
         //store.getters.nav.add(a_this.$route);
         let dic_param = { name:'asset', path:'asset', query:{ symbol:symbol, id: page_id } };
+        store.getters.nav.add(a_this.$route);
         a_this.$router.push(dic_param);
     }
 
@@ -646,10 +640,12 @@ export default class CommonFunc {
         let dic_param = {
             name: "asset_detail",path: "asset_detail", query: { symbol:symbol, id: page_id},
         };
-
+        store.getters.nav.add(a_this.$route);
         a_this.$router.push(dic_param);
     }
     
+
+
     static navInstrument(a_this,asset) {
         logger.log.debug("CommonFunc.navInstrument - ",asset);
         

@@ -174,9 +174,7 @@ export default {
 		},
 
 		onClickBlog: function (page_id) {
-			logger.log.debug("onClickBlog : page_id = ", page_id);
-			
-			store.getters.nav.add(this.$route);
+			logger.log.debug("onClickBlog : page_id = ", page_id);			
 			CommonFunc.navBlogDetail(this,page_id);
 			//this.$emit("onClickBlog",{page_id:page_id});
 		},
@@ -190,9 +188,7 @@ export default {
 		},
 
 		onClickMoreBlog: function() {
-			logger.log.debug("BlogList.onClickMoreBlog : 1");
-			
-			store.getters.nav.add(this.$route);
+			logger.log.debug("BlogList.onClickMoreBlog : 1");			
             CommonFunc.navBlog(this,this.category,this.symbol,this.objectId);
 		}
 

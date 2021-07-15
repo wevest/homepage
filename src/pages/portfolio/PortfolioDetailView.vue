@@ -507,12 +507,6 @@ export default {
 			this.v_query.offset = this.$refs.loadMore.v_next.offset;
 			//this.loadBlogData(this.v_query);
 		},
-        onClickShare: function(data) {
-            let a_url = CommonFunc.navPortfolio(this,this.v_user.username,this.v_portfolio.id,true);
-            logger.log.debug("PortfolioDetail.onClickShare=",data,a_url);            
-            CommonFunc.copyUrl(this,a_url);
-        },
-
         onClickMore: function(portfolio_item) {
             logger.log.debug("PortfolioDetail.onClickMore : portfolio_item=",portfolio_item);
             

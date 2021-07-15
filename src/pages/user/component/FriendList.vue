@@ -160,9 +160,7 @@ export default {
         },
 
 		onClickUser: function (username) {
-			logger.log.debug("onClickUser : username = ", username);
-			
-			store.getters.nav.add(this.$route);
+			logger.log.debug("onClickUser : username = ", username);			
 			CommonFunc.navProfile(this,username);
 			//this.$emit("onClickBlog",{page_id:page_id});
 		},
