@@ -4,7 +4,7 @@
         
         <q-card class="q-my-sm" bordered v-for="(a_portfolio,index) in data.items" :key="index" >
             <q-card-section horizontal class="groupTitleBox"> 
-                <div>
+                <div @click="onClickPortfolio(a_portfolio)">
                     <div>
                         <span class="text-weight-bolder gListTitle">{{v_shorten(a_portfolio.name,15)}}</span>
                     </div>

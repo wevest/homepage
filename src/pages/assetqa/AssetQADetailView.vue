@@ -50,35 +50,35 @@
         -->
     </div>
 
-    <q-separator class="Separator" />
+    <q-separator class="gSeparator" />
 
     <div class="q-pb-md" v-if="!v_question.closed">
-      <WWriterButton
-        placeholder="Please share your knowledges"
-        @onClickWrite="onClickAnswer"
-      />
+        <WWriterButton
+            placeholder="Please share your knowledges"
+            @onClickWrite="onClickAnswer"
+        />
     </div>
 
-      <q-separator class="Separator" />
+    <q-separator class="gSeparator" />
 
 
     <div>
-      <QuestionCommentBox
-        ref="commentBox"
-        :question="v_question"
-        :contentType="v_content_type"
-      />
+        <QuestionCommentBox
+            ref="commentBox"
+            :question="v_question"
+            :contentType="v_content_type"
+        />
     </div>
 
 
     <div class="col">
-      <AssetAnswerList
-        ref="answerList"
-        @onClickAnswerRating="onClickAnswerRating"
-        @onClickQuestionAccept="onClickQuestionAccept"
-        @onClickAnswerUpdate="onClickAnswerUpdate"
-      >
-      </AssetAnswerList>
+        <AssetAnswerList
+            ref="answerList"
+            @onClickAnswerRating="onClickAnswerRating"
+            @onClickQuestionAccept="onClickQuestionAccept"
+            @onClickAnswerUpdate="onClickAnswerUpdate"
+        >
+        </AssetAnswerList>
     </div>
   </div>
 </template>

@@ -1,56 +1,64 @@
 <template>
     
     <div>
-        <div v-if="data.comments.items && data.comments.items.length>0">
-            <div class="gCommentBox" v-for="(a_comment,index2) in data.comments.items" :key="index2">
-                <div class="row q-py-md">
-                    <div class="q-pr-md">
-                        <WAvatar :avatar="a_comment.owner.avatar_thumb" :username="a_comment.owner.username" />
-                    </div>
-                    <div class="col">
-                        <div class="q-pt-sm"> {{a_comment.owner.username}} </div>
-                        <WSubinfo username="" :pub_date="a_comment.pub_date" like_count="-1" dislike_count="-1" />
+        <q-expansion-item
+            v-model="v_expanded"
+            :label="v_caption"
+            header-class="text-primary text-center"
+        >
+            <div v-if="data.comments.items && data.comments.items.length>0">
+                <div class="gCommentBox" v-for="(a_comment,index2) in data.comments.items" :key="index2">
+                    <div class="row q-py-md">
+                        <div class="q-pr-md">
+                            <WAvatar :avatar="a_comment.owner.avatar_thumb" :username="a_comment.owner.username" />
+                        </div>
+                        <div class="col">
+                            <div class="q-pt-sm"> {{a_comment.owner.username}} </div>
+                            <WSubinfo username="" :pub_date="a_comment.pub_date" like_count="-1" dislike_count="-1" />
+                        </div>
+                        
+                        <q-space />
+
+                        <div v-if="v_is_owner(a_comment)"> 
+
+
+                            <WCommandBar :data="{answer:data,comment:a_comment}" :isOwner="v_is_owner(a_comment)" 
+                                shareBtn="" updateBtn="" deleteBtn="delete" 
+                                @onClickDelete="onClickDeleteComment" 
+                            />
+    <!--
+                            <q-icon
+                                class="deleteBtn" 
+                                name="delete_outline" 
+                                v-if="v_is_owner(a_comment)"
+                                @click="onClickDeleteComment(data,a_comment)" 
+                                />
+    -->                                            
+                        </div>
+
                     </div>
                     
-                    <q-space />
-
-                    <div v-if="v_is_owner(a_comment)"> 
-
-
-                        <WCommandBar :data="{answer:data,comment:a_comment}" :isOwner="v_is_owner(a_comment)" 
-                            shareBtn="" updateBtn="" deleteBtn="delete" 
-                            @onClickDelete="onClickDeleteComment" 
-                        />
-<!--
-                        <q-icon
-                            class="deleteBtn" 
-                            name="delete_outline" 
-                            v-if="v_is_owner(a_comment)"
-                            @click="onClickDeleteComment(data,a_comment)" 
-                            />
--->                                            
+                    <div class="gBodySM">
+                        <p> {{ a_comment.comment_text}} </p>
                     </div>
+                    
+                    <div class="row">
 
+                        <q-space />
+
+                        <WRatingSmallButton ref="ratingButton" 
+                            :data="a_comment" :likeCount="a_comment.like_count" :dislikeCount="a_comment.dislike_count" 
+                            @onClickRating="onClickVoteComment" />
+
+                    </div>
                 </div>
-                
-                <div class="gBodySM">
-                    <p> {{ a_comment.comment_text}} </p>
-                </div>
-                
-                <div class="row">
-
-                    <q-space />
-
-                    <WRatingSmallButton ref="ratingButton" 
-                        :data="a_comment" :likeCount="a_comment.like_count" :dislikeCount="a_comment.dislike_count" 
-                        @onClickRating="onClickVoteComment" />
-
-                </div>
+                <q-separator size="1px" />
             </div>
-<q-separator size="1px" />
-        </div>
 
-        <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+            <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+        
+        </q-expansion-item>
+
     </div>
 
 </template>
@@ -103,11 +111,18 @@ export default {
                 return false;
             }
         },
+        v_caption() {
+            if (this.v_expanded) {
+                return "Collapse";
+            }
+            return "Expand";
+        }
     },
 
     data() {
         return {
             v_data: this.data,
+            v_expanded: false,
         }
     },
 

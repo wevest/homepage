@@ -99,7 +99,7 @@
                             <div class="q-pr-sm">  
                                 <q-icon class="coinIcon" name="account_tree" color="black" size="34px" />                                    
                             </div>    
-                            <div @click="onClickSymbol(a_portfolio.api_asset.symbol)">
+                            <div @click="onClickMore(a_portfolio)">
                                 <div class="symbolBox">
                                     <span class="text-h6 text-weight-bold"> {{a_portfolio.api_asset.symbol}}</span>
                                     <span class="text-caption text-grey-6"> &nbsp; ({{a_portfolio.api_asset.name}}) </span>
