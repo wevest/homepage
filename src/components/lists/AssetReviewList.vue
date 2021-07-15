@@ -49,11 +49,11 @@
                     
                     </q-item-label>  
                 
-                    <q-item-label class="q-pt-sm">
+                    <q-item-label class="q-py-md">
                         <div v-html="a_review.content" class="gCommentMD"></div>
                     </q-item-label>
                 
-                    <q-item-label class="text-right q-pb-xs">
+                    <q-item-label>
                         
                         <WRatingSmallButton ref="ratingButton" 
                             :data="a_review" :likeCount="a_review.like_count" :dislikeCount="a_review.dislike_count" 

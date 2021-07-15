@@ -1,70 +1,66 @@
 <template>
     <dl>
         <dt>
-            <div>
-              
-                <div class="row q-gutter-sm">
+            <div class="q-my-md">
+                <div class="boxCommentItem">
                     <div class="Avatar">                
                         <WAvatar :avatar="data.user_avatar" :username="data.user_name" />
                     </div>
+                    <div class="boxCommentData q-pt-sm q-ml-md">
 
-                    <div class="q-pt-sm">
-                        <div class="gUserNameSM">
-                            <span>{{ data.user_name }}</span>
+                        <div class="row">
+                            <div>
+                                <div class="gUserNameSM">
+                                    <span>{{ data.user_name }}</span>
+                                </div>
+                                
+                                <div>
+                                    <WSubinfo username="" :pub_date="data.submit_date" like_count="-1" dislike_count="-1" />
+                                </div>
+
+                            </div>
+
+                            <q-space />
+
+                            <div v-if="v_is_owner(data) && (! data.is_removed)">                         
+                                <WCommandBar :data="data" :isOwner="v_is_owner(data)" 
+                                    shareBtn="" updateBtn="" deleteBtn="delete" 
+                                    @onClickDelete="onClickDelete" />
+                            </div>
                         </div>
-                        
-                        <div>
-                            <WSubinfo 
-                                username="" 
-                                :pub_date="data.submit_date" 
-                                like_count="-1" 
-                                dislike_count="-1" />
-                        </div>
-
-                    </div>
-
-                    <q-space />
-
-                    <div v-if="v_is_owner(data) && (! data.is_removed)">                         
-                        <WCommandBar :data="data" :isOwner="v_is_owner(data)" 
-                            shareBtn="" updateBtn="" deleteBtn="delete" 
-                            @onClickDelete="onClickDelete" 
-                        />
                     </div>
                 </div>
-            </div>
 
-            <div>
-                <p class="gCommentMD q-pt-md">
-                    {{ data.comment }}                    
-                </p>
-                <!--
-                <span v-if="data.replyToUser">//@{{ data.replyToUser.user_name }}:{{data.replyToUser.comment}}</span>
-                -->
-            </div>
-            <q-space />
-                <div class="row">                    
-                    <div v-if="data.level==0">
+                <div>
+                    <p class="gCommentMD q-pt-md">
+                        {{ data.comment }}                    
+                    </p>
+                    <!--
+                    <span v-if="data.replyToUser">//@{{ data.replyToUser.user_name }}:{{data.replyToUser.comment}}</span>
+                    -->
+                </div>
+                <q-space />
+                
+                <div class="row">      
+                    <div class="q-pb-sm">
+                        <WRatingSmallButton ref="ratingButton" 
+                            :data="data" :likeCount="data.like_count" :dislikeCount="data.dislike_count" 
+                            @onClickRating="onClickLike" />
+                    </div>                
+
+                    <div class="q-ml-md" v-if="data.level==0">
                         <q-btn 
-                            class="gButtonSM"
-                            flat
-                            dense             
-                            type="text"                                
+                            class="gButtonSM" flat dense type="text"                                
                             @click="replyHandler('editorContainer')" 
                             v-if="data.children && data.children.length==0">
                             Reply
                         </q-btn>
                         <q-btn
-                            class="gButtonSM"
-                            flat
-                            dense               
-                            type="text"
+                            class="gButtonSM" flat dense type="text"
                             @click="toggleExpandPanel"
                             v-if="data.children && data.children.length" >
                             {{
-                                isExpanded
-                                    ? `Collapse`
-                                    : `${replyCount} Reply`
+                                isExpanded ? `Collapse` : `${replyCount} Reply`
                             }}
                             <i
                                 :class="
@@ -73,17 +69,11 @@
                             ></i>
                         </q-btn>
                     </div>
-
-                    <q-space />
                     
-                    <div class="q-pb-sm">
-                        <WRatingSmallButton ref="ratingButton" 
-                            :data="data" :likeCount="data.like_count" :dislikeCount="data.dislike_count" 
-                            @onClickRating="onClickLike" />
-                    </div>                
                 </div>
-                 <q-separator />
-                <div class="editor-container" ref="editorContainer"></div>            
+                <div class="editor-container" ref="editorContainer"></div>
+            </div>    
+            <q-separator />
             
         </dt>
 
@@ -354,6 +344,14 @@ export default {
 
 <style scoped>
 
+.boxCommentItem {
+    display:flex;
+}
+
+.boxCommentData {
+    flex:1 auto;
+}
+
 dt {
     .boxMessage {
         width: 100%;
@@ -391,9 +389,6 @@ dd.reply-container {
 .message-reply-item {
     transition: all;
 }
-
-
-
 
 
 

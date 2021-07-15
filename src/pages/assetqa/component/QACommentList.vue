@@ -14,8 +14,8 @@
             </div>                                    
 
             <div v-if="data.comments.items && data.comments.items.length>0">
-                <div class="gCommentBox" v-for="(a_comment,index2) in data.comments.items" :key="index2">
-                    <div class="row q-py-md">
+                <div class="gCommentBox q-pb-sm" v-for="(a_comment,index2) in data.comments.items" :key="index2">
+                    <div class="row">
                         <div class="q-pr-md">
                             <WAvatar :avatar="a_comment.owner.avatar_thumb" :username="a_comment.owner.username" />
                         </div>
@@ -27,7 +27,6 @@
                         <q-space />
 
                         <div v-if="v_is_owner(a_comment)"> 
-
 
                             <WCommandBar :data="{answer:data,comment:a_comment}" :isOwner="v_is_owner(a_comment)" 
                                 shareBtn="" updateBtn="" deleteBtn="delete" 
@@ -49,17 +48,16 @@
                         <p> {{ a_comment.comment_text}} </p>
                     </div>
                     
-                    <div class="row">
-
-                        <q-space />
+                    <div>
 
                         <WRatingSmallButton ref="ratingButton" 
                             :data="a_comment" :likeCount="a_comment.like_count" :dislikeCount="a_comment.dislike_count" 
                             @onClickRating="onClickVoteComment" />
 
-                    </div>
+                    </div>            
+                    
                 </div>
-                <q-separator size="1px" />
+                <q-separator size="1px" v-if="data.comments.items" />
             </div>
 
             <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
