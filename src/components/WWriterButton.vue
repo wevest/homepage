@@ -68,7 +68,7 @@ export default {
 
 .boxWriteButton {    
     display:flex;
-    }
+}
 
 .commentBox {    
     flex-grow:1;

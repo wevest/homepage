@@ -19,7 +19,7 @@
                 v-for="(a_review,index) in v_reviews.items" 
                 v-if="index<v_max_length"
             >
-                <q-item-section class="q-pl-sm reviewAvatar" avatar top>
+                <q-item-section class="reviewAvatar" avatar top>
                     <WAvatar :avatar="a_review.user.avatar_thumb" :username="a_review.user.username" />                    
                 </q-item-section>
 
@@ -32,7 +32,7 @@
                             <q-space />
                             <div>
                                 <WCommandBar :data="a_review" :isOwner="a_review.is_owner" 
-                                    updateBtn="update" deleteBtn="delete" 
+                                    updateBtn="" deleteBtn="delete" 
                                     @onClickUpdate="onClickEdit" 
                                     @onClickDelete="onClickDelete" 
                                 />
@@ -50,8 +50,7 @@
                     </q-item-label>  
                 
                     <q-item-label class="q-pt-sm">
-                        <div v-html="a_review.content" class="gCommentMD">                           
-                        </div>
+                        <div v-html="a_review.content" class="gCommentMD"></div>
                     </q-item-label>
                 
                     <q-item-label class="text-right q-pb-xs">

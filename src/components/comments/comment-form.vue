@@ -1,11 +1,11 @@
 <template>
-	<div class="q-px-md commentBox rounded-borders" v-show="visible" @click="onClick">
+	<div class="q-my-md commentBox rounded-borders" v-show="visible" @click="onClick">
 
 		<div class="row gParagraphSM" v-if="v_show">
 			<div class="commentWriterIcon">
 				<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
 			</div>
-			<div class="userName q-pl-sm"> {{v_me.username}} </div>
+			<div class="userName q-ml-md"> {{v_me.username}} </div>
 		</div>
 
 		<div class="q-mt-md">
@@ -33,8 +33,14 @@
 			<q-btn 
 				class="q-mb-sm gButtonMD"
 				label="Close" 
+				@click="onClickClose" />
+<!--
+			<q-btn 
+				class="q-mb-sm gButtonMD"
+				label="Close" 
 				@click="onClickClose" 
 				v-if="type=='reply'" />
+-->				
 		</div>
 	</div>
 
@@ -283,6 +289,7 @@ export default {
 
 		onClickClose:function() {
 			logger.log.debug("onClickClose : parent=",this.$parent);
+			this.clear();
 			this.$emit("onClickClose", {});
 		},
 

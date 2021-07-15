@@ -64,7 +64,7 @@
 
         <div>
             <CTitle ttype="subtitle" title="$t('page.profile.portfolio')" desc="$t('page.profile.portfolio')"
-                loadMoreCaption="Portfolio" @onClickTitleMore="onClickMorePortfolio"></CTitle>
+                loadMoreCaption="" @onClickTitleMore="onClickMorePortfolio"></CTitle>
 
             <PortfolioList ref='portfolioList' 
                 :data="v_user.portfolio" 
@@ -83,7 +83,7 @@
 
         <div class="q-mt-xl q-mb-sm">
             <UserFeedList ref='feedList' title="$t('page.profile.userfeed')" 
-                maxLength="10" moreCaption="" user="v_user"></UserFeedList>
+                maxLength="25" moreCaption="" user="v_user"></UserFeedList>
         </div>
 
         <MessageWriterDialog ref="messageWriter" />

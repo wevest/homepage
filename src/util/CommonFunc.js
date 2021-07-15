@@ -1187,6 +1187,13 @@ export default class CommonFunc {
         return data[row_index][col_index];
     }
 
+    static safeGetNumericValue(value) {
+        if (CommonFunc.isEmptyObject(value)) {
+            return 0;
+        }
+        return value;
+    }
+
     static getCWatchValueAndColor(value) {
         let a_value = Math.round(value*100) - 90;
         let a_color="green";

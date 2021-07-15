@@ -65,14 +65,17 @@
 
 
             <div>
+                
+                <!--
                 <div>
                     <CommentForm ref="commentEditor" type="comment"
                         :contentType="v_conent_type" :post="a_answer" save="custom"
                         @onClickCommentSave="onClickSaveComment" />
                 </div>                                    
-                
+                -->
+
                 <QACommentList :ref="v_ref(a_answer)" 
-                    :data="a_answer" 
+                    :data="a_answer" :contentType="v_conent_type"
                     @onCommentDelete="onClickDeleteComment" />
 
             </div>             

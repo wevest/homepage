@@ -5,7 +5,10 @@
             <CTitle ttype='title' :title="v_page_title" desc=""></CTitle>          
         </div>
 
-
+        <div>
+            <ReviewRatingBox ref="ratingBox" :reviews="v_reviews" title="Investor Review Rating"></ReviewRatingBox>
+        </div>
+    
         <div>
 
             <AssetReviewForm ref="reviewForm" 
@@ -38,6 +41,7 @@ import logger from "src/error/Logger";
 import {PostPageModel,QuestionPageModel,AssetReviewPageModel,AssetReviewPageListModel} from "src/models/PageModel";
 
 import CTitle from 'components/CTitle';
+import ReviewRatingBox from 'src/pages/assetreview/component/ReviewRatingBox';
 import AssetReviewForm from 'src/pages/assetreview/component/AssetReviewForm';
 import AssetReviewList from 'components/lists/AssetReviewList';
 
@@ -49,6 +53,7 @@ export default {
         CTitle,
         AssetReviewForm,
         AssetReviewList,
+        ReviewRatingBox
     },
     computed: {
         v_me() {
@@ -108,8 +113,19 @@ export default {
             }
 
             this.loadAssetReviewData();            
+            this.loadAssetReviewStat();
         },
 
+        loadAssetReviewStat: function() {
+            const _this=this;
+            //let dic_param = {'category':this.g_asset.symbol, 'object_id':this.g_asset.object_id};
+
+            this.v_reviews.loadStat(this.g_asset.symbol).then(resp=>{
+                logger.log.debug("loadAssetReviewStat:resp=",resp);
+            }).catch(err=>{
+
+            });
+        },
 
         loadAssetReviewData: function() {
             let dic_param = {'category':this.g_asset.symbol, 'object_id':this.g_asset.object_id};

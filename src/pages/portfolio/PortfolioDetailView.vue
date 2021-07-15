@@ -41,7 +41,8 @@
                     </div>
                 </div>
                 <div >
-                    <q-input filled type="textarea" class="text-body1" v-model="v_portfolio.description" :readonly="! v_mode.length>0" />
+                    <q-input filled counter type="textarea" class="text-body1" maxlength="500"
+                        v-model="v_portfolio.description" :readonly="! v_mode.length>0" />
                 </div>
             </div>
 

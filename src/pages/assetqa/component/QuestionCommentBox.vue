@@ -1,14 +1,16 @@
 <template>
 
     <div>
+        <!--
         <div>
             <CommentForm ref="commentEditor" type="comment"
                 :contentType="v_content_type" :post="v_question" save="custom"
                 @onClickCommentSave="onClickSaveComment" />
         </div>                                    
+        -->
 
         <QACommentList ref="commentList" 
-            :data="v_question" 
+            :data="v_question" :contentType="v_content_type" formType="comment" save="custom"
             @onCommentDelete="onClickDeleteComment" />
     </div>
     

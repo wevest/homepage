@@ -193,41 +193,56 @@ export default class CMSAPI {
 		});
 	}
 
-  static postAssetReview(reqParam, func, funcErr) {
-    let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/review/reviews/");
-    callCMSAPI("POST", url, {}, reqParam)
-      .then(response => {
-        func(response);
-      })
-      .catch(err => {
-        funcErr(err);
-      });
-  }
+	static postAssetReview(reqParam, func, funcErr) {
+		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/review/reviews/");
+		callCMSAPI("POST", url, {}, reqParam)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+	}
 
-  static removeAssetReview(reqParam, func, funcErr) {
-    let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/review/reviews/");
-    callCMSAPI("DELETE", url, {}, reqParam)
-      .then(response => {
-        func(response);
-      })
-      .catch(err => {
-        funcErr(err);
-      });
-  }
+	static removeAssetReview(reqParam, func, funcErr) {
+		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/review/reviews/");
+		callCMSAPI("DELETE", url, {}, reqParam)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+	}
 
-  static voteAssetReview(dic_param, func, funcErr) {
-    let url = CMSAPI.getUrl(
-      MoaConfig.urls.cms,
-      "/api/review/reviews/" + dic_param.id + "/" + dic_param.method + "/"
-    );
-    callCMSAPI("POST", url, {}, dic_param)
-      .then(response => {
-        func(response);
-      })
-      .catch(err => {
-        funcErr(err);
-      });
-  }
+	static voteAssetReview(dic_param, func, funcErr) {
+		let url = CMSAPI.getUrl(
+		MoaConfig.urls.cms,
+		"/api/review/reviews/" + dic_param.id + "/" + dic_param.method + "/"
+		);
+		callCMSAPI("POST", url, {}, dic_param)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+	}
+
+	static getAssetReviewStat(reqParam, func, funcErr) {
+		let url = CMSAPI.getUrl(
+			MoaConfig.urls.cms,
+			"/api/review/reviews/1/stat?category="+reqParam.category			
+		);
+		
+		callCMSAPI("GET", url, {}, reqParam)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+	}
 
   	static readPortfolio(dic_param, func, funcErr) {
     	let url = CMSAPI.getUrl(

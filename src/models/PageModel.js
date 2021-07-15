@@ -231,6 +231,7 @@ export class PostPageListModel extends baseCollection {
 }
 
 
+
 export class AssetReviewPageModel {
     id = null;
     content = null;
@@ -318,7 +319,48 @@ export class AssetReviewPageModel {
 }
 
 
+export class AssetReviewStatModel {
+    id=null;
+    category=null;
+    total_count=null;
+    average_rating=null;
+    count_rating_1=null;
+    count_rating_2=null;
+    count_rating_3=null;
+    count_rating_4=null;
+    count_rating_5=null;
+
+    rating_1 = null;
+    rating_2 = null;
+    rating_3 = null;
+    rating_4 = null;
+    rating_5 = null;
+
+    assign(obj) {
+        this.id=obj.id;
+        this.category=obj.identifier;
+        this.total_count=CommonFunc.safeGetNumericValue(obj.total_count);
+        this.average_rating=CommonFunc.safeGetNumericValue(obj.average_rating);
+        this.count_rating_1 = CommonFunc.safeGetNumericValue(obj.count_rating_1);
+        this.count_rating_2 = CommonFunc.safeGetNumericValue(obj.count_rating_2);
+        this.count_rating_3 = CommonFunc.safeGetNumericValue(obj.count_rating_3);
+        this.count_rating_4 = CommonFunc.safeGetNumericValue(obj.count_rating_4);
+        this.count_rating_5 = CommonFunc.safeGetNumericValue(obj.count_rating_5);
+
+        this.update();
+    }
+
+    update() {
+        this.rating_1 = (this.count_rating_1/this.total_count)*100;
+        this.rating_2 = (this.count_rating_2/this.total_count)*100;
+        this.rating_3 = (this.count_rating_3/this.total_count)*100;
+        this.rating_4 = (this.count_rating_4/this.total_count)*100;
+        this.rating_5 = (this.count_rating_5/this.total_count)*100;
+    }
+}
+
 export class AssetReviewPageListModel extends baseCollection {
+    stat = new AssetReviewStatModel();
 
     assign(reviews) {
         for (let index=0; index<reviews.length;index++) {
@@ -351,6 +393,25 @@ export class AssetReviewPageListModel extends baseCollection {
         });            
     }
 
+    loadStat(category) {
+        const _this=this;
+        
+        let dic_param = {category:category};
+        logger.log.debug("AssetReviewPageListModel.stat - dic_param=",dic_param);
+
+        return new Promise(function(resolve,reject) {
+            //let a_today = CommonFunc.getToday(false);
+            CMSAPI.getAssetReviewStat(dic_param,function(response) {
+                logger.log.debug("AssetReviewPageListModel.stat - response=",response.data);
+                _this.stat.assign(response.data.data);
+                resolve(response);
+            },function(err) {
+                logger.log.error("AssetReviewPageListModel.stat - error",err);
+                reject();
+            });
+        });            
+
+    }
 }
 
 

@@ -33,7 +33,7 @@ export class FeedModel {
     question_id=null;
     owner=null;
     action=null;
-    
+
     assign(obj) {
         //logger.log.debug("FeedModel : obj=",obj);
 
@@ -290,6 +290,7 @@ export default class User {
     loadPortfolio(portfolio_id)  {
         const _this = this;
         return new Promise(function(resolve,reject) {   
+            _this.portfolio.clear();
             _this.portfolio.load(_this.username,portfolio_id).then( response => {
                 resolve(response);
             });

@@ -111,6 +111,7 @@ export default {
                 uuid:''
             },
 
+			v_type: 'user',
 			v_user: this.user,
 			v_feeds: new FeedListModel(),
 		};
@@ -121,23 +122,21 @@ export default {
 			let msg = "";
 			
 			if (feed.verb=="ReviewVote") {
-				msg = "Like a Review";
+				msg = "Like a Review : " + feed.category;
 			} else if (feed.verb=="AnswerVote") {
 				msg = "Like a Answer";
 			} else if (feed.verb=="PortfolioVote") {
-				msg = feed.title + " - Like a Portfolio";
+				msg = "Like a Portfolio : " + feed.title;
 			} else if (feed.verb=="PostPageVote") {
-				msg = "Like a Post";
-			} else if (feed.verb=="PostPageVote") {
-				msg = "Like a Post";
+				msg = "Like a Post : " + feed.title;
 			} else if (feed.verb=="Review") {
-				msg = "Write a Review";
+				msg = "Write a Review : " + feed.category;
 			} else if (feed.verb=="PortfolioItem") {
 				msg = "Portfolio : "+feed.title;
 			} else if (feed.verb=="AnswerComment") {
-				msg = "Write a Comment on AnswerPage";
+				msg = "Write a Comment on AnswerPage : "+feed.title;
 			} else if (feed.verb=="QuestionComment") {
-				msg = "Write a Comment on QuestionPage";
+				msg = "Write a Comment on QuestionPage : "+feed.title;
 			} else if (feed.verb=="CustomComment") {
 				msg = "Write a Comment on Post : " + feed.title;
 			} else if (feed.verb=="PostPage") {
@@ -151,6 +150,7 @@ export default {
 
 		update: function (user,offset=0) {
 			logger.log.debug("UserFeedList.update - user",user);
+			this.v_type = "user";
 			this.setUser(user);
             this.v_pagination.offset = offset;
             this.loadFeeds();
@@ -158,6 +158,7 @@ export default {
 
 		updateMine: function (user,offset=0) {
 			logger.log.debug("UserFeedList.updateMine - user",user);
+			this.v_type = "mine";
 			this.setUser(user);
             this.v_pagination.offset = offset;
             this.loadMyFeeds();
@@ -178,7 +179,7 @@ export default {
 			const _this = this;
 			this.v_feeds.load(this.v_user.id,this.v_user.username,this.v_pagination.offset,this.v_pagination.limit,this.v_pagination.uuid).then(response=>{
 				_this.g_data = response.data;
-				_this.$refs.loadMore.setFeedPagination(_this.v_user.feeds.next_url);
+				_this.$refs.loadMore.setFeedPagination(response.data.next);
 				logger.log.debug("UserFeedList.loadFeeds - response",_this.g_data);
 			}).catch(err=>{
 				logger.log.error("UserFeedList.loadFeeds - err",err);
@@ -199,7 +200,7 @@ export default {
 
 		loadMyFeeds: function () {
 			
-			logger.log.debug("UserFeedList.loadFeeds");
+			logger.log.debug("UserFeedList.loadMyFeeds");
 			if (CommonFunc.isEmptyObject(this.v_user.id)) {
 				return;
 			}
@@ -207,7 +208,7 @@ export default {
 			const _this = this;
 			this.v_feeds.loadMine(this.v_user.id,this.v_user.username,this.v_pagination.offset,this.v_pagination.limit,this.v_pagination.uuid).then(response=>{
 				_this.g_data = response.data;
-				_this.$refs.loadMore.setFeedPagination(_this.v_user.feeds.next_url);
+				_this.$refs.loadMore.setFeedPagination(response.data.next);
 				logger.log.debug("UserFeedList.loadMyFeeds - response",_this.g_data);
 			}).catch(err=>{
 				logger.log.error("UserFeedList.loadMyFeeds - err",err);
@@ -267,8 +268,15 @@ export default {
 			logger.log.debug("onClickLoadMore : next_url = ", this.$refs.loadMore.v_next);
 
 			this.v_pagination.uuid = this.$refs.loadMore.v_next.uuid;
+			this.v_pagination.limit = this.$refs.loadMore.v_next.limit;
 			this.v_pagination.offset = null;
-			this.loadFeeds();
+			
+			if (this.v_user=="user") {
+				this.loadFeeds();
+			} else {
+				this.loadMyFeeds();
+			}
+			
 		},
 
 		onClickMoreFeed: function() {

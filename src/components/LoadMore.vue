@@ -59,12 +59,13 @@ export default {
             this.v_next.offset = offset;
         },
 
-        setFeedPagination:function(next_url) {                                    
-            logger.log.debug("setFeedPagination:next_url=",next_url);
+        setFeedPagination:function(next_url) {                                                
             this.v_next_url = next_url;
             this.v_next.uuid = CommonFunc.substrInBetween(next_url,"lt=","&limit")[0];
             this.v_next.limit = CommonFunc.substrInBetween(next_url+"*","limit=","*")[0];
             this.v_next.offset = null;
+
+            logger.log.debug("setFeedPagination:next_url=",next_url,this.v_next);
         },
 
         onClickLoadMore: function() {

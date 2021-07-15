@@ -6,6 +6,13 @@
             :label="v_caption"
             header-class="text-primary text-center"
         >
+
+            <div>
+                <CommentForm ref="commentEditor" type="comment"
+                    :contentType="contentType" :post="data" save="custom"
+                    @onClickCommentSave="onClickSaveComment" />
+            </div>                                    
+
             <div v-if="data.comments.items && data.comments.items.length>0">
                 <div class="gCommentBox" v-for="(a_comment,index2) in data.comments.items" :key="index2">
                     <div class="row q-py-md">
@@ -74,6 +81,7 @@ import WAvatar from "components/WAvatar.vue";
 import WSubinfo from 'components/WSubinfo';
 import WCommandBar from "components/WCommandBar.vue";
 import WRatingSmallButton from 'components/WRatingSmallButton';
+import CommentForm from "components/comments/comment-form.vue";
 
 import {AnswerCommentListModel} from "src/models/CommentModel";
 import {QuestionPageModel, AnswerPageListModel} from "src/models/PageModel";
@@ -87,12 +95,17 @@ export default {
         LoadMore,
         WCommandBar,     
         WRatingSmallButton,   
+        CommentForm
     },
 	props: {
         data: {
             required: false,
             default: null,
         },
+        contentType: {
+            required: false,
+            default: null,
+        }
     },
     computed: {
         v_me() {
@@ -187,6 +200,28 @@ export default {
 
         },
         
+        onClickSaveComment: function(dicParam) {
+            const _this = this;
+
+            logger.log.debug("AssetAnswerList.onClickSaveComment : dicParam=",dicParam);
+
+            let dic_param = { 
+                comment_text: dicParam.comment, 
+                api_owner:this.v_me.id 
+            };
+            dicParam.post.comment(dic_param).then(response=>{
+                logger.log.debug("AssetList.onClickSaveComment - response",_this.g_data);                
+                dicParam.post.addCommentFirst(response.data.data);
+                dicParam.editor.clear();
+                CommonFunc.showOkMessage(_this,"Comments Posted");
+
+            }).catch(err=>{
+                logger.log.error("AssetList.onClickSaveComment - error",err);
+                CommonFunc.showErrorMessage(_this,"Comments Posted");
+            });
+
+        },
+
         onClickLoadMore: function() {
             logger.log.debug("AssetAnswerList.onClickLoadMore");
             this.loadComments();

@@ -30,7 +30,7 @@
         </div>
       </div>
 
-      <q-separator size="1px" />
+        <q-separator size="1px" />
 
         <div class="gPageContent q-my-xl">
             <div class="gBodyLG" v-html="v_question.body"></div>
@@ -43,11 +43,22 @@
                     previewStyle="vertical"
                 />
             -->
-      </div>
+        </div>
+
         <!--
             <WRatingButton ref="ratingButton" likeCaption="도움돼요" dislikeCaption="도움 안돼요"
                 @onClickRating="onClickQuestionVote" />
+
         -->
+
+        <div>
+            <QuestionCommentBox
+                ref="commentBox"
+                :question="v_question"
+                :contentType="v_content_type"
+            />
+        </div>
+
     </div>
 
     <q-separator class="gSeparator" />
@@ -62,13 +73,6 @@
     <q-separator class="gSeparator" />
 
 
-    <div>
-        <QuestionCommentBox
-            ref="commentBox"
-            :question="v_question"
-            :contentType="v_content_type"
-        />
-    </div>
 
 
     <div class="col">
