@@ -1,6 +1,6 @@
 <template>
     <div>
-        <CTitle ttype='subtitle' :title="title" desc=""></CTitle>          
+        <CTitle ttype='subtitle' :title="v_title" desc=""></CTitle>          
         <div class="row q-my-md">
             <div class="col-6 q-px-sm q-pr-md text-center">
                 <div class="reviewRatingTitle q-pb-md" review>
@@ -76,12 +76,19 @@ export default {
             default: null
         },
         title: {
-            default: "Investor Review Rating"
+            default: "Investor Review"
         }
     },
 	computed: {
         v_me() {
             return store.getters.me;
+        },
+        v_title() {
+            if (! this.reviews.stat.total_count) {
+                return this.title;
+            }
+            
+            return this.title+" ("+this.reviews.stat.total_count.toString()+")";
         },
         v_label() {
             return (index) => {   

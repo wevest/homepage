@@ -30,11 +30,13 @@
             <div class="q-pt-lg">
                 <div class="gSubTitle q-pb-xl">
                     <span class="gTextSubTitle"> 
-                        24H Price Range : 
+                        24H Price Range
                     </span>
+<!--                    
                     <span class="gTextSubTitle">
                        $ {{ v_format(data.ticker.low_24h) }} ~ $ {{ v_format(data.ticker.high_24h) }}
                     </span>
+-->                    
                 </div>
                 <q-slider
                     v-model="data.ticker.last"
@@ -45,6 +47,15 @@
                     :label-value="v_label(data)"
                     color="orange-9"
                 />
+                <div class="row">
+                    <div>
+                        <span class="gCaption">$ {{ v_format(data.ticker.low_24h) }}</span>
+                    </div>
+                    <q-space />
+                    <div>
+                        <span class="gCaption">$ {{ v_format(data.ticker.high_24h) }}</span>
+                    </div>
+                </div>
             </div>            
         </div>
 <!--

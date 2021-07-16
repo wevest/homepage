@@ -23,6 +23,7 @@
         <q-separator class="gSeparator" />
 
         <div class="q-my-xl">
+            <CTitle ttype='subtitle' title="Price Chart" desc=""></CTitle>
             <ChartTimeframe class="q-mt-md" period='all' :onclick="onClickTimeframe" selected='y1'></ChartTimeframe>
             <CAssetChart ref="assetChart"></CAssetChart>
 
@@ -32,7 +33,11 @@
 
             <q-slide-transition>
                 <div v-show="v_visible_table" class="q-my-md">
-                    <PriceDataTable ref="dataTable" />                    
+                    
+                    <CTitle ttype='subtitle' title="Price Data" desc=""></CTitle>
+                    <div class="gBoxNoMargin">
+                        <PriceDataTable ref="dataTable" />                    
+                    </div>
                 </div>
             </q-slide-transition>                
         </div>            

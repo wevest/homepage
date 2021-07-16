@@ -245,8 +245,16 @@ export default {
 
         onClickLike(dicParam) {            
             logger.log.debug("CommentItem.onClickLike:dicParam=",dicParam);
-            let dic_payload = {rate:dicParam.value, data:dicParam.data};
-            this.$messageTree.$emit("onClickRate", dic_payload);
+            //let dic_payload = {rate:dicParam.value, data:dicParam.data};
+            //this.$messageTree.$emit("onClickRate", dic_payload);
+
+            const _this=this;            
+            let dic_param = {comment: dicParam.data.id, flag:dicParam.value};
+            this.post.comments.vote(dic_param).then( response => {
+                dicParam._this.setColor(dicParam.value);
+                //CommonFunc.showOkMessage(_this,'Comments rate updated');
+            });
+
         },
 
         onClickAvatar: function(username) {

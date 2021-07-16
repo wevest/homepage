@@ -183,7 +183,8 @@ export default {
             let comment = dicParam.data;
             comment.vote(dic_param).then(response=>{
                 logger.log.debug("AssetList.onClickVoteComment - response",response);
-                CommonFunc.showOkMessage(_this,"Comments Voted");
+                dicParam._this.setColor(dicParam.value);
+                //CommonFunc.showOkMessage(_this,"Comments Voted");
             }).catch(err=>{
                 logger.log.error("AssetList.onClickVoteComment - error",err);
                 CommonFunc.showErrorMessage(_this,"Comments Voting Error");

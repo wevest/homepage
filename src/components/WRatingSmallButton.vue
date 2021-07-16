@@ -3,7 +3,8 @@
     <div>
         <span class="q-pr-sm">                              
             <q-icon 
-                class="gRatingBtnSM"                                                                    
+                class="gRatingBtnSM"        
+                :class="v_color_like"
                 name="thumb_up_off_alt"
                 @click="onClickRate('like')" />
                 <span class="gRatingCountSM">{{ likeCount }}</span>
@@ -11,7 +12,8 @@
                     
         <span>
             <q-icon 
-                class="gRatingBtnSM"                                                             
+                class="gRatingBtnSM" 
+                :class="v_color_dislike"                                                            
                 name="thumb_down_off_alt"
                 @click="onClickRate('dislike')"> 
             </q-icon>
@@ -51,12 +53,27 @@ export default {
             return store.getters.me;
         },
     },
+    data() {
+        return {
+            v_color_like:'',
+            v_color_dislike:'',
+        }
+    },
     methods: {
+        setColor(value) {
+            if (value=="like") {
+                this.v_color_like = "text-primary";
+                this.v_color_dislike = "";                
+            } else {
+                this.v_color_like = "";
+                this.v_color_dislike = "text-primary";                
+            }
+        },
         onClickRate(value) {
 
             if (this.v_me.isLoggedIn()) {
                 logger.log.debug("WRatingSmallButton.onClickRate : value=",value);
-                const dic_param = {value:value, data:this.data};
+                const dic_param = {value:value, data:this.data, _this:this};
                 this.$emit("onClickRating",dic_param);
                 return;
             }

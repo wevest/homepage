@@ -220,7 +220,7 @@ export default {
 
 
         onClickRating: function(dicParam) {
-            logger.log.debug('onClickRating : dicParam = ',dicParam);
+            logger.log.debug('AssetReviewList.onClickRating : dicParam = ',dicParam);
             
             let review = dicParam.data;
             review.value = -1;
@@ -231,9 +231,10 @@ export default {
             const _this = this;
             review.vote().then(response => {
                 logger.log.debug('onClickReviewRating - ',response);
-                CommonFunc.showOkMessage(_this,"Review voted");
+                dicParam._this.setColor(dicParam.value);
+                //CommonFunc.showOkMessage(_this,"Review voted");
             }).catch( err => {
-
+                CommonFunc.showErrorMessage(_this,"Review voting error");
             });
 
             //this.$emit("onClickRating",review);

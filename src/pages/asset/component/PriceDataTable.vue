@@ -1,19 +1,19 @@
 <template>
 
     <q-table
-    title=""
-    class="sticky-column-table"
-    :data="v_items"
-    :columns="v_headers"
-    row-key="name"
-    :pagination.sync="v_pagination"
-    :rows-per-page-options="[10]"
-    >
+        title="" flat
+        class="sticky-column-table"
+        :data="v_items"
+        :columns="v_headers"
+        row-key="name"
+        :pagination.sync="v_pagination"
+        :rows-per-page-options="[10]"
+        >
         <template v-slot:body="props">
 
             <q-tr :props="props">
                 <q-td key="trade_date" :props="props">{{ props.row.trade_date }}</q-td>
-                <q-td key="price" :props="props">{{ Number(props.row.price).toLocaleString() }}</q-td>
+                <q-td key="price" :props="props" class="text-red-10 text-bold">{{ Number(props.row.price).toLocaleString() }}</q-td>
                 <q-td key="volume" :props="props">{{ Number(props.row.volume).toLocaleString() }}</q-td>
             </q-tr>            
 

@@ -6,7 +6,7 @@
         </div>
 
         <div>
-            <ReviewRatingBox ref="ratingBox" :reviews="v_reviews" title="Investor Review Rating"></ReviewRatingBox>
+            <ReviewRatingBox ref="ratingBox" :reviews="v_reviews" title="Investor Reviews"></ReviewRatingBox>
         </div>
     
         <div>

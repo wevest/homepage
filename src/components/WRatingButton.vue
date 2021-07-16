@@ -5,7 +5,8 @@
         <div class="q-pr-md">
             <q-btn 
                 class="gRatingBtnMD"
-                flat
+                :class="v_color_like"
+                flat ripple
                 icon="sentiment_very_satisfied" 
                 @click="onClickRate(1)" />
             <div class="gRatingCountMD">
@@ -15,7 +16,8 @@
         <div class="q-pl-md">
             <q-btn
                 class="gRatingBtnMD"
-                flat
+                :class="v_color_dislike"
+                flat ripple
                 icon="sentiment_very_dissatisfied"
                 @click="onClickRate(-1)" />
             <div class="gRatingCountMD">
@@ -53,6 +55,12 @@ export default {
             return store.getters.me;
         },
     },
+    data () {
+        return {
+            v_color_like:'',
+            v_color_dislike:'',
+        }
+    },
     methods: {
 
         vote: function(dicParam) {
@@ -62,15 +70,19 @@ export default {
 
             let dic_param = {id:this.data.id, value:dicParam.value};            
             this.data.vote(dic_param).then( response => {            
-
-                let msg = "Liked" ;
-                if (dicParam.value==-1) {
-                    msg = "Disliked";
+                
+                if (dicParam.value==1) {
+                    _this.v_color_like = "text-primary";
+                    _this.v_color_dislike = "";
+                } else if (dicParam.value==-1) {
+                    _this.v_color_like = "";
+                    _this.v_color_dislike = "text-primary";
                 }
-                CommonFunc.showOkMessage(_this,msg);
+                //CommonFunc.showOkMessage(_this,msg);
 
             }).catch( err=> {
                 logger.log.error('WRatingButton.vote : err=',err);
+                CommonFunc.showErrorMessage(_this,err);
             });
         },
 
