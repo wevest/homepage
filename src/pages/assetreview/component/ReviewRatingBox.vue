@@ -15,6 +15,7 @@
                     color="red-5"
                     icon="star_outline"
                     icon-selected="star"
+                    icon-half="star_half"
                     no-dimming
                     v-if="reviews.stat.average_rating"
                 />   

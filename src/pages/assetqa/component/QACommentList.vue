@@ -2,9 +2,10 @@
     
     <div>
         <q-expansion-item
-            v-model="v_expanded"
-            :label="v_caption"
+            v-model="v_expanded" :label="v_caption"
+            expand-icon="1" expanded-icon="1"
             header-class="text-primary text-center"
+            header-style="margin-left:40px;"
         >
 
             <div class="q-my-md">
@@ -116,7 +117,7 @@ export default {
         },
         v_caption() {
             if (this.v_expanded) {
-                return "Collapse";
+                return "Collapse ";
             }
             return "Expand";
         }
