@@ -34,7 +34,6 @@
                             />
     
                         </div>
-
                     </div>
                     
                     <div class="q-pt-md gBodySM">
@@ -223,5 +222,15 @@ export default {
 
 </script>
 <style scoped>
+
+.boxWidth {
+    display:flex;
+} 
+
+.nameDeleteBox {
+    margin-top:11px;
+    flex:1 auto;
+}
+
 
 </style>
