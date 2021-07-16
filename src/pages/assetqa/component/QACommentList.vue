@@ -115,27 +115,51 @@ export default {
                 return false;
             }
         },
+
         v_caption() {
+            let msg = "Expand";
             if (this.v_expanded) {
-                return "Collapse ";
+                msg = "Collapse ";
             }
-            return "Expand";
+            if (this.v_count==0) {
+                return msg;
+            }
+
+            return msg + " (" + this.v_count.toString() + ")";
         }
+
     },
 
     data() {
         return {
             v_data: this.data,
             v_expanded: false,
+            
+            //v_caption: 'Expand',
+            v_count: 0,
         }
     },
 
     methods: {
         setPageParameter: function(response) {
-            //logger.log.debug("AssetAnswerList.setPageParameter:response=",response);
-            this.$refs.loadMore.setPageParameter(response.data.next);
-        },
+            logger.log.debug("QACommentList.setPageParameter:response=",response);
+            
+            this.v_count = response.data.count;
+            //this.updateCaption();
+            this.$refs.loadMore.setPageParameter(response.data);
+        },        
+        updateCaption() {
+            let msg = "Expand";
+            if (this.v_expanded) {
+                msg = "Collapse ";
+            }
+            if (this.v_count==0) {
+                this.v_caption = msg;
+                return;
+            }
 
+            this.v_caption = msg + " (" + this.v_count.toString() + ")";
+        },
         loadComments: function() {
             const _this=this;
 

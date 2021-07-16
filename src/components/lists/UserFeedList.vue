@@ -4,40 +4,48 @@
 		<CTitle ttype='subtitle' :title="v_title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreFeed"></CTitle>
 
-		<q-list separator class="rounded-borders" v-if="v_feeds">
-			<q-item 
-				class="q-pa-sm"
-				clickable
-				v-ripple
-				:key="index"
-				v-for="(a_feed, index) in v_feeds.items"
-				v-if="index<v_maxLength"
-				@click.stop="onClickFeed(a_feed)"
-			>
-				<q-item-section class="feedAvatar" avatar top>
-					<WAvatar :avatar="a_feed.avatar" :username="a_feed.username" />
-				</q-item-section>
-				<q-item-section top>
-					<q-item-label class="q-pt-xs" lines="1">
-						<span class="gListTitle">{{ v_title_item(a_feed) }}</span>
-					</q-item-label>
-					<q-item-label class="no-margin" lines="1">
+		<div v-show="v_feeds">
+			<q-list separator class="rounded-borders">
+				<q-item 
+					class="q-pa-sm"
+					clickable
+					v-ripple
+					:key="index"
+					v-for="(a_feed, index) in v_feeds.items"
+					v-if="index<v_maxLength"
+					@click.stop="onClickFeed(a_feed)"
+				>
+					<q-item-section class="feedAvatar" avatar top>
+						<WAvatar :avatar="a_feed.avatar" :username="a_feed.username" />
+					</q-item-section>
+					<q-item-section top>
+						<q-item-label class="q-pt-xs" lines="1">
+							<span class="gListTitle">{{ v_title_item(a_feed) }}</span>
+						</q-item-label>
+						<q-item-label class="no-margin" lines="1">
 
-						<WSubinfo 
-							:username="a_feed.username" 
-							:pub_date="a_feed.pub_date" 
-							like_count="-1" 
-							dislike_count="-1" />
+							<WSubinfo 
+								:username="a_feed.username" 
+								:pub_date="a_feed.pub_date" 
+								like_count="-1" 
+								dislike_count="-1" />
 
-					</q-item-label>
-				</q-item-section>
+						</q-item-label>
+					</q-item-section>
 
-			</q-item>
-			<q-separator class="loadmoreSeparator" size="1px" />
+				</q-item>
+				<q-separator class="loadmoreSeparator" size="1px" />
 
-		</q-list>
+			</q-list>
 
-		<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+			<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+
+		</div>
+
+		<div v-if="(! v_feeds) || (v_feeds.items.length==0) ">
+			<q-icon name="email" style="color: #666666; font-size: 20px;" />
+			<div class="Message">No Messages!!!</div>
+		</div>
 
 	</div>
 </template>
@@ -212,7 +220,7 @@ export default {
 
 		loadMyFeeds: function () {
 			
-			logger.log.debug("UserFeedList.loadMyFeeds");
+			logger.log.debug("UserFeedList.loadMyFeeds : v_user=",this.v_user);
 			if (CommonFunc.isEmptyObject(this.v_user.id)) {
 				return;
 			}
@@ -220,8 +228,9 @@ export default {
 			const _this = this;
 			this.v_feeds.loadMine(this.v_user.id,this.v_user.username,this.v_pagination.offset,this.v_pagination.limit,this.v_pagination.uuid).then(response=>{
 				_this.g_data = response.data;
-				_this.$refs.loadMore.setFeedPagination(response.data.next);
 				logger.log.debug("UserFeedList.loadMyFeeds - response",_this.g_data);
+				_this.$refs.loadMore.setFeedPagination(response.data.next);
+				
 			}).catch(err=>{
 				logger.log.error("UserFeedList.loadMyFeeds - err",err);
 			});

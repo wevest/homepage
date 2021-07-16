@@ -4,42 +4,55 @@
 		<CTitle ttype='subtitle' :title="v_title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreFriend"></CTitle>
 
-		<q-list separator class="rounded-borders" v-if="v_items">
-			<q-item 
-				class="q-pa-sm"
-				clickable
-				v-ripple
-				:key="index"
-				v-if="index<v_maxLength && v_items"
-				v-for="(a_user, index) in v_items"
-				@click.stop="onClickUser(a_user.username)"
-			>
-				<q-item-section class="avatar" avatar top>
-					<WAvatar :avatar="a_user.avatar" :username="a_user.username" />
-				</q-item-section>
-				<q-item-section top>
-					<q-item-label lines="1">
-						<span class="gUserNameSM">{{ a_user.username }}</span>
-					</q-item-label>
-					<q-item-label lines="1">
+		<div v-show="v_items">
+			<q-list separator class="rounded-borders">
+				<q-item 
+					class="q-pa-sm"
+					clickable
+					:key="index"
+					v-if="index<v_maxLength && v_items"
+					v-for="(a_user, index) in v_items"				
+				>
+					<q-item-section class="avatar" avatar top>
+						<WAvatar :avatar="a_user.avatar" :username="a_user.username" />
+					</q-item-section>
+					<q-item-section top @click.stop="onClickUser(a_user.username)">
+						<q-item-label lines="1">
+							<span class="gUserNameSM">{{ a_user.username }}</span>
+						</q-item-label>
+						<q-item-label lines="1">
 
-						<WSubinfo 
-							username="" 
-							:pub_date="a_user.created_at" 
-							:like_count="-1" 
-							:dislike_count="-1" />
+							<WSubinfo 
+								username="" 
+								:pub_date="a_user.created_at" 
+								:like_count="-1" 
+								:dislike_count="-1" />
 
-					</q-item-label>
-				</q-item-section>
+						</q-item-label>
+					</q-item-section>
+					
+					<q-item-section side>
+						<q-item-label lines="1">
+							<q-btn flat ripple label="Follow" :loading="v_loading_follow" @click="onClickFollow" />
+							<q-btn flat ripple label="Unfollow" :loading="v_loading_unfollow" @click="onClickUnfollow" />
+						</q-item-label>
+					</q-item-section>
 
-			</q-item>
-			<q-separator class="loadmoreSeparator" size="1px" />
+				</q-item>
+				<q-separator class="loadmoreSeparator" size="1px" />
 
-		</q-list>
+			</q-list>
 
-		<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+			<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+		</div>
+
+		<div v-show="(! v_items) || (v_items.length==0)">
+			<q-icon name="email" style="color: #666666; font-size: 20px;" />
+			<div class="Message">No Messages!!!</div>
+		</div>
 
 	</div>
+
 </template>
 
 
@@ -108,6 +121,9 @@ export default {
 
 			v_user: null,
 			v_items: null,
+
+			v_loading_follow:false,
+			v_loading_unfollow:false,
 		};
 	},
 
@@ -177,7 +193,15 @@ export default {
 			
 			//store.getters.nav.add(this.$route);
             //CommonFunc.navProfile(this,this.v_user.username);
-		}
+		},
+
+		onClickFollow() {
+			logger.log.debug("FriendList.onClickFollow");
+		},
+
+		onClickUnfollow() {
+			logger.log.debug("FriendList.onClickUnfollow");
+		},
 
 	},
 };

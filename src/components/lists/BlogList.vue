@@ -119,7 +119,7 @@ export default {
 
 			this.v_posts.load(param).then((response) => {
 				_this.g_data = response.data;
-				_this.$refs.loadMore.setPageParameter(response.data.next);
+				_this.$refs.loadMore.setPageParameter(response.data);
 				logger.log.debug("BlogList.loadBlogData - response",_this.g_data);
 			})
 			.catch((err) => {

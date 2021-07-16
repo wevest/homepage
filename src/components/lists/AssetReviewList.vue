@@ -167,7 +167,7 @@ export default {
 
             this.v_reviews.load(dic_param).then( response => {
                 logger.log.debug("assetReviewList.update : response=",response.data);
-                _this.$refs.loadMore.setPageParameter(response.data.next);
+                _this.$refs.loadMore.setPageParameter(response.data);
                 _this.v_reviews_count = response.data.count;                
                 _this.g_data = response.data;
             });

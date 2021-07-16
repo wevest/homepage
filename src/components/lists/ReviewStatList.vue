@@ -125,7 +125,7 @@ export default {
 
             this.v_reviews.load(category).then( response => {
                 logger.log.debug("ReviewStatList.update : response=",response.data);
-                _this.$refs.loadMore.setPageParameter(response.data.next);
+                _this.$refs.loadMore.setPageParameter(response.data);
                 //_this.v_reviews_count = response.data.count;                
                 _this.g_data = response.data;
             });

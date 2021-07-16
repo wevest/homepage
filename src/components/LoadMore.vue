@@ -29,6 +29,7 @@ export default {
         return {
             v_loading:false,
             v_next_url:null,
+            v_count: 0,
             v_next: {
                 limit:null,
                 offset:null,
@@ -38,15 +39,21 @@ export default {
     },
 
     methods: {
+        getCount() {
+            return this.v_count;
+        },
         setLoading(value) {
             if (value) {
                 this.v_loading = true;
             } else {
                 this.v_loading = false;
             }
-        },
-        setPageParameter:function(next_url) {
-            this.v_next_url = next_url;
+        },        
+        setPageParameter:function(result) {
+            //logger.log.debug("LoadMore.setPageParameter : result=", result);
+
+            this.v_count = result.count;
+            this.v_next_url = result.next;
 
 			const limit = CommonFunc.substrInBetween(this.v_next_url,'limit=','&');
 			const offset = CommonFunc.substrInBetween(this.v_next_url+"&",'offset=','&');

@@ -209,8 +209,7 @@ export default {
             const _this=this;
             this.v_question.comments.load(this.v_question.id).then( response => {
                 logger.log.debug("AssetQAView.loadQuestionComment : response=",response);
-                //_this.setContent(_this.v_question.body);
-                //_this.loadQuestionComment();
+                _this.$refs.commentBox.setPageParameter(response);
             });
         },
 

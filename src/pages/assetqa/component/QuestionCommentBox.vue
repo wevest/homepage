@@ -66,6 +66,10 @@ export default {
         }
     },
     methods: {
+        setPageParameter: function(response) {
+            logger.log.debug("QACommentList.setPageParameter:response=",response);
+            this.$refs.commentList.setPageParameter(response);
+        },        
 
         onClickDeleteComment: function(data) {
             logger.log.debug("QuestionCommentBox.onClickDeleteComment=",data);

@@ -185,7 +185,7 @@ export default {
 
             this.v_answers.load(question_id,a_offset,a_limit).then(response=>{             
                 //logger.log.debug("AssetAnswerList.loadAnswers : response=",response);
-                _this.$refs.loadMore.setPageParameter(response.data.next);
+                _this.$refs.loadMore.setPageParameter(response.data);
                 _this.loadAnswerComments(question_id);
             }).catch(err=>{
 
@@ -196,13 +196,13 @@ export default {
         loadAnswerComments: function(question_id) {
             const _this=this;
 
-            logger.log.debug("AssetAnswerList.loadAnswerComments");    
+            //logger.log.debug("AssetAnswerList.loadAnswerComments");    
 
             for (let index=0; index<this.v_answers.items.length;index++) {
                 let a_answer = this.v_answers.items[index];
                 //logger.log.debug("AssetAnswerList.loadAnswerComments : answer=",a_answer);    
                 a_answer.loadComment().then( response => {                    
-                    //logger.log.debug("AssetAnswerList.loadAnswerComments : resp=",a_answer,response);                        
+                    //logger.log.debug("AssetAnswerList.loadAnswerComments : resp=",a_answer,response);
                     let a_list = _this.$refs['commentList'+a_answer.id.toString()][0];
                     //logger.log.debug("AssetAnswerList.loadAnswerComments : list=",a_list);    
                     a_list.setPageParameter(response);

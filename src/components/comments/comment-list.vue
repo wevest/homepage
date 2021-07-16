@@ -47,8 +47,8 @@ export default {
         }        
     },
     methods: {
-        setPageParameter: function(next_url) {
-            this.$refs.loadMore.setPageParameter(next_url);
+        setPageParameter: function(result) {
+            this.$refs.loadMore.setPageParameter(result);
         },
 
         onClickLoadMore: function(dic_page) {

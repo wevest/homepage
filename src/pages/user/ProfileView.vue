@@ -201,6 +201,8 @@ export default {
                 _this.loadFollower();
                 _this.loadFollowing();
 
+                _this.loadFeeds();
+
                 _this.$refs.profileBox.update(_this.v_user);
 
                 _this.v_user.loadPortfolio().then( response => {
@@ -221,15 +223,7 @@ export default {
         },
 
         refresh: function() {
-            const _this = this;
-                    
-            let funcs = [
-                this.loadProfile(),
-                this.loadFeeds(),
-            ];
-            Promise.all(funcs).then(function() {
-
-            });
+            this.loadProfile();
         },
 
         loadBlogList: function(user_id) {

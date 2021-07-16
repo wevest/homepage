@@ -30,7 +30,7 @@
         </div>
         <div v-if="v_read_count>-1">
             <q-icon name="chat_bubble_outline" />
-            <span>{{ read_count }}</span>
+            <span>&nbsp;{{ read_count }}</span>
         </div>
     </div>
 

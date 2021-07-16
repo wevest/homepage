@@ -137,7 +137,7 @@ export default {
 
             this.v_questions.load(dic_param).then( response => {
                 _this.g_data = response;
-                _this.$refs.loadMore.setPageParameter(response.data.next);
+                _this.$refs.loadMore.setPageParameter(response.data);
             }).catch( err=> {
 
             });

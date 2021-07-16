@@ -2,46 +2,52 @@
 
     <div>
         
-        <q-card class="q-my-sm" bordered v-for="(a_portfolio,index) in data.items" :key="index" >
-            <q-card-section horizontal class="groupTitleBox"> 
-                <div @click="onClickPortfolio(a_portfolio)">
-                    <div>
-                        <span class="text-weight-bolder gListTitle">{{v_shorten(a_portfolio.name,15)}}</span>
-                    </div>
-                    <div> 
-                        <span class="gCaption">{{ v_updated_at(a_portfolio.updated_at) }} </span>                        
-                    </div>
-                </div> 
-                <q-space />
-                <div>
-                    <div class="roiBox">
-                        <div class="gROILG"> 
-                            <span :style="v_color_style(a_portfolio.roi)" class="text-weight-bolder"> 
-                                {{ v_format(a_portfolio.roi) }} % 
-                            </span>
-                            
+        <div v-show="data.items && data.items.length>0">
+            <q-card class="q-my-sm" bordered v-for="(a_portfolio,index) in data.items" :key="index" >
+                <q-card-section horizontal class="groupTitleBox"> 
+                    <div @click="onClickPortfolio(a_portfolio)">
+                        <div>
+                            <span class="text-weight-bolder gListTitle">{{v_shorten(a_portfolio.name,15)}}</span>
                         </div>
-                        <div class="gCaption"> $ {{v_format(a_portfolio.estimated_value,3) }} </div>
+                        <div> 
+                            <span class="gCaption">{{ v_updated_at(a_portfolio.updated_at) }} </span>                        
+                        </div>
+                    </div> 
+                    <q-space />
+                    <div>
+                        <div class="roiBox">
+                            <div class="gROILG"> 
+                                <span :style="v_color_style(a_portfolio.roi)" class="text-weight-bolder"> 
+                                    {{ v_format(a_portfolio.roi) }} % 
+                                </span>
+                                
+                            </div>
+                            <div class="gCaption"> $ {{v_format(a_portfolio.estimated_value,3) }} </div>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <q-btn size="15px" flat color="grey-7" dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
-                </div>                       
-            </q-card-section>
-            
-            <q-separator />
-            
-            <q-card-section>
-                <div>
+                    <div>
+                        <q-btn size="15px" flat color="grey-7" dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
+                    </div>                       
+                </q-card-section>
+                
+                <q-separator />
+                
+                <q-card-section>
+                    <div>
 
-                    <q-linear-progress size="20px" 
-                        :value="v_progress(a_portfolio.roi)"
-                        :style="v_color_style(a_portfolio.roi)"
-                    />
-                </div>
-            </q-card-section>
+                        <q-linear-progress size="20px" 
+                            :value="v_progress(a_portfolio.roi)"
+                            :style="v_color_style(a_portfolio.roi)"
+                        />
+                    </div>
+                </q-card-section>
 
-        </q-card>
+            </q-card>
+        </div>
+
+        <div v-if="(! data.items) || (data.items==0) ">
+            No Portfolio
+        </div>
 
     </div>
 
