@@ -5,6 +5,8 @@
             <!-- <CTitle class="gBoxNoMargin text-center" ttype='title' title="질문쓰기" desc=""></CTitle>           -->
         <!-- </div> -->
 
+        <WWriterToolbar ref="writerToolbar" @onClickSave="onClickSave" />
+
         <div>
             <div class="boxTitle">
                 <div class="boxTitleInput">
@@ -35,17 +37,7 @@
             <div v-if="v_error.text.error">
                 {{v_error.text.msg}}
             </div>
-<!--                
-            <div>
-                <q-input v-model="v_post.tags" label="Tags" />
-            </div>
--->                
-        </div>
-        
-        <div class="gBoxWriterSave q-my-md">
-            <q-btn class="full-width" label="Save" color="primary" 
-                :loading="v_loading"
-                @click="onClickSave" />
+
         </div>
 
     </div>
@@ -60,13 +52,15 @@ import logger from 'src/error/Logger';
 import CTitle from 'components/CTitle';
 import {PostPageModel,QuestionPageModel} from "src/models/PageModel";
 import BaseEditor from 'components/BaseEditor';
+import WWriterToolbar from 'components/WWriterToolbar';
 
 
 export default {
-    name: 'BlogWriterDialog',
+    name: 'QuestionWriterDialog',
     components: {
         CTitle,
         BaseEditor,
+        WWriterToolbar
     },
     computed: {
         isNewPost: function() {
@@ -93,9 +87,7 @@ export default {
         }
     },
 
-    created: function () {
-        
-    },
+    created: function () {},
     mounted: function() {
         logger.log.debug("QuestionWriterView.mounted:post=",this.$route.params.post);
         this.setPost(this.$route.params.post);
@@ -116,20 +108,6 @@ export default {
                 this.$refs.baseEditor.setPostModel(this.v_post);
             }            
         },
-
-        refresh: function(page_id) {
-            const _this = this;
-        
-            let funcs = [            
-                //this.loadCalendarEffectData('1h'),
-                this.loadBlogPost(page_id),
-                //this.loadCryptoTopAssetData('1h')
-            ];
-            Promise.all(funcs).then(function() {
-                
-            });
-        },
-        
 
         validate: function(v_post) {
             if (CommonFunc.isEmptyObject(v_post.title)) {
@@ -152,11 +130,6 @@ export default {
             this.v_post.id = id;
         },
 
-        postProcess: function(response) {
-            this.setPostID(response.data.id);
-            this.v_post.saved = true;
-        },
-
         onClickSave: function() {                        
             if (! this.validate(this.v_post)) {
                 return;
@@ -167,22 +140,14 @@ export default {
             this.$refs.baseEditor.save(this.v_post,[a_tag,this.v_post.category]);
         },
 
-        onClickBack: function() {
-            logger.log.debug('onClickBack - ');
-            this.hide();
-        },
-        
-        onClickDelete: function() {
-            logger.log.debug('onClickDelete - ');
-            this.$refs.baseEditor.delete(this.v_post);
-        },
 
         onPostSave: function(dic_param) {
             logger.log.debug('QuestionWriterDialog.onPostSave : dic_param=',dic_param);
 
             if (dic_param.ret==1) {
-                this.postProcess(dic_param.response);
-                CommonFunc.showOkMessage(this,'Blog posted');
+                this.$refs.writerToolbar.onClickClose();
+                //this.postProcess(dic_param.response);
+                //CommonFunc.showOkMessage(this,'Blog posted');
             } else {
                 CommonFunc.showErrorMessage(this,'Blog error');
             }

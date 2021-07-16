@@ -1542,6 +1542,9 @@ export default class CommonFunc {
         let tag_count = 0;
         for (let index=0;index<tags.length;index++) {
             let tag = tags[index];
+            if (! tag) {
+                continue;
+            }
             if (ret.search('#'+tag)==-1) {
                 if ( (addBR.length>0) && (tag_count==0) ) {
                     ret += addBR;

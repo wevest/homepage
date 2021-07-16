@@ -2,10 +2,20 @@
     
     <div class="q-ma-md">
 
-        <!-- <div class="">  -->
-            <!-- <CTitle class="gBoxNoMargin text-center" ttype='title' title="글쓰기" desc="" ></CTitle>   -->
-         <!-- </div> -->
-        <div>
+        <WWriterToolbar ref="writerToolbar" @onClickSave="onClickSave" />
+<!--        
+        <div class="q-mt-sm gBoxNoMargin" style="border-bottom:1px solid #cccccc;">
+            <div class="row q-pa-sm">
+                <q-btn ripple flat icon="highlight_off" size="14px" @click="onClickClose" />
+                <q-space />
+                <q-btn label="Save" color="primary" flat
+                    :loading="v_loading"
+                    @click="onClickSave" />
+            </div>
+        </div>
+-->
+
+        <div v-if="v_post">
             <div>
                 <q-input 
                     hide-bottom-space
@@ -17,6 +27,8 @@
                 />
             </div>
             <div class="gBoxNoMargin">
+                <BaseEditor ref="baseEditor" @onPostSave="onPostSave" />
+<!--                
                 <Editor 
                     hide-bottom-space
                     ref="toastEditor"
@@ -29,6 +41,7 @@
                     mode="wysiwyg"
                     initialEditType="wysiwyg"
                 />
+-->                
                 <div class="gErrorMsg" v-if="v_error.text.error">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{v_error.text.msg}}
                 </div>
@@ -43,38 +56,26 @@
 -->            
         </div>
 
-
-        <div class="gBoxWriterSave q-my-md">
-            <q-btn class="full-width" label="Save" color="primary" 
-                :loading="v_loading"
-                @click="onClickSave" />
-        </div>
-
     </div>
 
 </template>
 
 <script>
-import AWS from 'aws-sdk';
-import 'codemirror/lib/codemirror.css'; 
-import '@toast-ui/editor/dist/toastui-editor.css';
-import { Editor } from '@toast-ui/vue-editor';
-
 import { store } from 'src/store/store';
-import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
-import CMSAPI from 'src/services/cmsService';
 
 import {PostPageModel} from "src/models/PageModel";
 import CTitle from 'components/CTitle';
-
+import BaseEditor from 'components/BaseEditor';
+import WWriterToolbar from 'components/WWriterToolbar';
 
 export default {
     name: 'PageBlogWriter',
     components: {
         CTitle,
-        Editor,
+        WWriterToolbar,
+        BaseEditor
     },
     computed: {
         v_me() {
@@ -99,23 +100,7 @@ export default {
             v_error: {
                 title: {error:false, msg:''},
                 text: {error:false, msg:''},
-            },
-            
-            v_loading: false,
-            v_category:null,
-
-            editorOptions: {
-                hideModeSwitch: true,
-                hooks:{                      
-                    addImageBlobHook: async (blob, callback) => {
-                        const uploadedImageURL = await this.uploadImage(blob);
-                        callback(uploadedImageURL, "alt text");
-                        return false;                 
-                    }                    
-                },
-            },
-            editorHtml: '',
-            editorVisible: true,
+            },        
         }
     },
 
@@ -133,212 +118,63 @@ export default {
     methods: {
         prepare() {
             this.setPost(this.$route.params.post);
-            //this.v_post.category_id = this.$route.params.category_id;
-            if (this.v_post.id) {
-                this.handlePostPage(this.v_post);
-            }            
+            this.fillData();
         },
 
         setPost(post) {
             this.v_post = post;
         },
-        setContent(content) {
-            this.$refs.toastEditor.invoke('setMarkdown', content);
-        },
-
         setPageID(page_id) {
             this.g_page_id = page_id;
         },
 
-        createThumbnail: function(img) {
-            const resizedImage = CommonFunc.resizeImage(img,MoaConfig.setting.thumbNailWidth, MoaConfig.setting.thumbNailHeight, 0);
-            return resizedImage;
-        },
-
-        refresh: function(page_id) {
-            const _this = this;
-        
-            let funcs = [            
-                //this.loadCalendarEffectData('1h'),
-                this.loadBlogPost(page_id),
-                //this.loadCryptoTopAssetData('1h')
-            ];
-            Promise.all(funcs).then(function() {
-                
-            });
-
+        fillData: function() {
+            if (this.$refs.baseEditor) {
+                this.$refs.baseEditor.setPostModel(this.v_post);
+            }            
         },
         
-        handlePostPage: function(post) {
-            this.v_post.assign(post);
-            this.setContent(this.v_post.body);
-        },
-
-        loadPost: function(page_id) {
-            const _this = this;
-            this.v_post.load(page_id).then( response=> {
-                logger.log.debug("BlogWriterView.loadBlogPost - response",response.data);
-                _this.handlePostPage(response.data.results[0]);
-            }).catch(err=>{
-                logger.log.error("BlogWriterView.loadBlogPost - error",err);
-            });
-        },
-        
-
-        uploadImage:function(blob) {
-            // check the following link
-            // https://solve-programming.tistory.com/29    
-            // https://day0404.tistory.com/entry/Nuxtjs-Toast-Ui-Editor-%EC%A0%81%EC%9A%A9
-
-            const _this = this;
-
-            console.log("uploadImage=",blob);
-/*
-            AWS.config.update( {
-                region: MoaConfig.s3.region,
-                credentials: new AWS.CognitoIdentityCredentials({
-                    IdentityPoolId: MoaConfig.s3.poolId
-                })
-            });
-*/
-
-            return new Promise(function(resolve,reject) {
-
-                const s3 = new AWS.S3({
-                    accessKeyId: MoaConfig.s3.key,
-                    secretAccessKey: MoaConfig.s3.secret 
-                });
-
-                let file_key = CommonFunc.getBucketKey(blob.name);
-                //console.log("file_key=",file_key);
-
-                const params = {
-                    Key: file_key,
-                    Bucket: MoaConfig.s3.bucket,
-                    Body: blob,
-                    ACL:'public-read'
-                };
-
-                s3.upload( params, function(err,response) {
-                    if (err) {
-                        CommonFunc.showErrorMessage(_this,'Fail to upload image to s3');
-                        return '';
-                    }
-                    console.log("upload=",response);
-                    resolve(response.Location);
-                    return response.Location;
-                });
-
-            });
-
-        },
-
-        validate: function(dic_data) {
-            let validated = true;
-            if (CommonFunc.isEmptyObject(dic_data.title)) {
+        validate: function(v_post) {
+            if (CommonFunc.isEmptyObject(v_post.title)) {
                 this.v_error.title.error = true;
                 this.v_error.title.msg = 'Please type title';
-                validated = false;
+                return false;
             }
-
-            if (CommonFunc.isEmptyObject(dic_data.text)) {
+            
+            let a_text = this.$refs.baseEditor.getContents();
+            if (CommonFunc.isEmptyObject(a_text)) {
                 this.v_error.text.error = true;
                 this.v_error.text.msg = 'Please type something';
-                validated = false;
+                return false;
             }
 
-            return validated;
+            return true;
         },
 
+        onPostSave: function(dic_param) {
+            logger.log.debug('QuestionWriterDialog.onPostSave : dic_param=',dic_param);
 
-        onClickSave: function() {                        
-            const _this = this;
-            let a_text = this.$refs.toastEditor.invoke('getHtml');
-            //a_text += "<br>#" + this.v_post.category_name;
+            this.$refs.writerToolbar.setLoading(false);
 
-            let dic_param = {
-                content_type: this.v_post.content_type,
-                title:this.v_post.title,
-                //tags:this.v_post.tags, 
-                //category_name:this.v_post.category_name, 
-                text: CommonFunc.addHashTag(a_text,[this.v_post.category_name])
-            };
+            if (dic_param.ret==1) {
+                this.$refs.writerToolbar.onClickClose();
+                //this.postProcess(dic_param.response);
+                //CommonFunc.showOkMessage(this,'Blog posted');
+            } else {
+                CommonFunc.showErrorMessage(this,'Blog error');
+            }        
+        },
 
-            if (! this.isNewPost) {
-                dic_param.id = this.v_post.id;
-            }
-
-            if (! this.validate(dic_param)) {
-                //CommonFunc.showErrorMessage(_this,'Please ');
+        onClickSave: function() {
+            if (! this.validate(this.v_post)) {
                 return;
             }
 
-            logger.log.debug('onClickSave - param,v_post=',dic_param,this.v_post);
-
-            this.v_loading = true;
-            this.v_post.post(dic_param).then( response=> {
-                _this.setPageID(response.data.id);
-                _this.v_loading = false;
-                CommonFunc.showOkMessage(_this,'Blog posted');
-            }).catch(err=>{
-                CommonFunc.showErrorMessage(_this,'Blog posted');
-            });
-                
-        },
-
-/*
-        onClickUpdate: function() {                        
-            const _this = this;
-            const a_text = this.$refs.toastuiEditor.invoke('getHtml');
-
-            this.v_post.category_id = 1;
-            let dic_param = { id:4, title:this.v_post.title,tags:this.v_post.tags, 
-                category_id:this.v_post.category_id, text:a_text, token:MoaConfig.auth.token};
-            logger.log.debug('onClickUpdate - ',dic_param);
-            CMSAPI.postBlogPost(dic_param,function(response) {
-                CommonFunc.showOkMessage(_this,'Blog updated');
-
-            }, function(response) {
-
-            });
-        },
-*/
-        onClickDelete: function() {                        
-            const _this = this;
-            let dic_param = { id:9, token:store.getters.token};
-            logger.log.debug('onClickDelete - ',dic_param);
-            CMSAPI.deleteBlogPost(dic_param,function(response) {
-                CommonFunc.showOkMessage(_this,'Blog deleted');
-
-            }, function(response) {
-
-            });
-        },
-
-        onClickComment: function() {
-            logger.log.debug('onClickComment - ');
-            let dic_param = {content_type:"blog.postpage",
-                object_pk:6, name:"tester", followup:'FALSE', 
-                reply_to:0, email:'test@gmail.com', comment:'This is comment222'
-            };
-
-            logger.log.debug('onClickComment - ',dic_param);
-
-            CMSAPI.postBlogComment(dic_param,function(response) {
-            //CMSAPI.likeBlogPost(dic_param,function(response) {
+            this.$refs.writerToolbar.setLoading(true);
+            this.$refs.baseEditor.save(this.v_post,[this.v_post.category_name]);
             
-            });
-
         },
 
-        onClickWrite: function() {
-            logger.log.debug('onClickWrite - ');
-            this.$refs.blogEditor.show();
-        },
-
-        onClickBack: function() {
-            logger.log.debug('onClickBack - ');
-        }
     }
 
 };

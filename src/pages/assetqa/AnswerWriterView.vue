@@ -5,8 +5,10 @@
         <!-- <div> -->
             <!-- <CTitle class="text-center gBoxNoMargin" ttype='title' title="답변쓰기" desc=""></CTitle> -->
         <!-- </div> -->
+        
+        <WWriterToolbar ref="writerToolbar" @onClickSave="onClickSave" />
 
-        <div class="col">
+        <div>
 
             <div style="padding:6px 0px 18px 0px">
                 <q-icon class="QuestionIcon" name="help_outline" /> 
@@ -21,12 +23,6 @@
                 {{v_error.text.msg}}
             </div>
         </div>
-
-        <div class="q-my-md">
-            <q-btn class="full-width" label="Save" color="primary" 
-                :loading="v_loading"
-                @click="onClickSave" />
-        </div>
         
     </div>
 
@@ -39,13 +35,14 @@ import logger from 'src/error/Logger';
 import CTitle from 'components/CTitle';
 import {AnswerPageModel} from "src/models/PageModel";
 import BaseEditor from 'components/BaseEditor';
-
+import WWriterToolbar from 'components/WWriterToolbar';
 
 export default {
     name: 'AnswerWriterView',
     components: {
         CTitle,
         BaseEditor,
+        WWriterToolbar
     },
     computed: {
         isNewPost: function() {
@@ -60,7 +57,6 @@ export default {
             g_data: '',
             
             v_show: false,
-            v_loading: false,
             v_post: new AnswerPageModel(),
             
             v_page: {title:this.$t('page.cryptovc.title'), desc:''},
@@ -110,11 +106,6 @@ export default {
             this.v_post.id = id;
         },
 
-        postProcess: function(response) {
-            this.setPostID(response.data.id);
-            this.v_post.saved = true;
-        },
-
         onClickSave: function() {                        
             logger.log.debug('onClickSave - ',this.v_post);
 
@@ -130,7 +121,7 @@ export default {
                 tags.push(this.v_post.api_tags[index].name);
             }
 
-            this.v_loading = true;
+            this.$refs.writerToolbar.setLoading(true);
             this.$refs.baseEditor.save(this.v_post,tags);
 
             //this.$refs.baseEditor.save(v_post);
@@ -139,13 +130,15 @@ export default {
         onPostSave: function(dic_param) {
             logger.log.debug('onPostSave - ',dic_param);
 
+            this.$refs.writerToolbar.setLoading(false);
             if (dic_param.ret==1) {
-                this.postProcess(dic_param.response);
-                CommonFunc.showOkMessage(this,'Blog posted');
+                this.$refs.writerToolbar.onClickClose();
+                //this.postProcess(dic_param.response);
+                //CommonFunc.showOkMessage(this,'Blog posted');
             } else {
                 CommonFunc.showErrorMessage(this,'Blog error');
             }
-            this.v_loading = false;
+            
         },
 
     }
