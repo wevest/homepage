@@ -74,9 +74,9 @@
     
 
         <div class="q-ma-sm">
-                <div class="boxCommentCount"> 
-                    <span>Comments : {{v_post.comments.items.length}}</span>
-                </div>
+            <div class="q-my-md"> 
+                <span class="gTextSubTitle">Comments : {{v_post.comments.items.length}}</span>
+            </div>
 
             <CommentBox ref="commentBox"             
                 :contentType="v_content_type" :post="v_post" :items="v_post.comments.items" />            
@@ -314,7 +314,7 @@ export default {
 
         onClickRate: function(dic_payload) {
             const _this = this;
-            logger.log.debug("BlogPage.onClickRate=",dic_payload);
+            logger.log.debug("BlogDetailView.onClickRate=",dic_payload);
 
             let dic_param = {comment: dic_payload.data.id, flag:dic_payload.rate};
             this.v_post.comments.vote(dic_param).then( response => {
@@ -378,15 +378,6 @@ export default {
     /* padding:25px 0px 7px 0px;   */
 /* } */
 
-.boxCommentCount {
-    padding:10px 10px 10px 0px;
-} 
-
-.boxCommentCount span {
-    color:#222;
-    font-size:20px;
-    font-weight:500;
-}
 .postOwnerBox {
     padding:15px 0px;
 }

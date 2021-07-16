@@ -34,8 +34,8 @@
 
 				<div align="right" v-if="v_me.loggedIn">
 					<q-btn
-						class="gButtonMD"
-						label="save"
+						class="gButtonMD" label="save" ripple
+						:loading="v_loading"
 						@click.stop="onClickSubmit"
 						v-if="showSaveButton"
 					>
@@ -102,6 +102,7 @@ export default {
 
 			v_comments: "",
 			v_style: "",
+			v_loading: false,
 
 			v_rows: "1",
 			v_rating: 5,
@@ -180,7 +181,7 @@ export default {
             
 			let tags = [this.category,CONST.REVIEW_CATEGORY + this.category];
 			let dic_param = {
-				object_id: this.objectId,
+				object_id: 1,
                 category: this.category,
                 review: CommonFunc.addHashTag(this.v_comments,tags),
 				rating: this.v_rating,
@@ -194,14 +195,17 @@ export default {
             dic_param.id = a_review.id;
             logger.log.debug('AssetView.onClickReviewSave - ',dic_param);       
 
+			this.v_loading = true;
             a_review.save(dic_param).then( response => {
                 logger.log.debug('AssetView.onClickReviewSave - response = ',response);
                 //_this.$refs.reviewList.addReview(response.data);
                 _this.clear();
-				dic_param.response = response;
-                CommonFunc.showOkMessage(_this,'review posted');
+				_this.v_loading = false;
+				dic_param.response = response;                
+				CommonFunc.showOkMessage(_this,'review posted');
                 _this.$emit("onClickReviewSave", dic_param);
-            }).catch( er => {
+            }).catch( err => {
+				_this.v_loading = false;
                 CommonFunc.showErrorMessage(_this,'review posting error');
             });
         },

@@ -25,12 +25,12 @@
 					<span> {{v_length_msg}} </span>
 				</div>	
 				<q-space />				
-				<q-btn class="q-mb-sm gButtonMD" label="Save"
-					@click.stop="onClickSubmit"
+				<q-btn class="q-mb-sm gButtonMD" label="Save" ripple
+					@click.stop="onClickSubmit" :loading="v_loading"
 					v-if="showSaveButton" />&nbsp;
 
 				<q-btn 
-					class="q-mb-sm gButtonMD" label="Close" 
+					class="q-mb-sm gButtonMD" label="Close" ripple
 					@click="onClickClose" />
 	<!--
 				<q-btn 
@@ -123,6 +123,7 @@ export default {
 
 			v_show: false,
 			v_text_class: '',
+			v_loading: false,
 
 			v_input: "",
 			v_style: "",
@@ -187,7 +188,8 @@ export default {
 			this.v_comments = null;
 			this.v_show = false;	
 			this.v_text_class = '';
-
+			this.v_loading = false;
+			
 			this.$refs.descText.hideBorder();
 			this.$refs.descText.clear();
 			this.$refs.descText.setRows(1);
@@ -234,6 +236,7 @@ export default {
 			}
 
             const _this = this;
+			this.v_loading = true;
             this.post.comments.post(dic_param).then( response => {
                 dic_param.response = response;
                 _this.clear();

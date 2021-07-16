@@ -292,12 +292,14 @@ export default {
                 logger.log.debug('AssetView.onClickAnswerRating - response = ',response);
                 if (response.data.ret==0) {
                     _this.handleAceeptAnswer(response.data);
-                    CommonFunc.showOkMessage(_this,'Answer accepted ');
+                    //CommonFunc.showOkMessage(_this,'Answer accepted ');
                 } else {
                     CommonFunc.showErrorMessage(_this,response.data.msg);    
                 }
-                
+                answer._this.setButtonLoading(false);                
             }).catch(err=>{
+                
+                answer._this.setButtonLoading(false);
                 CommonFunc.showErrorMessage(_this,'Answer acception error');
             });
 

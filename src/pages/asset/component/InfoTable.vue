@@ -14,7 +14,7 @@
 
         <q-item clickable v-ripple>
             <q-item-section top class="col-3 itemLabel">Description</q-item-section>
-            <q-item-section>{{v_asset.description}}</q-item-section>
+            <q-item-section class="gParagraphSM">{{v_asset.description}}</q-item-section>
         </q-item>
 
         <q-item clickable v-ripple>

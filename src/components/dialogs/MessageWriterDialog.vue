@@ -34,7 +34,9 @@
             </q-card-section>
 
             <q-card-actions align="center">
-                <q-btn class="fit" label="Send" color="primary" @click="onClickSend" />
+                <q-btn class="fit" label="Send" color="primary" ripple
+                    :loading="v_loading"
+                    @click="onClickSend" />
             </q-card-actions>
 
         </q-card>
@@ -65,6 +67,7 @@ export default {
 
             v_message: new MessageThreadModel(),
             v_show: false,
+            v_loading: false,
         }
     },
 
@@ -76,6 +79,7 @@ export default {
     methods: {      
         
         clear() {
+            this.v_loading = false;
             this.v_message.subject = "";
             this.v_message.content = "";
         },
@@ -83,6 +87,7 @@ export default {
         sendMessage: function() {
             const _this = this;
 
+            this.v_loading = true;
             this.v_message.send().then( response => {
                 CommonFunc.showOkMessage(_this,'Message sent');
                 _this.clear();

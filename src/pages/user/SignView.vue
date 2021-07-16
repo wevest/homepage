@@ -84,7 +84,7 @@
                             <q-input
                                 filled lazy-rules required bottom-slots
                                 v-model="v_user.username" id="username"
-                                label="Username " hint="Name and surname" 
+                                label="Username " hint="Your username" 
                                 @blur="updateUsernameVerification"
                                 :error="v_error.username.error"
                                 :error-message="v_error.username.msg"
@@ -214,7 +214,7 @@ export default {
             // eslint-disable-next-line
             let reg = /^[0-9a-zA-Z]+$/;
             let valid = reg.test(this.v_user.username)            
-            
+
             if (valid) {
                 this.v_user.usernameValid = true;
                 this.v_error.username.error = false;

@@ -12,20 +12,6 @@
         initialEditType="wysiwyg"
     />
 
-    <q-dialog v-model="v_confirm" persistent>
-        <q-card>
-            <q-card-section class="row items-center">
-                <q-avatar icon="signal_wifi_off" color="primary" text-color="white" />
-                <span class="q-ml-sm">{{v_confirm_title}}</span>
-            </q-card-section>
-
-            <q-card-actions align="right">
-                <q-btn flat label="Ok" color="primary" @click="onClickConfirm('ok')" />
-                <q-btn flat label="Cancel" color="primary" @click="onClickConfirm('cancel')" />
-            </q-card-actions>
-        </q-card>
-    </q-dialog>
-
   </div>
 
 </template>

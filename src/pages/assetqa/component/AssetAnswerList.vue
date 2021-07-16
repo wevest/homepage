@@ -9,36 +9,25 @@
 
                 <div class="col">
                     <div class="q-pt-xs q-pl-md">
-                    <div class="gUserNameQA">
-                        {{a_answer.owner.username}}&nbsp;님 답변 
-                    </div>
+                        <div class="gUserNameQA">
+                            {{a_answer.owner.username}}&nbsp;님 답변 
+                        </div>
 
-                    <div class="row">                        
+                        <div class="row">                        
+                            
+                            <WSubinfo username="" :pub_date="a_answer.pub_date" 
+                                :like_count="a_answer.like_count" :dislike_count="a_answer.dislike_count" />
                         
-                        <WSubinfo username="" :pub_date="a_answer.pub_date" 
-                            :like_count="a_answer.like_count" :dislike_count="a_answer.dislike_count" />
-                    
-                        <q-space />
-                    
-                        <WCommandBar :data="a_answer" :isOwner="a_answer.is_owner" 
-                            shareBtn="" updateBtn="update" deleteBtn="delete" 
-                            @onClickUpdate="onClickAnswerUpdate" 
-                            @onClickDelete="onClickAnswerDelete" 
-                        />
+                            <q-space />
                         
+                            <WCommandBar :data="a_answer" :isOwner="a_answer.is_owner" 
+                                shareBtn="" updateBtn="update" deleteBtn="delete" 
+                                @onClickUpdate="onClickAnswerUpdate" 
+                                @onClickDelete="onClickAnswerDelete" 
+                            />
+                            
+                        </div>
                     </div>
-                    </div>
-
-                    <div class="AnswerAcceptBox">
-                        <span v-if="v_question.is_owner && (! v_question.closed)">
-                            <q-btn class="gButtonSM"
-                                dense
-                                size="15px"
-                                label="Accept" 
-                                @click="onClickAccept(a_answer)" /> 
-                        </span>                                
-                    </div>
-
                 </div>
             </div>
 
@@ -63,6 +52,14 @@
                 </div>
             </div>
 
+            <div class="AnswerAcceptBox" v-if="v_question.is_owner && (! v_question.closed)">
+                <q-btn class="gButtonSM full-width q-my-md" ripple                 
+                    style="background: #FF0080; color: white;"
+                    size="15px"
+                    label="Accept" 
+                    :loading="v_loading"
+                    @click="onClickAccept(a_answer)" /> 
+            </div>
 
             <div>
                 
@@ -158,7 +155,8 @@ export default {
 
         v_comments: [],
         v_comment: null,
-        
+        v_loading: false,
+
         v_conent_type: "blog.postpage",
         v_post:null,
 
@@ -215,7 +213,6 @@ export default {
 
         },
         
-
         addAnswer(response) {
             logger.log.debug("assetAnswerList.addAnswer : response=",response);
             this.v_answers.addFirst(response.data);
@@ -226,7 +223,9 @@ export default {
             this.v_answers.updateAcceptance(response.answer_id);
         },
 
-
+        setButtonLoading(value) {
+            this.v_loading = value;
+        },
 
         onClickRating: function(dicParam) {
             //value,question
@@ -271,7 +270,10 @@ export default {
         },
 
         onClickAccept: function(jsonObject) {
-            logger.log.debug('onClickAccept - ',jsonObject);
+            logger.log.debug('AssetAnswerList.onClickAccept - ',jsonObject);
+            
+            this.v_loading = true;
+            jsonObject._this = this;
             this.$emit("onClickQuestionAccept",jsonObject);          
         },
 

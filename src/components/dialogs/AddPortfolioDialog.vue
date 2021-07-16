@@ -34,8 +34,7 @@
                             <CryptoSelect ref="cryptoSelector" @onSelectAsset="onSelectAsset" />
                             <br>
                             <q-select
-                                filled
-                                use-input fill-input hide-selected
+                                filled use-input fill-input hide-selected
                                 input-debounce="0"
                                 v-model="v_input"
                                 label="Portfolio Group"
@@ -64,7 +63,8 @@
                 </q-card-section>       
                 
                 <q-card-actions >
-                    <q-btn class="fit" :label="v_button_label"  color="primary" @click="onClickSave" />
+                    <q-btn class="fit"  color="primary" ripple
+                        :label="v_button_label" :loading="v_loading" @click="onClickSave" />
                 </q-card-actions>        
 
             </q-card>
@@ -131,7 +131,7 @@ export default {
             //v_portfolio: new PortfolioItemModel(),
             v_portfolio_item: new PortfolioItemModel(),
             
-            //v_button_label: 'Save',
+            v_loading: false,
             //v_title: this.title,
 
             v_selected_asset: null,
@@ -167,7 +167,24 @@ export default {
         }
     },
     
-    methods: {      
+    methods: {   
+        clear() {
+            this.v_portfolio_item.asset_id = 1;
+            this.v_portfolio_item.portfolio_id = -1;
+            this.v_portfolio_item.price = 0;
+            this.v_portfolio_item.qty = 0;
+            this.v_portfolio_item.description = '';
+            
+            //this.v_input = '';
+            if (this.$refs.descText) {
+                this.$refs.descText.clear();
+            }            
+            if (this.$refs.cryptoSelector) {
+                this.$refs.cryptoSelector.setValue('');
+            }
+            this.v_loading = false;
+        },
+
         fillValue: function() {
             logger.log.debug("AddPortfolioDialog.fillValue");
             this.v_input = this.v_portfolio_item.portfolio_name;
@@ -214,15 +231,12 @@ export default {
             if (v_portfolio_item) {
                 this.setPortfolioItem(v_portfolio_item);
             } else {
-                this.v_portfolio_item.asset_id = 1;
-                this.v_portfolio_item.portfolio_id = -1;
-                this.v_portfolio_item.price = 0;
-                this.v_portfolio_item.qty = 0;
-                this.v_portfolio_item.description = '';
+                this.clear();
             }
 
             logger.log.debug("AddPortfolioDialog.show : v_portfolio=",this.v_portfolio_item);
 
+            this.v_loading = false;
             this.v_show = true;
         },
 
@@ -261,19 +275,24 @@ export default {
             logger.log.debug('AddPortfolioDialog.onClickSave - ',this.v_portfolio_item);
             this.v_portfolio_item.description = this.$refs.descText.getValue();
 
+            this.v_loading = true;
             this.v_portfolio_item.addToServer().then( response => {
                 if (response.data.ret!=0) {
+                    _this.v_loading = false;
                     CommonFunc.showErrorMessage(_this,response.data.msg);
                     return;
                 } 
                 CommonFunc.showOkMessage(_this,'Portfolio added');
-
+                                
                 _this.v_user.portfolio.addPortfolioItem(response.data.portfolio_item);
                 _this.v_user.portfolio.calcPerformance(store.state.prices);
+                _this.clear();
+                
                 _this.$emit("onPortfolioItemAdded",_this.v_portfolio_item);
                 //_this.hide();
 
             }).catch( err=> {
+                _this.v_loading = false;
                 CommonFunc.showErrorMessage(_this,'Portfolio error');
             });
         },

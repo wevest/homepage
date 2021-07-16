@@ -180,8 +180,9 @@ export default {
 		},
 
 		onClickLoadMore: function() {
-			logger.log.debug("onClickLoadMore : next_url = ", this.v_next_url);
-
+			logger.log.debug("BlogList.onClickLoadMore : next_url = ", this.v_next_url);
+			
+			this.v_maxLength = 999999;
 			this.v_query.limit = this.$refs.loadMore.v_next.limit;
 			this.v_query.offset = this.$refs.loadMore.v_next.offset;
 			this.loadBlogData(this.v_query);

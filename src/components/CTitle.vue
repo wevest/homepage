@@ -6,7 +6,8 @@
             </div>
             <q-space v-if="loadMoreCaption.length>0" />
             <div>                
-                <q-btn class="gButtonSM" flat :label="loadMoreCaption" @click="onClickMore" v-if="loadMoreCaption.length>0" />
+                <q-btn class="gButtonSM" flat ripple
+                    :label="loadMoreCaption" @click="onClickMore" v-if="loadMoreCaption.length>0" />
             </div>
         </div>
     </div>

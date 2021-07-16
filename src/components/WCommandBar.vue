@@ -1,31 +1,32 @@
 <template>
     
     <div class="row q-col-gutter-x-sm">
-        <q-icon 
-            class="gCommentBtnMD"        
+        <q-btn 
+            class="gCommentBtnMD" flat dense ripple
             v-if="shareBtn.length>0"               
             :size="size"
-            name="share" 
+            icon="share" 
             @click="onClickShare" />
-        <q-icon 
-            class="gCommentBtnMD"
+        <q-btn
+            class="gCommentBtnMD" flat dense ripple
             v-if="(v_me.loggedIn) && (! isOwner) && (copyBtn.length>0) "
             :size="size"
-            name="content_copy" 
+            :class="v_color_copy"
+            icon="favorite_border" 
             @click="onClickCopy" />
 
-        <q-icon 
-            class="gCommentBtnMD"
+        <q-btn
+            class="gCommentBtnMD" flat dense ripple
             v-if="(v_me.loggedIn) && (isOwner) && (updateBtn.length>0) "
             :size="size"
-            name="mode_edit_outline"
+            icon="mode_edit_outline"
             @click="onClickUpdate" />
 
-        <q-icon
-            class="gCommentBtnMD"
+        <q-btn
+            class="gCommentBtnMD" flat dense ripple
             v-if="(v_me.loggedIn) && (isOwner) && (deleteBtn.length>0) "
             :size="size"
-            name="delete_outline" 
+            icon="delete_outline" 
             @click="onClickDelete" />
 
     </div>                  
@@ -50,7 +51,7 @@ export default {
             default: false,
         },
         size: {
-            default: '20px'
+            default: '12px'
         },
         shareBtn: {
             type:String,
@@ -78,8 +79,20 @@ export default {
             return store.getters.me;
         },
     },
+    data() {
+        return {
+            v_color_copy:'',
+        }
+    },
     methods: {
-
+        setColor(value) {
+            if (value) {
+                this.v_color_copy = "text-primary";
+            } else {
+                this.v_color_copy = "";
+            }
+        },
+/*
         addToMyPortfolio: function(jsonPortfolio) {
             logger.log.debug("WCommandBar.addToMyPortfolio : portfolio=",jsonPortfolio);
             
@@ -102,7 +115,7 @@ export default {
                 logger.log.error("WCommandBar.onClickAddToMyPortfolio : err=",err);    
             });
         },
-
+*/
 
         onClickShare() {
             this.$emit("onClickShare",this.data);
@@ -129,7 +142,8 @@ export default {
 
         onClickCopy() {
             logger.log.debug("WCommandBar.onClickCopy");
-
+            
+            this.data._this = this;
             this.$emit("onClickCopy",this.data);
         },
 

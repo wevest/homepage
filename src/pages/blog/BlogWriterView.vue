@@ -44,8 +44,10 @@
         </div>
 
 
-        <div class="gBoxWriterSave">
-            <q-btn class="full-width" label="Save" color="primary" @click="onClickSave" />
+        <div class="gBoxWriterSave q-my-md">
+            <q-btn class="full-width" label="Save" color="primary" 
+                :loading="v_loading"
+                @click="onClickSave" />
         </div>
 
     </div>
@@ -98,11 +100,9 @@ export default {
                 title: {error:false, msg:''},
                 text: {error:false, msg:''},
             },
-
+            
+            v_loading: false,
             v_category:null,
-            v_options: [
-                'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-            ],
 
             editorOptions: {
                 hideModeSwitch: true,
@@ -275,8 +275,10 @@ export default {
 
             logger.log.debug('onClickSave - param,v_post=',dic_param,this.v_post);
 
+            this.v_loading = true;
             this.v_post.post(dic_param).then( response=> {
                 _this.setPageID(response.data.id);
+                _this.v_loading = false;
                 CommonFunc.showOkMessage(_this,'Blog posted');
             }).catch(err=>{
                 CommonFunc.showErrorMessage(_this,'Blog posted');

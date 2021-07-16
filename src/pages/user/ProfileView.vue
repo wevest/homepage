@@ -52,8 +52,11 @@
 
         <div class="row q-col-gutter-md q-mt-md justify-center  q-mb-xl">
             <div v-if="! isOwner">
-                <q-btn color="primary" label="Unfollow" @click="onClickFollow(-1)" v-if="v_user.is_following" />
-                <q-btn v-else color="primary" label="Follow" @click="onClickFollow(1)" />
+                <q-btn color="primary" label="Unfollow" ripple
+                    :loading="v_loading_follow"
+                    @click="onClickFollow(-1)" v-if="v_user.is_following" />
+                <q-btn v-else color="primary" label="Follow" ripple
+                    :loading="v_loading_follow" @click="onClickFollow(1)" />
             </div>
             <div>
                 <q-btn color="primary" label="Message" @click="onClickMessage" />
@@ -159,7 +162,8 @@ export default {
     },
     data: () => ({
         g_data: null,
-        v_user: new UserModel(),        
+        v_user: new UserModel(),   
+        v_loading_follow: false,     
     }),
     created: function() {
         this.validateQuery();
@@ -270,20 +274,24 @@ export default {
             logger.log.debug("onClickFollow");
                         
             const _this=this;
-
+            
             CommonFunc.checkButtonPermission(this,1,0).then(ret=>{
                 logger.log.debug("ProfileView.onClickFollow : ret=",ret);
                 if (ret==0) return;
-
+                
+                _this.v_loading_follow = true;
                 _this.v_user.follow(_this.v_user.id,value).then( response => {
                     logger.log.debug("onClickFollow - response=",response);
                     
                     let msg = "Followed";
                     if (value==-1) msg = "Unfollowed";
                     CommonFunc.showOkMessage(_this,msg);
+                    
+                    _this.v_loading_follow = false;
 
                 }).catch(err=>{
-
+                    CommonFunc.showErrorMessage(_this,err.msg);
+                    _this.v_loading_follow = false;
                 });
             });
 

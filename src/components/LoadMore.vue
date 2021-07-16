@@ -5,10 +5,10 @@
 		<div class="row justify-center loadMoreBox" v-if="v_next_url">
             <q-btn 
                 class="expandMore" 
+                dense flat ripple
                 icon-right="expand_more" 
                 label="Loadmore" 
-                dense 
-                flat 
+                :loading="v_loading"
                 @click="onClickLoadMore" />
 		</div>            
     </div>
@@ -27,6 +27,7 @@ export default {
     },
     data(){
         return {
+            v_loading:false,
             v_next_url:null,
             v_next: {
                 limit:null,
@@ -37,6 +38,13 @@ export default {
     },
 
     methods: {
+        setLoading(value) {
+            if (value) {
+                this.v_loading = true;
+            } else {
+                this.v_loading = false;
+            }
+        },
         setPageParameter:function(next_url) {
             this.v_next_url = next_url;
 
@@ -45,6 +53,7 @@ export default {
 
             this.v_next.limit = limit[0];
             this.v_next.offset = offset[0];
+            this.setLoading(false);
         },
 
         setPagination:function(items,offset,limit) {
@@ -57,6 +66,7 @@ export default {
             
             this.v_next.limit = limit;
             this.v_next.offset = offset;
+            this.setLoading(false);
         },
 
         setFeedPagination:function(next_url) {                                                
@@ -64,12 +74,14 @@ export default {
             this.v_next.uuid = CommonFunc.substrInBetween(next_url,"lt=","&limit")[0];
             this.v_next.limit = CommonFunc.substrInBetween(next_url+"*","limit=","*")[0];
             this.v_next.offset = null;
-
+            
+            this.setLoading(false);
             logger.log.debug("setFeedPagination:next_url=",next_url,this.v_next);
         },
 
         onClickLoadMore: function() {
             let dic_param = {next_url:this.v_next_url, param:this.v_next};
+            this.setLoading(true);
             this.$emit("onClickLoadMore",dic_param);
         }
     }

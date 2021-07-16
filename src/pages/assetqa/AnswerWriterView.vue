@@ -22,8 +22,10 @@
             </div>
         </div>
 
-        <div class="q-pt-sm">
-            <q-btn class="full-width" label="Save" color="primary" @click="onClickSave" />
+        <div class="q-my-md">
+            <q-btn class="full-width" label="Save" color="primary" 
+                :loading="v_loading"
+                @click="onClickSave" />
         </div>
         
     </div>
@@ -58,7 +60,7 @@ export default {
             g_data: '',
             
             v_show: false,
-
+            v_loading: false,
             v_post: new AnswerPageModel(),
             
             v_page: {title:this.$t('page.cryptovc.title'), desc:''},
@@ -128,6 +130,7 @@ export default {
                 tags.push(this.v_post.api_tags[index].name);
             }
 
+            this.v_loading = true;
             this.$refs.baseEditor.save(this.v_post,tags);
 
             //this.$refs.baseEditor.save(v_post);
@@ -142,6 +145,7 @@ export default {
             } else {
                 CommonFunc.showErrorMessage(this,'Blog error');
             }
+            this.v_loading = false;
         },
 
     }

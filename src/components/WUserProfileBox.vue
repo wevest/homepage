@@ -7,8 +7,9 @@
             </div>
             <div style="padding-left:15px; padding-top:10px;">
                 <span class="gUserNameMD"> {{username}}</span>&nbsp;
-                <q-btn class="gFollowBtn" icon="add_circle" dense flat 
+                <q-btn class="gFollowBtn" icon="add_circle" dense flat ripple
                     :label="v_follow_button"
+                    :loading="v_loading"
                     @click="onClickFollow(1)" v-if="! isOwner" />
             </div>
         </div>                    
@@ -90,7 +91,7 @@ export default {
             v_username: this.username,
             v_avatar: this.avatar,
             v_biography: this.biography,
-
+            v_loading: false,
         }
     },
     methods: {
@@ -103,13 +104,17 @@ export default {
             CommonFunc.checkButtonPermission(this,1,0).then(ret=>{
                 logger.log.debug("WUserProfileBox.onClickFollow : ret=",ret);
                 if (ret==0) return;
-
+                
+                _this.v_loading = true;
                 _this.v_me.follow(_this.userid,value).then( response => {
                     logger.log.debug("onClickFollow - response=",response);
                     _this.v_follow_button = 'Followed';
+                    _this.v_loading = false;
                     CommonFunc.showOkMessage(_this,'Followed');                
                 }).catch(err=>{
-                    CommonFunc.showErrorMessage(_this,err.data.msg);
+                    _this.v_follow_button = 'Followed';
+                    _this.v_loading = false;
+                    CommonFunc.showErrorMessage(_this,err.data.msg);                    
                 });
             });
         }

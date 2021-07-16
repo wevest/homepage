@@ -12,8 +12,8 @@
                 </q-avatar>
                 
                 <form>
-                    <q-btn fab id="pick-avatar" color="primary" label="change" class="btnAvatar q-ml-lg" 
-                        v-show="isOwner" @click="onClickChangeProfile" />
+                    <q-btn fab id="pick-avatar" color="primary" label="change" class="btnAvatar q-ml-lg" ripple
+                        v-show="isOwner" :loading="v_loading_change" @click="onClickChangeProfile" />
                     <AvatarCropper
                         ref="avatar" 
                         :labels="v_labels"
@@ -112,6 +112,7 @@ export default {
             
             v_mode: "",
             v_edit_button: 'Edit',
+            v_loading_change: false,
 
             v_labels: {'submit': 'Upload', 'cancel': 'Cancel'},
         }
@@ -137,18 +138,21 @@ export default {
             const _this = this;
             
             logger.log.debug("ProfileView.updateUserProfile");
+            this.v_loading_change = true;
             this.v_user.updateProfile().then(response=>{
                 logger.log.debug("ProfileView.updateUserProfile - response",response);
+                _this.v_loading_change = false;
                 CommonFunc.showOkMessage(_this,'Profile updated');
             }).catch(err=>{
                 logger.log.error("ProfileView.updateUserProfile - error",err);
+                _this.v_loading_change = false;
                 CommonFunc.showErrorMessage(_this,'Profile update failed');
             });
         },
 
         updateUserPhoto: function(images) {
             this.v_user.avatar_thumb = images[0].url;
-            this.v_user.avatar = images[1].url;
+            this.v_user.avatar = images[1].url;            
             this.updateUserProfile();
         },
 
@@ -275,7 +279,7 @@ export default {
         },
 
         onClickChangeProfile: function() {
-            logger.log.debug("onClickChangeProfile");
+            logger.log.debug("ProfileBox.onClickChangeProfile");
         },
 
         onClickMessage: function() {

@@ -5,42 +5,47 @@
             <!-- <CTitle class="gBoxNoMargin text-center" ttype='title' title="질문쓰기" desc=""></CTitle>           -->
         <!-- </div> -->
 
-        <div class="row">
-            <div class="col">
-                <div>
+        <div>
+            <div class="boxTitle">
+                <div class="boxTitleInput">
                     <q-input
                         hide-bottom-space
                         v-model="v_post.title" 
-                        label="Title" 
+                        label="Please type your question title" 
+                        hint=""
                         :error="v_error.title.error"
                         :error-message="v_error.title.msg"
                     />
                 </div>
-                <div>
+                <div class="boxTitleReward">
                     <q-input 
                         hide-bottom-space
                         v-model="v_post.reward" 
                         label="Reward" 
+                        hint=""
                         :error="v_error.reward.error"
                         :error-message="v_error.reward.msg"
                     />
                 </div>
-                <div class="gBoxNoMargin">
-                    <BaseEditor ref="baseEditor" @onPostSave="onPostSave" />
-                </div>
-                <div v-if="v_error.text.error">
-                    {{v_error.text.msg}}
-                </div>
-<!--                
-                <div>
-                    <q-input v-model="v_post.tags" label="Tags" />
-                </div>
--->                
+
             </div>
+            <div class="gBoxNoMargin">
+                <BaseEditor ref="baseEditor" @onPostSave="onPostSave" />
+            </div>
+            <div v-if="v_error.text.error">
+                {{v_error.text.msg}}
+            </div>
+<!--                
+            <div>
+                <q-input v-model="v_post.tags" label="Tags" />
+            </div>
+-->                
         </div>
         
-        <div class="gBoxWriterSave">
-            <q-btn class="full-width" label="Save" color="primary" @click="onClickSave" />
+        <div class="gBoxWriterSave q-my-md">
+            <q-btn class="full-width" label="Save" color="primary" 
+                :loading="v_loading"
+                @click="onClickSave" />
         </div>
 
     </div>
@@ -76,7 +81,7 @@ export default {
             g_data: '',
             
             v_show: false,
-
+            v_loading: false,
             v_post: new QuestionPageModel(),
             
             v_page: {title:this.$t('page.cryptovc.title'), desc:''},
@@ -158,6 +163,7 @@ export default {
             }
             
             let a_tag = CONST.QUESTION_CATEGORY + this.v_post.category;
+            this.v_loading = true;
             this.$refs.baseEditor.save(this.v_post,[a_tag,this.v_post.category]);
         },
 
@@ -181,6 +187,7 @@ export default {
                 CommonFunc.showErrorMessage(this,'Blog error');
             }
             
+            this.v_loading = false;
             this.$emit("onQuestionAdded",dic_param);
         },
 
@@ -191,5 +198,17 @@ export default {
 
 
 <style scoped>
+.boxTitle {
+    display:flex;
+}
+
+.boxTitleInput {
+    flex:1 auto;
+}
+
+.boxTitleReward {
+    padding-left:10px;
+    width:60px;
+}
 
 </style>

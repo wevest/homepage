@@ -2,21 +2,21 @@
 
     <div>
         <span class="q-pr-sm">                              
-            <q-icon 
-                class="gRatingBtnSM"        
+            <q-btn
+                class="gRatingBtnXS" flat dense ripple
                 :class="v_color_like"
-                name="thumb_up_off_alt"
+                icon="thumb_up_off_alt"
                 @click="onClickRate('like')" />
                 <span class="gRatingCountSM">{{ likeCount }}</span>
         </span>
                     
         <span>
-            <q-icon 
-                class="gRatingBtnSM" 
-                :class="v_color_dislike"                                                            
-                name="thumb_down_off_alt"
+            <q-btn 
+                class="gRatingBtnXS"  flat dense ripple
+                :class="v_color_dislike"      
+                icon="thumb_down_off_alt"
                 @click="onClickRate('dislike')"> 
-            </q-icon>
+            </q-btn>
             <span class="gRatingCountSM">{{ dislikeCount }}</span>
         </span>
     </div>
@@ -57,6 +57,7 @@ export default {
         return {
             v_color_like:'',
             v_color_dislike:'',
+            v_ripple: '{center:true}'
         }
     },
     methods: {

@@ -36,7 +36,8 @@
                     </div>
                     <q-space />
                     <div>
-                        <q-btn class="q-mb-xs gButtonSM" @click="onClickEdit" v-show="v_is_owner" :label="v_edit_button" />
+                        <q-btn class="q-mb-xs gButtonSM" ripple
+                            @click="onClickEdit" v-show="v_is_owner" :label="v_edit_button" />
                     </div>
                 </div>
                 <div >
@@ -99,7 +100,7 @@
                             <div class="q-pr-sm">  
                                 <q-icon class="coinIcon" name="monetization_on" color="black" size="34px" />                                    
                             </div>    
-                            <div @click="onClickMore(a_portfolio)">
+                            <div @click="onClickMore(a_portfolio)" v-ripple>
                                 <div class="symbolBox">
                                     <span class="text-h6 text-weight-bold"> {{a_portfolio.api_asset.symbol}}</span>
                                     <span class="text-caption text-grey-6"> &nbsp; ({{a_portfolio.api_asset.name}}) </span>
@@ -485,13 +486,17 @@ export default {
             portfolio.addToServer().then(response=>{
                 logger.log.debug("PortfolioDetail.onClickAddToMyPortfolio : response=",response);    
                 if (response.data.ret==0) {
+                    jsonPortfolio._this.setColor(true);
                     CommonFunc.showOkMessage(_this,'portfolio added');
                 } else {
+                    jsonPortfolio._this.setColor(false);
                     CommonFunc.showErrorMessage(_this,response.data.msg);
                 }
                 
-            }).catch(err=>{
+            }).catch(err=>{                
                 logger.log.error("PortfolioDetail.onClickAddToMyPortfolio : err=",err);    
+                jsonPortfolio._this.setColor(false);
+                CommonFunc.showErrorMessage(_this,response.data.msg);
             });
         },
 

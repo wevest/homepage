@@ -225,7 +225,7 @@
   font-size: map-get($h5,"size");
   line-height: map-get($h5,"line-height");
   letter-spacing: map-get($h5,"letter-spacing");
-  font-weight: map-get($h5,"weight");
+  font-weight: bolder;
   color: $grey-10;
 }
 
@@ -405,6 +405,12 @@
 .gCommandBtnSM {
   color: $grey-7; 
  }
+
+.gRatingBtnXS {
+  font-size:10px;
+  color: $grey-8;
+  padding-right:1px;
+}
 
 .gRatingBtnSM {
   font-size:16px;

@@ -4,9 +4,8 @@
     <div class="row q-pa-md justify-center text-center">
         <div class="q-pr-md">
             <q-btn 
-                class="gRatingBtnMD"
-                :class="v_color_like"
-                flat ripple
+                class="gRatingBtnMD" flat ripple
+                :class="v_color_like"                
                 icon="sentiment_very_satisfied" 
                 @click="onClickRate(1)" />
             <div class="gRatingCountMD">
@@ -15,9 +14,8 @@
         </div>
         <div class="q-pl-md">
             <q-btn
-                class="gRatingBtnMD"
+                class="gRatingBtnMD" flat ripple
                 :class="v_color_dislike"
-                flat ripple
                 icon="sentiment_very_dissatisfied"
                 @click="onClickRate(-1)" />
             <div class="gRatingCountMD">
@@ -59,6 +57,7 @@ export default {
         return {
             v_color_like:'',
             v_color_dislike:'',
+            v_ripple: '{center:true}'
         }
     },
     methods: {
