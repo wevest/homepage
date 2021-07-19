@@ -141,7 +141,12 @@ const routes = [
 			name: "vcportfolio",
 			path: "vcportfolio",
 			component: () => import("pages/vcportfolio/VCPortfolioView.vue")
-      	},
+    },
+		{
+			name: "reset_password",
+			path: "reset_password",
+			component: () => import("pages/user/ResetPasswordView.vue")
+		},
 		{
 			name:"error_404", path: "error_404",
 			component: () => import("pages/Error404.vue")

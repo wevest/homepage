@@ -187,7 +187,7 @@ export default class User {
     id = null; 
     username = null;
     email = null;
-    display_name=null;
+    title=null;
     password=null;
     token = null;
     loggedIn = false;
@@ -228,7 +228,6 @@ export default class User {
         this.email = obj.email;
         this.avatar = obj.avatar;
         this.avatar_thumb = obj.avatar_thumb;
-        this.display_name = CommonFunc.safeGetKeyValue(obj,'display_name');
         
         this.first_name = CommonFunc.safeGetKeyValue(obj,'first_name');
         this.last_name = CommonFunc.safeGetKeyValue(obj,'last_name');
@@ -248,6 +247,10 @@ export default class User {
         this.follower = new FriendListModel();
         this.following = new FriendListModel();    
         this.feeds = new FeedListModel();
+        
+        if (CommonFunc.isEmptyObject(this.title)) {
+            this.title = this.username;
+        }
 
         //not necessary 
         ///this.password = CommonFunc.safeGetKeyValue(obj,'password');        
@@ -631,5 +634,18 @@ export default class User {
         });            
     }
 
+    resetPassword(dicParam) {
+        dicParam.id=this.id;
+        logger.log.debug("UserModel.resetPassword : dicParam=",dicParam);
+                
+        const _this = this;
+        return new Promise(function(resolve,reject) {
+            AuthService.resetPassword(dicParam).then(response=>{
+                resolve(response);
+            }).catch(err=>{
+                reject(err);
+            });                
+        });            
+    }
 }
 

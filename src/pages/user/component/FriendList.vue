@@ -33,9 +33,13 @@
 					
 					<q-item-section side>
 						<q-item-label lines="1">
-							<q-btn ripple :outline="v_follow_color(a_user)" color="primary"
-								:label="v_label_follow(a_user)" :ref="'btnFollow_'+index"
-								@click="onClickFollow(a_user,index)" />
+							<q-btn ripple :outline="v_follow_color_mine(a_user)" color="primary"
+								:label="v_label_follow_mine(a_user)" :ref="'btnFollow_'+index"
+								@click="onClickFollow(a_user,index)" v-if="v_is_owner" />
+
+							<q-btn ripple :outline="v_follow_color_user(a_user)" color="primary"
+								:label="v_label_follow_user(a_user)" :ref="'btnFollow_'+index"
+								@click="onClickFollow(a_user,index)" v-if="! v_is_owner" />
 
 						</q-item-label>
 					</q-item-section>
@@ -48,9 +52,13 @@
 			<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
 		</div>
 
-		<div v-show="(! v_items) || (v_items.length==0)">
-			<div class="gNoListTitle">No  Following</div>
-			<div class="gNoListMessage">다른 사람이 나를 팔로우하면 여기에 표시됩니다</div> 
+		<div v-show="(! v_items) || (v_items.length==0)" class="text-center">
+			<div class="gListTitle"> 
+				{{v_error_title}}
+			</div>
+			<div class="gCaption">
+				{{v_error_msg}}
+			</div>
 		</div>
 
 	</div>
@@ -119,24 +127,17 @@ export default {
 			}
 			return false;
 		},
-		v_label_follow: {
+		v_label_follow_mine: {
 			get() {
 				return (user) => {
-					if (this.v_is_owner) {
-						if (user.is_follower) {
-							return "Follow";
-						}
-						return "Unfollow";					
+					if (user.is_follower) {
+						return "Follow";
 					}
-
-					return "Follow";
+					return "Unfollow";					
 				}
 			},
-			set(value) {
-				return value;
-			}
 		},
-		v_follow_color: {
+		v_follow_color_mine: {
 			get() {
 				return (user) => {
 					if (this.v_is_owner) {
@@ -151,7 +152,39 @@ export default {
 			set(value) {
 				return value;
 			}
-		}
+		},
+		v_label_follow_user: {
+			get() {
+				return (user) => {
+					if (user.is_following) {
+						return "Unfollow";
+					}
+					return "Follow";					
+				}
+			},
+		},
+		v_follow_color_user: {
+			get() {
+				return (user) => {
+					if (user.is_following) {
+						return false;
+					}
+					return true;
+				}
+			},
+		},
+		v_error_title (){
+			if (this.mode=="follower") {
+				return "No Follower";
+			}
+			return "No Following";
+		},
+		v_error_msg (){
+			if (this.mode=="follower") {
+				return "다른 사람이 팔로우하면 여기에 표시됩니다.";
+			}
+			return "내가 팔로잉한 사람이 여기에 표시됩니다.";
+		},
     },
 
 	data() {
@@ -207,7 +240,8 @@ export default {
             const _this=this;
             this.v_user.loadFollower(this.v_pagination.offset,this.v_pagination.limit).then( response => {
                 logger.log.debug("ProfileView.loadFollower - response=",response, _this.v_user.follower );                
-                _this.v_items = _this.v_user.follower.items;
+                if (! _this.v_is_owner) { _this.v_user.follower.setFollowers(false) };
+				_this.v_items = _this.v_user.follower.items;				
 				_this.$refs.loadMore.setPagination(response.data.results,_this.v_pagination.offset,_this.v_pagination.limit);
             }).catch(err=>{
 				logger.log.error("ProfileView.loadFollower - err=",err);
@@ -219,7 +253,8 @@ export default {
             const _this=this;
             this.v_user.loadFollowing(this.v_pagination.offset,this.v_pagination.limit).then( response => {
                 logger.log.debug("ProfileView.loadFollowing - response=",response, _this.v_user.following );
-                _this.v_items = _this.v_user.following.items;
+                if (! _this.v_is_owner) { _this.v_user.following.setFollowings(false) };
+				_this.v_items = _this.v_user.following.items;
 				_this.$refs.loadMore.setPagination(response.data.results,_this.v_pagination.offset,_this.v_pagination.limit);
             }).catch(err=>{
 				logger.log.error("ProfileView.loadFollowing - err=",err);
@@ -247,10 +282,7 @@ export default {
             //CommonFunc.navProfile(this,this.v_user.username);
 		},
 
-		onClickFollow(user,index) {
-			let a_btn = this.$refs['btnFollow_'+index][0];
-			logger.log.debug("FriendList.onClickFollow:user=",user,a_btn);
-			
+		onClickFollow(user,index) {			
             const _this=this;
             
 			let value = 1;
@@ -258,31 +290,33 @@ export default {
 				if (! user.is_follower) {
 					value = -1;
 				}
+			} else {
+				if (user.is_following) {
+					value = -1;
+				}
 			}
 
+			logger.log.debug("FriendList.onClickFollow : value,user=",value,user);
+
+			let a_btn = this.$refs['btnFollow_'+index][0];
             CommonFunc.checkButtonPermission(this,1,0).then(ret=>{
-                logger.log.debug("ProfileView.onClickFollow : ret=",ret);
+                //logger.log.debug("ProfileView.onClickFollow : ret=",ret);
                 if (ret==0) return;
                 
                 //_this.v_follow_loading = true;
                 _this.v_me.follow(user.id,value).then( response => {
                     logger.log.debug("onClickFollow - response=",response);
                     
-                    //let msg = "Followed";
-                    //if (value==-1) msg = "Unfollowed";
-                    //CommonFunc.showOkMessage(_this,msg);
-
 					if (value==1) {
-						user.is_follower = true;				
-						//_this.v_follow_flat = false;
-						//a_btn.label = "Unfollow";
-					} else {
 						user.is_follower = false;
-						//a_btn.label = "Follow";
-						//_this.v_follow_flat = true;
+						if (! _this.v_is_owner) { user.is_following = true; }
+					} else {
+						user.is_follower = true;
+						if (! _this.v_is_owner) { user.is_following = false; }
 					}
 					
-					a_btn.label = _this.v_label_follow(user);
+					a_btn.$forceUpdate(); 
+					//a_btn.label = _this.v_label_follow(user);
                     //_this.v_follow_loading = false;
 
                 }).catch(err=>{

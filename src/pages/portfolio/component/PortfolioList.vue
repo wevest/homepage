@@ -43,30 +43,38 @@
                 </q-card-section>
 
             </q-card>
-			<q-separator class="loadmoreSeparator" size="1px" />
-       </div>
 
+            <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
 
-        <div v-if="(! data.items) || (data.items==0) ">
-            <div class="gNoListTitle">No Portfolio</div>
-            <div class="gNoListMessage"> 포트폴리오가 생성되면 여기에 표시됩니다</div>
+        </div>
 
+        <div v-if="(! data.items) || (data.items==0)" class="text-center">
+			<div class="gListTitle"> 
+				No Portfolio
+			</div>
+			<div class="gCaption">
+				포트폴리오가 생성되면 여기에 표시됩니다.
+			</div>
         </div>
 
     </div>
 
 </template>
 
+
 <script>
 import {store} from 'src/store/store';
 import {MoaConfig} from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
+import LoadMore from "src/components/LoadMore";
 
 import { PortfolioListModel, PortfolioModel, PortfolioItemModel} from "src/models/PortfolioModel";
 
 export default {
-    components: {},
+    components: {
+        LoadMore
+    },
     props: {
         data: {
             default: new PortfolioListModel()
@@ -78,7 +86,6 @@ export default {
 
         v_user: null,
         v_portfolio: new PortfolioListModel(),
-
     }),
     computed: {
         v_updated_at() {
@@ -123,7 +130,6 @@ export default {
     mounted: function() {},
 
     methods: {        
-
         update: function(v_portfolio) {
             this.v_portfolio = v_portfolio;
         },
@@ -131,6 +137,10 @@ export default {
         onClickPortfolio: function(a_portfolio) {
             logger.log.debug("onClickPortfolio: portfolio=",a_portfolio);
             this.$emit("onClickPortfolio",a_portfolio);
+        },
+
+        onClickLoadMore() {
+            logger.log.debug("PortfolioList.onClickLoadMore");
         }
     },
 

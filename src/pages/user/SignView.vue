@@ -53,7 +53,7 @@
                         
                             <q-checkbox v-model="v_user.stay_loggedin" label="Stay signed-in" />
 
-                            <q-btn flat label="reset password" />
+                            <q-btn flat label="Forgot Password" />
 
                             <div>
                                 <q-btn label="Login" type="submit" color="primary"/>
@@ -130,7 +130,7 @@
                 </q-tab-panels>
             </div>
         </div>
-        
+
     </div>
 
 </template>
@@ -141,16 +141,17 @@ import {store} from 'src/store/store';
 import {MoaConfig} from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import AuthService from 'src/services/authService';
-//import LocalStorageService from 'src/services/localStorage';
 import logger from "src/error/Logger";
 
 import CBigLabel from 'components/CBigLabel';
 import CTitle from 'components/CTitle';
+import ResetPasswordDialog from 'components/dialogs/ResetPasswordDialog';
 
 export default {
     components: {
         CBigLabel,
         CTitle,
+        ResetPasswordDialog
     },
     setup() {
         return {
@@ -267,6 +268,7 @@ export default {
             const _this = this;
             let dic_param = {
                 username:this.v_user.username,
+                title: this.v_user.username,
                 email:this.v_user.email,
                 password:this.v_user.password, re_password:this.v_user.password2,
                 emailValid:this.v_user.emailValid

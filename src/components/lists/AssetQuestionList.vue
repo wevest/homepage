@@ -38,8 +38,8 @@
 						<WSubinfo 
 							:username="a_question.owner.username" 
 							:pub_date="a_question.pub_date" 
-							:like_count="a_question.like_count" 
-							:dislike_count="a_question.dislike_count" />
+							like_count="-1" 
+							dislike_count="-1" />
 
 					</q-item-label>
 				</q-item-section>

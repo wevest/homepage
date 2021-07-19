@@ -67,11 +67,25 @@ export default {
     methods: {
 		onClickFab: function() {
 			logger.log.debug("MainLayout.onClickFab");
+
+            const _this = this;
+            CommonFunc.checkButtonPermission(this,1,0).then(ret=>{
+                //logger.log.debug("ProfileView.onClickFollow : ret=",ret);
+                if (ret==0) return;
+            });
+            
 		},
 
 		onClickPortfolio: function() {
 			logger.log.debug("MainLayout.onClickPortfolio");
-			this.$emit("onClickPortfolio",{});
+			
+            const _this = this;
+            CommonFunc.checkButtonPermission(this,1,0).then(ret=>{
+                //logger.log.debug("ProfileView.onClickFollow : ret=",ret);
+                if (ret==0) return;
+
+                _this.$emit("onClickPortfolio",{});
+            });
 		},
 
 		onClickShare: function() {

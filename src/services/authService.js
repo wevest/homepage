@@ -51,6 +51,18 @@ export default class AuthService{
         });
     }
 
+    static resetPassword(reqParam,func,funcErr) {
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/" + reqParam.id + "/reset/");
+        callCMSAPI("POST",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            logger.log.error("AuthService.resetPassword : err=",err);
+            funcErr(err);
+        });
+    }
+
 /*
     static setData(json_auth) {
         MoaConfig.auth = json_auth;
