@@ -49,8 +49,8 @@
 		</div>
 
 		<div v-show="(! v_items) || (v_items.length==0)">
-			<q-icon name="email" style="color: #666666; font-size: 20px;" />
-			<div class="Message">No Messages!!!</div>
+			<div class="gNoListTitle">No  Following</div>
+			<div class="gNoListMessage">다른 사람이 나를 팔로우하면 여기에 표시됩니다</div> 
 		</div>
 
 	</div>

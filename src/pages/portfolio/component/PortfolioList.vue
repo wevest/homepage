@@ -43,10 +43,14 @@
                 </q-card-section>
 
             </q-card>
-        </div>
+			<q-separator class="loadmoreSeparator" size="1px" />
+       </div>
+
 
         <div v-if="(! data.items) || (data.items==0) ">
-            No Portfolio
+            <div class="gNoListTitle">No Portfolio</div>
+            <div class="gNoListMessage"> 포트폴리오가 생성되면 여기에 표시됩니다</div>
+
         </div>
 
     </div>

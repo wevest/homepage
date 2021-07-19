@@ -36,7 +36,7 @@
                     </div>
                     <q-space />
                     <div>
-                        <q-btn class="q-mb-xs gButtonSM" ripple
+                        <q-btn class="q-mb-xs gButtonSM" flat ripple
                             @click="onClickEdit" v-show="v_is_owner" :label="v_edit_button" />
                     </div>
                 </div>

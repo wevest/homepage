@@ -43,8 +43,8 @@
 		</div>
 
 		<div v-if="(! v_feeds) || (v_feeds.items.length==0) ">
-			<q-icon name="email" style="color: #666666; font-size: 20px;" />
-			<div class="Message">No Messages!!!</div>
+			<div class="gNoListTitle">No Userfeed</div>
+			<div class="gNoListMessage">팔로우 한 사람의 새로운 소식이 여기에 표시됩니다</div>
 		</div>
 
 	</div>

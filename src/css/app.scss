@@ -322,6 +322,27 @@
   font-weight: map-get($body2,"weight");
 }
 
+
+
+.gNoListTitle {
+  text-align:center;
+  font-size: map-get($h6,"size");
+  line-height: map-get($subtitle1,"line-height");
+  letter-spacing: map-get($subtitle1,"letter-spacing");
+  font-weight: map-get($text-weights,"bold");
+  color: $grey-10;
+}
+
+.gNoListMessage {
+  text-align:center;
+  font-size: map-get($body2,"size");
+  line-height: map-get($body2,"line-height");
+  letter-spacing: map-get($body2,"letter-spacing");
+  font-weight:600;
+  color: $grey-6;
+}
+
+
 .gROILG {
   font-size: map-get($h5,"size");
   line-height: map-get($h5,"line-height");
