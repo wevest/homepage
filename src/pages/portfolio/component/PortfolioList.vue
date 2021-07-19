@@ -45,8 +45,13 @@
             </q-card>
         </div>
 
-        <div v-if="(! data.items) || (data.items==0) ">
-            No Portfolio
+        <div v-if="(! data.items) || (data.items==0)" class="text-center">
+			<div class="gListTitle"> 
+				No Portfolio
+			</div>
+			<div class="gCaption">
+				포트폴리오가 생성되면 여기에 표시됩니다.
+			</div>
         </div>
 
     </div>

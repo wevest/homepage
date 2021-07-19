@@ -61,7 +61,33 @@ export default {
         }
     },
     methods: {
+        setColor(data) {
+            logger.log.debug('WRatingButton.setColor : data=',data);
+            if (data.value==1) {
+                this.v_color_dislike = "";
 
+                //logger.log.debug('WRatingButton.vote : 1');
+                if (data.prev_value!=data.value) {
+                    //logger.log.debug('WRatingButton.vote : 2');
+                    this.v_color_like = "text-primary";
+                } else {
+                    //logger.log.debug('WRatingButton.vote : 3');
+                    this.v_color_like = "";
+                }
+                //logger.log.debug('WRatingButton.vote : 4');
+                
+
+            } else if (data.value==-1) {
+                this.v_color_like = "";
+                
+                if (data.prev_value!=data.value) {
+                    this.v_color_dislike = "text-primary";
+                } else {
+                    this.v_color_dislike = ""
+                }
+            }
+
+        },
         vote: function(dicParam) {
             const _this = this;            
             
@@ -69,15 +95,11 @@ export default {
 
             let dic_param = {id:this.data.id, value:dicParam.value};            
             this.data.vote(dic_param).then( response => {            
-                
-                if (dicParam.value==1) {
-                    _this.v_color_like = "text-primary";
-                    _this.v_color_dislike = "";
-                } else if (dicParam.value==-1) {
-                    _this.v_color_like = "";
-                    _this.v_color_dislike = "text-primary";
-                }
-                //CommonFunc.showOkMessage(_this,msg);
+            
+                logger.log.debug('WRatingButton.vote : response=',response.data.data);
+                _this.setColor(response.data.data);
+                _this.data.like_count = response.data.data.like_count;
+                _this.data.dislike_count = response.data.data.dislike_count;
 
             }).catch( err=> {
                 logger.log.error('WRatingButton.vote : err=',err);
