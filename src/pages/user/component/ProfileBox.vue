@@ -1,75 +1,103 @@
 <template>
-
-    <q-card style="text-align: center;" v-if="v_user"> 
-        <q-card-actions align="right">
-        </q-card-actions>
-                    
-        <q-item-section>
-            <div style="padding-top:20px;">
-                <q-avatar size="20rem" square>
-                    <img :src="v_user.avatar" v-if="v_user.avatar">        
-                    <q-icon v-else name="person" color="black" size="120px"/>
-                </q-avatar>
+    <div>
+        <q-card style="text-align: center;" v-if="v_user"> 
+            <q-card-actions align="right">
                 
-                <form>
-                    <q-btn fab id="pick-avatar" color="primary" label="change" class="btnAvatar q-ml-lg" ripple
-                        v-show="isOwner" :loading="v_loading_change" @click="onClickChangeProfile" />
-                    <AvatarCropper
-                        ref="avatar" 
-                        :labels="v_labels"
-                        :uploadHandler="uploadAvatarHandler" 
-                        @uploading="handleUploading"
-                        @uploaded="handleUploaded"
-                        @completed="handleCompleted"
-                        @error="handlerError"        
-                        trigger="#pick-avatar"
-                        upload-url="" />
-                </form>
-            </div>
+                <WMoreButton ref="moreButtons" buttons="Reset Password|User Feedback" @onClick="onClickMoreButton" />
 
-        </q-item-section>
+            </q-card-actions>
+                        
+            <q-item-section>
+                <div style="padding-top:20px;">
+                    <q-avatar size="20rem" square>
+                        <img :src="v_user.avatar" v-if="v_user.avatar">        
+                        <q-icon v-else name="person" color="black" size="120px"/>
+                    </q-avatar>
+                    
+                    <form>
+                        <q-btn fab id="pick-avatar" color="primary" label="change" class="btnAvatar q-ml-lg" ripple
+                            v-show="isOwner" :loading="v_loading_change" @click="onClickChangeProfile" />
+                        
+                        <AvatarCropper
+                            ref="avatar" 
+                            :labels="v_labels"
+                            :uploadHandler="uploadAvatarHandler" 
+                            @uploading="handleUploading"
+                            @uploaded="handleUploaded"
+                            @completed="handleCompleted"
+                            @error="handlerError"        
+                            trigger="#pick-avatar"
+                            upload-url="" />
+                    </form>
+                </div>
 
-        <q-card-section>
-            <div class="gUserNameLG UserName">{{ v_user.username }}</div>
-            <div class="row" style="padding-top:14px;">
-                <div class="gTextSubTitle q-mb-xs">Biography</div>
-                <q-space />
-                <div>
-                    <q-btn class="q-mb-xs gButtonSM" flat @click="onClickEdit" v-show="isOwner" :label="v_edit_button" />
-                </div>
-            </div>
-            <div class="q-pb-xs ">
-                <q-input class="gParagraphSM" filled type="textarea" v-model="v_user.biography" :readonly="! v_mode.length>0" />
-            </div>
+            </q-item-section>
 
-<!--                
-            <div class="row" style="padding-top:14px;">
-                <div class="col-2"></div>
-                <div class="col-4">
-                    <q-input 
-                        v-model="v_user.first_name" 
-                        label="First name"
-                        dense
-                        label-color="teal-10"
-                        :readonly="! v_edit" /> 
+            <q-card-section>
+                <div :class="v_class">
+                    <div class="gUserNameLG UserName">
+                        {{ v_user.title }}
+                        <q-badge align="top" color="white" @click="onClickDisplayName">
+                            <q-icon color="primary" name="mode_edit" class="q-ml-sm" />
+                        </q-badge>
+                        <div class="gCaption"> 
+                            display_name
+                        </div>
+                    </div>
+                    <div class="gUserNameMD g-mt-xl">
+                        {{ v_user.username }}
+                        <div class="gCaption"> 
+                            username
+                        </div>
+                    </div>
                 </div>
-                <div class="col-4">
-                    <q-input 
-                        v-model="v_user.last_name" 
-                        label="Last name"
-                        dense
-                        label-color="teal-10"
-                        :readonly="! v_edit" />
+
+                <div class="row" style="padding-top:14px;">
+                    <div class="gTextSubTitle q-mb-xs">
+                        Biography
+
+                        <q-badge align="top" color="white" @click="onClickBiography">
+                            <q-icon color="primary" name="mode_edit" class="q-ml-sm" />                        
+                        </q-badge>
+                    </div>
                 </div>
-                <div class="col-2"></div>
-            </div>
-        <q-card-actions v-if="v_edit" align="center">
-            <q-btn color="primary" label="Save" @click="onClickSave" />
-        </q-card-actions>
--->                
-        </q-card-section>
-        
-    </q-card>
+                <div class="q-pb-xs ">
+                    <q-input class="gParagraphSM" filled readonly type="textarea" v-model="v_user.biography" />
+                </div>
+
+    <!--                
+                <div class="row" style="padding-top:14px;">
+                    <div class="col-2"></div>
+                    <div class="col-4">
+                        <q-input 
+                            v-model="v_user.first_name" 
+                            label="First name"
+                            dense
+                            label-color="teal-10"
+                            :readonly="! v_edit" /> 
+                    </div>
+                    <div class="col-4">
+                        <q-input 
+                            v-model="v_user.last_name" 
+                            label="Last name"
+                            dense
+                            label-color="teal-10"
+                            :readonly="! v_edit" />
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+            <q-card-actions v-if="v_edit" align="center">
+                <q-btn color="primary" label="Save" @click="onClickSave" />
+            </q-card-actions>
+    -->                
+            </q-card-section>
+            
+        </q-card>
+    
+        <EditDialog ref="dialogEdit" title="Edit" @onSave="onSaveEdit" />
+        <ResetPasswordDialog ref="passwordDialog" />
+
+    </div>
 
 </template>
 
@@ -81,12 +109,18 @@ import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
 import UserModel from "src/models/UserModel";
-import AvatarCropper from "vue-avatar-cropper";
 
+import AvatarCropper from "vue-avatar-cropper";
+import WMoreButton from "src/components/WMoreButton";
+import EditDialog from "src/components/dialogs/EditDialog";
+import ResetPasswordDialog from "src/components/dialogs/ResetPasswordDialog";
 
 export default {
     components: {
         AvatarCropper,
+        WMoreButton,
+        EditDialog,
+        ResetPasswordDialog
     },
     props: {
         user: {
@@ -104,7 +138,12 @@ export default {
             }
             return false;
         },
-
+        v_class() {
+            if (this.isOwner) {
+                return "";
+            }
+            return "q-mt-xl";
+        }
     },
     data() {
 		return {
@@ -264,20 +303,6 @@ export default {
             return files;
         },
 
-        onClickEdit: function() {
-            logger.log.debug("onClickEdit - edit=",this.v_edit);
-            
-            if (this.v_mode.length==0) {
-                this.v_mode = "edit";
-                this.v_edit_button = "Save";
-                return;
-            }
-                        
-            this.updateUserProfile(this.v_user);      
-            this.v_edit_button = "Edit";
-            this.v_mode = "";
-        },
-
         onClickChangeProfile: function() {
             logger.log.debug("ProfileBox.onClickChangeProfile");
         },
@@ -331,6 +356,35 @@ export default {
 
         onClickFriend: function() {
             logger.log.debug("ProfileView.onClickFriend");
+        },
+
+        onClickMoreButton(dicParam) {
+            logger.log.debug("ProfileView.onClickMoreButton : dicParam=",dicParam);
+            if (dicParam.caption=='Reset Password') {
+                CommonFunc.navResetPassword(this);
+            }
+
+        },
+
+        onClickDisplayName() {
+            logger.log.debug("ProfileView.onClickDisplayName");
+            this.$refs.dialogEdit.show('display_name','text',this.v_user.title);
+        },
+
+        onClickBiography() {
+            logger.log.debug("ProfileView.onClickBiography : ",this.v_edit);
+            this.$refs.dialogEdit.show('biography','textarea',this.v_user.biography);
+        },
+
+        onSaveEdit(dicParam) {
+            logger.log.debug("ProfileView.onSaveEdit : ",dicParam);
+
+            if (dicParam.tag=="biography") {
+                this.v_user.biography = dicParam.value;
+            } else if (dicParam.tag=="display_name") {
+                this.v_user.title = dicParam.value;
+            }
+            this.updateUserProfile(this.v_user);
         }
     },
 
@@ -340,12 +394,6 @@ export default {
 
 
 <style scope> 
-
-
-
-
-
-
 .btnAvatar {
     text-align:right;
     top: 0; 
@@ -353,11 +401,8 @@ export default {
     transform: translateY(-50%);
 }
 
-
-
 .UserName {
-margin: -20px 0px 30px 0px;
+    margin: -20px 0px 30px 0px;
 }
-
 
 </style>

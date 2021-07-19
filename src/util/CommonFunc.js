@@ -547,6 +547,15 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);
     }
 
+    static navResetPassword(a_this) {
+        logger.log.debug("CommonFunc.navResetPassword - ",a_this.$route);
+        
+        store.getters.nav.add(a_this.$route);
+        
+        let dic_param = {name:'reset_password', params:{ path:a_this.$route.name, query:a_this.$route.query }};
+        a_this.$router.push(dic_param);
+    }
+
     static navProfile(a_this,username) {
         logger.log.debug("CommonFunc.navProfile - ",username);
         

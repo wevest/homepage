@@ -43,6 +43,9 @@
                 </q-card-section>
 
             </q-card>
+
+            <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+
         </div>
 
         <div v-if="(! data.items) || (data.items==0)" class="text-center">
@@ -58,16 +61,20 @@
 
 </template>
 
+
 <script>
 import {store} from 'src/store/store';
 import {MoaConfig} from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
+import LoadMore from "src/components/LoadMore";
 
 import { PortfolioListModel, PortfolioModel, PortfolioItemModel} from "src/models/PortfolioModel";
 
 export default {
-    components: {},
+    components: {
+        LoadMore
+    },
     props: {
         data: {
             default: new PortfolioListModel()
@@ -79,7 +86,6 @@ export default {
 
         v_user: null,
         v_portfolio: new PortfolioListModel(),
-
     }),
     computed: {
         v_updated_at() {
@@ -124,7 +130,6 @@ export default {
     mounted: function() {},
 
     methods: {        
-
         update: function(v_portfolio) {
             this.v_portfolio = v_portfolio;
         },
@@ -132,6 +137,10 @@ export default {
         onClickPortfolio: function(a_portfolio) {
             logger.log.debug("onClickPortfolio: portfolio=",a_portfolio);
             this.$emit("onClickPortfolio",a_portfolio);
+        },
+
+        onClickLoadMore() {
+            logger.log.debug("PortfolioList.onClickLoadMore");
         }
     },
 
