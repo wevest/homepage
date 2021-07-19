@@ -87,6 +87,10 @@ export default {
 			type:String,
 			default: ""
 		},
+		mode: {
+			type:String,
+			default:'follower'
+		},
         user: {
             default: new UserModel()
         },

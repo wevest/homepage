@@ -136,6 +136,9 @@ export class FriendModel {
     avatar_thumb=null;
     biography=null;
     target_id=null;
+    
+    is_follower=false;
+    is_following=false;
 
     assign(obj) {
         this.id = obj.api_user.id;
@@ -145,7 +148,6 @@ export class FriendModel {
         this.avatar_thumb = obj.api_user.avatar_thumb;
         this.created_at = obj.created_at;
     }
-
 
 }
 
@@ -163,6 +165,21 @@ export class FriendListModel extends baseCollection{
             this.add(a_friend);
         }
     }
+
+    setFollowers(value) {
+        for (let index=0; index<this.items.length; index++) {
+            let a_friend = this.items[index];
+            a_friend.is_follower = value;
+        }
+    }
+
+    setFollowings(value) {
+        for (let index=0; index<this.items.length; index++) {
+            let a_friend = this.items[index];
+            a_friend.is_following = value;
+        }
+    }
+
 }
 
 
@@ -557,7 +574,7 @@ export default class User {
                 //_this.following.assign(response.data.data.following);
                 _this.follower_count = response.data.data.count;
                 _this.follower.assign(response.data.data.results);
-                
+                _this.follower.setFollowers(true);
                 logger.log.debug("UserModel.loadFollower - this=",_this);
 
                 resolve(response.data);
@@ -579,7 +596,7 @@ export default class User {
                 //_this.following.assign(response.data.data.following);
                 _this.following_count = response.data.data.count;
                 _this.following.assign(response.data.data.results);
-
+                _this.following.setFollowings(true);
                 resolve(response.data);
             },function(err) {
                 logger.log.error("UserModel.loadFollowing - error",err);                

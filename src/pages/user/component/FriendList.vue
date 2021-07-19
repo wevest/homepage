@@ -33,8 +33,10 @@
 					
 					<q-item-section side>
 						<q-item-label lines="1">
-							<q-btn flat ripple label="Follow" :loading="v_loading_follow" @click="onClickFollow" />
-							<q-btn flat ripple label="Unfollow" :loading="v_loading_unfollow" @click="onClickUnfollow" />
+							<q-btn ripple :outline="v_follow_color(a_user)" color="primary"
+								:label="v_label_follow(a_user)" :ref="'btnFollow_'+index"
+								@click="onClickFollow(a_user,index)" />
+
 						</q-item-label>
 					</q-item-section>
 
@@ -93,17 +95,63 @@ export default {
 			type:String,
 			default: ""
 		},
+		mode: {
+			type:String,
+			default: "follower"
+		},
 		user: {
 			required: true,
 			default: null
 		}
     },
     computed: {
+		v_me() {			
+			return store.getters.me;
+		},
         v_shorten() {
             return (value) => {
                 return CommonFunc.shortenString(value,MoaConfig.setting.maxTitleLength);
             };
-        }
+        },
+		v_is_owner() {
+			if (this.v_me.id==this.v_user.id) {
+				return true;
+			}
+			return false;
+		},
+		v_label_follow: {
+			get() {
+				return (user) => {
+					if (this.v_is_owner) {
+						if (user.is_follower) {
+							return "Follow";
+						}
+						return "Unfollow";					
+					}
+
+					return "Follow";
+				}
+			},
+			set(value) {
+				return value;
+			}
+		},
+		v_follow_color: {
+			get() {
+				return (user) => {
+					if (this.v_is_owner) {
+						if (user.is_follower) {
+							return true;
+						}
+						return false;
+					}
+					return true;
+				}
+			},
+			set(value) {
+				return value;
+			}
+		}
     },
 
 	data() {
@@ -122,8 +170,12 @@ export default {
 			v_user: null,
 			v_items: null,
 
-			v_loading_follow:false,
-			v_loading_unfollow:false,
+			//v_label_follow:'Follow',
+
+			v_label_add_friend:'Follow',
+			v_loading_add_friend:false,
+
+			v_follow_loading:false,		
 		};
 	},
 
@@ -195,12 +247,50 @@ export default {
             //CommonFunc.navProfile(this,this.v_user.username);
 		},
 
-		onClickFollow() {
-			logger.log.debug("FriendList.onClickFollow");
-		},
+		onClickFollow(user,index) {
+			let a_btn = this.$refs['btnFollow_'+index][0];
+			logger.log.debug("FriendList.onClickFollow:user=",user,a_btn);
+			
+            const _this=this;
+            
+			let value = 1;
+			if (this.v_is_owner) {
+				if (! user.is_follower) {
+					value = -1;
+				}
+			}
 
-		onClickUnfollow() {
-			logger.log.debug("FriendList.onClickUnfollow");
+            CommonFunc.checkButtonPermission(this,1,0).then(ret=>{
+                logger.log.debug("ProfileView.onClickFollow : ret=",ret);
+                if (ret==0) return;
+                
+                //_this.v_follow_loading = true;
+                _this.v_me.follow(user.id,value).then( response => {
+                    logger.log.debug("onClickFollow - response=",response);
+                    
+                    //let msg = "Followed";
+                    //if (value==-1) msg = "Unfollowed";
+                    //CommonFunc.showOkMessage(_this,msg);
+
+					if (value==1) {
+						user.is_follower = true;				
+						//_this.v_follow_flat = false;
+						//a_btn.label = "Unfollow";
+					} else {
+						user.is_follower = false;
+						//a_btn.label = "Follow";
+						//_this.v_follow_flat = true;
+					}
+					
+					a_btn.label = _this.v_label_follow(user);
+                    //_this.v_follow_loading = false;
+
+                }).catch(err=>{
+                    CommonFunc.showErrorMessage(_this,err.msg);
+                    _this.v_follow_loading = false;
+                });
+            });
+
 		},
 
 	},
