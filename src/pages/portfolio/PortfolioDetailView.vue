@@ -122,7 +122,7 @@
 
                         </div>
                         <div>
-                            <q-btn class="NavigationBtn" flat label=">" @click="onClickMore(a_portfolio)" />
+                            <q-btn class="q-mt-lg NavigationBtn" flat label=">" @click="onClickMore(a_portfolio)" />
                         </div>
                     </div>  
                 </q-card-section>
@@ -548,7 +548,7 @@ export default {
 .NavigationBtn {
    font-size:25px;
    color:#999999;
-   margin:-22px -20px 0px 0px;
+   margin:-18px -20px 0px 0px;
 }
 
 .iconBox {

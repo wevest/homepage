@@ -45,7 +45,7 @@
 					</q-item-section>
 
 				</q-item>
-				<q-separator class="loadmoreSeparator" size="1px" />
+				<q-separator class="q-mb-md" size="1px" />
 
 			</q-list>
 
@@ -346,7 +346,5 @@ export default {
 	color: #888888;
 }
 
-.loadmoreSeparator {
-	margin-bottom:10px;
-}
+
 </style>

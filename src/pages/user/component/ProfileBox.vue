@@ -38,7 +38,7 @@
                     <div class="gUserNameLG UserName">
                         {{ v_user.title }}
                         <q-badge align="top" color="white" @click="onClickDisplayName">
-                            <q-icon style="font-size: 1.4em;" color="primary" name="mode_edit" class="q-ml-sm q-mt-xs" />
+                            <q-icon style="font-size: 1.4em;" color="grey-7" name="mode_edit" class="q-ml-sm q-mt-xs" />
                         </q-badge>
                         <div class="gCaption"> 
                             display_name
@@ -57,7 +57,7 @@
                         Biography
 
                         <q-badge align="top" color="white" @click="onClickBiography">
-                            <q-icon style="font-size: 1.3em;" color="primary" name="mode_edit" class="q-ml-sm" />                        
+                            <q-icon style="font-size: 1.3em;" color="grey-7" name="mode_edit" class="q-ml-sm" />                        
                         </q-badge>
                     </div>
                 </div>
@@ -169,7 +169,7 @@ export default {
             this.setUser(user);
         },
 
-        setUser: function(user) {c
+        setUser: function(user) {
             this.v_user = user;
         },
 

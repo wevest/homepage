@@ -34,7 +34,10 @@
 					</q-item-section>
 
 				</q-item>
-				<q-separator class="loadmoreSeparator" size="1px" v-if="v_feeds.items>0" />
+				<q-separator class="q-mb-md" size="1px" /> 
+				<!-- v-if="v_feeds.items>0"  -->
+				
+
 
 			</q-list>
 
