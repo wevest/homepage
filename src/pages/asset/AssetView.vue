@@ -65,7 +65,7 @@
 
         <div class="col">                
             <AssetReviewList ref="reviewList" 
-                moreCaption="More" maxLength="10" title="Review List"
+                moreCaption="More" maxLength="10" title="Price Forecast"
                 :category="v_asset.symbol" :objectId="v_asset.object_id" 
                 @onClickRating="onClickReviewRating"> 
             </AssetReviewList>

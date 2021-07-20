@@ -63,6 +63,18 @@ export default class AuthService{
         });
     }
 
+    static forgotPassword(reqParam,func,funcErr) {
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/users/reset_password/");
+        callCMSAPI("POST",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            logger.log.error("AuthService.forgotPassword : err=",err);
+            funcErr(err);
+        });
+    }
+
 /*
     static setData(json_auth) {
         MoaConfig.auth = json_auth;
@@ -272,6 +284,14 @@ export default class AuthService{
         
         if ( (reqParam.hasOwnProperty('id')) && (reqParam.id) ) {
             a_method += "&id=" + reqParam.id;
+        }
+
+        if ( (reqParam.hasOwnProperty('type')) && (reqParam.type) ) {
+            if (a_method.indexOf('?')==-1) {
+                a_method += "?type="+reqParam.type;
+            } else {
+                a_method += "&type="+reqParam.type;
+            }            
         }
         
         let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);

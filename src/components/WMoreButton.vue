@@ -2,7 +2,7 @@
 
     <q-btn-dropdown unelevated dropdown-icon="more_vert">
         <q-list dense separator>
-            <q-item clickable v-close-popup v-for="(a_caption, index) in v_captions">
+            <q-item clickable v-close-popup v-for="(a_caption, index) in v_captions" :key="index">
                 <q-item-section>
                     <q-btn flat :label="a_caption" @click="onClickButton(a_caption)" />
                 </q-item-section>

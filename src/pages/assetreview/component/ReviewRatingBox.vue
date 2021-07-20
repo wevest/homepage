@@ -84,7 +84,7 @@ export default {
             return store.getters.me;
         },
         v_title() {
-            if (! this.reviews.stat.total_count) {
+            if ((! this.reviews.stat) || (! this.reviews.stat.total_count)) {
                 return this.title;
             }
             

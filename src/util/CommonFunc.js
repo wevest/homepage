@@ -540,10 +540,14 @@ export default class CommonFunc {
         a_this.$router.back();
     }
 
-    static navSignin(a_this) {
+    static navSignin(a_this,is_redirect=false) {
         logger.log.debug("CommonFunc.navSignin - ",a_this.$route);
         
-        let dic_param = {name:'signin', params:{ path:a_this.$route.name, query:a_this.$route.query }};
+        let dic_param = {name:'signin'};
+        if (is_redirect) {
+            dic_param.params = { path:a_this.$route.name, query:a_this.$route.query };
+        }
+            
         a_this.$router.push(dic_param);
     }
 
@@ -551,7 +555,7 @@ export default class CommonFunc {
         logger.log.debug("CommonFunc.navResetPassword - ",a_this.$route);
         
         store.getters.nav.add(a_this.$route);
-        
+
         let dic_param = {name:'reset_password', params:{ path:a_this.$route.name, query:a_this.$route.query }};
         a_this.$router.push(dic_param);
     }

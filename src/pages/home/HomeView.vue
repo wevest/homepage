@@ -14,10 +14,19 @@
                 category="news_market" symbol="" objectId="-1"></BlogList>
         </div>
 
-        <div class="col">
-            <PortfolioList ref="portfolioList" title="Crypto VC Portfolio" maxLength="10" moreCaption=""></PortfolioList>
+        <div>
+            <PortfolioList ref="pfVC" title="Crypto VC Portfolio" maxLength="10" moreCaption=""></PortfolioList>
         </div>
 
+        <div>
+            <PortfolioList ref="pfROI" title="ROI Portfolio" maxLength="10" showDescription="0" moreCaption=""></PortfolioList>
+        </div>
+
+        <div>
+            <PortfolioList ref="pfRated" title="High Voted Portfolio" maxLength="10" showDescription="0" moreCaption=""></PortfolioList>
+        </div>
+
+<!--
         <div class="col">
             <AssetList ref='assetList' title="Asset List" maxLength="10" moreCaption="More" ></AssetList>
         </div>
@@ -25,7 +34,7 @@
         <div class="col">
             <ReviewStatList ref='reviewList' title="Review List" category="" maxLength="10" moreCaption="More"></ReviewStatList>
         </div>
-
+-->
         <div>
             <UserFeedList ref='feedList' title="userfeed" 
                 maxLength="10" moreCaption="More" user="v_me"></UserFeedList>
@@ -123,10 +132,10 @@ export default {
             let funcs = [            
                 //this.loadCalendarEffectData('1h'),
                 this.loadBlogList(),
-                this.loadAssetList(),
+                //this.loadAssetList(),
                 this.loadPortfolioList(),
                 this.loadFeedList(),
-                this.loadReviewStatList(),
+                //this.loadReviewStatList(),
                 this.loadCryptoWatch(),
                 /*
                 this.loadIndexData(),
@@ -158,7 +167,9 @@ export default {
         },
 
         loadPortfolioList: function() {
-            this.$refs.portfolioList.update();
+            this.$refs.pfVC.updateByType('vc');
+            this.$refs.pfROI.updateByType('roi');
+            this.$refs.pfRated.updateByType('voting');
         },
 
         loadReviewStatList: function() {

@@ -250,7 +250,7 @@ export class PortfolioListModel extends baseCollection{
         return _.find(this.items,{id:id} );
     }
 
-    load(username=null, portfolio_id=null) { 
+    load(username=null, portfolio_id=null, type=null) { 
         const _this = this;
         
         /*
@@ -259,7 +259,7 @@ export class PortfolioListModel extends baseCollection{
         };
         */
        
-        let reqParam = {};
+        let reqParam = {type:type};
 
         if (username) {
             reqParam.username = username;

@@ -132,12 +132,11 @@
 
 		</q-page-container>
 
+
+		<WAlertDialog ref="alertDialog" />
 		<WConfirmDialog ref="confirmDialog" title="Do you want to delete the item?" @onClickConfirm="onClickDeleteConfirm" />
 		<AddPortfolioDialog ref="portfolioDialog" @onPortfolioItemAdded="onPortfolioItemAdded" />
-
-		<!--
-		dropdown-icon="change_history"
-		-->
+		
 		<StickyButtons ref="stickButton" @onClickPortfolio="onClickPortfolio" />
 
 	</q-layout>
@@ -155,6 +154,7 @@ import { MoaConfig } from "src/data/MoaConfig";
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
+import WAlertDialog from "src/components/dialogs/WAlertDialog";
 import WConfirmDialog from "src/components/dialogs/WConfirmDialog";
 import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 import PageTransition from "src/components/transition/PageTransition";
@@ -167,6 +167,7 @@ export default {
 		SideBar,
 		Spinner,
 		PageTransition,
+		WAlertDialog,
 		WConfirmDialog,
 		AddPortfolioDialog,
 		StickyButtons
@@ -209,6 +210,7 @@ export default {
 	methods: {
 		prepare() {
 			store.getters.components.addToolbar(this);
+			store.getters.components.addComponent('alertDialog',this.$refs.alertDialog);			
 			store.getters.components.addComponent('confirmDialog',this.$refs.confirmDialog);
 			store.getters.components.addComponent('portfolioDialog',this.$refs.portfolioDialog);
 		},
