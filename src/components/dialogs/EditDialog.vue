@@ -6,10 +6,13 @@
             <q-card>
                 <q-card-section >
                     <div class="text-h6">{{ title }}</div>
+                    <div class="gBodyMD"> {{desc}} </div>
                 </q-card-section>
 
                 <q-card-section>
-                    <q-input v-model="v_value" :type="v_type" counter :maxlength="v_maxlength" />
+                    <q-input ref="txtInput" v-model="v_value" 
+                        :type="v_type" counter :maxlength="v_maxlength" 
+                        :error="v_error" :error-message="v_error_msg" />
                 </q-card-section>
 
                 <q-card-actions align="around">
@@ -35,6 +38,7 @@ import logger from 'src/error/Logger';
 export default {
     props: {
         title: { required:false, type:String, default: ''},
+        desc: { required:false, type:String, default: ''},
         width: {
             type: String,
             default: "400px"
@@ -52,10 +56,28 @@ export default {
             v_maxlength: 100,
             v_value: '',
             v_tag: '',
-            v_type:'text'
+            v_type:'text',
+
+            v_error: false,
+            v_error_msg: '',
         }
     },
     methods: {
+
+        checkEmail(value) {
+            // eslint-disable-next-line
+            let reg =  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/
+            let valid = reg.test(value)
+            if (valid) {
+                this.v_error = false;
+                this.v_error_msg = '';
+            } else {
+                this.v_error = true;
+                this.v_error_msg = 'eMail format is wrong';
+            }
+
+            return valid;
+        },
 
         show: function(tag,etype,value) {
             logger.log.debug("EditDialog.show : value=",value);
@@ -63,21 +85,23 @@ export default {
             this.v_tag = tag;
             this.v_value = value;
             this.v_type = etype;
-
-            if (this.v_type=="text") {
-                this.v_maxlength=100;
-            } else if (this.v_type=="textarea") {
-                this.v_maxlength=3000;
-            }
-
+            
             this.v_show = true;
         },
 
         hide: function() {
             this.v_show = false;
         },        
+        setMaxlength(value) {
+            this.v_maxlength = value;
+        },
 
         onClickSave() {
+            if (this.v_tag=="email") {
+                if (! this.checkEmail(this.v_value)) {
+                    return;
+                }
+            }
             this.$emit("onSave",{tag:this.v_tag,value:this.v_value});
             this.hide();
         }

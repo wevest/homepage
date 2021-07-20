@@ -7,15 +7,19 @@
         <q-card class="q-my-sm" flat bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
             <q-card-section class="no-padding">  
                 <div class="row boxContainer">
-                    <div class="portfolioAvatar q-px-md">
+                    <div class="portfolioAvatar q-pa-md">
                         <WAvatar :avatar="a_portfolio.api_user.avatar_thumb" :username="a_portfolio.api_user.username" />
                     </div>
-                    <div class="boxInfo q-pt-lg" @click="onClickPortfolio(a_portfolio)">
+                    <div class="boxInfo q-pt-md" @click="onClickPortfolio(a_portfolio)">
                         <div class="gListTitle">
                             <span>{{v_shorten_name(a_portfolio.api_user.username,13)}}</span>
                         </div>                        
                         <div class="gCaption">
-                            <span>{{a_portfolio.name}}</span>
+                            <WSubinfo 
+                                :username="a_portfolio.name" 
+                                :pub_date="a_portfolio.created_at" 
+                                :like_count="a_portfolio.like_count" 
+                                :dislike_count="a_portfolio.dislike_count" />
                         </div>
                     </div>
                     <q-space />
@@ -27,7 +31,7 @@
                     </div>
                 </div>                     
             </q-card-section>
-            <q-card-section class="gParagraphSM"> 
+            <q-card-section class="gParagraphSM" v-if="showDescription=='1'"> 
                 <div>
                      <span class="text-body2 text-grey-8">{{v_shorten(a_portfolio.description)}}</span>
                 </div>
@@ -47,6 +51,7 @@ import logger from "src/error/Logger";
 
 import WAvatar from "src/components/WAvatar";
 import CTitle from 'components/CTitle';
+import WSubinfo from 'components/WSubinfo';
 
 import UserModel from "src/models/UserModel";
 import { PortfolioListModel, PortfolioModel, PortfolioItemModel} from "src/models/PortfolioModel";
@@ -55,7 +60,8 @@ import { PortfolioListModel, PortfolioModel, PortfolioItemModel} from "src/model
 export default {
     components: {
         CTitle,
-        WAvatar
+        WAvatar,
+        WSubinfo
     },
     props: {
         maxLength: {
@@ -68,7 +74,11 @@ export default {
 		moreCaption: {
 			type:String,
 			default: ""
-		}
+		},
+        showDescription: {
+            type:String,
+            default:"1"
+        }
     },
 
     computed: {
@@ -127,6 +137,15 @@ export default {
             });
         },
 
+        updateByType(type) {
+            logger.log.debug("PortfolioList.update");
+            this.v_portfolio.load(null,null,type).then(response=>{
+                logger.log.debug("update:response",response);
+            }).catch(err=>{
+                logger.log.error("update:response",err);
+            });
+        },
+
         onClickPortfolio: function(a_portfolio) {
             logger.log.debug("onClickPortfolio: portfolio=",a_portfolio);
             //this.$emit("onClickPortfolio",a_portfolio);
@@ -151,7 +170,7 @@ export default {
 
 <style scope> 
 .portfolioAvatar {
-    padding-top:18px;
+    padding-top:8px;
 }
 .boxContainer {
     display:flex;
@@ -162,6 +181,5 @@ export default {
 .boxInfo {
     flex-grow:1;
 }
-
 
 </style>

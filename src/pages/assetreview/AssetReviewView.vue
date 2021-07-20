@@ -11,13 +11,13 @@
     
         <div>
 
-            <AssetReviewForm ref="reviewForm" 
+            <PriceForecastForm ref="reviewForm" 
                 :category="g_asset.symbol" :objectId="g_asset.object_id"
                 @onClickReviewSave="onClickReviewSave" 
                 @onEditorFocus="onFocusReviewForm"
                 @onEditorFocusOut="onFocusoutReviewForm"
             > 
-            </AssetReviewForm>                
+            </PriceForecastForm>                
 
             <AssetReviewList ref="reviewList" 
                 :category="g_asset.symbol" :objectId="g_asset.object_id"
@@ -42,7 +42,7 @@ import {PostPageModel,QuestionPageModel,AssetReviewPageModel,AssetReviewPageList
 
 import CTitle from 'components/CTitle';
 import ReviewRatingBox from 'src/pages/assetreview/component/ReviewRatingBox';
-import AssetReviewForm from 'src/pages/assetreview/component/AssetReviewForm';
+import PriceForecastForm from 'src/pages/assetreview/component/PriceForecastForm';
 import AssetReviewList from 'components/lists/AssetReviewList';
 
 
@@ -51,7 +51,7 @@ export default {
     name:'assetView',
     components: {
         CTitle,
-        AssetReviewForm,
+        PriceForecastForm,
         AssetReviewList,
         ReviewRatingBox
     },

@@ -5,8 +5,8 @@
 }
 
 .box_chart {
-    margin-left:-16px;
-    margin-right:-16px;
+  margin-left: -16px;
+  margin-right: -16px;
 }
 
 
@@ -22,10 +22,10 @@
 }
 
 .sector_seperator {
-  height:5px;
-  border:0px solid #cdcdcd;
-  background-color: #F7F7F7;  
-  margin:16px -16px 16px -16px;
+  height: 5px;
+  border: 0px solid #cdcdcd;
+  background-color: #F7F7F7;
+  margin: 16px -16px 16px -16px;
 }
 
 
@@ -74,12 +74,13 @@
   }
 
 
-  td:first-child, th:first-child {
+  td:first-child,
+  th:first-child {
     position: sticky;
     left: 0;
   }
 
-}    
+}
 
 
 
@@ -100,21 +101,21 @@
 
 
 .gBlogUserDateBox {
-  padding:13px 0px 0px 5px !important;
+  padding: 13px 0px 0px 5px !important;
 }
 
 .gBlogRatingBox {
   text-align: center;
-  padding:4px 5px;
+  padding: 4px 5px;
 }
 
 .gBlogRatingBtn {
-  font-size:12px;
-  color:#616161;
+  font-size: 12px;
+  color: #616161;
 }
 
 .gBlogContent {
-  margin:10px 0px;
+  margin: 10px 0px;
 }
 
 
@@ -123,24 +124,25 @@
 
 .gPageRating {
   color: #616161;
-  font-size:13px;
+  font-size: 13px;
 }
+
 .gPageRatingBox {
   text-align: center;
 }
 
 .gPageRatingBtn {
   color: #909090;
-  font-size:14px;
+  font-size: 14px;
 }
 
 .gPageEditBtn {
-  width:40px;
+  width: 40px;
 }
 
 .gPageEditStyle {
-  font-size:20px;
-  color:#616161;
+  font-size: 20px;
+  color: #616161;
 }
 
 
@@ -148,65 +150,61 @@
 
 .gAnswerUser {
   color: #000000;
-  font-size:16px;
-  font-weight:bold;
-  
+  font-size: 16px;
+  font-weight: bold;
+
 }
 
 .gAnswerDatetime {
   color: #8C8C8C;
-  font-size:15px;
+  font-size: 15px;
 }
 
 .gAnswerRatingBox {
   text-align: center;
-  padding-bottom:8px;
+  padding-bottom: 8px;
 }
 
 .gAnswerRatingBtn {
-  font-size:15px;
-  color:#616161;
+  font-size: 15px;
+  color: #616161;
 }
 
 .gAnswerRatingCount {
-  font-size:15px;
-  color:#777777;
+  font-size: 15px;
+  color: #777777;
 }
 
 
 .gAnswerContent {
-  padding:20px 0px 30px 0px;
+  padding: 20px 0px 30px 0px;
 }
 
 .gSaveBtn {
-  margin-top:25px;
-  color:#FFFFFF;
-  background-color:#1877F2;
+  margin-top: 25px;
+  color: #FFFFFF;
+  background-color: #1877F2;
 }
 
 .gCommentBox {
-  border-bottom:1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
 }
-
-
-
-
-
 
 
 .gCommentDateInfo {
-  color:#777777;
-  font-size:12px;
+  color: #777777;
+  font-size: 12px;
 }
+
 .gCommentRatingBox {
-  padding:0px 0px 5px 0px;
+  padding: 0px 0px 5px 0px;
 }
 
 
 .gSeparator {
-  height:8px;
+  height: 8px;
   background: #f0f1f6;
-  margin:0px -16px 0px -16px;
+  margin: 0px -16px 0px -16px;
 }
 
 
@@ -216,15 +214,15 @@
 }
 
 .gErrorMsg {
-  color:#C10015;
-  font-size:12px;
+  color: #C10015;
+  font-size: 12px;
 }
 
 
 .gUserNameLG {
-  font-size: map-get($h5,"size");
-  line-height: map-get($h5,"line-height");
-  letter-spacing: map-get($h5,"letter-spacing");
+  font-size: map-get($h5, "size");
+  line-height: map-get($h5, "line-height");
+  letter-spacing: map-get($h5, "letter-spacing");
   font-weight: bolder;
   color: $grey-10;
 }
@@ -232,16 +230,16 @@
 .gUserNameMD {
   color: $grey-10;
   font-size: 17px;
-  line-height: map-get($body1,"line-height");
-  letter-spacing: map-get($body1,"letter-spacing");
-  font-weight: map-get($body1,"weight");
+  line-height: map-get($body1, "line-height");
+  letter-spacing: map-get($body1, "letter-spacing");
+  font-weight: map-get($body1, "weight");
 
 }
 
 .gUserNameQA {
-  font-size: map-get($subtitle1,"size");
-  line-height: map-get($h5,"line-height");
-  letter-spacing: map-get($h6,"letter-spacing");
+  font-size: map-get($subtitle1, "size");
+  line-height: map-get($h5, "line-height");
+  letter-spacing: map-get($h6, "letter-spacing");
   font-weight: bold;
   color: $grey-10;
 }
@@ -249,77 +247,77 @@
 
 .gUserNameSM {
   color: $grey-10;
-  font-size: map-get($body2,"size");
-  line-height: map-get($body2,"line-height");
-  letter-spacing: map-get($body2,"letter-spacing");
+  font-size: map-get($body2, "size");
+  line-height: map-get($body2, "line-height");
+  letter-spacing: map-get($body2, "letter-spacing");
   font-weight: bold;
 }
 
 
 
 .gCaptionSM {
-  font-size: map-get($caption,"size");
-  line-height: map-get($caption,"line-height");
-  font-weight: map-get($caption,"weight");
+  font-size: map-get($caption, "size");
+  line-height: map-get($caption, "line-height");
+  font-weight: map-get($caption, "weight");
   color: $grey-6;
 }
 
 
 .gPageTitle {
   color: $grey-10;
-  font-size: map-get($h4,"size");
-  line-height: map-get($h4,"line-height");
-  letter-spacing: map-get($h4,"letter-spacing");
-  font-weight: map-get($text-weights,"bolder");
+  font-size: map-get($h4, "size");
+  line-height: map-get($h4, "line-height");
+  letter-spacing: map-get($h4, "letter-spacing");
+  font-weight: map-get($text-weights, "bolder");
   color: $grey-10;
-  margin: map-get($space-lg,"y") 0px  map-get($space-lg,"y") 0px;
+  margin: map-get($space-lg, "y") 0px map-get($space-lg, "y") 0px;
 
 }
 
 
 .gSubTitleLG {
-  font-size: map-get($h5,"size");
-  line-height: map-get($h5,"line-height");
-  letter-spacing: map-get($h5,"letter-spacing");
-  font-weight: map-get($text-weights,"bold");
+  font-size: map-get($h5, "size");
+  line-height: map-get($h5, "line-height");
+  letter-spacing: map-get($h5, "letter-spacing");
+  font-weight: map-get($text-weights, "bold");
   color: $grey-10;
-  margin: map-get($space-lg,"y") 0px  map-get($space-lg,"y") 0px;
+  margin: map-get($space-lg, "y") 0px map-get($space-lg, "y") 0px;
 }
 
 .gSubTitleMD {
-  font-size: map-get($h6,"size");
-  line-height: map-get($h6,"line-height");
-  letter-spacing: map-get($h6,"letter-spacing");
-  font-weight: map-get($h6,"weight");
+  font-size: map-get($h6, "size");
+  line-height: map-get($h6, "line-height");
+  letter-spacing: map-get($h6, "letter-spacing");
+  font-weight: map-get($h6, "weight");
   color: $grey-10;
-  margin: map-get($space-xl,"y") 0px  map-get($space-lg,"y") 0px;
-} 
+  margin: map-get($space-xl, "y") 0px map-get($space-lg, "y") 0px;
+}
 
 .gListTitle {
-  font-size: map-get($subtitle1,"size");
-  line-height: map-get($subtitle1,"line-height");
-  letter-spacing: map-get($subtitle1,"letter-spacing");
-  font-weight: map-get($text-weights,"bold");
+  font-size: map-get($subtitle1, "size");
+  line-height: map-get($subtitle1, "line-height");
+  letter-spacing: map-get($subtitle1, "letter-spacing");
+  font-weight: map-get($text-weights, "bold");
   color: $grey-10;
 }
 
 
 .gTextSubTitle {
-  font-size: map-get($subtitle2,"size");
-  line-height: map-get($subtitle2,"line-height");
-  letter-spacing: map-get($subtitle2,"letter-spacing");
-  font-weight: map-get($subtitle2,"weight");
+  font-size: map-get($subtitle2, "size");
+  line-height: map-get($subtitle2, "line-height");
+  letter-spacing: map-get($subtitle2, "letter-spacing");
+  font-weight: map-get($subtitle2, "weight");
   color: $grey-10;
 
-} 
+}
 
 
 .gParagraphSM {
   color: $grey-14;
-  font-size: map-get($body2,"size");
-  line-height: map-get($h1,"line-height");
-  letter-spacing: map-get($body2,"letter-spacing");
-  font-weight: map-get($body2,"weight");
+  font-size: map-get($body2, "size");
+  line-height: map-get($h1, "line-height");
+  letter-spacing: map-get($body2, "letter-spacing");
+  font-weight: map-get($body2, "weight");
 }
 
 
@@ -344,33 +342,33 @@
 
 
 .gROILG {
-  font-size: map-get($h5,"size");
-  line-height: map-get($h5,"line-height");
-  letter-spacing: map-get($h5,"letter-spacing");
-  font-weight: map-get($text-weights,"bold");
+  font-size: map-get($h5, "size");
+  line-height: map-get($h5, "line-height");
+  letter-spacing: map-get($h5, "letter-spacing");
+  font-weight: map-get($text-weights, "bold");
 }
 
 .gAvatarMD {
-  margin-top:-7px;
-  padding-bottom:10px; 
+  margin-top: -7px;
+  padding-bottom: 10px;
 }
 
 
 
 .gParagraphSM {
   color: $grey-10;
-  font-size: map-get($body2,"size");
-  line-height: map-get($body2,"line-height");
-  letter-spacing: map-get($body2,"letter-spacing");
-  font-weight: map-get($body2,"weight");
+  font-size: map-get($body2, "size");
+  line-height: map-get($body2, "line-height");
+  letter-spacing: map-get($body2, "letter-spacing");
+  font-weight: map-get($body2, "weight");
 }
 
 .gCommentMD {
   color: $grey-10;
-  font-size: map-get($body2,"size");
-  line-height: map-get($body2,"line-height");
-  letter-spacing: map-get($body2,"letter-spacing");
-  font-weight: map-get($body2,"weight");
+  font-size: map-get($body2, "size");
+  line-height: map-get($body2, "line-height");
+  letter-spacing: map-get($body2, "letter-spacing");
+  font-weight: map-get($body2, "weight");
 
 }
 
@@ -378,10 +376,10 @@
 
 .gCaption {
   color: $grey-6;
-  font-size: map-get($caption,"size");
-  line-height: map-get($caption,"line-height");
-  letter-spacing: map-get($caption,"letter-spacing");
-  font-weight: map-get($caption,"weight");
+  font-size: map-get($caption, "size");
+  line-height: map-get($caption, "line-height");
+  letter-spacing: map-get($caption, "letter-spacing");
+  font-weight: map-get($caption, "weight");
 
 }
 
@@ -405,7 +403,7 @@
   font-size: 12px;
   font-weight: bold;
   background-color: $primary;
-  width:60px;
+  width: 60px;
 }
 
 
@@ -413,64 +411,69 @@
   color: #777777;
   font-size: 12px;
   font-weight: bold;
-  
-  
+
+
 
 }
 
 .gCommentBtnMD {
   color: #999999;
   font-size: 10px;
- }
+}
 
 .gCommandBtnSM {
-  color: $grey-7; 
- }
+  color: $grey-7;
+}
 
 .gRatingBtnXS {
-  font-size:10px;
+  font-size: 10px;
   color: $grey-8;
-  padding-right:1px;
+  padding-right: 1px;
 }
 
 .gRatingBtnSM {
-  font-size:16px;
+  font-size: 16px;
   color: $grey-8;
-  padding-right:2px;
+  padding-right: 2px;
 }
 
- .gRatingCountSM {
-  font-size:14px;
+.gRatingCountSM {
+  font-size: 14px;
   color: $grey-8;
- }
+}
 
 .gFollowBtn {
-  font-size:13px;
+  font-size: 13px;
   color: $primary;
- }
+}
 
 
- .gBodyLG {
-  color: #000000;;
+.gBodyLG {
+  color: #000000;
   font-size: 15px;
-  line-height: map-get($h5,"line-height");
-  letter-spacing: map-get($body1,"letter-spacing");
-  font-weight: map-get($body2,"weight");;
- }
+  line-height: map-get($h5, "line-height");
+  letter-spacing: map-get($body1, "letter-spacing");
+  font-weight: map-get($body2, "weight");
+  ;
+}
 
- .gBodyMD {
-  color: #000000;;
+.gBodyMD {
+  color: #000000;
   font-size: 14px;
-  line-height: map-get($h6,"line-height");
-  letter-spacing: map-get($body2,"letter-spacing");
-  font-weight: map-get($body2,"weight");;
- }
- .gBodySM {
-  color: #000000;;
+  line-height: map-get($h6, "line-height");
+  letter-spacing: map-get($body2, "letter-spacing");
+  font-weight: map-get($body2, "weight");
+  ;
+}
+
+.gBodySM {
+  color: #000000;
+  ;
   font-size: 14px;
-  line-height: map-get($subtitle1,"line-height");
-  letter-spacing: map-get($body2,"letter-spacing");
-  font-weight: map-get($body2,"weight");;
- }
+  line-height: map-get($subtitle1, "line-height");
+  letter-spacing: map-get($body2, "letter-spacing");
+  font-weight: map-get($body2, "weight");
+  ;
+}
 
 /* end */

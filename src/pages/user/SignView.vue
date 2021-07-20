@@ -1,136 +1,134 @@
 <template>
     <div class="q-pa-md">
 
+        <div class="col">
 
-        <div class="row">
-            <div class="col">
+            <q-tabs
+                v-model="v_tab"
+                dense
+                class="text-grey"
+                active-color="primary"
+                indicator-color="primary"
+                align="center"
+                narrow-indicator
+                items-center
+                style
+            >
+                <q-tab name="signin" label="Sign In" />
+                <q-tab name="signup" label="Sign Up" />
+            </q-tabs>
 
-                <q-tabs
-                    v-model="v_tab"
-                    dense
-                    class="text-grey"
-                    active-color="primary"
-                    indicator-color="primary"
-                    align="center"
-                    narrow-indicator
-                    items-center
-                    style
-                >
-                    <q-tab name="signin" label="Sign In" />
-                    <q-tab name="signup" label="Sign Up" />
-                </q-tabs>
+            <q-tab-panels v-model="v_tab" animated>
+                <q-tab-panel name="signin">
+                    <q-form
+                        @submit.prevent="onSignIn"
+                        class="q-gutter-y-md q-field--with-bottom col-width"
+                    >
+                        <q-input
+                            filled lazy-rules
+                            v-model="v_user.username"
+                            label="Username" hint="" 
+                            :error="v_error.username.error"
+                            :error-message="v_error.username.msg"                                
+                            :rules="[ val => val && val.length > 0 || 'Please type something']"
+                            
+                        />
 
-                <q-tab-panels v-model="v_tab" animated>
-                    <q-tab-panel name="signin">
-                        <q-form
-                            @submit.prevent="onSignIn"
-                            class="q-gutter-y-md q-field--with-bottom col-width"
+                        <q-input
+                            filled 
+                            :type="isPwd ? 'password' : 'text'" 
+                            v-model="v_user.password"
+                            label="Password"
+                            :error="v_error.password.error"
+                            :error-message="v_error.password.msg"                                
                         >
-                            <q-input
-                                filled lazy-rules
-                                v-model="v_user.username"
-                                label="Username" hint="" 
-                                :error="v_error.username.error"
-                                :error-message="v_error.username.msg"                                
-                                :rules="[ val => val && val.length > 0 || 'Please type something']"
-                                
-                            />
+                            <template v-slot:append>
+                                <q-icon :name="isPwd ? 'visibility_off' : 'visibility'"
+                                    class="cursor-pointer"
+                                    v-on:click="isPwd = !isPwd"></q-icon>
+                            </template>                                
+                        </q-input>
+                    
+                        <q-checkbox v-model="v_user.stay_loggedin" label="Stay signed-in" />
 
-                            <q-input
-                                filled 
-                                :type="isPwd ? 'password' : 'text'" 
-                                v-model="v_user.password"
-                                label="Password"
-                                :error="v_error.password.error"
-                                :error-message="v_error.password.msg"                                
+                        <q-btn flat label="Forgot Password" @click="onClickForgot" />
+
+                        <div>
+                            <q-btn label="Login" type="submit" color="primary"/>
+                        </div>                    
+                    </q-form>
+                </q-tab-panel>
+
+                <q-tab-panel name="signup">
+                    <q-form
+                        @submit.prevent="onSignUp"
+                        class="q-gutter-y-md q-field--with-bottom col-width"
+                    >
+                        <q-input
+                            filled required bottom-slots 
+                            type="email" id="email"
+                            v-model="v_user.email"
+                            label="Email" hint="Your email" 
+                            :rules="[ val => (val) && (val.length <= 50) || 'Please use maximum 50 characters']"
+                            @blur="updateEmailVerification"                                
+                            :error="v_error.email.error"
+                            :error-message="v_error.email.msg"                                
+                        >
+                            <template v-slot:error>
+                                Must be a valid email address.
+                            </template>                            
+                        </q-input>
+
+                        <q-input
+                            filled lazy-rules required bottom-slots
+                            v-model="v_user.username" id="username"
+                            label="Username " hint="Your username" 
+                            @blur="updateUsernameVerification"
+                            :error="v_error.username.error"
+                            :error-message="v_error.username.msg"
+                            :rules="[ 
+                                val => val && val.length > 0 || 'Please type something'
+                            ]"
+                        />
+
+                        <q-input
+                            filled required id="password" label="password"
+                            :type="isPwd ? 'password' : 'text'" 
+                            v-model="v_user.password" ref="fldPasswordChange"
+                            :error="v_error.password.error"
+                            :error-message="v_error.password.msg"
                             >
-                                <template v-slot:append>
-                                    <q-icon :name="isPwd ? 'visibility_off' : 'visibility'"
+                            <template v-slot:append>
+                                <q-icon :name="isPwd ? 'visibility_off' : 'visibility'"
+                                    class="cursor-pointer"
+                                    v-on:click="isPwd = !isPwd"></q-icon>
+                            </template>                                
+                        </q-input>
+
+                        <q-input
+                            filled
+                            :type="isPwd ? 'password' : 'text'" 
+                            v-model="v_user.password2"
+                            label="confirm password" ref="fldPasswordChangeConfirm"
+                            v-bind:rules="ConfirmPWD"                                
+                        >
+                            <template v-slot:append>
+                                <q-icon :name="isPwd ? 'visibility_off' : 'visibility'"
                                         class="cursor-pointer"
                                         v-on:click="isPwd = !isPwd"></q-icon>
-                                </template>                                
-                            </q-input>
-                        
-                            <q-checkbox v-model="v_user.stay_loggedin" label="Stay signed-in" />
+                            </template>                                
+                        </q-input>
 
-                            <q-btn flat label="Forgot Password" />
+                        <div>
+                            <q-btn label="SignUp" type="submit" color="primary"/>
+                        </div>                    
+                    </q-form>
+                </q-tab-panel>
 
-                            <div>
-                                <q-btn label="Login" type="submit" color="primary"/>
-                            </div>                    
-                        </q-form>
-                    </q-tab-panel>
-
-                    <q-tab-panel name="signup">
-                        <q-form
-                            @submit.prevent="onSignUp"
-                            class="q-gutter-y-md q-field--with-bottom col-width"
-                        >
-                            <q-input
-                                filled required bottom-slots 
-                                type="email" id="email"
-                                v-model="v_user.email"
-                                label="Email" hint="Your email" 
-                                :rules="[ val => (val) && (val.length <= 50) || 'Please use maximum 50 characters']"
-                                @blur="updateEmailVerification"                                
-                                :error="v_error.email.error"
-                                :error-message="v_error.email.msg"                                
-                            >
-                                <template v-slot:error>
-                                    Must be a valid email address.
-                                </template>                            
-                            </q-input>
-
-                            <q-input
-                                filled lazy-rules required bottom-slots
-                                v-model="v_user.username" id="username"
-                                label="Username " hint="Your username" 
-                                @blur="updateUsernameVerification"
-                                :error="v_error.username.error"
-                                :error-message="v_error.username.msg"
-                                :rules="[ 
-                                    val => val && val.length > 0 || 'Please type something'
-                                ]"
-                            />
-
-                            <q-input
-                                filled required id="password" label="password"
-                                :type="isPwd ? 'password' : 'text'" 
-                                v-model="v_user.password" ref="fldPasswordChange"
-                                :error="v_error.password.error"
-                                :error-message="v_error.password.msg"
-                                >
-                                <template v-slot:append>
-                                    <q-icon :name="isPwd ? 'visibility_off' : 'visibility'"
-                                        class="cursor-pointer"
-                                        v-on:click="isPwd = !isPwd"></q-icon>
-                                </template>                                
-                            </q-input>
-
-                            <q-input
-                                filled
-                                :type="isPwd ? 'password' : 'text'" 
-                                v-model="v_user.password2"
-                                label="confirm password" ref="fldPasswordChangeConfirm"
-                                v-bind:rules="ConfirmPWD"                                
-                            >
-                                <template v-slot:append>
-                                    <q-icon :name="isPwd ? 'visibility_off' : 'visibility'"
-                                            class="cursor-pointer"
-                                            v-on:click="isPwd = !isPwd"></q-icon>
-                                </template>                                
-                            </q-input>
-
-                            <div>
-                                <q-btn label="SignUp" type="submit" color="primary"/>
-                            </div>                    
-                        </q-form>
-                    </q-tab-panel>
-
-                </q-tab-panels>
-            </div>
+            </q-tab-panels>
         </div>
 
+        <EditDialog ref="dialogEdit" title="Forgot Password" desc="Please your email" @onSave="onSaveEdit" />
     </div>
 
 </template>
@@ -145,13 +143,14 @@ import logger from "src/error/Logger";
 
 import CBigLabel from 'components/CBigLabel';
 import CTitle from 'components/CTitle';
-import ResetPasswordDialog from 'components/dialogs/ResetPasswordDialog';
+import EditDialog from "src/components/dialogs/EditDialog";
+
 
 export default {
     components: {
         CBigLabel,
         CTitle,
-        ResetPasswordDialog
+        EditDialog
     },
     setup() {
         return {
@@ -338,7 +337,23 @@ export default {
             }
         },
 
-        onResetSignup() {
+        onClickForgot() {
+            logger.log.debug("SignView.onClickForgot");
+            this.$refs.dialogEdit.show('email','text','');
+        },
+
+        onSaveEdit(dicParam) {
+            logger.log.debug("SignView.onSaveEdit:dicParam=",dicParam);
+            
+            let dicReq = {email: dicParam.value};
+
+            AuthService.forgotPassword(dicReq,function(resp) {
+                logger.log.debug("SignView.onSaveEdit:resp=",resp);
+
+            },function(err) {
+                logger.log.error("SignView.onSaveEdit:err=",err);
+                
+            });
 
         }
 

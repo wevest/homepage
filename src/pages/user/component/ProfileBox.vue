@@ -37,8 +37,8 @@
                 <div :class="v_class">
                     <div class="gUserNameLG UserName">
                         {{ v_user.title }}
-                        <q-badge align="top" color="white" @click="onClickDisplayName">
-                            <q-icon style="font-size: 1.4em;" color="grey-7" name="mode_edit" class="q-ml-sm q-mt-xs" />
+                        <q-badge align="top" color="white" @click="onClickDisplayName" v-if="isOwner">
+                            <q-icon style="font-size: 1.4em;" color="primary" name="mode_edit" class="q-ml-sm q-mt-xs" />
                         </q-badge>
                         <div class="gCaption"> 
                             display_name
@@ -51,18 +51,27 @@
                         </div>
                     </div>
                 </div>
+            </q-card-section>
 
-                <div class="row" style="padding-top:14px;">
-                    <div class="gTextSubTitle q-mb-xs">
-                        Biography
+            <q-card-section>
+                <div class="text-left q-ma-md">
+                    <div class="q-pb-md" v-if="isOwner">
+                        <div class="gTextSubTitle">
+                            eMail
+                        </div>
 
-                        <q-badge align="top" color="white" @click="onClickBiography">
-                            <q-icon style="font-size: 1.3em;" color="grey-7" name="mode_edit" class="q-ml-sm" />                        
-                        </q-badge>
+                        <q-input class="gParagraphSM" filled readonly type="text" v-model="v_user.email" />
                     </div>
-                </div>
-                <div class="q-pb-xs ">
-                    <q-input class="gParagraphSM" filled readonly type="textarea" v-model="v_user.biography" />
+
+                    <div class="q-mb-xs">
+                        <div class="gTextSubTitle">
+                            Biography
+                            <q-badge align="top" color="white" @click="onClickBiography" v-if="isOwner">
+                                <q-icon color="primary" name="mode_edit" class="" />                        
+                            </q-badge>
+                        </div>
+                        <q-input class="gParagraphSM" filled readonly type="textarea" v-model="v_user.biography" />
+                    </div>
                 </div>
 
     <!--                
@@ -368,11 +377,13 @@ export default {
 
         onClickDisplayName() {
             logger.log.debug("ProfileView.onClickDisplayName");
+            this.$refs.dialogEdit.setMaxlength(30);
             this.$refs.dialogEdit.show('display_name','text',this.v_user.title);
         },
 
         onClickBiography() {
             logger.log.debug("ProfileView.onClickBiography : ",this.v_edit);
+            this.$refs.dialogEdit.setMaxlength(3000);
             this.$refs.dialogEdit.show('biography','textarea',this.v_user.biography);
         },
 

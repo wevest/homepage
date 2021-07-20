@@ -1,56 +1,67 @@
 <template>
 
+
     <div class="q-pa-xl">
-        <div>
-            <CTitle :title="$t('Inbox')" :desc="$t('page.message.desc')"></CTitle>
-            <div class="gCaption">
-                1. Password must at leatst 8 chars
-            </div>
-        </div>
 
-        <div class="q-my-md">
-
-            <q-form
-                ref="formPassword"
-                @submit.prevent="onClickSave"
-                class="q-gutter-y-md q-field--with-bottom col-width"
-            >
-
-                <div>
-                    <q-input lazy-rules v-model="v_password" type="password" label="Current Password" maxlength
-                        :rules="[ val => val && val.length > 8 || 'Please type password at least 8 ']" />
-                    <q-input lazy-rules v-model="v_new_password" type="password" label="New Password" 
-                        ref="fldPasswordChange"
-                        :rules="[ val => val && val.length > 8 || 'Please type password  at least 8']" />
-                    <q-input lazy-rules v-model="v_new_password2" type="password" label="Confirm" 
-                        ref="fldPasswordChangeConfirm" v-bind:rules="v_confirm" />
+        <div v-if="v_tab=='reset'">
+            <div>
+                <CTitle :title="$t('Reset Password')" :desc="$t('page.message.desc')"></CTitle>
+                <div class="gCaption">
+                    1. Password must at leatst 8 chars
                 </div>
-
-            </q-form>
-
-        </div>
-
-        <div class="q-gutter-md text-center">
-            <q-btn outline v-close-popup>Cancel</q-btn>
-            <q-btn color="primary" @click="onClickSave">&nbsp;Save&nbsp;</q-btn>
-        </div>
-        <div class="text-center">
-            <q-icon 
-                class="q-my-md updateICon" 
-                name="task_alt" 
-                style="font-size: 7em; color: #4caf50;" />
-
-            <div class="q-my-md gPageTitle">
-                Password Updated
             </div>
-            <div class="gParagraphSM">
-                Your password has been changed successfully.
-            </div>    
-            <div class="gParagraphSM">
-                Use your new password password to log in.
+
+            <div class="q-my-md">
+
+                <q-form
+                    ref="formPassword"
+                    @submit.prevent="onClickSave"
+                    class="q-gutter-y-md q-field--with-bottom col-width"
+                >
+
+                    <div>
+                        <q-input lazy-rules v-model="v_password" type="password" label="Current Password" maxlength
+                            :rules="[ val => val && val.length > 8 || 'Please type password at least 8 ']" 
+                            v-if="v_mode=='reset_password'" />
+                        <q-input lazy-rules v-model="v_new_password" type="password" label="New Password" 
+                            ref="fldPasswordChange"
+                            :rules="[ val => val && val.length > 8 || 'Please type password  at least 8']" />
+                        <q-input lazy-rules v-model="v_new_password2" type="password" label="Confirm" 
+                            ref="fldPasswordChangeConfirm" v-bind:rules="v_confirm" />
+                    </div>
+
+                </q-form>
+
             </div>
-            <q-btn class="q-mt-xl" color="primary" label="Sign in" />
+
+            <div class="q-gutter-md text-center">
+                <q-btn outline v-close-popup>Cancel</q-btn>
+                <q-btn color="primary" @click="onClickSave">&nbsp;Save&nbsp;</q-btn>
+            </div>
+        
         </div>
+        
+        <div v-if="v_tab=='done'">
+
+            <div class="text-center">
+                <q-icon 
+                    class="q-my-md" 
+                    name="task_alt" 
+                    style="font-size: 7em; color: #4caf50;" />
+
+                <div class="q-my-md gPageTitle">
+                    Password Updated
+                </div>
+                <div class="gParagraphSM">
+                    Your password has been changed successfully.
+                </div>    
+                <div class="gParagraphSM">
+                    Use your new password password to log in.
+                </div>
+                <q-btn class="q-mt-xl" color="primary" label="Sign in" @click="onClickSignin" />
+            </div>
+        </div>
+
     </div>
 
 </template>
@@ -84,6 +95,8 @@ export default {
         return {            
             v_show: false,
             
+            v_tab:'reset',
+            v_mode: 'reset_password',
             v_password:'',
             v_new_password: '',
             v_new_password2: '',
@@ -91,7 +104,13 @@ export default {
     },
 
     created: function () {},
-    mounted: function() {},
+    mounted: function() {
+        logger.log.debug("ResetPasswordView.mounted : params=",this.$route.query);
+        this.v_mode = 'reset_password';
+        if ((this.$route.query) && (this.$route.query.hasOwnProperty('token'))) {
+            this.v_mode = 'forgot_password';
+        }
+    },
     updated: function() {},
     
     methods: {      
@@ -134,8 +153,7 @@ export default {
 
 
         postProcess: function(response) {
-            this.setPostID(response.data.id);
-            this.v_post.saved = true;
+            this.v_tab = 'done';
         },
 
         onClickSave: function() {                        
@@ -145,13 +163,18 @@ export default {
                 new_password:this.v_new_password, new_password2:this.v_new_password2 };
 
             this.$refs.formPassword.validate().then(ret=>{
-                logger.log.debug('ResetPasswordDialog.onClickSave - ret=',ret);
+                logger.log.debug('ResetPasswordDialog.onClickSave - ret=',_this.v_me);
                 if (! ret) { return; }
 
                 _this.v_me.resetPassword(dicParam).then(resp=>{
                     logger.log.debug('ResetPasswordDialog.onClickSave - resp=',resp);
+                    _this.postProcess(resp);
+
                 }).catch(err=>{
-                    logger.log.error('ResetPasswordDialog.onClickSave - err=',err);
+                    logger.log.error('ResetPasswordView.onClickSave - err=',err);
+
+                    const a_dialog = store.getters.components.getComponent('alertDialog');
+                    a_dialog.show('Error','Something is wrong, please try again');
                 });
 
             });
@@ -163,7 +186,10 @@ export default {
             this.hide();
         },
         
-
+        onClickSignin() {
+            logger.log.debug('ResetPasswordView.onClickSignin');
+            CommonFunc.navSignin(this,false);
+        }
     }
 
 };

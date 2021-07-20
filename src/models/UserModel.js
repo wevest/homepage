@@ -640,9 +640,9 @@ export default class User {
                 
         const _this = this;
         return new Promise(function(resolve,reject) {
-            AuthService.resetPassword(dicParam).then(response=>{
+            AuthService.resetPassword(dicParam,function(response) {
                 resolve(response);
-            }).catch(err=>{
+            },function(err) {
                 reject(err);
             });                
         });            
