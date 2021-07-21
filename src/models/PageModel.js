@@ -48,7 +48,7 @@ export class PostPageModel {
     parent_id=null;
     question_id=null;
     asset_id=null;
-    
+
     closed=false;
     description=null;
     total_points=null;
@@ -373,10 +373,10 @@ export class AssetReviewStatListModel extends baseCollection {
         }
     }
 
-    load(category) {
+    load(asset_id) {
         const _this=this;
         
-        let dic_param = {category:category};
+        let dic_param = {asset_id:asset_id};
         logger.log.debug("AssetReviewPageListModel.stat - dic_param=",dic_param);
 
         return new Promise(function(resolve,reject) {
@@ -428,15 +428,15 @@ export class AssetReviewPageListModel extends baseCollection {
         });            
     }
 
-    loadStat(category) {
+    loadStat(asset_id) {
         const _this=this;
         
-        let dic_param = {category:category};
+        let dic_param = {asset_id:asset_id};
         logger.log.debug("AssetReviewPageListModel.stat - dic_param=",dic_param);
 
         return new Promise(function(resolve,reject) {
             let stats = new AssetReviewStatListModel();
-            stats.load(category).then(resp=> {                
+            stats.load(asset_id).then(resp=> {                
                 logger.log.debug("AssetReviewPageListModel.loadStat - response=",resp);
                 _this.stat = stats.items[0];
             }).catch(err=>{

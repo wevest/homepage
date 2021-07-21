@@ -95,11 +95,12 @@ export default {
 
             let dic_param = {id:this.data.id, value:dicParam.value};            
             this.data.vote(dic_param).then( response => {            
-            
-                logger.log.debug('WRatingButton.vote : response=',response.data.data);
-                _this.setColor(response.data.data);
-                _this.data.like_count = response.data.data.like_count;
-                _this.data.dislike_count = response.data.data.dislike_count;
+                
+                let resp = response.data.data;
+                logger.log.debug('WRatingButton.vote : response=',resp);
+                _this.setColor(resp);
+                _this.data.like_count = resp.like_count;
+                _this.data.dislike_count = resp.dislike_count;
 
             }).catch( err=> {
                 logger.log.error('WRatingButton.vote : err=',err);

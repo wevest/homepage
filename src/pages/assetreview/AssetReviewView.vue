@@ -6,7 +6,7 @@
         </div>
 
         <div>
-            <ReviewRatingBox ref="ratingBox" :reviews="v_reviews" title="Investor Reviews"></ReviewRatingBox>
+            <PriceForecastBox ref="ratingBox" :reviews="v_reviews" title="Investor Reviews"></PriceForecastBox>
         </div>
     
         <div>
@@ -38,10 +38,10 @@ import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
-import {PostPageModel,QuestionPageModel,AssetReviewPageModel,AssetReviewPageListModel} from "src/models/PageModel";
+import {AssetReviewPageModel,AssetReviewPageListModel} from "src/models/PageModel";
 
 import CTitle from 'components/CTitle';
-import ReviewRatingBox from 'src/pages/assetreview/component/ReviewRatingBox';
+import PriceForecastBox from 'src/pages/assetreview/component/PriceForecastBox';
 import PriceForecastForm from 'src/pages/assetreview/component/PriceForecastForm';
 import AssetReviewList from 'components/lists/AssetReviewList';
 
@@ -53,7 +53,7 @@ export default {
         CTitle,
         PriceForecastForm,
         AssetReviewList,
-        ReviewRatingBox
+        PriceForecastBox
     },
     computed: {
         v_me() {
@@ -119,14 +119,14 @@ export default {
             }
 
             this.loadAssetReviewData();            
-            //this.loadAssetReviewStat();
+            this.loadAssetReviewStat();
         },
 
         loadAssetReviewStat: function() {
             const _this=this;
             //let dic_param = {'category':this.g_asset.symbol, 'object_id':this.g_asset.object_id};
 
-            this.v_reviews.loadStat(this.g_asset.symbol).then(resp=>{
+            this.v_reviews.loadStat(this.g_asset.object_id).then(resp=>{
                 logger.log.debug("loadAssetReviewStat:resp=",resp);
             }).catch(err=>{
 

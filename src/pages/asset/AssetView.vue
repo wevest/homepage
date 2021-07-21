@@ -9,71 +9,80 @@
             <PriceSummaryBox ref="priceBox" :data="v_asset" @onClick="onClickPrice" />
         </div>
 
-<!--
         <div>
-            <q-expansion-item
-                expand-separator
-                icon=""
-                header-class="gSubTitle"
-                label="Base Info"
-                @show="onClickInfo">
+            <PriceForecastBox ref="ratingBox" :reviews="v_reviews" title="Investor Reviews"></PriceForecastBox>
+        </div>
 
+        <div>
+            <q-tabs v-model="v_tab" shrink align="left" active-color="primary" class="q-my-sm" >
+                <q-tab name="info" :label="$t('name.info')" />
+                <q-tab name="tweet" :label="$t('name.tweet')" />
+                <q-tab name="blog" :label="$t('name.blog')" />
+                <q-tab name="qa" :label="$t('name.qa')" />
+                <q-tab name="review" :label="$t('name.review')" />
+            </q-tabs>
+        </div>
+
+        <q-tab-panels
+            v-model="v_tab"
+            keep-alive
+            animated swipeable
+            transition-prev="slide-right"
+            transition-next="slide-left"
+            @transition="onClickTab"
+        >
+            <q-tab-panel name="info" class="gNoMargin">
                 <InfoTable ref="infoTable" :data="v_asset" />
-            </q-expansion-item>
-        </div>
+            </q-tab-panel>
 
-        <div>
-            <q-expansion-item
-                expand-separator
-                header-class="gSubTitle"
-                label="Show Chart"
-                @show="onClickChart">
+            <q-tab-panel name="tweet" class="gNoMargin">
+                <div class="q-my-sm">
+                    <WWriterButton placeholder="What's your in minds?" @onClickWrite="onClickWrite" />
+                </div>
+                <q-separator class="gSeparator" />
+                <TweetList ref='tweetList' title="Tweets" maxLength="10" moreCaption="More" 
+                    :category="v_asset.object_category" :symbol="v_asset.symbol" :assetId="v_asset.object_id" />
 
-                <ChartTimeframe period='all' :onclick="onClickTimeframe" selected='y1'></ChartTimeframe>
-                <CAssetChart ref="assetChart"></CAssetChart>
+            </q-tab-panel>
 
-                <q-toggle v-model="v_visible_table" label="Show Table" class="q-mb-md center" />
-
-                <q-slide-transition>
-                    <div v-show="v_visible_table" class="q-my-md">
-                        <PriceDataTable ref="dataTable" />                    
-                    </div>
-                </q-slide-transition>                
-
-            </q-expansion-item>
-        </div>
--->
-        <q-separator class="gSeparator" />
-
-        <WWriterButton placeholder="What's your in minds?" @onClickWrite="onClickWrite" />
-
-        <q-separator class="gSeparator" />
-
-        <div>
-            <BlogList ref='blogList' title="Market Trend" maxLength="10" moreCaption="More" 
-                :category="v_asset.object_category" :symbol="v_asset.symbol" :objectId="v_asset.object_id"
-            />
+            <q-tab-panel name="blog" class="gNoMargin">
+                <div class="q-my-sm">
+                    <WWriterButton placeholder="Please share your knowledge" @onClickWrite="onClickWriteBlog" />
+                </div>
+                <q-separator class="gSeparator" />
+                <BlogList ref='blogList' title="Market Trend" maxLength="10" moreCaption="More" 
+                    :category="v_asset.object_category" :symbol="v_asset.symbol" :objectId="v_asset.object_id" />            
+            </q-tab-panel>
+        
+            <q-tab-panel name="qa" class="gNoMargin">
+                <div class="q-my-sm">
+                    <WWriterButton placeholder="Please ask anything" @onClickWrite="onClickWriteQuestion" />
+                </div>
+                <q-separator class="gSeparator" />
+                <AssetQuestionList ref="questionList" title="Question List" maxLength="10" moreCaption="More"
+                    :symbol="v_asset.symbol" :assetId="v_asset.object_id"
+                    @onClickQuestionRating="onClickQuestionRating"
+                >
+                </AssetQuestionList>            
+            </q-tab-panel>
             
-        </div>
+            <q-tab-panel name="review" class="gNoMargin">
+                <div class="q-my-sm">
+                    <PriceForecastForm ref="reviewForm" 
+                        :category="v_asset.symbol" :assetId="v_asset.object_id"
+                        @onClickReviewSave="onClickReviewSave" 
+                    > 
+                    </PriceForecastForm>                
+                </div>
+                <q-separator class="gSeparator" />
+                <AssetReviewList ref="reviewList" 
+                    moreCaption="More" maxLength="10" title="Price Forecast"
+                    :category="v_asset.symbol" :assetId="v_asset.object_id" 
+                    @onClickRating="onClickReviewRating"> 
+                </AssetReviewList>
+            </q-tab-panel>
 
-
-        <div class="col">
-                                    
-            <AssetQuestionList ref="questionList" title="Question List" maxLength="10" moreCaption="More"
-                :symbol="v_asset.symbol" :assetId="v_asset.object_id"
-                @onClickQuestionRating="onClickQuestionRating"
-            >
-            </AssetQuestionList>
-
-        </div>
-
-        <div class="col">                
-            <AssetReviewList ref="reviewList" 
-                moreCaption="More" maxLength="10" title="Price Forecast"
-                :category="v_asset.symbol" :assetId="v_asset.object_id" 
-                @onClickRating="onClickReviewRating"> 
-            </AssetReviewList>
-        </div>
+        </q-tab-panels>
 
     </div>
 
@@ -90,20 +99,19 @@ import {AssetModel} from "src/models/AssetModel";
 import {PostPageModel,QuestionPageModel,AssetReviewPageModel,AssetReviewPageListModel} from "src/models/PageModel";
 
 import CTitle from 'components/CTitle';
-import ChartTimeframe from 'components/ChartTimeframe';
 import WWriterButton from 'components/WWriterButton';
 
 import BlogList from 'components/lists/BlogList';
 import AssetQuestionList from 'components/lists/AssetQuestionList';
 import AssetReviewList from 'components/lists/AssetReviewList';
+import TweetList from 'components/lists/TweetList';
 
 import CAssetChart from 'src/pages/asset/CAssetChart';
-//import CAssetInfoTable from 'src/pages/asset/CAssetInfoTable';
-//import AssetReviewForm from 'src/pages/asset/component/AssetReviewForm';
+import PriceForecastForm from 'src/pages/asset/component/PriceForecastForm';
 import PriceSummaryBox from 'src/pages/asset/component/PriceSummaryBox';
 import PriceDataTable from 'src/pages/asset/component/PriceDataTable';
 import InfoTable from "src/pages/asset/component/InfoTable";
-
+import PriceForecastBox from "src/pages/asset/component/PriceForecastBox";
 
 
 export default {
@@ -111,13 +119,15 @@ export default {
     components: {
         CTitle,
         AssetQuestionList,
-        ChartTimeframe,
         CAssetChart,
         PriceSummaryBox,
         PriceDataTable,
         AssetReviewList,
         InfoTable,
         BlogList,
+        TweetList,
+        PriceForecastForm,
+        PriceForecastBox,
         WWriterButton
     },
     computed: {
@@ -135,17 +145,24 @@ export default {
                 commit: null,
                 review: null,
                 vc: null,
-                question:null,
+                qa:null,
                 blog:null,
                 chart: null,
             },
             g_period: 30,
-            g_freq: 'y1',
+            v_tab: 'tweet',
                                 
             v_visible_table:false,
             v_items: [],         
-
+            v_loaded: {
+                blog:false,
+                qa:false,
+                tweet:false,
+                review:false,
+                info:false,
+            },
             v_asset: new AssetModel(),
+            v_reviews: new AssetReviewPageListModel(),
         }
     },
 
@@ -163,10 +180,10 @@ export default {
         //this.g_asset.symbol = 'BTC';
         //this.g_asset.object_id = 20;
 
-        this.refresh(360);
+        this.refresh();
     },
     updated: function() {
-        console.log("AssetView.updated - query=",this.$route.query);        
+        //console.log("AssetView.updated - query=",this.$route.query);        
         //CommonFunc.setAppData('onSearchEvent',this.onSearchEvent);
     },
     
@@ -182,16 +199,50 @@ export default {
             CommonFunc.navError404(this);
         },
 
-        refresh: function(offset=360) {
-            logger.log.debug('Refresh - ',offset);
-
-            
+        refresh() {
+            //logger.log.debug('Refresh');            
             this.loadPriceTicker();
-            this.loadAssetReviewData();            
-            this.loadAssetQuestionData();                    
-            this.loadBlogList();
+            this.loadAssetReviewStat();
+            this.updateTab();
         },
         
+        updateTab() {
+            if (this.v_tab=="review") {
+                if (! this.v_loaded.review) {
+                    this.v_loaded.review = true;                    
+                    this.loadAssetReviewData();
+                }
+            }
+            if (this.v_tab=="qa") {
+                if (! this.v_loaded.qa) {
+                    this.v_loaded.qa = true;
+                    this.loadAssetQuestionData();                                        
+                }
+            }
+
+            if (this.v_tab=="blog") {
+                if (! this.v_loaded.blog) {
+                    this.v_loaded.blog = true;                    
+                    this.loadBlogList();
+                }
+            }
+
+            if (this.v_tab=="tweet") {
+                if (! this.v_loaded.tweet) {
+                    this.v_loaded.tweet = true;                    
+                    this.loadTweetList();
+                }
+            }
+
+            if (this.v_tab=="info") {
+                if (! this.v_loaded.info) {
+                    this.v_loaded.info = true;
+                    this.loadCryptoBaseinfo();                    
+                }
+            }
+
+        },
+
         updateScoreWidget: function(json_data) { 
             logger.log.debug("updateScoreWidget.data=",json_data);
             const dic_columns = CommonFunc.getColumnDic(json_data.columns,[],[]);
@@ -292,6 +343,15 @@ export default {
             });            
         },
 
+        loadCryptoBaseinfo: function() {
+            const _this = this;
+
+            this.v_asset.loadBaseinfo().then(resp=>{
+                logger.log.debug("AssetDetailView.loadCryptoBaseinfo - resp=",resp,_this.v_asset);
+            }).catch(err=>{
+                logger.log.debug("AssetDetailView.loadCryptoBaseinfo - err=",err);
+            });
+        },
 
         loadAssetReviewData: function() {
             let dic_param = {'asset_id':this.v_asset.object_id};
@@ -304,49 +364,31 @@ export default {
         },
 
         loadBlogList: function() {
-            console.log('AssetView.loadBlogList - ',this.v_asset.object_category);
-            this.$refs.blogList.updateByCategory(this.v_asset.object_category);
+            console.log('AssetView.loadBlogList - ',this.v_asset.object_id);
+            this.$refs.blogList.updateByAsset(this.v_asset.object_id);
         },
 
-
-        onClickTimeframe: function(offset,timeframe) {
-            console.log('AssetView.onClickTimeframe - ',offset,timeframe);
-            this.g_freq = timeframe;
-            this.loadPriceHistory(offset,true);
+        loadTweetList: function() {
+            console.log('AssetView.loadTweetList - ',this.v_asset.object_id);
+            this.$refs.tweetList.updateByAsset(this.v_asset.object_id);
         },
 
-        onClickExchange:function(value) {
-          console.log('AssetView.onClick - ',value);
-          //this.showReportList(this.g_exchange,this.g_sector,value);
+        loadAssetReviewStat: function() {
+            const _this=this;
+            //let dic_param = {'category':this.g_asset.symbol, 'object_id':this.g_asset.object_id};
+
+            this.v_reviews.loadStat(this.v_asset.object_id).then(resp=>{
+                logger.log.debug("loadAssetReviewStat:resp=",resp);
+            }).catch(err=>{
+
+            });
         },
 
-        onClickSector:function(value) {
-          console.log('AssetView.onClick - ',value);
-          //this.showReportList(this.g_exchange,this.g_sector,value);
-        },
-
-        onClickSectorChart: function(sector) {
-            console.log('AssetView.onClickSectorChart - ',sector);            
-            this.$refs.sectorChart.update(this.g_data,'upbit',sector);
-            this.loadSectorAssetData('upbit',sector);
-        },
 
         onClickReviewSave: function(dic_param) {                        
             logger.log.debug('AssetView.onClickReviewSave - ',dic_param);       
             this.$refs.reviewList.addReview(dic_param.response.data);
             return;
-
-
-            dic_param.object_id = this.g_asset.object_id;
-            dic_param.category = this.g_asset.symbol;                                
-            let a_review = new AssetReviewPageModel();
-            a_review.save(dic_param).then( response => {
-                logger.log.debug('AssetView.onClickReviewSave - response = ',response);
-                _this.$refs.reviewList.addReview(response.data);
-                CommonFunc.showOkMessage(_this,'review posted');
-            }).catch( er => {
-
-            });
         },
 
         onClickReviewRating: function(review) {
@@ -397,6 +439,7 @@ export default {
 
             let a_post = new PostPageModel();
             a_post.category = this.v_asset.symbol;
+            a_post.asset_id = this.v_asset.object_id;
             a_post.setContentType(CONST.CONENT_TYPE_ASSETPAGE);
 
             this.$refs.blogWriter.show(a_post);
@@ -459,6 +502,41 @@ export default {
             CommonFunc.navTweetWriter(this,this.v_asset.object_id)
         },
 
+        onClickWriteQuestion: function() {
+            logger.log.debug('AssetView.onClickWrite');
+
+            let a_post = new QuestionPageModel();
+            a_post.category = this.v_asset.symbol;
+            a_post.asset_id = this.v_asset.object_id;
+            a_post.setContentType(CONST.CONENT_TYPE_ASSET_QUESTION);
+            
+            store.getters.nav.add(this.$route);
+
+            let dic_param = {
+                name: "assetqa_question_writer",path: "assetqa_question_writer", params: {post:a_post},
+            };
+            this.$router.push(dic_param);        
+        },
+
+        onClickWriteBlog: function() {
+            logger.log.debug('AssetQAView.onClickWrite');
+
+            let a_post = new PostPageModel();            
+            a_post.setContentType(CONST.CONENT_TYPE_BLOGPAGE);
+            a_post.category_name = this.v_asset.symbol;
+            a_post.asset_id = this.v_asset.object_id;
+
+            store.getters.nav.add(this.$route); 
+
+            let dic_param = { name:'blog_writer', params:{post:a_post} };
+            this.$router.push(dic_param);
+        },
+
+        onClickTab(tab) {
+            logger.log.debug('AssetView.onClickTab : tab=',tab);
+            this.v_tab = tab;
+            this.updateTab();
+        }
     },
 
 }

@@ -4,17 +4,7 @@
 
         <WWriterToolbar ref="writerToolbar" @onClickSave="onClickSave" />
 
-        <div v-if="v_post">
-            <div>
-                <q-input 
-                    hide-bottom-space
-                    v-model="v_post.title" 
-                    label="Title" 
-                    hide-bottom-space
-                    :error="v_error.title.error"
-                    :error-message="v_error.title.msg"
-                />
-            </div>
+        <div v-if="v_tweet">
             <div class="gBoxNoMargin">
                 <BaseEditor ref="baseEditor" @onPostSave="onPostSave" />
 <!--                
@@ -71,7 +61,7 @@ export default {
             return store.getters.me;
         },
         isNewPost: function() {
-            if (this.v_post.id) {
+            if (this.v_tweet.id) {
                 return false;
             }
             return true;
@@ -93,11 +83,9 @@ export default {
         }
     },
 
-    created: function () {
-        console.log("BlogWriterView.created");
-    },
+    created: function () {},
     mounted: function() {        
-        logger.log.debug("BlogWriterView.mounted : params=",this.$route.params);
+        logger.log.debug("TweetWriterView.mounted : params=",this.$route.query);
         this.prepare();
     },
     updated: function() {
@@ -106,32 +94,23 @@ export default {
     
     methods: {
         prepare() {
-            this.setPost(this.$route.params.post);
+            this.setTweet(this.$route.query.id);
             this.fillData();
         },
 
-        setPost(post) {
-            this.v_post = post;
-        },
-        setPageID(page_id) {
-            this.g_page_id = page_id;
+        setTweet(asset_id) {
+            this.v_tweet.asset_id = asset_id;
         },
 
         fillData: function() {
             if (this.$refs.baseEditor) {
-                this.$refs.baseEditor.setPostModel(this.v_post);
+                //this.$refs.baseEditor.setPostModel(this.v_tweet);
             }            
         },
         
-        validate: function(v_post) {
-            if (CommonFunc.isEmptyObject(v_post.title)) {
-                this.v_error.title.error = true;
-                this.v_error.title.msg = 'Please type title';
-                return false;
-            }
-            
-            let a_text = this.$refs.baseEditor.getContents();
-            if (CommonFunc.isEmptyObject(a_text)) {
+        validate: function() {
+            this.v_tweet.text = this.$refs.baseEditor.getContents();
+            if (CommonFunc.isEmptyObject(this.v_tweet.text)) {
                 this.v_error.text.error = true;
                 this.v_error.text.msg = 'Please type something';
                 return false;
@@ -140,8 +119,30 @@ export default {
             return true;
         },
 
+        save(tweet) {
+            const _this = this;
+
+            let dic_param = {
+                id: tweet.id,
+                asset_id: tweet.asset_id,
+                text: CommonFunc.addHashTag(tweet.text,[])
+            };
+            
+            tweet.post().then( response => {
+                logger.log.debug("onClickSave : response=",response);
+                //_this.$emit("onPostSave",{ret:1, response:response});
+                _this.$refs.writerToolbar.setLoading(false);
+                _this.$refs.writerToolbar.onClickClose();
+            }).catch(err=>{
+                logger.log.error("onClickSave : err=",err);
+                _this.$refs.writerToolbar.setLoading(false);
+                CommonFunc.showErrorMessage(_this,'Posting error');
+                //_this.$emit("onPostSave",{ret:0, response:error});
+            });            
+        },
+
         onPostSave: function(dic_param) {
-            logger.log.debug('QuestionWriterDialog.onPostSave : dic_param=',dic_param);
+            logger.log.debug('TweetWriterDialog.onPostSave : dic_param=',dic_param);
 
             this.$refs.writerToolbar.setLoading(false);
 
@@ -150,18 +151,20 @@ export default {
                 //this.postProcess(dic_param.response);
                 //CommonFunc.showOkMessage(this,'Blog posted');
             } else {
-                CommonFunc.showErrorMessage(this,'Blog error');
+                
             }        
         },
 
         onClickSave: function() {
-            if (! this.validate(this.v_post)) {
+            logger.log.debug('TweetWriterDialog.onClickSave');
+
+            if (! this.validate() ) {
                 return;
             }
-
-            this.$refs.writerToolbar.setLoading(true);
-            this.$refs.baseEditor.save(this.v_post,[this.v_post.category_name]);
-            
+            this.save(this.v_tweet);
+            //this.$refs.writerToolbar.setLoading(true);
+            //this.$refs.baseEditor.save(this.v_tweet,[]);
+        
         },
 
     }

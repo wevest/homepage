@@ -3,15 +3,20 @@
     <div class="">
         <div class="price_box">
             <div class="price_big">
+
                 <CBigLabel ref='label_btc' 
                     title="" moreButton="1"
                     :value="data.ticker.last" 
                     :valueRet="data.ticker.change_percentage"
                     :updatedAt="data.ticker.updated_at"
+                    :extraCaption="v_price_range(data)"
+                    extraClass="gUserNameSM"
                     @onClick="onClick"></CBigLabel>
+                    
             </div>
         </div>
-        
+
+<!--                    
         <div class="q-mb-xl">
             <div class="q-pt-lg">                
                 <div class="gSubTitle q-pb-xl">
@@ -32,11 +37,6 @@
                     <span class="gTextSubTitle"> 
                         24H Price Range
                     </span>
-<!--                    
-                    <span class="gTextSubTitle">
-                       $ {{ v_format(data.ticker.low_24h) }} ~ $ {{ v_format(data.ticker.high_24h) }}
-                    </span>
--->                    
                 </div>
                 <q-slider
                     v-model="data.ticker.last"
@@ -56,9 +56,10 @@
                         <span class="gCaption">$ {{ v_format(data.ticker.high_24h) }}</span>
                     </div>
                 </div>
-            </div>            
+            </div>      
+              
         </div>
-<!--
+
         <div>
             <q-markup-table flat class="price_table">
                 <tbody>
@@ -142,6 +143,13 @@ export default {
         v_label() {
             return (data) => {
                 const msg = 'Price : $ '+ this.v_format(data.ticker.last);
+                return msg;
+            }
+        },
+        v_price_range() {
+            return (data) => {
+                let msg = "24H Min , Max : $" + this.v_format(data.ticker.low_24h);
+                msg += " ~  $" + this.v_format(data.ticker.high_24h);
                 return msg;
             }
         }

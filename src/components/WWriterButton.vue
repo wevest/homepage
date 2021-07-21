@@ -1,6 +1,6 @@
 <template>
     
-    <div class="row q-pt-md boxWriteButton" @click="onClickWrite">
+    <div class="row boxWriteButton" @click="onClickWrite">
         <div>
         
             <WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
@@ -42,13 +42,13 @@ export default {
         }
     },
     mounted() {
-        logger.log.debug("WWriterButton.mounted");
+        //logger.log.debug("WWriterButton.mounted");
         this.prepare();
     },
 
     methods: {
         prepare() {
-            logger.log.debug("WWriterButton.prepare");
+            //logger.log.debug("WWriterButton.prepare");
             if (! this.v_me.isLoggedIn()) {
                 this.v_placeholder = "Please login first to write something";
             }

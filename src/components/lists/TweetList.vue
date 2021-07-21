@@ -8,28 +8,32 @@
 			<q-item 
 				class="q-pa-sm"
 				clickable
-				v-ripple
 				:key="index"
-				v-for="(a_post, index) in v_posts.items"
+				v-for="(a_tweet, index) in v_tweets.items"
 				v-if="index<v_maxLength"
-				@click.stop="onClickBlog(a_post.id)"
 			>
 				<q-item-section class="blogAvatar" avatar top>
-					<WAvatar :avatar="a_post.api_owner.avatar_thumb" :username="a_post.api_owner.username" />
+					<WAvatar :avatar="a_tweet.owner.avatar_thumb" :username="a_tweet.owner.username" />
 				</q-item-section>
 				<q-item-section top>
-					<q-item-label lines="1">
-						<span class="gListTitle">{{ v_shorten(a_post.title) }}</span>
-					</q-item-label>
-					<q-item-label class="no-margin" lines="1">
+					<q-item-label class="no-margin" lines="1" @click.stop="onClickTweet(a_tweet.id)" v-ripple>
+						<div class="gUserNameSM">
+                            {{a_tweet.owner.display_name}}
+                        </div>
+                        <WSubinfo 
+							:pub_date="a_tweet.created_at" 
+							like_count="-1" 
+							dislike_count="-1" />
 
-						<WSubinfo 
-							:username="a_post.api_owner.display_name" 
-							:pub_date="a_post.pub_date" 
-							:like_count="a_post.like_count" 
-							:dislike_count="a_post.dislike_count" />
+                        <div class="gBodyLG" v-html="a_tweet.text"></div>
 
 					</q-item-label>
+                    <q-item-label>
+                        <WRatingSmallButton ref="ratingButton" 
+                            :data="a_tweet" :likeCount="a_tweet.like_count" :dislikeCount="a_tweet.dislike_count" 
+                            @onClickRating="onClickRating" />
+                    </q-item-label>
+
 				</q-item-section>
 
 			</q-item>
@@ -48,11 +52,14 @@ import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
+import { TweetListModel } from "src/models/TweetModel";
+
 import CTitle from 'components/CTitle';
 import WAvatar from "src/components/WAvatar";
 import WSubinfo from 'components/WSubinfo';
 import LoadMore from "src/components/LoadMore";
-import { PostPageModel, PostPageListModel } from "src/models/PageModel";
+import WRatingSmallButton from 'components/WRatingSmallButton';
+
 
 
 export default {
@@ -60,7 +67,8 @@ export default {
 		CTitle,
 		WAvatar,
 		WSubinfo,
-		LoadMore
+		LoadMore,
+        WRatingSmallButton
 	},
     props: {
         maxLength: {
@@ -82,7 +90,7 @@ export default {
 			required:true,
 			default: ""
 		},
-		objectId: {
+		assetId: {
 			required:true,
 			default:-1
 		}
@@ -109,23 +117,18 @@ export default {
 				content_type: null,
 			},
 
-			v_posts: new PostPageListModel(),
+			v_tweets: new TweetListModel(),
 		};
 	},
-    created() {
-        logger.log.debug("BlogList.created");
-    },
-    mounted() {
-        logger.log.debug("BlogList.mounted");
-    },
+
 	methods: {
-		loadBlogData: function (param) {
+		loadTweet: function (param) {
 			const _this = this;
 
-			this.v_posts.load(param).then((response) => {
+			this.v_tweets.load(param).then((response) => {
 				_this.g_data = response.data;
 				_this.$refs.loadMore.setPageParameter(response.data);
-				logger.log.debug("BlogList.loadBlogData - response",_this.g_data);
+				logger.log.debug("TweetList.loadTweet - response",_this.g_data);
 			})
 			.catch((err) => {
 
@@ -140,14 +143,11 @@ export default {
 			this.loadBlogData(this.v_query);
 		},
 
-		updateByContentType: function (content_type) {
+		updateByAsset: function (asset_id) {
 			let dic_param = {
-				user_id: null,
-				category: null,
-				asset_id: null,
-				content_type: content_type,
+				asset_id: asset_id,
 			};
-			this.loadBlogData(dic_param);
+			this.loadTweet(dic_param);
 		},
 
 		updateByCategory: function (category) {
@@ -155,17 +155,6 @@ export default {
 				user_id: null,
 				category: category,
 				content_type: null,
-				asset_id: null,
-			};
-			this.loadBlogData(dic_param);
-		},
-
-		updateByAsset: function (asset_id) {
-			let dic_param = {
-				user_id: null,
-				category: null,
-				content_type: null,
-				asset_id: asset_id,
 			};
 			this.loadBlogData(dic_param);
 		},
@@ -175,7 +164,6 @@ export default {
 				user_id: user_id,
 				category: null,
 				content_type: null,
-				asset_id: null,
 			};
 			this.loadBlogData(dic_param);
 		},
@@ -191,9 +179,9 @@ export default {
 			//this.v_posts.items = this.v_posts.delete(post_id);
 		},
 
-		onClickBlog: function (page_id) {
-			logger.log.debug("onClickBlog : page_id = ", page_id);			
-			CommonFunc.navBlogDetail(this,page_id);
+		onClickTweet(id) {
+			logger.log.debug("onClickTweet : id = ", id);			
+			CommonFunc.navTweetDetail(this,id);
 			//this.$emit("onClickBlog",{page_id:page_id});
 		},
 
@@ -209,7 +197,29 @@ export default {
 		onClickMoreBlog: function() {
 			logger.log.debug("BlogList.onClickMoreBlog : 1");			
             CommonFunc.navBlog(this,this.category,this.symbol,this.objectId);
-		}
+		},
+
+        onClickRating: function(dicParam) {
+            logger.log.debug('AssetReviewList.onClickRating : dicParam = ',dicParam);
+            
+            let tweet = dicParam.data;
+            tweet.value = -1;
+            if (dicParam.value=="like") {
+                tweet.value = 1;
+            }
+
+            let dic_param = { id:tweet.id, value:tweet.value, method: 'vote' };
+            const _this = this;
+            tweet.vote(dic_param).then(response => {
+                logger.log.debug('onClickReviewRating - ',response);
+                dicParam._this.setColor(dicParam.value);
+                //CommonFunc.showOkMessage(_this,"Review voted");
+            }).catch( err => {
+                CommonFunc.showErrorMessage(_this,"Tweet voting error");
+            });
+
+            //this.$emit("onClickRating",review);
+        },        
 
 	},
 };

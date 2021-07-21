@@ -143,6 +143,11 @@ const routes = [
 			component: () => import("pages/vcportfolio/VCPortfolioView.vue")
     },
 		{
+			name: "tweet_detail",
+			path: "tweet_detail",
+			component: () => import("pages/tweet/TweetDetailView.vue")
+		},
+		{
 			name: "tweet_writer",
 			path: "tweet_writer",
 			component: () => import("pages/writer/TweetWriterView.vue")

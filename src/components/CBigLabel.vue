@@ -38,8 +38,13 @@
                 <q-icon class="q-pt-xs widget-value-icon" size="40px" :name="v_icon(valueRet)"/>
                 <span class="pl-1"><span>{{valueRet}}%</span></span>
             </div>
+
+            <div v-if="extraCaption && (extraCaption.length>0)">
+                <span class="text-grey-1" :class="extraClass">{{extraCaption}}</span>
+            </div>
+
             <div v-if="updatedAt && (updatedAt.length>0)">
-                <span class="gCaption text-grey-1">{{updatedAt}}</span>
+                <span class="gCaption text-grey-1">updated at {{updatedAt}}</span>
             </div>
         </div>
     </div>
@@ -73,6 +78,12 @@ export default {
             default:0,
         },
         updatedAt:{
+            default:''
+        },
+        extraCaption: {
+            default:''
+        },
+        extraClass: {
             default:''
         },
         moreButton: {

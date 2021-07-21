@@ -578,6 +578,13 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);    
     }
 
+    static navTweetDetail(a_this,id) {
+        logger.log.debug("CommonFunc.navTweetDetail - ",a_this.$route);
+        store.getters.nav.add(a_this.$route);
+        let dic_param = { name:'tweet_detail', path:'tweet_detail', query: {id:id} };            
+        a_this.$router.push(dic_param);
+    }
+
     static navPortfolio(a_this,username,portfolio_id) {
         store.getters.nav.add(a_this.$route);
         let dic_param = { 
@@ -1414,7 +1421,7 @@ export default class CommonFunc {
     }
 
     static updateRatingCount(_this,response) {
-        if (response.data.status=="ok") {
+        if ((response.data.status=="ok") || (response.data.ret==0) ) {
             _this.like_count = response.data.data.like_count;
             _this.dislike_count = response.data.data.dislike_count;
         }

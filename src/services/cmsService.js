@@ -33,7 +33,10 @@ export default class CMSAPI {
 			url = url + "?user_id=" + reqParam.user_id;
 		} else if (reqParam.hasOwnProperty("page_id") && reqParam.page_id) {
 			url = url + "?page_id=" + reqParam.page_id;
+		} else if (reqParam.hasOwnProperty("asset_id") && reqParam.asset_id) {
+			url = url + "?asset_id=" + reqParam.asset_id;
 		}
+
 
 		//logger.log.debug("CMSService.getBlogData : reqParam1=", reqParam);
 
@@ -123,6 +126,23 @@ export default class CMSAPI {
 		});
   	}
 
+	static getTweet(dic_param, func, funcErr) {
+		let a_method = "/api/twitter/tweets/";
+		if (dic_param.hasOwnProperty('id')) {
+			a_method += "?id=" + dic_param.id;
+		} else if (dic_param.hasOwnProperty('asset_id')) {
+			a_method += "?asset_id=" + dic_param.asset_id;
+		}
+		let url = CMSAPI.getUrl(MoaConfig.urls.cms, a_method);
+		callCMSAPI("GET", url, {}, dic_param)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+  	}
+
 	static postTweet(dic_param, func, funcErr) {
 		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/twitter/tweets/");
 		callCMSAPI("POST", url, {}, dic_param)
@@ -134,16 +154,81 @@ export default class CMSAPI {
 		});
   	}
 
-  static postCommentFeedback(dic_param, func, funcErr) {
-    let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/comments/api/feedback/");
-    callCMSAPI("POST", url, {}, dic_param)
-      .then(response => {
-        func(response);
-      })
-      .catch(err => {
-        funcErr(err);
-      });
-  }
+	static voteTweet(dic_param, func, funcErr) {
+		let url = CMSAPI.getUrl(
+		MoaConfig.urls.cms,
+		"/api/twitter/tweets/" + dic_param.id + "/" + dic_param.method + "/"
+		);
+		callCMSAPI("POST", url, {}, dic_param)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+	}
+
+	static getTweetComment(dic_param, func, funcErr) {
+    	let url = CMSAPI.getUrl(
+      		MoaConfig.urls.cms,
+      		"/api/twitter/twcomments/?tweet_id=" + dic_param.tweet_id
+    	);
+
+		url = CommonFunc.addLimitOffsetToQuery(url, dic_param);
+		
+    	callCMSAPI("GET", url, {}, dic_param)
+      	.then(response => {
+        	func(response);
+      	})
+      	.catch(err => {
+        	funcErr(err);
+      	});
+  	}
+
+  	static postTweetComment(dic_param, func, funcErr) {
+		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/twitter/twcomments/");
+		callCMSAPI("POST", url, {}, dic_param)
+	  	.then(response => {
+			func(response);
+	  	})
+	  	.catch(err => {
+			funcErr(err);
+	  	});
+  	}
+	  
+  	static deleteTweetComment(dic_param, func, funcErr) {
+		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/twitter/twcomments/"+dic_param.id + "/");
+		callCMSAPI("DELETE", url, {}, dic_param)
+	  	.then(response => {
+			func(response);
+	  	})
+	  	.catch(err => {
+			funcErr(err);
+	  	});
+  	}
+
+  	static voteTweetComment(dic_param, func, funcErr) {
+		let url = CMSAPI.getUrl(MoaConfig.urls.cms, 
+			"/api/twitter/twcomments/" + dic_param.id + "/" + dic_param.method + "/");
+		callCMSAPI("POST", url, {}, dic_param)
+	  	.then(response => {
+			func(response);
+	  	})
+	  	.catch(err => {
+			funcErr(err);
+	  	});
+  	}
+
+	static postCommentFeedback(dic_param, func, funcErr) {
+		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/comments/api/feedback/");
+		callCMSAPI("POST", url, {}, dic_param)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+	}
 
   static getComments(dic_param, func, funcErr) {
     let a_method =
@@ -228,8 +313,8 @@ export default class CMSAPI {
 
 	static voteAssetReview(dic_param, func, funcErr) {
 		let url = CMSAPI.getUrl(
-		MoaConfig.urls.cms,
-		"/api/review/reviews/" + dic_param.id + "/" + dic_param.method + "/"
+			MoaConfig.urls.cms,
+			"/api/review/reviews/" + dic_param.id + "/" + dic_param.method + "/"
 		);
 		callCMSAPI("POST", url, {}, dic_param)
 		.then(response => {
@@ -243,7 +328,7 @@ export default class CMSAPI {
 	static getAssetReviewStat(reqParam, func, funcErr) {
 		let url = CMSAPI.getUrl(
 			MoaConfig.urls.cms,
-			"/api/review/reviewstat?category="+reqParam.category			
+			"/api/review/reviewstat?asset_id="+reqParam.asset_id
 		);
 		
 		callCMSAPI("GET", url, {}, reqParam)

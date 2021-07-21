@@ -14,13 +14,13 @@
             </div>
 -->
         </div>
-
+<!--
         <div class="q-mb-xl">
             <CTitle ttype='subtitle' title="Basic Info" desc=""></CTitle>
             <InfoTable ref="infoTable" :data="v_asset" />
         </div>
-
-        <q-separator class="gSeparator" />
+        <q-separator class="gSeparator" />        
+-->
 
         <div class="q-my-xl">
             <CTitle ttype='subtitle' title="Price Chart" desc=""></CTitle>
@@ -141,7 +141,7 @@ export default {
         refresh: function(offset=360) {
             logger.log.debug('AssetDetailView.Refresh - ',offset);
 
-            this.loadCryptoBaseinfo();
+            //this.loadCryptoBaseinfo();
             this.loadCryptoPriceHistory(offset);
         },
         setAsset(query) {

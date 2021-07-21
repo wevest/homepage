@@ -484,3 +484,81 @@ export class QuestionCommentListModel extends baseCollection {
         }        
     }    
 }
+
+
+export class TweetCommentModel extends QuestionCommentModel {
+
+    vote(dic_param) {
+        const _this=this;
+        
+        dic_param.id = this.id;
+        dic_param.token = store.getters.token;
+        return new Promise(function(resolve,reject) {
+            CMSAPI.voteTweetComment(dic_param,function(response) {
+                //_this.g_data = response.data;
+                logger.log.debug("TweetCommentModel.vote - response",response);
+
+                _this.like_count = response.data.data.like_count;
+                _this.dislike_count = response.data.data.dislike_count;
+
+                resolve(response);
+
+            },function(err) {
+                logger.log.error("TweetCommentModel.vote - error",err);
+                reject(err);
+            });
+        });
+    }
+
+
+    remove() {
+        let dic_param = { id:this.id, token:store.getters.token};
+        return new Promise(function(resolve,reject) {
+            logger.log.debug('TweetCommentModel.delete - ',dic_param);
+            CMSAPI.deleteTweetComment(dic_param,function(response) {                
+                resolve(response);
+            }, function(error) {
+                reject(error);
+            });
+        });
+    }
+
+}
+
+
+export class TweetCommentListModel extends baseCollection {
+
+    assign(comments) {
+        for (let index=0; index<comments.length;index++) {
+            let a_comment = new TweetCommentModel();
+            a_comment.assign(comments[index]);
+            this.add(a_comment);
+        }
+    }
+
+    load(tweet_id,a_offset,a_limit) {
+        const _this = this;
+
+        return new Promise(function(resolve,reject) {
+            let dic_param = {tweet_id:tweet_id, limit:a_limit, offset:a_offset};
+            //logger.log.debug("AnswerCommentListModel.load - dic_param=",dic_param);
+
+            CMSAPI.getTweetComment(dic_param,function(response) {
+                //logger.log.debug("AnswerCommentListModel.load - response",response.data);
+                _this.assign(response.data.results);
+                resolve(response);
+            },function(err) {
+                logger.log.error("TweetCommentListModel.load - error",err);
+                reject(err);
+            });
+        });            
+
+    }
+
+    remove(comments,id) {
+        const index = _.findIndex(comments,{id:id});
+        if (index>-1) {
+            comments.splice(index,1);
+        }        
+    }    
+}

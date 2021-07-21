@@ -16,10 +16,9 @@
                         </div>                        
                         <div class="gCaption">
                             <WSubinfo 
-                                :username="a_portfolio.name" 
-                                :pub_date="a_portfolio.created_at" 
-                                :like_count="a_portfolio.like_count" 
-                                :dislike_count="a_portfolio.dislike_count" />
+                                :username="a_portfolio.name"                                 
+                                like_count="-1" 
+                                dislike_count="-1" />
                         </div>
                     </div>
                     <q-space />
