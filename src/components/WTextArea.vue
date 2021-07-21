@@ -60,7 +60,7 @@ export default{
         },
         customStyle: {
             type:String,
-            default:"border:none;"
+            default:"border:none;background-color:#f2f2f2;"
         },
         customClass: {
             type:String,

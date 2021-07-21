@@ -8,6 +8,7 @@ import CMSAPI from 'src/services/cmsService';
 import AuthService from 'src/services/authService';
 
 import {baseCollection} from 'src/models/baseModel';
+import {AssetModel} from 'src/models/AssetModel';
 import {AnswerCommentListModel, AnswerCommentModel,QuestionCommentListModel, QuestionCommentModel, CommentListModel} from 'src/models/CommentModel';
 
 
@@ -17,6 +18,7 @@ export class PostPageModel {
     api_tags = null;
     api_owner = {id:null, avatar:'', avatar_thumb:'', username:null, first_name:'', last_name:'', biography:''};
 
+    
     body = null;
     text = null;
     dislike_count=null;
@@ -45,7 +47,8 @@ export class PostPageModel {
     reward=0;
     parent_id=null;
     question_id=null;
-
+    asset_id=null;
+    
     closed=false;
     description=null;
     total_points=null;
@@ -240,9 +243,9 @@ export class AssetReviewPageModel {
     like_count=null;    
     dislike_count=null;    
     owner=null;
-    object_id=null;
+    object_id=null;    
     average_rating=null;
-
+    asset=new AssetModel();
     //computed fields
     is_owner=null;
 

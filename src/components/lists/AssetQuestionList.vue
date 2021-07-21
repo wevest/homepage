@@ -92,7 +92,7 @@ export default {
 			type:String,
 			default: ""
 		},
-		objectId: {
+		assetId: {
 			required:true,
 			default:-1
 		}
@@ -171,7 +171,7 @@ export default {
         },
 
         onClickLoadMore: function() {                        
-            let dic_param = {'parent_id':this.objectId};
+            let dic_param = {'asset_id':this.assetId};
 			dic_param.limit = this.$refs.loadMore.v_next.limit;
 			dic_param.offset = this.$refs.loadMore.v_next.offset;
             
@@ -187,7 +187,7 @@ export default {
 
         onClickMoreQuestion:function() {
             logger.log.debug('AssetQuestionList.onClickMoreQuestion');
-            CommonFunc.navQA(this,this.symbol,this.objectId);
+            CommonFunc.navQA(this,this.symbol,this.assetId);
         }
 
     }

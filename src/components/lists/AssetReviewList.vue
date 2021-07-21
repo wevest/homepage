@@ -20,14 +20,15 @@
                 v-if="index<v_max_length"
             >
                 <q-item-section class="reviewAvatar" avatar top>
-                    <WAvatar :avatar="a_review.user.avatar_thumb" :username="a_review.user.username" />                    
+                    <WAvatar :avatar="a_review.user.avatar_thumb" :username="a_review.user.username" />
                 </q-item-section>
 
                 <q-item-section top>
                     <q-item-label>
                         <div class="row">
-                            <div>
-                                <span class="gUserNameSM"> {{a_review.user.username}}</span>
+                            <div class="q-px-sm" :style="v_rating_color(a_review)">
+                                <span class="gUserNameSM text-white"> {{a_review.user.display_name}}</span>
+                                &nbsp;&nbsp;<q-icon name="arrow_circle_up" />
                             </div>
                             <q-space />
                             <div>
@@ -44,7 +45,7 @@
                     <q-item-label>
 
                         <WSubinfo 
-                            :pub_date="a_review.creation_date" :rating="a_review.average_rating"
+                            :pub_date="a_review.creation_date" 
                             like_count="-1" dislike_count="-1" read_count="-1" />
                     
                     </q-item-label>  
@@ -74,7 +75,7 @@
 
         <div ref="reviewContainer">
             <AssetReviewForm ref="reviewEditor" 
-                :category="category" :objectId="objectId"
+                :category="category" :assetId="assetId"
                 @onClickReviewSave="onClickReviewSave" 
             /> 
         </div>
@@ -128,14 +129,24 @@ export default {
             type:String,
             default: ''
         },
-        objectId: {
+        assetId: {
             required: true,
             type: Number,
             default:-1
         },
     },
 
-    computed: {},
+    computed: {
+        v_rating_color() {
+            return (review) => {
+                //logger.log.debug("review=",review.average_rating);
+                if (review.average_rating==1) {
+                    return "background-color:#ff0000;"
+                }
+                return "background-color:#0000ff;"
+            }
+        }
+    },
 
     data () {
         return {
@@ -251,7 +262,7 @@ export default {
             logger.log.debug('AssetReviewList.onClickLoadMore');
             this.$emit("onClickLoadmore",{});
 
-            let dic_param = {'category':this.symbol, 'object_id':this.objectId};
+            let dic_param = {'category':this.symbol, 'object_id':this.assetId};
 			dic_param.limit = this.$refs.loadMore.v_next.limit;
 			dic_param.offset = this.$refs.loadMore.v_next.offset;
 			this.update(dic_param);
@@ -296,7 +307,7 @@ export default {
             logger.log.debug('AssetReviewList.onClickMoreReview');
 
             store.getters.nav.add(this.$route);
-            CommonFunc.navReview(this,this.category,this.objectId);
+            CommonFunc.navReview(this,this.category,this.assetId);
         }
     }
 }

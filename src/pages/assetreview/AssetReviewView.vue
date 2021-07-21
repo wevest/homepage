@@ -12,7 +12,7 @@
         <div>
 
             <PriceForecastForm ref="reviewForm" 
-                :category="g_asset.symbol" :objectId="g_asset.object_id"
+                :category="g_asset.symbol" :assetId="g_asset.object_id"
                 @onClickReviewSave="onClickReviewSave" 
                 @onEditorFocus="onFocusReviewForm"
                 @onEditorFocusOut="onFocusoutReviewForm"
@@ -20,7 +20,7 @@
             </PriceForecastForm>                
 
             <AssetReviewList ref="reviewList" 
-                :category="g_asset.symbol" :objectId="g_asset.object_id"
+                :category="g_asset.symbol" :assetId="g_asset.object_id"
                 moreCaption="" maxLength="20000" title="Review List"
                 @onClickLoadmore="onClickLoadmore"> 
             </AssetReviewList>
@@ -119,7 +119,7 @@ export default {
             }
 
             this.loadAssetReviewData();            
-            this.loadAssetReviewStat();
+            //this.loadAssetReviewStat();
         },
 
         loadAssetReviewStat: function() {
@@ -134,7 +134,7 @@ export default {
         },
 
         loadAssetReviewData: function() {
-            let dic_param = {'category':this.g_asset.symbol, 'object_id':this.g_asset.object_id};
+            let dic_param = {asset_id:this.g_asset.object_id};
             this.$refs.reviewList.update(dic_param);
         },
 

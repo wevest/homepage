@@ -56,7 +56,7 @@
         <div class="col">
                                     
             <AssetQuestionList ref="questionList" title="Question List" maxLength="10" moreCaption="More"
-                :symbol="v_asset.symbol" :objectId="v_asset.object_id"
+                :symbol="v_asset.symbol" :assetId="v_asset.object_id"
                 @onClickQuestionRating="onClickQuestionRating"
             >
             </AssetQuestionList>
@@ -66,7 +66,7 @@
         <div class="col">                
             <AssetReviewList ref="reviewList" 
                 moreCaption="More" maxLength="10" title="Price Forecast"
-                :category="v_asset.symbol" :objectId="v_asset.object_id" 
+                :category="v_asset.symbol" :assetId="v_asset.object_id" 
                 @onClickRating="onClickReviewRating"> 
             </AssetReviewList>
         </div>
@@ -289,12 +289,12 @@ export default {
 
 
         loadAssetReviewData: function() {
-            let dic_param = {'category':this.v_asset.symbol, 'object_id':this.v_asset.object_id};
+            let dic_param = {'asset_id':this.v_asset.object_id};
             this.$refs.reviewList.update(dic_param);
         },
 
         loadAssetQuestionData: function() {
-            let dic_param = {'category':this.v_asset.symbol};
+            let dic_param = {'asset_id':this.v_asset.object_id};
             this.$refs.questionList.update(dic_param);
         },
 

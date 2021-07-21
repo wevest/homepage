@@ -198,6 +198,7 @@ export default class User {
     first_name = null;
     last_name = null;
     biography=null;
+    display_name=null;
 
     coin=null;
     dislike_count=null;
@@ -209,6 +210,7 @@ export default class User {
     follower_count=0;
     following_count=0;
     is_following=false;
+    default_lang=null;
 
     portfolio = new PortfolioListModel();
 
@@ -231,7 +233,7 @@ export default class User {
         
         this.first_name = CommonFunc.safeGetKeyValue(obj,'first_name');
         this.last_name = CommonFunc.safeGetKeyValue(obj,'last_name');
-        this.title = CommonFunc.safeGetKeyValue(obj,'title');
+        this.display_name = CommonFunc.safeGetKeyValue(obj,'display_name');
         this.biography = CommonFunc.safeGetKeyValue(obj,'biography');
         this.avatar = CommonFunc.safeGetKeyValue(obj,'avatar');
         this.avatar_thumb = CommonFunc.safeGetKeyValue(obj,'avatar_thumb');
@@ -239,6 +241,7 @@ export default class User {
         this.like_count = CommonFunc.safeGetKeyValue(obj,'like_count');
         this.dislike_count = CommonFunc.safeGetKeyValue(obj,'dislike_count');
         this.date_joined = CommonFunc.safeGetKeyValue(obj,'date_joined');
+        this.default_lang = CommonFunc.safeGetKeyValue(obj,'default_lang');
 
         this.follower_count = CommonFunc.safeGetKeyValue(obj,'follower_count');
         this.following_count = CommonFunc.safeGetKeyValue(obj,'following_count');
@@ -277,6 +280,7 @@ export default class User {
             staySignedIn:this.staySignedIn,
             loggedIn:this.loggedIn,
             email: this.email,
+            default_lang: this.default_lang,
             
             extra: Hasher.encode(this.username,this.password),
             token: Hasher.encode(this.username,this.token),          
@@ -293,6 +297,12 @@ export default class User {
         this.loggedIn = obj.loggedIn;
         this.email = obj.email;
         
+        if (obj.hasOwnProperty('default_lang')) {
+            this.default_lang = obj.default_lang;
+        } else {
+            this.default_lang = 'en';
+        }
+
         if (obj.hasOwnProperty('extra')) {
             this.password = Hasher.decode(this.username,obj.extra);
         } else {
@@ -490,9 +500,10 @@ export default class User {
             first_name:this.first_name,
             last_name:this.last_name,
             biography:this.biography,
-            title:this.title,
+            display_name:this.display_name,
             avatar:this.avatar,
             avatar_thumb:this.avatar_thumb,
+            default_lang:this.default_lang,
             token:store.getters.token
         };
         //dic_param.token = v_user.token;

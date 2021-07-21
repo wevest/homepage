@@ -3,9 +3,9 @@
 		<div>
 			<div class="q-pb-lg row" v-if="v_me.loggedIn">
 				<div class="q-pr-md">
-					<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
+					<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" :displayname="v_me.dispaly_name" />
 				</div>
-				<div class="gUserNameSM q-pt-md"> {{v_me.username}} 앞으로 가격이 오를까요? </div>
+				<div class="gUserNameSM q-pt-md"> {{v_me.display_name}} 앞으로 가격이 오를까요? </div>
 			</div>
 
 			<div class="row q-pa-md justify-center text-center">
@@ -13,7 +13,8 @@
 					<q-btn 
 						class="gRatingBtnMD" flat ripple
 						:class="v_color_like"                
-						icon="sentiment_very_satisfied" 
+						style="font-size: 2.4em;"
+						icon="arrow_circle_up" 
 						@click="onClickRate(1)" />
 					<div class="gRatingCountMD">
 						<span>{{v_likeCaption}}</span>
@@ -23,7 +24,8 @@
 					<q-btn
 						class="gRatingBtnMD" flat ripple
 						:class="v_color_dislike"
-						icon="sentiment_very_dissatisfied"
+						style="font-size: 2.4em;"
+						icon="arrow_circle_down"
 						@click="onClickRate(-1)" />
 					<div class="gRatingCountMD">
 						<span>{{v_dislikeCaption}}</span>
@@ -36,7 +38,7 @@
 				<WTextArea
 					ref="descText"				
 					hint="why do you think like that?"
-					v-model="v_comments"
+					v-model="v_review.content"
 					:rows="v_rows"
                     @onFocus="onFocus"
                     @onFocusOut="onFocusOut"
@@ -86,7 +88,7 @@ export default {
             type:String,
             default: ''
         },
-        objectId: {
+        assetId: {
             required: false,
             type: Number,
             default:-1
@@ -113,7 +115,7 @@ export default {
 	},
 	data() {
 		return {
-            v_review: null,
+            v_review: new AssetReviewPageModel(),
 
 			v_comments: "",
 			v_style: "",
@@ -126,6 +128,8 @@ export default {
             v_color_dislike:'',
 
 			v_rows: "1",
+			
+			
 			v_rating: 5,
 			v_error: {
 				error: false,
@@ -144,6 +148,7 @@ export default {
 	methods: {
 		prepare() {
 			//logger.log.debug("Comment-Form.prepare : v_me=",this.v_me);
+			this.$refs.descText.setStyle("border:none;");
 			if (this.v_me.loggedIn) {
 				this.$refs.descText.setHint("Please type your review");
 				this.$refs.descText.setEnabled(true);
@@ -162,8 +167,8 @@ export default {
 		},
 
         clear() {
-            this.v_comments = "";
-            this.v_rating = 5;
+            this.v_review.content = "";
+            this.v_review.average_rating = 0;
 			this.$refs.descText.setStyle("border:none;");
             this.$refs.descText.setValue(this.v_comments);
 			this.$refs.descText.setRows(1);
@@ -180,6 +185,7 @@ export default {
 
 		activate() {
 			// await this.$nextTick()
+			this.$refs.descText.setStyle("border:none;background-color:#f2f2f2;");
 			if (this.$refs.contentInput) {
 				this.$refs.contentInput.focus();
 			} else if (this.$el.querySelector("#contentInput")) {
@@ -190,9 +196,11 @@ export default {
 		validate() {
 			console.log("AssetReviewForm.validate");
 
-			if (CommonFunc.isEmptyObject(this.v_comments)) {
-				this.v_error.error = true;
-				this.v_error.msg = "Please type something";
+			if (CommonFunc.isEmptyObject(this.v_review.average_rating)) {
+				
+				const a_dialog = store.getters.components.getComponent('alertDialog');
+				a_dialog.show('Error','Please select your price');
+
 				return false;
 			}
             return true;
@@ -201,12 +209,12 @@ export default {
         save: function() {
             const _this = this;
             
-			let tags = [this.category,CONST.REVIEW_CATEGORY + this.category];
+			//let tags = [this.category,CONST.REVIEW_CATEGORY + this.category];
 			let dic_param = {
-				object_id: 1,
-                category: this.category,
-                review: CommonFunc.addHashTag(this.v_comments,tags),
-				rating: this.v_rating,
+				asset_id: this.assetId,
+                review: this.v_review.content,
+				rating: this.v_review.average_rating,
+				category: this.category
 			};
             
             let a_review = this.v_review;
@@ -239,9 +247,9 @@ export default {
 		 */
 		onClickSubmit() {
 
-            this.v_comments = this.$refs.descText.getValue();
+            this.v_review.content = this.$refs.descText.getValue();
 			if (! this.validate()) {
-                this.$refs.descText.setErrorMessage('Please type your review');
+                //this.$refs.descText.setErrorMessage('Please type your review');
 				return;
             }
 			this.$refs.descText.setErrorMessage(null);
@@ -253,7 +261,7 @@ export default {
 			if (! this.v_me.isLoggedIn()) {
 				return;
 			}
-			this.$refs.descText.setStyle("border:1px solid #e0e0e0;");
+			this.$refs.descText.setStyle("border:1px solid #e0e0e0;background-color:#f2f2f2;");
 			this.$refs.descText.setRows(7);
 			this.$emit("onEditorFocus", event);
 		},
@@ -282,7 +290,14 @@ export default {
 		},
 
 		onClickRate(value) {
-
+			this.v_review.average_rating = value;
+			if (value==1) {
+				this.v_color_like="text-red";
+				this.v_color_dislike="";
+			} else {
+				this.v_color_like="";
+				this.v_color_dislike="text-blue";
+			}
 		}
 	},
 };

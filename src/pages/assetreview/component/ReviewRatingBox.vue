@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="reviews.stat">
         <CTitle ttype='subtitle' :title="v_title" desc=""></CTitle>          
         <div class="row q-my-md">
             <div class="col-6 q-px-sm q-pr-md text-center">

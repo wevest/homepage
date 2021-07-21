@@ -151,10 +151,12 @@ export const callCMSAPI = async(call_method,url,config,req_params) => {
         //logger.log.debug("callCMS -- 1");
         if (url.indexOf('/auth/token/login/')==-1) {
             //logger.log.debug("callCMS -- 2, url=",url);
+
             if (store.getters.me.isLoggedIn()) {
                 //logger.log.debug("callCMS -- 3");
                 config.headers['Authorization'] = 'Token ' + store.getters.me.token;
-            }    
+            }        
+
         }
 
         config['url'] = url;
