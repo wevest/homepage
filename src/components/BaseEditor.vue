@@ -157,7 +157,7 @@ export default {
                 tags: v_post.tags, 
                 category_id: v_post.category, 
                 content_type: v_post.content_type,
-                parent_id: v_post.parent_id,
+                asset_id: v_post.asset_id,
                 token:MoaConfig.auth.token,
                 text: CommonFunc.addHashTag(a_text,a_tag)
             };

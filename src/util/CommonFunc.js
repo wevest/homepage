@@ -634,7 +634,7 @@ export default class CommonFunc {
 
     static navQA(a_this,symbol,id) {
         let dic_param = {
-            name: "assetqa",path: "assetqa", query: {symbol:symbol, parent_id:id},
+            name: "assetqa",path: "assetqa", query: {symbol:symbol, id:id},
         };
         store.getters.nav.add(a_this.$route);
         a_this.$router.push(dic_param);

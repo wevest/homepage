@@ -36,7 +36,7 @@
             <q-card-section>
                 <div :class="v_class">
                     <div class="gUserNameLG UserName">
-                        {{ v_user.title }}
+                        {{ v_user.display_name }}
                         <q-badge align="top" color="white" @click="onClickDisplayName" v-if="isOwner">
                             <q-icon style="font-size: 1.4em;" color="primary" name="mode_edit" class="q-ml-sm q-mt-xs" />
                         </q-badge>
@@ -72,6 +72,18 @@
                         </div>
                         <q-input class="gParagraphSM" filled readonly type="textarea" v-model="v_user.biography" />
                     </div>
+                    <div class="q-mt-md" v-if="isOwner">
+                        <div class="gTextSubTitle">
+                            Language
+                            <q-badge align="top" color="white" @click="onClickLanguage" v-if="isOwner">
+                                <q-icon color="primary" name="mode_edit" class="" />                        
+                            </q-badge>
+                        </div>
+
+                        <q-select class="gParagraphSM" filled :readonly="v_select_lang"
+                            v-model="v_user.default_lang" :options="v_lang" @input="onSelectLang" />
+                    </div>
+
                 </div>
 
     <!--                
@@ -163,6 +175,8 @@ export default {
             v_loading_change: false,
 
             v_labels: {'submit': 'Upload', 'cancel': 'Cancel'},
+            v_lang: ['en','kr'],
+            v_select_lang:true
         }
     },
     mounted: function() {
@@ -173,16 +187,16 @@ export default {
     },
 
     methods: {        
-        update: function(user) {
+        update(user) {
             logger.log.debug("ProfileBox.update : user=",user);
             this.setUser(user);
         },
 
-        setUser: function(user) {
+        setUser(user) {
             this.v_user = user;
         },
 
-        updateUserProfile: function() {
+        updateUserProfile() {
             const _this = this;
             
             logger.log.debug("ProfileView.updateUserProfile");
@@ -386,6 +400,16 @@ export default {
             this.$refs.dialogEdit.setMaxlength(3000);
             this.$refs.dialogEdit.show('biography','textarea',this.v_user.biography);
         },
+        onClickLanguage() {
+            logger.log.debug("ProfileView.onClickLanguage : ",this.v_edit);
+            this.v_select_lang = false;
+        },
+        onSelectLang(value) {
+            logger.log.debug("ProfileView.onSelectLang : ",value, this.v_user.default_lang);
+            
+            this.v_select_lang = true;
+            this.updateUserProfile(this.v_user);            
+        },
 
         onSaveEdit(dicParam) {
             logger.log.debug("ProfileView.onSaveEdit : ",dicParam);
@@ -393,7 +417,7 @@ export default {
             if (dicParam.tag=="biography") {
                 this.v_user.biography = dicParam.value;
             } else if (dicParam.tag=="display_name") {
-                this.v_user.title = dicParam.value;
+                this.v_user.display_name = dicParam.value;
             }
             this.updateUserProfile(this.v_user);
         }

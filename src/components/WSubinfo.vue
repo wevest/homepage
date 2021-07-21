@@ -2,6 +2,7 @@
 
     <div class="row q-gutter-md gCaption">
         <div v-if="v_rating>-1">
+<!--            
             <q-rating                        
                 dense
                 class="rating-icon" 
@@ -11,6 +12,10 @@
                 icon-selected="star" 
                 color="red-5"
             />                        
+-->
+            <q-icon name="arrow_circle_up" v-if="v_rating==1" />
+            <q-icon name="arrow_circle_down" v-if="v_rating==-1" />
+
         </div>
         <div v-if="(username) && (username.length>0)">
             {{ username }}

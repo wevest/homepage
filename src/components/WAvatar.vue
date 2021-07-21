@@ -22,6 +22,7 @@ import logger from "src/error/Logger";
 export default {
     name: 'WAvatar',
     props: {
+        user: { default: null},
         avatar: {required:false, type:String},
         username: {required:false, type:String},
     },

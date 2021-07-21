@@ -15,7 +15,7 @@
         <div>
 
             <AssetQuestionList ref="questionList" title="Question List" maxLength="20000" moreCaption=""
-                :symbol="g_asset.symbol" :objectId="g_asset.object_id"
+                :symbol="g_asset.symbol" :assetId="g_asset.object_id"
                 @onClickQuestionRating="onClickQuestionRating">
             </AssetQuestionList>
 
@@ -78,7 +78,7 @@ export default {
         this.validateQuery();
         
         this.g_asset.symbol = this.$route.query.symbol;
-        this.g_asset.object_id = parseInt(this.$route.query.parent_id);
+        this.g_asset.object_id = parseInt(this.$route.query.id);
     },
     mounted: function() {
         //this.g_asset.symbol = 'BTC';
@@ -94,7 +94,7 @@ export default {
     methods: {
         validateQuery() {
             
-            if (! CommonFunc.isEmptyObject(this.$route.query.parent_id)) {
+            if (! CommonFunc.isEmptyObject(this.$route.query.id)) {
                 if (! CommonFunc.isEmptyObject(this.$route.query.symbol)) {
                     return;
                 }                
@@ -120,7 +120,7 @@ export default {
         },
 
         loadAssetQuestionData: function() {
-            let dic_param = {'category':this.g_asset.symbol};
+            let dic_param = {'asset_id':this.g_asset.object_id};
             this.$refs.questionList.update(dic_param);
         },
 
@@ -151,7 +151,7 @@ export default {
 
             let a_post = new QuestionPageModel();
             a_post.category = this.g_asset.symbol;
-            a_post.parent_id = this.g_asset.object_id;
+            a_post.asset_id = this.g_asset.object_id;
             a_post.setContentType(CONST.CONENT_TYPE_ASSET_QUESTION);
             
             store.getters.nav.add(this.$route);
