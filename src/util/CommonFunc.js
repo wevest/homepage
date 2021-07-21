@@ -640,6 +640,14 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);
     }
 
+    static navTweetWriter(a_this,asset_id) {
+        let dic_param = {
+            name: "tweet_writer",path: "tweet_writer", query: { id: asset_id },
+        };
+        store.getters.nav.add(a_this.$route);
+        a_this.$router.push(dic_param);
+    }
+
     static navAsset(a_this,symbol,page_id) {
         logger.log.debug("CommonFunc.navAsset - ",symbol);
 

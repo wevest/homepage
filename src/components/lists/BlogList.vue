@@ -24,7 +24,7 @@
 					<q-item-label class="no-margin" lines="1">
 
 						<WSubinfo 
-							:username="a_post.api_owner.username" 
+							:username="a_post.api_owner.display_name" 
 							:pub_date="a_post.pub_date" 
 							:like_count="a_post.like_count" 
 							:dislike_count="a_post.dislike_count" />

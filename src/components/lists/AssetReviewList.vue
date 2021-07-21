@@ -26,10 +26,14 @@
                 <q-item-section top>
                     <q-item-label>
                         <div class="row">
-                            <div class="q-px-sm" :style="v_rating_color(a_review)">
+
+                            <div class="displayName q-px-md q-py-xs" :style="v_rating_color(a_review)">
                                 <span class="gUserNameSM text-white"> {{a_review.user.display_name}}</span>
-                                &nbsp;&nbsp;<q-icon name="arrow_circle_up" />
+                                &nbsp;<q-icon class="q-ml-xs text-white vertical-top" 
+                                    style="font-size: 1.5em;" 
+                                    :name="v_icon_name(a_review.average_rating)" />
                             </div>
+
                             <q-space />
                             <div>
                                 <WCommandBar :data="a_review" :isOwner="a_review.is_owner" 
@@ -144,6 +148,15 @@ export default {
                     return "background-color:#ff0000;"
                 }
                 return "background-color:#0000ff;"
+            }
+        },
+        v_icon_name() {
+            return (value) => {
+                //logger.log.debug("review=",review.average_rating);
+                if (value==1) {
+                    return "arrow_circle_up";
+                }
+                return "arrow_circle_down";
             }
         }
     },
@@ -315,6 +328,11 @@ export default {
 
 
 <style scope>
+.displayName {
+    border: none;
+    border-radius: 5px;
+}
+
 .reviewAvatar {     
     margin-top:-3px;    
  }

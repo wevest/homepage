@@ -2,7 +2,7 @@
 
     <div class="q-pa-md">
         <div>
-            <CTitle ttype='title' title="무엇이든 물고 뜯어요" desc=""></CTitle>
+            <CTitle ttype='title' :title="$t('page.assetqa.title')" :desc="$t('page.assetqa.desc')"></CTitle>
         </div>
 
         <div>
@@ -14,7 +14,7 @@
 
         <div>
 
-            <AssetQuestionList ref="questionList" title="Question List" maxLength="20000" moreCaption=""
+            <AssetQuestionList ref="questionList" :title="$t('page.assetqa.questionlist.title')" maxLength="20000" moreCaption=""
                 :symbol="g_asset.symbol" :assetId="g_asset.object_id"
                 @onClickQuestionRating="onClickQuestionRating">
             </AssetQuestionList>

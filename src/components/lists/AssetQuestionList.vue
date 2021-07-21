@@ -36,7 +36,7 @@
 					<q-item-label lines="1">
 
 						<WSubinfo 
-							:username="a_question.owner.username" 
+							:username="a_question.owner.display_name" 
 							:pub_date="a_question.pub_date" 
 							like_count="-1" 
 							dislike_count="-1" />
@@ -67,6 +67,8 @@ import LoadMore from "src/components/LoadMore";
 import CTitle from 'components/CTitle';
 
 import { PostPageModel, QuestionPageListModel } from "src/models/PageModel";
+
+
 
 export default {
     components: {

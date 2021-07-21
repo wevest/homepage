@@ -10,20 +10,20 @@
         </div>
 
         <div class="col">
-            <BlogList ref='blogList' title="Market Trend" maxLength="10" moreCaption="More" 
+            <BlogList ref='blogList' :title="$t('page.home.bloglist.title')" maxLength="10" moreCaption="More" 
                 category="news_market" symbol="" objectId="-1"></BlogList>
         </div>
 
         <div>
-            <PortfolioList ref="pfVC" title="Crypto VC Portfolio" maxLength="10" moreCaption=""></PortfolioList>
+            <PortfolioList ref="pfVC" :title="$t('page.home.portfoliolist.vc.title')" maxLength="10" moreCaption=""></PortfolioList>
         </div>
 
         <div>
-            <PortfolioList ref="pfROI" title="ROI Portfolio" maxLength="10" showDescription="0" moreCaption=""></PortfolioList>
+            <PortfolioList ref="pfROI" :title="$t('page.home.portfoliolist.roi.title')" maxLength="10" showDescription="0" moreCaption=""></PortfolioList>
         </div>
 
         <div>
-            <PortfolioList ref="pfRated" title="High Voted Portfolio" maxLength="10" showDescription="0" moreCaption=""></PortfolioList>
+            <PortfolioList ref="pfRated" :title="$t('page.home.portfoliolist.highvoted.title')" maxLength="10" showDescription="0" moreCaption=""></PortfolioList>
         </div>
 
 <!--
@@ -36,7 +36,7 @@
         </div>
 -->
         <div>
-            <UserFeedList ref='feedList' title="userfeed" 
+            <UserFeedList ref='feedList' :title="$t('page.home.userfeedlist.userfeed.title')" 
                 maxLength="10" moreCaption="More" user="v_me"></UserFeedList>
         </div>                                               
   </div> 

@@ -45,6 +45,10 @@
 -->
         <q-separator class="gSeparator" />
 
+        <WWriterButton placeholder="What's your in minds?" @onClickWrite="onClickWrite" />
+
+        <q-separator class="gSeparator" />
+
         <div>
             <BlogList ref='blogList' title="Market Trend" maxLength="10" moreCaption="More" 
                 :category="v_asset.object_category" :symbol="v_asset.symbol" :objectId="v_asset.object_id"
@@ -87,6 +91,7 @@ import {PostPageModel,QuestionPageModel,AssetReviewPageModel,AssetReviewPageList
 
 import CTitle from 'components/CTitle';
 import ChartTimeframe from 'components/ChartTimeframe';
+import WWriterButton from 'components/WWriterButton';
 
 import BlogList from 'components/lists/BlogList';
 import AssetQuestionList from 'components/lists/AssetQuestionList';
@@ -98,7 +103,6 @@ import CAssetChart from 'src/pages/asset/CAssetChart';
 import PriceSummaryBox from 'src/pages/asset/component/PriceSummaryBox';
 import PriceDataTable from 'src/pages/asset/component/PriceDataTable';
 import InfoTable from "src/pages/asset/component/InfoTable";
-
 
 
 
@@ -114,6 +118,7 @@ export default {
         AssetReviewList,
         InfoTable,
         BlogList,
+        WWriterButton
     },
     computed: {
         v_me() {
@@ -298,7 +303,6 @@ export default {
             this.$refs.questionList.update(dic_param);
         },
 
-
         loadBlogList: function() {
             console.log('AssetView.loadBlogList - ',this.v_asset.object_category);
             this.$refs.blogList.updateByCategory(this.v_asset.object_category);
@@ -448,7 +452,13 @@ export default {
             logger.log.debug('AssetView.onClickPrice');
             store.getters.nav.add(this.$route);
             CommonFunc.navAssetDetail(this,this.v_asset.symbol,this.v_asset.object_id);
-        }
+        },
+
+        onClickWrite: function() {
+            logger.log.debug('AssetView.onClickWrite');
+            CommonFunc.navTweetWriter(this,this.v_asset.object_id)
+        },
+
     },
 
 }

@@ -155,4 +155,45 @@ export default {
 			future: "선물",
 		},
 	},
+	page: {
+		home:{
+			bloglist: {
+				title:'마켓트랜드'
+			},
+			portfoliolist: {
+				vc: {
+					title:'크립토 VC 포트폴리오',
+					desc: ''
+				},
+				roi: {
+					title:'수익율이 높은 포트폴리오',
+					desc:''
+				},
+				highvoted: {
+					title:'인기 많은 포트폴리오',
+					desc:''
+				}
+			},
+			userfeedlist: {
+				userfeed: {
+					title:'사용자 피드',
+					desc:''
+				}
+			}
+		},
+		assetqa: {
+			title: '무엇이든 물어보세요',
+			desc: '궁금한 것을 질문하세요',
+			questionlist : {
+				title:'질문리스트',
+			}
+		},
+		//page.profile.title
+		profile: {
+			title:'프로파일',
+			desc:''
+		}
+	}
+
+	
 };

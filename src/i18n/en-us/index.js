@@ -15,4 +15,12 @@ export default {
 			world: "Market Index",
 		},
 	},
+	page: {
+		home:{
+			bloglist: {
+				title:'Market Trend'
+			}
+		}
+	}
+	
 };

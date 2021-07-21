@@ -12,7 +12,7 @@
                     </div>
                     <div class="boxInfo q-pt-md" @click="onClickPortfolio(a_portfolio)">
                         <div class="gListTitle">
-                            <span>{{v_shorten_name(a_portfolio.api_user.username,13)}}</span>
+                            <span>{{v_shorten_name(a_portfolio.api_user,13)}}</span>
                         </div>                        
                         <div class="gCaption">
                             <WSubinfo 
@@ -100,8 +100,12 @@ export default {
             };
         },
         v_shorten_name() {
-            return (value,len) => {
-                return CommonFunc.shortenString(value,len);
+            return (user,len) => {
+                let a_name = user.display_name;
+                if (CommonFunc.isEmptyObject(a_name)) {
+                    a_name = user.username;
+                }
+                return CommonFunc.shortenString(a_name,len);
             };
         },
         v_color() {

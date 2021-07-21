@@ -2,7 +2,7 @@
     <div class="q-pa-md">
 
         <div class="q-mt-md q-mb-sm">
-            <CTitle title="$t('page.profile.title')" desc="$t('page.profile.desc')"></CTitle>
+            <CTitle :title="$t('page.profile.title')" :desc="$t('page.profile.desc')"></CTitle>
         </div>
 
         <ProfileBox ref="profileBox" :user="v_user" />

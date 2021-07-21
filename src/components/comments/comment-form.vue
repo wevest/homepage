@@ -6,7 +6,7 @@
 				<div class="commentWriterIcon">
 					<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" />
 				</div>
-				<div class="gUserNameSM q-ml-md q-mt-md"> {{v_me.username}} </div>
+				<div class="gUserNameSM q-ml-md q-mt-md"> {{v_me.display_name}} </div>
 			</div>
 
 			<div :class="v_text_class">
@@ -167,7 +167,7 @@ export default {
 		prepare() {
 			//logger.log.debug("Comment-Form.prepare : v_me=",this.v_me);
 			if (this.v_me.loggedIn) {
-				const msg = this.v_me.username + "    " + this.hint;
+				const msg = this.v_me.display_name + "    " + this.hint;
 				this.$refs.descText.setHint(msg);
 				this.$refs.descText.setEnabled(true);
 			} else {
