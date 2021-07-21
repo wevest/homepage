@@ -2,7 +2,7 @@
     <div class="q-pa-md">
 
         <div class="q-mt-md q-mb-sm">
-            <CTitle title="$t('page.profile.title')" desc="$t('page.profile.desc')"></CTitle>
+            <CTitle :title="$t('page.profile.title')" :desc="$t('page.profile.desc')"></CTitle>
         </div>
 
         <ProfileBox ref="profileBox" :user="v_user" />
@@ -66,7 +66,7 @@
         <q-separator class="gSeparator" />
 
         <div>
-            <CTitle ttype="subtitle" title="$t('page.profile.portfolio')" desc="$t('page.profile.portfolio')"
+            <CTitle ttype="subtitle" :title="$t('page.profile.portfoliolist.title')" :desc="$t('page.profile.portfoliolist.desc')"
                 loadMoreCaption="" @onClickTitleMore="onClickMorePortfolio"></CTitle>
 
             <PortfolioList ref='portfolioList' 
@@ -75,17 +75,17 @@
         </div>
 
         <div class="q-mt-xl q-mb-sm">
-            <FriendList ref='followerList' title="$t('page.profile.follower')" mode="follower"
+            <FriendList ref='followerList' :title="$t('page.profile.follower.title')" mode="follower"
                 maxLength="10" moreCaption="" :user="v_user"></FriendList>
         </div>
 
         <div class="q-mt-xl q-mb-sm">
-            <FriendList ref='followingList' title="$t('page.profile.following')" mode="following"
+            <FriendList ref='followingList' :title="$t('page.profile.following.title')" mode="following"
                 maxLength="10" moreCaption="" :user="v_user"></FriendList>
         </div>
 
         <div class="q-mt-xl q-mb-sm">
-            <UserFeedList ref='feedList' title="$t('page.profile.userfeed')" 
+            <UserFeedList ref='feedList' :title="$t('page.profile.userfeed.title')" 
                 maxLength="25" moreCaption="" user="v_user"></UserFeedList>
         </div>
 

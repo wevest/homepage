@@ -19,8 +19,7 @@
       </div>
 -->
 
-        <CTitle ttype='title' :title="v_page['title']" :desc="v_page['desc']" ></CTitle>          
-
+        <CTitle ttype='title' :title="$t ('page.cwatch.title')" :desc="$t ('page.cwatch.desc')" ></CTitle>
         <div class="row text-center q-mb-lg">
             <div class="col box_knob" v-for="(a_item,index) in v_risk">
                 <div class="knob_title">{{ a_item.label }}</div>
@@ -38,7 +37,7 @@
         <q-separator class="gSeparator" />
 
         <div>
-            <CTitle ttype='subtitle' :title="v_page['title']" :desc="v_page['desc']" ></CTitle>          
+            <CTitle ttype='subtitle' :title="$t ('page.cwatch.subtitle.title')" :desc="$t ('page.cwatch.subtitle.desc')" ></CTitle>          
             <ChartTimeframe period='daily' :onclick="onClickTimeframe" :selected='g_timeframe'></ChartTimeframe>          
             <CWatchChart ref='cwatchChart'></CWatchChart>
         </div>      

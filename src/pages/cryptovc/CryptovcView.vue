@@ -4,16 +4,16 @@
 
         <div class="row">
             <div class="col">
-                <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>      
+                <CTitle ttype='title' :title="$t('page.cryptovc.title')" :desc="$t('page.cryptovc.desc')"></CTitle>      
             </div>
         </div>
         
         <div class="row q-gutter-sm">
             <div class="col">
-                <CBigLabel ref='label_roi' title="abc"></CBigLabel>
+                <CBigLabel ref='label_roi' :title="$t('page.cryptovc.roi.title')" :desc="$t('page.cryptovc.roi.desc')"  ></CBigLabel>
             </div>
             <div class="col">
-                <CBigLabel ref='label_total' title="abc"></CBigLabel>
+                <CBigLabel ref='label_total' :title="$t ('page.cryptovc.portfolio.title')" :desc="$t ('page.cryptovc.portfolio.desc')" ></CBigLabel>
             </div>
         </div>
         

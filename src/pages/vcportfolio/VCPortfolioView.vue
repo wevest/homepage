@@ -4,13 +4,13 @@
 
         <div class="row">
             <div class="col">
-                <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>          
+                <CTitle ttype='title' :title="$t ('page.vcportfolio.title')" :desc="$t('page.vcportfolio.desc')"></CTitle>          
             </div>
         </div>
         
         <div class="row  q-gutter-md">
             <div class="col">
-                <CTitle ttype='subtitle' :title="v_portfolio['title']" :desc="v_portfolio['desc']"></CTitle>
+                <CTitle ttype='subtitle' :title="$t ('page.vcportfolio.roi.title')" :desc="$t ('page.vcportfolio.roi.desc')"></CTitle>
                 <VCPortfolioTable ref='portfolioTable' @onClickVC="onClickVC"></VCPortfolioTable>
 
 <!--

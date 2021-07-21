@@ -251,8 +251,8 @@ export default class User {
         this.following = new FriendListModel();    
         this.feeds = new FeedListModel();
         
-        if (CommonFunc.isEmptyObject(this.title)) {
-            this.title = this.username;
+        if (CommonFunc.isEmptyObject(this.display_name)) {
+            this.display_name = this.username;
         }
 
         //not necessary 

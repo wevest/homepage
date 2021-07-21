@@ -2,7 +2,7 @@
     <div class="q-pa-md">
 
         <div>
-            <CTitle :title="$t('Inbox')" :desc="$t('page.message.desc')"></CTitle>
+            <CTitle :title="$t('page.inbox.title')" :desc="$t('page.inbox.desc')"></CTitle>
         </div>            
 
 

@@ -45,8 +45,13 @@
 -->
         <q-separator class="gSeparator" />
 
+        <WWriterButton placeholder="What's your in minds?" @onClickWrite="onClickWrite" />
+
+        <q-separator class="gSeparator" />
+
         <div>
-            <BlogList ref='blogList' title="Market Trend" maxLength="10" moreCaption="More" 
+            <BlogList ref='blogList' :title="$t('page.asset.bloglist.title')" :desc="$t('page.asset.bloglist.desc')"
+                maxLength="10" moreCaption="More" 
                 :category="v_asset.object_category" :symbol="v_asset.symbol" :objectId="v_asset.object_id"
             />
             
@@ -55,7 +60,8 @@
 
         <div class="col">
                                     
-            <AssetQuestionList ref="questionList" title="Question List" maxLength="10" moreCaption="More"
+            <AssetQuestionList ref="questionList" :title="$t ('page.asset.questionlist.title')" :desc="$t('page.asset.questionlist.desc')" 
+                maxLength="10" moreCaption="More"
                 :symbol="v_asset.symbol" :assetId="v_asset.object_id"
                 @onClickQuestionRating="onClickQuestionRating"
             >
@@ -65,7 +71,7 @@
 
         <div class="col">                
             <AssetReviewList ref="reviewList" 
-                moreCaption="More" maxLength="10" title="Price Forecast"
+                moreCaption="More" maxLength="10" :title="$t ('page.asset.priceforecast.title')" :desc="$t('page.asset.priceforecast.desc')" 
                 :category="v_asset.symbol" :assetId="v_asset.object_id" 
                 @onClickRating="onClickReviewRating"> 
             </AssetReviewList>
@@ -87,6 +93,7 @@ import {PostPageModel,QuestionPageModel,AssetReviewPageModel,AssetReviewPageList
 
 import CTitle from 'components/CTitle';
 import ChartTimeframe from 'components/ChartTimeframe';
+import WWriterButton from 'components/WWriterButton';
 
 import BlogList from 'components/lists/BlogList';
 import AssetQuestionList from 'components/lists/AssetQuestionList';
@@ -98,7 +105,6 @@ import CAssetChart from 'src/pages/asset/CAssetChart';
 import PriceSummaryBox from 'src/pages/asset/component/PriceSummaryBox';
 import PriceDataTable from 'src/pages/asset/component/PriceDataTable';
 import InfoTable from "src/pages/asset/component/InfoTable";
-
 
 
 
@@ -114,6 +120,7 @@ export default {
         AssetReviewList,
         InfoTable,
         BlogList,
+        WWriterButton
     },
     computed: {
         v_me() {
@@ -298,7 +305,6 @@ export default {
             this.$refs.questionList.update(dic_param);
         },
 
-
         loadBlogList: function() {
             console.log('AssetView.loadBlogList - ',this.v_asset.object_category);
             this.$refs.blogList.updateByCategory(this.v_asset.object_category);
@@ -448,7 +454,13 @@ export default {
             logger.log.debug('AssetView.onClickPrice');
             store.getters.nav.add(this.$route);
             CommonFunc.navAssetDetail(this,this.v_asset.symbol,this.v_asset.object_id);
-        }
+        },
+
+        onClickWrite: function() {
+            logger.log.debug('AssetView.onClickWrite');
+            CommonFunc.navTweetWriter(this,this.v_asset.object_id)
+        },
+
     },
 
 }

@@ -10,6 +10,9 @@
                     :label="loadMoreCaption" @click="onClickMore" v-if="loadMoreCaption.length>0" />
             </div>
         </div>
+        <div v-if="desc.length>0">
+            <span class="gCaption"> {{desc}} </span>
+        </div>
     </div>
 </template>
 
@@ -31,7 +34,7 @@ export default {
         },
         desc: {
             type: String,
-            default: 'description',
+            default: '',
         },
         loadMoreCaption: {
             type:String,

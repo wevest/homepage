@@ -155,4 +155,182 @@ export default {
 			future: "선물",
 		},
 	},
+	page: {
+		home:{
+			title : 'HOME',
+			desc :'여기는 홈입니다',
+			marketwatching : {
+				title : '마켓 위험 알림',
+				desc : ''
+			},
+			bloglist: {
+				title:'마켓트랜드'
+			},
+			portfoliolist: {
+				vc: {
+					title:'크립토 VC 포트폴리오',
+					desc: ''
+				},
+				roi: {
+					title:'수익율이 높은 포트폴리오',
+					desc:''
+				},
+				highvoted: {
+					title:'인기 많은 포트폴리오',
+					desc:''
+				}
+			},
+			userfeedlist: {
+				userfeed: {
+					title:'사용자 피드',
+					desc:''
+				}
+			}
+		},
+		assetqa: {
+			title: '무엇이든 물어보세요',
+			desc: '궁금한 것을 질문하세요',
+			questionlist : {
+				title:'질문리스트',
+			}
+		},
+		//page.profile.title
+		profile: {
+			title:'프로파일',
+			desc:'',
+			portfoliolist : {
+				title: '포트폴리오',
+				desc: '',
+			},
+			follower : {
+				title: '팔로워',
+			},
+			following : {
+				title: '팔로잉',
+			},
+			userfeed : {
+				title: '사용자 피드',
+			},
+		},
+		asset : {
+			bloglist : {
+				title : '블로그',
+				desc: '',
+			},
+			questionlist : {
+				title : '질문',
+				desc: '',
+			},
+			priceforecast : {
+				title : '가격예측',
+				desc : ''
+			}
+		},
+		review : {			
+			forecast : {
+				title : '투자자예측',
+				desc : '',
+				},
+			forecastlist : {
+				title : '예측목록',
+				desc : ''
+			}
+		},
+		blogwriter : {
+			title : '블로그 작성',
+			desc : '',
+			bloglist : {
+				title : '블로그목록',
+				desc : ''
+			}
+		},
+		inbox : {
+			title : '메시지함',
+			desc : '',
+		},
+		risk : {
+			title : '리스크',
+			desc : '',
+			chart : {
+				risk : {
+					title : 'RISK',
+					desc : ''
+				},
+				risk_vix : {
+					title : 'RISK_VIX',
+					desc :''
+				},
+				risk_event : {
+					title : 'RISK_EVENT',
+					desc : ''
+				}
+			}
+		},
+
+		cwatch : {
+			title : 'CWATCH',
+			desc : '',
+			subtitle : {
+				title : '얼마나 잘 맞는지 볼까요?',
+				desc: '',
+			},
+			probability : {
+				title : 'Change Probability Level',
+			},
+			btc : {
+				title : 'CWatch BTC',
+			},
+			eth : {
+				title : 'CWatch ETH',
+			}
+		},
+		vcportfolio : {
+			title : 'VC 포트폴리오',
+			desc :'',
+			roi : {
+				title : 'VC 수익률',
+				desc : ''
+			}
+			
+		},
+		cryptovc : {
+			title : '크립토 VC',
+			desc : '',
+			roi : {
+				title : '크립토 VC 수익률',
+				desc :'',
+			},
+			portfolio : {
+				title : '크립토 VC 포트폴리오',
+				desc: ''
+			}
+		},
+		trend : {
+			title : '시장 동향',
+			desc : '',
+			chart : {
+				index : {
+					title : '시장동향 INDEX',
+					desc :'',
+				},
+				dominance : {
+					title : 'Dominance',
+					desc : '',
+				},
+				kpremium : {
+					title : 'Kpremium',
+					desc : '',
+				},
+				sector : {
+					title : 'Sector',
+					desc : '',
+				},
+				sectortv : {
+					title : 'SectorTV',
+					desc : '',
+				}
+			}
+		}
+	}
 };
+
