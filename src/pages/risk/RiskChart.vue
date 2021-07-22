@@ -1,15 +1,15 @@
 <template>
   <div class="example">
     
-    <CTitle ttype='subtitle' :title="$t('chart.risk.title')" :desc="$t('chart.risk.desc')"></CTitle>    
+    <CTitle ttype='subtitle' :title="$t('page.risk.chart.risk.title')" :desc="$t('page.risk.chart.risk.desc')"></CTitle>    
     <ChartTimeframe period='yearly' :onclick="onClickTimeframeRisk" selected='y3'></ChartTimeframe>
     <highcharts class="hc" :options="g_chart['chart1']" ref="chart1"></highcharts>
     
-    <CTitle ttype='subtitle' :title="$t('chart.risk_vix.title')" :desc="$t('chart.risk_vix.desc')"></CTitle>    
+    <CTitle ttype='subtitle' :title="$t('page.risk.chart.risk_vix.title')" :desc="$t('page.risk.chart.risk_vix.desc')"></CTitle>    
     <ChartTimeframe period='monthly' :onclick="onClickTimeframeVix" selected='y1'></ChartTimeframe>
     <highcharts class="hc" :options="g_chart['chart2']" ref="chart2"></highcharts>
     
-    <CTitle ttype='subtitle' :title="$t('chart.risk_event.title')" :desc="$t('chart.risk_event.desc')"></CTitle>
+    <CTitle ttype='subtitle' :title="$t('page.risk.chart.risk_event.title')" :desc="$t('page.risk.chart.risk_event.desc')"></CTitle>
     <ChartTimeframe period='monthly' :onclick="onClickTimeframeEvent" selected='y1'></ChartTimeframe>
     <highcharts class="hc" :options="g_chart['chart3']" ref="chart3"></highcharts>
   </div>

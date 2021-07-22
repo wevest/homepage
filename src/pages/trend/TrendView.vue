@@ -4,7 +4,7 @@
 
       <div class="row">
         <div class="col">
-            <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>          
+            <CTitle ttype='title' :title="$t('page.trend.title')" :desc="$t ('page.trend.desc')"></CTitle>          
             <CTrendChart ref='indexTrendChart'></CTrendChart>
         </div>      
       </div>

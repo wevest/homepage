@@ -6,7 +6,9 @@
         </div>
 
         <div>
-            <PriceForecastBox ref="ratingBox" :reviews="v_reviews" title="Investor Reviews"></PriceForecastBox>
+            <ReviewRatingBox ref="ratingBox" :reviews="v_reviews" :title="$t ('page.review.forecast.title')" :desc="$t('page.review.forecast.desc')">
+
+            </ReviewRatingBox>
         </div>
     
         <div>
@@ -21,7 +23,7 @@
 
             <AssetReviewList ref="reviewList" 
                 :category="g_asset.symbol" :assetId="g_asset.object_id"
-                moreCaption="" maxLength="20000" title="Review List"
+                moreCaption="" maxLength="20000" :title="$t ('page.review.forecastlist.title')" :desc="$t('page.review.forecastlist.desc')"
                 @onClickLoadmore="onClickLoadmore"> 
             </AssetReviewList>
 

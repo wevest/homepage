@@ -2,7 +2,7 @@
     
     <div class="q-pa-md">
         <div>
-            <CTitle ttype='title' title="v_page_title" desc=""></CTitle>          
+            <CTitle ttype='title' :title="$t ('page.blogwriter.title')" :desc="$t ('page.blogwriter.desc')"></CTitle>          
         </div>
 
         <div>
@@ -12,7 +12,7 @@
         <q-separator class="gSeparator" />
 
         <div>
-            <BlogList ref='blogList' maxLength="2000000" title="Blog List"
+            <BlogList ref='blogList' maxLength="2000000" :title="$t ('page.blogwriter.bloglist.title')" :desc="$t ('page.blogwriter.bloglist.desc')"
                 category="" :symbol="g_asset.symbol" :objectId="g_asset.object_id"
             ></BlogList>
         </div>

@@ -1,6 +1,6 @@
 <template>
     <div class="example">     
-        <CTitle ttype='subtitle' :title="$t('page.trend.index.title')" :desc="$t('page.trend.index.desc')"></CTitle>          
+        <CTitle ttype='subtitle' :title="$t('page.trend.chart.index.title')" :desc="$t('page.trend.chart.index.desc')"></CTitle>          
         <ChartTimeframe period="monthly" :onclick="onClickTimeframe" :selected='v_timeframe' ref='tfIndex'></ChartTimeframe>
         
         <q-skeleton v-if="!v_chart_loaded" height="450px" square animation="fade" />
@@ -30,7 +30,7 @@
 
         </q-table>
                 
-        <CTitle ttype='subtitle' :title="$t('page.trend.dominance.title')" :desc="$t('page.trend.dominance.desc')"></CTitle>
+        <CTitle ttype='subtitle' :title="$t('page.trend.chart.dominance.title')" :desc="$t('page.trend.chart.dominance.desc')"></CTitle>
         <ChartTimeframe period="monthly" :onclick="onClickTimeframe" :selected='v_timeframe' ref='tfDominance'></ChartTimeframe>
         <q-skeleton v-if="!v_chart_loaded" height="450px" square animation="fade" />
         <highcharts  v-show="v_chart_loaded" class="box_chart" :options="g_chart['chart2']" ref="chart2"></highcharts>
@@ -58,7 +58,7 @@
         </q-table>
                         
 
-        <CTitle ttype='subtitle' :title="$t('page.trend.kpremium.title')" :desc="$t('page.trend.kpremium.desc')"></CTitle>
+        <CTitle ttype='subtitle' :title="$t('page.trend.chart.kpremium.title')" :desc="$t('page.trend.chart.kpremium.desc')"></CTitle>
         <ChartTimeframe period="monthly" :onclick="onClickTimeframe" :selected='v_timeframe' ref='tfKpremium'></ChartTimeframe>
         <q-skeleton v-if="!v_chart_loaded" height="450px" square animation="fade" />
         <highcharts  v-show="v_chart_loaded" class="hc box_chart" :options="g_chart['chart3']" ref="chart3"></highcharts>
@@ -87,7 +87,7 @@
                         
         
 
-        <CTitle ttype='subtitle' :title="$t('page.trend.sector.title')" :desc="$t('page.trend.sector.desc')"></CTitle>
+        <CTitle ttype='subtitle' :title="$t('page.trend.chart.sector.title')" :desc="$t('page.trend.chart.sector.desc')"></CTitle>
         
         <q-tabs v-model="v_tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
           <q-tab name="upbit" :label="tab_upbit" @click="onClickTab('upbit')" />
@@ -123,7 +123,7 @@
 
         </q-table>
 
-        <CTitle ttype='subtitle' :title="$t('page.trend.sectortv.title')" :desc="$t('page.trend.sectortv.desc')"></CTitle>
+        <CTitle ttype='subtitle' :title="$t('page.trend.chart.sectortv.title')" :desc="$t('page.trend.chart.sectortv.desc')"></CTitle>
         <ChartTimeframe period="monthly" :onclick="onClickTimeframe" :selected='v_timeframe' ref='tfSectortv'></ChartTimeframe>
         <q-skeleton v-if="!v_chart_loaded" height="450px" square animation="fade" />
         <highcharts  v-show="v_chart_loaded" class="hc box_chart" :options="g_chart['chart5']" ref="chart5"></highcharts>

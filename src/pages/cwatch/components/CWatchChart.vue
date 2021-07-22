@@ -7,8 +7,9 @@
             <q-btn color="primary" label="Refresh" @click='onClickRefresh' /> 
 -->
         <div class="gTextSubTitle q-mt-xl">
-            <span>Change Probability Level</span>
+            <span class="gSubTitleLG"> {{ $t('page.cwatch.probability.title') }} </span>
             <q-slider
+                class="q-mt-xl"
                 v-model="g_thresh"
                 :min="1"
                 :max="10"
@@ -18,8 +19,8 @@
                 color="light-green" />
         </div>
 
-        <div class="gTextSubTitle q-mt-sm">
-            <span> {{ $t('page.cwatch.btc.title') }} </span>
+        <div class="gTextSubTitle q-mt-xl">
+            <span class="gSubTitleLG"> {{ $t('page.cwatch.btc.title') }} </span>
         </div>
         <div>
             <q-skeleton v-if="!v_chart_loaded" height="450px" square animation="fade" />
@@ -30,8 +31,8 @@
             </div>
         </div>
 
-        <div class="gTextSubTitle q-mt-sm">
-            <span> {{ $t('page.cwatch.eth.title') }} </span>
+        <div class="gTextSubTitle q-mt-xl">
+            <span class="gSubTitleLG"> {{ $t('page.cwatch.eth.title') }} </span>
         </div>
         <div>
             <q-skeleton v-if="!v_chart_loaded" height="450px" square animation="fade" />

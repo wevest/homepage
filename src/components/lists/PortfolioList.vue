@@ -34,7 +34,8 @@
                 <div>
                      <span class="text-body2 text-grey-8">{{v_shorten(a_portfolio.description)}}</span>
                 </div>
-            </q-card-section>                   
+            </q-card-section>          
+
         </q-card>
 
     </div>

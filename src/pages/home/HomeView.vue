@@ -2,11 +2,12 @@
     
   <div class="q-pa-md">
         <div class="col">
-            <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>
+            <CTitle ttype='title' :title="$t ('page.home.title')" :desc="$t('page.home.desc')"></CTitle>
         </div>
 
         <div class="col">
-            <MarketWatchWidget ref="watchWidget" title="Market Risk Alram" moreButton="More" />
+            <MarketWatchWidget ref="watchWidget" :title="$t('page.home.marketwatching.title')" :desc="$t('page.home.marketwatching.desc')"
+            moreButton="More" />
         </div>
 
         <div class="col">

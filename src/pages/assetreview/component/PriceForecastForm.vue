@@ -1,7 +1,7 @@
 <template>
 	<div class="no-wrap q-pa-md ReviewTextBox" :style="v_style" v-show="visible" @click="onClick">
 		<div>
-			<div class="q-pb-lg row" v-if="v_me.loggedIn">
+			<div class="row" v-if="v_me.loggedIn">
 				<div class="q-pr-md">
 					<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" :displayname="v_me.dispaly_name" />
 				</div>
@@ -12,22 +12,24 @@
 				<div class="q-pr-md">
 					<q-btn 
 						class="gRatingBtnMD" flat ripple
-						:class="v_color_like"                
 						style="font-size: 2.4em;"
+						color="red-7"
+						:class="v_color_like"                
 						icon="arrow_circle_up" 
 						@click="onClickRate(1)" />
-					<div class="gRatingCountMD">
+					<div class="gNoListMessage">
 						<span>{{v_likeCaption}}</span>
 					</div>
 				</div>
 				<div class="q-pl-md">
 					<q-btn
 						class="gRatingBtnMD" flat ripple
-						:class="v_color_dislike"
 						style="font-size: 2.4em;"
+						color="primary"
+						:class="v_color_dislike"
 						icon="arrow_circle_down"
 						@click="onClickRate(-1)" />
-					<div class="gRatingCountMD">
+					<div class="gNoListMessage">
 						<span>{{v_dislikeCaption}}</span>
 					</div>
 				</div>        
@@ -311,11 +313,6 @@ export default {
 }
 
 
-
-.boxEditorTextarea {
-	height: 150px !important;
-}
-
 .inline-items-wrapper {
 	display: flex;
 	> div {
@@ -326,9 +323,4 @@ export default {
 	}
 }
 
-/* override quasar css */
-.boxMessageTextarea {
-	height: 150px !important;
-	max-height: 200px;
-}
 </style>
