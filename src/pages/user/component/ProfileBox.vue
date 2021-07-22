@@ -174,7 +174,7 @@ export default {
             v_loading_change: false,
 
             v_labels: {'submit': 'Upload', 'cancel': 'Cancel'},
-            v_lang: ['en','kr'],
+            v_lang: ['en-us','kr'],
             v_select_lang:true
         }
     },
@@ -407,7 +407,10 @@ export default {
             logger.log.debug("ProfileView.onSelectLang : ",value, this.v_user.default_lang);
             
             this.v_select_lang = true;
-            this.updateUserProfile(this.v_user);            
+            this.updateUserProfile(this.v_user);    
+            
+            const a_toolbar = store.getters.components.getToolbar();
+            a_toolbar.setLocale(this.v_user.default_lang);
         },
 
         onSaveEdit(dicParam) {

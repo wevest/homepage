@@ -23,7 +23,7 @@
 					/>
 				</div>
 
-				<div class="q-pb-sm">
+				<div class="q-py-sm">
 					<WTextArea
 						ref="descText"				
 						hint="Please Type your review"                

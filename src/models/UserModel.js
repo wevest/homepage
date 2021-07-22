@@ -562,8 +562,8 @@ export default class User {
         return new Promise(function(resolve,reject) {
             AuthService.updateUserProfile(dic_param,function(response) {
                 logger.log.debug("UserModel.updateUserProfile - response",response.data);
+                _this.saveToCookie();
                 resolve(response.data);
-
             },function(err) {
                 logger.log.error("UserModel.updateUserProfile - error",err);                
                 reject(err);

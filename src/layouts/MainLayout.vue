@@ -218,7 +218,8 @@ export default {
 			this.v_show_back_button = value;
 		},
 
-		setLocale: function (locale) {
+		setLocale(locale) {
+			logger.log.debug("MainToolbar.setLocale : locale=",locale);
 			// set the Vue-i18n locale
 			this.$i18n.locale = locale;
 			// load the Quasar language pack dynamically
@@ -274,7 +275,7 @@ export default {
 
 
 
-		onChangeLang: function () {
+		onChangeLang() {
 			logger.log.debug("onChangeLang=", this.language);
 			if (this.language == "English") {
 				this.setLocale("en-us");
