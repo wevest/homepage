@@ -79,7 +79,8 @@
             </div>
 
             <CommentBox ref="commentBox"             
-                :contentType="v_content_type" :post="v_post" :items="v_post.comments.items" />            
+                :contentType="v_content_type" :post="v_post" :items="v_post.comments.items" 
+                @onClickLoadMore="onClickLoadMore" />            
         </div>
 
     </div>

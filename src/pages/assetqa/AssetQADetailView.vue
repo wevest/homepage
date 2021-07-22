@@ -1,49 +1,49 @@
 <template>
-  <!-- QA Detailed Page-->
-  <div class="q-pa-md">
-    <div class="col">
-      <div>
-        <div class="gPageTitle">
-          <q-icon class="qIcon" name="help_outline" />&nbsp;
-          <span>{{ v_question.title }}</span>
-        </div>
+    <!-- QA Detailed Page-->
+    <div class="q-ma-md">
+        <div>
+            <div>
+                <div class="gPageTitle">
+                    <q-icon class="qIcon" name="help_outline" />&nbsp;
+                    <span>{{ v_question.title }}</span>
+                </div>
 
-        <div class="row q-pb-sm">
-          <WSubinfo
-            :username="v_question.owner.username"
-            :pub_date="v_question.pub_date"
-            like_count="-1"
-            dislike_count="-1"
-          />
+                <div class="row q-pb-sm">
+                    <WSubinfo
+                        :username="v_question.owner.display_name"
+                        :pub_date="v_question.pub_date"
+                        like_count="-1"
+                        dislike_count="-1"
+                    />
 
-          <q-space />
+                    <q-space />
 
-          <WCommandBar
-            :data="v_question"
-            :isOwner="v_question.is_owner"
-            shareBtn=""
-            updateBtn="update"
-            deleteBtn="delete"
-            @onClickUpdate="onClickUpdate"
-            @onClickDelete="onClickDelete"
-          />
-        </div>
-      </div>
+                    <WCommandBar
+                        :data="v_question"
+                        :isOwner="v_question.is_owner"
+                        shareBtn=""
+                        updateBtn="update"
+                        deleteBtn="delete"
+                        @onClickUpdate="onClickUpdate"
+                        @onClickDelete="onClickDelete"
+                    />
+                </div>
+            </div>
 
-        <q-separator size="1px" />
+            <q-separator size="1px" />
 
-        <div class="gPageContent q-my-xl">
-            <div class="gBodyLG" v-html="v_question.body"></div>
-            <!--                
-                <Viewer 
-                    ref="toastViewer"
-                    :value="v_question.body"
-                    :options="editorOptions"
-                    :visible="v_show_editor"
-                    previewStyle="vertical"
-                />
-            -->
-        </div>
+            <div class="gPageContent q-my-xl">
+                <div class="gBodyLG" v-html="v_question.body"></div>
+                    <!--                
+                        <Viewer 
+                            ref="toastViewer"
+                            :value="v_question.body"
+                            :options="editorOptions"
+                            :visible="v_show_editor"
+                            previewStyle="vertical"
+                        />
+                    -->
+            </div>
 
         <!--
             <WRatingButton ref="ratingButton" likeCaption="도움돼요" dislikeCaption="도움 안돼요"
@@ -51,40 +51,37 @@
 
         -->
 
-        <div>
-            <QuestionCommentBox
-                ref="commentBox"
-                :question="v_question"
-                :contentType="v_content_type"
+            <div>
+                <QuestionCommentBox
+                    ref="commentBox"
+                    :question="v_question"
+                    :contentType="v_content_type"
+                />
+            </div>
+
+        </div>
+
+        <q-separator class="gSeparator" />
+
+        <div class="q-my-sm" v-if="!v_question.closed">
+            <WWriterButton
+                placeholder="Please share your knowledges"
+                @onClickWrite="onClickAnswer"
             />
         </div>
 
+        <q-separator class="gSeparator" />
+        <div>
+            <AssetAnswerList
+                ref="answerList"
+                @onClickAnswerRating="onClickAnswerRating"
+                @onClickQuestionAccept="onClickQuestionAccept"
+                @onClickAnswerUpdate="onClickAnswerUpdate"
+            >
+            </AssetAnswerList>
+        </div>
+
     </div>
-
-    <q-separator class="gSeparator" />
-
-    <div class="q-pb-md" v-if="!v_question.closed">
-        <WWriterButton
-            placeholder="Please share your knowledges"
-            @onClickWrite="onClickAnswer"
-        />
-    </div>
-
-    <q-separator class="gSeparator" />
-
-
-
-
-    <div class="col">
-        <AssetAnswerList
-            ref="answerList"
-            @onClickAnswerRating="onClickAnswerRating"
-            @onClickQuestionAccept="onClickQuestionAccept"
-            @onClickAnswerUpdate="onClickAnswerUpdate"
-        >
-        </AssetAnswerList>
-    </div>
-  </div>
 </template>
 
         

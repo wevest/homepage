@@ -115,8 +115,9 @@ export default {
             });
         },
 
-        onClickLoadMore: function() {
-
+        onClickLoadMore(dicParam) {
+            logger.log.debug("CommentBox.onClickLoadMore : dicParam=",dicParam);
+            this.$emit("onClickLoadMore",dicParam);
         }
     }
 };

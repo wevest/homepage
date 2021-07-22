@@ -159,7 +159,7 @@ export default {
             this.$refs.commentForm.clear();
             this.$emit('onClickCommentReply',value);
         },
-        onClickMore: function(value) {
+        onClickMore(value) {
             logger.log.debug("CommentTree.onClickMore=",value);
             this.$emit('onClickLoadMore',value);
         },

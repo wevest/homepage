@@ -52,7 +52,7 @@ export default {
         },
 
         onClickLoadMore: function(dic_page) {
-            logger.log.debug("onClickLoadMore:dic_page=",dic_page);
+            logger.log.debug("CommentList.onClickLoadMore:dic_page=",dic_page);
             
             this.$emit("onClickMore",dic_page);
         }

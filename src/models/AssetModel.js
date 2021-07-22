@@ -96,8 +96,8 @@ export class AssetModel{
         return a_value;
     }
 
-    _getFirstLink(json_data,dic_columns,column) {
-        let a_links = json_data['values'][0][dic_columns[column]];          
+    _getFirstLink(a_links) {
+        //let a_links = json_data['values'][0][dic_columns[column]];          
         if (a_links.length==0) return '';
         return a_links.split(',')[0];
     }
@@ -120,6 +120,22 @@ export class AssetModel{
         this.dislike_count = item.dislike_count;
         this.average_rating = item.average_rating;
         this.portfolio_count = item.portfolio_count;
+
+        this.max_supply = item.max_supply;
+        this.total_supply = item.total_supply;
+        this.circulating_supply = item.circulating_supply;
+        
+        this.website = item.website;
+        //this.github = item.source_code;
+        this.announcement = item.announcement;
+        this.source_code = item.source_code;
+        this.twitter = item.twitter;
+        this.chat = item.chat;
+        this.explorer = this._getFirstLink(item.explorer);
+        this.tags = item.tags;
+        this.platform = item.platform;
+        this.token_address = item.token_address;
+        this.date_added = item.date_added_ext;
     }
     
     assignExt(json_data) {

@@ -107,6 +107,11 @@ export class CommentListModel extends baseCollection {
                 map[node.parent_id] = parentIndex;
             }
             
+            //todo : error need to fix this !!!
+            if (items[parentIndex]) {
+
+            }
+
             if (!items[parentIndex].children) {
                 return items[parentIndex].children = [node];
             }

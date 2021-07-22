@@ -166,11 +166,12 @@ export default {
 	methods: {
 		prepare() {
 			//logger.log.debug("Comment-Form.prepare : v_me=",this.v_me);
+			this.$refs.descText.hideBorder();
 			if (this.v_me.loggedIn) {
 				const msg = this.v_me.display_name + "    " + this.hint;
 				this.$refs.descText.setHint(msg);
 				this.$refs.descText.setEnabled(true);
-			} else {
+			} else {				
 				this.$refs.descText.setHint("Please log-in to write comments");
 				this.$refs.descText.setEnabled(false);
 			}
@@ -178,7 +179,7 @@ export default {
 
 		show() {
 			// this.visible = true
-			this.$emit("update:visible", true);
+			this.$emit("update:visible", true);			
 		},
 		hide() {
 			this.$emit("update:visible", false);
@@ -341,14 +342,10 @@ export default {
 	border: 1px solid #cccccc;
 }
 
-
 .typeLength {
 	color:#999999;
 	padding-top:10px;
 }
-
-
-
 
 .inline-items-wrapper {
 	display: flex;

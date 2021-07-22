@@ -54,7 +54,7 @@
             </q-card-section>
 
             <q-card-section>
-                <div class="text-left q-ma-md">
+                <div class="text-left q-ma-sm">
                     <div class="q-pb-md" v-if="isOwner">
                         <div class="gTextSubTitle">
                             eMail
