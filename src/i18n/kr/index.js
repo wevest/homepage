@@ -193,6 +193,10 @@ export default {
 			title:'프로파일',
 			desc:''
 		}
+	},
+	button: {
+		more: '더보기',
+		save: '저장',
 	}
 
 	

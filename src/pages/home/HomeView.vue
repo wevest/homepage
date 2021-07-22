@@ -10,12 +10,14 @@
         </div>
 
         <div class="col">
-            <BlogList ref='blogList' :title="$t('page.home.bloglist.title')" maxLength="10" moreCaption="More" 
+            <BlogList ref='blogList' :title="$t('page.home.bloglist.title')" maxLength="10" 
+                :moreCaption="$t('button.more')" 
                 category="news_market" symbol="" objectId="-1"></BlogList>
         </div>
 
         <div>
-            <PortfolioList ref="pfVC" :title="$t('page.home.portfoliolist.vc.title')" maxLength="10" moreCaption=""></PortfolioList>
+            <PortfolioList ref="pfVC" :title="$t('page.home.portfoliolist.vc.title')" 
+                maxLength="10" moreCaption=""></PortfolioList>
         </div>
 
         <div>

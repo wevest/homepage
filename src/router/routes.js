@@ -15,7 +15,7 @@ const routes = [
         name: "signin",
         path: "signin",
         component: () => import("pages/user/SignView.vue"),
-		meta: { transition: "overlay-right" }
+		    meta: { transition: "overlay-right" }
       },
 
       // cms related
@@ -23,7 +23,7 @@ const routes = [
         name: "blog",
         path: "blog",
         component: () => import("pages/blog/BlogView.vue"),
-		meta: { transition: "overlay-right" }
+		    meta: { transition: "overlay-right" }
       },
       {
         name: "blog_detail",
@@ -35,7 +35,13 @@ const routes = [
         name: "blog_writer",
         path: "blog_writer",
         component: () => import("pages/blog/BlogWriterView.vue"),
-		meta: { transition: "overlay-right" }
+		    meta: { transition: "overlay-right" }
+      },
+      {
+        name: "feeds",
+        path: "feeds",
+        component: () => import("pages/feed/FeedView.vue"),
+		    meta: { transition: "overlay-right" }
       },
       {
         name: "profile",
@@ -53,26 +59,31 @@ const routes = [
         name: "message_detail",
         path: "message_detail",
         component: () => import("pages/user/MessageDetailView.vue"),
-		meta: { transition: "overlay-right" }
+		    meta: { transition: "overlay-right" }
+      },
+      {
+        name: "portfolio_index",
+        path: "portfolio_index",
+        component: () => import("pages/portfolio/PortfolioIndexView.vue"),
+		    meta: { transition: "overlay-right" }
       },
       {
         name: "portfolio_detail",
         path: "portfolio_detail",
         component: () => import("pages/portfolio/PortfolioDetailView.vue"),
-		meta: { transition: "overlay-right" }
+		    meta: { transition: "overlay-right" }
       },
-
       {
         name: "asset_index",
         path: "/asset_index",
         component: () => import("pages/asset/AssetIndexView.vue"),
-		meta: { transition: "overlay-right" }
+		    meta: { transition: "overlay-right" }
       },
       {
         name: "asset",
         path: "/asset",
         component: () => import("pages/asset/AssetView.vue"),
-		meta: { transition: "overlay-right" }
+		    meta: { transition: "overlay-right" }
       },
       {
         name: "asset_detail",

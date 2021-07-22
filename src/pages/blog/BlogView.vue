@@ -54,7 +54,7 @@ export default {
         //console.log("HomeView.created");
         console.log("BlogView.created - query=",this.$route.query);
 
-        this.validateQuery();
+        //this.validateQuery();
 
         this.g_asset.category = this.$route.query.category;
         this.g_asset.symbol = this.$route.query.symbol;
