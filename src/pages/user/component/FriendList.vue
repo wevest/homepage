@@ -131,9 +131,9 @@ export default {
 			get() {
 				return (user) => {
 					if (user.is_follower) {
-						return "Follow";
+						return this.$t("button.follow");
 					}
-					return "Unfollow";					
+					return this.$t("button.following");					
 				}
 			},
 		},

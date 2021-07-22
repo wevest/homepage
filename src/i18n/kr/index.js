@@ -49,6 +49,10 @@ export default {
 		created_at: "생성일",
 		pushed_at: "갱신일",
 		info: "정보",
+		tweet: '트윗',
+		blog: '블로그',
+		qa : 'QA',
+		review: '리뷰',
 		investor: "투자자",
 		development: "개발",
 		name: "이름",
@@ -66,8 +70,8 @@ export default {
 		price_score: "가격",
 		volume_score: "거래량",
 		},
-		page: {
-		home: {
+		page : {
+		home : {
 			title: "오늘의 크립토마켓",
 			desc: "",
 			index: { title: "지난 24시간 거래소별 상승율은?", desc: "" },
@@ -77,6 +81,7 @@ export default {
 			category: { title: "가격이 상승하는 토큰 섹터는?", desc: "" },
 			mustknow: { title: "반드시 알아야 하는 것들", desc: "" },
 		},
+
 		cwatch: {
 			title: "크립토마켓 와치",
 			desc: "",
@@ -155,7 +160,34 @@ export default {
 			future: "선물",
 		},
 	},
-	page: {
+	page:{
+		sign : {
+			sign_in : {
+				title : '로그인',
+			},
+			sign_up : {
+				title : '회원가입',
+			},
+			email : {
+				title : '이메일',
+			},
+			username : {
+				title : '사용자 이름',
+			},
+			password :{
+				title : '비밀번호',
+			},
+			password_confirm : {
+				title : '비밀번호 확인',
+			},
+			signed_in : {
+				title : '로그인 상태 유지',
+			},
+			forgot_password : {
+				title : '비밀번호 찾기',
+			},
+
+ 		},
 		home:{
 			title : 'HOME',
 			desc :'여기는 홈입니다',
@@ -198,6 +230,21 @@ export default {
 		profile: {
 			title:'프로파일',
 			desc:'',
+			display_name: {
+				title : '별칭',
+			},
+			username : {
+				title : '사용자 이름',
+			},
+			email : {
+				title : '이메일',
+			},
+			biography : {
+				title : '자기소개',
+			},
+			language : {
+				title : '언어선택',
+			},
 			portfoliolist : {
 				title: '포트폴리오',
 				desc: '',
@@ -209,8 +256,13 @@ export default {
 				title: '팔로잉',
 			},
 			userfeed : {
-				title: '사용자 피드',
+				title: '사용자피드',
 			},
+		},
+		portfolio_detail : {
+			roi_chart : {
+				title : 'ROI 차트'
+			}
 		},
 		asset : {
 			bloglist : {
@@ -224,6 +276,20 @@ export default {
 			priceforecast : {
 				title : '가격예측',
 				desc : ''
+			},
+			tweets : {
+				title : '트윗',
+				desc: '',
+			}
+		},
+		asset_detail : {
+			price_chart : {
+				title : '가격차트',
+				desc : '',
+			},
+			price_data : {
+				title : '가격데이터',
+				desc : '',
 			}
 		},
 		review : {			
@@ -253,15 +319,15 @@ export default {
 			desc : '',
 			chart : {
 				risk : {
-					title : 'RISK',
+					title : '리스크',
 					desc : ''
 				},
 				risk_vix : {
-					title : 'RISK_VIX',
+					title : '리스크_VIX',
 					desc :''
 				},
 				risk_event : {
-					title : 'RISK_EVENT',
+					title : '리스크_EVENT',
 					desc : ''
 				}
 			}
@@ -278,10 +344,10 @@ export default {
 				title : 'Change Probability Level',
 			},
 			btc : {
-				title : 'CWatch BTC',
+				title : 'CWatch 비트코인',
 			},
 			eth : {
-				title : 'CWatch ETH',
+				title : 'CWatch 이더리움',
 			}
 		},
 		vcportfolio : {
@@ -330,11 +396,61 @@ export default {
 					desc : '',
 				}
 			}
+		},
+		feeds : {
+			title : '사용자피드',
+			desc : '',
+			userfeed : {		
+				title : '사용자피드 목록',
+				desc : ''
+			},
+			nouserfeed : {
+				title : '사용자피드가 없습니다',
+				desc : '팔로우 한 사람의 새로운 사용자 피드가 여기에 표시됩니다',
+			}
+		}
+	},
+	dialog : {
+		edit_dialog : {
+			forgot_password : {
+				title : '비밀번호찾기',
+				desc : '이메일 주소를 입력하세요',
+			},
+			biography : {
+				title : '자기소개',
+			}
 		}
 	},
 	button: {
 		more: '더보기',
+		send: '보내기',
 		save: '저장',
+		edit: '수정',
+		cancel: '취소',
+		close: '닫기',
+		lordmore: '더보기',
+		change: '변경',
+		follow: '팔로우',
+		following: '팔로잉',
+		message: '메시지',
+		blog_like : '도움이 돼요',
+		blog_dislike : '별로에요',
+		portfolio_like: '훌륭합니다',
+		portfolio_dislike: '리밸런싱이 필요합니다',
+		reply: '답글',
+		expand: '펼치기',
+		collapse: '접기',
+		update: '업데이트',
+		add : '추가',
+		show_table: '가격 정보 테이블 보기',
+		portfolio: '포트폴리오',
+		share: '공유',
+		blog: '블로그',
+		question: '질문',
+		logout: '로그아웃',
+		login: '로그인',
+		signup: '가입하기',
+
 	}
 };
 

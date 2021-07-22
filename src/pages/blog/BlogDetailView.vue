@@ -66,7 +66,7 @@
                 :biography="v_post.api_owner.biography"
                 :isOwner="v_owner" />
 
-            <WRatingButton ref="ratingButton" :data="v_post" />
+            <WRatingButton ref="ratingButton" :data="v_post" :likeCaption="$t('button.blog_like')" :dislikeCaption="$t('button.blog_dislike')" />
 
         </div>
         

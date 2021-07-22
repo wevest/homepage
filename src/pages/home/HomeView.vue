@@ -7,7 +7,7 @@
 
         <div class="col">
             <MarketWatchWidget ref="watchWidget" :title="$t('page.home.marketwatching.title')" :desc="$t('page.home.marketwatching.desc')"
-            moreButton="More" />
+            :moreButton="$t('button.more')" />
         </div>
 
         <div class="col">
@@ -40,7 +40,7 @@
 -->
         <div>
             <UserFeedList ref='feedList' :title="$t('page.home.userfeedlist.userfeed.title')" 
-                maxLength="10" moreCaption="More" user="v_me"></UserFeedList>
+                maxLength="10" :moreCaption="$t('button.more')" user="v_me"></UserFeedList>
         </div>                                               
   </div> 
 

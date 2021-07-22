@@ -18,7 +18,7 @@
                                 <q-avatar icon="work" color="primary" text-color="white" />
                             </q-item-section>						
                             <q-item-section>
-                                <q-item-label>Portfolio</q-item-label>
+                                <q-item-label>{{ $t('button.portfolio') }}</q-item-label>
                             </q-item-section>
                         </q-item>
                         <q-item clickable v-close-popup @click="onClickShare">
@@ -26,7 +26,7 @@
                                 <q-avatar icon="share" color="primary" text-color="white" />
                             </q-item-section>						
                             <q-item-section>
-                                <q-item-label>Share</q-item-label>
+                                <q-item-label>{{ $t('button.share') }}</q-item-label>
                             </q-item-section>
                         </q-item>
                         <q-item clickable v-close-popup @click="onClickFab">
@@ -34,7 +34,7 @@
                                 <q-avatar icon="article" color="primary" text-color="white" />
                             </q-item-section>						
                             <q-item-section>
-                                <q-item-label>Blog</q-item-label>
+                                <q-item-label>{{ $t('button.blog') }}</q-item-label>
                             </q-item-section>
                         </q-item>
                         <q-item clickable v-close-popup @click="onClickFab">
@@ -42,7 +42,7 @@
                                 <q-avatar icon="help" color="primary" text-color="white" />
                             </q-item-section>						
                             <q-item-section>
-                                <q-item-label>Question</q-item-label>
+                                <q-item-label>{{ $t('button.question') }}</q-item-label>
                             </q-item-section>
                         </q-item>
                     </q-list>

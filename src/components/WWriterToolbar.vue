@@ -4,7 +4,7 @@
         <div class="row q-pa-sm">
             <q-btn ripple flat icon="highlight_off" size="14px" @click="onClickClose" />
             <q-space />
-            <q-btn label="Save" color="primary" flat
+            <q-btn :label="$t('button.save')" color="primary" flat
                 :loading="v_loading"
                 @click="onClickSave" />
         </div>

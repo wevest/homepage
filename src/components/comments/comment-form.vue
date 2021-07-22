@@ -25,12 +25,12 @@
 					<span> {{v_length_msg}} </span>
 				</div>	
 				<q-space />				
-				<q-btn class="q-mb-sm gButtonMD" label="Save" ripple
+				<q-btn class="q-mb-sm gButtonMD" :label="$t('button.save')" ripple
 					@click.stop="onClickSubmit" :loading="v_loading"
 					v-if="showSaveButton" />&nbsp;
 
 				<q-btn 
-					class="q-mb-sm gButtonMD" label="Close" ripple
+					class="q-mb-sm gButtonMD" :label="$t('button.close')" ripple
 					@click="onClickClose" />
 	<!--
 				<q-btn 

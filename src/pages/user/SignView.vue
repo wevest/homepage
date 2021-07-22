@@ -14,8 +14,8 @@
                 items-center
                 style
             >
-                <q-tab name="signin" label="Sign In" />
-                <q-tab name="signup" label="Sign Up" />
+                <q-tab name="signin" :label="$t('page.sign.sign_in.title')" />
+                <q-tab name="signup" :label="$t('page.sign.sign_up.title')" />
             </q-tabs>
 
             <q-tab-panels v-model="v_tab" animated>
@@ -27,7 +27,7 @@
                         <q-input
                             filled lazy-rules
                             v-model="v_user.username"
-                            label="Username" hint="" 
+                            :label="$t('page.sign.username.title')" hint="" 
                             :error="v_error.username.error"
                             :error-message="v_error.username.msg"                                
                             :rules="[ val => val && val.length > 0 || 'Please type something']"
@@ -38,7 +38,7 @@
                             filled 
                             :type="isPwd ? 'password' : 'text'" 
                             v-model="v_user.password"
-                            label="Password"
+                            :label="$t('page.sign.password.title')"
                             :error="v_error.password.error"
                             :error-message="v_error.password.msg"                                
                         >
@@ -48,13 +48,11 @@
                                     v-on:click="isPwd = !isPwd"></q-icon>
                             </template>                                
                         </q-input>
-                    
-                        <q-checkbox v-model="v_user.stay_loggedin" label="Stay signed-in" />
+                        <q-checkbox v-model="v_user.stay_loggedin" :label="$t('page.sign.signed_in.title')" />
 
-                        <q-btn flat label="Forgot Password" @click="onClickForgot" />
-
+                        <q-btn class="q-ml-xl" flat :label="$t('page.sign.forgot_password.title')" @click="onClickForgot" />
                         <div>
-                            <q-btn label="Login" type="submit" color="primary"/>
+                            <q-btn :label="$t('button.login')" type="submit" color="primary"/>
                         </div>                    
                     </q-form>
                 </q-tab-panel>
@@ -68,7 +66,7 @@
                             filled required bottom-slots 
                             type="email" id="email"
                             v-model="v_user.email"
-                            label="Email" hint="Your email" 
+                            :label="$t('page.sign.email.title')" hint="" 
                             :rules="[ val => (val) && (val.length <= 50) || 'Please use maximum 50 characters']"
                             @blur="updateEmailVerification"                                
                             :error="v_error.email.error"
@@ -82,7 +80,7 @@
                         <q-input
                             filled lazy-rules required bottom-slots
                             v-model="v_user.username" id="username"
-                            label="Username " hint="Your username" 
+                            :label="$t('page.sign.username.title')" hint="" 
                             @blur="updateUsernameVerification"
                             :error="v_error.username.error"
                             :error-message="v_error.username.msg"
@@ -92,7 +90,7 @@
                         />
 
                         <q-input
-                            filled required id="password" label="password"
+                            filled required id="password" :label="$t('page.sign.password.title')"
                             :type="isPwd ? 'password' : 'text'" 
                             v-model="v_user.password" ref="fldPasswordChange"
                             :error="v_error.password.error"
@@ -109,7 +107,7 @@
                             filled
                             :type="isPwd ? 'password' : 'text'" 
                             v-model="v_user.password2"
-                            label="confirm password" ref="fldPasswordChangeConfirm"
+                            :label="$t('page.sign.password_confirm.title')" ref="fldPasswordChangeConfirm"
                             v-bind:rules="ConfirmPWD"                                
                         >
                             <template v-slot:append>
@@ -120,7 +118,7 @@
                         </q-input>
 
                         <div>
-                            <q-btn label="SignUp" type="submit" color="primary"/>
+                            <q-btn :label="$t('button.signup')" type="submit" color="primary"/>
                         </div>                    
                     </q-form>
                 </q-tab-panel>
@@ -128,7 +126,8 @@
             </q-tab-panels>
         </div>
 
-        <EditDialog ref="dialogEdit" title="Forgot Password" desc="Please your email" @onSave="onSaveEdit" />
+        <EditDialog ref="dialogEdit" :title="$t('dialog.edit_dialog.forgot_password.title')" :desc="$t('dialog.edit_dialog.forgot_password.desc')" 
+        @onSave="onSaveEdit" />
     </div>
 
 </template>

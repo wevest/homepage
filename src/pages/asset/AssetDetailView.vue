@@ -23,18 +23,18 @@
 -->
 
         <div class="q-my-xl">
-            <CTitle ttype='subtitle' title="Price Chart" desc=""></CTitle>
+            <CTitle ttype='subtitle' :title="$t('page.asset_detail.price_chart.title')" :desc="$t('page.asset_detail.price_chart.desc')"></CTitle>
             <ChartTimeframe class="q-mt-md" period='all' :onclick="onClickTimeframe" selected='y1'></ChartTimeframe>
             <CAssetChart ref="assetChart"></CAssetChart>
 
             <div class="text-center q-mt-md">
-                <q-toggle v-model="v_visible_table" label="Show Table" class="q-mb-md center" />
+                <q-toggle v-model="v_visible_table" :label="$t('button.show_table')" class="q-mb-md center" />
             </div>
 
             <q-slide-transition>
                 <div v-show="v_visible_table" class="q-my-md">
                     
-                    <CTitle ttype='subtitle' title="Price Data" desc=""></CTitle>
+                    <CTitle ttype='subtitle' :title="$t('page.asset_detail.price_data.title')" :desc="$t('page.asset_detail.price_data.title')"></CTitle>
                     <div class="gBoxNoMargin">
                         <PriceDataTable ref="dataTable" />                    
                     </div>
