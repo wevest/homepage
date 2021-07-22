@@ -116,9 +116,9 @@ export default {
         },
         v_button_label() {
             if (this.v_portfolio_item.id) {
-                return 'Update';
+                return this.$t("button.update");
             }
-            return 'Add';
+            return this.$t("button.add");
         },
     },
     data: function () {

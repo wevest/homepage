@@ -15,9 +15,9 @@
                     </q-avatar>
                     
                     <form>
-                        <q-btn fab id="pick-avatar" color="primary" label="change" class="btnAvatar q-ml-lg" ripple
+                        <q-btn fab id="pick-avatar" icon="add_a_photo" color="grey-7"  class="btnAvatar q-ml-lg" ripple
                             v-show="isOwner" :loading="v_loading_change" @click="onClickChangeProfile" />
-                        
+                        <!-- :label="$t('button.change')" -->
                         <AvatarCropper
                             ref="avatar" 
                             :labels="v_labels"
@@ -38,16 +38,16 @@
                     <div class="gUserNameLG UserName">
                         {{ v_user.display_name }}
                         <q-badge align="top" color="white" @click="onClickDisplayName" v-if="isOwner">
-                            <q-icon style="font-size: 1.4em;" color="primary" name="mode_edit" class="q-ml-sm q-mt-xs" />
+                            <q-icon style="font-size: 1.4em;" color="grey-7" name="mode_edit" class="q-ml-sm q-mt-xs" />
                         </q-badge>
                         <div class="gCaption"> 
-                            display_name
+                            {{ $t('page.profile.display_name.title') }}
                         </div>
                     </div>
                     <div class="gUserNameMD g-mt-xl">
                         {{ v_user.username }}
                         <div class="gCaption"> 
-                            username
+                            {{ $t('page.profile.username.title') }}
                         </div>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                 <div class="text-left q-ma-sm">
                     <div class="q-pb-md" v-if="isOwner">
                         <div class="gTextSubTitle">
-                            eMail
+                            {{ $t('page.profile.email.title') }}
                         </div>
 
                         <q-input class="gParagraphSM" filled readonly type="text" v-model="v_user.email" />
@@ -65,18 +65,18 @@
 
                     <div class="q-mb-xs">
                         <div class="gTextSubTitle">
-                            Biography
+                            {{ $t('page.profile.biography.title') }}
                             <q-badge align="top" color="white" @click="onClickBiography" v-if="isOwner">
-                                <q-icon color="primary" name="mode_edit" class="" />                        
+                                <q-icon color="grey-7" name="mode_edit" class="" />                        
                             </q-badge>
                         </div>
                         <q-input class="gParagraphSM" filled readonly type="textarea" v-model="v_user.biography" />
                     </div>
                     <div class="q-mt-md" v-if="isOwner">
                         <div class="gTextSubTitle">
-                            Language
+                            {{ $t('page.profile.language.title') }}
                             <q-badge align="top" color="white" @click="onClickLanguage" v-if="isOwner">
-                                <q-icon color="primary" name="mode_edit" class="" />                        
+                                <q-icon color="grey-7" name="mode_edit" class="" />                        
                             </q-badge>
                         </div>
 
@@ -115,7 +115,7 @@
             
         </q-card>
     
-        <EditDialog ref="dialogEdit" title="Edit" @onSave="onSaveEdit" />
+        <EditDialog ref="dialogEdit" :title="$t('dialog.edit_dialog.biography.title')" @onSave="onSaveEdit" />
 
     </div>
 

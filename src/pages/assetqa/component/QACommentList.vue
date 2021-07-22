@@ -117,9 +117,9 @@ export default {
         },
 
         v_caption() {
-            let msg = "Expand";
+            let msg = this.$t("button.expand");
             if (this.v_expanded) {
-                msg = "Collapse ";
+                msg = this.$t("button.collapse");
             }
             if (this.v_count==0) {
                 return msg;

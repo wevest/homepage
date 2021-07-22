@@ -53,11 +53,11 @@
                 <q-btn color="primary" :label="$t('button.unfollow')" ripple
                     :loading="v_loading_follow"
                     @click="onClickFollow(-1)" v-if="v_user.is_following" />
-                <q-btn v-else color="primary" label="Follow" ripple
+                <q-btn v-else color="primary" :label="$t('button.follow')" ripple
                     :loading="v_loading_follow" @click="onClickFollow(1)" />
             </div>
             <div>
-                <q-btn color="primary" label="Message" @click="onClickMessage" />
+                <q-btn color="primary" :label="$t('button.message')" @click="onClickMessage" />
             </div>
         </div>
 

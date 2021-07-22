@@ -78,7 +78,7 @@
 					<q-space />
 
 					<div v-if="v_login == true">
-						<a href="#" @click="onClickSignOut">Logout</a>
+						<a href="#" @click="onClickSignOut">{{ $t('button.logout') }}</a>
 						<q-btn
 							flat round dense
 							color="amber"
@@ -93,7 +93,7 @@
 						/>
 					</div>
 					<div v-else>
-						<a href="#" @click="onClickSignIn">Login</a>
+						<a href="#" @click="onClickSignIn">{{ $t('button.login') }}</a>
 					</div>
 <!--
 					<div class="toolbar_language full-width">

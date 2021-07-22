@@ -2,11 +2,11 @@
     <div class="q-pa-md">
 
         <div class="q-mt-md q-mb-sm">
-            <CTitle title="$t('page.feeds.title')" desc="$t('page.feeds.desc')"></CTitle>
+            <CTitle :title="$t('page.feeds.title')" :desc="$t('page.feeds.desc')"></CTitle>
         </div>
 
         <div class="q-mt-xl q-mb-sm">
-            <UserFeedList ref='feedList' title="$t('page.feeds.userfeed.title')" 
+            <UserFeedList ref='feedList' :title="$t('page.feeds.userfeed.title')" :desc="$t('page.feeds.userfeed.desc')"
                 maxLength="10" moreCaption="" user="v_me"></UserFeedList>
         </div>
 

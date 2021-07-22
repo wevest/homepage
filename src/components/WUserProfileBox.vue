@@ -86,7 +86,7 @@ export default {
     },
     data: function () {
         return {
-            v_follow_button:'Follow',
+            v_follow_button: this.$t("button.follow"),
             v_userid: this.userid,
             v_username: this.username,
             v_avatar: this.avatar,
@@ -108,11 +108,11 @@ export default {
                 _this.v_loading = true;
                 _this.v_me.follow(_this.userid,value).then( response => {
                     logger.log.debug("onClickFollow - response=",response);
-                    _this.v_follow_button = 'Followed';
+                    _this.v_follow_button = this.$t("button.following");
                     _this.v_loading = false;
                     CommonFunc.showOkMessage(_this,'Followed');                
                 }).catch(err=>{
-                    _this.v_follow_button = 'Followed';
+                    _this.v_follow_button = this.$t("button.following");
                     _this.v_loading = false;
                     CommonFunc.showErrorMessage(_this,err.data.msg);                    
                 });

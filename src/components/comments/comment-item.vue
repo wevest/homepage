@@ -53,14 +53,14 @@
                             class="gButtonSM" flat dense type="text"                                
                             @click="replyHandler('editorContainer')" 
                             v-if="data.children && data.children.length==0">
-                            Reply
+                            {{ $t('button.reply') }}                            
                         </q-btn>
                         <q-btn
                             class="gButtonSM" flat dense type="text"
                             @click="toggleExpandPanel"
                             v-if="data.children && data.children.length" >
                             {{
-                                isExpanded ? `Collapse` : `${replyCount} Reply`
+                                isExpanded ? $t('button.collapse') : ` ${replyCount} ${$t('button.reply')}`
                             }}
                             <i
                                 :class="

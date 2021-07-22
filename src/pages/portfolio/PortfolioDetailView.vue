@@ -37,7 +37,7 @@
                     <q-space />
                     <div>
                         <q-btn class="q-mb-xs gButtonSM" flat ripple
-                            @click="onClickEdit" v-show="v_is_owner" :label="v_edit_button" />
+                            @click="onClickEdit" v-show="v_is_owner" :label="$t('button.edit')" />
                     </div>
                 </div>
                 <div >
@@ -66,7 +66,7 @@
 
         <div>
             <div class="q-my-lg">
-                <span class="gSubTitle"> ROI Chart </span>
+                <span class="gSubTitleLG"> {{ $t('page.portfolio_detail.roi_chart.title') }} </span>
             </div>
             
             <PortfolioChart ref="portfolioChart" />
@@ -74,7 +74,7 @@
             <div class="q-my-xl">
                 <WRatingButton ref="ratingButton" 
                     :data="v_portfolio"
-                    likeCaption="훌륭합니다." dislikeCaption="리밸런싱해요" />
+                    :likeCaption="$t('button.portfolio_like')" :dislikeCaption="$t('button.portfolio_dislike')" />
             </div>
 
             <div v-if="! v_is_owner" class="q-my-xl">

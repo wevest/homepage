@@ -44,7 +44,7 @@
                     <WWriterButton placeholder="What's your in minds?" @onClickWrite="onClickWrite" />
                 </div>
                 <q-separator class="gSeparator" />
-                <TweetList ref='tweetList' title="Tweets" maxLength="10" moreCaption="More" 
+                <TweetList ref='tweetList' title="Tweets" maxLength="10" :moreCaption="$t('button.more')" 
                     :category="v_asset.object_category" :symbol="v_asset.symbol" :assetId="v_asset.id" />
 
             </q-tab-panel>
@@ -55,7 +55,7 @@
                 </div>
                 <q-separator class="gSeparator" />
                 <BlogList ref='blogList' :title="$t('page.asset.bloglist.title')" :desc="$t('page.asset.bloglist.desc')"
-                    maxLength="10" moreCaption="More" 
+                    maxLength="10" :moreCaption="$t('button.more')" 
                     :category="v_asset.object_category" :symbol="v_asset.symbol" :objectId="v_asset.id" />            
             </q-tab-panel>
         
@@ -65,7 +65,7 @@
                 </div>
                 <q-separator class="gSeparator" />
                 <AssetQuestionList ref="questionList" :title="$t('page.asset.questionlist.title')" :desc="$t('page.asset.questionlist.desc')"
-                    maxLength="10" moreCaption="More"
+                    maxLength="10" :moreCaption="$t('button.more')"
                     :symbol="v_asset.symbol" :assetId="v_asset.id"
                     @onClickQuestionRating="onClickQuestionRating"
                 >
@@ -82,7 +82,7 @@
                 </div>
                 <q-separator class="gSeparator" />
                 <AssetReviewList ref="reviewList" :title="$t('page.asset.priceforecast.title')" :desc="$t('page.asset.priceforecast.desc')" 
-                    moreCaption="More" maxLength="10" 
+                    :moreCaption="$t('button.more')" maxLength="10" 
                     :category="v_asset.symbol" :assetId="v_asset.id" 
                     @onClickRating="onClickReviewRating"> 
                 </AssetReviewList>

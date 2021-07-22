@@ -16,8 +16,8 @@
                 </q-card-section>
 
                 <q-card-actions align="around">
-                    <q-btn flat v-close-popup>Cancel</q-btn>
-                    <q-btn flat @click="onClickSave">Save</q-btn>
+                    <q-btn flat v-close-popup>{{ $t('button.cancel') }}</q-btn>
+                    <q-btn flat @click="onClickSave">{{ $t('button.send') }}</q-btn>
                 </q-card-actions>
             </q-card>
 

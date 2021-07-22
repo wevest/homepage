@@ -7,7 +7,7 @@
                 class="expandMore" 
                 dense flat ripple
                 icon-right="expand_more" 
-                label="Loadmore" 
+                :label="$t('button.lordmore')" 
                 :loading="v_loading"
                 @click="onClickLoadMore" />
 		</div>            
