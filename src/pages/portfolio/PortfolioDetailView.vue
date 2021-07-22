@@ -515,7 +515,7 @@ export default {
         onClickMore: function(portfolio_item) {
             logger.log.debug("PortfolioDetail.onClickMore : portfolio_item=",portfolio_item);
             
-            store.getters.nav.add(this.$route);
+            //store.getters.nav.add(this.$route);
             CommonFunc.navAsset(this,portfolio_item.api_asset.symbol,portfolio_item.api_asset.id);
         }
 

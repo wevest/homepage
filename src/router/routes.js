@@ -94,13 +94,19 @@ const routes = [
         name: "assetqa",
         path: "/assetqa",
         component: () => import("pages/assetqa/AssetQAView.vue"),
-		meta: { transition: "overlay-right" }
+		    meta: { transition: "overlay-right" }
+      },
+      {
+        name: "asset_holder",
+        path: "/asset_holder",
+        component: () => import("pages/asset/AssetHolderView.vue"),
+    		meta: { transition: "overlay-right" }
       },
       {
         name: "assetreview",
         path: "/assetreview",
         component: () => import("pages/assetreview/AssetReviewView.vue"),
-		meta: { transition: "overlay-right" }
+    		meta: { transition: "overlay-right" }
       },
       {
         name: "assetqa_detail",

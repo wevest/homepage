@@ -79,30 +79,30 @@ export default class CMSAPI {
 		});
 	}
 
-  static voteBlogPost(dic_param, func, funcErr) {
-    let url = CMSAPI.getUrl(
-      MoaConfig.urls.cms,
-      "/api/blog/posts/" + dic_param.id + "/vote/"
-    );
-    callCMSAPI("POST", url, {}, dic_param)
-      .then(response => {
-        func(response);
-      })
-      .catch(err => {
-        funcErr(err);
-      });
-  }
+	static voteBlogPost(dic_param, func, funcErr) {
+		let url = CMSAPI.getUrl(
+			MoaConfig.urls.cms,
+			"/api/blog/posts/" + dic_param.id + "/vote/"
+		);
+		callCMSAPI("POST", url, {}, dic_param)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+	}
 
-  static postBlogComment(dic_param, func, funcErr) {
-    let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/comments/api/comment/");
-    callCMSAPI("POST", url, {}, dic_param)
-      .then(response => {
-        func(response);
-      })
-      .catch(err => {
-        funcErr(err);
-      });
-  }
+	static postBlogComment(dic_param, func, funcErr) {
+		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/comments/api/comment/");
+		callCMSAPI("POST", url, {}, dic_param)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+	}
 
 	static editBlogComment(dic_param, func, funcErr) {
 		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/comment/comments");
@@ -230,23 +230,23 @@ export default class CMSAPI {
 		});
 	}
 
-  static getComments(dic_param, func, funcErr) {
-    let a_method =
-      "/comments/api/" + dic_param.content_type + "/" + dic_param.id + "/";
-    if (dic_param.limit) {
-      a_method =
-        a_method + "?limit=" + dic_param.limit + "&offset=" + dic_param.offset;
-    }
+	static getComments(dic_param, func, funcErr) {
+		let a_method =
+		"/comments/api/" + dic_param.content_type + "/" + dic_param.id + "/";
+		if (dic_param.limit) {
+		a_method =
+			a_method + "?limit=" + dic_param.limit + "&offset=" + dic_param.offset;
+		}
 
-    let url = CMSAPI.getUrl(MoaConfig.urls.cms, a_method);
-    callCMSAPI("GET", url, {}, dic_param)
-      .then(response => {
-        func(response);
-      })
-      .catch(err => {
-        funcErr(err);
-      });
-  }
+		let url = CMSAPI.getUrl(MoaConfig.urls.cms, a_method);
+		callCMSAPI("GET", url, {}, dic_param)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+	}
 
   static getPostData(page_id, func, funcErr) {
     let url = CMSAPI.getUrl(
@@ -360,6 +360,27 @@ export default class CMSAPI {
 			"/api/portfolio/portfolios/" + dic_param.id + "/vote/"
 		);
 		callCMSAPI("POST", url, {}, dic_param)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+	}
+
+	static getPortfolioItem(dic_param, func, funcErr) {
+    	let a_method = "/api/portfolio/portfolioitems/";
+		if (dic_param.hasOwnProperty('asset_id')) a_method += "?asset_id=" + dic_param.asset_id;
+		if (dic_param.hasOwnProperty('username')) a_method += "?username=" + dic_param.username;
+		if (dic_param.hasOwnProperty('user_id')) a_method += "?user_id=" + dic_param.user_id;
+
+		let url = CMSAPI.getUrl(
+		    MoaConfig.urls.cms,
+			a_method
+		);
+		url = CommonFunc.addLimitOffsetToQuery(url, dic_param);
+
+		callCMSAPI("GET", url, {}, dic_param)
 		.then(response => {
 			func(response);
 		})

@@ -4,7 +4,9 @@
 		<CTitle ttype='subtitle' :title="v_title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMorePortfolio"></CTitle>
 
-        <q-card class="q-my-sm" flat bordered v-for="(a_portfolio,index) in v_portfolio.items" :key="index" >
+        <q-card class="q-my-sm" flat bordered 
+            v-for="(a_portfolio,index) in v_portfolio.items" :key="index" 
+            v-if="index<v_maxLength" >
             <q-card-section class="no-padding">  
                 <div class="row boxContainer">
                     <div class="portfolioAvatar q-pa-md">
@@ -162,6 +164,7 @@ export default {
 
         onClickMorePortfolio: function() {
             logger.log.debug("PortfolioList.onClickMorePortfolio:");
+            CommonFunc.navPortfolioIndexView(this);
         }
     },
 

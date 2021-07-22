@@ -2,6 +2,7 @@
 import {callAPI, callGetAPI, callPostAPI, callJsonRPC} from 'src/util/Http';
 import {MoaConfig} from 'src/data/MoaConfig';
 import logger from 'src/error/Logger';
+import CommonFunc from "src/util/CommonFunc";
 
 
 export default class MoaBackendAPI{
@@ -660,11 +661,16 @@ export default class MoaBackendAPI{
   
   static getAssetData(reqParam,func,funcErr) {
     let a_method = "/api/asset/assets/";
+    if (reqParam.hasOwnProperty('asset_id') ) {
+      a_method += "?asset_id="+reqParam.asset_id;
+    }
     if (! reqParam.hasOwnProperty('limit') ) {
-      a_method += "?limit=10000";
+      //a_method += "?limit=10000";
     }
 
     let url = MoaBackendAPI.getUrl(MoaConfig.urls.cms,a_method);
+    url = CommonFunc.addLimitOffsetToQuery(url, reqParam);
+
     callAPI("GET",url,{},reqParam)
     .then( (response) => {
         func(response);

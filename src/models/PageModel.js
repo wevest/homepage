@@ -244,7 +244,7 @@ export class AssetReviewPageModel {
     dislike_count=null;    
     owner=null;
     object_id=null;    
-    average_rating=null;
+    average_rating=5;
     asset=new AssetModel();
     //computed fields
     is_owner=null;

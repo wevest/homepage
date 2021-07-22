@@ -5,7 +5,7 @@
             <div class="price_big">
 
                 <CBigLabel ref='label_btc' 
-                    title="" moreButton="1"
+                    title="" moreButton="Chart"
                     :value="data.ticker.last" 
                     :valueRet="data.ticker.change_percentage"
                     :updatedAt="data.ticker.updated_at"

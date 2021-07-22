@@ -29,8 +29,8 @@
                     $ {{v_format(value)}}
                 </div>
                 <q-space />
-                <div class="q-pr-lg" v-if="moreButton=='1'"> 
-                    <span> > </span>
+                <div class="q-pr-lg" v-if="moreButton.length>0"> 
+                    <q-btn flat dense :label="moreButton" icon-right="navigate_next" />
                 </div>
             </div>
                     
@@ -87,7 +87,7 @@ export default {
             default:''
         },
         moreButton: {
-            default:"0"
+            default:""
         }
     },
     computed: {

@@ -569,6 +569,12 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);
     }
 
+    static navPortfolioIndexView(a_this) {
+        store.getters.nav.add(a_this.$route);
+        let dic_param = { name:'portfolio_index', path:'portfolio_index', query:{} };
+        a_this.$router.push(dic_param);    
+    }
+
     static navPortfolioView(a_this,user) {        
         store.getters.nav.add(a_this.$route);
         let dic_param = { 
@@ -578,13 +584,6 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);    
     }
 
-    static navTweetDetail(a_this,id) {
-        logger.log.debug("CommonFunc.navTweetDetail - ",a_this.$route);
-        store.getters.nav.add(a_this.$route);
-        let dic_param = { name:'tweet_detail', path:'tweet_detail', query: {id:id} };            
-        a_this.$router.push(dic_param);
-    }
-
     static navPortfolio(a_this,username,portfolio_id) {
         store.getters.nav.add(a_this.$route);
         let dic_param = { 
@@ -592,6 +591,22 @@ export default class CommonFunc {
             query:{ username:username, portfolio_id:portfolio_id} 
         };
         a_this.$router.push(dic_param);    
+    }
+
+    static navHolder(a_this,asset_id,symbol) {
+        store.getters.nav.add(a_this.$route);
+        let dic_param = { 
+            name:'asset_holder', path:'asset_holder', 
+            query:{ id:asset_id, symbol:symbol} 
+        };
+        a_this.$router.push(dic_param);    
+    }
+
+    static navTweetDetail(a_this,id) {
+        logger.log.debug("CommonFunc.navTweetDetail - ",a_this.$route);
+        store.getters.nav.add(a_this.$route);
+        let dic_param = { name:'tweet_detail', path:'tweet_detail', query: {id:id} };            
+        a_this.$router.push(dic_param);
     }
 
     static navReview(a_this,symbol,page_id) {
@@ -647,6 +662,14 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);
     }
 
+    static navFeeds(a_this) {
+        let dic_param = {
+            name: "feeds",path: "feeds", query: {},
+        };
+        store.getters.nav.add(a_this.$route);
+        a_this.$router.push(dic_param);
+    }
+
     static navTweetWriter(a_this,asset_id) {
         let dic_param = {
             name: "tweet_writer",path: "tweet_writer", query: { id: asset_id },
@@ -660,6 +683,15 @@ export default class CommonFunc {
 
         //store.getters.nav.add(a_this.$route);
         let dic_param = { name:'asset', path:'asset', query:{ symbol:symbol, id: page_id } };
+        store.getters.nav.add(a_this.$route);
+        a_this.$router.push(dic_param);
+    }
+
+    static navAssetIndex(a_this) {
+        logger.log.debug("CommonFunc.navAssetIndex");
+
+        //store.getters.nav.add(a_this.$route);
+        let dic_param = { name:'asset_index', path:'asset_index', query:{} };
         store.getters.nav.add(a_this.$route);
         a_this.$router.push(dic_param);
     }

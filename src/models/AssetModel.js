@@ -3,12 +3,16 @@ import {baseCollection} from 'src/models/baseModel';
 import _ from 'lodash';
 
 import CommonFunc from 'src/util/CommonFunc';
+import logger from 'src/error/Logger';
+
 import APIService from 'src/services/apiService';
 import MoaBackendAPI from 'src/services/apiService';
 import PriceService from 'src/services/priceService';
-import logger from 'src/error/Logger';
 import LocalStorageService from 'src/services/localStorage';
+import CMSAPI from 'src/services/cmsService';
 
+
+import {HolderModel,HolderListModel} from 'src/models/UserModel';
 
 export class TickerModel {
     change_percentage=null;
@@ -43,7 +47,8 @@ export class AssetModel{
     image_thumb=null;
     description=null;
     description_kr=null;
-
+    cmc_rank=null;
+    num_market_pairs=null;
     total_supply=null;
     max_supply=null;
     circulating_supply=null;
@@ -70,9 +75,13 @@ export class AssetModel{
     is_deleted=null;
     github_network_count=null;
 
+    like_count=null;
+    dislike_count=null;
+    portfolio_count=null;
+    average_rating=null;
+
     ticker = new TickerModel();
-
-
+    holders = new HolderListModel();
 
     constructor() {}
 
@@ -95,6 +104,7 @@ export class AssetModel{
 
     assign(item) {
         this.id = item.id;
+        this.asset_type = item.asset_type;
         this.symbol = item.symbol;
         this.name=item.name;
         this.image = item.image;
@@ -103,6 +113,13 @@ export class AssetModel{
         this.first_price = item.first_price;
         this.description = item.description; 
         this.description_kr = item.description_kr;
+        this.cmc_rank = item.cmc_rank;
+        this.num_market_pairs = item.num_market_pairs;
+
+        this.like_count = item.like_count;
+        this.dislike_count = item.dislike_count;
+        this.average_rating = item.average_rating;
+        this.portfolio_count = item.portfolio_count;
     }
     
     assignExt(json_data) {
@@ -158,19 +175,17 @@ export class AssetModel{
 
     loadBaseinfo() {
         const _this = this;
-        let dic_param = {symbol:this.symbol};
+        let dic_param = {asset_id:this.id};
         logger.log.debug("AssetModel.loadBaseinfo - dic_param=",dic_param);
 
         return new Promise(function(resolve,reject) {            
-            MoaBackendAPI.getCryptoBaseinfo(dic_param,function(response) {
+            APIService.getAssetData(dic_param,function(response) {
                 //_this.g_data = response.data.data;
-                logger.log.debug("AssetView.loadCryptoBaseinfo - response",response.data);
-                _this.assignExt(response.data.data);
-                //_this.updateScoreWidget(_this.g_data);
-                //_this.$refs.assetinfoTable.update(_this.g_data,_this.g_vc);                
-                resolve(response.data.data);
+                logger.log.debug("AssetView.loadBaseinfo - response",response.data);
+                _this.assign(response.data.results[0]);
+                resolve(response.data);
             },function(err) {
-                logger.log.error("AssetView.loadCryptoBaseinfo - error",err);
+                logger.log.error("AssetView.loadBaseinfo - error",err);
                 reject();
             });
         });            
@@ -223,8 +238,25 @@ export class AssetModel{
                 reject(err);
             });
         });            
+    }
+
+    loadHolders(dic_param) {
+        const _this = this;
+
+        return new Promise(function(resolve,reject) {
+            CMSAPI.getPortfolioItem(dic_param, function(response) {                
+                logger.log.debug("AssetModel.loadHolders:response=",response);
+                
+                _this.holders.assign(response.data.results);
+                resolve(response);
+
+            }, function(err) {
+                reject(err);
+            });
+        });
 
     }
+        
 }
 
 
@@ -240,17 +272,22 @@ export class AssetListModel extends baseCollection{
         return _.find(this.items,{symbol:symbol} );
     }
     
-    load() {
+    load(asset_id=null,limit=null,offset=null) {
         const _this = this;
-        
-        return new Promise(function(resolve,reject) {
-            let reqParam = { token: MoaConfig.auth.token};            
+                
+        return new Promise(function(resolve,reject) {            
+
+            let reqParam = {};      
+            if (limit) reqParam['limit'] = limit;
+            if (offset) reqParam['offset'] = offset;
+            if (asset_id) reqParam['asset_id'] = asset_id;
+
             APIService.getAssetData(reqParam,function(response) {
                 logger.log.debug("load : response=",response);
 
                 const items = response.data.results;      
-                _this.last_updated = CommonFunc.getCurrentDatetime();          
-                _this.clear();
+                _this.last_updated = CommonFunc.getCurrentDatetime();      
+
                 for (let index=0;index<items.length;index++) {
                     _this.add( AssetModel.create(items[index]) );
                 }

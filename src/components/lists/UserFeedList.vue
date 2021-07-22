@@ -307,8 +307,7 @@ export default {
 		onClickMoreFeed: function() {
 			logger.log.debug("BlogList.onClickMoreFeed : 1");
 			
-			store.getters.nav.add(this.$route);
-            CommonFunc.navBlog(this,this.category,this.symbol,this.objectId);
+            CommonFunc.navFeeds(this);
 		}
 
 	},

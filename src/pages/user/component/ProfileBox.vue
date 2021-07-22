@@ -116,7 +116,6 @@
         </q-card>
     
         <EditDialog ref="dialogEdit" title="Edit" @onSave="onSaveEdit" />
-        <ResetPasswordDialog ref="passwordDialog" />
 
     </div>
 

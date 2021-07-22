@@ -1,6 +1,6 @@
 <template>
 	<div :style="v_style" v-show="visible" @click="onClick">
-		<div>
+		<div class="col">
 			<div class="row q-mb-md boxPrice" v-if="v_me.loggedIn" @click="onClickExpand">
 				<div class="q-pr-md">
 					<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" :displayname="v_me.dispaly_name" />
@@ -10,37 +10,23 @@
 				</div>
 			</div>
 
-			<div class="boxPriceForm q-mb-sm" v-if="v_expand">
-				<div class="row q-pa-md justify-center text-center">
-					<div class="q-pr-md">
-						<q-btn 
-							class="gRatingBtnMD" flat ripple
-							:class="v_color_like"                
-							style="font-size: 2.4em;"
-							icon="arrow_circle_up" 
-							@click="onClickRate(1)" />
-						<div class="gRatingCountMD">
-							<span>{{v_likeCaption}}</span>
-						</div>
-					</div>
-					<div class="q-pl-md">
-						<q-btn
-							class="gRatingBtnMD" flat ripple
-							:class="v_color_dislike"
-							style="font-size: 2.4em;"
-							icon="arrow_circle_down"
-							@click="onClickRate(-1)" />
-						<div class="gRatingCountMD">
-							<span>{{v_dislikeCaption}}</span>
-						</div>
-					</div>        
+			<div class="boxReview q-pa-md" v-if="v_expand">
+				<div>
+					<span> 당신의 평점은? </span>
+					<q-rating
+						v-if="v_me.loggedIn"
+						v-model="v_review.average_rating"
+						size="2.0em"
+						icon="star_border"
+						icon-selected="star"
+						color="red-5"
+					/>
 				</div>
 
-
-				<div class="q-px-md">
+				<div class="q-pb-sm">
 					<WTextArea
 						ref="descText"				
-						hint="why do you think like that?"
+						hint="Please Type your review"                
 						v-model="v_review.content"
 						:rows="v_rows"
 						@onFocus="onFocus"
@@ -52,7 +38,7 @@
 					
 					<q-space />
 
-					<div class="q-mx-md q-mb-sm" align="right" v-if="v_me.loggedIn">
+					<div align="right" v-if="v_me.loggedIn">
 						<q-btn
 							class="gButtonMD" label="save" ripple
 							:loading="v_loading"
@@ -117,40 +103,32 @@ export default {
             return store.getters.me;
         },
 		v_label() {
-			return this.v_me.display_name + "앞으로 가격이 오를까요?";
+			return this.v_me.display_name + " 앞으로 가격이 오를까요?";
 		}
 	},
 	data() {
 		return {
             v_review: new AssetReviewPageModel(),
 
-			v_comments: "",
 			v_style: "",
 			v_loading: false,
 			v_expand: false,
 
-			v_likeCaption:'Up',
-			v_dislikeCaption: 'Down',
-
-            v_color_like:'',
-            v_color_dislike:'',
-
-			v_rows: "5",						
-			v_rating: 5,
+			v_rows: "5",
 			v_error: {
 				error: false,
 				msg: "",
 			},
-
 		};
 	},
 	watch: {},
 
 	mounted() {
 		logger.log.debug("AssetReviewForm.mounted");
+	},
+	updated() {
 		this.prepare();
 	},
-
 	methods: {
 		prepare() {
 			//logger.log.debug("Comment-Form.prepare : v_me=",this.v_me);
@@ -158,7 +136,6 @@ export default {
 				return;
 			}
 
-			this.$refs.descText.setStyle("border:none;");
 			if (this.v_me.loggedIn) {
 				this.$refs.descText.setHint("Please type your review");
 				this.$refs.descText.setEnabled(true);
@@ -180,29 +157,22 @@ export default {
 		},		
         clear() {
             this.v_review.content = "";
-            this.v_review.average_rating = 0;
+            this.v_review.average_rating = 5;
 			this.$refs.descText.setStyle("border:none;");
-            this.$refs.descText.setValue(this.v_comments);
-
-			this.v_color_like="";
-			this.v_color_dislike="";
-
-			this.minimize();
+            this.$refs.descText.setValue(this.v_review.content);
 			//this.$refs.descText.setRows(1);
+			this.minimize();
         },
 
 		setReview(review) {
 			console.log("AssetReviewForm.setReview=", review);
 			
             this.v_review = review;
-            this.v_comments = this.v_review.content;
-            this.v_rating = this.v_review.average_rating;
-            this.$refs.descText.setValue(this.v_comments);
+            this.$refs.descText.setValue(this.v_review.content);
 		},
 
 		activate() {
 			// await this.$nextTick()
-			this.$refs.descText.setStyle("border:none;background-color:#f2f2f2;");
 			if (this.$refs.contentInput) {
 				this.$refs.contentInput.focus();
 			} else if (this.$el.querySelector("#contentInput")) {
@@ -213,17 +183,15 @@ export default {
 		validate() {
 			console.log("AssetReviewForm.validate");
 
-			if (CommonFunc.isEmptyObject(this.v_review.average_rating)) {
-				
-				const a_dialog = store.getters.components.getComponent('alertDialog');
-				a_dialog.show('Error','Please select your price');
-
+			if (CommonFunc.isEmptyObject(this.v_review.content)) {
+				this.v_error.error = true;
+				this.v_error.msg = "Please type something";
 				return false;
 			}
             return true;
 		},
 
-        save: function() {
+        save() {
             const _this = this;
             
 			//let tags = [this.category,CONST.REVIEW_CATEGORY + this.category];
@@ -266,7 +234,7 @@ export default {
 
             this.v_review.content = this.$refs.descText.getValue();
 			if (! this.validate()) {
-                //this.$refs.descText.setErrorMessage('Please type your review');
+                this.$refs.descText.setErrorMessage('Please type your review');
 				return;
             }
 			this.$refs.descText.setErrorMessage(null);
@@ -278,19 +246,14 @@ export default {
 			if (! this.v_me.isLoggedIn()) {
 				return;
 			}
-			this.$refs.descText.setStyle("border:1px solid #e0e0e0;background-color:#f2f2f2;");
-			this.$refs.descText.setRows(7);
+			this.$refs.descText.setStyle("border:1px solid #e0e0e0;");
+			//this.$refs.descText.setRows(7);
 			this.$emit("onEditorFocus", event);
 		},
 
 		onFocusOut(event) {
 			logger.log.debug("onFocusOut=", this.$parent);			
 			this.$emit("onEditorFocusOut", event);
-		},
-
-		onClickExpand() {
-			logger.log.debug("AssetReviewForm.onClickExpand : parent=",this.$parent);
-			this.v_expand = ! this.v_expand;
 		},
 
 		onClick() {
@@ -308,48 +271,26 @@ export default {
                     CommonFunc.navSignin(_this);
                 }
             });
-
 		},
 
-		onClickRate(value) {
-			this.v_review.average_rating = value;
-			if (value==1) {
-				this.v_color_like="text-red";
-				this.v_color_dislike="";
-			} else {
-				this.v_color_like="";
-				this.v_color_dislike="text-blue";
-			}
+		onClickExpand() {
+			logger.log.debug("AssetReviewForm.onClickExpand : parent=",this.$parent);
+			this.v_expand = ! this.v_expand;
 		},
+
 	},
 };
 </script>
 
 
 <style scoped>
-.boxPriceForm {
+.boxReview {
 	border: 1px solid #cccccc;
 	border-radius: 8px;
 }
 
 .boxEditorTextarea {
 	height: 150px !important;
-}
-
-.inline-items-wrapper {
-	display: flex;
-	> div {
-		width: 50%;
-	}
-	.email-item {
-		margin-right: 10px;
-	}
-}
-
-/* override quasar css */
-.boxMessageTextarea {
-	height: 150px !important;
-	max-height: 200px;
 }
 
 .boxPrice {    

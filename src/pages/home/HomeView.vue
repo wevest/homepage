@@ -10,29 +10,32 @@
             moreButton="More" />
         </div>
 
-        <div class="col">
+        <div>
             <BlogList ref='blogList' :title="$t('page.home.bloglist.title')" maxLength="10" 
                 :moreCaption="$t('button.more')" 
-                category="news_market" symbol="" objectId="-1"></BlogList>
+                category="" symbol="" objectId="-1"></BlogList>
         </div>
 
         <div>
             <PortfolioList ref="pfVC" :title="$t('page.home.portfoliolist.vc.title')" 
-                maxLength="10" moreCaption=""></PortfolioList>
+                maxLength="10" :moreCaption="$t('button.more')"></PortfolioList>
         </div>
 
         <div>
-            <PortfolioList ref="pfROI" :title="$t('page.home.portfoliolist.roi.title')" maxLength="10" showDescription="0" moreCaption=""></PortfolioList>
+            <PortfolioList ref="pfROI" :title="$t('page.home.portfoliolist.roi.title')" 
+                maxLength="10" showDescription="0" moreCaption=""></PortfolioList>
         </div>
 
         <div>
-            <PortfolioList ref="pfRated" :title="$t('page.home.portfoliolist.highvoted.title')" maxLength="10" showDescription="0" moreCaption=""></PortfolioList>
+            <PortfolioList ref="pfRated" :title="$t('page.home.portfoliolist.highvoted.title')" 
+                maxLength="10" showDescription="0" moreCaption=""></PortfolioList>
         </div>
 
-<!--
         <div class="col">
             <AssetList ref='assetList' title="Asset List" maxLength="10" moreCaption="More" ></AssetList>
         </div>
+
+<!--
 
         <div class="col">
             <ReviewStatList ref='reviewList' title="Review List" category="" maxLength="10" moreCaption="More"></ReviewStatList>
@@ -135,7 +138,7 @@ export default {
             let funcs = [            
                 //this.loadCalendarEffectData('1h'),
                 this.loadBlogList(),
-                //this.loadAssetList(),
+                this.loadAssetList(),
                 this.loadPortfolioList(),
                 this.loadFeedList(),
                 //this.loadReviewStatList(),
@@ -162,7 +165,7 @@ export default {
         },
 
         loadAssetList: function() {
-            this.$refs.assetList.update();
+            this.$refs.assetList.update(10,null);
         },
 
         loadFeedList: function() {

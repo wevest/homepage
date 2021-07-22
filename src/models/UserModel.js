@@ -183,6 +183,56 @@ export class FriendListModel extends baseCollection{
 }
 
 
+
+export class HolderModel {
+    username=null;
+    id=null;
+    created_at=null;    
+    updated_at=null;    
+    avatar=null;
+    avatar_thumb=null;
+    biography=null;
+    description=null;
+    price=null;
+
+    portfolio_id=null;
+    portfolio_item_id=null;
+    
+    assign(obj) {
+        this.id = obj.api_user.id;
+        this.username = obj.api_user.username;        
+        this.display_name = obj.api_user.display_name;
+        this.biography = obj.api_user.biography;
+        this.avatar = obj.api_user.avatar;
+        this.avatar_thumb = obj.api_user.avatar_thumb;
+        
+        if (CommonFunc.isEmptyObject(this.display_name)) {
+            this.display_name = this.username;
+        }
+
+        this.description=obj.description;
+        this.price = obj.price;
+        this.portfolio_id = obj.portfolio_id;
+        this.portfolio_item_id = obj.portfolio_item_id;
+        this.created_at = obj.created_at;
+        this.updated_at = obj.updated_at;
+    }
+}
+
+
+export class HolderListModel extends baseCollection{
+    next_url= null;
+
+    assign(items) {
+        for (let index=0; index<items.length; index++) {
+            let a_holder = new HolderModel();            
+            //logger.log.debug("FriendListModel.assign : item=",items[index]);
+            a_holder.assign(items[index]);
+            this.add(a_holder);
+        }
+    }
+}
+
 export default class User {
     id = null; 
     username = null;

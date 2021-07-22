@@ -59,7 +59,7 @@ import CTitle from 'components/CTitle';
 import ChartTimeframe from 'components/ChartTimeframe';
 import CAssetChart from 'src/pages/asset/CAssetChart';
 import CAssetInfoTable from 'src/pages/asset/component/CAssetInfoTable';
-import CAssetTable from 'src/pages/asset/CAssetTable';
+
 import PriceSummaryBox from 'src/pages/asset/component/PriceSummaryBox';
 import PriceDataTable from 'src/pages/asset/component/PriceDataTable';
 import InfoTable from "src/pages/asset/component/InfoTable";
@@ -75,7 +75,6 @@ export default {
         ChartTimeframe,
         CAssetChart,
         CAssetInfoTable,
-        CAssetTable,
         PriceSummaryBox,
         PriceDataTable,
         InfoTable,

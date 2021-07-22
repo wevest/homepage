@@ -1,6 +1,6 @@
 <template>
 
-    <div class="q-pa-md">
+    <div class="q-ma-md">
         <div class="col">
             <CTitle ttype='title' :title="v_page_title" desc=""></CTitle>          
         </div>
@@ -11,6 +11,10 @@
 
         <div>
             <PriceForecastBox ref="ratingBox" :reviews="v_reviews" title="Investor Reviews"></PriceForecastBox>
+        </div>
+        <div @click="onClickHolder">
+            <q-icon name="groups" size="20px" /> 
+            <span>{{v_asset.portfolio_count}} 명이 포트폴리오에 포함시켰습니다.</span>
         </div>
 
         <div>
@@ -41,7 +45,7 @@
                 </div>
                 <q-separator class="gSeparator" />
                 <TweetList ref='tweetList' title="Tweets" maxLength="10" moreCaption="More" 
-                    :category="v_asset.object_category" :symbol="v_asset.symbol" :assetId="v_asset.object_id" />
+                    :category="v_asset.object_category" :symbol="v_asset.symbol" :assetId="v_asset.id" />
 
             </q-tab-panel>
 
@@ -52,7 +56,7 @@
                 <q-separator class="gSeparator" />
                 <BlogList ref='blogList' :title="$t('page.asset.bloglist.title')" :desc="$t('page.asset.bloglist.desc')"
                     maxLength="10" moreCaption="More" 
-                    :category="v_asset.object_category" :symbol="v_asset.symbol" :objectId="v_asset.object_id" />            
+                    :category="v_asset.object_category" :symbol="v_asset.symbol" :objectId="v_asset.id" />            
             </q-tab-panel>
         
             <q-tab-panel name="qa" class="gNoMargin">
@@ -62,7 +66,7 @@
                 <q-separator class="gSeparator" />
                 <AssetQuestionList ref="questionList" :title="$t('page.asset.questionlist.title')" :desc="$t('page.asset.questionlist.desc')"
                     maxLength="10" moreCaption="More"
-                    :symbol="v_asset.symbol" :assetId="v_asset.object_id"
+                    :symbol="v_asset.symbol" :assetId="v_asset.id"
                     @onClickQuestionRating="onClickQuestionRating"
                 >
                 </AssetQuestionList>            
@@ -70,16 +74,16 @@
             
             <q-tab-panel name="review" class="gNoMargin">
                 <div class="q-my-sm">
-                    <PriceForecastForm ref="reviewForm" 
-                        :category="v_asset.symbol" :assetId="v_asset.object_id"
+                    <AssetReviewForm ref="reviewForm" 
+                        :category="v_asset.symbol" :assetId="v_asset.id"
                         @onClickReviewSave="onClickReviewSave" 
                     > 
-                    </PriceForecastForm>                
+                    </AssetReviewForm>                
                 </div>
                 <q-separator class="gSeparator" />
                 <AssetReviewList ref="reviewList" :title="$t('page.asset.priceforecast.title')" :desc="$t('page.asset.priceforecast.desc')" 
                     moreCaption="More" maxLength="10" 
-                    :category="v_asset.symbol" :assetId="v_asset.object_id" 
+                    :category="v_asset.symbol" :assetId="v_asset.id" 
                     @onClickRating="onClickReviewRating"> 
                 </AssetReviewList>
             </q-tab-panel>
@@ -109,9 +113,9 @@ import AssetReviewList from 'components/lists/AssetReviewList';
 import TweetList from 'components/lists/TweetList';
 
 import CAssetChart from 'src/pages/asset/CAssetChart';
+import AssetReviewForm from 'src/pages/asset/component/AssetReviewForm';
 import PriceForecastForm from 'src/pages/asset/component/PriceForecastForm';
 import PriceSummaryBox from 'src/pages/asset/component/PriceSummaryBox';
-import PriceDataTable from 'src/pages/asset/component/PriceDataTable';
 import InfoTable from "src/pages/asset/component/InfoTable";
 import PriceForecastBox from "src/pages/asset/component/PriceForecastBox";
 
@@ -123,12 +127,11 @@ export default {
         AssetQuestionList,
         CAssetChart,
         PriceSummaryBox,
-        PriceDataTable,
         AssetReviewList,
         InfoTable,
         BlogList,
         TweetList,
-        PriceForecastForm,
+        AssetReviewForm,
         PriceForecastBox,
         WWriterButton
     },
@@ -176,7 +179,7 @@ export default {
 
         this.v_asset.symbol = this.$route.query.symbol;
         this.v_asset.object_category = CONST.ASSETPAGE_CATEGORY+this.v_asset.symbol;
-        this.v_asset.object_id = parseInt(this.$route.query.id);
+        this.v_asset.id = parseInt(this.$route.query.id);
     },
     mounted: function() {
         //this.g_asset.symbol = 'BTC';
@@ -205,6 +208,7 @@ export default {
             //logger.log.debug('Refresh');            
             this.loadPriceTicker();
             this.loadAssetReviewStat();
+            this.loadCryptoBaseinfo();
             this.updateTab();
         },
         
@@ -239,10 +243,9 @@ export default {
             if (this.v_tab=="info") {
                 if (! this.v_loaded.info) {
                     this.v_loaded.info = true;
-                    this.loadCryptoBaseinfo();                    
+                    //this.loadCryptoBaseinfo();
                 }
             }
-
         },
 
         updateScoreWidget: function(json_data) { 
@@ -274,7 +277,7 @@ export default {
             this.$refs.dataTable.update(json_data);
         },
 
-        loadCryptoBaseinfo: function() {
+        loadCryptoBaseinfo() {
             const _this = this;
 
             this.v_asset.loadBaseinfo().then(resp=>{
@@ -295,7 +298,7 @@ export default {
 
         },
 
-        loadPriceHistory: function(offset=360,force=false) {
+        loadPriceHistory(offset=360,force=false) {
             const _this = this;
             
             
@@ -328,7 +331,7 @@ export default {
         },
 
 
-        loadCommitData: function(symbol) {
+        loadCommitData(symbol) {
             const _this = this;
 
             return new Promise(function(resolve,reject) {
@@ -345,7 +348,7 @@ export default {
             });            
         },
 
-        loadCryptoBaseinfo: function() {
+        loadCryptoBaseinfo() {
             const _this = this;
 
             this.v_asset.loadBaseinfo().then(resp=>{
@@ -355,31 +358,31 @@ export default {
             });
         },
 
-        loadAssetReviewData: function() {
-            let dic_param = {'asset_id':this.v_asset.object_id};
+        loadAssetReviewData() {
+            let dic_param = {'asset_id':this.v_asset.id};
             this.$refs.reviewList.update(dic_param);
         },
 
-        loadAssetQuestionData: function() {
-            let dic_param = {'asset_id':this.v_asset.object_id};
+        loadAssetQuestionData() {
+            let dic_param = {'asset_id':this.v_asset.id};
             this.$refs.questionList.update(dic_param);
         },
 
-        loadBlogList: function() {
-            console.log('AssetView.loadBlogList - ',this.v_asset.object_id);
-            this.$refs.blogList.updateByAsset(this.v_asset.object_id);
+        loadBlogList() {
+            console.log('AssetView.loadBlogList - ',this.v_asset.id);
+            this.$refs.blogList.updateByAsset(this.v_asset.id);
         },
 
-        loadTweetList: function() {
-            console.log('AssetView.loadTweetList - ',this.v_asset.object_id);
-            this.$refs.tweetList.updateByAsset(this.v_asset.object_id);
+        loadTweetList() {
+            console.log('AssetView.loadTweetList - ',this.v_asset.id);
+            this.$refs.tweetList.updateByAsset(this.v_asset.id);
         },
 
-        loadAssetReviewStat: function() {
+        loadAssetReviewStat() {
             const _this=this;
             //let dic_param = {'category':this.g_asset.symbol, 'object_id':this.g_asset.object_id};
 
-            this.v_reviews.loadStat(this.v_asset.object_id).then(resp=>{
+            this.v_reviews.loadStat(this.v_asset.id).then(resp=>{
                 logger.log.debug("loadAssetReviewStat:resp=",resp);
             }).catch(err=>{
 
@@ -387,7 +390,7 @@ export default {
         },
 
 
-        onClickReviewSave: function(dic_param) {                        
+        onClickReviewSave(dic_param) {                        
             logger.log.debug('AssetView.onClickReviewSave - ',dic_param);       
             this.$refs.reviewList.addReview(dic_param.response.data);
             return;
@@ -441,7 +444,7 @@ export default {
 
             let a_post = new PostPageModel();
             a_post.category = this.v_asset.symbol;
-            a_post.asset_id = this.v_asset.object_id;
+            a_post.asset_id = this.v_asset.id;
             a_post.setContentType(CONST.CONENT_TYPE_ASSETPAGE);
 
             this.$refs.blogWriter.show(a_post);
@@ -480,7 +483,7 @@ export default {
         onClickMoreReview: function() {
             logger.log.debug('AssetView.onClickMoreReview');
             store.getters.nav.add(this.$route);
-            CommonFunc.navReview(this,this.v_asset.symbol,this.v_asset.object_id);
+            CommonFunc.navReview(this,this.v_asset.symbol,this.v_asset.id);
         },
 
         onClickChart: function(evt) {
@@ -496,12 +499,12 @@ export default {
         onClickPrice: function(dicParam) {
             logger.log.debug('AssetView.onClickPrice');
             store.getters.nav.add(this.$route);
-            CommonFunc.navAssetDetail(this,this.v_asset.symbol,this.v_asset.object_id);
+            CommonFunc.navAssetDetail(this,this.v_asset.symbol,this.v_asset.id);
         },
 
         onClickWrite: function() {
             logger.log.debug('AssetView.onClickWrite');
-            CommonFunc.navTweetWriter(this,this.v_asset.object_id)
+            CommonFunc.navTweetWriter(this,this.v_asset.id)
         },
 
         onClickWriteQuestion: function() {
@@ -509,7 +512,7 @@ export default {
 
             let a_post = new QuestionPageModel();
             a_post.category = this.v_asset.symbol;
-            a_post.asset_id = this.v_asset.object_id;
+            a_post.asset_id = this.v_asset.id;
             a_post.setContentType(CONST.CONENT_TYPE_ASSET_QUESTION);
             
             store.getters.nav.add(this.$route);
@@ -526,7 +529,7 @@ export default {
             let a_post = new PostPageModel();            
             a_post.setContentType(CONST.CONENT_TYPE_BLOGPAGE);
             a_post.category_name = this.v_asset.symbol;
-            a_post.asset_id = this.v_asset.object_id;
+            a_post.asset_id = this.v_asset.id;
 
             store.getters.nav.add(this.$route); 
 
@@ -538,6 +541,11 @@ export default {
             logger.log.debug('AssetView.onClickTab : tab=',tab);
             this.v_tab = tab;
             this.updateTab();
+        },
+
+        onClickHolder() {
+            logger.log.debug('AssetView.onClickHolder');
+            CommonFunc.navHolder(this,this.v_asset.id,this.v_asset.symbol);
         }
     },
 

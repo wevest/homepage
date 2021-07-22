@@ -7,7 +7,7 @@
 
         <ProfileBox ref="profileBox" :user="v_user" />
 
-        <q-card class="q-mt-sm">
+        <q-card class="q-mt-md">
             <q-card-section>
                 <div class="row q-py-md text-center">                    
                     <div class="col-4">
@@ -48,11 +48,9 @@
             </q-card-section>
         </q-card>
 
-
-
         <div class="row q-col-gutter-md q-mt-md justify-center  q-mb-xl">
             <div v-if="! isOwner">
-                <q-btn color="primary" label="Unfollow" ripple
+                <q-btn color="primary" :label="$t('button.unfollow')" ripple
                     :loading="v_loading_follow"
                     @click="onClickFollow(-1)" v-if="v_user.is_following" />
                 <q-btn v-else color="primary" label="Follow" ripple
@@ -66,7 +64,7 @@
         <q-separator class="gSeparator" />
 
         <div>
-            <CTitle ttype="subtitle" :title="$t('page.profile.portfoliolist.title')" :desc="$t('page.profile.portfoliolist.desc')"
+            <CTitle ttype="subtitle" title="$t('page.profile.portfolio')" desc="$t('page.profile.portfolio')"
                 loadMoreCaption="" @onClickTitleMore="onClickMorePortfolio"></CTitle>
 
             <PortfolioList ref='portfolioList' 
@@ -75,17 +73,17 @@
         </div>
 
         <div class="q-mt-xl q-mb-sm">
-            <FriendList ref='followerList' :title="$t('page.profile.follower.title')" mode="follower"
+            <FriendList ref='followerList' title="$t('page.profile.follower')" mode="follower"
                 maxLength="10" moreCaption="" :user="v_user"></FriendList>
         </div>
 
         <div class="q-mt-xl q-mb-sm">
-            <FriendList ref='followingList' :title="$t('page.profile.following.title')" mode="following"
+            <FriendList ref='followingList' title="$t('page.profile.following')" mode="following"
                 maxLength="10" moreCaption="" :user="v_user"></FriendList>
         </div>
 
         <div class="q-mt-xl q-mb-sm">
-            <UserFeedList ref='feedList' :title="$t('page.profile.userfeed.title')" 
+            <UserFeedList ref='feedList' title="$t('page.profile.userfeed')" 
                 maxLength="25" moreCaption="" user="v_user"></UserFeedList>
         </div>
 
@@ -110,9 +108,10 @@ import CTitle from 'components/CTitle';
 import WButton from 'components/WButton.vue';
 import BlogList from 'components/lists/BlogList';
 import UserFeedList from 'components/lists/UserFeedList';
+import FriendList from 'components/lists/FriendList';
 import MessageWriterDialog from 'components/dialogs/MessageWriterDialog';
+
 import ProfileBox from 'src/pages/user/component/ProfileBox';
-import FriendList from 'src/pages/user/component/FriendList';
 import PortfolioList from 'src/pages/portfolio/component/PortfolioList';
 
 
