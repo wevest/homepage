@@ -32,7 +32,7 @@
             <div class="q-my-md">
                 <div class="row">
                     <div>
-                        <span class="gCaption"> Description </span>
+                        <span class="gCaption"> {{ $t('name.portfolio_description') }} </span>
                     </div>
                     <q-space />
                     <div>
@@ -49,14 +49,14 @@
             <div class="row q-my-lg text-center">                    
                 <div class="col">
                     <div class="text-h4 text-weight-bolder" :style="v_color(v_portfolio.roi)">{{ v_format(v_portfolio.roi) }}% </div>
-                    <div class="gCaption">ROI</div>                         
+                    <div class="gCaption">{{ $t('name.roi') }}</div>                         
                 </div>  
 
                 <q-separator vertical />
                 
                 <div class="col">   
                     <div class="text-h4 text-weight-bold">$ {{ v_format(v_portfolio.estimated_value) }}</div>
-                    <div class="gCaption">Estimated Value</div>                         
+                    <div class="gCaption">{{ $t('name.estimated_value') }}</div>                         
                 </div>
             </div>
         </div>
@@ -130,12 +130,12 @@
                 <q-card-section class="cardSection2">                        
                     <div class="row">
                         <div class="col align-items">
-                            <span class="gCaption">ROI</span>
+                            <span class="gCaption">{{ $t('name.roi') }}</span>
                             <br>
                             <span class="text-h5 text-weight-bolder" :style="v_color(a_portfolio.roi)">{{v_format(a_portfolio.roi)}} %</span>
                         </div>    
                         <div class="col">  
-                            <span class="gCaption">Current Price</span>
+                            <span class="gCaption">{{ $t('name.current_price') }}</span>
                             <br>
                             <span class="text-h5 text-weight-bold">$ {{ v_format(a_portfolio.last,3) }}</span>                                
                         </div>                            

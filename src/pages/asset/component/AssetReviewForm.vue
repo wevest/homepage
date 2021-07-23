@@ -12,7 +12,7 @@
 
 			<div class="boxReview q-pa-md" v-if="v_expand">
 				<div>
-					<span> 당신의 평점은? </span>
+					<span> {{ $t('name.your_rating') }} </span>
 					<q-rating
 						v-if="v_me.loggedIn"
 						v-model="v_review.average_rating"
@@ -40,7 +40,7 @@
 
 					<div align="right" v-if="v_me.loggedIn">
 						<q-btn
-							class="gButtonMD" label="save" ripple
+							class="gButtonMD" :label="$t('button.save')" ripple
 							:loading="v_loading"
 							@click.stop="onClickSubmit"
 							v-if="showSaveButton"

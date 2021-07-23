@@ -15,7 +15,7 @@
                             <span class="gROILG" :style="v_color_style(v_roi)"> {{ v_roi }} % </span>
                         </div>
                         <div> 
-                            <span class="gCaption"> ROI </span>
+                            <span class="gCaption"> {{ $t('name.roi') }} </span>
                         </div>
                     </div>
 <!--                    
@@ -33,7 +33,7 @@
                             <span class="gROILG">{{v_user.follower_count}}</span>
                         </div>
                         <div>
-                            <span class="gCaption">Follower</span>
+                            <span class="gCaption">{{ $t('name.follower') }}</span>
                         </div>
                     </div>
                     <div class="col-4" @click="onClickFollower(v_user)">
@@ -41,7 +41,7 @@
                             <span class="gROILG">{{v_user.following_count}}</span>
                         </div>
                         <div>
-                            <span class="gCaption">Following</span>
+                            <span class="gCaption">{{ $t('name.following') }}</span>
                         </div>
                     </div>
                 </div>
@@ -50,10 +50,10 @@
 
         <div class="row q-col-gutter-md q-mt-md justify-center  q-mb-xl">
             <div v-if="! isOwner">
-                <q-btn color="primary" :label="$t('button.unfollow')" ripple
+                <q-btn color="primary" :label="$t('button.follow')" ripple
                     :loading="v_loading_follow"
                     @click="onClickFollow(-1)" v-if="v_user.is_following" />
-                <q-btn v-else color="primary" :label="$t('button.follow')" ripple
+                <q-btn v-else color="primary" :label="$t('button.following')" ripple
                     :loading="v_loading_follow" @click="onClickFollow(1)" />
             </div>
             <div>
@@ -73,12 +73,12 @@
         </div>
 
         <div class="q-mt-xl q-mb-sm">
-            <FriendList ref='followerList' title="$t('page.profile.follower')" mode="follower"
+            <FriendList ref='followerList' :title="$t('page.profile.follower')" mode="follower"
                 maxLength="10" moreCaption="" :user="v_user"></FriendList>
         </div>
 
         <div class="q-mt-xl q-mb-sm">
-            <FriendList ref='followingList' title="$t('page.profile.following')" mode="following"
+            <FriendList ref='followingList' :title="$t('page.profile.following')" mode="following"
                 maxLength="10" moreCaption="" :user="v_user"></FriendList>
         </div>
 

@@ -12,8 +12,8 @@
         <div>
             <PriceForecastBox ref="ratingBox" :reviews="v_reviews" title="Investor Reviews"></PriceForecastBox>
         </div>
-        <div @click="onClickHolder">
-            <q-icon name="groups" size="20px" /> 
+        <div class="q-my-md" @click="onClickHolder">
+            <q-icon name="groups" size="20px" color="primary" /> 
             <span>{{v_asset.portfolio_count}} 명이 포트폴리오에 포함시켰습니다.</span>
         </div>
 
@@ -41,7 +41,8 @@
 
             <q-tab-panel name="tweet" class="gNoMargin">
                 <div class="q-my-sm">
-                    <WWriterButton placeholder="What's your in minds?" @onClickWrite="onClickWrite" />
+                    <WWriterButton :placeholder="$t('name.tweet_writing')" @onClickWrite="onClickWrite" />
+                    <!-- What's on your mind? -->
                 </div>
                 <q-separator class="gSeparator" />
                 <TweetList ref='tweetList' title="Tweets" maxLength="10" :moreCaption="$t('button.more')" 
@@ -51,7 +52,8 @@
 
             <q-tab-panel name="blog" class="gNoMargin">
                 <div class="q-my-sm">
-                    <WWriterButton placeholder="Please share your knowledge" @onClickWrite="onClickWriteBlog" />
+                    <WWriterButton :placeholder="$t('name.blog_writing')" @onClickWrite="onClickWriteBlog" />
+                    <!-- Please share your knowledge! -->
                 </div>
                 <q-separator class="gSeparator" />
                 <BlogList ref='blogList' :title="$t('page.asset.bloglist.title')" :desc="$t('page.asset.bloglist.desc')"
@@ -61,7 +63,8 @@
         
             <q-tab-panel name="qa" class="gNoMargin">
                 <div class="q-my-sm">
-                    <WWriterButton placeholder="Please ask anything" @onClickWrite="onClickWriteQuestion" />
+                    <WWriterButton :placeholder="$t('name.qa_writing')" @onClickWrite="onClickWriteQuestion" />
+                    <!-- Please ask anything -->
                 </div>
                 <q-separator class="gSeparator" />
                 <AssetQuestionList ref="questionList" :title="$t('page.asset.questionlist.title')" :desc="$t('page.asset.questionlist.desc')"

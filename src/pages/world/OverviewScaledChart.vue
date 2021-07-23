@@ -47,14 +47,14 @@ import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 //import MoaBackendAPI from 'src/services/apiService';
 import CTitle from 'src/components/CTitle';
-import CSubtitle from 'src/components/CSubtitle';
+//import CSubtitle from 'src/components/CSubtitle';
 import ChartTimeframe from 'components/ChartTimeframe';
 
 export default {
     name: 'OverviewScaledChart',
     components: {
         CTitle,
-        CSubtitle,
+        //CSubtitle,
         ChartTimeframe
     },
     data: function () {
