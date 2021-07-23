@@ -5,51 +5,55 @@
 		<CTitle ttype='subtitle' :title="v_title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreAsset"></CTitle>
 
-        <q-table
-            row-key="name" flat                    
-            :data="v_assets.items"
-            :columns="v_headers"            
-            :loading="v_table_loading"
-            :filter="v_filter"
-            :rows-per-page-options="[0]"
-            :pagination.sync="v_pagination" >
+        <q-skeleton v-if="!v_table_loaded" animation="fade" square height="150px" />
+        <div v-show="v_table_loaded">
+            <q-table
+                row-key="name" flat                    
+                no-data-lebel="No Data"
+                :data="v_assets.items"
+                :columns="v_headers"            
+                :loading="v_table_loading"
+                :filter="v_filter"
+                :rows-per-page-options="[0]"
+                :pagination.sync="v_pagination" >
 
-            <template v-slot:top-right v-if="hideHeader=='0'">
-                <q-input borderless dense debounce="300" v-model="v_filter" placeholder="Search">
-                <template v-slot:append>
-                    <q-icon name="search" />
+                <template v-slot:top-right v-if="hideHeader=='0'">
+                    <q-input borderless dense debounce="300" v-model="v_filter" placeholder="Search">
+                    <template v-slot:append>
+                        <q-icon name="search" />
+                    </template>
+                    </q-input>
                 </template>
-                </q-input>
-            </template>
 
-            <template v-slot:pagination="scope">
-                <div class="boxPagination">
-                    
-                    {{v_pagination_label(scope)}}
-<!--                    
-                    <q-btn v-if="scope.pagesNumber > 2"
-                        icon-right="first_page" color="grey-8" label="loadMore"
-                        dense flat
-                        :disable="scope.isLastPage"
-                        @click="onClickMore"
-                    />
--->                    
-                </div>
-            </template>
+                <template v-slot:pagination="scope">
+                    <div class="boxPagination">
+                        
+                        {{v_pagination_label(scope)}}
+    <!--                    
+                        <q-btn v-if="scope.pagesNumber > 2"
+                            icon-right="first_page" color="grey-8" label="loadMore"
+                            dense flat
+                            :disable="scope.isLastPage"
+                            @click="onClickMore"
+                        />
+    -->                    
+                    </div>
+                </template>
 
-            <template v-slot:body="props">
+                <template v-slot:body="props">
 
-                <q-tr :props="props" v-ripple @click="onClickAsset(props.row)" >
-                    <q-td key="cmc_rank" :props="props">{{ props.row.cmc_rank }}</q-td>
-                    <q-td key="symbol" :props="props" class="text-red-10 text-bold">{{ props.row.symbol }}</q-td>
-                    <q-td key="name" :props="props">{{ props.row.name }}</q-td>
-                    <q-td key="date_added" :props="props">{{ props.row.date_added }}</q-td>
-                </q-tr>            
+                    <q-tr :props="props" v-ripple @click="onClickAsset(props.row)" >
+                        <q-td key="cmc_rank" :props="props">{{ props.row.cmc_rank }}</q-td>
+                        <q-td key="symbol" :props="props" class="text-red-10 text-bold">{{ props.row.symbol }}</q-td>
+                        <q-td key="name" :props="props">{{ props.row.name }}</q-td>
+                        <q-td key="date_added" :props="props">{{ props.row.date_added }}</q-td>
+                    </q-tr>            
 
-            </template>
+                </template>
 
-        </q-table>
-        
+            </q-table>
+            
+            <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
 <!--
         <q-list separator class="rounded-borders">
 
@@ -83,9 +87,9 @@
         </q-list>
 -->
 
-		<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+        </div>
 
-  </div>  
+    </div>  
   
 </template>
 
@@ -129,6 +133,8 @@ export default {
         v_pagination_label() {
             return (scope) => {
                 //logger.log.debug("v_pagination_label=",scope);
+                if ((! scope) ||(! scope.pagination)) return '';
+
                 let caption = this.v_assets.items.length.toString() + " of " + scope.pagination.rowsNumber.toString();
                 return caption;
             };
@@ -139,6 +145,8 @@ export default {
             g_data: null,
             v_maxLength: this.maxLength,
             v_more_caption: this.moreCaption,								
+
+            v_table_loaded: false,
 
             v_assets: new AssetListModel(),
             v_category: null,
@@ -179,6 +187,8 @@ export default {
                 
                 _this.v_pagination.rowsNumber = _this.$refs.loadMore.v_count;
                 _this.v_loading_table = false;
+
+                _this.v_table_loaded = true;
 
             }).catch(err=>{
                 logger.log.error("AssetList.update : err=",err);

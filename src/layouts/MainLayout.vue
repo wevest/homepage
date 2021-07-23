@@ -213,6 +213,8 @@ export default {
 			store.getters.components.addComponent('alertDialog',this.$refs.alertDialog);			
 			store.getters.components.addComponent('confirmDialog',this.$refs.confirmDialog);
 			store.getters.components.addComponent('portfolioDialog',this.$refs.portfolioDialog);
+
+			//this.setLanguage();
 		},
 		setBackButton:function(value) {
 			this.v_show_back_button = value;
@@ -226,6 +228,20 @@ export default {
 			import(`src/i18n/${locale}`).then(({ default: messages }) => {
 				this.$q.lang.set(messages);
 			});
+		},
+
+		setLanguage() {
+			//set language
+			if ( (! this.v_me) || (!this.v_me.default_lang)) {
+				this.setLocale('en');
+			} else {
+				
+				if (this.v_me.default_lang.indexOf('en')>-1) {
+					this.setLocale('en');
+				} else {
+					this.setLocale(this.v_me.default_lang);
+				}				
+			}
 		},
 
 		filterFn(val, update, abort) {

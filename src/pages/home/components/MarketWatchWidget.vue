@@ -4,7 +4,7 @@
         <CTitle ttype='subtitle' :title="title" desc=""
 			:loadMoreCaption="moreButton" @onClickTitleMore="onClickMore"></CTitle>
 
-        <div class="q-pa-md flex flex-center text-center">                    
+        <div class="q-pa-xs flex flex-center text-center">                    
             <div class="col-6">
                 <div>
                     <span class="gTextSubTitle">BTC</span>
@@ -12,10 +12,10 @@
                 <q-knob
                     show-value readonly class="text-green q-ma-md box_knob"
                     :min="0" :max="10"
-                    v-model="v_risk.btc.value" size="110px" :thickness="0.30"                            
+                    v-model="v_risk.btc.value" :size="size" :thickness="0.30"                            
                     :color="v_risk.btc.color" track-color="grey-3">
                     <q-icon :name="v_risk.btc.icon" class="q-mr-xs box_knob"  />
-                    <span class="box_knob">{{ v_risk.btc.value }}</span>
+                    <span size="knobValue">{{ v_risk.btc.value }}</span>
                 </q-knob>
             </div>
             <div class="col-6">
@@ -25,10 +25,10 @@
                 <q-knob
                     show-value readonly  class="text-green q-ma-md box_knob"
                     :min="0" :max="10"
-                    v-model="v_risk.eth.value" size="110px" :thickness="0.30"                            
+                    v-model="v_risk.eth.value" :size="size" :thickness="0.30"                            
                     :color="v_risk.eth.color" track-color="grey-3">
                     <q-icon :name="v_risk.eth.icon" class="q-mr-xs box_knob" />
-                    <span class="box_knob">{{ v_risk.eth.value }}</span>
+                    <span size="knobValue">{{ v_risk.eth.value }}</span>
                 </q-knob>
             </div>
         </div>
@@ -57,6 +57,10 @@ export default {
         moreButton: {
             type:String,
             default: ''
+        },
+        size: {
+            type:String,
+            default: '90px'
         }
     },
     data:function() {
@@ -105,3 +109,9 @@ export default {
 }
 
 </script>
+
+<style scoped>
+.knobValue {
+    font-size:16px;
+}
+</style>

@@ -450,7 +450,6 @@ export default {
 		logout: '로그아웃',
 		login: '로그인',
 		signup: '가입하기',
-
 	}
 };
 

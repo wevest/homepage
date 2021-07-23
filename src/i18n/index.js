@@ -1,8 +1,8 @@
-import enUS from './en-us';
+import enUS from './en';
 import kr from './kr';
 
 
 export default {
   'kr': kr,
-  'en-us': enUS,
+  'en': enUS,
 };

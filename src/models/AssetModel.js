@@ -67,15 +67,17 @@ export class TickerListModel extends baseCollection {
                 
         return new Promise(function(resolve,reject) {            
             PriceService.getPrice(dicParam).then(response=>{
-                logger.log.debug("TickerListModel.load - response",response);
-                _this.assign(response.data.data);
+                logger.log.debug("TickerListModel.load - response",response.data.data);
+                
+                if (! response.data.data.hasOwnProperty('label')) {
+                    _this.assign(response.data.data);
+                }
                 resolve(response);
             }).catch(err=>{
                 logger.log.error("TickerListModel.load - error",err);
                 reject(err);
             });
-        });            
-        
+        });                    
     }
 
 }
@@ -296,8 +298,14 @@ export class AssetModel{
         return new Promise(function(resolve,reject) {            
             PriceService.getPrice(dic_param).then(response=>{
                 //logger.log.debug("AssetModel.getPriceTicker - response",response);
-                _this.ticker.assign(response.data.data[0]);
-                resolve(response);
+                
+                if (! response.data.data.hasOwnProperty('label')) {
+                    _this.ticker.assign(response.data.data[0]);
+                    resolve(response);
+                } else {
+                    reject(response);
+                }
+                
             }).catch(err=>{
                 logger.log.error("AssetModel.getPriceTicker - error",err);
                 reject(err);

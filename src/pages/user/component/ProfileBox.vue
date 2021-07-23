@@ -174,11 +174,11 @@ export default {
             v_loading_change: false,
 
             v_labels: {'submit': 'Upload', 'cancel': 'Cancel'},
-            v_lang: ['en-us','kr'],
+            v_lang: ['en','kr'],
             v_select_lang:true
         }
     },
-    mounted: function() {
+    mounted() {
         //console.log("HomeView.mounted - ");
         //console.log("ProfileView.mounted - symbol=",this.$route.query);        
         //this.setUser(this.$route.query);
