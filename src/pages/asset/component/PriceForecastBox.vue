@@ -1,17 +1,16 @@
 <template>
     <div v-if="reviews.stat">
-        <CTitle ttype='subtitle' :title="v_title" desc=""></CTitle>          
-        <div class="row q-my-md">
-            <div class="col-6 q-px-sm q-pr-md text-center">
-                <div class="reviewRatingTitle q-pb-md" review>
-                    Review Rating
-                </div>
+
+        <div class="row">
+            <div class="gSubTitleMD gNoMargin">
+                <span> {{v_title}} </span>
+            </div>
+            <div class="q-pl-md q-pt-xs">
                 <q-rating
-                    class="q-pt-lg" 
+                    v-model="reviews.stat.average_rating"                    
                     name="quality"
-                    v-model="reviews.stat.average_rating"
                     max="5" readonly
-                    size="1.8em"
+                    size="1.2em"
                     color="red-5"
                     icon="star_outline"
                     icon-selected="star"
@@ -19,34 +18,66 @@
                     no-dimming
                     v-if="reviews.stat.average_rating"
                 />   
-                <div class="q-pt-md">
-                    <span class="reviewRating">{{v_format(reviews.stat.average_rating)}}</span>
-                    <span class="five"> / 5</span>
-                </div>              
             </div>
-            <div class="col-6 q-px-sm text-center">
-                <div class="reviewRatingTitle">
-                    Rating Ratio
-                </div>
-                
-                <div>
-                    <div class="boxRating" v-for="index in v_loop">
-                        <div class="boxLabel">
-                            <span>{{index}}</span>
-                        </div>
-                        <div class="boxProgress">
-                            <q-linear-progress stripe rounded size="15px" :value="v_value(index)" color="red-5" class="q-mt-sm" >
-                                <div class="flex flex-center">
-                                    <q-badge color="white" text-color="accent" :label="v_label(index)" />
-                                </div>
-                            </q-linear-progress>
-                        </div>
-                    </div>
-
-                </div>
+            <div>
+                <q-btn flat :icon="v_icon" @click="onClick" />
             </div>
-
         </div>
+
+<!--        
+        <CTitle ttype='subtitle' :title="v_title" desc=""></CTitle>          
+-->
+        <q-slide-transition>
+            <div class="row q-my-md" v-show="v_expanded">
+                <div class="col-6 q-px-sm q-pr-md text-center">
+<!--                    
+                    <div class="reviewRatingTitle q-pb-md">
+                        Review Rating
+                    </div>
+-->
+                    <div class="q-pt-xl">
+                        <span class="reviewRating">{{v_format(reviews.stat.average_rating)}}</span>
+                        <span class="five"> / 5</span>
+                    </div>              
+                    <q-rating
+                        class="q-pt-md" 
+                        v-model="reviews.stat.average_rating"                    
+                        name="quality"
+                        max="5" readonly
+                        size="1.8em"
+                        color="red-5"
+                        icon="star_outline"
+                        icon-selected="star"
+                        icon-half="star_half"
+                        no-dimming
+                        v-if="reviews.stat.average_rating"
+                    />   
+
+                </div>
+                <div class="col-6 q-px-sm text-center">
+                    <div class="reviewRatingTitle">
+                        Rating Ratio
+                    </div>
+                    
+                    <div>
+                        <div class="boxRating" v-for="index in v_loop">
+                            <div class="boxLabel">
+                                <span>{{index}}</span>
+                            </div>
+                            <div class="boxProgress">
+                                <q-linear-progress stripe rounded size="15px" :value="v_value(index)" color="red-5" class="q-mt-sm" >
+                                    <div class="flex flex-center">
+                                        <q-badge color="white" text-color="accent" :label="v_label(index)" />
+                                    </div>
+                                </q-linear-progress>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </q-slide-transition>
 <!--        
         <div>
             {{reviews.stat.total_count}} ratings
@@ -76,7 +107,7 @@ export default {
             default: null
         },
         title: {
-            default: "Investor Review"
+            default: "Review"
         }
     },
 	computed: {
@@ -112,22 +143,35 @@ export default {
 
                 return CommonFunc.formatNumber(value,1);
             }
+        },
+        v_icon() {
+            if (! this.v_expanded) return "expand_more";
+            return "expand_less";
         }
 	},
 	data() {
 		return {
             v_loop: [5,4,3,2,1],
             v_reviews: this.reviews,
+            v_expanded:false,
         }
     },
     methods: {
-
+        onClick() {
+            logger.log.debug("PriceForecastBox.onClick");
+            this.v_expanded = ! this.v_expanded;
+        }
     }
     
 };
 </script>
 
 <style scoped>
+
+.boxTitle {
+    font-size:17px;
+    font-weight:500;
+}
 
 .reviewRatingTitle {
     font-size:17px;

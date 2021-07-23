@@ -96,6 +96,9 @@ export default {
                 if(!value) {
                     return '';
                 }
+                if (value<100) {
+                    return CommonFunc.formatNumber(value,3);    
+                }
                 return CommonFunc.formatNumber(value,0,true);
             };
         },

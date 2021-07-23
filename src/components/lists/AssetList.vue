@@ -9,7 +9,7 @@
         <div v-show="v_table_loaded">
             <q-table
                 row-key="name" flat                    
-                no-data-lebel="No Data"
+                hide-pagination hide-no-data
                 :data="v_assets.items"
                 :columns="v_headers"            
                 :loading="v_table_loading"

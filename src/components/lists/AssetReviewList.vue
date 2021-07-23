@@ -26,12 +26,17 @@
                 <q-item-section top>
                     <q-item-label>
                         <div class="row">
-
+<!--
                             <div class="displayName q-px-md q-py-xs" :style="v_rating_color(a_review)">
                                 <span class="gUserNameSM text-white"> {{a_review.user.display_name}}</span>
                                 &nbsp;<q-icon class="q-ml-xs text-white vertical-top" 
                                     style="font-size: 1.5em;" 
                                     :name="v_icon_name(a_review.average_rating)" />
+                            </div>
+-->
+
+                            <div class="q-py-xs">
+                                <span class="gUserNameSM"> {{a_review.user.display_name}}</span>
                             </div>
 
                             <q-space />
@@ -42,6 +47,7 @@
                                     @onClickDelete="onClickDelete" 
                                 />
                             </div>
+
                         </div>
 
                     </q-item-label>
@@ -53,7 +59,17 @@
                             like_count="-1" dislike_count="-1" read_count="-1" />
                     
                     </q-item-label>  
-                
+                    <q-item-label>
+                        <q-rating
+                            v-model="a_review.average_rating"
+                            name="quality"
+                            max="5" readonly
+                            size="1.3em" color="red-5"
+                            icon="star_outline" icon-selected="star" icon-half="star_half"
+                            no-dimming style="padding-left:-5px;"
+                       />
+                    </q-item-label>
+
                     <q-item-label class="q-py-md">
                         <div v-html="a_review.content" class="gCommentMD"></div>
                     </q-item-label>
@@ -76,14 +92,14 @@
         </q-list>
 
         <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
-
+<!--
         <div ref="reviewContainer">
             <AssetReviewForm ref="reviewEditor" 
                 :category="category" :assetId="assetId"
                 @onClickReviewSave="onClickReviewSave" 
             /> 
         </div>
-
+-->
   </div>  
   
 </template>
@@ -178,9 +194,8 @@ export default {
         }
     },
     mounted: function() {
-        logger.log.debug("AssetReviewList.mounted : reviewEditor=",this.$refs.reviewEditor);
-
-        this.$refs.reviewEditor.hide();
+        //logger.log.debug("AssetReviewList.mounted : reviewEditor=",this.$refs.reviewEditor);
+        //this.$refs.reviewEditor.hide();
     },
     beforeDestroy: function() {
         logger.log.debug("AssetReviewList.beforeDestroy");

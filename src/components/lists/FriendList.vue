@@ -133,7 +133,7 @@ export default {
 					if (user.is_follower) {
 						return this.$t("button.follow");
 					}
-					return this.$t("button.following");					
+					return this.$t("button.unfollow");					
 				}
 			},
 		},
@@ -157,9 +157,9 @@ export default {
 			get() {
 				return (user) => {
 					if (user.is_following) {
-						return "Unfollow";
+						return this.$t("button.userfollowing");
 					}
-					return "Follow";					
+					return this.$t("button.userfollow");					
 				}
 			},
 		},

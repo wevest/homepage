@@ -6,6 +6,7 @@ export default {
 		binance: "바이낸스",
 		upbit: "업비트",
 		bithumb: "빗썸",
+		blog: '블로그',
 		d1: "1일",
 		w1: "1주",
 		m1: "1개월",
@@ -39,7 +40,7 @@ export default {
 		volume: "거래량",
 		intro: "개요",
 		fundamental: "기본정보",
-		price: "가격정보",
+		price: "가격",
 		subscriber_count: "구독자수",
 		language: "개발언어",
 		watcher_count: "관심자수",
@@ -49,8 +50,8 @@ export default {
 		created_at: "생성일",
 		pushed_at: "갱신일",
 		info: "정보",
+		trade_date: "거래일",
 		tweet: '트윗',
-		blog: '블로그',
 		qa : 'QA',
 		review: '리뷰',
 		investor: "투자자",
@@ -69,96 +70,20 @@ export default {
 		dev_score: "개발",
 		price_score: "가격",
 		volume_score: "거래량",
-		},
-		page : {
-		home : {
-			title: "오늘의 크립토마켓",
-			desc: "",
-			index: { title: "지난 24시간 거래소별 상승율은?", desc: "" },
-			cwatch: { title: "시장 급락 가능성은?", desc: "" },
-			toplist: { title: "관심을 가져볼만한 토큰들", desc: "" },
-			eureka: { title: "운좋은 발견!!!", desc: "" },
-			category: { title: "가격이 상승하는 토큰 섹터는?", desc: "" },
-			mustknow: { title: "반드시 알아야 하는 것들", desc: "" },
-		},
-
-		cwatch: {
-			title: "크립토마켓 와치",
-			desc: "",
-			btc: { title: "BTC Watch", desc: "" },
-			eth: { title: "ETH Watch", desc: "" },
-		},
-		trend: {
-			title: "크립토마켓 동향",
-			desc: "",
-			index: { title: "지수의 흐름은 어떤가?", desc: "" },
-			dominance: { title: "비트코인의 시장지배력은?", desc: "" },
-			kpremium: { title: "김치프리미엄의 흐름은?", desc: "" },
-			sector: { title: "토큰 섹터별 지수 흐름은?", desc: "" },
-			sectortv: { title: "토큰 섹터별 거래대금의 흐름은?", desc: "" },
-		},
-		sector: {
-			title: "크립토마켓 섹터별 동향",
-			desc: "",
-			index: { title: "섹터 지수의 흐름은?", desc: "" },
-			asset: { title: "섹터에 속한 토큰 리스트", desc: "" },
-		},
-		asset: {
-			title: "크립토에셋",
-			desc: "",
-			price: { title: "가격 차트", desc: "" },
-			github: { title: "일별 소스코드 업데이트 차트", desc: "" },
-		},
-		cryptovc: {
-			title: "크립토VC",
-			desc: "",
-			roi: { title: "크립토VC 수익율 차트", desc: "" },
-			portfolio: { title: "크립토VC가 투자한 토큰 리스트", desc: "" },
-		},
-		vcportfolio: { title: "크립토VC 포트폴리오", desc: "" },
-		},
-		asset: {},
-		category: {
-		major: "메이져",
-		korean: "한국코인",
-		chinese: "중국코인",
-		defi: "디파이",
-		nft: "NFT",
-		misc: "그외코인",
-		index: "지수",
-		tv: "거래대금",
-		volume: "거래량",
-		},
-		chart: {
-		world_scaled: {
-			title: "주간 주요 상품 가격 비교 그래프",
-			desc: "세계경제의 흐름을 알 수 있는 주요 상품들의 가격을 비교할 수 있도록 조정한 그래프",
-		},
-		world_asset_price: {
-			title: "주간 가격동향",
-			desc: "주단위 가격흐름을 볼 수 있습니다.",
-		},
-		world_return: {
-			title: "주간 상품 가격변동률",
-			desc: "",
-		},
-		title: {
-			world: "주요 시장 지표 차트",
-			kospi_risk: "코스피 시장 위험 차트",
-			risk: "시장 위험도 차트",
-		},
-		series: {
-			kospi: "코스피",
-			kospi_ret: "코스피 지수변화",
-			kospi_risk: "변동성극대",
-			vix: "SP변동성지수",
-			kvix: "K변동성지수",
-			kvix_ema: "K변동성이동평균",
-			kvix_z: "KVIX변동성",
-			call: "콜옵션",
-			put: "풋옵션",
-			future: "선물",
-		},
+		rank: "순위",
+		roi: "수익률",
+		follower: "팔로워",
+		following: "팔로잉",
+		portfolio_description: "포트폴리오 요약",
+		estimated_value: "평가액",
+		current_price: "현재가격",
+		symbol: "심볼",
+		date_added: "상장일",
+		blog_writing: "지식을 공유하세요!",
+		tweet_writing: "트윗 작성...",
+		qa_writing: "무엇이든 물어보세요!",
+		your_rating: "당신의 평점은?",
+	
 	},
 	page:{
 		sign : {
@@ -195,14 +120,21 @@ export default {
 				title : '마켓 위험 알림',
 				desc : ''
 			},
-			bloglist: {
+			blog_list: {
 				title:'마켓트랜드'
 			},
-			portfoliolist: {
-				vc: {
-					title:'크립토 VC 포트폴리오',
-					desc: ''
-				},
+			portfolio_list: {
+				title:'VC 포트폴리오',
+				desc: ''
+			},
+			new_asset_list : {
+				title : '신규에셋목록',
+				desc : '',
+			},
+			userfeed_list: {
+				title:'사용자피드',
+				desc:''				
+			},
 				roi: {
 					title:'수익율이 높은 포트폴리오',
 					desc:''
@@ -210,14 +142,7 @@ export default {
 				highvoted: {
 					title:'인기 많은 포트폴리오',
 					desc:''
-				}
-			},
-			userfeedlist: {
-				userfeed: {
-					title:'사용자 피드',
-					desc:''
-				}
-			}
+				}			
 		},
 		assetqa: {
 			title: '무엇이든 물어보세요',
@@ -431,7 +356,10 @@ export default {
 		lordmore: '더보기',
 		change: '변경',
 		follow: '팔로우',
+		unfollow: '팔로잉',
 		following: '팔로잉',
+		userfollow: '팔로우',
+		userfollowing: '팔로잉',
 		message: '메시지',
 		blog_like : '도움이 돼요',
 		blog_dislike : '별로에요',
@@ -442,7 +370,7 @@ export default {
 		collapse: '접기',
 		update: '업데이트',
 		add : '추가',
-		show_table: '가격 정보 테이블 보기',
+		show_table: '가격 정보 테이블',
 		portfolio: '포트폴리오',
 		share: '공유',
 		blog: '블로그',
@@ -450,6 +378,6 @@ export default {
 		logout: '로그아웃',
 		login: '로그인',
 		signup: '가입하기',
+		chartview: "차트",
 	}
 };
-

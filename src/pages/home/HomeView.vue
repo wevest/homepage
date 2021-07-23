@@ -12,21 +12,22 @@
         </div>
 
         <div>
-            <PortfolioList ref="pfVC" :title="$t('page.home.portfoliolist.vc.title')" 
+            <PortfolioList ref="pfVC" :title="$t('page.home.portfolio_list.title')" :desc="$t('page.home.portfolio_list.desc')"
                 maxLength="10" :moreCaption="$t('button.more')"></PortfolioList>
         </div>
 
         <div class="col">
-            <AssetList ref='assetList' title="New Asset List" maxLength="10" moreCaption="More" ></AssetList>
+            <AssetList ref='assetList' :title="$t('page.home.new_asset_list.title')" :desc="$t('page.home.new_asset_list.desc')"
+            maxLength="10" :moreCaption="$t('button.more')" ></AssetList>
         </div>
 
         <div>
-            <UserFeedList ref='feedList' :title="$t('page.home.userfeedlist.userfeed.title')" 
+            <UserFeedList ref='feedList' :title="$t('page.home.userfeed_list.title')" 
                 maxLength="10" :moreCaption="$t('button.more')" user="v_me"></UserFeedList>
         </div>                                               
 
         <div>
-            <BlogList ref='blogList' :title="$t('page.home.bloglist.title')" maxLength="10" 
+            <BlogList ref='blogList' :title="$t('page.home.blog_list.title')" maxLength="10" 
                 :moreCaption="$t('button.more')" 
                 category="" symbol="" objectId="-1"></BlogList>
         </div>
@@ -151,7 +152,7 @@ export default {
         },
 
         loadAssetList() {
-            this.$refs.assetList.update(10,null);
+            this.$refs.assetList.updateByCategory('market_capital');
         },
 
         loadFeedList() {
@@ -220,7 +221,7 @@ export default {
         },
         onClickIndex() {
             logger.log.debug('Home.onClickIndex');
-            CommonFunc.navMarket(this);
+            //CommonFunc.navMarket(this);
         }
     }
 };

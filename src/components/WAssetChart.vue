@@ -91,8 +91,8 @@ export default {
             let data_volume_top = CommonFunc.getChartData(json_data,'overall','top_tier_volume_total','trade_date',false,0);
 
             let series = [
-                { name: 'price',type: 'line', yAxis:0, data: data_price.data},
-                { name: 'volume',type: 'bar', yAxis:1, data: data_volume.data},
+                { name: this.$t('name.price'),type: 'line', yAxis:0, data: data_price.data},
+                { name: this.$t('name.volume'),type: 'bar', yAxis:1, data: data_volume.data},
                 //{ name: 'top_tier_volume',type: 'bar', yAxis:1, data: data_volume_top.data},
             ];
 

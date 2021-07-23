@@ -80,7 +80,7 @@
                             </q-badge>
                         </div>
 
-                        <q-select class="gParagraphSM" filled :readonly="v_select_lang"
+                        <q-select class="gParagraphSM" ref="langSelect" filled :readonly="v_select_lang"
                             v-model="v_user.default_lang" :options="v_lang" @input="onSelectLang" />
                     </div>
 
@@ -400,8 +400,15 @@ export default {
             this.$refs.dialogEdit.show('biography','textarea',this.v_user.biography);
         },
         onClickLanguage() {
-            logger.log.debug("ProfileView.onClickLanguage : ",this.v_edit);
+            logger.log.debug("ProfileView.onClickLanguage");
             this.v_select_lang = false;
+            
+            const _this=this;
+            setTimeout( () => {
+                _this.$refs.langSelect.showPopup();
+            },350);
+
+            
         },
         onSelectLang(value) {
             logger.log.debug("ProfileView.onSelectLang : ",value, this.v_user.default_lang);
