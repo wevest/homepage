@@ -11,40 +11,30 @@
         </div>
 
         <div>
-            <BlogList ref='blogList' :title="$t('page.home.bloglist.title')" maxLength="10" 
-                :moreCaption="$t('button.more')" 
-                category="" symbol="" objectId="-1"></BlogList>
-        </div>
-
-        <div>
             <PortfolioList ref="pfVC" :title="$t('page.home.portfoliolist.vc.title')" 
                 maxLength="10" :moreCaption="$t('button.more')"></PortfolioList>
         </div>
 
-        <div>
-            <PortfolioList ref="pfROI" :title="$t('page.home.portfoliolist.roi.title')" 
-                maxLength="10" showDescription="0" moreCaption=""></PortfolioList>
-        </div>
-
-        <div>
-            <PortfolioList ref="pfRated" :title="$t('page.home.portfoliolist.highvoted.title')" 
-                maxLength="10" showDescription="0" moreCaption=""></PortfolioList>
-        </div>
-
         <div class="col">
-            <AssetList ref='assetList' title="Asset List" maxLength="10" moreCaption="More" ></AssetList>
+            <AssetList ref='assetList' title="New Asset List" maxLength="10" moreCaption="More" ></AssetList>
         </div>
 
+        <div>
+            <UserFeedList ref='feedList' :title="$t('page.home.userfeedlist.userfeed.title')" 
+                maxLength="10" :moreCaption="$t('button.more')" user="v_me"></UserFeedList>
+        </div>                                               
+
+        <div>
+            <BlogList ref='blogList' :title="$t('page.home.bloglist.title')" maxLength="10" 
+                :moreCaption="$t('button.more')" 
+                category="" symbol="" objectId="-1"></BlogList>
+        </div>
 <!--
 
         <div class="col">
             <ReviewStatList ref='reviewList' title="Review List" category="" maxLength="10" moreCaption="More"></ReviewStatList>
         </div>
 -->
-        <div>
-            <UserFeedList ref='feedList' :title="$t('page.home.userfeedlist.userfeed.title')" 
-                maxLength="10" :moreCaption="$t('button.more')" user="v_me"></UserFeedList>
-        </div>                                               
   </div> 
 
 </template>
@@ -98,19 +88,7 @@ export default {
             v_page: {title:'page.home.title', desc:''},
             v_subpage: { 
                 cwatch: { title:'page.home.cwatch.title', desc:''} 
-            },
-                
-            v_eureka:[
-                {
-                    title:'Crypto VC 그들의 투자성적은?', 
-                    subtitle:'전문적인 식견을 가진 그들의 성과는?', desc:'그들로부터 배울것이 있는가?', 
-                    color: 'background:#FFDC46;', link:'cryptovc'
-                },
-                {
-                    title:'Crypto VC이 사랑한 프로젝트들?', subtitle:'전문적인 식견을 가진 그들의 성과는?', desc:'그들로부터 배울것이 있는가?', 
-                    color:'background:#D7F1FA;', link:'vcportfolio'
-                },
-            ],
+            },                
         }
     },
     created: function () {
@@ -174,8 +152,8 @@ export default {
 
         loadPortfolioList: function() {
             this.$refs.pfVC.updateByType('vc');
-            this.$refs.pfROI.updateByType('roi');
-            this.$refs.pfRated.updateByType('voting');
+            //this.$refs.pfROI.updateByType('roi');
+            //this.$refs.pfRated.updateByType('voting');
         },
 
         loadReviewStatList: function() {

@@ -9,6 +9,18 @@
 		</div>
 
 		<div>
+			<!--
+			<q-btn-toggle v-model="v_category" toggle-color="primary"
+				:options="v_options" />
+			-->
+			
+			<q-chip v-for="(a_option, index) in v_options" :key="index">
+				{{a_option.label}}
+			</q-chip>				
+
+		</div>
+
+		<div>
 			<PortfolioList
 				ref="pfVC"
 				:title="$t('page.home.portfoliolist.vc.title')"
@@ -17,25 +29,6 @@
 			></PortfolioList>
 		</div>
 
-		<div>
-			<PortfolioList
-				ref="pfROI"
-				:title="$t('page.home.portfoliolist.roi.title')"
-				maxLength="10"
-				showDescription="0"
-				moreCaption=""
-			></PortfolioList>
-		</div>
-
-		<div>
-			<PortfolioList
-				ref="pfRated"
-				:title="$t('page.home.portfoliolist.highvoted.title')"
-				maxLength="10"
-				showDescription="0"
-				moreCaption=""
-			></PortfolioList>
-		</div>
 	</div>
 </template>
 
@@ -65,10 +58,13 @@ export default {
 
 	data() {
 		return {
-			v_tab: "upbit",
-			v_tab_toplist: "ret",
-			v_toplist_visible: false,
-			v_page: { title: "page.home.title", desc: "" },
+			v_category: '',
+			v_options: [
+				{label:'수익율이 좋은 포트폴리오', value:'roi'},
+				{label:'사람들이 좋아하는 포트폴리오', value:'voted'},
+				{label:'Crypto VC들이 사랑하는 포트폴리오', value:'vc'},
+				{label:'댓글이 가장 많은 포트폴리오', value:'comment'},
+			],
 		};
 	},
 	created() {
@@ -95,8 +91,8 @@ export default {
 
 		loadPortfolioList: function () {
 			this.$refs.pfVC.updateByType("vc");
-			this.$refs.pfROI.updateByType("roi");
-			this.$refs.pfRated.updateByType("voting");
+			//this.$refs.pfROI.updateByType("roi");
+			//this.$refs.pfRated.updateByType("voting");
 		},
 
 	},

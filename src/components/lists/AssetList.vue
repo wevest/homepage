@@ -43,6 +43,7 @@
                     <q-td key="cmc_rank" :props="props">{{ props.row.cmc_rank }}</q-td>
                     <q-td key="symbol" :props="props" class="text-red-10 text-bold">{{ props.row.symbol }}</q-td>
                     <q-td key="name" :props="props">{{ props.row.name }}</q-td>
+                    <q-td key="date_added" :props="props">{{ props.row.date_added }}</q-td>
                 </q-tr>            
 
             </template>
@@ -145,6 +146,7 @@ export default {
                 { name:'cmc_rank', label: this.$t('name.rank'), field: 'cmc_rank', sortable: true, align:'left'},
                 { name:'symbol', label: this.$t('name.symbol'), field: 'symbol', sortable: true, align:'left', required:true  },
                 { name:'name', label: "$ "+this.$t('name.name'), field: 'name', sortable: true, align:'left',},                
+                { name:'date_added', label: "$ "+this.$t('name.date_added'), field: 'date_added', sortable: true, align:'left',},
             ],
             v_pagination: {
                 sortBy: 'cmc_rank',
