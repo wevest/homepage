@@ -14,9 +14,7 @@
 				:options="v_options" />
 			-->
 			
-			<q-chip v-for="(a_option, index) in v_options" :key="index">
-				{{a_option.label}}
-			</q-chip>				
+			<WCategoryChip ref="categoryChip" :data="v_options" />
 
 		</div>
 
@@ -39,7 +37,7 @@ import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
 import CTitle from "components/CTitle";
-import CBigLabel from "components/CBigLabel";
+import WCategoryChip from "components/WCategoryChip";
 
 import PortfolioList from "components/lists/PortfolioList";
 
@@ -48,6 +46,7 @@ export default {
 	name: "PageIndex",
 	components: {
 		CTitle,
+		WCategoryChip,
 		PortfolioList,
 	},
 	computed: {
@@ -60,8 +59,8 @@ export default {
 		return {
 			v_category: '',
 			v_options: [
-				{label:'수익율이 좋은 포트폴리오', value:'roi'},
-				{label:'사람들이 좋아하는 포트폴리오', value:'voted'},
+				{label:'수익율이 좋은 포트폴리오', value:'roi', icon:'event'},
+				{label:'사람들이 좋아하는 포트폴리오', value:'voted', icon:'event'},
 				{label:'Crypto VC들이 사랑하는 포트폴리오', value:'vc'},
 				{label:'댓글이 가장 많은 포트폴리오', value:'comment'},
 			],

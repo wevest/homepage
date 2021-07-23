@@ -1,36 +1,40 @@
 <template>
 
-    <div class="ctitle">
-        <h5 class="title">{{ $t(title) }}</h5>
-        <p class="desc">
-            {{ $t(desc)}}
-        </p>
+    <div>
+        <q-chip v-for="(a_option, index) in v_options" :key="index" :icon="a_option.icon">
+            {{a_option.label}}
+        </q-chip>				
     </div>
 
 </template>
 
 
 <script>
+import {store} from "src/store/store";
+import CommonFunc from "src/util/CommonFunc";
+import logger from "src/error/Logger";
+
+
 export default {
-    name: 'CSubtitle',
+    name: 'WCategoryChip',
     components: {},
     props: {
-        title: {
-            type: String,
-            default: '',
+        data: {
+            default: null,
         },
-        desc: {
+        label: {
             type: String,
             default: '',
         },
     },
-    computed: {
-    },
-    data: function () {
+    computed: {},
+    data() {
         return {
-            g_data: null,
-            g_period: 200,
+            v_options: this.data,
         }
+    },
+    methods: {
+
     }
 }
 </script>            
