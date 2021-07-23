@@ -15,6 +15,8 @@ import CMSAPI from 'src/services/cmsService';
 import {HolderModel,HolderListModel} from 'src/models/UserModel';
 
 export class TickerModel {
+    pair=null;
+    symbol=null;
     change_percentage=null;
     last=null;
     high_24h=null;
@@ -23,15 +25,59 @@ export class TickerModel {
     updated_at=null;
     
     assign(obj) {
-        logger.log.debug("TickerModel.assign:obj=",obj);
+        //logger.log.debug("TickerModel.assign:obj=",obj);
 
+        this.pair=obj.currency_pair;
+        this.symbol=obj.currency_pair.split('_')[0];
         this.change_percentage=parseFloat(obj.change_percentage);
         this.last=parseFloat(obj.last);
         this.high_24h=parseFloat(obj.high_24h);
         this.low_24h=parseFloat(obj.low_24h);
         this.base_volume=parseFloat(obj.base_volume);
-        this.updated_at = CommonFunc.getCurrentDatetime(1);
+        this.updated_at = CommonFunc.getCurrentDatetime(2);
     }
+}
+
+
+export class TickerListModel extends baseCollection {
+
+    assign(items) {
+        for (let index=0;index<items.length;index++) {
+            let a_ticker = new TickerModel();
+            a_ticker.assign(items[index]);
+            this.add(a_ticker);
+        }
+    }
+
+    getByPair(pair) {
+        return _.find(this.items,{pair:pair} );
+    }
+
+    getBySymbol(symbol) {
+        return _.find(this.items,{symbol:symbol} );
+    }
+
+    load(symbol=null,quoteCurrency="USDT") {
+        const _this=this;
+
+        let dicParam = {};
+        if (symbol) {
+            dicParam.pair = symbol+"_"+quoteCurrency;
+        }
+                
+        return new Promise(function(resolve,reject) {            
+            PriceService.getPrice(dicParam).then(response=>{
+                logger.log.debug("TickerListModel.load - response",response);
+                _this.assign(response.data.data);
+                resolve(response);
+            }).catch(err=>{
+                logger.log.error("TickerListModel.load - error",err);
+                reject(err);
+            });
+        });            
+        
+    }
+
 }
 
 export class AssetModel{    
@@ -98,6 +144,9 @@ export class AssetModel{
 
     _getFirstLink(a_links) {
         //let a_links = json_data['values'][0][dic_columns[column]];          
+        if (!a_links) {
+            return '';
+        }
         if (a_links.length==0) return '';
         return a_links.split(',')[0];
     }
@@ -288,15 +337,15 @@ export class AssetListModel extends baseCollection{
         return _.find(this.items,{symbol:symbol} );
     }
     
-    load(asset_id=null,limit=null,offset=null) {
+    load(reqParam) {
         const _this = this;
                 
         return new Promise(function(resolve,reject) {            
 
-            let reqParam = {};      
-            if (limit) reqParam['limit'] = limit;
-            if (offset) reqParam['offset'] = offset;
-            if (asset_id) reqParam['asset_id'] = asset_id;
+            //let reqParam = {};      
+            //if (limit) reqParam['limit'] = limit;
+            //if (offset) reqParam['offset'] = offset;
+            //if (asset_id) reqParam['asset_id'] = asset_id;
 
             APIService.getAssetData(reqParam,function(response) {
                 logger.log.debug("load : response=",response);

@@ -1,7 +1,7 @@
 <template>
     <div> 
 
-		<CTitle ttype='subtitle' :title="v_title" desc=""
+		<CTitle ttype='subtitle' :title="title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMorePortfolio"></CTitle>
 
         <q-card class="q-my-sm" flat bordered 
@@ -40,6 +40,8 @@
 
         </q-card>
 
+        <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+
     </div>
 
 </template>
@@ -53,6 +55,7 @@ import logger from "src/error/Logger";
 import WAvatar from "src/components/WAvatar";
 import CTitle from 'components/CTitle';
 import WSubinfo from 'components/WSubinfo';
+import LoadMore from "src/components/LoadMore";
 
 import UserModel from "src/models/UserModel";
 import { PortfolioListModel, PortfolioModel, PortfolioItemModel} from "src/models/PortfolioModel";
@@ -62,6 +65,7 @@ export default {
     components: {
         CTitle,
         WAvatar,
+        LoadMore,
         WSubinfo
     },
     props: {
@@ -121,37 +125,47 @@ export default {
         return {
             g_data: null,
 
-            v_title: this.title,
+            //v_title: this.title,
             v_maxLength: this.maxLength,
             v_more_caption: this.moreCaption,								
 
+            v_type:null,
+
             v_user: new UserModel(),
             v_portfolio: new PortfolioListModel(),
-
         }
     },
 
     methods: {        
+        clear() {
+            this.v_portfolio.clear();
+        },
 
-        update: function() {
+        update(type=null) {
+            const _this=this;
+
             logger.log.debug("PortfolioList.update");
-            this.v_portfolio.load(null,null).then(response=>{
-                logger.log.debug("update:response",response);
+            
+            //this.clear();
+            
+            let dicParam = {type:type, limit:this.$refs.loadMore.v_next.limit, offset:this.$refs.loadMore.v_next.offset};            
+            this.v_portfolio.load(dicParam).then(response=>{
+                logger.log.debug("PortfolioList.update:response=",response);
+                _this.$refs.loadMore.setPageParameter(response.data);
             }).catch(err=>{
-                logger.log.error("update:response",err);
+                logger.log.error("PortfolioList.update:err=",err);
             });
         },
 
         updateByType(type) {
-            logger.log.debug("PortfolioList.update");
-            this.v_portfolio.load(null,null,type).then(response=>{
-                logger.log.debug("update:response",response);
-            }).catch(err=>{
-                logger.log.error("update:response",err);
-            });
+            logger.log.debug("PortfolioList.updateByType");
+            
+            this.v_type = type;
+            this.$refs.loadMore.clear();
+            this.update(this.v_type);
         },
 
-        onClickPortfolio: function(a_portfolio) {
+        onClickPortfolio(a_portfolio) {
             logger.log.debug("onClickPortfolio: portfolio=",a_portfolio);
             //this.$emit("onClickPortfolio",a_portfolio);
 
@@ -162,7 +176,14 @@ export default {
             CommonFunc.navPortfolio(this,this.v_user.username,a_portfolio.id);
         },
 
-        onClickMorePortfolio: function() {
+		onClickLoadMore() {
+			logger.log.debug("PortfolioList.onClickLoadMore : next_url = ", this.v_next_url);
+			
+			this.v_maxLength = 999999;
+			this.update(this.v_type);
+		},
+
+        onClickMorePortfolio() {
             logger.log.debug("PortfolioList.onClickMorePortfolio:");
             CommonFunc.navPortfolioIndexView(this);
         }

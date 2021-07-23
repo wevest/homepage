@@ -1,13 +1,15 @@
 <template>
 
     <div>
-        <q-chip v-for="(a_option, index) in v_options" :key="index" :icon="a_option.icon">
+        <q-chip dense clickable ripple
+            :icon="a_option.icon" :color="color" :text-color="textColor" :outline="! a_option.selected"
+            v-for="(a_option, index) in v_options" :key="index" 
+            @click="onClick(a_option)">
             {{a_option.label}}
         </q-chip>				
     </div>
 
 </template>
-
 
 <script>
 import {store} from "src/store/store";
@@ -26,6 +28,14 @@ export default {
             type: String,
             default: '',
         },
+        color: {
+            type: String,
+            default: ''
+        },
+        textColor: {
+            type: String,
+            default: ''
+        }
     },
     computed: {},
     data() {
@@ -34,7 +44,18 @@ export default {
         }
     },
     methods: {
-
+        clear() {
+            for (let index=0; index<this.v_options.length;index++) {
+                this.v_options[index].selected = false;
+            }
+        },
+        onClick(option) {
+            logger.log.debug("WcategoryChip.onClick:option=",option);
+            
+            this.clear();
+            option.selected = true;
+            this.$emit('onClickCategory',option);
+        }
     }
 }
 </script>            
@@ -42,21 +63,5 @@ export default {
 
 
 <style scoped>
-
-.ctitle {
-/*    border-bottom: 1px solid #ccc; */
-    margin-bottom: 0.0rem;    
-    -webkit-box-flex: 1;
-    -ms-flex: 1 1 auto;
-    flex: 1 1 auto;
-    padding: 0.0rem;    
-}
-
-.ctitle, .title {
-    text-transform: uppercase;
-    color: rgba(13, 27, 62, 0.7);
-    font-weight: bold;
-    font-size: 1.0rem;
-}
 
 </style>

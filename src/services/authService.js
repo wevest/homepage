@@ -295,6 +295,9 @@ export default class AuthService{
         }
         
         let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+
+        url = CommonFunc.addLimitOffsetToQuery(url, reqParam);
+
         callCMSAPI("GET",url,{},reqParam)
         .then( (response) => {
             func(response);

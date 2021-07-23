@@ -47,7 +47,7 @@ export default {
         }
     },
     methods: {
-        update: function(json_data) {            
+        update(json_data) {            
             let dic_column = CommonFunc.getColumnDic( json_data['overall'].columns ,[],[]);
 
             let items = [];            
@@ -63,6 +63,10 @@ export default {
             //logger.log.debug('items=',items);
             this.v_items = items;
         },
+
+        updateTable(json_data) {
+
+        }
     }
 };
 </script>

@@ -3,6 +3,7 @@
     <div v-if="!v_loaded">
         <q-skeleton height="100px" square animation="fade" />
     </div>
+
     <div v-else class="widget-box" :class="v_color(valueRet)" @click="onClick" >
 <!--
         <div class="icon-wrapper rounded-circle">
@@ -10,32 +11,31 @@
             <i class="lnr-cog text-primary"></i>
         </div>
 -->            
-        <div class="q-mt-md widget-title text-white" v-if="(title) && (title.length>0)">
+        <div v-if="(title) && (title.length>0)">
             <div>
-                <span class="label-name">{{title}}</span>   
+                <span class="gListTitle text-white">{{title}}</span>   
                 <q-badge :color="badge_color" class="badge text-black" v-if="tag">
-                    <q-icon 
-                        name="warning"
-                        size="14px"
-                        class="q-ml-xs"
-                    />&nbsp;          
+                    <q-icon name="warning" size="14px" class="q-ml-xs" />&nbsp;          
                     {{tag}}
                 </q-badge>
             </div>
         </div>
         <div class="text-left q-ml-md">
-            <div class="row q-mt-lg q-pt-md widget-value" :class="text_color">
+            
+            <div v-if="(! title) || (title.length==0)" class="q-pt-md"></div>
+            
+            <div class="row" :class="text_color">
                 <div>
                     $ {{v_format(value)}}
                 </div>
                 <q-space />
-                <div class="q-pr-lg" v-if="moreButton.length>0"> 
+                <div v-if="moreButton.length>0"> 
                     <q-btn flat dense :label="moreButton" icon-right="navigate_next" />
                 </div>
             </div>
                     
             <div class="iconBox widget-value-ret" :class="v_color(valueRet)">
-                <q-icon class="q-pt-xs widget-value-icon" size="40px" :name="v_icon(valueRet)"/>
+                <q-icon class="q-pt-xs widget-value-icon" size="30px" :name="v_icon(valueRet)"/>
                 <span class="pl-1"><span>{{valueRet}}%</span></span>
             </div>
 
@@ -43,8 +43,8 @@
                 <span class="text-grey-1" :class="extraClass">{{extraCaption}}</span>
             </div>
 
-            <div v-if="updatedAt && (updatedAt.length>0)">
-                <span class="gCaption text-grey-1">updated at {{updatedAt}}</span>
+            <div v-if="updatedAt && (updatedAt.length>0)" class="gNoMargin">
+                <span class="gCaption text-grey-1">{{updatedAt}}</span>
             </div>
         </div>
     </div>
@@ -96,7 +96,7 @@ export default {
                 if(!value) {
                     return '';
                 }
-                return value.toLocaleString();
+                return CommonFunc.formatNumber(value,0,true);
             };
         },
         v_color() {
@@ -171,6 +171,10 @@ export default {
     border-width: 0;
     -webkit-transition: all .2s;
     transition: all .2s;
+
+    font-size:22px;
+    font-weight: bold;
+    color:#111111;
 }
 
 .widget-box-border {
@@ -179,7 +183,7 @@ export default {
     border-width: 1.0px;
 }
 
-.widget-biglabel .widget-value {
+.widgetValue {
     font-weight: bold;
     font-size: 1.4rem;
     display: block;
@@ -187,17 +191,7 @@ export default {
     margin: 0.05rem auto;
 }
 
-.widget-biglabel .widget-title {
-    /* 
-        margin: -0.5rem 0 0; 
-        opacity: .6;
-    */
-    font-weight: bold;
-    font-size: 1.2rem;    
-    display: block;   
-}
-
-.widget-biglabel .widget-value-ret {
+.widget-value-ret {
     /* margin: 1rem 0 0; */
     font-size: 1.0rem;
 }
@@ -206,7 +200,6 @@ export default {
     padding-left: 0.09rem !important;
     font-size:0.9rem;
 }
-
 
 .widget-biglabel .badge {
     font-size: 0.8rem;
@@ -224,7 +217,7 @@ export default {
 }
 
 .iconBox {
-    margin-top:-15px;
-    margin-left:-8px;
+    margin-top:-8px;
+    margin-left:-9px;
 }
 </style>

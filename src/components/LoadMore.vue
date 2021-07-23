@@ -17,6 +17,7 @@
 
 
 <script>
+import { MoaConfig } from 'src/data/MoaConfig';
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
@@ -31,14 +32,23 @@ export default {
             v_next_url:null,
             v_count: 0,
             v_next: {
-                limit:null,
-                offset:null,
+                limit:MoaConfig.setting.defaultLimit,
+                offset:0,
                 uuid:null,
             },
         }
     },
 
     methods: {
+        clear() {
+            this.v_next_url = null;
+            this.v_count = 0;
+            this.v_next = {
+                limit:MoaConfig.setting.defaultLimit,
+                offset:0,
+                uuid:null,
+            };
+        },
         getCount() {
             return this.v_count;
         },

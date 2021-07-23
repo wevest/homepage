@@ -9,21 +9,18 @@
 		</div>
 
 		<div>
-			<!--
-			<q-btn-toggle v-model="v_category" toggle-color="primary"
-				:options="v_options" />
-			-->
 			
-			<WCategoryChip ref="categoryChip" :data="v_options" />
+			<WCategoryChip ref="categoryChip" color="primary" textColor="white" 
+				:data="v_options" @onClickCategory="onClickCategory"
+			/>
 
 		</div>
 
 		<div>
 			<PortfolioList
-				ref="pfVC"
-				:title="$t('page.home.portfoliolist.vc.title')"
-				maxLength="10"
-				moreCaption=""
+				ref="pfList"
+				:title="v_list_title"
+				maxLength="2000" moreCaption=""
 			></PortfolioList>
 		</div>
 
@@ -57,13 +54,14 @@ export default {
 
 	data() {
 		return {
-			v_category: '',
 			v_options: [
-				{label:'수익율이 좋은 포트폴리오', value:'roi', icon:'event'},
-				{label:'사람들이 좋아하는 포트폴리오', value:'voted', icon:'event'},
-				{label:'Crypto VC들이 사랑하는 포트폴리오', value:'vc'},
-				{label:'댓글이 가장 많은 포트폴리오', value:'comment'},
+				{label:'Crypto VC들이 사랑하는 포트폴리오', value:'vc', icon:'event', selected:true},
+				{label:'수익율이 좋은 포트폴리오', value:'roi', icon:'event', selected:false},
+				{label:'사람들이 좋아하는 포트폴리오', value:'voted', icon:'event', selected:false},
+				{label:'모두 보기', value:'all', selected:false},
 			],
+			v_category: null,			
+			v_list_title: '',
 		};
 	},
 	created() {
@@ -71,6 +69,7 @@ export default {
 	},
 	mounted() {
 		//console.log("HomeView.mounted - ");
+		this.prepare();
 		this.refresh();
 	},
 	updated() {
@@ -78,22 +77,30 @@ export default {
 	},
 
 	methods: {
-		refresh: function () {
-			const _this = this;
+		prepare() {
+			this.v_category = this.v_options[0];
+		},
+		refresh() {			
+			this.v_list_title = this.v_category.label;
 
-			let funcs = [
-				this.loadPortfolioList(),
-			];
-			Promise.all(funcs).then(function () {});
+			this.$refs.pfList.clear();
+			if (this.v_category.value=="vc") {
+				this.$refs.pfList.updateByType("vc");
+			} else if (this.v_category.value=="roi") {
+				this.$refs.pfList.updateByType("roi");
+			} else if (this.v_category.value=="voting") {
+				this.$refs.pfList.updateByType("voting");
+			} else if (this.v_category.value=="all") {
+				this.$refs.pfList.updateByType(null);
+			}
+
 		},
 
-
-		loadPortfolioList: function () {
-			this.$refs.pfVC.updateByType("vc");
-			//this.$refs.pfROI.updateByType("roi");
-			//this.$refs.pfRated.updateByType("voting");
-		},
-
+		onClickCategory(option) {
+			logger.log.debug("PortfolioIndexView.onClickCategory : option=",option);
+			this.v_category = option;
+			this.refresh();
+		}
 	},
 };
 </script>

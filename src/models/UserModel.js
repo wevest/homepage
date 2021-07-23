@@ -371,14 +371,15 @@ export default class User {
   
     loadPortfolio(portfolio_id)  {
         const _this = this;
+        
+        let dicParam = {username:this.username,portfolio_id:portfolio_id};
         return new Promise(function(resolve,reject) {   
             _this.portfolio.clear();
-            _this.portfolio.load(_this.username,portfolio_id).then( response => {
+            _this.portfolio.load(dicParam).then( response => {
                 resolve(response);
             });
         });
     }
-
 
     static loadProfile(username) {    
         let dic_param = {'username':username};

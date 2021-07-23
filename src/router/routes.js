@@ -112,7 +112,7 @@ const routes = [
         name: "assetqa_detail",
         path: "/assetqa_detail",
         component: () => import("pages/assetqa/AssetQADetailView.vue"),
-		meta: { transition: "overlay-right" }
+		    meta: { transition: "overlay-right" }
       },
       {
         name: "assetqa_answer_writer",
@@ -124,9 +124,14 @@ const routes = [
         name: "assetqa_question_writer",
         path: "/assetqa_question_writer",
         component: () => import("pages/assetqa/QuestionWriterView.vue"),
-		meta: { transition: "overlay-right" }
+		    meta: { transition: "overlay-right" }
       },
-
+      {
+        name: "market",
+        path: "/market",
+        component: () => import("pages/market/MarketView.vue"),
+		    meta: { transition: "overlay-right" }
+      },
       { name: 'portfolio', path: 'portfolio', component: () => import('pages/portfolio/PortfolioView.vue') },
 
       // market related

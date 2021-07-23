@@ -1,13 +1,14 @@
 <template>
     
-  <div class="q-pa-md">
-        <div class="col">
+  <div class="q-ma-md">
+        <div>
             <CTitle ttype='title' :title="$t ('page.home.title')" :desc="$t('page.home.desc')"></CTitle>
         </div>
 
-        <div class="col">
+        <div>
+            <MarketIndexWidget ref="indexWidget" @onClick="onClickIndex"/>
             <MarketWatchWidget ref="watchWidget" :title="$t('page.home.marketwatching.title')" :desc="$t('page.home.marketwatching.desc')"
-            :moreButton="$t('button.more')" />
+                :moreButton="$t('button.more')" />
         </div>
 
         <div>
@@ -56,9 +57,10 @@ import UserFeedList from 'components/lists/UserFeedList';
 
 import DataService from 'src/services/dataService';
 
-//import CTopTable from 'pages/home/CTopTable';
+
 //import CIndexChart from 'pages/home/CIndexChart';
 //import CExchangeIndexChart from 'pages/home/CExchangeIndexChart';
+import MarketIndexWidget from 'pages/home/components/MarketIndexWidget';
 import MarketWatchWidget from 'pages/home/components/MarketWatchWidget';
 
 
@@ -67,6 +69,7 @@ export default {
     components: {
         CTitle,
         CBigLabel,
+        MarketIndexWidget,
         MarketWatchWidget,
         BlogList,
         PortfolioList,
@@ -121,6 +124,7 @@ export default {
                 this.loadFeedList(),
                 //this.loadReviewStatList(),
                 this.loadCryptoWatch(),
+                this.loadMarketIndex(),
                 /*
                 this.loadIndexData(),
                 this.loadCryptoTopAssetData('1h'),
@@ -138,19 +142,23 @@ export default {
             });
         },
 
-        loadBlogList: function() {
+        loadMarketIndex() {
+            this.$refs.indexWidget.update();
+        },
+
+        loadBlogList() {
             this.$refs.blogList.updateByCategory(this.$refs.blogList.category);
         },
 
-        loadAssetList: function() {
+        loadAssetList() {
             this.$refs.assetList.update(10,null);
         },
 
-        loadFeedList: function() {
+        loadFeedList() {
             this.$refs.feedList.update(this.v_me,0);
         },
 
-        loadPortfolioList: function() {
+        loadPortfolioList() {
             this.$refs.pfVC.updateByType('vc');
             //this.$refs.pfROI.updateByType('roi');
             //this.$refs.pfRated.updateByType('voting');
@@ -160,32 +168,32 @@ export default {
             this.$refs.reviewList.update();
         },
 
-        showChart: function(asset,dates,a_date) {
+        showChart(asset,dates,a_date) {
             console.log('HomeView.showChart=',asset);        
             //this.items_52w = json_list;
             this.$refs.chartWinner.update('gaia_crypto_trend_upbit',asset,dates);
         },
 
 
-        onLoad: function(progress) {
+        onLoad(progress) {
             console.log('onLoad - ',progress);
         },
 
-        onClickCategory: function(sector) {
+        onClickCategory(sector) {
             logger.log.debug('onClickCategory - ',sector);
             
             let dic_param = { name:'sector', path:'sector', params:{exchange:this.v_tab, sector:sector} };
             this.$router.push(dic_param);
         },
 
-        onClickTrend: function() {
+        onClickTrend() {
             logger.log.debug('onClickTrend - ');
 
             let dic_param = { name:'trend', path:'trend', params:{} };
             this.$router.push(dic_param);            
         },
 
-        onClickToplist:function() {
+        onClickToplist() {
             logger.log.debug('onClickToplist - ');
             this.v_toplist_visible = true;
 
@@ -193,24 +201,27 @@ export default {
             //_this.updateTopTable(_this.g_data_top,_this.v_tab,'ret');
         },
 
-        onClickEureka: function(link) {
+        onClickEureka(link) {
             logger.log.debug('onClickEureka - ',link);
 
             let dic_param = { name:link, path:link, params:{} };
             this.$router.push(dic_param);            
         },
 
-        onClickTabCategory: function(exchange) {
+        onClickTabCategory(exchange) {
             logger.log.debug('onClickTabCategory - ',exchange);
             this.updateExchangeWidget(this.g_data,exchange);
         },
 
-        onClickKnob: function() {
+        onClickKnob() {
             logger.log.debug('onClickKnob');
             let dic_param = { name:'cwatch', path:'cwatch', params:{} };
             this.$router.push(dic_param);            
         },
-        
+        onClickIndex() {
+            logger.log.debug('Home.onClickIndex');
+            CommonFunc.navMarket(this);
+        }
     }
 };
 
@@ -218,69 +229,8 @@ export default {
 
 
 <style scoped>
-.box_label {
-    margin-top:1px;
-    margin-bottom:1px;
-}
-
-.box_eureka {
-
-    display: grid;
-    grid-template-columns: minmax(55px, 55px) 1fr;
-
-    border: 1px solid #BBBBBB;
-    /*background:#D7F1FA; blue*/
-    /*background:#FFDC46; yellow*/ 
-    /*background:#B4B4FF; purple */
-    background:#FFE150;
-    border-radius:8px; 
-    padding: 15px; 
-    /* margin:10px 8px 22px; */
-    margin: 20px 0px 20px 0px;    
-}
-
-.box_eureka_icon {
-    /*width:80px;
-    */
-    font-size:40px;
-    color:#EB5A5A;
-    margin:-8px 0px 0px 0px;
-    /*padding-left:10px;*/
-}
-.box_eureka_text {    
-    font-size: 13px;
-}
-
-.btc-eth {
-    color: #111111;
-    font-size: 18px;
-    font-weight: 700;
-}
 
 .box_knob {
     font-size:25px; 
-}
-
-.box_hotlist {
-    border: 1px solid #BBBBBB; 
-    border-radius:8px; 
-    height:130px;
-    width:200px;
-    margin:10px 20px 10px 0px;
-}
-
-.hotlist-icon {    
-    color:gold;
-    font-size:40px;
-    padding:20px;
-    /* position:relative; top:30px; */
-}
-
-.hotlist-name {
-    color:#111111;
-    font-size:20px;
-    font-weight:800;
-    padding:20px;
-    /* position:relative; top:10px; */
 }
 </style>

@@ -540,6 +540,14 @@ export default class CommonFunc {
         a_this.$router.back();
     }
 
+    static navMarket(a_this) {
+        logger.log.debug("CommonFunc.navMarket - ",a_this.$route);
+        
+        store.getters.nav.add(a_this.$route);
+        let dic_param = {name:'market',path:'market',query:{}};
+        a_this.$router.push(dic_param);
+    }
+
     static navSignin(a_this,is_redirect=false) {
         logger.log.debug("CommonFunc.navSignin - ",a_this.$route);
         
@@ -1439,15 +1447,19 @@ export default class CommonFunc {
 
     static getCurrentDatetime(dtype=0) {        
         let today = new Date();
+        let dateStr = null;
+
         if (dtype==0) {
             return today;
+        } else if (dtype==1) {
+            dateStr = moment(moment.now()).format("MMMM D, YYYY, h:mm:ss a");
+        } else if (dtype==2) {
+            dateStr = moment(moment.now()).format("YYYY-MM-DD, hh:mm:ss");
         }
-
         //var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         //var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         //var dateTime = date+' '+time;        
-        //June 19, 2021, 3:10 p.m.
-        let dateStr = moment(moment.now()).format("MMMM D, YYYY, h:mm:ss a");
+        //June 19, 2021, 3:10 p.m.        
 
         return dateStr;
     }
@@ -1614,6 +1626,10 @@ export default class CommonFunc {
             }
         }
         return ret;
+    }
+
+    static addUrlParams() {
+
     }
 }
 

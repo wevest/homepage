@@ -25,24 +25,11 @@
         <div class="q-my-xl">
             <CTitle ttype='subtitle' :title="$t('page.asset_detail.price_chart.title')" :desc="$t('page.asset_detail.price_chart.desc')"></CTitle>
             <ChartTimeframe class="q-mt-md" period='all' :onclick="onClickTimeframe" selected='y1'></ChartTimeframe>
-            <CAssetChart ref="assetChart"></CAssetChart>
-
-            <div class="text-center q-mt-md">
-                <q-toggle v-model="v_visible_table" :label="$t('button.show_table')" class="q-mb-md center" />
-            </div>
-
-            <q-slide-transition>
-                <div v-show="v_visible_table" class="q-my-md">
-                    
-                    <CTitle ttype='subtitle' :title="$t('page.asset_detail.price_data.title')" :desc="$t('page.asset_detail.price_data.title')"></CTitle>
-                    <div class="gBoxNoMargin">
-                        <PriceDataTable ref="dataTable" />                    
-                    </div>
-                </div>
-            </q-slide-transition>                
-        </div>            
-
-
+            <WAssetChart ref="assetChart"
+                :tableTitle="$t('page.asset_detail.price_data.title')" :tableDesc="$t('page.asset_detail.price_data.title')"
+            />
+        </div>
+        
     </div>
 
 </template>
@@ -57,7 +44,7 @@ import {AssetModel} from "src/models/AssetModel";
 
 import CTitle from 'components/CTitle';
 import ChartTimeframe from 'components/ChartTimeframe';
-import CAssetChart from 'src/pages/asset/CAssetChart';
+import WAssetChart from 'components/WAssetChart';
 import CAssetInfoTable from 'src/pages/asset/component/CAssetInfoTable';
 
 import PriceSummaryBox from 'src/pages/asset/component/PriceSummaryBox';
@@ -73,7 +60,7 @@ export default {
     components: {
         CTitle,
         ChartTimeframe,
-        CAssetChart,
+        WAssetChart,
         CAssetInfoTable,
         PriceSummaryBox,
         PriceDataTable,
@@ -152,10 +139,6 @@ export default {
             this.$refs.priceBox.update(json_data);
         },
 
-        updatePriceTable: function(json_data) {            
-            this.$refs.dataTable.update(json_data);
-        },
-
         updatePageHeader: function(json_data) {            
             const dic_columns = CommonFunc.getColumnDic(json_data['overall'].columns,[],[]);
             let a_date = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['time']];
@@ -166,7 +149,7 @@ export default {
         },
 
         updatePriceChart:function(json_data) {
-            this.$refs.assetChart.update(json_data);                    
+            this.$refs.assetChart.update(json_data, true);                    
         },
 
         loadBlogList: function() {
@@ -206,12 +189,10 @@ export default {
             this.v_asset.loadPriceHistory(dic_param).then(jsonResult=>{
                 _this.updatePageHeader(jsonResult);
                 //_this.updatePriceWiget(jsonResult);
-                _this.updatePriceTable(jsonResult);
                 _this.updatePriceChart(jsonResult);                    
             }).catch(err=>{
                 logger.log.error("AssetDetailView.loadCryptoPriceHistory - error",err);
             });
-
         },
 
 

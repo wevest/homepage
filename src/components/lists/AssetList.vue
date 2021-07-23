@@ -141,6 +141,7 @@ export default {
             v_more_caption: this.moreCaption,								
 
             v_assets: new AssetListModel(),
+            v_category: null,
 
             v_headers: [                
                 { name:'cmc_rank', label: this.$t('name.rank'), field: 'cmc_rank', sortable: true, align:'left'},
@@ -161,11 +162,18 @@ export default {
     },
 
     methods: {
-        update(limit,offset) {
+        clear() {
+            this.v_assets.clear();
+            this.$refs.loadMore.clear();
+        },
+
+        update(category) {
             const _this=this;
             
-            this.v_loading_table = true;
-            this.v_assets.load(null,limit,offset).then(response=>{
+            let dicParam = {category:category, limit:this.$refs.loadMore.v_next.limit, offset:this.$refs.loadMore.v_next.offset};
+
+            this.v_loading_table = true;                        
+            this.v_assets.load(dicParam).then(response=>{
                 logger.log.debug("AssetList.update : response=",response);
                 _this.$refs.loadMore.setPageParameter(response.data);
                 
@@ -176,6 +184,11 @@ export default {
                 logger.log.error("AssetList.update : err=",err);
             });
 
+        },
+
+        updateByCategory(category) {
+            this.v_category = category;
+            this.update(this.v_category);
         },
 
         onClickAsset: function(asset) {
