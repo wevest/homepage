@@ -6,7 +6,7 @@
         </div>
 
         <div>
-            <WWriterButton placeholder="Please share your knowledges" @onClickWrite="onClickWrite" />
+            <WWriterButton :placeholder="$t('name.qa_writing')" @onClickWrite="onClickWrite" />
         </div>
         
         <q-separator class="gSeparator" />

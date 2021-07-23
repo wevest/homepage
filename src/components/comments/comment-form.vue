@@ -13,7 +13,7 @@
 				<WTextArea ref="descText"  
 					v-model="v_comments" :rows="v_rows" :maxlength="maxlength" 
 					customClass="gCommentMD"
-					label="Please type your comments" 
+					:label="$t('name.comment_writing')" 
 					hint="Please write comments"
 					@onTextChange="onTextChange"
 					@onFocus="onFocus"
@@ -218,7 +218,7 @@ export default {
 			if (CommonFunc.isEmptyObject(this.v_comments)) {
 				//return this.$message.warning('请输入内容')
 				this.v_error.error = true;
-				this.v_error.msg = "Please type something";
+				this.v_error.msg = this.$t("name.type_something");
 				return false;
 			}
 
