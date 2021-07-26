@@ -8,8 +8,8 @@
             </q-card-section>
 
             <q-card-actions align="right">
-                <q-btn flat label="Cancel" color="primary" @click="onClickConfirm(0)" />
-                <q-btn flat label="Confirm" color="primary" @click="onClickConfirm(1)" />
+                <q-btn flat :label="$t('button.cancel')" color="primary" @click="onClickConfirm(0)" />
+                <q-btn flat :label="$t('button.confirm')" color="primary" @click="onClickConfirm(1)" />
             </q-card-actions>
         </q-card>
     </q-dialog>
