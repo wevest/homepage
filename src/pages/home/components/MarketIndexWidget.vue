@@ -69,15 +69,15 @@ export default {
         update() {
             const _this = this;
 
-            this.v_tickers.load(null).then(resp=>{
+            this.v_tickers.load(null,null).then(resp=>{
                 //logger.log.debug("MarketIndexWidget.update : items=",_this.v_tickers.items);
 
-                const a_btc = _this.v_tickers.getByPair('BTC_USDT');                
+                const a_btc = _this.v_tickers.getByPair('BTC/USDT');                
                 _this.v_data.btc.price = a_btc.last;
                 _this.v_data.btc.ret = a_btc.change_percentage;
                 _this.v_data.btc.updated_at = a_btc.updated_at;
 
-                const a_eth = _this.v_tickers.getByPair('ETH_USDT');  
+                const a_eth = _this.v_tickers.getByPair('ETH/USDT');  
                 //logger.log.debug("MarketIndexWidget.update : eth=",a_eth);
                 _this.v_data.eth.price = a_eth.last;
                 _this.v_data.eth.ret = a_eth.change_percentage;

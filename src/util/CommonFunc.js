@@ -46,8 +46,9 @@ export default class CommonFunc {
 
     static unixToDatetime(unixTimestamp) {
         let date = new Date(Number(unixTimestamp));
-        let dateStr = date.toLocaleDateString('en-US') + ' ' + date.toLocaleTimeString();
-        return dateStr;
+        //let dateStr = date.toLocaleDateString('en-US') + ' ' + date.toLocaleTimeString();
+        //return moment.unix(unixTimestamp).format("YYYY-MM-DD HH:mm:SS");
+        return moment(unixTimestamp).format("YYYY-MM-DD HH:mm:SS");
     }
 
     static compareStr( a, b ) {
@@ -1441,8 +1442,9 @@ export default class CommonFunc {
             return moment(value,"YYYY-MM-DDThh:mm:ss").fromNow();
         } else if (dtype==1) {
             return moment(value,"LLL").fromNow();
+        } else if (dtype==2) {
+            return moment(value,"YYYY-MM-DDThh:mm:ss").format('YYYY-MM-DD hh:mm:ss');
         }
-        
     }
 
     static getCurrentDatetime(dtype=0) {        

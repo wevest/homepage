@@ -570,7 +570,7 @@ export default class MoaBackendAPI {
   }
 
   static getCryptoPriceHistory(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/crypto/asset");
+    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/proxy/history");
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
         func(response);

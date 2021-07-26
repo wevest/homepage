@@ -3,7 +3,7 @@
   <div class="tab_bgcolor">
         <div v-if="period==='daily'">
             <q-tabs v-model="tab" active-color="primary" shrink  dense align="left">
-                <q-tab name="d1" :label="$t('name.d1')" @click="onClickTab('d1')"/>
+                <q-tab name="d1" :label="$t('name.d1')" @click="onClickTab('1d')"/>
                 <q-tab name="w1" :label="$t('name.w1')" @click="onClickTab('w1')"/>
                 <q-tab name="m1" :label="$t('name.m1')" @click="onClickTab('m1')"/>
                 <q-tab name="m3" :label="$t('name.m3')" @click="onClickTab('m3')"/>
@@ -42,12 +42,14 @@
 
         <div v-if="period==='all'">
             <q-tabs v-model="tab" shrink dense align="left"  active-color="primary">
-                <q-tab name="d1" :label="$t('name.d1')" @click="onClickTab('d1')"/>
-                <q-tab name="w1" :label="$t('name.w1')" @click="onClickTab('w1')"/>
-                <q-tab name="m1" :label="$t('name.m1')" @click="onClickTab('m1')"/>
-                <q-tab name="m3" :label="$t('name.m3')" @click="onClickTab('m3')"/>
-                <q-tab name="y1" :label="$t('name.y1')" @click="onClickTab('y1')"/>
-                <q-tab name="all" :label="$t('name.all')" @click="onClickTab('all')"/>
+                <q-tab name="d1" :label="$t('name.d1')" @click="onClickTab('1m')"/>
+                <q-tab name="w1" :label="$t('name.w1')" @click="onClickTab('1h')"/>
+<!--
+                <q-tab name="m1" :label="$t('name.m1')" @click="onClickTab('1d')"/>
+                <q-tab name="m3" :label="$t('name.m3')" @click="onClickTab('1d')"/>
+-->                
+                <q-tab name="y1" :label="$t('name.y1')" @click="onClickTab('1d')"/>
+                <q-tab name="all" :label="$t('name.all')" @click="onClickTab('1w')"/>
             </q-tabs>
         </div>
 
@@ -82,7 +84,7 @@ export default {
         }
     },
 
-    data: function () {
+    data() {
         return {
             tab: this.selected,
         }
@@ -123,10 +125,10 @@ export default {
             return ioffset;
         },
 
-        onClickTab: function(timeframe) {
+        onClickTab(timeframe) {
             console.log("ChartTimeframe=",timeframe);
             let ioffset = this.getOffset(timeframe);
-            this.onclick(ioffset,timeframe);
+            this.$emit("onClick",{timeframe:timeframe});
         }
     }
 }

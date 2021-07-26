@@ -113,7 +113,7 @@
 import { CONST } from 'src/data/const';
 import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
-import MoaBackendAPI from 'src/services/apiService';
+//import MoaBackendAPI from 'src/services/apiService';
 import logger from "src/error/Logger";
 
 import {AssetModel} from "src/models/AssetModel";
@@ -186,7 +186,7 @@ export default {
 
     created: function () {
         //console.log("HomeView.created");
-        console.log("AssetView.created - query=",this.$route.query);
+        //console.log("AssetView.created - query=",this.$route.query);
         
         this.validateQuery();
 
@@ -218,9 +218,10 @@ export default {
 
         refresh() {
             //logger.log.debug('Refresh');            
-            this.loadPriceTicker();
-            this.loadAssetReviewStat();
+            //this.loadPriceTicker();
+            
             this.loadCryptoBaseinfo();
+            this.loadAssetReviewStat();            
             this.updateTab();
         },
         
@@ -293,7 +294,9 @@ export default {
             const _this = this;
 
             this.v_asset.loadBaseinfo().then(resp=>{
-                logger.log.debug("AssetView.loadCryptoBaseinfo - resp=",resp,_this.v_asset);
+                logger.log.debug("AssetView.loadCryptoBaseinfo - resp2=",resp,_this.v_asset);
+                //call after getting cdrypto information
+                _this.loadPriceTicker();
             }).catch(err=>{
                 logger.log.debug("AssetView.loadCryptoBaseinfo - err=",err);
             });
@@ -302,6 +305,7 @@ export default {
 
         loadPriceTicker() {
             const _this=this;
+            logger.log.debug("AssetView.loadPriceTicker");
             this.v_asset.getPriceTicker().then(resp=>{
                 logger.log.debug("AssetView.loadPriceTicker - resp=",resp,_this.v_asset);
             }).catch(err=>{
@@ -330,14 +334,14 @@ export default {
                 a_freq = 'm';
             }
             let dic_param = {symbol:this.v_asset.symbol,quote:'USD',freq:a_freq,start_date:a_start_date, end_date:a_end_date, exchange:'cc',quote:'USD' };
-            logger.log.debug("AssetDetailView.loadCryptoPriceHistory - dic_param=",dic_param);
+            logger.log.debug("AssetView.loadCryptoPriceHistory - dic_param=",dic_param);
 
             this.v_asset.loadPriceHistory(dic_param).then(jsonResult=>{
                 _this.g_data.chart = jsonResult;
                 _this.updatePriceTable(jsonResult);
                 _this.updatePriceChart(jsonResult);                    
             }).catch(err=>{
-                logger.log.error("AssetDetailView.loadCryptoPriceHistory - error",err);
+                logger.log.error("AssetView.loadCryptoPriceHistory - error",err);
             });
 
         },
@@ -358,16 +362,6 @@ export default {
                     reject();
                 });
             });            
-        },
-
-        loadCryptoBaseinfo() {
-            const _this = this;
-
-            this.v_asset.loadBaseinfo().then(resp=>{
-                logger.log.debug("AssetDetailView.loadCryptoBaseinfo - resp=",resp,_this.v_asset);
-            }).catch(err=>{
-                logger.log.debug("AssetDetailView.loadCryptoBaseinfo - err=",err);
-            });
         },
 
         loadAssetReviewData() {

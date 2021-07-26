@@ -36,7 +36,7 @@
             <q-card-section>
                 <div :class="v_class">
                     <div class="gUserNameLG UserName">
-                        {{ v_shorten(v_user.display_name,20) }}
+                        {{ v_shorten(v_user.display_name,25) }}
                         <q-badge align="top" color="white" @click="onClickDisplayName" v-if="isOwner">
                             <q-icon style="font-size: 1.4em;" color="grey-7" name="mode_edit" class="q-ml-sm q-mt-xs" />
                         </q-badge>

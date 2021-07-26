@@ -85,7 +85,7 @@ export default {
     },
     methods: {
     
-        updateChart(json_data) {
+        updateChart_old(json_data) {
             let data_price = CommonFunc.getChartData(json_data,'overall','priceClose','trade_date',false,0);
             let data_volume = CommonFunc.getChartData(json_data,'overall','volume','trade_date',false,0);
             let data_volume_top = CommonFunc.getChartData(json_data,'overall','top_tier_volume_total','trade_date',false,0);
@@ -103,9 +103,46 @@ export default {
             logger.log.debug('WAssetChart.updateChart : =',json_data);
         },
 
-        update(json_data,show_table=true) {
-            logger.log.debug('WAssetChart.update : =',json_data);
+        getChartData(json_data,column_index,date_index,dtype=0,idecimal=3) {
+                    
+            let data_price = [];
+            let values = [];
+            
+            json_data.forEach(a_item => {
+                //logger.log.debug("a_item=",a_item);
 
+                let a_value = a_item[column_index]; 
+                if (dtype==1) {
+                    a_value = a_value - 0.5;
+                }                
+                a_value = CommonFunc.round(a_value,idecimal);
+                let a_data = {x: a_item[date_index], y:a_value}
+                data_price.push(a_data);
+                values.push(a_value);
+            });    
+                    
+            return {data:data_price, values:values};
+        },
+
+        updateChart(json_data) {
+            let data_price = this.getChartData(json_data,4,0,false,0);
+            let data_volume = this.getChartData(json_data,5,0,false,0);
+
+            let series = [
+                { name: this.$t('name.price'),type: 'line', yAxis:0, data: data_price.data},
+                { name: this.$t('name.volume'),type: 'bar', yAxis:1, data: data_volume.data},
+                //{ name: 'top_tier_volume',type: 'bar', yAxis:1, data: data_volume_top.data},
+            ];
+
+            let a_option = CommonFunc.getChartOption(series);
+            this.g_chart['chart1'] = a_option;
+            this.v_chart_loaded = true;
+
+            //logger.log.debug('WAssetChart.updateChart : =',data_price.data);
+        },
+
+        update(json_data,show_table=true) {
+            //logger.log.debug('WAssetChart.update : =',json_data);
             this.updateChart(json_data); 
             this.$refs.dataTable.update(json_data);           
             

@@ -33,7 +33,8 @@ export default class PriceAPI {
 	}
 
 	static getPrice(reqParam) {
-		let url = PriceAPI.getUrl(MoaConfig.urls.moa, "/api/proxy/price?pair="+reqParam.pair);
+		let a_method = "/api/proxy/price?pair="+reqParam.pair+"&exchange="+reqParam.exchange;
+    let url = PriceAPI.getUrl(MoaConfig.urls.moa, a_method);
 		//logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
 		return new Promise(function(resolve, reject) {
 			callAPI("GET", url, {}, reqParam)

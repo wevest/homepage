@@ -6,7 +6,6 @@ import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 
 import APIService from 'src/services/apiService';
-import MoaBackendAPI from 'src/services/apiService';
 import PriceService from 'src/services/priceService';
 import LocalStorageService from 'src/services/localStorage';
 import CMSAPI from 'src/services/cmsService';
@@ -27,13 +26,13 @@ export class TickerModel {
     assign(obj) {
         //logger.log.debug("TickerModel.assign:obj=",obj);
 
-        this.pair=obj.currency_pair;
-        this.symbol=obj.currency_pair.split('_')[0];
-        this.change_percentage=parseFloat(obj.change_percentage);
-        this.last=parseFloat(obj.last);
-        this.high_24h=parseFloat(obj.high_24h);
-        this.low_24h=parseFloat(obj.low_24h);
-        this.base_volume=parseFloat(obj.base_volume);
+        this.pair=obj.symbol;
+        this.symbol=this.pair.split('/')[0];
+        this.change_percentage=parseFloat(obj.percentage);
+        this.last=parseFloat(obj.close);
+        this.high_24h=parseFloat(obj.high);
+        this.low_24h=parseFloat(obj.low);
+        this.base_volume=parseFloat(obj.baseVolume);
         this.updated_at = CommonFunc.getCurrentDatetime(2);
     }
 }
@@ -42,10 +41,15 @@ export class TickerModel {
 export class TickerListModel extends baseCollection {
 
     assign(items) {
-        for (let index=0;index<items.length;index++) {
+        //for (let index=0;index<items.length;index++) {
+        
+        for (let key in items) {
             let a_ticker = new TickerModel();
-            a_ticker.assign(items[index]);
-            this.add(a_ticker);
+            if (items[key].symbol.indexOf('USD')>-1) {
+                //logger.log.debug("TickerListModel.ticker=",items[key]);            
+                a_ticker.assign(items[key]);
+                this.add(a_ticker);    
+            }
         }
     }
 
@@ -57,22 +61,22 @@ export class TickerListModel extends baseCollection {
         return _.find(this.items,{symbol:symbol} );
     }
 
-    load(symbol=null,quoteCurrency="USDT") {
+    load(symbol=null,exchange=null,quoteCurrency="USDT") {
         const _this=this;
 
-        let dicParam = {};
+        let dicParam = {exchange:exchange};
         if (symbol) {
             dicParam.pair = symbol+"_"+quoteCurrency;
         }
-                
+        
         return new Promise(function(resolve,reject) {            
             PriceService.getPrice(dicParam).then(response=>{
-                logger.log.debug("TickerListModel.load - response",response.data.data);
+                logger.log.debug("TickerListModel.load - response=",response.data.data);
                 
-                if (! response.data.data.hasOwnProperty('label')) {
-                    _this.assign(response.data.data);
-                }
+                //if (! response.data.data.hasOwnProperty('label')) {}
+                _this.assign(response.data.data);                                
                 resolve(response);
+
             }).catch(err=>{
                 logger.log.error("TickerListModel.load - error",err);
                 reject(err);
@@ -122,6 +126,9 @@ export class AssetModel{
     
     is_deleted=null;
     github_network_count=null;
+
+    is_selected=null;
+    exchanges=null;
 
     like_count=null;
     dislike_count=null;
@@ -186,7 +193,10 @@ export class AssetModel{
         this.tags = item.tags;
         this.platform = item.platform;
         this.token_address = item.token_address;
-        this.date_added = item.date_added_ext;
+        this.date_added = item.date_added;
+
+        this.is_selected = item.is_selected;
+        this.exchanges = item.exchanges;
     }
     
     assignExt(json_data) {
@@ -262,11 +272,11 @@ export class AssetModel{
         const _this = this;
 
         //let dic_param = {symbol:symbol,quote:'USD',freq:a_freq,start_date:a_start_date, end_date:a_end_date, exchange:'cc',quote:'USD' };
-        logger.log.debug("AssetModel.loadPriceHistory - dicParam=",dicParam);
+        //logger.log.debug("AssetModel.loadPriceHistory - dicParam=",dicParam);
         
         return new Promise(function(resolve,reject) {            
-            MoaBackendAPI.getCryptoPriceHistory(dicParam,function(response) {
-                logger.log.debug("AssetModel.loadPriceHistory - response",response.data.data);
+            APIService.getCryptoPriceHistory(dicParam,function(response) {
+                //logger.log.debug("AssetModel.loadPriceHistory - response",response.data.data);
                 resolve(response.data.data);
             },function(err) {
                 logger.log.error("AssetModel.loadPriceHistory - error",err);
@@ -292,19 +302,15 @@ export class AssetModel{
 
     getPriceTicker(quoteCurrency="USDT") {
         const _this = this;
-        let dic_param = {pair:this.symbol+"_"+quoteCurrency};
-        //logger.log.debug("AssetModel.getPriceTicker - dic_param=",dic_param);        
+        let dic_param = {pair:this.symbol+"/"+quoteCurrency,exchange:this.exchanges};
+        logger.log.debug("AssetModel.getPriceTicker - dic_param=",dic_param);        
 
         return new Promise(function(resolve,reject) {            
             PriceService.getPrice(dic_param).then(response=>{
-                //logger.log.debug("AssetModel.getPriceTicker - response",response);
+                logger.log.debug("AssetModel.getPriceTicker - response",response);
                 
-                if (! response.data.data.hasOwnProperty('label')) {
-                    _this.ticker.assign(response.data.data[0]);
-                    resolve(response);
-                } else {
-                    reject(response);
-                }
+                _this.ticker.assign(response.data.data);
+                resolve(response);
                 
             }).catch(err=>{
                 logger.log.error("AssetModel.getPriceTicker - error",err);
