@@ -48,7 +48,6 @@ import WAssetChart from 'components/WAssetChart';
 import CAssetInfoTable from 'src/pages/asset/component/CAssetInfoTable';
 
 import PriceSummaryBox from 'src/pages/asset/component/PriceSummaryBox';
-import PriceDataTable from 'src/pages/asset/component/PriceDataTable';
 import InfoTable from "src/pages/asset/component/InfoTable";
 import WCommandBar from "components/WCommandBar.vue";
 
@@ -63,7 +62,6 @@ export default {
         WAssetChart,
         CAssetInfoTable,
         PriceSummaryBox,
-        PriceDataTable,
         InfoTable,
         BlogList,
         WCommandBar

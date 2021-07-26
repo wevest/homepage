@@ -216,7 +216,8 @@ export default {
         },
         v_updated_at() {
             return (value) => {
-                return CommonFunc.minifyDatetime(value);
+                return value;
+                //return CommonFunc.minifyDatetime(value);
             };
         },
         v_is_owner() {

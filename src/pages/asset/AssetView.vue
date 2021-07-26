@@ -127,7 +127,6 @@ import AssetQuestionList from 'components/lists/AssetQuestionList';
 import AssetReviewList from 'components/lists/AssetReviewList';
 import TweetList from 'components/lists/TweetList';
 
-import CAssetChart from 'src/pages/asset/CAssetChart';
 import AssetReviewForm from 'src/pages/asset/component/AssetReviewForm';
 import PriceForecastForm from 'src/pages/asset/component/PriceForecastForm';
 import PriceSummaryBox from 'src/pages/asset/component/PriceSummaryBox';
@@ -140,7 +139,6 @@ export default {
     components: {
         CTitle,
         AssetQuestionList,
-        CAssetChart,
         PriceSummaryBox,
         AssetReviewList,
         InfoTable,
