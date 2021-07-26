@@ -45,6 +45,7 @@ export default {
 		language: "개발언어",
 		watcher_count: "관심자수",
 		forks_count: "포크수",
+		comments: "댓글",
 		commit_count: "커밋수",
 		description: "설명",
 		created_at: "생성일",
@@ -79,10 +80,29 @@ export default {
 		current_price: "현재가격",
 		symbol: "심볼",
 		date_added: "상장일",
-		blog_writing: "지식을 공유하세요!",
+		blog_writing: "당신의 전문지식을 공유해보세요!",
+		comment_writing: "댓글을 남겨주세요!",
 		tweet_writing: "트윗 작성...",
 		qa_writing: "무엇이든 물어보세요!",
+		question_title: "질문의 제목을 적어주세요!",
+		reward: "리워드",
 		your_rating: "당신의 평점은?",
+		review_login: "전망에 대해 투표해주세요!",
+		review_logout: "투표를 하려면 로그인이 필요합니다.",
+		type_something: "빈칸을 채워주세요!",
+		platform: "플랫폼",
+		chat: "채팅",
+		twitter: "트위터",
+		website: "웹사이트",
+		source_codes: "소스코드",
+		token_address: "토큰주소",
+		circulating_supply:"유통량",
+		total_supply: "총발행량",
+		max_supply: " 최대가능발행량",
+
+
+
+
 	
 	},
 	page:{
@@ -145,8 +165,8 @@ export default {
 				}			
 		},
 		assetqa: {
-			title: '무엇이든 물어보세요',
-			desc: '궁금한 것을 질문하세요',
+			title: 'QA',
+			desc: '궁금한 것이 있으면 참으면 안됩니다',
 			questionlist : {
 				title:'질문리스트',
 			}
@@ -229,7 +249,7 @@ export default {
 		},
 		blogwriter : {
 			title : '블로그 작성',
-			desc : '',
+			desc : '혼자만 알고 있는 것보다 나누는 것이 언제나 좋습니다',
 			bloglist : {
 				title : '블로그목록',
 				desc : ''
@@ -260,7 +280,7 @@ export default {
 
 		cwatch : {
 			title : 'CWATCH',
-			desc : '',
+			desc : '오늘도 크립토의 시계는 24시간 쉬지 않고 돌아갑니다',
 			subtitle : {
 				title : '얼마나 잘 맞는지 볼까요?',
 				desc: '',
@@ -333,6 +353,9 @@ export default {
 				title : '사용자피드가 없습니다',
 				desc : '팔로우 한 사람의 새로운 사용자 피드가 여기에 표시됩니다',
 			}
+		},
+		forecast : {
+			title : '님 앞으로 가격이 오를까요?',
 		}
 	},
 	dialog : {
@@ -348,7 +371,7 @@ export default {
 	},
 	button: {
 		more: '더보기',
-		send: '보내기',
+		send: '확인',
 		save: '저장',
 		edit: '수정',
 		cancel: '취소',

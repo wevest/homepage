@@ -5,7 +5,7 @@
 				<div class="q-pr-md">
 					<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" :displayname="v_me.dispaly_name" />
 				</div>
-				<div class="gUserNameSM q-pt-md"> {{v_me.display_name}} 앞으로 가격이 오를까요? </div>
+				<div class="gUserNameSM q-pt-md"> {{v_me.display_name}} {{ $t('page.forecast.title') }} </div>
 			</div>
 
 			<div class="row q-pa-md justify-center text-center">
@@ -152,10 +152,11 @@ export default {
 			//logger.log.debug("Comment-Form.prepare : v_me=",this.v_me);
 			this.$refs.descText.setStyle("border:none;");
 			if (this.v_me.loggedIn) {
-				this.$refs.descText.setHint("Please type your review");
+				this.$refs.descText.setHint (this.$t("name.review_login"));
 				this.$refs.descText.setEnabled(true);
 			} else {
-				this.$refs.descText.setHint("Please log-in to write comments");
+				this.$refs.descText.setHint(this.$t("name.review_logout"));
+				// Please log-in to write comments
 				this.$refs.descText.setEnabled(false);
 			}
 		},

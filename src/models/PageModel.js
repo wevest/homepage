@@ -461,6 +461,7 @@ export class QuestionPageModel extends PostPageModel{
         this.api_tags = obj.api_tags;
 
         this.comment_count=obj.comment_count;
+        this.read_count= obj.read_count;
         this.dislike_count= obj.dislike_count;
         this.like_count = obj.like_count;
         this.pub_date = obj.pub_date;        

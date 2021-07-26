@@ -251,6 +251,17 @@ export default class AuthService{
         });
     }    
 
+    static updatePortfolioItem(reqParam,func,funcErr) {
+        let a_method = "/api/portfolio/portfolioitems/";
+        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        callCMSAPI("POST",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }    
 
     static deletePortfolioItem(reqParam,func,funcErr) {
         let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/portfolio/portfolioitems/");

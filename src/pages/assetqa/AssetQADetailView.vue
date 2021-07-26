@@ -12,6 +12,7 @@
                     <WSubinfo
                         :username="v_question.owner.display_name"
                         :pub_date="v_question.pub_date"
+                        :read_count="v_question.read_count"
                         like_count="-1"
                         dislike_count="-1"
                     />

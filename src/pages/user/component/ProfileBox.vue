@@ -36,7 +36,7 @@
             <q-card-section>
                 <div :class="v_class">
                     <div class="gUserNameLG UserName">
-                        {{ v_user.display_name }}
+                        {{ v_shorten(v_user.display_name,20) }}
                         <q-badge align="top" color="white" @click="onClickDisplayName" v-if="isOwner">
                             <q-icon style="font-size: 1.4em;" color="grey-7" name="mode_edit" class="q-ml-sm q-mt-xs" />
                         </q-badge>
@@ -157,6 +157,11 @@ export default {
                 return true;
             }
             return false;
+        },
+        v_shorten() {
+            return (value,decimal) => {
+                return CommonFunc.shortenString(value,decimal);
+            };
         },
         v_class() {
             if (this.isOwner) {
@@ -390,7 +395,7 @@ export default {
 
         onClickDisplayName() {
             logger.log.debug("ProfileView.onClickDisplayName");
-            this.$refs.dialogEdit.setMaxlength(30);
+            this.$refs.dialogEdit.setMaxlength(20);
             this.$refs.dialogEdit.show('display_name','text',this.v_user.title);
         },
 

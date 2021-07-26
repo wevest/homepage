@@ -31,7 +31,8 @@
                 <q-card-section>
                     <div class="row">
                         <div class="col">
-                            <CryptoSelect ref="cryptoSelector" @onSelectAsset="onSelectAsset" />
+                            <CryptoSelect ref="cryptoSelector" label="Asset" filled="1"
+                                @onSelect="onSelectAsset"  />
                             <br>
                             <q-select
                                 filled use-input fill-input hide-selected
@@ -115,13 +116,17 @@ export default {
             return 'Add Portfolio Item';
         },
         v_button_label() {
-            if (this.v_portfolio_item.id) {
+            if (! this.v_is_new) {
                 return this.$t("button.update");
             }
             return this.$t("button.add");
         },
+        v_is_new() {
+            if (this.v_portfolio_item.id) return false;
+            return true;
+        }
     },
-    data: function () {
+    data() {
         return {
             g_data: '',
             
@@ -150,16 +155,16 @@ export default {
         }
     },
 
-    created: function () {
+    created() {
         logger.log.debug("AddPortfolioDialog.created");
     },
     beforeMount() {
         logger.log.debug("AddPortfolioDialog.beforeMounted - params=",this.$route.params);        
     },
-    mounted: function() {
+    mounted() {
         logger.log.debug("AddPortfolioDialog.mounted");
     },
-    updated: function() {
+    updated() {
         logger.log.debug("AddPortfolioDialog.updated : v_portfolio_item=",this.v_portfolio_item);
         
         if ( (this.v_portfolio_item) && (this.v_portfolio_item.id)) {
@@ -185,18 +190,18 @@ export default {
             this.v_loading = false;
         },
 
-        fillValue: function() {
+        fillValue() {
             logger.log.debug("AddPortfolioDialog.fillValue");
             this.v_input = this.v_portfolio_item.portfolio_name;
             if (this.$refs.cryptoSelector) {
                 this.$refs.cryptoSelector.setValue(this.v_portfolio_item.api_asset.symbol);            
             }
         },
-        setPortfolioItem: function(v_portfolio) {
+        setPortfolioItem(v_portfolio) {
             this.v_portfolio_item = v_portfolio;
         },
 
-        setPortfolioSelector: function(v_portfolio) {
+        setPortfolioSelector(v_portfolio) {
             logger.log.debug("AddPortfolioDialog.setPortfolioSelector: v_portfolio=",v_portfolio);
 
             let groups = [];
@@ -216,12 +221,12 @@ export default {
             this.v_group_list = groups;
         },
 
-        validate: function(v_post) {
+        validate(v_post) {
             return true;
         },
 
 
-        show: function(v_user,v_portfolio_item) {
+        show(v_user,v_portfolio_item) {
             logger.log.debug("AddPortfolioDialog.show : v_portfolio=",v_portfolio_item);
             
             this.v_user = v_user;
@@ -258,23 +263,8 @@ export default {
                 this.v_options = this.v_group_list.filter(v => v.toLowerCase().indexOf(needle) > -1)
             })            
         },
-        
-        onSelectAsset: function(asset) {
-            logger.log.debug('onSelectAsset param - ',asset);
-            this.v_selected_asset = asset;
-            this.v_portfolio_item.asset_id = asset.id;
-            
-            let a_price = store.state.prices.getPrice(this.v_selected_asset.symbol);
-            if (a_price) {
-                this.v_portfolio_item.price = a_price.last;
-            }            
-        },
-
-        onClickSave: function() {                        
+        processSave() {
             const _this = this;
-            logger.log.debug('AddPortfolioDialog.onClickSave - ',this.v_portfolio_item);
-            this.v_portfolio_item.description = this.$refs.descText.getValue();
-
             this.v_loading = true;
             this.v_portfolio_item.addToServer().then( response => {
                 if (response.data.ret!=0) {
@@ -283,7 +273,7 @@ export default {
                     return;
                 } 
                 CommonFunc.showOkMessage(_this,'Portfolio added');
-                                
+                
                 _this.v_user.portfolio.addPortfolioItem(response.data.portfolio_item);
                 _this.v_user.portfolio.calcPerformance(store.state.prices);
                 _this.clear();
@@ -295,6 +285,54 @@ export default {
                 _this.v_loading = false;
                 CommonFunc.showErrorMessage(_this,'Portfolio error');
             });
+
+        },
+        processUpdate() {
+            const _this = this;
+            this.v_loading = true;
+            this.v_portfolio_item.updateToServer().then( response => {
+                
+                if (response.data.ret!=0) {
+                    _this.v_loading = false;
+                    CommonFunc.showErrorMessage(_this,response.data.msg);
+                    return;
+                } 
+                CommonFunc.showOkMessage(_this,'Portfolio updated');
+                
+                //_this.v_user.portfolio.addPortfolioItem(response.data.portfolio_item);
+                _this.v_user.portfolio.calcPerformance(store.state.prices);
+                _this.clear();                
+                _this.$emit("onPortfolioItemUpdated",_this.v_portfolio_item);
+                //_this.hide();
+
+            }).catch( err=> {
+                _this.v_loading = false;
+                CommonFunc.showErrorMessage(_this,'Portfolio error');
+            });
+
+        },
+
+        onSelectAsset(asset) {
+            logger.log.debug('AddPortfolioDialog.onSelectAsset param - ',asset);
+            this.v_selected_asset = asset;
+            this.v_portfolio_item.asset_id = asset.id;
+            
+            let a_price = store.state.prices.getPrice(this.v_selected_asset.symbol);
+            if (a_price) {
+                this.v_portfolio_item.price = a_price.last;
+            }            
+        },
+
+        onClickSave() {                        
+            logger.log.debug('AddPortfolioDialog.onClickSave - ',this.v_portfolio_item);
+            this.v_portfolio_item.description = this.$refs.descText.getValue();
+            
+            if (this.v_is_new) {
+                this.processSave();
+            } else {
+                this.processUpdate();
+            }            
+            
         },
 
         onClickClose: function() {

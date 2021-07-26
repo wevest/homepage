@@ -13,7 +13,7 @@
                     <q-input
                         hide-bottom-space
                         v-model="v_post.title" 
-                        label="Please type your question title" 
+                        :label="$t('name.question_title')" 
                         hint=""
                         :error="v_error.title.error"
                         :error-message="v_error.title.msg"
@@ -23,7 +23,7 @@
                     <q-input 
                         hide-bottom-space
                         v-model="v_post.reward" 
-                        label="Reward" 
+                        :label="$t('name.reward')" 
                         hint=""
                         :error="v_error.reward.error"
                         :error-message="v_error.reward.msg"

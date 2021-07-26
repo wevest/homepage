@@ -10,7 +10,7 @@
                             <span class="text-weight-bolder gListTitle">{{v_shorten(a_portfolio.name,15)}}</span>
                         </div>
                         <div> 
-                            <span class="gCaption">{{ v_updated_at(a_portfolio.updated_at) }} </span>                        
+                            <span class="gCaption">{{ a_portfolio.updated_at }} </span>                        
                         </div>
                     </div> 
                     <q-space />

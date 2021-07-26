@@ -1288,12 +1288,12 @@ export default class CommonFunc {
             return x;
         }
             
-        console.log("milify=",x);
+        //console.log("milify=",x);
 
         let a_value = null;
 
-        if(x < 9999) {            
-            return CommonFunc.formatNumber(x,0);
+        if(x < 99999) {            
+            return CommonFunc.formatNumber(x,0,true);
         }
     
         if(x < 1000000) {            

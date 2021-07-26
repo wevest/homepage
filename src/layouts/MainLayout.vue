@@ -28,50 +28,8 @@
 
 					<div class="toolbar_title" @click="onClickLogo">WeVest</div>
 
-					<q-select
-						class="full-width"
-						ref="assetSearch"
+					<CryptoSelect ref="searchInput" @onSelect="onSearch" label="" filled="0" />
 
-						v-model="g_asset"
-						use-input
-						fill-input
-						hide-selected
-						borderless
-						input-debounce="0"
-						:options="v_options"
-						@filter="filterFn"
-						@input="onSearchInput"
-						@input-value="onSearchChange"
-						@new-value="onSearch"
-						@keyup.enter.native="onSearchEnter"
-						behavior="menu"
-					>
-						<template v-slot:prepend>
-							<q-icon name="search" @click.stop />
-						</template>
-
-						<template v-slot:option="scope">
-							<q-item
-								v-bind="scope.itemProps"
-								v-on="scope.itemEvents"
-							>
-								<q-item-section>
-									<q-item-label v-html="scope.opt.label" />
-									<q-item-label caption>{{
-										scope.opt.value
-									}}</q-item-label>
-								</q-item-section>
-							</q-item>
-						</template>
-
-						<template v-slot:no-option>
-							<q-item>
-								<q-item-section class="text-grey">
-									No results
-								</q-item-section>
-							</q-item>
-						</template>
-					</q-select>
 				</q-toolbar>
 
 				<q-toolbar class="col-6 bg-white text-black">
@@ -159,7 +117,7 @@ import WConfirmDialog from "src/components/dialogs/WConfirmDialog";
 import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 import PageTransition from "src/components/transition/PageTransition";
 import StickyButtons from "src/layouts/components/StickyButtons";
-
+import CryptoSelect from "src/components/CryptoSelect";
 
 export default {
 	name: "MainLayout",
@@ -170,7 +128,8 @@ export default {
 		WAlertDialog,
 		WConfirmDialog,
 		AddPortfolioDialog,
-		StickyButtons
+		StickyButtons,
+		CryptoSelect
 	},
 	computed: {
 		v_login: function () {
@@ -182,11 +141,6 @@ export default {
 	},
 	data() {
 		return {
-			g_asset: null,
-			g_input: null,
-			g_options: [],
-			v_options: [],
-
 			v_show_back_button: false,
 			//lang: this.$i18n.locale,
 
@@ -204,7 +158,7 @@ export default {
 		//CommonFunc.setAppData('spinner',this.$refs.loading);
 		
 		this.prepare();
-		this.loadCoinCodes();
+		//this.loadCoinCodes();
 	},
 
 	methods: {
@@ -244,87 +198,41 @@ export default {
 			}
 		},
 
-		filterFn(val, update, abort) {
-			/*
-        if (val.length < 1) {
-            abort()
-            return
-        }
-        */
-			update(() => {
-				const needle = val.toLowerCase();
-				this.v_options = this.g_options.filter(
-					(v) => v.label.toLowerCase().indexOf(needle) > -1
-				);
-			});
-		},
-
-		isValidInput: function (value) {
-			if (value.length > 2) {
-				if (CommonFunc.isUpperCase(value)) {
-					return true;
-				}
-			}
-			return false;
-		},
-
 		loadCoinCodes: function () {
 			let codes = store.state.assets.loadFromCookie();
 			return codes;
 		},
 
-		movePage: function (symbol) {
-			logger.log.debug("movePage=", symbol);
-			console.log("child=", this.$children);
+		movePage(item) {
+			logger.log.debug("movePage=", item);
 
 			//this.$refs.mainMenuButton.focus();
-			this.$refs.assetSearch.refresh(-1);
+			this.$refs.searchInput.clear();
 
 			if (this.$router.currentRoute.name == "asset") {
-				const a_func = CommonFunc.getAppData("onSearchEvent");
-				a_func(symbol);
-				return;
+        		let r = this.$router.resolve({
+        			name: this.$route.name, // put your route information in
+        			params: this.$route.params, // put your route information in
+        			query: {symbol:item.symbol, id:item.id}
+      			});
+      			window.location.assign(r.href);
+				return;	
 			}
 
-			CommonFunc.navAsset(this, symbol);
+			CommonFunc.navAsset(this, item.symbol, item.id);
 		},
 
 
-
+		onSearch(item) {
+			logger.log.debug("MainLayout.onSearch=", item);
+			this.movePage(item);
+		},
 		onChangeLang() {
 			logger.log.debug("onChangeLang=", this.language);
 			if (this.language == "English") {
 				this.setLocale("en-us");
 			} else {
 				this.setLocale("kr");
-			}
-		},
-
-		onSearch: function (value) {
-			//logger.log.debug('onSearch=',value);
-		},
-
-		onSearchInput: function (value) {
-			logger.log.debug("onSearchInput=", value);
-			if (this.isValidInput(value.label)) {
-				this.movePage(value.label);
-			}
-		},
-
-		onSearchEnter: function (event, value) {
-			logger.log.debug("onSearchEnter");
-			//this.$refs.assetSearch.refresh(-1);
-			event.target.blur();
-			if (this.isValidInput(this.g_input)) {
-				this.movePage(this.g_input);
-			}
-		},
-
-		onSearchChange: function (value) {
-			logger.log.debug("onSearchChange=", value);
-			this.g_input = value;
-			if (this.isValidInput(this.g_input)) {
-				//this.movePage(this.g_input);
 			}
 		},
 

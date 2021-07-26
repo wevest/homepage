@@ -204,7 +204,6 @@ export default {
     },
     updated: function() {
         //console.log("AssetView.updated - query=",this.$route.query);        
-        //CommonFunc.setAppData('onSearchEvent',this.onSearchEvent);
     },
     
     methods: {
@@ -561,6 +560,10 @@ export default {
         onClickHolder() {
             logger.log.debug('AssetView.onClickHolder');
             CommonFunc.navHolder(this,this.v_asset.id,this.v_asset.symbol);
+        },
+
+        onSearchEvent(item) {
+            logger.log.debug('AssetView.onSearchEvent : item=',item);
         }
     },
 

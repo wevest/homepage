@@ -377,6 +377,8 @@ export default class User {
             _this.portfolio.clear();
             _this.portfolio.load(dicParam).then( response => {
                 resolve(response);
+            }).catch(err=>{
+                reject(err);
             });
         });
     }

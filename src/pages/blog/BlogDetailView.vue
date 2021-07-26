@@ -75,7 +75,7 @@
 
         <div class="q-ma-sm">
             <div class="q-my-md"> 
-                <span class="gTextSubTitle">Comments : {{v_post.comments.items.length}}</span>
+                <span class="gTextSubTitle">{{ $t('name.comments') }} : {{v_post.comments.items.length}}</span>
             </div>
 
             <CommentBox ref="commentBox"             

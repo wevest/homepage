@@ -369,7 +369,24 @@ export class AssetListModel extends baseCollection{
                 reject(err);
             });        
         });
+    }
 
+    query(keyword) {
+        const _this = this;
+        
+        let reqParam = {keyword:keyword};
+        logger.log.debug("AssetListModel.query : reqParam=",reqParam);
+        return new Promise(function(resolve,reject) {            
+            APIService.queryAsset(reqParam,function(response) {
+                logger.log.debug("AssetListModel.query : response=",response);
+
+                const items = response.data.results;      
+                resolve(response);
+            },function(err) {
+                logger.log.debug("AssetListModel.query : err=",err);
+                reject(err);
+            });        
+        });
     }
 /*
     async load() {     

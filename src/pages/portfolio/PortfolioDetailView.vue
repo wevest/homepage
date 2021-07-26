@@ -106,7 +106,8 @@
                                     <span class="text-caption text-grey-6"> &nbsp; ({{a_portfolio.api_asset.name}}) </span>
                                 </div>
                                 <div>
-                                    <span class="text-caption text-grey-6 q-mt-sm">{{v_updated_at(a_portfolio.updated_at)}}</span>
+                                    <span class="text-caption text-grey-6 q-mt-sm">
+                                        {{v_updated_at(a_portfolio.updated_at)}}</span>
                                 </div>
                             </div>        
                         </div>    
@@ -208,7 +209,8 @@ export default {
                 if(!value) {
                     return '';
                 }
-                return CommonFunc.formatNumber(value,decimal);
+                //return CommonFunc.formatNumber(value,decimal);
+                return CommonFunc.milifyNumber(value);
                 //return value.toLocaleString();
             };
         },
@@ -414,8 +416,9 @@ export default {
             //this.$refs.addPortfolio.show(this.v_user,null);
         },
 
-        onClickUpdate:function(portfolio) {
+        onClickUpdate(portfolio) {
             logger.log.debug("PortfolioDetail.onClickEdit : portfolio=",portfolio);
+
             store.getters.components.getComponent('portfolioDialog').show(this.v_user,portfolio); 
             //this.$refs.addPortfolio.show(this.v_user,portfolio);
         },

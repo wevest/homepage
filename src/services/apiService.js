@@ -653,4 +653,23 @@ export default class MoaBackendAPI {
 			funcErr(err);
 		});
 	}
+
+	static queryAsset(reqParam, func, funcErr) {
+		let a_method = "/api/asset/assets/query";
+		if (reqParam.hasOwnProperty("keyword")) {
+			a_method += "?search=" + reqParam.keyword;
+		}
+
+		let url = MoaBackendAPI.getUrl(MoaConfig.urls.cms, a_method);
+		url = CommonFunc.addLimitOffsetToQuery(url, reqParam);
+
+		callAPI("GET", url, {}, reqParam)
+		.then((response) => {
+			func(response);
+		})
+		.catch((err) => {
+			funcErr(err);
+		});
+	}
+
 }

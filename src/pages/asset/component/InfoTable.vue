@@ -3,62 +3,62 @@
     <q-list bordered separator>
         
         <q-item clickable v-ripple>
-            <q-item-section class="col-3 itemLabel">Symbol</q-item-section>
+            <q-item-section class="col-3 itemLabel">{{ $t('name.symbol') }}</q-item-section>
             <q-item-section>{{v_asset.symbol}}</q-item-section>
         </q-item>
 
         <q-item clickable v-ripple>
-            <q-item-section class="col-3 itemLabel">Name</q-item-section>
+            <q-item-section class="col-3 itemLabel">{{ $t('name.name') }}</q-item-section>
             <q-item-section>{{v_asset.name}}</q-item-section>
         </q-item>
 
         <q-item clickable v-ripple>
-            <q-item-section top class="col-3 itemLabel">Description</q-item-section>
+            <q-item-section top class="col-3 itemLabel">{{ $t('name.description') }}</q-item-section>
             <q-item-section class="gParagraphSM">{{v_asset.description}}</q-item-section>
         </q-item>
 
         <q-item clickable v-ripple>
-            <q-item-section class="col-3 itemLabel">Platform</q-item-section>
+            <q-item-section class="col-3 itemLabel">{{ $t('name.platform') }}</q-item-section>
             <q-item-section>{{v_asset.platform}}</q-item-section>
         </q-item>
 
         <q-item clickable v-ripple @click="onClickLink(v_asset.website)">
-            <q-item-section class="col-3 itemLabel">Website</q-item-section>
+            <q-item-section class="col-3 itemLabel">{{ $t('name.website') }}</q-item-section>
             <q-item-section class="itemLink">{{v_asset.website}}</q-item-section>
         </q-item>
 
         <q-item clickable v-ripple @click="onClickLink(v_asset.chat)">
-            <q-item-section class="col-3 itemLabel">Chat</q-item-section>
+            <q-item-section class="col-3 itemLabel">{{ $t('name.chat') }}</q-item-section>
             <q-item-section class="itemLink">{{v_asset.chat}}</q-item-section>
         </q-item>
 
         <q-item clickable v-ripple @click="onClickLink(v_asset.twitter)">
-            <q-item-section class="col-3 itemLabel">Twitter</q-item-section>
+            <q-item-section class="col-3 itemLabel">{{ $t('name.twitter') }}</q-item-section>
             <q-item-section class="itemLink">{{v_asset.twitter}}</q-item-section>
         </q-item>
 
         <q-item clickable v-ripple @click="onClickLink(v_asset.source_code)">
-            <q-item-section class="col-3 itemLabel">Source Codes</q-item-section>
+            <q-item-section class="col-3 itemLabel">{{ $t('name.source_codes') }}</q-item-section>
             <q-item-section class="itemLink">{{v_asset.source_code}}</q-item-section>
         </q-item>
 
         <q-item clickable v-ripple>
-            <q-item-section class="col-3 itemLabel">Token Address</q-item-section>
+            <q-item-section class="col-3 itemLabel">{{ $t('name.token_address') }}</q-item-section>
             <q-item-section>{{v_asset.token_address}}</q-item-section>
         </q-item>
 
         <q-item clickable v-ripple>
-            <q-item-section class="col-3 itemLabel">Circulating Supply</q-item-section>
+            <q-item-section class="col-3 itemLabel">{{ $t('name.circulating_supply') }}</q-item-section>
             <q-item-section class="text-right">{{v_format(v_asset.circulating_supply)}}</q-item-section>
         </q-item>
 
         <q-item clickable v-ripple>
-            <q-item-section class="col-3 itemLabel">Max Supply</q-item-section>
+            <q-item-section class="col-3 itemLabel">{{ $t('name.max_supply') }}</q-item-section>
             <q-item-section class="text-right">{{v_format(v_asset.max_supply)}}</q-item-section>
         </q-item>
 
         <q-item clickable v-ripple>
-            <q-item-section class="col-3 itemLabel">Total Supply</q-item-section>
+            <q-item-section class="col-3 itemLabel">{{ $t('name.total_supply') }}</q-item-section>
             <q-item-section class="text-right">{{v_format(v_asset.total_supply)}}</q-item-section>
         </q-item>
 

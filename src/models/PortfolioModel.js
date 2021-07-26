@@ -31,9 +31,13 @@ export class PortfolioItemModel {
 
     assign(obj) {
         this.id=obj.id;
-        this.portfolio_id=obj.portfolio_id;
+        
+        this.api_asset=obj.api_asset;
+        this.api_user=obj.api_user;
         this.api_asset=obj.api_asset;
         this.asset_id=obj.api_asset.id;
+
+        this.portfolio_id=obj.portfolio_id;        
         this.price=obj.price;
         this.qty=obj.qty;
         this.created_at=obj.created_at;
@@ -69,6 +73,21 @@ export class PortfolioItemModel {
             reqParam.action = "add";
             AuthService.addPortfolioItem(reqParam, function(response) {
                 logger.log.debug("PortfolioItem.addToServer : response=",response);
+                resolve(response);
+            }, function(err) {
+                reject(err);
+            });
+        });
+    }   
+
+    updateToServer() {        
+        const _this = this;
+
+        return new Promise(function(resolve,reject) {
+            let reqParam = _this.toDict();
+            reqParam.token = store.getters.token;
+            AuthService.updatePortfolioItem(reqParam, function(response) {
+                logger.log.debug("PortfolioItem.updateToServer : response=",response);
                 resolve(response);
             }, function(err) {
                 reject(err);
@@ -124,7 +143,17 @@ export class PortfolioModel extends baseCollection {
         this.estimated_value = item.estimated_value;
 
         this.api_user = item.api_user;
-        this.items = item.portfolio_children;
+        
+        //this.items = item.portfolio_children;
+        this.assignItems(item.portfolio_children);
+    }
+
+    assignItems(items) {
+        for (let index=0;index<items.length;index++) {
+            let a_item = new PortfolioItemModel();
+            a_item.assign(items[index]);
+            this.add(a_item);
+        }
     }
 
     calcPerformance(prices) {
