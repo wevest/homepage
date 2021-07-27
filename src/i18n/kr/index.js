@@ -87,7 +87,7 @@ export default {
 		question_title: "질문의 제목을 적어주세요!",
 		reward: "리워드",
 		your_rating: "당신의 평점은?",
-		review_login: "전망에 대해 투표해주세요!",
+		review_login: "왜 그렇게 생각하나요?",
 		review_logout: "투표를 하려면 로그인이 필요합니다.",
 		type_something: "빈칸을 채워주세요!",
 		platform: "플랫폼",
@@ -169,6 +169,11 @@ export default {
 			desc: '궁금한 것이 있으면 참으면 안됩니다',
 			questionlist : {
 				title:'질문리스트',
+			}
+		},
+		qa_detail : {
+			accepted : {
+				title: '질문자 채택',
 			}
 		},
 		//page.profile.title
@@ -366,7 +371,34 @@ export default {
 			},
 			biography : {
 				title : '자기소개',
+			}		
+		},
+		reset_password : {
+			password_updated : {
+				title : '비밀번호 변경', 
+			},
+			password_changed : {
+				title: "비밀번호가 성공적으로 변경되었습니다.",
+			},
+			password_complete : {
+				title : '이제 변경된 비밀번호로 로그인할 수 있습니다.',
 			}
+		},
+		add_portfolio : {
+			title : '포트폴리오를 추가',
+			desc :'포트폴리오를 관리하세요!',
+			asset : {
+				title : '코인선택',
+			},
+			no_results : {
+				title : '결과가 없습니다',
+			},
+			group_name : {
+				title : '포트폴리오 그룹이름',
+			},
+			description : {
+				title : '포트폴리오 편입이유',
+			},
 		}
 	},
 	button: {
@@ -386,6 +418,8 @@ export default {
 		message: '메시지',
 		blog_like : '도움이 돼요',
 		blog_dislike : '별로에요',
+		answer_like : '동감합니다',
+		answer_dislike : '별로에요',
 		portfolio_like: '훌륭합니다',
 		portfolio_dislike: '리밸런싱이 필요합니다',
 		reply: '답글',
@@ -402,5 +436,6 @@ export default {
 		login: '로그인',
 		signup: '가입하기',
 		chartview: "차트",
+		confirm: "확인",
 	}
 };

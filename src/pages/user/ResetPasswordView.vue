@@ -50,13 +50,13 @@
                     style="font-size: 7em; color: #4caf50;" />
 
                 <div class="q-my-md gPageTitle">
-                    Password Updated
+                    {{ $t('dialog.reset_password.password_updated.title') }}
                 </div>
                 <div class="gParagraphSM">
-                    Your password has been changed successfully.
+                    {{ $t('dialog.reset_password.password_changed.title') }}
                 </div>    
                 <div class="gParagraphSM">
-                    Use your new password password to log in.
+                    {{ $t('dialog.reset_password.password_complete.title') }}
                 </div>
                 <q-btn class="q-mt-xl" color="primary" label="Sign in" @click="onClickSignin" />
             </div>

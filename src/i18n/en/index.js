@@ -3,102 +3,102 @@
 
 export default {
 	name: {
-		binance: "바이낸스",
-		upbit: "업비트",
-		bithumb: "빗썸",
-		blog: '블로그',
-		d1: "1일",
-		w1: "1주",
-		m1: "1개월",
-		m3: "3개월",
-		m6: "6개월",
-		y1: "1년",
-		y3: "3년",
-		y5: "5년",
-		y10: "10년",
-		all: "전체",
-		sector: "섹터",
-		coin: "코인",
-		gold: "금",
-		btc: "비트코인",
-		bitcoin: "비트코인",
+		binance: "Binance",
+		upbit: "UPbit",
+		bithumb: "bithumb",
+		blog: 'Blog',
+		d1: "1 day",
+		w1: "1 week",
+		m1: "1 month",
+		m3: "3 month",
+		m6: "6 month",
+		y1: "1 year",
+		y3: "3 year",
+		y5: "5 year",
+		y10: "10 year",
+		all: "all",
+		sector: "Sector",
+		coin: "Coin",
+		gold: "Gold",
+		btc: "Bitcoin",
+		bitcoin: "Bitcoin",
 		wti: "WTI",
-		bond: "미국국채",
-		usd: "달러",
-		nyse: "뉴욕증권거래소",
-		bb_upper: "저항선",
-		bb_lower: "지지선",
-		bb_mid: "이동평균",
-		volume: "거래량",
-		kpremium: "김치프리미엄",
-		tv: "거래대금",
-		alt: "알트코인",
-		price_prev: "전일",
-		price_high: "고가",
-		price_low: "저가",
-		price_open: "시가",
-		volume: "거래량",
-		intro: "개요",
-		fundamental: "기본정보",
+		bond: "US bonds",
+		usd: "Dollar",
+		nyse: "NYSE",
+		bb_upper: "Resistence level",
+		bb_lower: "Support level",
+		bb_mid: "Moving average",
+		volume: "Volume",
+		kpremium: "KPremium",
+		tv: "trade volume",
+		alt: "alt coin",
+		price_prev: "price prev.",
+		price_high: "price high",
+		price_low: "price low",
+		price_open: "price open",
+		volume: "volume",
+		intro: "intro",
+		fundamental: "fundamental",
 		price: "가격",
-		subscriber_count: "구독자수",
-		language: "개발언어",
-		watcher_count: "관심자수",
-		forks_count: "포크수",
-		comments: "댓글",
-		commit_count: "커밋수",
-		description: "설명",
-		created_at: "생성일",
-		pushed_at: "갱신일",
-		info: "정보",
-		trade_date: "거래일",
-		tweet: '트윗',
+		subscriber_count: "subscriber count",
+		language: "language",
+		watcher_count: "watcher count",
+		forks_count: "forks count",
+		comments: "comments",
+		commit_count: "commit count",
+		description: "description",
+		created_at: "created at",
+		pushed_at: "pushed at",
+		info: "info",
+		trade_date: "trade date",
+		tweet: 'tweet',
 		qa : 'QA',
-		review: '리뷰',
-		investor: "투자자",
-		development: "개발",
-		name: "이름",
-		roi: "투자수익율",
-		total_return: "총수익율",
-		avg_roi: "평균 투자수익율",
-		avg_total_return: "평균 총수익율",
-		homepage: "홈페이지",
-		count: "횟수",
-		price_surge: "가격급상승",
-		volume_surge: "거래량급상승",
-		volume_change: "거래량변화율",
-		index: "지수",
-		dev_score: "개발",
-		price_score: "가격",
-		volume_score: "거래량",
-		rank: "순위",
-		roi: "수익률",
-		follower: "팔로워",
-		following: "팔로잉",
-		portfolio_description: "포트폴리오 요약",
-		estimated_value: "평가액",
-		current_price: "현재가격",
-		symbol: "심볼",
-		date_added: "상장일",
-		blog_writing: "당신의 전문지식을 공유해보세요!",
-		comment_writing: "댓글을 남겨주세요!",
-		tweet_writing: "트윗 작성...",
-		qa_writing: "무엇이든 물어보세요!",
-		question_title: "질문의 제목을 적어주세요!",
-		reward: "리워드",
-		your_rating: "당신의 평점은?",
-		review_login: "전망에 대해 투표해주세요!",
-		review_logout: "투표를 하려면 로그인이 필요합니다.",
-		type_something: "빈칸을 채워주세요!",
-		platform: "플랫폼",
-		chat: "채팅",
-		twitter: "트위터",
-		website: "웹사이트",
-		source_codes: "소스코드",
-		token_address: "토큰주소",
-		circulating_supply:"유통량",
-		total_supply: "총발행량",
-		max_supply: " 최대가능발행량",
+		review: 'review',
+		investor: "investor",
+		development: "development",
+		name: "name",
+		roi: "roi",
+		total_return: "total return",
+		avg_roi: "avg roi",
+		avg_total_return: "avg total return",
+		homepage: "homepage",
+		count: "count",
+		price_surge: "price surge",
+		volume_surge: "volume surge",
+		volume_change: "volme change",
+		index: "index",
+		dev_score: "development",
+		price_score: "price",
+		volume_score: "volume",
+		rank: "rank",
+		roi: "roi",
+		follower: "follower",
+		following: "following",
+		portfolio_description: "Portfolio Summary",
+		estimated_value: "estimated price",
+		current_price: "Current Price",
+		symbol: "Symbol",
+		date_added: "listing date",
+		blog_writing: "Please share your knowledge!",
+		comment_writing: "Please leave a comment!",
+		tweet_writing: "Tweet Write...",
+		qa_writing: "ask anything!",
+		question_title: "Write down the title!",
+		reward: "reward",
+		your_rating: "your rating?",
+		review_login: "Why do you think so?",
+		review_logout: "Please login first!",
+		type_something: "Fill in the blanks, please!",
+		platform: "Platform",
+		chat: "Chat",
+		twitter: "Twitter",
+		website: "Website",
+		source_codes: "Source codes",
+		token_address: "Token address",
+		circulating_supply:"Circulating supply",
+		total_supply: "Totla supply",
+		max_supply: "Max supply",
 
 
 
@@ -108,171 +108,176 @@ export default {
 	page:{
 		sign : {
 			sign_in : {
-				title : '로그인',
+				title : 'Sign-In',
 			},
 			sign_up : {
-				title : '회원가입',
+				title : 'Sign-Up',
 			},
 			email : {
-				title : '이메일',
+				title : 'Email',
 			},
 			username : {
-				title : '사용자 이름',
+				title : 'Username',
 			},
 			password :{
-				title : '비밀번호',
+				title : 'Password',
 			},
 			password_confirm : {
-				title : '비밀번호 확인',
+				title : 'Password confirm',
 			},
 			signed_in : {
-				title : '로그인 상태 유지',
+				title : 'Stay loged-In',
 			},
 			forgot_password : {
-				title : '비밀번호 찾기',
+				title : 'Forgot password',
 			},
 
  		},
 		home:{
 			title : 'HOME',
-			desc :'여기는 홈입니다',
+			desc :'',
 			marketwatching : {
-				title : '마켓 위험 알림',
+				title : 'market risk alarm',
 				desc : ''
 			},
 			blog_list: {
-				title:'마켓트랜드'
+				title:'market trend'
 			},
 			portfolio_list: {
-				title:'VC 포트폴리오',
+				title:'VC portfolio',
 				desc: ''
 			},
 			new_asset_list : {
-				title : '신규에셋목록',
+				title : 'new asset list',
 				desc : '',
 			},
 			userfeed_list: {
-				title:'사용자피드',
+				title:'USERFEEDS',
 				desc:''				
 			},
 				roi: {
-					title:'수익율이 높은 포트폴리오',
+					title:'high roi portfolio',
 					desc:''
 				},
 				highvoted: {
-					title:'인기 많은 포트폴리오',
+					title:'favorite portfolio',
 					desc:''
 				}			
 		},
 		assetqa: {
 			title: 'QA',
-			desc: '궁금한 것이 있으면 참으면 안됩니다',
+			desc: 'feel free to ask anything!',
 			questionlist : {
-				title:'질문리스트',
+				title:'question list',
+			}
+		},
+		qa_detail : {
+			accepted : {
+				title: 'accepted answer',
 			}
 		},
 		//page.profile.title
 		profile: {
-			title:'프로파일',
+			title:'profile',
 			desc:'',
 			display_name: {
-				title : '별칭',
+				title : 'display name',
 			},
 			username : {
-				title : '사용자 이름',
+				title : 'username',
 			},
 			email : {
-				title : '이메일',
+				title : 'email',
 			},
 			biography : {
-				title : '자기소개',
+				title : 'Introduction',
 			},
 			language : {
-				title : '언어선택',
+				title : 'Language',
 			},
 			portfoliolist : {
-				title: '포트폴리오',
+				title: 'Portfolio',
 				desc: '',
 			},
 			follower : {
-				title: '팔로워',
+				title: 'Follower',
 			},
 			following : {
-				title: '팔로잉',
+				title: 'Following',
 			},
 			userfeed : {
-				title: '사용자피드',
+				title: 'Userfeeds',
 			},
 		},
 		portfolio_detail : {
 			roi_chart : {
-				title : 'ROI 차트'
+				title : 'ROI CHART'
 			}
 		},
 		asset : {
 			bloglist : {
-				title : '블로그',
+				title : 'BLOG',
 				desc: '',
 			},
 			questionlist : {
-				title : '질문',
+				title : 'QUESTION',
 				desc: '',
 			},
 			priceforecast : {
-				title : '가격예측',
+				title : 'price forecast',
 				desc : ''
 			},
 			tweets : {
-				title : '트윗',
+				title : 'TWEET',
 				desc: '',
 			}
 		},
 		asset_detail : {
 			price_chart : {
-				title : '가격차트',
+				title : 'price chart',
 				desc : '',
 			},
 			price_data : {
-				title : '가격데이터',
+				title : 'price data',
 				desc : '',
 			}
 		},
 		review : {			
 			forecast : {
-				title : '투자자예측',
+				title : 'investor forecast',
 				desc : '',
 				},
 			forecastlist : {
-				title : '예측목록',
+				title : 'forecast list',
 				desc : ''
 			}
 		},
 		blogwriter : {
-			title : '블로그 작성',
-			desc : '혼자만 알고 있는 것보다 나누는 것이 언제나 좋습니다',
+			title : 'blog write',
+			desc : 'Please share your knowledge!',
 			bloglist : {
-				title : '블로그목록',
+				title : 'Blog list',
 				desc : ''
 			}
 		},
 		inbox : {
-			title : '메시지함',
+			title : 'MessageBox',
 			desc : '',
 		},
 		risk : {
-			title : '리스크',
+			title : 'Risk',
 			desc : '',
 			chart : {
 				risk : {
-					title : '리스크',
+					title : 'Risk',
 					desc : ''
 				},
 				risk_vix : {
-					title : '리스크_VIX',
+					title : 'Risk_VIX',
 					desc :''
 				},
 				risk_event : {
-					title : '리스크_EVENT',
+					title : 'Risk_EVENT',
 					desc : ''
 				}
 			}
@@ -289,39 +294,39 @@ export default {
 				title : 'Change Probability Level',
 			},
 			btc : {
-				title : 'CWatch 비트코인',
+				title : 'CWatch BTC',
 			},
 			eth : {
-				title : 'CWatch 이더리움',
+				title : 'CWatch ETH',
 			}
 		},
 		vcportfolio : {
-			title : 'VC 포트폴리오',
+			title : 'VC Portfolio',
 			desc :'',
 			roi : {
-				title : 'VC 수익률',
+				title : 'VC ROI',
 				desc : ''
 			}
 			
 		},
 		cryptovc : {
-			title : '크립토 VC',
+			title : 'CRYPTO VC',
 			desc : '',
 			roi : {
-				title : '크립토 VC 수익률',
+				title : 'CRYPTO VC ROI',
 				desc :'',
 			},
 			portfolio : {
-				title : '크립토 VC 포트폴리오',
+				title : 'CRYPTO VC PORTFOLIO',
 				desc: ''
 			}
 		},
 		trend : {
-			title : '시장 동향',
+			title : 'MARKET TREND',
 			desc : '',
 			chart : {
 				index : {
-					title : '시장동향 INDEX',
+					title : 'MARKET TREND INDEX',
 					desc :'',
 				},
 				dominance : {
@@ -343,66 +348,94 @@ export default {
 			}
 		},
 		feeds : {
-			title : '사용자피드',
+			title : 'USERFEEDS',
 			desc : '',
 			userfeed : {		
-				title : '사용자피드 목록',
+				title : 'USERFEED LIST',
 				desc : ''
 			},
 			nouserfeed : {
-				title : '사용자피드가 없습니다',
-				desc : '팔로우 한 사람의 새로운 사용자 피드가 여기에 표시됩니다',
+				title : 'No Userfeed',
+				desc : 'Updates from people you are following',
 			}
 		},
 		forecast : {
-			title : '님 앞으로 가격이 오를까요?',
+			title : ', will the price go up in the future??',
 		}
 	},
 	dialog : {
 		edit_dialog : {
 			forgot_password : {
-				title : '비밀번호찾기',
-				desc : '이메일 주소를 입력하세요',
+				title : 'Forgot password',
+				desc : 'Please enter a email!',
 			},
 			biography : {
-				title : '자기소개',
+				title : 'Biography',
+			},
+		},
+		reset_password : {
+			password_updated : {
+				title : 'Password updated.', 
+			},
+			password_changed : {
+				title: "Password has been changed succefully.",
+			},
+			password_complete : {
+				title : 'Use your new password password to log in.',
 			}
+		},
+		add_portfolio : {
+			title : '포트폴리오를 추가',
+			desc :'Please manage your portfolio!',
+			asset : {
+				title : 'Asset',
+			},
+			no_results : {
+				title : 'No results',
+			},
+			group_name : {
+				title : "Portfolio Group Name"
+			},
+			description : {
+				title : "Description"
+			},
 		}
 	},
 	button: {
-		more: '더보기',
-		send: '확인',
-		save: '저장',
-		edit: '수정',
-		cancel: '취소',
-		close: '닫기',
-		lordmore: '더보기',
-		change: '변경',
-		follow: '팔로우',
-		unfollow: '팔로잉',
-		following: '팔로잉',
-		userfollow: '팔로우',
-		userfollowing: '팔로잉',
-		message: '메시지',
-		blog_like : '도움이 돼요',
-		blog_dislike : '별로에요',
-		portfolio_like: '훌륭합니다',
-		portfolio_dislike: '리밸런싱이 필요합니다',
-		reply: '답글',
-		expand: '펼치기',
-		collapse: '접기',
-		update: '업데이트',
-		add : '추가',
-		show_table: '가격 정보 테이블',
-		portfolio: '포트폴리오',
-		share: '공유',
-		blog: '블로그',
-		question: '질문',
-		logout: '로그아웃',
-		login: '로그인',
-		signup: '가입하기',
-		chartview: "차트",
-
+		more: 'MORE',
+		send: 'CONFIRM',
+		save: 'SAVE',
+		edit: 'Update',
+		cancel: 'CANCEL',
+		close: 'CLOSE',
+		lordmore: 'MORE',
+		change: 'UPDATE',
+		follow: 'FOLLOW',
+		unfollow: 'FOLLOWING',
+		following: 'FOLLOWING',
+		userfollow: 'FOLLOW',
+		userfollowing: 'FOLLOWING',
+		message: 'MESSAGE',
+		blog_like : 'Good',
+		blog_dislike : 'Not Good',
+		answer_like : 'Good',
+		answer_dislike : 'Not Good',
+		portfolio_like: 'Excellent',
+		portfolio_dislike: 'Rebalancing is needed',
+		reply: 'REPLY',
+		expand: 'Comment',
+		collapse: 'Collapse',
+		update: 'UPDATE',
+		add : 'ADD',
+		show_table: 'PRICE INFO TABLE',
+		portfolio: 'PORTFOLIO',
+		share: 'SHARE',
+		blog: 'BLOG',
+		question: 'QUESTION',
+		logout: 'Logout',
+		login: 'Login',
+		signup: 'Sign Up',
+		chartview: "CHART",
+		confirm: "확인",
 	}
 };
-

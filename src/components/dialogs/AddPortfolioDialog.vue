@@ -21,7 +21,7 @@
                                 <span class="text-h6">{{v_title}}</span>
                             </div>
                             <div>
-                                <span class="gCaption">Please manage your portfolio item</span>
+                                <span class="gCaption">{{ $t('dialog.add_portfolio.desc') }}</span>
                             </div>
                         </div>
                         
@@ -31,14 +31,16 @@
                 <q-card-section>
                     <div class="row">
                         <div class="col">
-                            <CryptoSelect ref="cryptoSelector" label="Asset" filled="1"
+                            <CryptoSelect ref="cryptoSelector" 
+                            :label="$t('dialog.add_portfolio.asset.title')" 
+                            filled="1"
                                 @onSelect="onSelectAsset"  />
                             <br>
                             <q-select
                                 filled use-input fill-input hide-selected
                                 input-debounce="0"
                                 v-model="v_input"
-                                label="Portfolio Group"
+                                :label="$t('dialog.add_portfolio.group_name.title')" 
                                 :options="v_group_list"
                                 behavior="menu"
                                 @input-value="onPortfolioChange"
@@ -47,7 +49,7 @@
                                 <template v-slot:no-option>
                                     <q-item>
                                         <q-item-section class="text-grey">
-                                            No results
+                                            {{ $t('dialog.add_portfolio.no_results.title') }}
                                         </q-item-section>
                                     </q-item>
                                 </template>
@@ -56,7 +58,7 @@
 
                             <WTextArea v-model="v_portfolio_item.description" ref="descText"
                                 maxLength="300" showLength="1"
-                                label="Description" rows="5" hint="Please type description" 
+                                label="Description" rows="5" :hint="$t('dialog.add_portfolio.description.title')" 
                                 customStyle="border:none;background:#f2f2f2;" />
                        
                         </div>

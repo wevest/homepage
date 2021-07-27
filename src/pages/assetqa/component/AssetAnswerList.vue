@@ -39,7 +39,7 @@
             <div class="gAnswerRatingBox">              
                 <WRatingButton ref="ratingButton" 
                     :data="a_answer"
-                    likeCaption="도움돼요" dislikeCaption="도움 안돼요"
+                    :likeCaption="$t('button.answer_like')" :dislikeCaption="$t('button.answer_dislike')"
                     @onClickRating="onClickRating" />
             </div>
 
@@ -48,7 +48,7 @@
             <div class="row boxAccepted justify-center" v-if="a_answer.answered">
                 <q-icon class="AcceptedIcon" name="task_alt" />
                 <div class="AcceptedText">
-                    <span>질문자 채택</span>
+                    <span>{{ $t('page.qa_detail.aacpted.title') }}</span>
                 </div>
             </div>
 
