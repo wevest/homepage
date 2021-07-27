@@ -537,6 +537,14 @@ export default class CommonFunc {
     }
 
 
+    static navHome(a_this) {
+        logger.log.debug("CommonFunc.navHome");
+        
+        //store.getters.nav.add(a_this.$route);
+        let dic_param = { name:'home', path:'home', query:{} };
+        a_this.$router.push(dic_param);
+    }
+
     static navBack(a_this) {
         a_this.$router.back();
     }
@@ -557,6 +565,13 @@ export default class CommonFunc {
             dic_param.params = { path:a_this.$route.name, query:a_this.$route.query };
         }
             
+        a_this.$router.push(dic_param);
+    }
+
+    static navActivationNotification(a_this) {
+        logger.log.debug("CommonFunc.navActivationNotification - ",a_this.$route);
+        
+        let dic_param = {name:'user_activation_notification'};            
         a_this.$router.push(dic_param);
     }
 

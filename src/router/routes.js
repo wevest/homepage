@@ -7,7 +7,7 @@ const routes = [
     children: [
       {
         name: "home",
-        path: "",
+        path: "home",
         component: () => import("pages/home/HomeView.vue"),
         meta: { transition: "zoom" }
       },
@@ -17,7 +17,18 @@ const routes = [
         component: () => import("pages/user/SignView.vue"),
 		    meta: { transition: "overlay-right" }
       },
-
+      {
+        name: "user_activation",
+        path: "user_activation",
+        component: () => import("pages/user/ActivationView.vue"),
+		    meta: { transition: "overlay-right" }
+      },
+      {
+        name: "user_activation_notification",
+        path: "user_activation_notification",
+        component: () => import("pages/user/ActivationNotificationView.vue"),
+		    meta: { transition: "overlay-right" }
+      },
       // cms related
       {
         name: "blog",
@@ -47,7 +58,7 @@ const routes = [
         name: "profile",
         path: "profile",
         component: () => import("pages/user/ProfileView.vue"),
-		meta: { transition: "overlay-right" }
+		    meta: { transition: "overlay-right" }
       },
       {
         name: "message",

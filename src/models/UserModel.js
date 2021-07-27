@@ -444,11 +444,15 @@ export default class User {
         return new Promise(function(resolve,reject) {
             AuthService.signUp(dic_param,function(response) {
                 logger.log.debug("UserModel.signUp.response=",response);
+                // need to wait for user activation, so do nothing...
+                resolve(response);
+                
+                /*
                 dic_param.stay_loggedin = true;
                 _this.signIn(dic_param).then( resp => {
                     resolve(resp);
                 });
-                
+                */
             }, function(response) {
                 if (response.status==400) {
                     reject(response);

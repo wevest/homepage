@@ -30,8 +30,7 @@
                             :label="$t('page.sign.username.title')" hint="" 
                             :error="v_error.username.error"
                             :error-message="v_error.username.msg"                                
-                            :rules="[ val => val && val.length > 0 || 'Please type something']"
-                            
+                            :rules="[ val => val && val.length > 0 || 'Please type something']"                            
                         />
 
                         <q-input
@@ -52,7 +51,8 @@
 
                         <q-btn class="q-ml-xl" flat :label="$t('page.sign.forgot_password.title')" @click="onClickForgot" />
                         <div>
-                            <q-btn :label="$t('button.login')" type="submit" color="primary"/>
+                            <q-btn :label="$t('button.login')" :loading="v_loading_signup"
+                                type="submit" color="primary"/>
                         </div>                    
                     </q-form>
                 </q-tab-panel>
@@ -118,7 +118,8 @@
                         </q-input>
 
                         <div>
-                            <q-btn :label="$t('button.signup')" type="submit" color="primary"/>
+                            <q-btn :label="$t('button.signup')" :loading="v_loading_signup"
+                                type="submit" color="primary"/>
                         </div>                    
                     </q-form>
                 </q-tab-panel>
@@ -126,8 +127,9 @@
             </q-tab-panels>
         </div>
 
-        <EditDialog ref="dialogEdit" :title="$t('dialog.edit_dialog.forgot_password.title')" :desc="$t('dialog.edit_dialog.forgot_password.desc')" 
-        @onSave="onSaveEdit" />
+        <EditDialog ref="dialogEdit" 
+            :title="$t('dialog.edit_dialog.forgot_password.title')" :desc="$t('dialog.edit_dialog.forgot_password.desc')" 
+            @onSave="onSaveEdit" />
     </div>
 
 </template>
@@ -178,6 +180,7 @@ export default {
         isPwd:true,
 
         showError: false,
+
         v_tab: 'signin',
         v_user: {
             username:'', email:'', password:'', password2:'', 
@@ -188,7 +191,9 @@ export default {
             username: {error:false, msg:''},
             password: {error:false, msg:''},
             email: {error:false, msg:''},
-        }
+        },
+
+        v_loading_signup:false,
     }),
 
     mounted: function() {
@@ -273,11 +278,18 @@ export default {
             };
 
             this.clearErrors();
-            this.v_me.signUp(dic_param).then( response => {
-                CommonFunc.showOkMessage(_this,'Your account created');
-                _this.navHome();
+            
+            this.v_loading_signup = true;
+            this.v_me.signUp(dic_param).then( response => {                
+                _this.v_loading_signup = false;
+				logger.log.debug("SigninView.SignUp: response=",response);
+                //const a_dialog = store.getters.components.getComponent('alertDialog');
+				//a_dialog.show('Success','Please check your email to activate your account!');
+                CommonFunc.navActivationNotification(_this);
+
             }).catch( response=> {
-                logger.log.debug("SignUp.Err : response=",response);
+                _this.v_loading_signup = false;
+                logger.log.error("SigninView.Signup : Err=",response);
                 for (let a_key in response.data) {
                     _this.v_error[a_key].error = true;
                     _this.v_error[a_key].msg = response.data[a_key][0];
@@ -290,9 +302,12 @@ export default {
             let dic_param = this.v_user;
             
             this.clearErrors();
-
+            
+            this.v_loading_signup = true;
             this.v_me.signIn(dic_param).then( response => {
                 logger.log.debug("SignIn.response=",response);
+
+                _this.v_loading_signup = false;
                 CommonFunc.showOkMessage(_this,'Signed in');
 
                 // if it is redirected, then move to the redirected url
@@ -307,9 +322,10 @@ export default {
 
                 _this.navHome();
                 
-            }).catch( err => {
-                
+            }).catch( err => {                
                 logger.log.debug("SignIn.err=",err);
+                
+                _this.v_loading_signup = false;
 
                 const fields = ['username','password'];
                 for (let a_key in fields) {
