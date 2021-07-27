@@ -125,7 +125,7 @@ export default {
             logger.log.debug("WCommandBar.onClickDelete");
 
             const _this=this;
-            store.getters.components.getComponent('confirmDialog').show('Do you want to delete?',function(value) {
+            store.getters.components.getComponent('confirmDialog').show(this.$t("dialog.delete.title"),function(value) {
                 logger.log.debug("WCommandBar.onClickDelete - confirm=",value,_this.$route);
                 if (! value) return;
 

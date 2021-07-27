@@ -164,6 +164,11 @@ export default {
 					desc:''
 				}			
 		},
+		activation : {
+			mail_message : {
+				title : "인증 메일이 발송되었습니다",
+			}
+		},
 		assetqa: {
 			title: 'QA',
 			desc: '궁금한 것이 있으면 참으면 안됩니다',
@@ -399,6 +404,9 @@ export default {
 			description : {
 				title : '포트폴리오 편입이유',
 			},
+		},
+		delete : {
+			title : '삭제하시겠습니까?',
 		}
 	},
 	button: {
@@ -437,5 +445,7 @@ export default {
 		signup: '가입하기',
 		chartview: "차트",
 		confirm: "확인",
+		go_home: "홈으로",
+		resend_activate: "인증 메일 재발송",
 	}
 };
