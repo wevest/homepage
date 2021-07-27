@@ -191,6 +191,11 @@ const routes = [
 			component: () => import("pages/user/ResetPasswordView.vue")
 		},
 		{
+			name: "reset_notification",
+			path: "reset_notification",
+			component: () => import("pages/user/ResetNotificationView.vue")
+		},
+		{
 			name:"error_404", path: "error_404",
 			component: () => import("pages/Error404.vue")
 		}

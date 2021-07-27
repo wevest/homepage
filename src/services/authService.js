@@ -75,7 +75,7 @@ export default class AuthService{
     }
 
     static forgotPassword(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/auth/users/reset_password/");
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/reset_password/");
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
