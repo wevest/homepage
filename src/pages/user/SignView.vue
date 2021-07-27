@@ -358,12 +358,21 @@ export default {
         },
 
         onSaveEdit(dicParam) {
+            const _this=this;
             logger.log.debug("SignView.onSaveEdit:dicParam=",dicParam);
             
             let dicReq = {email: dicParam.value};
 
             AuthService.forgotPassword(dicReq,function(resp) {
                 logger.log.debug("SignView.onSaveEdit:resp=",resp);
+                
+                if (resp.data.ret!=0) {
+                    const a_dialog = store.getters.components.getComponent('alertDialog');
+                    a_dialog.show('Error',resp.data.msg);
+                    return;
+                }
+
+                CommonFunc.navResetNotification(_this);
 
             },function(err) {
                 logger.log.error("SignView.onSaveEdit:err=",err);

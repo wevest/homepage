@@ -584,6 +584,13 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);
     }
 
+    static navResetNotification(a_this) {
+        logger.log.debug("CommonFunc.navResetNotification - ",a_this.$route);    
+
+        let dic_param = {name:'reset_notification', params:{}};
+        a_this.$router.push(dic_param);
+    }
+
     static navProfile(a_this,username) {
         logger.log.debug("CommonFunc.navProfile - ",username);
         
