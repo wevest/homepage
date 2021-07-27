@@ -166,8 +166,44 @@ export default {
 						
 		},
 		activation : {
-			mail_message : {
-				title : "Activation mail has been sent",
+			title: 'SIGN UP Activation',
+			desc : '',
+			mail_sent : {
+				title : 'Activation Mail Sent',
+			}
+		},
+		registration : {
+			title : 'Sign Up Complete',
+			desc : '',
+			complete : {
+				title : 'Congratulations!',
+				desc : 'Sign Up Complete!',
+			}
+		},
+		change_pwd : {
+			title : 'Change password',
+			desc : '',
+			rules : {
+				title : 'Password must at leatst 8 characters long',
+			},
+			current : {
+				title : 'Current password',
+				desc : 'Password is wrong'
+			},
+			new : {
+				title : 'Confirm new password',
+				desc : 'Password must at leatst 8 characters long',
+			},
+			confirm : {
+				title : 'Confirm',
+				desc : 'Passwords do not match'
+			},
+		},
+		pwd_reset_ : {
+			title : 'PASSWORD RESET',
+			desc : '',
+			mail_sent : {
+				title : 'Password Reset Email Sent',
 			}
 		},
 		assetqa: {
@@ -448,6 +484,7 @@ export default {
 		confirm: "Confirm",
 		go_home: "Go home",
 		resend_activate: "Resend Activate Mail",
+		go_login: "Go to Log In",
 
 	}
 };

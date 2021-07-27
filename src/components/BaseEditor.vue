@@ -47,7 +47,7 @@ export default {
         return {
             v_post: new PostPageModel(),
             v_confirm: false,
-            v_confirm_title: 'do you want to quit?',
+            v_confirm_title: 'Do you want to quit?',
 
             editorOptions: {
                 hideModeSwitch: true,

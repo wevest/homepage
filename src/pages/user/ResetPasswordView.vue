@@ -5,9 +5,9 @@
 
         <div v-if="v_tab=='reset'">
             <div>
-                <CTitle :title="$t('Reset Password')" :desc="$t('page.message.desc')"></CTitle>
+                <CTitle :title="$t('page.change_pwd.title')" :desc="$t('page.change_pwd.desc')"></CTitle>
                 <div class="gCaption">
-                    1. Password must at leatst 8 chars
+                    {{ $t('page.change_pwd.rules.title') }}
                 </div>
             </div>
 
@@ -20,13 +20,14 @@
                 >
 
                     <div>
-                        <q-input lazy-rules v-model="v_password" type="password" label="Current Password" maxlength
-                            :rules="[ val => val && val.length > 8 || 'Please type password at least 8 ']" 
+                        <q-input lazy-rules v-model="v_password" type="password" :label="$t('page.change_pwd.current.title')" 
+                            maxlength
+                            :rules="[ val => val && val.length > 8 || $t('page.change_pwd.current.desc') ]" 
                             v-if="v_mode=='reset_password'" />
-                        <q-input lazy-rules v-model="v_new_password" type="password" label="New Password" 
+                        <q-input lazy-rules v-model="v_new_password" type="password" :label="$t('page.change_pwd.new.title')" 
                             ref="fldPasswordChange"
-                            :rules="[ val => val && val.length > 8 || 'Please type password  at least 8']" />
-                        <q-input lazy-rules v-model="v_new_password2" type="password" label="Confirm" 
+                            :rules="[ val => val && val.length > 8 || $t('page.change_pwd.new.desc') ]" />
+                        <q-input lazy-rules v-model="v_new_password2" type="password" :label="$t('page.change_pwd.confirm.title')"
                             ref="fldPasswordChangeConfirm" v-bind:rules="v_confirm" />
                     </div>
 
@@ -35,8 +36,8 @@
             </div>
 
             <div class="q-gutter-md text-center">
-                <q-btn outline v-close-popup>Cancel</q-btn>
-                <q-btn color="primary" @click="onClickSave">&nbsp;Save&nbsp;</q-btn>
+                <q-btn outline v-close-popup>{{ $t('button.cancel') }}</q-btn>
+                <q-btn color="primary" @click="onClickSave">{{ $t('button.save') }}</q-btn>
             </div>
         
         </div>
@@ -86,8 +87,9 @@ export default {
         },
         v_confirm() {
             return [
-                (v) => !!v || "password are different :-)",
-                (v) => v == this.$refs.fldPasswordChange.value || "Password different"
+                (v) => !!v || this.$t('page.change_pwd.new.desc'),
+                (v) => v == this.$refs.fldPasswordChange.value || this.$t('page.change_pwd.confirm.desc')
+
             ]
         },
     },
