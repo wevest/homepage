@@ -5,6 +5,7 @@
             <CTitle ttype='title' :title="$t ('page.home.title')" :desc="$t('page.home.desc')"></CTitle>
         </div>
 
+
         <div>
             <MarketIndexWidget ref="indexWidget" @onClick="onClickIndex"/>
             <MarketWatchWidget ref="watchWidget" :title="$t('page.home.marketwatching.title')" :desc="$t('page.home.marketwatching.desc')"
@@ -22,7 +23,7 @@
         </div>
 
         <div>
-            <UserFeedList ref='feedList' :title="$t('page.home.userfeed_list.title')" 
+            <UserFeedList ref='feedList' title="$t('page.home.userfeed_list.title')" 
                 maxLength="10" :moreCaption="$t('button.more')" user="v_me"></UserFeedList>
         </div>                                               
 
@@ -31,6 +32,8 @@
                 :moreCaption="$t('button.more')" 
                 category="" symbol="" objectId="-1"></BlogList>
         </div>
+
+
 <!--
 
         <div class="col">
@@ -84,7 +87,7 @@ export default {
         },
     },
 
-    data: function () {
+    data() {
         return {
             v_tab:'upbit',     
             v_tab_toplist:'ret' ,
@@ -95,14 +98,14 @@ export default {
             },                
         }
     },
-    created: function () {
-        //console.log("HomeView.created");
+    created() {
+        logger.log.debug("HomeView.created");
     },
-    mounted: function() {
-        //console.log("HomeView.mounted - ");
+    mounted() {
+        logger.log.debug("HomeView.mounted");
         this.refresh();
     },
-    updated: function() {
+    updated() {
         //console.log("HomeView.updated");
     },
     

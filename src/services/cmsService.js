@@ -692,5 +692,17 @@ export default class CMSAPI {
         	funcErr(err);
       	});
   	}
-  
+
+  	static getUserNotification(dic_param, func, funcErr) {
+    	let a_method = "/api/user/users/" + dic_param.user_id + "/notification/";
+		let url = CMSAPI.getUrl(MoaConfig.urls.cms,a_method);
+    	callCMSAPI("POST", url, {}, dic_param)
+      	.then(response => {
+        	func(response);
+      	})
+      	.catch(err => {
+        	funcErr(err);
+      	});
+  	}
+	  
 }

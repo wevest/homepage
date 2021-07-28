@@ -35,8 +35,12 @@ export class FeedModel {
     action=null;
     extra=null;
     
+    target=null;
+    target_user=null;
+    target_display_name=null;
+
     assign(obj) {
-        //logger.log.debug("FeedModel : obj=",obj);
+        //logger.log.debug("FeedModel.assign: obj=",obj);
 
         this.id = obj.object;
         this.verb = obj.verb;
@@ -58,6 +62,7 @@ export class FeedModel {
         this.owner = CommonFunc.safeGetKeyValue(obj,'owner');
         this.action = CommonFunc.safeGetKeyValue(obj,'action');
         this.extra = CommonFunc.safeGetKeyValue(obj,'extra');
+        this.target = CommonFunc.safeGetKeyValue(obj,'target');
 
         //this.url = this.getUrl();
     }
@@ -77,7 +82,7 @@ export class FeedListModel extends baseCollection{
     next_url= null;
 
     assign(response) {
-        logger.log.debug("FeedListModel : response=",response);
+        logger.log.debug("FeedListModel.assign : response=",response);
 
         this.next_url = response.next;
         for (let index=0; index<response.results.length; index++) {
@@ -127,6 +132,41 @@ export class FeedListModel extends baseCollection{
 
 }
 
+
+export class NotificationListModel extends FeedListModel{
+
+    assign(response) {
+        logger.log.debug("NotificationListModel.assign : response=",response);
+
+        this.next_url = response.next;
+        for (let index=0; index<response.results.length; index++) {
+            for (let index2=0; index2<response.results[index].activities.length; index2++) {    
+                let a_feed = new FeedModel();
+                a_feed.assign(response.results[index].activities[index2]);
+                this.add(a_feed);
+            }
+        }
+    }
+
+    load(userid,username,limit=20,uuid='') {
+        let dic_param = {user_id:userid,username:username,uuid:uuid,limit:limit};
+        
+        const _this = this;
+        return new Promise(function(resolve,reject) {
+            CMSAPI.getUserNotification(dic_param,function(response) {
+                logger.log.debug("NotificationListModel.load - response",response.data);
+                
+                _this.assign(response.data.data);
+                resolve(response.data);
+
+            },function(err) {
+                logger.log.error("NotificationListModel.load - error",err);                
+                reject(err);
+            });
+        });            
+
+    }    
+}
 
 export class FriendModel {
     username=null;

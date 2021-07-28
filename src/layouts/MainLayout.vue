@@ -5,27 +5,17 @@
 				<q-toolbar class="col-6 bg-white text-black">
 					<q-btn v-if="v_show_back_button"
 						flat dense round
-						color="black"
-						align="centered"
-						icon="arrow_back_ios"
-						aria-label="Back"
-						ref="mainMenuBackButton"
+						ref="mainMenuBackButton"						
+						color="black" align="centered" icon="arrow_back_ios" aria-label="Back"
 						@click="onClickBack"
 					/>
 					
-					<q-btn
-						flat
-						dense
-						round
-						color="black"
-						align="centered"
-						icon="menu"
-						aria-label="Menu"
+					<q-btn flat dense round
 						ref="mainMenuButton"
+						color="black" align="centered" icon="menu" aria-label="Menu"						
 						@click="leftDrawerOpen = !leftDrawerOpen"
 					/>
 					
-
 					<div class="toolbar_title" @click="onClickLogo">WeVest</div>
 
 					<CryptoSelect ref="searchInput" @onSelect="onSearch" label="" filled="0" />
@@ -37,18 +27,11 @@
 
 					<div v-if="v_login == true">
 						<a href="#" @click="onClickSignOut">{{ $t('button.logout') }}</a>
-						<q-btn
-							flat round dense
-							color="amber"
-							icon="person"
-							@click="onClickUser"
-						/>
-						<q-btn
-							flat round dense
-							color="yellow"
-							icon="mail"
-							@click="onClickMessage"
-						/>
+						
+						<q-btn flat round dense color="amber" icon="person" @click="onClickUser" />
+						<q-btn flat round dense color="yellow" icon="mail" @click="onClickMessage" />
+						<q-btn flat round dense color="red" icon="notifications_none" @click="onClickNotification" />
+
 					</div>
 					<div v-else>
 						<a href="#" @click="onClickSignIn">{{ $t('button.login') }}</a>
@@ -94,7 +77,6 @@
 		<WAlertDialog ref="alertDialog" />
 		<WConfirmDialog ref="confirmDialog" title="Do you want to delete the item?" @onClickConfirm="onClickDeleteConfirm" />
 		<AddPortfolioDialog ref="portfolioDialog" @onPortfolioItemAdded="onPortfolioItemAdded" />
-		
 		<StickyButtons ref="stickButton" @onClickPortfolio="onClickPortfolio" />
 
 	</q-layout>
@@ -150,15 +132,16 @@ export default {
 		};
 	},
 
-	updated: function () {},
-	created: function () {
+	created() {
 		this.v_me.loadFromCookie();
 	},
-	mounted: function () {
+	mounted() {
 		//CommonFunc.setAppData('spinner',this.$refs.loading);
-		
+		logger.log.debug("MainLayout.mounted");
 		this.prepare();
-		//this.loadCoinCodes();
+	},
+	updated() {
+		//logger.log.debug("MainLayout.updated");
 	},
 
 	methods: {
@@ -168,9 +151,10 @@ export default {
 			store.getters.components.addComponent('confirmDialog',this.$refs.confirmDialog);
 			store.getters.components.addComponent('portfolioDialog',this.$refs.portfolioDialog);
 
-			this.setLanguage();
+			//this.setLanguage();
+			//logger.log.debug("MainLayout.prepare");
 		},
-		setBackButton:function(value) {
+		setBackButton(value) {
 			this.v_show_back_button = value;
 		},
 
@@ -198,7 +182,7 @@ export default {
 			}
 		},
 
-		loadCoinCodes: function () {
+		loadCoinCodes() {
 			let codes = store.state.assets.loadFromCookie();
 			return codes;
 		},
@@ -236,33 +220,37 @@ export default {
 			}
 		},
 
-		onClickUser: function () {
+		onClickUser() {
 			logger.log.debug("MainToolbar.onClickUser : $route=",this.$route);
 			let dic_param = { name: "profile", params: {} };
 			this.$router.push(dic_param);
 		},
 
-		onClickMessage: function () {
+		onClickMessage() {
 			logger.log.debug("MainToolbar.onClickMessage");
 			store.getters.nav.clear();
 			let dic_param = { name: "message", params: {} };
 			this.$router.push(dic_param);
 		},
 
+		onClickNotification() {
+			logger.log.debug("MainLayout.onClickNotification");
+			CommonFunc.navNotification(this);
+		},
 
-		onClickSignIn: function () {
+		onClickSignIn() {
 			logger.log.debug("onClickSignIn");
 			let dic_param = { name: "signin", params: {} };
 			this.$router.push(dic_param);
 		},
 
-		onClickLogo: function () {
+		onClickLogo() {
 			logger.log.debug("onClickLogo");
 			let dic_param = { name: "home", query: {}, meta:{transition:'overlay-up-full'} };
 			this.$router.push(dic_param);
 		},
 
-		onClickSignOut: function () {
+		onClickSignOut() {
 			logger.log.debug("onClickSignOut");
 
 			const _this = this;
@@ -284,22 +272,22 @@ export default {
 				});
 		},
 
-		onClickBack: function() {
+		onClickBack() {
 			logger.log.debug("MainLayout.onClickBack");			
 			store.getters.nav.back(this);
 		},
 
-		onClickDeleteConfirm: function() {
+		onClickDeleteConfirm() {
 			logger.log.debug("MainLayout.onClickDeleteConfirm");
 		},
 
-        onPortfolioItemAdded: function(jsonItem) {
+        onPortfolioItemAdded(jsonItem) {
             logger.log.debug("MainLayout.onPortfolioItemAdded = ",jsonItem);
             //this.v_user.portfolio.addPortfolioItem(jsonItem.portfolio_item);
             //this.v_user.portfolio.calcPerformance(store.state.prices);
         },
 
-		onClickPortfolio: function() {
+		onClickPortfolio() {
 			logger.log.debug("MainLayout.onClickPortfolio");
 			store.getters.components.getComponent('portfolioDialog').show(this.v_me,null); 
 		},
@@ -333,53 +321,4 @@ export default {
   width:100%; */
 }
 
- .slide-enter-active, .slide-leave-active {
-   transition: 300ms;
-
-  }
- .slide-enter-to{
-    position: relative;
-    left: 0;
- }
- .slide-leave{
-    position: absolute;
-   }
- .slide-enter,  {
-    left: -100vw;
-    position: absolute;
-  }
- .slide-leave-to {
-    right: -100vw;
- }
-
-/*
-.slide-enter-active,
-.slide-leave-active {
-  transition: all 0.01s ease-out;
-}
-
-
-.slide-enter-to {
-  position: absolute;
-  right: 0;
-}
-
-
-.slide-enter-from {
-  position: absolute;
-  right: -100%;
-}
-
-
-.slide-leave-to {
-  position: absolute;
-  left: -100%;
-}
-
-
-.slide-leave-from {
-  position: absolute;
-  left: 0;
-}
-*/
 </style>
