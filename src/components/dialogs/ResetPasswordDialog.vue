@@ -10,7 +10,7 @@
         >
             <q-card>
                 <q-card-section>
-                    <div class="gSubTitleMD forgotPassword"> {{title}} </div>
+                    <div class="gSubTitleMD"> {{title}} </div>
                     <div class="gCaption">
                         1. Password must at leatst 8 chars
                     </div>
@@ -165,7 +165,5 @@ export default {
 
 
 <style scoped>
-.forgotPassword {
-  max-width:200px;  
-}
+
 </style>
