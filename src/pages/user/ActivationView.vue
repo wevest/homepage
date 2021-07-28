@@ -2,20 +2,24 @@
     
     <div class="q-ma-md">
         <div>
-            <CTitle :title="$t('page.activation.title')" :desc="$t('page.activation.desc')"></CTitle>
+            <CTitle :title="$t('page.registration.title')" :desc="$t('page.registration.desc')"></CTitle>
         </div>            
         
         <div class="text-center">
-            <div>
+             <div>           
+                <q-icon name="check_circle_outline" class="text-positive" style="font-size: 6em;" />
+            </div>    
+            <div class="gSubTitleLG">
                 {{v_user.username}}
             </div>
 
-            <div>
-                Congulatulation                
+            <div class="gPageTitle">
+                {{ $t('page.registration.complete.title') }}                
             </div>
+                <p class="q-pa-md" style="line-height:32px;"> {{ $t('page.registration.complete.desc') }}</p>
 
             <div>
-                <q-btn color="primary" label="Click here to Login" @click="onClick" />
+                <q-btn color="primary" :label="$t('button.go_login')" @click="onClick" />
             </div>
 
         </div>

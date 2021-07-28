@@ -164,6 +164,45 @@ export default {
 					desc:''
 				}			
 		},
+		activation : {
+			title : '회원가입 인증',
+			mail_sent : {
+				title : '인증 메일이 발송되었습니다',
+			}
+		},
+		registration : {
+			title : '회원가입 완료',
+			complete : {
+				title : '축하합니다!',
+				desc : 'WeVest 회원가입이 완료되었습니다.',
+			}
+		},
+		change_pwd : {
+			title : '비밀번호 변경',
+			desc : '',
+			rules : {
+				title : '비밀번호의 길이는 최소 8자 이상이어야 합니다',
+			},
+			current : {
+				title : '현재 비밀번호',
+				desc : '비밀번호가 틀립니다',
+			},
+			new : {
+				title : '새로운 비밀번호',
+				desc : '비밀번호의 길이는 최소 8자 이상이어야 합니다',
+			},
+			confirm : {
+				title : '새 비밀번호 확인',
+				desc : '비밀번호가 일치하지 않습니다',
+			},
+		},
+		pwd_reset : {
+			title : '비밀번호 재설정',
+			desc : '',
+			mail_sent : {
+				title : '비밀번호 변경을 위한 메일이 발송되었습니다',
+			}
+		},
 		assetqa: {
 			title: 'QA',
 			desc: '궁금한 것이 있으면 참으면 안됩니다',
@@ -399,6 +438,9 @@ export default {
 			description : {
 				title : '포트폴리오 편입이유',
 			},
+		},
+		delete : {
+			title : '삭제하시겠습니까?',
 		}
 	},
 	button: {
@@ -437,5 +479,9 @@ export default {
 		signup: '가입하기',
 		chartview: "차트",
 		confirm: "확인",
+		go_home: "홈으로",
+		resend_activate: "인증 메일 재발송",
+		go_login: "로그인하기",
+
 	}
 };

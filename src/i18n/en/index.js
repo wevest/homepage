@@ -82,11 +82,11 @@ export default {
 		date_added: "listing date",
 		blog_writing: "Please share your knowledge!",
 		comment_writing: "Please leave a comment!",
-		tweet_writing: "Tweet Write...",
-		qa_writing: "ask anything!",
+		tweet_writing: "Tweet write...",
+		qa_writing: "Ask anything!",
 		question_title: "Write down the title!",
 		reward: "reward",
-		your_rating: "your rating?",
+		your_rating: "Your rating?",
 		review_login: "Why do you think so?",
 		review_logout: "Please login first!",
 		type_something: "Fill in the blanks, please!",
@@ -162,7 +162,49 @@ export default {
 				highvoted: {
 					title:'favorite portfolio',
 					desc:''
-				}			
+			},
+						
+		},
+		activation : {
+			title: 'SIGN UP Activation',
+			desc : '',
+			mail_sent : {
+				title : 'Activation Mail Sent',
+			}
+		},
+		registration : {
+			title : 'Sign Up Complete',
+			desc : '',
+			complete : {
+				title : 'Congratulations!',
+				desc : 'Sign Up Complete!',
+			}
+		},
+		change_pwd : {
+			title : 'Change password',
+			desc : '',
+			rules : {
+				title : 'Password must at leatst 8 characters long',
+			},
+			current : {
+				title : 'Current password',
+				desc : 'Password is wrong'
+			},
+			new : {
+				title : 'Confirm new password',
+				desc : 'Password must at leatst 8 characters long',
+			},
+			confirm : {
+				title : 'Confirm',
+				desc : 'Passwords do not match'
+			},
+		},
+		pwd_reset_ : {
+			title : 'PASSWORD RESET',
+			desc : '',
+			mail_sent : {
+				title : 'Password Reset Email Sent',
+			}
 		},
 		assetqa: {
 			title: 'QA',
@@ -285,9 +327,9 @@ export default {
 
 		cwatch : {
 			title : 'CWATCH',
-			desc : '오늘도 크립토의 시계는 24시간 쉬지 않고 돌아갑니다',
+			desc : '',
 			subtitle : {
-				title : '얼마나 잘 맞는지 볼까요?',
+				title : "Let's see how accurate it is!",
 				desc: '',
 			},
 			probability : {
@@ -360,7 +402,7 @@ export default {
 			}
 		},
 		forecast : {
-			title : ', will the price go up in the future??',
+			title : 'Will the price go up in the future?',
 		}
 	},
 	dialog : {
@@ -399,6 +441,9 @@ export default {
 			description : {
 				title : "Description"
 			},
+		},
+		delete : {
+			title : 'Do you want to delete?',
 		}
 	},
 	button: {
@@ -436,6 +481,10 @@ export default {
 		login: 'Login',
 		signup: 'Sign Up',
 		chartview: "CHART",
-		confirm: "확인",
+		confirm: "Confirm",
+		go_home: "Go home",
+		resend_activate: "Resend Activate Mail",
+		go_login: "Go to Log In",
+
 	}
 };
