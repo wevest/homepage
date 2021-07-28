@@ -73,12 +73,12 @@
         </div>
 
         <div class="q-mt-xl q-mb-sm">
-            <FriendList ref='followerList' :title="$t('page.profile.follower')" mode="follower"
+            <FriendList ref='followerList' title="$t('page.profile.follower')" mode="follower"
                 maxLength="10" moreCaption="" :user="v_user"></FriendList>
         </div>
 
         <div class="q-mt-xl q-mb-sm">
-            <FriendList ref='followingList' :title="$t('page.profile.following')" mode="following"
+            <FriendList ref='followingList' title="$t('page.profile.following')" mode="following"
                 maxLength="10" moreCaption="" :user="v_user"></FriendList>
         </div>
 
@@ -211,7 +211,7 @@ export default {
             });
         },
 
-        updatePortfolioWidget: function() {
+        updatePortfolioWidget() {
             const _this = this;
 
             store.state.prices.load().then( response => {
@@ -221,11 +221,11 @@ export default {
             });
         },
 
-        refresh: function() {
+        refresh() {
             this.loadProfile();
         },
 
-        loadBlogList: function(user_id) {
+        loadBlogList(user_id) {
             this.$refs.blogList.updateByUser(user_id);
         },
 
