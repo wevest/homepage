@@ -49,7 +49,8 @@
                         </q-input>
                         <q-checkbox v-model="v_user.stay_loggedin" :label="$t('page.sign.signed_in.title')" />
 
-                        <q-btn class="q-ml-xl" flat :label="$t('page.sign.forgot_password.title')" @click="onClickForgot" />
+                        <q-btn class="q-ml-xl" flat 
+                            :label="$t('page.sign.forgot_password.title')" @click="onClickForgot" />
                         <div>
                             <q-btn :label="$t('button.login')" :loading="v_loading_signup"
                                 type="submit" color="primary"/>

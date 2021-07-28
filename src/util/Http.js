@@ -155,7 +155,9 @@ export const callCMSAPI = async(call_method,url,config,req_params) => {
             if (store.getters.me.isLoggedIn()) {
                 //logger.log.debug("callCMS -- 3");
                 config.headers['Authorization'] = 'Token ' + store.getters.me.token;
-            }        
+            } else if (req_params.hasOwnProperty('token')) {
+                //config.headers['Authorization'] = 'Token ' + req_params.token;
+            }
 
         }
 

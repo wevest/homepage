@@ -36,7 +36,7 @@
 
             <div class="q-gutter-md text-center">
                 <q-btn outline v-close-popup>Cancel</q-btn>
-                <q-btn color="primary" @click="onClickSave">&nbsp;Save&nbsp;</q-btn>
+                <q-btn :loading="v_loading" color="primary" @click="onClickSave">&nbsp;Save&nbsp;</q-btn>
             </div>
         
         </div>
@@ -97,21 +97,25 @@ export default {
             
             v_tab:'reset',
             v_mode: 'reset_password',
+            v_token: null,
             v_password:'',
             v_new_password: '',
             v_new_password2: '',
+
+            v_loading:false,
         }
     },
 
-    created: function () {},
-    mounted: function() {
+    created() {},
+    mounted() {
         logger.log.debug("ResetPasswordView.mounted : params=",this.$route.query);
         this.v_mode = 'reset_password';
         if ((this.$route.query) && (this.$route.query.hasOwnProperty('token'))) {
             this.v_mode = 'forgot_password';
+            this.v_token = this.$route.query.token;
         }
     },
-    updated: function() {},
+    updated() {},
     
     methods: {      
 
@@ -152,27 +156,33 @@ export default {
         },
 
 
-        postProcess: function(response) {
+        postProcess(response) {
             this.v_tab = 'done';
         },
 
-        onClickSave: function() {                        
+        onClickSave() {                        
             const _this=this;
 
             let dicParam = {password: this.v_password, 
                 new_password:this.v_new_password, new_password2:this.v_new_password2 };
+            
+            if (this.v_mode=='forgot_password') {
+                dicParam.token = this.v_token;
+            }
 
             this.$refs.formPassword.validate().then(ret=>{
                 logger.log.debug('ResetPasswordDialog.onClickSave - ret=',_this.v_me);
                 if (! ret) { return; }
 
+                _this.v_loading = true;
                 _this.v_me.resetPassword(dicParam).then(resp=>{
                     logger.log.debug('ResetPasswordDialog.onClickSave - resp=',resp);
                     _this.postProcess(resp);
+                    _this.v_loading = false;
 
                 }).catch(err=>{
                     logger.log.error('ResetPasswordView.onClickSave - err=',err);
-
+                    _this.v_loading = false;
                     const a_dialog = store.getters.components.getComponent('alertDialog');
                     a_dialog.show('Error','Something is wrong, please try again');
                 });
