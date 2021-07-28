@@ -105,34 +105,46 @@ export default {
 
 	
 	},
-	page:{
-		sign : {
-			sign_in : {
-				title : '로그인',
-			},
-			sign_up : {
-				title : '회원가입',
-			},
-			email : {
-				title : '이메일',
+	page: {
+		
+		login : {
+			title : '로그인',
+			input : {
+				error : '사용자이름 혹은 비밀번호가 틀립니다',
 			},
 			username : {
-				title : '사용자 이름',
+				title : '사용자이름',
 			},
-			password :{
+			password : {
 				title : '비밀번호',
 			},
-			password_confirm : {
-				title : '비밀번호 확인',
-			},
-			signed_in : {
-				title : '로그인 상태 유지',
+			signedin : {
+					title : '로그인 상태 유지',
 			},
 			forgot_password : {
 				title : '비밀번호 찾기',
+			},	
+		},
+		signup : {
+			title : '회원가입',
+			email : {
+				title : '이메일',
+				error : '이메일이 잘못되었습니다',
+			},	
+			username : {
+				title : '사용자이름',
+				error : '사용자 이름은 문자와 숫자만 사용가능합니다',
 			},
+			password :{
+				title : '비밀번호',
+				error : '비밀번호의 길이는 최소 8자 이상이어야 합니다',
+			},
+			password_confirm : {
+				title : '비밀번호 확인',
+				error : '비밀번호가 일치하지 않습니다',
+		},
+		
 
- 		},
 		home:{
 			title : 'HOME',
 			desc :'여기는 홈입니다',
@@ -185,15 +197,15 @@ export default {
 			},
 			current : {
 				title : '현재 비밀번호',
-				desc : '비밀번호가 틀립니다',
+				error : '비밀번호가 틀립니다',
 			},
 			new : {
 				title : '새로운 비밀번호',
-				desc : '비밀번호의 길이는 최소 8자 이상이어야 합니다',
+				error : '비밀번호의 길이는 최소 8자 이상이어야 합니다',
 			},
 			confirm : {
 				title : '새 비밀번호 확인',
-				desc : '비밀번호가 일치하지 않습니다',
+				error : '비밀번호가 일치하지 않습니다',
 			},
 		},
 		pwd_reset : {
@@ -403,14 +415,13 @@ export default {
 		}
 	},
 	dialog : {
-		edit_dialog : {
-			forgot_password : {
-				title : '비밀번호찾기',
-				desc : '이메일 주소를 입력하세요',
-			},
-			biography : {
-				title : '자기소개',
-			}		
+		password_edit : {
+			title : '비밀번호찾기',
+			desc : '이메일 주소를 입력하세요',
+		},
+		biography : {
+			title : '자기소개',
+				
 		},
 		reset_password : {
 			password_updated : {
@@ -483,5 +494,6 @@ export default {
 		resend_activate: "인증 메일 재발송",
 		go_login: "로그인하기",
 
-	}
-};
+		}
+	}	
+}

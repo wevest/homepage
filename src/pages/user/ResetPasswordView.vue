@@ -22,11 +22,11 @@
                     <div>
                         <q-input lazy-rules v-model="v_password" type="password" :label="$t('page.change_pwd.current.title')" 
                             maxlength
-                            :rules="[ val => val && val.length > 8 || $t('page.change_pwd.current.desc') ]" 
+                            :rules="[ val => val && val.length > 8 || $t('page.change_pwd.current.error') ]" 
                             v-if="v_mode=='reset_password'" />
                         <q-input lazy-rules v-model="v_new_password" type="password" :label="$t('page.change_pwd.new.title')" 
                             ref="fldPasswordChange"
-                            :rules="[ val => val && val.length > 8 || $t('page.change_pwd.new.desc') ]" />
+                            :rules="[ val => val && val.length > 8 || $t('page.change_pwd.new.error') ]" />
                         <q-input lazy-rules v-model="v_new_password2" type="password" :label="$t('page.change_pwd.confirm.title')"
                             ref="fldPasswordChangeConfirm" v-bind:rules="v_confirm" />
                     </div>
@@ -87,8 +87,8 @@ export default {
         },
         v_confirm() {
             return [
-                (v) => !!v || this.$t('page.change_pwd.new.desc'),
-                (v) => v == this.$refs.fldPasswordChange.value || this.$t('page.change_pwd.confirm.desc')
+                (v) => !!v || this.$t('page.change_pwd.new.error'),
+                (v) => v == this.$refs.fldPasswordChange.value || this.$t('page.change_pwd.confirm.error')
 
             ]
         },

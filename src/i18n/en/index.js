@@ -99,40 +99,49 @@ export default {
 		circulating_supply:"Circulating supply",
 		total_supply: "Totla supply",
 		max_supply: "Max supply",
-
-
-
-
-	
 	},
+	
+	
 	page:{
-		sign : {
-			sign_in : {
-				title : 'Sign-In',
-			},
-			sign_up : {
-				title : 'Sign-Up',
-			},
-			email : {
-				title : 'Email',
+	
+		login : {
+			title : 'Sign-In',
+			input : {
+				error : 'Username or password is wrong',
 			},
 			username : {
 				title : 'Username',
 			},
-			password :{
+			password : {
 				title : 'Password',
 			},
-			password_confirm : {
-				title : 'Password confirm',
-			},
-			signed_in : {
+			signedin : {
 				title : 'Stay loged-In',
-			},
+			},				
 			forgot_password : {
 				title : 'Forgot password',
 			},
 
- 		},
+		},
+		signup : {
+			title : 'Sign-Up',
+			email : {
+				title : 'Email',
+				error : 'Email is invalid',
+			},
+			username : {
+				title : 'Username',
+				error : 'Username is invalid, please use numbers and letters only',
+			},
+			password :{
+				title : 'Password',
+				error : 'Password must at leatst 8 characters long',
+			},
+			password_confirm : {
+				title : 'Password confirm',
+				error : 'Password do not match', 
+		},
+ 		
 		home:{
 			title : 'HOME',
 			desc :'',
@@ -188,15 +197,15 @@ export default {
 			},
 			current : {
 				title : 'Current password',
-				desc : 'Password is wrong'
+				error : 'Password is wrong'
 			},
 			new : {
 				title : 'Confirm new password',
-				desc : 'Password must at leatst 8 characters long',
+				error : 'Password must at leatst 8 characters long',
 			},
 			confirm : {
 				title : 'Confirm',
-				desc : 'Passwords do not match'
+				error : 'Passwords do not match'
 			},
 		},
 		pwd_reset_ : {
@@ -405,16 +414,17 @@ export default {
 			title : 'Will the price go up in the future?',
 		}
 	},
+
+
 	dialog : {
-		edit_dialog : {
-			forgot_password : {
-				title : 'Forgot password',
-				desc : 'Please enter a email!',
-			},
-			biography : {
-				title : 'Biography',
-			},
+		password_edit : {
+			title : 'Forgot password',
+			desc : 'Please enter a email!',
 		},
+		biography : {
+			title : 'Biography',
+		},
+		
 		reset_password : {
 			password_updated : {
 				title : 'Password updated.', 
@@ -444,8 +454,9 @@ export default {
 		},
 		delete : {
 			title : 'Do you want to delete?',
-		}
+		},
 	},
+		
 	button: {
 		more: 'MORE',
 		send: 'CONFIRM',
@@ -485,6 +496,6 @@ export default {
 		go_home: "Go home",
 		resend_activate: "Resend Activate Mail",
 		go_login: "Go to Log In",
-
+		}
 	}
 };
