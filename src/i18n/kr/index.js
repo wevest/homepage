@@ -86,7 +86,7 @@ export default {
 		qa_writing: "무엇이든 물어보세요!",
 		question_title: "질문의 제목을 적어주세요!",
 		reward: "리워드",
-		your_rating: "당신의 평점은?",
+		your_rating: "몇 점을 주시겠습니까?",
 		review_login: "왜 그렇게 생각하나요?",
 		review_logout: "투표를 하려면 로그인이 필요합니다.",
 		type_something: "빈칸을 채워주세요!",
@@ -407,7 +407,7 @@ export default {
 				}
 			},
 			forecast: {
-				title: '님 앞으로 가격이 오를까요?',
+				title: '님 가격이 오를까요? 떨어질까요?',
 			}
 		},
 		dialog: {
