@@ -5,8 +5,10 @@
             ref="assetSearch"
             :value="v_search"
             :loading="v_loading"
+            :error="v_error"
             use-input fill-input hide-selected borderless use-chips
             input-debounce="10"
+            :error-message="v_errorMsg"
             :label="label"
             :filled="v_filled"
             :options="v_options"
@@ -18,10 +20,6 @@
             @keyup.enter.native="onSearchEnter"
             behavior="menu"
         >
-
-<!--            
-            
--->            
 
             <template v-slot:prepend>
                 <q-icon name="search" @click.stop />
@@ -71,12 +69,18 @@ export default {
         },
         filled: {
             default:'0'
+        },
+        errorMsg: {
+            default:'Please select an asset'
         }
     },
     computed: {
         v_filled() {
             if (this.filled=="1") return true;
             return false;
+        },
+        v_errorMsg() {
+            return this.errorMsg;
         }
     },
     data() {
@@ -84,6 +88,7 @@ export default {
             v_assets: new AssetListModel(),
 
             v_loading:false,
+            v_error: false,
 			v_search: null,
 			v_options: [],
             g_options: [],
@@ -111,7 +116,6 @@ export default {
             //logger.log.debug("getPrice.pair=",this.items);
             return _.find(items,{label:label} );
         },
-
 		filter(keyword) {
 			this.$refs.assetSearch.filter(keyword);
 			this.v_asset = keyword;
@@ -160,7 +164,9 @@ export default {
                 _this.v_loading=false;
             });
         },
-
+        setError(value) {
+            this.v_error = value;
+        },
 		onSearch(value) {
 			//logger.log.debug('onSearch=',value);
 		},
@@ -170,7 +176,8 @@ export default {
             this.v_search = item;
 
             if (this.isValidInput(item.label)) {
-				this.$emit("onSelect",item);
+				this.v_error = false;
+                this.$emit("onSelect",item);
 			}
 		},
 		onSearchChange(value) {						
@@ -198,6 +205,7 @@ export default {
             this.g_input = a_item;
 
             event.target.blur();
+            this.v_error = false;
             this.$refs.assetSearch.refresh(-1);			            
             this.$emit("onSelect",a_item);
 /*            

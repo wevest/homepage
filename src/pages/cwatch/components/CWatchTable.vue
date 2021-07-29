@@ -1,6 +1,6 @@
 <template>
 
-    <div>
+    <div class="gNoBoxMargin">
         <q-table
         title="" flat
         class="sticky-column-table"

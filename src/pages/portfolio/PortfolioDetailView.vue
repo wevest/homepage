@@ -98,7 +98,10 @@
                     <div class="row">
                         <div class="row iconBox">
                             <div class="q-pr-sm">  
-                                <q-icon class="coinIcon" name="monetization_on" color="black" size="34px" />                                    
+                                <q-icon class="coinIcon" name="monetization_on" color="black" size="34px" v-if="! a_portfolio.api_asset.logo_thumb" />
+                                <q-img :src="a_portfolio.api_asset.logo_thumb" 
+                                    crossorigin="anonymous" width="32px" height="32px"
+                                    v-if="a_portfolio.api_asset.logo_thumb" />
                             </div>    
                             <div @click="onClickMore(a_portfolio)" v-ripple>
                                 <div class="symbolBox">
@@ -138,7 +141,7 @@
                         <div class="col">  
                             <span class="gCaption">{{ $t('name.current_price') }}</span>
                             <br>
-                            <span class="text-h5 text-weight-bold">$ {{ v_format(a_portfolio.last,3) }}</span>                                
+                            <span class="text-h5 text-weight-bold">$ {{ v_format_price(a_portfolio.last) }}</span>
                         </div>                            
                     </div>
 
@@ -146,8 +149,8 @@
 
                 <q-card-section class="cardSection2">
 
-                    <div class="text-body2 text-grey-8"> 
-                        {{a_portfolio.description}} 
+                    <div class="gParagraphSM q-pr-md"> 
+                        <p>{{a_portfolio.description}}</p>
                     </div>
                     
                 </q-card-section>
@@ -206,11 +209,24 @@ export default {
         },
         v_format() {
             return (value,decimal=1) => {                
+                logger.log.debug("v_format : value=",value);
                 if(!value) {
                     return '';
                 }
                 //return CommonFunc.formatNumber(value,decimal);
-                return CommonFunc.milifyNumber(value);
+                return CommonFunc.milifyNumber(value,decimal);
+                //return value.toLocaleString();
+            };
+        },
+        v_format_price() {
+            return (value) => {                
+                logger.log.debug("v_format : value=",value);
+                if(!value) return '';
+
+                //return CommonFunc.formatNumber(value,decimal);
+                let decimal = 0;
+                if (value<1) decimal=5;
+                return CommonFunc.milifyNumber(value,decimal);
                 //return value.toLocaleString();
             };
         },
@@ -330,7 +346,7 @@ export default {
             });
         },
 
-        refresh: function() {
+        refresh() {
             this.loadProfile(this.$route.query.username);
             return;
 
@@ -343,12 +359,13 @@ export default {
             });
         },
 
-        forceUpdate: function() {
+        forceUpdate() {
             let items = [];
             for (let index=0;index<this.v_portfolio.items.length;index++) {
                 items.push(this.v_portfolio.items[index]);
             }
             this.v_portfolio.items = items;
+            logger.log.debug("PortfolioDetailView.forceUpdate");
             this.v_user.portfolio.calcPerformance(store.state.prices);
         },
 

@@ -504,7 +504,7 @@ export default {
 
         onClickPrice: function(dicParam) {
             logger.log.debug('AssetView.onClickPrice');
-            store.getters.nav.add(this.$route);
+            //store.getters.nav.add(this.$route);
             CommonFunc.navAssetDetail(this,this.v_asset.symbol,this.v_asset.id);
         },
 

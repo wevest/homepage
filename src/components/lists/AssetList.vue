@@ -44,7 +44,16 @@
 
                     <q-tr :props="props" v-ripple @click="onClickAsset(props.row)" >
                         <q-td key="cmc_rank" :props="props">{{ props.row.cmc_rank }}</q-td>
-                        <q-td key="symbol" :props="props" class="text-red-10 text-bold">{{ props.row.symbol }}</q-td>
+                        <q-td key="symbol" :props="props" class="text-red-10 text-bold">
+                            <div class="row" style="width:70px;">
+                                <div>
+                                    <q-img :src="props.row.logo_thumb" width="18px" height="18px" />
+                                </div>
+                                <div class="q-pl-sm">
+                                    {{ props.row.symbol }}
+                                </div>
+                            </div>
+                        </q-td>
                         <q-td key="name" :props="props">{{ props.row.name }}</q-td>
                         <q-td key="date_added" :props="props">{{ props.row.date_added }}</q-td>
                     </q-tr>            
@@ -152,8 +161,8 @@ export default {
             v_category: null,
 
             v_headers: [                
-                { name:'cmc_rank', label: this.$t('name.rank'), field: 'cmc_rank', sortable: true, align:'left'},
-                { name:'symbol', label: this.$t('name.symbol'), field: 'symbol', sortable: true, align:'left', required:true  },
+                { name:'cmc_rank', label: this.$t('name.rank'), field: 'cmc_rank', sortable: true, align:'left', style:"max-width:14px"},
+                { name:'symbol', label: this.$t('name.symbol'), field: 'symbol', sortable: true, align:'left', required:true, },
                 { name:'name', label: "$ "+this.$t('name.name'), field: 'name', sortable: true, align:'left',},                
                 { name:'date_added', label: "$ "+this.$t('name.date_added'), field: 'date_added', sortable: true, align:'left',},
             ],

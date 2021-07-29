@@ -2,7 +2,7 @@
 
     <div class="q-pa-md">
         <div>
-            <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc" 
+            <CTitle ttype='title' :title="v_asset.symbol" desc="" 
                 loadMoreCaption="" @onClickTitleMore="onClickTitleMore"></CTitle>         
 <!--            
             <div class="q-mb-lg">
@@ -80,7 +80,7 @@ export default {
             return false;
         },
     },
-    data: function() {
+    data() {
         return {
             g_query: null,
 
@@ -98,15 +98,15 @@ export default {
         }
     },
 
-    created: function () {
+    created() {
         this.validateQuery();
     },
-    mounted: function() {
+    mounted() {
         this.g_query = this.$route.query;
         this.setAsset(this.g_query);
         this.refresh(360);
     },
-    updated: function() {
+    updated() {
         //console.log("AssetView.updated - symbol=",this.symbol,this.$route.params);        
     },
     
