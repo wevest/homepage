@@ -9,7 +9,7 @@
                 :updatedAt="v_data.btc.updated_at"
                 extraCaption=""
                 extraClass=""
-                @onClick="onClick"></CBigLabel>
+                @onClick="onClick('BTC')"></CBigLabel>
             
         </div>
         <div class="col">
@@ -20,7 +20,7 @@
                 :updatedAt="v_data.eth.updated_at"
                 extraCaption=""
                 extraClass=""
-                @onClick="onClick"></CBigLabel>
+                @onClick="onClick('ETH')"></CBigLabel>
 
         </div>
     </div>
@@ -88,9 +88,13 @@ export default {
             });
         },
 
-        onClick() {
+        onClick(symbol) {
             logger.log.debug("MarketIndexWidget.onClick");
-            this.$emit("onClick",{});
+            let dicParam = {symbol:symbol};
+            
+            dicParam['id'] = 1;
+            if (symbol=='ETH') dicParam['id'] = 1027;        
+            this.$emit("onClick",dicParam);
         }
     }
 };

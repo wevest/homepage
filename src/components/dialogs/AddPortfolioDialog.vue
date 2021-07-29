@@ -31,19 +31,47 @@
                 <q-card-section>
                     <div class="row">
                         <div class="col">
-                            <CryptoSelect ref="cryptoSelector" 
-                            :label="$t('dialog.add_portfolio.asset.title')" 
-                            filled="1"
+                            <CryptoSelect ref="cryptoSelector" filled="1"
+                                :label="$t('dialog.add_portfolio.asset.title')"                                 
                                 @onSelect="onSelectAsset"  />
-                            <br>
+
+                            <WTextArea v-model="v_portfolio_item.description" ref="descText"
+                                maxLength="300" showLength="1"
+                                label="Description" rows="5" :hint="$t('dialog.add_portfolio.description.title')" 
+                                customStyle="border:none;background:#f2f2f2;" />
+
+                            <div>
+                                <div>
+                                    Please select portfolio group
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-10">
+                                        <q-tabs dense inline-label narrow-indicator shrink
+                                            :breakpoint="0" align="left"
+                                            indicator-color="transparent"
+                                            active-color="white"
+                                            class="bg-teal text-grey-5 shadow-2"                                    
+                                            v-model="v_tab" 
+                                            v-if="v_tabs.length>0">
+                                            <q-tab v-for="tab in v_tabs" :key="tab.name" v-bind="tab" />
+                                        </q-tabs>
+                                    </div>
+                                    <div class="col-2">
+                                        <q-btn dense label="add" @click="onClickNewGroup" />
+                                    </div>
+                                </div>
+                            </div>
+<!--
                             <q-select
-                                filled use-input fill-input hide-selected
-                                input-debounce="0"
+                                filled use-input fill-input hide-selected input-debounce="0"
+                                class="q-pt-sm" behavior="menu"
                                 v-model="v_input"
                                 :label="$t('dialog.add_portfolio.group_name.title')" 
                                 :options="v_group_list"
-                                behavior="menu"
-                                @input-value="onPortfolioChange"
+                                :error="v_error_group"
+                                @input-value="onPortfolioChange"                                
+                                error-message="Please select a group"
                                 ref="selectPortfolio"
                             >
                                 <template v-slot:no-option>
@@ -54,13 +82,7 @@
                                     </q-item>
                                 </template>
                             </q-select>
-                            <br />
-
-                            <WTextArea v-model="v_portfolio_item.description" ref="descText"
-                                maxLength="300" showLength="1"
-                                label="Description" rows="5" :hint="$t('dialog.add_portfolio.description.title')" 
-                                customStyle="border:none;background:#f2f2f2;" />
-                       
+-->                            
                         </div>
                     </div>
                 </q-card-section>       
@@ -74,6 +96,7 @@
 
         </q-dialog>
 
+        <EditDialog ref="dialogEdit" :title="$t('dialog.edit_dialog.biography.title')" @onSave="onSaveEdit" />
     </div>
 
 </template>
@@ -88,6 +111,7 @@ import logger from 'src/error/Logger';
 import WTextArea from "src/components/WTextArea";
 import WDialogCloseButton from "src/components/WDialogCloseButton";
 import CryptoSelect from "src/components/CryptoSelect";
+import EditDialog from "src/components/dialogs/EditDialog";
 
 //import UserModel from "src/models/UserModel";
 //import { PriceModel, PriceListModel } from "src/models/PriceModel";
@@ -99,6 +123,7 @@ export default {
     components: {
         WTextArea,
         CryptoSelect,
+        EditDialog,
         WDialogCloseButton
     },
 	props: {
@@ -140,6 +165,8 @@ export default {
             
             v_loading: false,
             //v_title: this.title,
+            v_tab: 'Default',
+            v_tabs: [],
 
             v_selected_asset: null,
             v_selected_portfolio: null,
@@ -149,11 +176,13 @@ export default {
             
             v_input: null,
             v_options: this.v_group_list,
-            
+            v_updated_count: 0,
+
             v_error: {
                 title: {error:false, msg:''},
                 text: {error:false, msg:''},
-            },                    
+            },      
+            v_error_group: false,              
         }
     },
 
@@ -166,17 +195,21 @@ export default {
     mounted() {
         logger.log.debug("AddPortfolioDialog.mounted");
     },
-    updated() {
-        logger.log.debug("AddPortfolioDialog.updated : v_portfolio_item=",this.v_portfolio_item);
-        
-        if ( (this.v_portfolio_item) && (this.v_portfolio_item.id)) {
-            this.fillValue();
+    updated() {        
+        if (this.v_updated_count==0) {
+            logger.log.debug("AddPortfolioDialog.updated : v_portfolio_item=",this.v_portfolio_item);
+
+            if ( (this.v_portfolio_item) && (this.v_portfolio_item.id)) {
+                this.fillValue();
+            }
         }
+        
+        this.v_updated_count += 1;
     },
     
     methods: {   
         clear() {
-            this.v_portfolio_item.asset_id = 1;
+            this.v_portfolio_item.asset_id = -1;
             this.v_portfolio_item.portfolio_id = -1;
             this.v_portfolio_item.price = 0;
             this.v_portfolio_item.qty = 0;
@@ -209,21 +242,32 @@ export default {
             let groups = [];
             
             if (v_portfolio.items.length==0) {
-                groups.push( MoaConfig.setting.defaultPortfolio );
+                groups.push( {name: MoaConfig.setting.defaultPortfolio, icon:'', label:MoaConfig.setting.defaultPortfolio} );
             } else {
                 for (let index=0;index<v_portfolio.items.length;index++) {
-                    groups.push( v_portfolio.items[index].name );
+                    groups.push( {name:v_portfolio.items[index].name, icon:'', label:v_portfolio.items[index].name} );
                 }
             }
             
             if (groups.length>0) {
-                this.v_input = groups[0];
+                this.v_input = groups[0].name;
             }
             logger.log.debug("setPortfolioSelector",groups);
-            this.v_group_list = groups;
+            this.v_tabs = groups;
         },
 
-        validate(v_post) {
+        validate(portfolio_item) {
+            
+            if (CommonFunc.isEmptyObject(portfolio_item.asset_id) || (portfolio_item.asset_id==-1) ) {
+                this.$refs.cryptoSelector.setError(true);
+                return false;
+            }
+
+            if (CommonFunc.isEmptyObject(this.v_input) || (this.v_input==-1) ) {
+                this.v_error_group = true;
+                return false;
+            }
+
             return true;
         },
 
@@ -243,6 +287,7 @@ export default {
 
             logger.log.debug("AddPortfolioDialog.show : v_portfolio=",this.v_portfolio_item);
 
+            this.v_updated_count = 0;
             this.v_loading = false;
             this.v_show = true;
         },
@@ -329,6 +374,10 @@ export default {
             logger.log.debug('AddPortfolioDialog.onClickSave - ',this.v_portfolio_item);
             this.v_portfolio_item.description = this.$refs.descText.getValue();
             
+            if (! this.validate(this.v_portfolio_item)) {
+                return;
+            }
+
             if (this.v_is_new) {
                 this.processSave();
             } else {
@@ -337,15 +386,17 @@ export default {
             
         },
 
-        onClickClose: function() {
+        onClickClose() {
             logger.log.debug('onClickClose - ');
             this.hide();
         },
 
-        onPortfolioChange: function(value) {      
-            logger.log.debug('onPortfolioChange=',value, this.v_input);
+        onPortfolioChange(value) {      
+            logger.log.debug('AddPortfolioDialog.onPortfolioChange=',value, this.v_input);
+                        
             this.v_input = value;
             if (value.length>2) {
+                this.v_error_group = false;                
                 this.v_portfolio_item.portfolio_name = value;
             }            
         },
@@ -355,10 +406,23 @@ export default {
             this.v_portfolio_item.portfolio_name = value;
         },
 */
-        onNewPortfolio: function(val,done) {
+        onNewPortfolio(val,done) {
             logger.log.debug('onClickClose - ',val);
             done(val,'add-unique');
+        },
+
+        onSaveEdit(dicParam) {
+            logger.log.debug("AddPortfolioDialog.onSaveEdit : ",dicParam);
+            
+            this.v_tabs.push( {name:dicParam.value,icon:'',label:dicParam.value});
+            this.v_tab = dicParam.value;
+        },
+
+        onClickNewGroup() {
+            this.$refs.dialogEdit.setMaxlength(20);
+            this.$refs.dialogEdit.show('portfolio','text','');
         }
+
     }
 
 };

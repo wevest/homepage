@@ -28,15 +28,15 @@ export class PriceModel{
     }
 
     assign(item) {
-        this.currency_pair = item.currency_pair;
+        this.currency_pair = item.symbol;
         this.last = Number(item.last);
         this.lowest_ask= Number(item.lowest_ask);
         this.highest_bid = Number(item.highest_bid);
-        this.change_percentage = Number(item.change_percentage);
-        this.base_volume = Number(item.base_volume);
-        this.quote_volume = Number(item.quote_volume);
-        this.high_24h = Number(item.high_24h); 
-        this.low_24h = Number(item.low_24h);
+        this.change_percentage = Number(item.change);
+        this.base_volume = Number(item.baseVolume);
+        this.quote_volume = Number(item.quoteVolume);
+        this.high_24h = Number(item.high); 
+        this.low_24h = Number(item.low);
     }
 
     toDict() {
@@ -80,7 +80,7 @@ export class PriceListModel extends baseCollection{
     }
 
     getPrice(symbol,quotePair="USDT") {
-        let a_pair = symbol + "_" + quotePair;
+        let a_pair = symbol + "/" + quotePair;
         //logger.log.debug("findPrice.pair=",a_pair);
         return _.find(this.items,{currency_pair:a_pair} );
     }
@@ -93,11 +93,23 @@ export class PriceListModel extends baseCollection{
             PriceService.getPrice(reqParam).then( response => {
                 const items = response.data.data;
                 
+                logger.log.debug("PriceModel.fetch : response=",items);
+
                 _this.clear();
+                
+                for (let a_key in items) {
+                    let a_item = items[a_key];
+                    if (a_key.indexOf('USD')>-1) {
+                        _this.add( PriceModel.create(a_item) );
+                    }                    
+                }
+
+                /*
+                for gateio
                 for (let index=0;index<items.length;index++) {
                     _this.add( PriceModel.create(items[index]) );
                 }
-
+                */
                 resolve(response);
             }).catch(err=> {
                 reject(err);

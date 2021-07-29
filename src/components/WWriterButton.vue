@@ -56,7 +56,16 @@ export default {
 
         onClickWrite() {
             logger.log.debug("WWriterButton.onClickWrite");
-            this.$emit("onClickWrite",{});
+
+            const _this=this;
+            store.getters.components.getComponent('confirmDialog').show('Please login first',function(value) {
+                logger.log.debug("WWriterButton.onClickWrite - confirm=",value,_this.$route);
+                if (value) {
+                    CommonFunc.navSignin(_this,true);
+                    return;
+                }
+                _this.$emit("WWriterButton.onClickWrite",{});
+            });            
         }
     }
 

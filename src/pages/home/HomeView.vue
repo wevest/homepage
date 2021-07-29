@@ -116,7 +116,6 @@ export default {
             this.v_page.desc = watch_date;
         },
 
-
         refresh: function() {
             const _this = this;
         
@@ -222,9 +221,9 @@ export default {
             let dic_param = { name:'cwatch', path:'cwatch', params:{} };
             this.$router.push(dic_param);            
         },
-        onClickIndex() {
-            logger.log.debug('Home.onClickIndex');
-            //CommonFunc.navMarket(this);
+        onClickIndex(dicParam) {
+            logger.log.debug('Home.onClickIndex : ',dicParam);
+            CommonFunc.navAssetDetail(this,dicParam.symbol,dicParam.id);
         }
     }
 };

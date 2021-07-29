@@ -265,22 +265,30 @@ export class CommentListModel extends baseCollection {
             dic_param.token = store.getters.token;
             CMSAPI.postCommentFeedback(dic_param,function(response) {
                 logger.log.debug("CommentsListModel.vote : response=",response);
-                
-                if (response.status=="201") {                    
-                    
-                    let index = _.findIndex(_this.items,{id:dic_param.comment});
-                    if (index>-1) {
-                        let a_comment = _this.items[index];
 
-                        //logger.log.debug("CommentsListModel.vote : a_comment=",a_comment);
-                        if (dic_param.flag=="like") {
-                            a_comment.like_count = a_comment.like_count+1;    
-                        } else {
-                            a_comment.dislike_count = a_comment.dislike_count+1;    
-                        }                        
-                    }
+                let index = _.findIndex(_this.items,{id:dic_param.comment});
+                if (index==-1) {
+                    logger.log.error("");
+                    return;
                 }
-                        
+                
+                let a_comment = _this.items[index];
+                    
+                if (response.status=="201") {                                        
+                    //logger.log.debug("CommentsListModel.vote : a_comment=",a_comment);
+                    if (dic_param.flag=="like") {
+                        a_comment.like_count = a_comment.like_count+1;    
+                    } else {
+                        a_comment.dislike_count = a_comment.dislike_count+1;    
+                    }                                            
+                } else if (response.status=="204") {
+                    if (dic_param.flag=="like") {
+                        a_comment.like_count = a_comment.like_count-1;    
+                    } else {
+                        a_comment.dislike_count = a_comment.dislike_count-1;
+                    }                                            
+                }
+                                            
                 CommonFunc.updateRatingCount(_this,response);
                 resolve(response);
 

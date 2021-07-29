@@ -743,8 +743,6 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);
     }
     
-
-
     static navInstrument(a_this,asset) {
         logger.log.debug("CommonFunc.navInstrument - ",asset);
         
@@ -1313,7 +1311,7 @@ export default class CommonFunc {
     }
 
 
-    static milifyNumber(x) {
+    static milifyNumber(x,decimal=0) {
         
         if (isNaN(x)) {
             return x;
@@ -1323,8 +1321,10 @@ export default class CommonFunc {
 
         let a_value = null;
 
-        if(x < 99999) {            
-            return CommonFunc.formatNumber(x,0,true);
+        if(x < 1) {
+            return CommonFunc.formatNumber(x,decimal,false);
+        } else if(x < 99999) {            
+            return CommonFunc.formatNumber(x,decimal,true);
         }
     
         if(x < 1000000) {            

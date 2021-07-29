@@ -45,9 +45,9 @@
 
 		</div>
 
-		<div v-if="(! v_feeds) || (v_feeds.items.length==0) ">
-			<div class="gNoListTitle">No Userfeed</div>
-			<div class="gNoListMessage">팔로우 한 사람의 새로운 소식이 여기에 표시됩니다</div>
+		<div class="text-center" v-if="(! v_feeds) || (v_feeds.items.length==0) ">
+			<div class="gListTitle">No Userfeed</div>
+			<div class="gCaption">팔로우 한 사람의 새로운 소식이 여기에 표시됩니다</div>
 		</div>
 
 	</div>

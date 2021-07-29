@@ -71,8 +71,7 @@
                             :rules="[ val => (val) && (val.length <= 50) || 'Please use maximum 50 characters']"
                             @blur="updateEmailVerification"                                
                             :error="v_error.email.error"
-                            :error-message="v_error.email.msg"                                
-                        >
+                            :error-message="v_error.email.msg">
                             <template v-slot:error>
                                 Must be a valid email address.
                             </template>                            
@@ -117,6 +116,11 @@
                                         v-on:click="isPwd = !isPwd"></q-icon>
                             </template>                                
                         </q-input>
+                        
+
+                        <q-select class="gParagraphSM" ref="langSelect" filled                            
+                            v-model="v_user.default_lang" :options="v_lang" 
+                            label="Default Language" />
 
                         <div>
                             <q-btn :label="$t('button.signup')" :loading="v_loading_signup"
@@ -184,8 +188,8 @@ export default {
 
         v_tab: 'signin',
         v_user: {
-            username:'', email:'', password:'', password2:'', 
-            stay_loggedin:true, emailValid: false,
+            username:'', email:'', password:'', password2:'', default_lang:'en', 
+            stay_loggedin:true, emailValid: false, 
             //password:'alpine12!'
         },
         v_error: { 
@@ -193,7 +197,7 @@ export default {
             password: {error:false, msg:''},
             email: {error:false, msg:''},
         },
-
+        v_lang: ['en','kr'],
         v_loading_signup:false,
     }),
 
@@ -211,6 +215,7 @@ export default {
                 password: CommonFunc.safeGetKeyValue(this.v_me,'password',''), 
                 password2: CommonFunc.safeGetKeyValue(this.v_me,'password',''), 
                 stay_loggedin: CommonFunc.safeGetKeyValue(this.v_me,'staySignedIn',''), 
+                default_lang: CommonFunc.safeGetKeyValue(this.v_me,'default_lang','en'), 
             }
 
         },
@@ -268,12 +273,12 @@ export default {
             if (!this.updateEmailVerification()) return;
             if (!this.updateUsernameVerification()) return;
             
-
             const _this = this;
             let dic_param = {
                 username:this.v_user.username,
                 title: this.v_user.username,
                 email:this.v_user.email,
+                default_lang:this.v_user.default_lang,
                 password:this.v_user.password, re_password:this.v_user.password2,
                 emailValid:this.v_user.emailValid
             };
@@ -357,6 +362,9 @@ export default {
             logger.log.debug("SignView.onClickForgot");
             this.$refs.dialogEdit.show('email','text','');
         },
+
+
+
 
         onSaveEdit(dicParam) {
             const _this=this;

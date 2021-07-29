@@ -34,7 +34,6 @@ export class PortfolioItemModel {
         
         this.api_asset=obj.api_asset;
         this.api_user=obj.api_user;
-        this.api_asset=obj.api_asset;
         this.asset_id=obj.api_asset.id;
 
         this.portfolio_id=obj.portfolio_id;        
@@ -318,7 +317,7 @@ export class PortfolioListModel extends baseCollection{
     }   
     
     calcPerformance(prices) {
-        //logger.log.debug("PortfolioListModel.calcPerformance.items=",this.items);
+        logger.log.debug("PortfolioListModel.calcPerformance.items=",prices);
         
         this.estimated_value = 0;
         this.roi = 0;

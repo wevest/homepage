@@ -13,6 +13,12 @@ const routes = [
 				meta: { transition: "zoom" },
 			},
 			{
+				name: "about",
+				path: "about",
+				component: () => import("pages/about/AboutView.vue"),
+				meta: { transition: "zoom" },
+			},
+			{
 				name: "signin",
 				path: "signin",
 				component: () => import("pages/user/SignView.vue"),

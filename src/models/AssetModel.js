@@ -95,8 +95,7 @@ export class AssetModel{
     category=null;
     first_price=null;
     date_added=null;
-    image= null;
-    image_thumb=null;
+    logo_thumb=null;
     description=null;
     description_kr=null;
     cmc_rank=null;
@@ -165,8 +164,7 @@ export class AssetModel{
         this.asset_type = item.asset_type;
         this.symbol = item.symbol;
         this.name=item.name;
-        this.image = item.image;
-        this.image_thumb = item.image_thumb;
+        this.logo_thumb = item.logo_thumb;
         this.category = item.category;
         this.first_price = item.first_price;
         this.description = item.description; 

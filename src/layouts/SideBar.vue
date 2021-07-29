@@ -57,6 +57,14 @@ const linksMenu = [
 		children: [],
 	},
 	{
+		title: "About",
+		caption: "About",
+		icon: "school",
+		link: "#/about",
+		level: 0,
+		children: [],
+	},
+	{
 		title: "Misc",
 		caption: "Misc",
 		icon: "chat",
