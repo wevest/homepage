@@ -41,23 +41,23 @@
                                 customStyle="border:none;background:#f2f2f2;" />
 
                             <div>
-                                <div>
+                                <div class="q-pt-md q-pb-xs">
                                     Please select portfolio group
                                 </div>
 
-                                <div class="row">
+                                <div class="row" >
                                     <div class="col-10">
                                         <q-tabs dense inline-label narrow-indicator shrink
                                             :breakpoint="0" align="left"
                                             indicator-color="transparent"
                                             active-color="white"
-                                            class="bg-teal text-grey-5 shadow-2"                                    
+                                            class="bg-blue-grey-5 text-grey-10 shadow-2"                                    
                                             v-model="v_tab" 
                                             v-if="v_tabs.length>0">
                                             <q-tab v-for="tab in v_tabs" :key="tab.name" v-bind="tab" />
                                         </q-tabs>
                                     </div>
-                                    <div class="col-2">
+                                    <div class="col-1 groupAddBtn q-ml-md">
                                         <q-btn dense label="add" @click="onClickNewGroup" />
                                     </div>
                                 </div>
@@ -432,5 +432,9 @@ export default {
 <style scoped>
 .closeButton {
     margin:-10px 10px 0px -10px;
+}
+
+.groupAddBtn {
+    margin: 3px 0px 0px 15px;
 }
 </style>
