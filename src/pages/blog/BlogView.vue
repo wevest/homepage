@@ -113,19 +113,16 @@ export default {
             this.$refs.blogList.updateByCategory(this.g_asset.category);
         },
 
-        navWriter:function() {
+        navWriter() {
             let a_post = new PostPageModel();            
             a_post.setContentType(CONST.CONENT_TYPE_BLOGPAGE);
             a_post.category_name = this.g_asset.category;
 
-            store.getters.nav.add(this.$route); 
-
-            let dic_param = { name:'blog_writer', params:{post:a_post} };
-            this.$router.push(dic_param);
+            CommonFunc.navBlogWriter(this,a_post);
         },
 
-        onClickWrite: function() {
-            logger.log.debug('AssetQAView.onClickWrite');
+        onClickWrite(dicParam) {
+            logger.log.debug('BlogView.onClickWrite:dicParam=',dicParam);
             this.navWriter();
         },
 

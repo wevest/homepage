@@ -1,8 +1,8 @@
 <template>
 	<q-layout view="lHh Lpr lFf">
 		<q-header elevated>
-			<div class="row q-py-sm bg-white  text-black">
-				<q-toolbar class="col-6">
+			<div class="q-py-sm bg-white  text-black">
+				<q-toolbar class="col-7">
 					<q-btn v-if="v_show_back_button"
 						flat dense round
 						ref="mainMenuBackButton"						
@@ -21,11 +21,7 @@
 					<CryptoSelect class="q-pl-md" ref="searchInput" hideBottomSpace="1"
 						@onSelect="onSearch" label="" filled="0" />
 
-				</q-toolbar>
-
-				<q-toolbar class="col-6">
 					<q-space />
-
 					<div v-if="v_login == true">
 						<q-btn flat round dense color="yellow" icon="mail" @click="onClickMessage" />
 						<q-btn flat round dense color="red" icon="notifications_none" @click="onClickNotification" />
@@ -39,7 +35,27 @@
 					<div v-else>
 						<a href="#" @click="onClickSignIn">{{ $t('button.login') }}</a>
 					</div>
+
+				</q-toolbar>
+
 <!--
+				<q-toolbar class="col-5">
+					<q-space />
+
+					<div v-if="v_login == true">
+						<q-btn flat round dense color="yellow" icon="mail" @click="onClickMessage" />
+						<q-btn flat round dense color="red" icon="notifications_none" @click="onClickNotification" />
+
+						<WMoreButton ref="moreButtons" buttons="Profile|Logout" @onClick="onClickMoreButton" />
+
+						<a href="#" @click="onClickSignOut">{{ $t('button.logout') }}</a>						
+						<q-btn flat round dense color="amber" icon="person" @click="onClickUser" />
+
+					</div>
+					<div v-else>
+						<a href="#" @click="onClickSignIn">{{ $t('button.login') }}</a>
+					</div>
+
 					<div class="toolbar_language full-width">
 						<q-select
 							v-model="language"
@@ -51,7 +67,7 @@
 							@input="onChangeLang"
 						/>
 					</div>
--->					
+
 				</q-toolbar>
 				<!--
           <q-toolbar class="col-2 bg-white text-black">          

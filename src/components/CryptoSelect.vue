@@ -1,7 +1,7 @@
 <template>
     <div>
         <q-select
-            class="fit"
+            class=""
             ref="assetSearch"
             :value="v_search"
             :loading="v_loading"
