@@ -164,7 +164,7 @@ export class PortfolioModel extends baseCollection {
         for (let index=0;index<this.items.length;index++) {
             //const price = prices.getPrice(this.items[index])
             const a_price = prices.getPrice(this.items[index].api_asset.symbol)
-            logger.log.debug("PortfolioModel.calcPerformance .item =",this.items[index],a_price);
+            //logger.log.debug("PortfolioModel.calcPerformance .item =",this.items[index],a_price);
             if (a_price) {
                 logger.log.debug("PortfolioModel.calcPerformance: item =",this.items[index],a_price);
 

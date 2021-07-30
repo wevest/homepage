@@ -48,14 +48,18 @@
 
             <div class="row q-my-lg text-center">                    
                 <div class="col">
-                    <div class="text-h4 text-weight-bolder" :style="v_color(v_portfolio.roi)">{{ v_format(v_portfolio.roi) }}% </div>
+                    <div class="text-h4 text-weight-bolder" :style="v_color(v_portfolio.roi)">
+                        {{ v_format(v_portfolio.roi) }}% 
+                    </div>
                     <div class="gCaption">{{ $t('name.roi') }}</div>                         
                 </div>  
 
                 <q-separator vertical />
                 
                 <div class="col">   
-                    <div class="text-h4 text-weight-bold">$ {{ v_format(v_portfolio.estimated_value) }}</div>
+                    <div class="text-h4 text-weight-bold">
+                        $ {{ v_format_price(v_portfolio.estimated_value) }}
+                    </div>
                     <div class="gCaption">{{ $t('name.estimated_value') }}</div>                         
                 </div>
             </div>
@@ -136,7 +140,9 @@
                         <div class="col align-items">
                             <span class="gCaption">{{ $t('name.roi') }}</span>
                             <br>
-                            <span class="text-h5 text-weight-bolder" :style="v_color(a_portfolio.roi)">{{v_format(a_portfolio.roi)}} %</span>
+                            <span class="text-h5 text-weight-bolder" :style="v_color(a_portfolio.roi)">
+                                {{v_format(a_portfolio.roi)}} %
+                            </span>
                         </div>    
                         <div class="col">  
                             <span class="gCaption">{{ $t('name.current_price') }}</span>
@@ -214,8 +220,8 @@ export default {
                     return '';
                 }
                 //return CommonFunc.formatNumber(value,decimal);
-                return CommonFunc.milifyNumber(value,decimal);
-                //return value.toLocaleString();
+                //return CommonFunc.milifyNumber(value,decimal);
+                return value.toLocaleString();
             };
         },
         v_format_price() {
