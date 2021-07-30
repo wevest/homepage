@@ -1,5 +1,5 @@
 <template>
-    <div class="q-ma-md">                       
+    <div class="q-ma-md" v-on:onPortfolioItemAdd="onPortfolioItemAdd">
         <div>
             <div class="q-my-lg">
                 <div class="row">
@@ -294,7 +294,7 @@ export default {
     },
     beforeDestroy() {
         logger.log.debug("PortfolioDetailView.beforeDestroy");
-        //this.$parent.$parent.$refs.header.setBackArrow(false,this);
+        this.unprepare();
     },
 
     methods: {
@@ -313,6 +313,11 @@ export default {
             this.v_portfolio.id = this.$route.query.portfolio_id;
 
             this.v_query = this.$route.query;
+
+            store.getters.components.addComponent('portfolioDetailView',this);
+        },
+        unprepare() {
+            store.getters.components.addComponent('portfolioDetailView',null);
         },
 
         updateRead(portfolio_id) {
@@ -401,7 +406,7 @@ export default {
             });
         },
 
-        handlePortfolioItemDelete: function() {
+        handlePortfolioItemDelete() {
             const _this=this;
             this.v_user.portfolio.deletePortfolioItem(this.v_selected.portfolio_id,this.v_selected.id,this.v_selected.api_asset.id).then( response => {                
                 //let a_portfolio = _this.v_user.portfolio.getItem(_this.v_portfolio.id);
@@ -416,7 +421,7 @@ export default {
 
 
 
-        onClickEdit: function() {
+        onClickEdit() {
             logger.log.debug("PortfolioDetailView.onClickEdit");
             
             if (this.v_mode.length==0) {
@@ -436,7 +441,7 @@ export default {
             });  
         },
 
-        onClickAdd: function() {
+        onClickAdd() {
             logger.log.debug("PortfolioDetail.onClickAdd");
             
             store.getters.components.getComponent('portfolioDialog').show(this.v_user,null); 
@@ -467,8 +472,14 @@ export default {
 
         onPortfolioItemAdded(jsonItem) {
             logger.log.debug("PortfolioDetail.onPortfolioItemAdded = ",jsonItem);
-            this.v_user.portfolio.addPortfolioItem(jsonItem.portfolio_item);
+            this.v_user.portfolio.addPortfolioItem(jsonItem);
             this.v_user.portfolio.calcPerformance(store.state.prices);
+        },
+
+        onPortfolioItemUpdated(jsonItem) {
+            logger.log.debug("PortfolioDetail.onPortfolioItemUpdated = ",jsonItem);
+            this.v_user.portfolio.updatePortfolioItem(jsonItem);
+            //this.v_user.portfolio.calcPerformance(store.state.prices);
         },
 
         onClickCommentSave(payload) {            
@@ -547,6 +558,9 @@ export default {
             
             //store.getters.nav.add(this.$route);
             CommonFunc.navAsset(this,portfolio_item.api_asset.symbol,portfolio_item.api_asset.id);
+        },
+        onPortfolioItemAdd(dicParam) {
+            logger.log.debug("PortfolioDetail.onPortfolioItemAdd : dicParam=",dicParam);
         }
 
     }

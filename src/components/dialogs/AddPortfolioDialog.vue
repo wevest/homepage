@@ -209,6 +209,7 @@ export default {
         clear() {
             this.v_portfolio_item.asset_id = -1;
             this.v_portfolio_item.portfolio_id = -1;
+            this.v_portfolio_item.portfolio_name = '';
             this.v_portfolio_item.price = 0;
             this.v_portfolio_item.qty = 0;
             this.v_portfolio_item.description = '';
@@ -235,7 +236,7 @@ export default {
             this.v_portfolio_item = v_portfolio;
         },
 
-        setPortfolioSelector(v_portfolio) {
+        setPortfolioSelector(v_portfolio,v_item) {
             logger.log.debug("AddPortfolioDialog.setPortfolioSelector: v_portfolio=",v_portfolio);
 
             let groups = [];
@@ -248,22 +249,24 @@ export default {
                 }
             }
             
-            if (groups.length>0) {
-                this.v_input = groups[0].name;
-            }
-            logger.log.debug("setPortfolioSelector",groups);
             this.v_tabs = groups;
+
+            if (groups.length>0) {
+                if (this.v_is_new) {
+                    this.v_tab = groups[0].name;
+                } else {
+                    const a_group = v_portfolio.getItem(v_item.portfolio_id);
+                    this.v_tab = a_group.name;
+                }                                
+            }
+            logger.log.debug("setPortfolioSelector",groups,this.v_tab);
+            
         },
 
         validate(portfolio_item) {
             
             if (CommonFunc.isEmptyObject(portfolio_item.asset_id) || (portfolio_item.asset_id==-1) ) {
                 this.$refs.cryptoSelector.setError(true);
-                return false;
-            }
-
-            if (CommonFunc.isEmptyObject(this.v_input) || (this.v_input==-1) ) {
-                this.v_error_group = true;
                 return false;
             }
 
@@ -276,13 +279,13 @@ export default {
             
             this.v_user = v_user;
 
-            this.setPortfolioSelector(this.v_user.portfolio);
-
             if (v_portfolio_item) {
                 this.setPortfolioItem(v_portfolio_item);
             } else {
                 this.clear();
             }
+
+            this.setPortfolioSelector(this.v_user.portfolio,v_portfolio_item);
 
             logger.log.debug("AddPortfolioDialog.show : v_portfolio=",this.v_portfolio_item);
 
@@ -313,18 +316,22 @@ export default {
             const _this = this;
             this.v_loading = true;
             this.v_portfolio_item.addToServer().then( response => {
-                if (response.data.ret!=0) {
-                    _this.v_loading = false;
+                _this.v_loading = false;                
+                if (response.data.ret!=0) {                    
                     CommonFunc.showErrorMessage(_this,response.data.msg);
                     return;
-                } 
+                }
+                
+                logger.log.debug("AddPortfolioDialog.processSave : response=",response);
+
                 CommonFunc.showOkMessage(_this,'Portfolio added');
                 
                 _this.v_user.portfolio.addPortfolioItem(response.data.portfolio_item);
-                _this.v_user.portfolio.calcPerformance(store.state.prices);
-                _this.clear();
+                _this.v_user.portfolio.calcPerformance(store.state.prices);                
                 
-                _this.$emit("onPortfolioItemAdded",_this.v_portfolio_item);
+                _this.$emit("onPortfolioItemAdded",response.data.portfolio_item);
+                
+                _this.clear();
                 //_this.hide();
 
             }).catch( err=> {
@@ -334,12 +341,14 @@ export default {
 
         },
         processUpdate() {
+            logger.log.debug("AddPortfoliodialog.processUpate");
+
             const _this = this;
             this.v_loading = true;
             this.v_portfolio_item.updateToServer().then( response => {
-                
+                _this.v_loading = false;
+
                 if (response.data.ret!=0) {
-                    _this.v_loading = false;
                     CommonFunc.showErrorMessage(_this,response.data.msg);
                     return;
                 } 
@@ -347,8 +356,9 @@ export default {
                 
                 //_this.v_user.portfolio.addPortfolioItem(response.data.portfolio_item);
                 _this.v_user.portfolio.calcPerformance(store.state.prices);
+                _this.$emit("onPortfolioItemUpdated",response.data.portfolio_item);
+                
                 _this.clear();                
-                _this.$emit("onPortfolioItemUpdated",_this.v_portfolio_item);
                 //_this.hide();
 
             }).catch( err=> {
@@ -390,15 +400,18 @@ export default {
 
         onClickSave() {                        
             logger.log.debug('AddPortfolioDialog.onClickSave - ',this.v_portfolio_item);
-            this.v_portfolio_item.description = this.$refs.descText.getValue();
-            
-            if (! this.validate(this.v_portfolio_item)) {
+            this.v_portfolio_item.description = this.$refs.descText.getValue().slice();
+
+            if (! this.validate(this.v_portfolio_item)) {                
                 return;
             }
+
+            logger.log.debug('AddPortfolioDialog.onClickSave - 1');
 
             if (this.v_is_new) {
                 this.processSave();
             } else {
+                logger.log.debug('AddPortfolioDialog.onClickSave - 3');
                 this.processUpdate();
             }            
             
@@ -418,12 +431,7 @@ export default {
                 this.v_portfolio_item.portfolio_name = value;
             }            
         },
-/*
-        onPortfolioInput: function(value) {
-            logger.log.debug('onPortfolioInput=',value);
-            this.v_portfolio_item.portfolio_name = value;
-        },
-*/
+
         onNewPortfolio(val,done) {
             logger.log.debug('onClickClose - ',val);
             done(val,'add-unique');
@@ -434,6 +442,8 @@ export default {
             
             this.v_tabs.push( {name:dicParam.value,icon:'',label:dicParam.value});
             this.v_tab = dicParam.value;
+            this.v_portfolio_item.portfolio_id = -1;
+            this.v_portfolio_item.portfolio_name = dicParam.value;
         },
 
         onClickNewGroup() {

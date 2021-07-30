@@ -167,13 +167,18 @@ export default {
     created: function() {
         this.validateQuery();
     },
-    mounted: function() {
+    mounted() {
         //console.log("HomeView.mounted - ");
         console.log("ProfileView.mounted - symbol=",this.$route.query);
+        
         this.setUser(this.$route.query);        
+        this.prepare();
         this.refresh();
     },
-
+    beforeDestroy() {
+        logger.log.debug("ProfileView.beforeDestroy");
+        this.unprepare();
+    },
     methods: {
         validateQuery() {                        
             if (this.$route.query.hasOwnProperty('username')) {
@@ -183,8 +188,14 @@ export default {
             }            
             
         },        
-
-        setUser: function(query) {            
+        prepare() {
+            store.getters.components.addComponent('profileView',this);
+        },
+        unprepare() {
+            store.getters.components.addComponent('profileView',null);
+        },
+        
+        setUser(query) {            
             if (this.isOwner) {
                 this.v_user = this.v_me;
                 return;
@@ -247,7 +258,14 @@ export default {
 
         },
 
-        onClickMessage: function() {
+        onPortfolioItemAdded(jsonItem) {
+            logger.log.debug("ProfileView.onPortfolioItemAdded = ",jsonItem);
+            
+            this.v_user.portfolio.addPortfolioItem(jsonItem);
+            this.v_user.portfolio.calcPerformance(store.state.prices);
+        },
+
+        onClickMessage() {
             logger.log.debug("ProfileView.onClickMessage");
 
             const _this=this;
@@ -263,7 +281,7 @@ export default {
             });
         },
 
-        onClickFollow: function(value) {
+        onClickFollow(value) {
             logger.log.debug("onClickFollow");
                         
             const _this=this;
@@ -290,30 +308,30 @@ export default {
 
         },
 
-        onClickAddPortfolio: function() {
+        onClickAddPortfolio() {
             logger.log.debug("onClickAddPortfolio");
             this.$refs.addPortfolio.show(this.v_user,null);
         },
 
-        onClickMorePortfolio: function() {
+        onClickMorePortfolio() {
             logger.log.debug("ProfileView.onClickMorePortfolio");
             CommonFunc.navPortfolioView(this,this.v_user);
         },
 
-        onClickPortfolio: function(portfolio) {
+        onClickPortfolio(portfolio) {
             logger.log.debug("ProfileView.onClickPortfolio:portfolio=",portfolio);
             CommonFunc.navPortfolio(this,this.v_user.username,portfolio.id);
         },
 
-        onClickFollower: function(user) {
+        onClickFollower(user) {
             logger.log.debug("onClickFollower",user);
         },
 
-        onClickMoreFollower: function() {
+        onClickMoreFollower() {
             logger.log.debug("ProfileView.onClickFollower");
         },
 
-        onClickFriend: function() {
+        onClickFriend() {
             logger.log.debug("ProfileView.onClickFriend");
         }
     },
