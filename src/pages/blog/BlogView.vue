@@ -2,7 +2,7 @@
     
     <div class="q-pa-md">
         <div>
-            <CTitle ttype='title' :title="$t ('page.blog.title')" :desc="$t ('page.blog.desc')"></CTitle>          
+            <CTitle ttype='title' :title="$t('page.blog.title')" :desc="$t('page.blog.desc')"></CTitle>          
         </div>
 
 		<div class="q-my-md">

@@ -3,8 +3,8 @@
 		<div>
 			<CTitle
 				ttype="title"
-				:title="$t('page.portfolio_index.title')"
-				:desc="$t('page.portfolio_index.desc')"
+				:title="$t('page.portfolioIndex.title')"
+				:desc="$t('page.portfolioIndex.desc')"
 			></CTitle>
 		</div>
 
