@@ -87,6 +87,8 @@ export default {
             logger.log.debug("CommentBox.update : comments=",comments);
             this.v_post = post;
             this.v_items = comments;
+
+            this.$refs.commentTree.setPost(this.v_post);
         },
 
         setPageParameter(next_url) {

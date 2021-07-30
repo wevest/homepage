@@ -174,7 +174,7 @@ export default {
 			store.getters.components.addComponent('confirmDialog',this.$refs.confirmDialog);
 			store.getters.components.addComponent('portfolioDialog',this.$refs.portfolioDialog);
 
-			//this.setLanguage();
+			this.setLanguage();
 			//logger.log.debug("MainLayout.prepare");
 		},
 		setBackButton(value) {

@@ -248,7 +248,7 @@ export default {
             });
         },
         
-        handleComments: function(json_data) {
+        handleComments(json_data) {
             logger.log.debug("BlogView.handleComments - v_post",this.v_post);
             
             this.$refs.commentBox.update(this.v_post,this.v_post.comments.items);
@@ -307,7 +307,7 @@ export default {
             CommonFunc.showOkMessage(this,'Comments posted');  
         },
 
-        onClickLoadMore: function(dic_page) {
+        onClickLoadMore(dic_page) {
             logger.log.debug("BlogPage.onClickLoadMore!!!",dic_page);
             
             this.loadBlogComments(this.v_post.id,dic_page.param.limit,dic_page.param.offset);

@@ -14,7 +14,8 @@
 
         <comment-list ref="commentList" 
             :dataList="renderData" :post="v_post"
-            @onClickMore="onClickMore">
+            @onClickMore="onClickMore"
+            @onClickVote="onClickVote" >
         </comment-list>
     </div>
 
@@ -131,14 +132,17 @@ export default {
   
 
     methods: {
+        setPost(post) {
+            this.v_post = post;
+        },
         removeEditor() {
             this.$refs.editorEl.remove();
         },
         hideEditor() {
             this.editorVisible = false;
         },
-        showEditor(item,ownerMessage=null) {
-            logger.log.debug("CommentTree.showEditor : ownerMessage=",ownerMessage);
+        showEditor(item,ownerMessage=null,post=null) {
+            logger.log.debug("CommentTree.showEditor : ownerMessage,post=",ownerMessage,post);
             this.editorVisible = true;
             this.$refs.commentForm.clear();
             this.$refs.commentForm.setCommentItem(item);
@@ -154,7 +158,7 @@ export default {
 
 
 
-        onClickCommentSave: function(value) {
+        onClickCommentSave(value) {
             logger.log.debug("onClickCommentReply-",value);
             this.$refs.commentForm.clear();
             this.$emit('onClickCommentReply',value);
@@ -163,16 +167,26 @@ export default {
             logger.log.debug("CommentTree.onClickMore=",value);
             this.$emit('onClickLoadMore',value);
         },
-        onClickRate: function(dic_payload) {
+        onClickRate(dic_payload) {
             logger.log.debug("CommentTree.onClickRate=",dic_payload);
         },
-        onClickCommentClose: function() {
+        onClickCommentClose() {
             logger.log.debug("CommentTree.onClickCommentClose");
             
             this.$refs.commentForm.clear();
             this.$refs.commentForm.v_comment_item.toggleExpandPanel();
             this.removeEditor();
             this.hideEditor();
+        },
+
+        onClickVote(dicParam) {
+            logger.log.debug("CommentTree.onClickVote:dicParam=",dicParam);
+            
+            this.v_post.comments.vote(dicParam.data).then( response => {
+                dicParam._this.setColor(dicParam.value);
+                //CommonFunc.showOkMessage(_this,'Comments rate updated');
+            });
+
         }
     }
 }

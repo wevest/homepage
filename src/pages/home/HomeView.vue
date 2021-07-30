@@ -23,7 +23,7 @@
         </div>
 
         <div>
-            <UserFeedList ref='feedList' title="$t('page.home.userfeed_list.title')" 
+            <UserFeedList ref='feedList' :title="$t('page.home.userfeed_list.title')" 
                 maxLength="10" :moreCaption="$t('button.more')" user="v_me"></UserFeedList>
         </div>                                               
 

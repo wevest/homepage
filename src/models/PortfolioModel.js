@@ -241,8 +241,7 @@ export class PortfolioModel extends baseCollection {
         return new Promise(function(resolve,reject) {
             _this.comments.load(dic_param).then( response => {
                 logger.log.debug("PortfolioModel.loadComments - response=",response);
-                _this.comments.assign(response.data.results);
-                //logger.log.debug("PortfolioModel.loadComments - comments.items=",_this.comments.items);
+                //_this.comments.assign(response.data.results);
                 resolve(response);
             }).catch( err => {
                 logger.log.error("PortfolioModel.loadComments - error",err);
@@ -423,7 +422,7 @@ export class PortfolioListModel extends baseCollection{
     }
 
     updatePortfolioItem(jsonItem) {
-        logger.log.debug("PortfolioListModel.updatePortfolioItem : jsonItem=",jsonItem);
+        //logger.log.debug("PortfolioListModel.updatePortfolioItem : jsonItem=",jsonItem);
         
         let a_portfolio = this.getItem(jsonItem.portfolio_id);
         if (! a_portfolio) {
@@ -432,8 +431,9 @@ export class PortfolioListModel extends baseCollection{
         }
         let a_item = a_portfolio.getItem(jsonItem.id);
         a_item.description = jsonItem.description;
+        //logger.log.debug("PortfolioListModel.updatePortfolioItem : desc=",a_item.description)
         a_item.updated_at = jsonItem.updated_at;
-        logger.log.debug("PortfolioListModel.updatePortfolioItem : a_tem=",a_item,jsonItem);        
+        //logger.log.debug("PortfolioListModel.updatePortfolioItem : a_tem=",a_item,jsonItem);        
     }
 
     readPortfolio(portfolio_id) {

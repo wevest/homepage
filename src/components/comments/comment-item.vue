@@ -137,7 +137,7 @@ export default {
             isExpanded: this.$messageTree.expandLayer > this.level,
             hasEditor: false,
 
-            //v_post: this.post,
+            v_post: this.post,
         };
     },
     computed: {
@@ -212,14 +212,15 @@ export default {
             }
         );
     },
-    updated() {
-      
-    },
+    updated() {},
 
     filters: {
         //dateFormat,
     },
     methods: {
+        setPost(post) {
+            this.v_post = post;
+        },
         getMinifiedDatetime(value) {
             //console.log('getMinifiedDatetime(value)',value);
             return CommonFunc.minifyDatetime(value,1);
@@ -242,26 +243,6 @@ export default {
           }
           return count;
         },
-
-        onClickLike(dicParam) {            
-            logger.log.debug("CommentItem.onClickLike:dicParam=",dicParam);
-            //let dic_payload = {rate:dicParam.value, data:dicParam.data};
-            //this.$messageTree.$emit("onClickRate", dic_payload);
-
-            const _this=this;            
-            let dic_param = {comment: dicParam.data.id, flag:dicParam.value};
-            this.post.comments.vote(dic_param).then( response => {
-                dicParam._this.setColor(dicParam.value);
-                //CommonFunc.showOkMessage(_this,'Comments rate updated');
-            });
-
-        },
-
-        onClickAvatar: function(username) {
-            logger.log.debug("CommentItem.onClickAvatar",username);
-            CommonFunc.navProfile(this,username);
-        },
-
 /*
         replyHandler(target) {
             if (!this.$refs.editorContainer.contains(this.$editor)) {
@@ -289,16 +270,17 @@ export default {
                 return;
             }
 
+            
             if (!this.$refs[target].contains(this.$editor)) {                
-                //this.$messageTree.setOwnerMessage(this.data);
-                this.$messageTree.showEditor(this,this.data);
+                logger.log.debug("replyHandler - 0 , post=",this.v_post);                
+                //this.$messageTree.setOwnerMessage(this.post);
+                this.$messageTree.showEditor(this,this.data,this.v_post);
                 this.$refs[target].appendChild(this.$editor);
             }
             
             logger.log.debug("replyHandler - 1 : parent=",this.$parent);
             if (this.$messageTree.editorType === "default") {
-                logger.log.debug("replyHandler - 2");
-                
+                logger.log.debug("replyHandler - 2");                
                 
                 this.$nextTick(() => {
                     // this.$messageTree.$refs.textarea.focus()                    
@@ -326,17 +308,46 @@ export default {
             
         },
 
-        onClickEdit: function(comment) {
+
+
+        onClickAvatar: function(username) {
+            logger.log.debug("CommentItem.onClickAvatar",username);
+            CommonFunc.navProfile(this,username);
+        },
+
+        onClickLike(dicParam) {            
+            //let dic_payload = {rate:dicParam.value, data:dicParam.data};
+            //this.$messageTree.$emit("onClickRate", dic_payload);            
+            //logger.log.debug("CommentItem.onClickLike:messageTree=",this.$messageTree);
+
+            let dic_param = {comment: dicParam.data.id, flag:dicParam.value};
+            //dicParam['data'] = dic_param;
+            
+            let post = this.$messageTree.v_post;
+            //this.$messageTree.onClickVote(dicParam);
+            logger.log.debug("CommentItem.onClickLike:dicParam,post=",dicParam,post);
+
+            post.comments.vote(dic_param).then( response => {
+                logger.log.debug("onClickLike : _this=",dicParam);
+                dicParam._this.setColor(dicParam.value);
+                //CommonFunc.showOkMessage(_this,'Comments rate updated');
+            });
+
+        },
+
+        onClickEdit(comment) {
             logger.log.debug("CommentItem.onClickEdit",comment);
         },
 
-        onClickDelete: function(comment) {
-            logger.log.debug("CommentItem.onClickDelete",comment);
+        onClickDelete(comment) {
+            logger.log.debug("CommentItem.onClickDelete : comment=",comment);
             
             const _this=this;
+            
+            let post = this.$messageTree.v_post;
 
             let dic_param = {id:comment.id};
-            this.post.comments.removeComment(dic_param).then(response=>{
+            post.comments.removeComment(dic_param).then(response=>{
                 logger.log.debug("CommentItem.onClickDelete : response=",response);
                 CommonFunc.showOkMessage(_this,'comments deleted');                                   
             }).catch(err=>{

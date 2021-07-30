@@ -157,7 +157,7 @@ export default {
 
             this.v_caption = msg + " (" + this.v_count.toString() + ")";
         },
-        loadComments: function() {
+        loadComments() {
             const _this=this;
 
             logger.log.debug("AssetAnswerList.loadComments");    

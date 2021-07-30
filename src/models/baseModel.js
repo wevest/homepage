@@ -32,9 +32,11 @@ export class baseCollection {
         //let removed = _.remove(this.items, {id:id});
         const index = _.findIndex(this.items,{id:id});
         //logger.log.debug("baseCollection.delete : removed,items=",removed,this.items);
-        if (index>-1) {
-            this.items.splice(index,1);
-        }
+        if (index==-1) {
+            logger.log.error("baseCollection.delete : no index - id,items=",id,this.items);
+            return;
+        } 
+        this.items.splice(index,1);                    
     }
 
     isEmpty() {

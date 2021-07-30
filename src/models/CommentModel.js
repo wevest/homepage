@@ -73,7 +73,7 @@ export class CommentListModel extends baseCollection {
         }
     }
 
-    toCommentModel (comments) {
+    toCommentModel(comments) {
         let items = [];
         for (let index = 0; index < comments.length; index++) {
             let a_comment = new CommentModel();
@@ -92,7 +92,7 @@ export class CommentListModel extends baseCollection {
         let map = {};
         
         items.forEach(node => {
-            //console.log("node=",node);
+            //logger.log.debug("toTree.node=",node);
             // No parentId means top level
             node.level = 1;
             if ( (!node.parent_id) || (node.id==node.parent_id) ) {
@@ -123,6 +123,39 @@ export class CommentListModel extends baseCollection {
         return root;
     }
 
+
+    findComment(id) {
+        // find comments in nested data structure
+        let index = _.findIndex(this.items,{id:id});
+        if (index>-1) return this.items[index];
+
+        for (let a_item of this.items) {
+            if ( (a_item.children) && (a_item.children.length>0)) {
+                index = _.findIndex(a_item.children,{id:id});
+                if (index>-1) return a_item.children[index];
+            }
+        }
+        return null;
+    }
+
+    deleteComment(id) {
+        // find comments in nested data structure
+        let index = _.findIndex(this.items,{id:id});
+        if (index>-1) {
+            this.delete(id);
+            return;
+        }
+
+        for (let a_item of this.items) {
+            if ( (a_item.children) && (a_item.children.length>0)) {
+                index = _.findIndex(a_item.children,{id:id});
+                if (index>-1) {
+                    a_item.children.splice(index,1);
+                    return;
+                }
+            }
+        }
+    }
 
     addComments(dic_param,response) {
         logger.log.debug("CommentListModel.addComments: dic_param=",dic_param,response);
@@ -179,7 +212,13 @@ export class CommentListModel extends baseCollection {
 
     removeComments(dic_param,response) {
         logger.log.debug("CommentListModel.removeComments - dic_param=",dic_param,response);
-        this.delete(dic_param.id);
+        
+        let a_comment = this.findComment(dic_param.id);
+        if (!a_comment) {
+            logger.log.error("CommentListModel.removeComments : comment not found , id=",dic_param.id);
+            return;
+        }
+        this.deleteComment(a_comment.id);
     }
 
     load(dic_param) {
@@ -188,18 +227,18 @@ export class CommentListModel extends baseCollection {
         return new Promise(function(resolve,reject) {            
             //let dic_param = {content_type:'blog-postpage' , id:page_id, limit:limit, offset:offset};
             CMSAPI.getComments(dic_param,function(response) {
-                logger.log.debug("PostModel.loadComments - dic_param=",dic_param,response);
+                logger.log.debug("CommentListModel.load - dic_param=",dic_param,response);
                 
                 let comments = _this.toCommentModel(response.data.results);
-                logger.log.debug("PageModel.loadComments: comments=",comments);
+                logger.log.debug("CommentListModel.load: comments=",comments);
                 let treeComments = _this.toTree(comments);
-                logger.log.debug("PageModel.loadComments: treeComments=",treeComments);                    
+                logger.log.debug("CommentListModel.load: items,treeComments=",_this.items,treeComments);
                 _this.items = _this.items.concat(treeComments); 
     
                 resolve(response);
 
             },function(err) {
-                logger.log.error("PostModel.loadComments - error",err);
+                logger.log.error("CommentListModel.loadComments - error",err);
                 reject(err);
             });
         });            
@@ -242,12 +281,11 @@ export class CommentListModel extends baseCollection {
 
     removeComment(dic_param) {
         const _this=this;
-        logger.log.debug("CommentListModel.removeComment : dic_param=",dic_param);
-        return new Promise(function(resolve,reject) {            
-            dic_param.token = store.getters.token;
+        logger.log.debug("CommentListModel.removeComment : dic_param,items=",dic_param,_this.items);
+        return new Promise(function(resolve,reject) {
             CMSAPI.deleteBlogComment(dic_param,function(response) {
-                logger.log.debug("CommentListModel.removeComment=",response);
                 _this.removeComments(dic_param,response);
+                logger.log.debug("CommentListModel.removeComment:items=",_this.items);
                 resolve(response);
 
             }, function(err) {
@@ -259,35 +297,23 @@ export class CommentListModel extends baseCollection {
 
     vote(dic_param) {
         const _this=this;
-        logger.log.debug("CommentsListModel.vote : dic_param=",dic_param);
+        //logger.log.debug("CommentsListModel.vote : dic_param,items=",dic_param,_this.items);
 
         return new Promise(function(resolve,reject) {            
             dic_param.token = store.getters.token;
             CMSAPI.postCommentFeedback(dic_param,function(response) {
                 logger.log.debug("CommentsListModel.vote : response=",response);
 
-                let index = _.findIndex(_this.items,{id:dic_param.comment});
-                if (index==-1) {
-                    logger.log.error("");
+                let a_comment = _this.findComment(dic_param.comment);
+                if (! a_comment) {
+                    logger.log.error("CommentsListModel.vote : not find index");
+                    resolve(response);
                     return;
                 }
-                
-                let a_comment = _this.items[index];
-                    
-                if (response.status=="201") {                                        
-                    //logger.log.debug("CommentsListModel.vote : a_comment=",a_comment);
-                    if (dic_param.flag=="like") {
-                        a_comment.like_count = a_comment.like_count+1;    
-                    } else {
-                        a_comment.dislike_count = a_comment.dislike_count+1;    
-                    }                                            
-                } else if (response.status=="204") {
-                    if (dic_param.flag=="like") {
-                        a_comment.like_count = a_comment.like_count-1;    
-                    } else {
-                        a_comment.dislike_count = a_comment.dislike_count-1;
-                    }                                            
-                }
+
+                //logger.log.debug("CommentsListModel.vote : a_comment=",a_comment);
+                a_comment.like_count = response.data.like_count;    
+                a_comment.dislike_count = response.data.dislike_count;
                                             
                 CommonFunc.updateRatingCount(_this,response);
                 resolve(response);

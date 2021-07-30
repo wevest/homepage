@@ -225,6 +225,9 @@ export default {
             this.v_loading = false;
         },
 
+        reset() {
+            this.v_portfolio_item = new PortfolioItemModel();
+        },
         fillValue() {
             logger.log.debug("AddPortfolioDialog.fillValue");
             this.v_input = this.v_portfolio_item.portfolio_name;
@@ -357,7 +360,7 @@ export default {
                 //_this.v_user.portfolio.addPortfolioItem(response.data.portfolio_item);
                 _this.v_user.portfolio.calcPerformance(store.state.prices);
                 _this.$emit("onPortfolioItemUpdated",response.data.portfolio_item);
-                
+                _this.reset();
                 _this.clear();                
                 //_this.hide();
 

@@ -169,7 +169,8 @@
 
         <div class="q-mt-md">
             <CommentBox ref="commentBox"             
-                :contentType="v_content_type" :post="v_portfolio" :items="v_portfolio.comments.items" />            
+                :contentType="v_content_type" :post="v_portfolio" :items="v_portfolio.comments.items" 
+                @onClickLoadMore="onClickLoadMore" />
         </div>
 <!--
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
@@ -354,7 +355,7 @@ export default {
                     //logger.log.debug("setUser=>",response);
                     _this.selectPortfolio(_this.v_query.portfolio_id);
                     _this.calcPerformance();
-                    _this.loadComments(_this.v_query.portfolio_id);
+                    _this.loadComments();
                     _this.forceUpdate();
                 });
             });
@@ -362,15 +363,6 @@ export default {
 
         refresh() {
             this.loadProfile(this.$route.query.username);
-            return;
-
-            const _this=this;
-            this.v_user.loadPortfolio().then( response => {
-                logger.log.debug("PortfolioDetailView.refresh=>",response);
-                _this.selectPortfolio(_this.v_query.portfolio_id);
-                _this.loadComments(_this.v_query.portfolio_id);
-                _this.forceUpdate();
-            });
         },
 
         forceUpdate() {
@@ -383,10 +375,28 @@ export default {
             this.v_user.portfolio.calcPerformance(store.state.prices);
         },
 
+        handleComments(json_data) {
+            logger.log.debug("PortfolioDetailView.handleComments - v_post",this.v_portfolio);
+            
+            this.$refs.commentBox.update(this.v_portfolio,this.v_portfolio.comments.items);
+            this.$refs.commentBox.setPageParameter(json_data);
+            //this.v_comments_count = json_data.count;
+        },
+
         loadComments(limit=null,offset=null) {
             const _this = this;
             
             logger.log.debug("PortfolioDetailView.loadComments - v_portfolio=",this.v_portfolio);
+
+            let dic_param = {content_type:'portfolio-portfolio' , id:this.v_portfolio.id, limit:limit, offset:offset};
+            this.v_portfolio.comments.load(dic_param).then( response => {
+                _this.handleComments(response.data);
+                //_this.$refs.commentBox.update(_this.v_portfolio,_this.v_portfolio.comments.items);
+            }).catch( err => {
+                logger.log.error("BlogView.loadBlogComments - error",err);
+            });
+
+            return;
 
             //let dic_param = {content_type:'portfolio-portfolio' , id:page_id, limit:limit, offset:offset};
             this.v_portfolio.loadComments('portfolio-portfolio',offset,limit).then(response=>{
@@ -561,7 +571,14 @@ export default {
         },
         onPortfolioItemAdd(dicParam) {
             logger.log.debug("PortfolioDetail.onPortfolioItemAdd : dicParam=",dicParam);
-        }
+        },
+
+        onClickLoadMore(dic_page) {
+            logger.log.debug("PortfolioDetail.onClickLoadMore!!!",dic_page);
+            
+            this.loadBlogComments(this.v_post.id,dic_page.param.limit,dic_page.param.offset);
+        },
+
 
     }
 };

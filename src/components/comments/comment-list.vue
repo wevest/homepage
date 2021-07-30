@@ -3,18 +3,15 @@
     <div>
         <ul>
             <li v-for="(item,index) in dataList" :key="index">
-                <comment-item :data="item" :post="v_post"></comment-item>
+                <comment-item 
+                    :data="item" :post="v_post"
+                    @onClickVote="onClickVote"
+                ></comment-item>
             </li>
         </ul>
 
         <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
         
-        <!--
-        <div class="column" v-if="v_visible_loadmore">
-            <q-btn @click="onClickLoadMore" label="LoadMore" />
-        </div>        
-        -->
-
     </div>    
 
 </template>
@@ -47,11 +44,20 @@ export default {
         }        
     },
     methods: {
+        setPost(post) {
+            this.v_post = post;
+            this.$refs.commentItem.setPost(this.v_post);
+        },
         setPageParameter: function(result) {
             this.$refs.loadMore.setPageParameter(result);
         },
 
-        onClickLoadMore: function(dic_page) {
+        onClickVote(dicParam) {
+            logger.log.debug("CommentList.onClickVote:dicParam=",dicParam,this.v_post);
+            this.$emit("onClickVote",dicParam);
+        },
+
+        onClickLoadMore(dic_page) {
             logger.log.debug("CommentList.onClickLoadMore:dic_page=",dic_page);
             
             this.$emit("onClickMore",dic_page);

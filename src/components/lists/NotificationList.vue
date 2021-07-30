@@ -25,7 +25,7 @@
 						<q-item-label class="no-margin" lines="1">
 
 							<WSubinfo 
-								:username="a_feed.username" 
+								username="" 
 								:pub_date="a_feed.pub_date" 
 								like_count="-1" 
 								dislike_count="-1" />
