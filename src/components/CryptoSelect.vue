@@ -1,14 +1,15 @@
 <template>
     <div>
         <q-select
-            class=""
+            :style="v_style"
             ref="assetSearch"
             :value="v_search"
             :loading="v_loading"
             :error="v_error"
             use-input fill-input hide-selected use-chips dense borderless
-            input-debounce="10"
-            input-class="inputTextSearch"
+            :hide-dropdown-icon="v_dropdown_icon"
+            input-debounce="100"
+            input-class=""
             :error-message="v_errorMsg"
             :label="label"
             :filled="v_filled"
@@ -77,6 +78,12 @@ export default {
         },
         hideBottomSpace: {
             default: "0"
+        },
+        hideDropdownIcon: {
+            default: "0"
+        },
+        myStyle: {
+            default: ""
         }
     },
     computed: {
@@ -89,7 +96,16 @@ export default {
                 return true;
             }
             return false;
-        } 
+        },
+        v_dropdown_icon() {
+            if (this.hideDropdownIcon=="1") {
+                return true;
+            }
+            return false;
+        },
+        v_style() {
+            return this.myStyle;
+        }
     },
     data() {
         return {
@@ -242,6 +258,6 @@ export default {
 <style scoped>
 
 .inputTextSearch {
-    
+    width:100px;
 }
 </style>

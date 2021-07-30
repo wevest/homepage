@@ -2,9 +2,9 @@
 	<q-layout view="lHh Lpr lFf">
 		<q-header elevated>
 			<div class="q-py-sm bg-white  text-black">
-				<q-toolbar class="col-7">
+				<q-toolbar>
 					<q-btn v-if="v_show_back_button"
-						flat dense round
+						flat dense
 						ref="mainMenuBackButton"						
 						color="black" align="centered" icon="arrow_back_ios" aria-label="Back"
 						@click="onClickBack"
@@ -18,8 +18,8 @@
 					
 					<div class="toolbar_title" @click="onClickLogo">WeVest</div>
 
-					<CryptoSelect class="q-pl-md" ref="searchInput" hideBottomSpace="1"
-						@onSelect="onSearch" label="" filled="0" />
+					<CryptoSelect class="q-pl-md" ref="searchInput" hideBottomSpace="1" hideDropdownIcon="1"
+						@onSelect="onSearch" label="" filled="0" myStyle="width:80px;" />
 
 					<q-space />
 					<div v-if="v_login == true">
@@ -27,10 +27,6 @@
 						<q-btn flat round dense color="red" icon="notifications_none" @click="onClickNotification" />
 
 						<WMoreButton ref="moreButtons" buttons="Profile|Logout" @onClick="onClickMoreButton" />
-<!--
-						<a href="#" @click="onClickSignOut">{{ $t('button.logout') }}</a>						
-						<q-btn flat round dense color="amber" icon="person" @click="onClickUser" />
--->
 					</div>
 					<div v-else>
 						<a href="#" @click="onClickSignIn">{{ $t('button.login') }}</a>
@@ -328,6 +324,23 @@ export default {
 </script>
 
 <style scoped>
+.boxToolbar {
+	display:flex;
+	flex-direction: row;
+}
+
+.boxToolbarLogo {
+	width:130px;
+}
+
+.boxToolbarSearch {
+	flex-grow:1;
+}
+
+.boxToolbarButton {
+	width:100px;
+}
+
 .toolbar_language {
 	width: 60px !important;
 	box-sizing: unset;
