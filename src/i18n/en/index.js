@@ -50,33 +50,32 @@ export default {
 		description: "description",
 		created_at: "created at",
 		pushed_at: "pushed at",
-		info: "info",
-		trade_date: "trade date",
-		tweet: 'tweet',
+		info: "Info",
+		trade_date: "Trade Date",
+		tweet: 'Tweet',
 		qa : 'QA',
-		review: 'review',
-		investor: "investor",
-		development: "development",
-		name: "name",
-		roi: "roi",
+		review: 'Review',
+		investor: "Investor",
+		development: "Development",
+		name: "Name",
 		total_return: "total return",
-		avg_roi: "avg roi",
-		avg_total_return: "avg total return",
-		homepage: "homepage",
-		count: "count",
+		avg_roi: "Avg ROI",
+		avg_total_return: "Avg Total Return",
+		homepage: "Homepage",
+		count: "Count",
 		price_surge: "price surge",
-		volume_surge: "volume surge",
-		volume_change: "volme change",
-		index: "index",
-		dev_score: "development",
-		price_score: "price",
-		volume_score: "volume",
-		rank: "rank",
-		roi: "roi",
+		volume_surge: "Volume surge",
+		volume_change: "Volme change",
+		index: "Index",
+		dev_score: "Development",
+		price_score: "Price",
+		volume_score: "Volume",
+		rank: "Rank",
+		roi: "ROI",
 		follower: "follower",
 		following: "following",
 		portfolio_description: "Portfolio Summary",
-		estimated_value: "estimated price",
+		estimated_value: "Estimated Price",
 		current_price: "Current Price",
 		symbol: "Symbol",
 		date_added: "listing date",
@@ -89,7 +88,7 @@ export default {
 		your_rating: "Your rating?",
 		review_login: "Why do you think so?",
 		review_logout: "Please login first!",
-		type_something: "Fill in the blanks, please!",
+		type_something: "Fill in the blank, please!",
 		platform: "Platform",
 		chat: "Chat",
 		twitter: "Twitter",
@@ -99,40 +98,49 @@ export default {
 		circulating_supply:"Circulating supply",
 		total_supply: "Totla supply",
 		max_supply: "Max supply",
-
-
-
-
-	
 	},
+	
+	
 	page:{
-		sign : {
-			sign_in : {
-				title : 'Sign-In',
-			},
-			sign_up : {
-				title : 'Sign-Up',
-			},
-			email : {
-				title : 'Email',
+	
+		login : {
+			title : 'Sign-In',
+			input : {
+				error : 'Username or password is wrong',
 			},
 			username : {
 				title : 'Username',
 			},
-			password :{
+			password : {
 				title : 'Password',
 			},
-			password_confirm : {
-				title : 'Password confirm',
-			},
-			signed_in : {
+			signedin : {
 				title : 'Stay loged-In',
-			},
+			},				
 			forgot_password : {
 				title : 'Forgot password',
 			},
 
- 		},
+		},
+		signup : {
+			title : 'Sign-Up',
+			email : {
+				title : 'Email',
+				error : 'Email is invalid',
+			},
+			username : {
+				title : 'Username',
+				error : 'Username is invalid, please use numbers and letters only',
+			},
+			password :{
+				title : 'Password',
+				error : 'Password must at leatst 8 characters long',
+			},
+			password_confirm : {
+				title : 'Password confirm',
+				error : 'Password do not match', 
+		},
+ 		
 		home:{
 			title : 'HOME',
 			desc :'',
@@ -184,19 +192,19 @@ export default {
 			title : 'Change password',
 			desc : '',
 			rules : {
-				title : 'Password must at leatst 8 characters long',
+				title : 'Password must be at leatst 8 characters long',
 			},
 			current : {
 				title : 'Current password',
-				desc : 'Password is wrong'
+				error : 'Password is wrong'
 			},
 			new : {
-				title : 'Confirm new password',
-				desc : 'Password must at leatst 8 characters long',
+				title : 'New password',
+				error : 'Password must be at leatst 8 characters long',
 			},
 			confirm : {
 				title : 'Confirm',
-				desc : 'Passwords do not match'
+				error : 'Passwords do not match'
 			},
 		},
 		pwd_reset_ : {
@@ -405,16 +413,17 @@ export default {
 			title : 'Will the price go up in the future?',
 		}
 	},
+
+
 	dialog : {
-		edit_dialog : {
-			forgot_password : {
-				title : 'Forgot password',
-				desc : 'Please enter a email!',
-			},
-			biography : {
-				title : 'Biography',
-			},
+		password_edit : {
+			title : 'Forgot password',
+			desc : 'Please enter a email!',
 		},
+		biography : {
+			title : 'Biography',
+		},
+		
 		reset_password : {
 			password_updated : {
 				title : 'Password updated.', 
@@ -444,8 +453,9 @@ export default {
 		},
 		delete : {
 			title : 'Do you want to delete?',
-		}
+		},
 	},
+		
 	button: {
 		more: 'MORE',
 		send: 'CONFIRM',
@@ -485,6 +495,6 @@ export default {
 		go_home: "Go home",
 		resend_activate: "Resend Activate Mail",
 		go_login: "Go to Log In",
-
+		}
 	}
 };

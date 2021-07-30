@@ -14,8 +14,8 @@
                 items-center
                 style
             >
-                <q-tab name="signin" :label="$t('page.sign.sign_in.title')" />
-                <q-tab name="signup" :label="$t('page.sign.sign_up.title')" />
+                <q-tab name="signin" :label="$t('page.login.title')" />
+                <q-tab name="signup" :label="$t('page.signup.title')" />
             </q-tabs>
 
             <q-tab-panels v-model="v_tab" animated>
@@ -27,7 +27,7 @@
                         <q-input
                             filled lazy-rules
                             v-model="v_user.username"
-                            :label="$t('page.sign.username.title')" hint="" 
+                            :label="$t('page.login.username.title')" hint="" 
                             :error="v_error.username.error"
                             :error-message="v_error.username.msg"                                
                             :rules="[ val => val && val.length > 0 || 'Please type something']"                            
@@ -37,7 +37,7 @@
                             filled 
                             :type="isPwd ? 'password' : 'text'" 
                             v-model="v_user.password"
-                            :label="$t('page.sign.password.title')"
+                            :label="$t('page.login.password.title')"
                             :error="v_error.password.error"
                             :error-message="v_error.password.msg"                                
                         >
@@ -47,10 +47,10 @@
                                     v-on:click="isPwd = !isPwd"></q-icon>
                             </template>                                
                         </q-input>
-                        <q-checkbox v-model="v_user.stay_loggedin" :label="$t('page.sign.signed_in.title')" />
+                        <q-checkbox v-model="v_user.stay_loggedin" :label="$t('page.login.signedin.title')" />
 
                         <q-btn class="q-ml-xl" flat 
-                            :label="$t('page.sign.forgot_password.title')" @click="onClickForgot" />
+                            :label="$t('page.login.forgot_password.title')" @click="onClickForgot" />
                         <div>
                             <q-btn :label="$t('button.login')" :loading="v_loading_signup"
                                 type="submit" color="primary"/>
@@ -67,7 +67,7 @@
                             filled required bottom-slots 
                             type="email" id="email"
                             v-model="v_user.email"
-                            :label="$t('page.sign.email.title')" hint="" 
+                            :label="$t('page.signup.email.title')" hint="" 
                             :rules="[ val => (val) && (val.length <= 50) || 'Please use maximum 50 characters']"
                             @blur="updateEmailVerification"                                
                             :error="v_error.email.error"
@@ -80,7 +80,7 @@
                         <q-input
                             filled lazy-rules required bottom-slots
                             v-model="v_user.username" id="username"
-                            :label="$t('page.sign.username.title')" hint="" 
+                            :label="$t('page.signup.username.title')" hint="" 
                             @blur="updateUsernameVerification"
                             :error="v_error.username.error"
                             :error-message="v_error.username.msg"
@@ -90,7 +90,7 @@
                         />
 
                         <q-input
-                            filled required id="password" :label="$t('page.sign.password.title')"
+                            filled required id="password" :label="$t('page.signup.password.title')"
                             :type="isPwd ? 'password' : 'text'" 
                             v-model="v_user.password" ref="fldPasswordChange"
                             :error="v_error.password.error"
@@ -107,7 +107,7 @@
                             filled
                             :type="isPwd ? 'password' : 'text'" 
                             v-model="v_user.password2"
-                            :label="$t('page.sign.password_confirm.title')" ref="fldPasswordChangeConfirm"
+                            :label="$t('page.signup.password_confirm.title')" ref="fldPasswordChangeConfirm"
                             v-bind:rules="ConfirmPWD"                                
                         >
                             <template v-slot:append>
@@ -133,7 +133,7 @@
         </div>
 
         <EditDialog ref="dialogEdit" 
-            :title="$t('dialog.edit_dialog.forgot_password.title')" :desc="$t('dialog.edit_dialog.forgot_password.desc')" 
+            :title="$t('dialog.password_edit.title')" :desc="$t('dialog.password_edit.desc')" 
             @onSave="onSaveEdit" />
     </div>
 
@@ -168,8 +168,8 @@ export default {
     computed: {
         ConfirmPWD() {
             return [
-                (v) => !!v || "password are different :-)",
-                (v) => v == this.$refs.fldPasswordChange.value || "Password different"
+                (v) => !!v || this.$t('page.signup.password.error'),
+                (v) => v == this.$refs.fldPasswordChange.value || this.$t('page.signup.password_confirm.error')
                 ]
         },
         v_me() {
@@ -232,7 +232,7 @@ export default {
                 logger.log.debug('username invalid')
                 this.v_user.usernameValid = false
                 this.v_error.username.error = true;
-                this.v_error.username.msg = 'Username is invalid, please use number and letters only';
+                this.v_error.username.msg = this.$t("page.signup.username.error");
             }
             return valid;
         },
@@ -248,7 +248,7 @@ export default {
             } else {
                 this.v_user.emailValid = false
                 this.v_error.email.error = true;
-                this.v_error.email.msg = 'email is invalid';
+                this.v_error.email.msg = this.$t("page.signup.email.error");
             }
             return valid;
         },
@@ -337,7 +337,7 @@ export default {
                 for (let a_key in fields) {
                     console.log('key=',a_key);
                     _this.v_error[fields[a_key]].error = true;
-                    _this.v_error[fields[a_key]].msg = "Username or password is wrong";
+                    _this.v_error[fields[a_key]].msg = this.$t("page.login.input.error");
                 }
 
             });                
