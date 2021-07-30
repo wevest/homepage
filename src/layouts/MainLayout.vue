@@ -1,8 +1,8 @@
 <template>
 	<q-layout view="lHh Lpr lFf">
 		<q-header elevated>
-			<div class="row flex">
-				<q-toolbar class="col-6 bg-white text-black">
+			<div class="row q-py-sm bg-white  text-black">
+				<q-toolbar class="col-6">
 					<q-btn v-if="v_show_back_button"
 						flat dense round
 						ref="mainMenuBackButton"						
@@ -18,11 +18,12 @@
 					
 					<div class="toolbar_title" @click="onClickLogo">WeVest</div>
 
-					<CryptoSelect class="q-pl-md" ref="searchInput" @onSelect="onSearch" label="" filled="0" />
+					<CryptoSelect class="q-pl-md" ref="searchInput" hideBottomSpace="1"
+						@onSelect="onSearch" label="" filled="0" />
 
 				</q-toolbar>
 
-				<q-toolbar class="col-6 bg-white text-black">
+				<q-toolbar class="col-6">
 					<q-space />
 
 					<div v-if="v_login == true">

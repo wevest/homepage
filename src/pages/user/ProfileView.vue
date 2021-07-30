@@ -50,10 +50,10 @@
 
         <div class="row q-col-gutter-md q-mt-md justify-center  q-mb-xl">
             <div v-if="! isOwner">
-                <q-btn color="primary" :label="$t('button.follow')" ripple
+                <q-btn color="primary" :label="$t('button.unfollow')" ripple
                     :loading="v_loading_follow"
                     @click="onClickFollow(-1)" v-if="v_user.is_following" />
-                <q-btn v-else color="primary" :label="$t('button.following')" ripple
+                <q-btn v-else color="primary" outline :label="$t('button.follow')" ripple
                     :loading="v_loading_follow" @click="onClickFollow(1)" />
             </div>
             <div>

@@ -1,17 +1,19 @@
 <template>
     <div>
         <q-select
-            class="full-width"
+            class="fit"
             ref="assetSearch"
             :value="v_search"
             :loading="v_loading"
             :error="v_error"
-            use-input fill-input hide-selected borderless use-chips dense stack-label
+            use-input fill-input hide-selected use-chips dense borderless
             input-debounce="10"
+            input-class="inputTextSearch"
             :error-message="v_errorMsg"
             :label="label"
             :filled="v_filled"
             :options="v_options"
+            :hide-bottom-space="v_bottom_space"
             @filter="filterFn"
             @input.native="filter($event.target.value)"
             @input="onSearchInput"
@@ -72,6 +74,9 @@ export default {
         },
         errorMsg: {
             default:'Please select an asset'
+        },
+        hideBottomSpace: {
+            default: "0"
         }
     },
     computed: {
@@ -79,6 +84,12 @@ export default {
             if (this.filled=="1") return true;
             return false;
         },
+        v_bottom_space() {
+            if (this.hideBottomSpace=="1") {
+                return true;
+            }
+            return false;
+        } 
     },
     data() {
         return {
@@ -91,7 +102,7 @@ export default {
             g_options: [],
 
             v_errorMsg: this.errorMsg,
-
+            
         };
     },
     created() {
@@ -227,3 +238,10 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+
+.inputTextSearch {
+    
+}
+</style>
