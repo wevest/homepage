@@ -101,8 +101,87 @@ export default {
 		max_supply: " 최대가능발행량",
 
 	},
-	page: {
+	button: {
+		more: '더보기',
+		send: '확인',
+		save: '저장',
+		edit: '수정',
+		cancel: '취소',
+		close: '닫기',
+		lordmore: '더보기',
+		change: '변경',
+		follow: '팔로우',
+		unfollow: '팔로잉',
+		following: '팔로잉',
+		userfollow: '팔로우',
+		userfollowing: '팔로잉',
+		message: '메시지',
+		blog_like: '도움이 돼요',
+		blog_dislike: '별로에요',
+		answer_like: '동감합니다',
+		answer_dislike: '별로에요',
+		portfolio_like: '훌륭합니다',
+		portfolio_dislike: '리밸런싱이 필요합니다',
+		reply: '답글',
+		expand: '펼치기',
+		collapse: '접기',
+		update: '업데이트',
+		add: '추가',
+		show_table: '가격 정보 테이블',
+		portfolio: '포트폴리오',
+		share: '공유',
+		blog: '블로그',
+		question: '질문',
+		logout: '로그아웃',
+		login: '로그인',
+		signup: '가입하기',
+		chartview: "차트",
+		confirm: "확인",
+		go_home: "홈으로",
+		resend_activate: "인증 메일 재발송",
+		go_login: "로그인하기",
+	},
+	dialog: {
+		password_edit: {
+			title: '비밀번호찾기',
+			desc: '이메일 주소를 입력하세요',
+		},
+		biography: {
+			title: '자기소개',
 
+		},
+		reset_password: {
+			password_updated: {
+				title: '비밀번호 변경',
+			},
+			password_changed: {
+				title: "비밀번호가 성공적으로 변경되었습니다.",
+			},
+			password_complete: {
+				title: '이제 변경된 비밀번호로 로그인할 수 있습니다.',
+			}
+		},
+		add_portfolio: {
+			title: '포트폴리오를 추가',
+			desc: '포트폴리오를 관리하세요!',
+			asset: {
+				title: '코인선택',
+			},
+			no_results: {
+				title: '결과가 없습니다',
+			},
+			group_name: {
+				title: '포트폴리오 그룹이름',
+			},
+			description: {
+				title: '포트폴리오 편입이유',
+			},
+		},
+		delete: {
+			title: '삭제하시겠습니까?',
+		}
+	},
+	page: {
 		login: {
 			title: '로그인',
 			input: {
@@ -139,358 +218,275 @@ export default {
 				title: '비밀번호 확인',
 				error: '비밀번호가 일치하지 않습니다',
 			},
+		},
 
-
-			home: {
-				title: 'HOME',
-				desc: '여기는 홈입니다',
-				marketwatching: {
-					title: '마켓 위험 알림',
-					desc: ''
-				},
-				blog_list: {
-					title: '마켓트랜드'
-				},
-				portfolio_list: {
-					title: 'VC 포트폴리오',
-					desc: ''
-				},
-				new_asset_list: {
-					title: '신규에셋목록',
-					desc: '',
-				},
-				userfeed_list: {
-					title: '사용자피드',
-					desc: ''
-				},
-				roi: {
-					title: '수익율이 높은 포트폴리오',
-					desc: ''
-				},
-				highvoted: {
-					title: '인기 많은 포트폴리오',
-					desc: ''
-				}
+		home: {
+			title: 'HOME',
+			desc: '여기는 홈입니다',
+			marketwatching: {
+				title: '마켓 위험 알림',
+				desc: ''
 			},
-			activation: {
-				title: '회원가입 인증',
-				mail_sent: {
-					title: '인증 메일이 발송되었습니다',
-				}
+			blog_list: {
+				title: '마켓트랜드'
 			},
-			registration: {
-				title: '회원가입 완료',
-				complete: {
-					title: '축하합니다!',
-					desc: 'WeVest 회원가입이 완료되었습니다.',
-				}
-			},
-			change_pwd: {
-				title: '비밀번호 변경',
-				desc: '',
-				rules: {
-					title: '비밀번호의 길이는 최소 8자 이상이어야 합니다',
-				},
-				current: {
-					title: '현재 비밀번호',
-					error: '비밀번호가 틀립니다',
-				},
-				new: {
-					title: '새로운 비밀번호',
-					error: '비밀번호의 길이는 최소 8자 이상이어야 합니다',
-				},
-				confirm: {
-					title: '새 비밀번호 확인',
-					error: '비밀번호가 일치하지 않습니다',
-				},
-			},
-			pwd_reset: {
-				title: '비밀번호 재설정',
-				desc: '',
-				mail_sent: {
-					title: '비밀번호 변경을 위한 메일이 발송되었습니다',
-				}
-			},
-			assetqa: {
-				title: 'QA',
-				desc: '궁금한 것이 있으면 참으면 안됩니다',
-				questionlist: {
-					title: '질문리스트',
-				}
-			},
-			qa_detail: {
-				accepted: {
-					title: '질문자 채택',
-				}
-			},
-			//page.profile.title
-			profile: {
-				title: '프로파일',
-				desc: '',
-				display_name: {
-					title: '별칭',
-				},
-				username: {
-					title: '사용자 이름',
-				},
-				email: {
-					title: '이메일',
-				},
-				biography: {
-					title: '자기소개',
-				},
-				language: {
-					title: '언어선택',
-				},
-				portfoliolist: {
-					title: '포트폴리오',
-					desc: '',
-				},
-				follower: {
-					title: '팔로워',
-				},
-				following: {
-					title: '팔로잉',
-				},
-				userfeed: {
-					title: '사용자피드',
-				},
-			},
-			portfolio_detail: {
-				roi_chart: {
-					title: 'ROI 차트'
-				}
-			},
-			asset: {
-				bloglist: {
-					title: '블로그',
-					desc: '',
-				},
-				questionlist: {
-					title: '질문',
-					desc: '',
-				},
-				priceforecast: {
-					title: '가격예측',
-					desc: ''
-				},
-				tweets: {
-					title: '트윗',
-					desc: '',
-				}
-			},
-			asset_detail: {
-				price_chart: {
-					title: '가격차트',
-					desc: '',
-				},
-				price_data: {
-					title: '가격데이터',
-					desc: '',
-				}
-			},
-			review: {
-				forecast: {
-					title: '투자자예측',
-					desc: '',
-				},
-				forecastlist: {
-					title: '예측목록',
-					desc: ''
-				}
-			},
-			blogwriter: {
-				title: '블로그 작성',
-				desc: '혼자만 알고 있는 것보다 나누는 것이 언제나 좋습니다',
-				bloglist: {
-					title: '블로그목록',
-					desc: ''
-				}
-			},
-			inbox: {
-				title: '메시지함',
-				desc: '',
-			},
-			risk: {
-				title: '리스크',
-				desc: '',
-				chart: {
-					risk: {
-						title: '리스크',
-						desc: ''
-					},
-					risk_vix: {
-						title: '리스크_VIX',
-						desc: ''
-					},
-					risk_event: {
-						title: '리스크_EVENT',
-						desc: ''
-					}
-				}
-			},
-
-			cwatch: {
-				title: 'CWATCH',
-				desc: '오늘도 크립토의 시계는 24시간 쉬지 않고 돌아갑니다',
-				subtitle: {
-					title: '얼마나 잘 맞는지 볼까요?',
-					desc: '',
-				},
-				probability: {
-					title: 'Change Probability Level',
-				},
-				btc: {
-					title: 'CWatch 비트코인',
-				},
-				eth: {
-					title: 'CWatch 이더리움',
-				}
-			},
-			vcportfolio: {
+			portfolio_list: {
 				title: 'VC 포트폴리오',
-				desc: '',
-				roi: {
-					title: 'VC 수익률',
-					desc: ''
-				}
-
+				desc: ''
 			},
-			cryptovc: {
-				title: '크립토 VC',
+			new_asset_list: {
+				title: '신규에셋목록',
 				desc: '',
-				roi: {
-					title: '크립토 VC 수익률',
-					desc: '',
-				},
-				portfolio: {
-					title: '크립토 VC 포트폴리오',
-					desc: ''
-				}
 			},
-			trend: {
-				title: '시장 동향',
-				desc: '',
-				chart: {
-					index: {
-						title: '시장동향 INDEX',
-						desc: '',
-					},
-					dominance: {
-						title: 'Dominance',
-						desc: '',
-					},
-					kpremium: {
-						title: 'Kpremium',
-						desc: '',
-					},
-					sector: {
-						title: 'Sector',
-						desc: '',
-					},
-					sectortv: {
-						title: 'SectorTV',
-						desc: '',
-					}
-				}
-			},
-			feeds: {
+			userfeed_list: {
 				title: '사용자피드',
-				desc: '',
-				userfeed: {
-					title: '사용자피드 목록',
-					desc: ''
-				},
-				nouserfeed: {
-					title: '사용자피드가 없습니다',
-					desc: '팔로우 한 사람의 새로운 사용자 피드가 여기에 표시됩니다',
-				}
+				desc: ''
 			},
-			forecast: {
-				title: '님 가격이 오를까요? 떨어질까요?',
+			roi: {
+				title: '수익율이 높은 포트폴리오',
+				desc: ''
+			},
+			highvoted: {
+				title: '인기 많은 포트폴리오',
+				desc: ''
 			}
 		},
-		dialog: {
-			password_edit: {
-				title: '비밀번호찾기',
-				desc: '이메일 주소를 입력하세요',
+		activation: {
+			title: '회원가입 인증',
+			mail_sent: {
+				title: '인증 메일이 발송되었습니다',
+			}
+		},
+		registration: {
+			title: '회원가입 완료',
+			complete: {
+				title: '축하합니다!',
+				desc: 'WeVest 회원가입이 완료되었습니다.',
+			}
+		},
+		change_pwd: {
+			title: '비밀번호 변경',
+			desc: '',
+			rules: {
+				title: '비밀번호의 길이는 최소 8자 이상이어야 합니다',
+			},
+			current: {
+				title: '현재 비밀번호',
+				error: '비밀번호가 틀립니다',
+			},
+			new: {
+				title: '새로운 비밀번호',
+				error: '비밀번호의 길이는 최소 8자 이상이어야 합니다',
+			},
+			confirm: {
+				title: '새 비밀번호 확인',
+				error: '비밀번호가 일치하지 않습니다',
+			},
+		},
+		pwd_reset: {
+			title: '비밀번호 재설정',
+			desc: '',
+			mail_sent: {
+				title: '비밀번호 변경을 위한 메일이 발송되었습니다',
+			}
+		},
+		assetqa: {
+			title: 'QA',
+			desc: '궁금한 것이 있으면 참으면 안됩니다',
+			questionlist: {
+				title: '질문리스트',
+			}
+		},
+		qa_detail: {
+			accepted: {
+				title: '질문자 채택',
+			}
+		},
+		//page.profile.title
+		profile: {
+			title: '프로파일',
+			desc: '',
+			display_name: {
+				title: '별칭',
+			},
+			username: {
+				title: '사용자 이름',
+			},
+			email: {
+				title: '이메일',
 			},
 			biography: {
 				title: '자기소개',
-
 			},
-			reset_password: {
-				password_updated: {
-					title: '비밀번호 변경',
-				},
-				password_changed: {
-					title: "비밀번호가 성공적으로 변경되었습니다.",
-				},
-				password_complete: {
-					title: '이제 변경된 비밀번호로 로그인할 수 있습니다.',
-				}
+			language: {
+				title: '언어선택',
 			},
-			add_portfolio: {
-				title: '포트폴리오를 추가',
-				desc: '포트폴리오를 관리하세요!',
-				asset: {
-					title: '코인선택',
-				},
-				no_results: {
-					title: '결과가 없습니다',
-				},
-				group_name: {
-					title: '포트폴리오 그룹이름',
-				},
-				description: {
-					title: '포트폴리오 편입이유',
-				},
+			portfoliolist: {
+				title: '포트폴리오',
+				desc: '',
 			},
-			delete: {
-				title: '삭제하시겠습니까?',
+			follower: {
+				title: '팔로워',
+			},
+			following: {
+				title: '팔로잉',
+			},
+			userfeed: {
+				title: '사용자피드',
+			},
+		},
+		portfolio_detail: {
+			roi_chart: {
+				title: 'ROI 차트'
 			}
 		},
-		button: {
-			more: '더보기',
-			send: '확인',
-			save: '저장',
-			edit: '수정',
-			cancel: '취소',
-			close: '닫기',
-			lordmore: '더보기',
-			change: '변경',
-			follow: '팔로우',
-			unfollow: '팔로잉',
-			following: '팔로잉',
-			userfollow: '팔로우',
-			userfollowing: '팔로잉',
-			message: '메시지',
-			blog_like: '도움이 돼요',
-			blog_dislike: '별로에요',
-			answer_like: '동감합니다',
-			answer_dislike: '별로에요',
-			portfolio_like: '훌륭합니다',
-			portfolio_dislike: '리밸런싱이 필요합니다',
-			reply: '답글',
-			expand: '펼치기',
-			collapse: '접기',
-			update: '업데이트',
-			add: '추가',
-			show_table: '가격 정보 테이블',
-			portfolio: '포트폴리오',
-			share: '공유',
-			blog: '블로그',
-			question: '질문',
-			logout: '로그아웃',
-			login: '로그인',
-			signup: '가입하기',
-			chartview: "차트",
-			confirm: "확인",
-			go_home: "홈으로",
-			resend_activate: "인증 메일 재발송",
-			go_login: "로그인하기",
+		asset: {
+			bloglist: {
+				title: '블로그',
+				desc: '',
+			},
+			questionlist: {
+				title: '질문',
+				desc: '',
+			},
+			priceforecast: {
+				title: '가격예측',
+				desc: ''
+			},
+			tweets: {
+				title: '트윗',
+				desc: '',
+			}
+		},
+		asset_detail: {
+			price_chart: {
+				title: '가격차트',
+				desc: '',
+			},
+			price_data: {
+				title: '가격데이터',
+				desc: '',
+			}
+		},
+		review: {
+			forecast: {
+				title: '투자자예측',
+				desc: '',
+			},
+			forecastlist: {
+				title: '예측목록',
+				desc: ''
+			}
+		},
+		blogwriter: {
+			title: '블로그 작성',
+			desc: '혼자만 알고 있는 것보다 나누는 것이 언제나 좋습니다',
+			bloglist: {
+				title: '블로그목록',
+				desc: ''
+			}
+		},
+		inbox: {
+			title: '메시지함',
+			desc: '',
+		},
+		risk: {
+			title: '리스크',
+			desc: '',
+			chart: {
+				risk: {
+					title: '리스크',
+					desc: ''
+				},
+				risk_vix: {
+					title: '리스크_VIX',
+					desc: ''
+				},
+				risk_event: {
+					title: '리스크_EVENT',
+					desc: ''
+				}
+			}
+		},
 
+		cwatch: {
+			title: 'CWATCH',
+			desc: '오늘도 크립토의 시계는 24시간 쉬지 않고 돌아갑니다',
+			subtitle: {
+				title: '얼마나 잘 맞는지 볼까요?',
+				desc: '',
+			},
+			probability: {
+				title: 'Change Probability Level',
+			},
+			btc: {
+				title: 'CWatch 비트코인',
+			},
+			eth: {
+				title: 'CWatch 이더리움',
+			}
+		},
+		vcportfolio: {
+			title: 'VC 포트폴리오',
+			desc: '',
+			roi: {
+				title: 'VC 수익률',
+				desc: ''
+			}
+
+		},
+		cryptovc: {
+			title: '크립토 VC',
+			desc: '',
+			roi: {
+				title: '크립토 VC 수익률',
+				desc: '',
+			},
+			portfolio: {
+				title: '크립토 VC 포트폴리오',
+				desc: ''
+			}
+		},
+		trend: {
+			title: '시장 동향',
+			desc: '',
+			chart: {
+				index: {
+					title: '시장동향 INDEX',
+					desc: '',
+				},
+				dominance: {
+					title: 'Dominance',
+					desc: '',
+				},
+				kpremium: {
+					title: 'Kpremium',
+					desc: '',
+				},
+				sector: {
+					title: 'Sector',
+					desc: '',
+				},
+				sectortv: {
+					title: 'SectorTV',
+					desc: '',
+				}
+			}
+		},
+		feeds: {
+			title: '사용자피드',
+			desc: '',
+			userfeed: {
+				title: '사용자피드 목록',
+				desc: ''
+			},
+			nouserfeed: {
+				title: '사용자피드가 없습니다',
+				desc: '팔로우 한 사람의 새로운 사용자 피드가 여기에 표시됩니다',
+			}
+		},
+		forecast: {
+			title: '님 가격이 오를까요? 떨어질까요?',
 		}
-
 	}
 }

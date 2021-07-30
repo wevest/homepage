@@ -139,6 +139,7 @@ export default {
 			password_confirm : {
 				title : 'Password confirm',
 				error : 'Password do not match', 
+			},
 		},
  		
 		home:{
@@ -495,6 +496,5 @@ export default {
 		go_home: "Go home",
 		resend_activate: "Resend Activate Mail",
 		go_login: "Go to Log In",
-		}
 	}
 };

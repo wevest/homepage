@@ -6,7 +6,7 @@
             :value="v_search"
             :loading="v_loading"
             :error="v_error"
-            use-input fill-input hide-selected borderless use-chips
+            use-input fill-input hide-selected borderless use-chips dense stack-label
             input-debounce="10"
             :error-message="v_errorMsg"
             :label="label"

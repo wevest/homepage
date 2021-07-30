@@ -18,7 +18,7 @@
 					
 					<div class="toolbar_title" @click="onClickLogo">WeVest</div>
 
-					<CryptoSelect ref="searchInput" @onSelect="onSearch" label="" filled="0" />
+					<CryptoSelect class="q-pl-md" ref="searchInput" @onSelect="onSearch" label="" filled="0" />
 
 				</q-toolbar>
 
@@ -26,12 +26,14 @@
 					<q-space />
 
 					<div v-if="v_login == true">
-						<a href="#" @click="onClickSignOut">{{ $t('button.logout') }}</a>
-						
-						<q-btn flat round dense color="amber" icon="person" @click="onClickUser" />
 						<q-btn flat round dense color="yellow" icon="mail" @click="onClickMessage" />
 						<q-btn flat round dense color="red" icon="notifications_none" @click="onClickNotification" />
 
+						<WMoreButton ref="moreButtons" buttons="Profile|Logout" @onClick="onClickMoreButton" />
+<!--
+						<a href="#" @click="onClickSignOut">{{ $t('button.logout') }}</a>						
+						<q-btn flat round dense color="amber" icon="person" @click="onClickUser" />
+-->
 					</div>
 					<div v-else>
 						<a href="#" @click="onClickSignIn">{{ $t('button.login') }}</a>
@@ -100,6 +102,7 @@ import AddPortfolioDialog from 'components/dialogs/AddPortfolioDialog';
 import PageTransition from "src/components/transition/PageTransition";
 import StickyButtons from "src/layouts/components/StickyButtons";
 import CryptoSelect from "src/components/CryptoSelect";
+import WMoreButton from "src/components/WMoreButton";
 
 export default {
 	name: "MainLayout",
@@ -111,7 +114,8 @@ export default {
 		WConfirmDialog,
 		AddPortfolioDialog,
 		StickyButtons,
-		CryptoSelect
+		CryptoSelect,
+		WMoreButton
 	},
 	computed: {
 		v_login: function () {
@@ -291,6 +295,16 @@ export default {
 			logger.log.debug("MainLayout.onClickPortfolio");
 			store.getters.components.getComponent('portfolioDialog').show(this.v_me,null); 
 		},
+
+        onClickMoreButton(dicParam) {
+            logger.log.debug("MainLayout.onClickMoreButton : dicParam=",dicParam);
+            if (dicParam.caption=='Logout') {
+                this.onClickSignOut();
+            } else if (dicParam.caption=='Profile') {
+				this.onClickUser();
+			}
+
+        },
 
 	},
 };

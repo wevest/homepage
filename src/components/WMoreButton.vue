@@ -1,6 +1,6 @@
 <template>
 
-    <q-btn-dropdown unelevated dropdown-icon="more_vert">
+    <q-btn-dropdown unelevated dense dropdown-icon="more_vert">
         <q-list dense separator>
             <q-item clickable v-close-popup v-for="(a_caption, index) in v_captions" :key="index">
                 <q-item-section>
