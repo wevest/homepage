@@ -36,13 +36,16 @@ export class PortfolioItemModel {
         this.api_user=obj.api_user;
         this.asset_id=obj.api_asset.id;
 
-        this.portfolio_id=obj.portfolio_id;        
+        this.portfolio_id=obj.portfolio_id;   
         this.price=obj.price;
         this.qty=obj.qty;
         this.created_at=obj.created_at;
         this.updated_at=obj.updated_at;
         this.state=obj.state;            
         this.description = obj.description;
+
+        this.portfolio_name = CommonFunc.safeGetKeyValue(obj,'portfolio_name');
+
         this.last=0;
         this.estimated_value=0;
         this.roi=0;
@@ -156,7 +159,7 @@ export class PortfolioModel extends baseCollection {
     }
 
     calcPerformance(prices) {
-        logger.log.debug("PortfolioModel.calcPerformance : prices=",prices);
+        //logger.log.debug("PortfolioModel.calcPerformance : prices=",prices);
         let dic_perf = {value:0, roi:0, count:0};
         let qty = 1;
 
@@ -166,7 +169,7 @@ export class PortfolioModel extends baseCollection {
             const a_price = prices.getPrice(this.items[index].api_asset.symbol)
             //logger.log.debug("PortfolioModel.calcPerformance .item =",this.items[index],a_price);
             if (a_price) {
-                logger.log.debug("PortfolioModel.calcPerformance: item =",this.items[index],a_price);
+                //logger.log.debug("PortfolioModel.calcPerformance: item =",this.items[index],a_price);
 
                 this.items[index].last = a_price.last;
                 this.items[index].roi = CommonFunc.calcRet(this.items[index].price,a_price.last)*100;
@@ -319,7 +322,7 @@ export class PortfolioListModel extends baseCollection{
     }   
     
     calcPerformance(prices) {
-        logger.log.debug("PortfolioListModel.calcPerformance.items=",prices);
+        //logger.log.debug("PortfolioListModel.calcPerformance.items=",prices);
         
         this.estimated_value = 0;
         this.roi = 0;
@@ -402,16 +405,35 @@ export class PortfolioListModel extends baseCollection{
     }
 
     addPortfolioItem(jsonItem) {
-        logger.log.debug("addPortfolioItem : jsonItem=",jsonItem);
+        logger.log.debug("PortfolioListModel.addPortfolioItem : jsonItem=",jsonItem);
         let a_item = new PortfolioItemModel();
         a_item.assign(jsonItem);
+
         let a_portfolio = this.getItem(a_item.portfolio_id);
         if (! a_portfolio) {
             a_portfolio = new PortfolioModel();
             a_portfolio.id = a_item.portfolio_id;
+            a_portfolio.updated_at = CommonFunc.getCurrentDatetime(2);
+            if ( (a_item.portfolio_name) && (a_item.portfolio_name.length>0) ) {
+                a_portfolio.name = a_item.portfolio_name;
+            }
             this.add(a_portfolio);
         }
         a_portfolio.add(a_item);
+    }
+
+    updatePortfolioItem(jsonItem) {
+        logger.log.debug("PortfolioListModel.updatePortfolioItem : jsonItem=",jsonItem);
+        
+        let a_portfolio = this.getItem(jsonItem.portfolio_id);
+        if (! a_portfolio) {
+            logger.log.error('PortfolioListModel.updatePortfolioItem - jsonItem',jsonItem);
+            return;
+        }
+        let a_item = a_portfolio.getItem(jsonItem.id);
+        a_item.description = jsonItem.description;
+        a_item.updated_at = jsonItem.updated_at;
+        logger.log.debug("PortfolioListModel.updatePortfolioItem : a_tem=",a_item,jsonItem);        
     }
 
     readPortfolio(portfolio_id) {

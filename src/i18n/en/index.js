@@ -496,5 +496,6 @@ export default {
 		go_home: "Go home",
 		resend_activate: "Resend Activate Mail",
 		go_login: "Go to Log In",
+		profile:"Profile",
 	}
 };

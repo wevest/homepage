@@ -138,6 +138,7 @@ export default {
 		chartview: "차트",
 		confirm: "확인",
 		go_home: "홈으로",
+		profile: "프로파일",
 		resend_activate: "인증 메일 재발송",
 		go_login: "로그인하기",
 	},

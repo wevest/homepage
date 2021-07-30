@@ -26,7 +26,9 @@
 						<q-btn flat round dense color="yellow" icon="mail" @click="onClickMessage" />
 						<q-btn flat round dense color="red" icon="notifications_none" @click="onClickNotification" />
 
-						<WMoreButton ref="moreButtons" buttons="Profile|Logout" @onClick="onClickMoreButton" />
+						<WMoreButton ref="moreButtons" 
+							:buttons="v_more_buttons" 
+							@onClick="onClickMoreButton" />
 					</div>
 					<div v-else>
 						<a href="#" @click="onClickSignIn">{{ $t('button.login') }}</a>
@@ -91,7 +93,10 @@
 
 		<WAlertDialog ref="alertDialog" />
 		<WConfirmDialog ref="confirmDialog" title="Do you want to delete the item?" @onClickConfirm="onClickDeleteConfirm" />
-		<AddPortfolioDialog ref="portfolioDialog" @onPortfolioItemAdded="onPortfolioItemAdded" />
+		<AddPortfolioDialog ref="portfolioDialog" 
+			@onPortfolioItemAdded="onPortfolioItemAdded" 
+			@onPortfolioItemUpdated="onPortfolioItemUpdated"
+			/>
 		<StickyButtons ref="stickButton" @onClickPortfolio="onClickPortfolio" />
 
 	</q-layout>
@@ -141,6 +146,7 @@ export default {
 	data() {
 		return {
 			v_show_back_button: false,
+			v_more_buttons: this.$t('button.profile')+"|"+this.$t('button.logout'),
 			//lang: this.$i18n.locale,
 
 			leftDrawerOpen: false,
@@ -197,11 +203,6 @@ export default {
 					this.setLocale(this.v_me.default_lang);
 				}				
 			}
-		},
-
-		loadCoinCodes() {
-			let codes = store.state.assets.loadFromCookie();
-			return codes;
 		},
 
 		movePage(item) {
@@ -300,9 +301,25 @@ export default {
 
         onPortfolioItemAdded(jsonItem) {
             logger.log.debug("MainLayout.onPortfolioItemAdded = ",jsonItem);
-            //this.v_user.portfolio.addPortfolioItem(jsonItem.portfolio_item);
-            //this.v_user.portfolio.calcPerformance(store.state.prices);
+            
+			const a_view = store.getters.components.getComponent('portfolioDetailView');
+			if (a_view) {
+				a_view.onPortfolioItemAdded(jsonItem);
+			}
+			const a_view2 = store.getters.components.getComponent('profileView');
+			if (a_view2) {
+				a_view2.onPortfolioItemAdded(jsonItem);
+			}
         },
+
+        onPortfolioItemUpdated(jsonItem) {
+            logger.log.debug("MainLayout.onPortfolioItemUpdated = ",jsonItem);
+            
+			const a_view = store.getters.components.getComponent('portfolioDetailView');
+			if (a_view) {
+				a_view.onPortfolioItemUpdated(jsonItem);
+			}
+		},
 
 		onClickPortfolio() {
 			logger.log.debug("MainLayout.onClickPortfolio");
@@ -311,9 +328,9 @@ export default {
 
         onClickMoreButton(dicParam) {
             logger.log.debug("MainLayout.onClickMoreButton : dicParam=",dicParam);
-            if (dicParam.caption=='Logout') {
+            if ((dicParam.caption.toLowerCase()=='logout') || (dicParam.caption=='로그아웃')) {
                 this.onClickSignOut();
-            } else if (dicParam.caption=='Profile') {
+            } else if ( (dicParam.caption.toLowerCase()=='profile') || (dicParam.caption=='프로파일')) {
 				this.onClickUser();
 			}
 

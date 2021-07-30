@@ -3,7 +3,9 @@
         <q-card style="text-align: center;" v-if="v_user"> 
             <q-card-actions align="right">
                 
-                <WMoreButton ref="moreButtons" buttons="Reset Password|User Feedback" @onClick="onClickMoreButton" />
+                <WMoreButton ref="moreButtons" 
+                    :buttons=" $t('button.ResetPassword') " 
+                    @onClick="onClickMoreButton" />
 
             </q-card-actions>
                         
