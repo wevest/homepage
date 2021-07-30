@@ -209,7 +209,7 @@ export default {
         },
         v_format() {
             return (value,decimal=1) => {                
-                logger.log.debug("v_format : value=",value);
+                //logger.log.debug("v_format : value=",value);
                 if(!value) {
                     return '';
                 }
@@ -220,7 +220,7 @@ export default {
         },
         v_format_price() {
             return (value) => {                
-                logger.log.debug("v_format : value=",value);
+                //logger.log.debug("v_format : value=",value);
                 if(!value) return '';
 
                 //return CommonFunc.formatNumber(value,decimal);
@@ -324,7 +324,9 @@ export default {
             this.v_portfolio = this.v_user.portfolio.getItem(parseInt(portfolio_id));
 
             logger.log.debug("PortfolioDetailView.setPortfolio : v_portfolio=",portfolio_id,this.v_portfolio);
-
+        },
+        calcPerformance() {
+            const _this=this;
             store.state.prices.load().then( response => {
                 _this.v_portfolio.calcPerformance(store.state.prices);
                 _this.$refs.portfolioChart.update(_this.v_portfolio);
@@ -338,8 +340,9 @@ export default {
                 //_this.$refs.profileBox.update(_this.v_user);
 
                 _this.v_user.loadPortfolio().then( response => {
-                    logger.log.debug("setUser=>",response);
+                    //logger.log.debug("setUser=>",response);
                     _this.selectPortfolio(_this.v_query.portfolio_id);
+                    _this.calcPerformance();
                     _this.loadComments(_this.v_query.portfolio_id);
                     _this.forceUpdate();
                 });
@@ -369,7 +372,7 @@ export default {
             this.v_user.portfolio.calcPerformance(store.state.prices);
         },
 
-        loadComments: function(limit=null,offset=null) {
+        loadComments(limit=null,offset=null) {
             const _this = this;
             
             logger.log.debug("PortfolioDetailView.loadComments - v_portfolio=",this.v_portfolio);
@@ -441,14 +444,14 @@ export default {
             //this.$refs.addPortfolio.show(this.v_user,portfolio);
         },
 
-        onClickDelete: function(portfolio_item) {
+        onClickDelete(portfolio_item) {
             logger.log.debug("PortfolioDetail.onClickDelete : v_selected=",portfolio_item);
             
             this.v_selected = portfolio_item;
             this.handlePortfolioItemDelete();
         },
 
-        onClickDeletePortfolio: function() {
+        onClickDeletePortfolio() {
             logger.log.debug("PortfolioDetail.onClickDeletePortfolio = ",this.v_portfolio);
 
             this.v_selected = this.v_portfolio;            
@@ -456,24 +459,24 @@ export default {
         },
 
 
-        onPortfolioItemAdded: function(jsonItem) {
+        onPortfolioItemAdded(jsonItem) {
             logger.log.debug("PortfolioDetail.onPortfolioItemAdded = ",jsonItem);
             this.v_user.portfolio.addPortfolioItem(jsonItem.portfolio_item);
             this.v_user.portfolio.calcPerformance(store.state.prices);
         },
 
-        onClickCommentSave: function(payload) {            
+        onClickCommentSave(payload) {            
             logger.log.debug('onClickCommentSave - ',payload);
             CommonFunc.showOkMessage(this,'Comments posted');  
         },
 
 
-        onClickCommentReply: function(payload) {
+        onClickCommentReply(payload) {
             logger.log.debug('onClickCommentReply - ',payload);
             CommonFunc.showOkMessage(this,'Comments posted');  
         },
 
-        onClickRate: function(dic_payload) {
+        onClickRate(dic_payload) {
             const _this = this;
             logger.log.debug("BlogPage.onClickRate=",dic_payload);
 
@@ -483,7 +486,7 @@ export default {
             });
         },
 
-        onClickLoadMore: function() {
+        onClickLoadMore() {
             logger.log.debug("BlogPage.onClickLoadMore!!!",this.g_data_comments.next);
             
             if (! this.g_data_comments.next) {
@@ -494,7 +497,7 @@ export default {
             this.loadBlogComments(this.g_page_id,dic_query.limit,dic_query.offset);
         },
 
-        onClickAddToMyPortfolio: function(jsonPortfolio) {
+        onClickAddToMyPortfolio(jsonPortfolio) {
             logger.log.debug("PortfolioDetail.onClickAddToMyPortfolio : portfolio=",jsonPortfolio);
             
             const _this=this;
@@ -521,19 +524,19 @@ export default {
             });
         },
 
-        onClickSymbol:function(symbol) {
+        onClickSymbol(symbol) {
             logger.log.debug("PortfolioDetail.onClickSymbol : symbol=",symbol);        
             //CommonFunc.navAsset(this,symbol);
         },
 
-		onClickLoadMore: function() {
+		onClickLoadMore() {
 			logger.log.debug("PortfolioDetail.onClickLoadMore : next_url = ", this.v_next_url);
 
 			this.v_query.limit = this.$refs.loadMore.v_next.limit;
 			this.v_query.offset = this.$refs.loadMore.v_next.offset;
 			//this.loadBlogData(this.v_query);
 		},
-        onClickMore: function(portfolio_item) {
+        onClickMore(portfolio_item) {
             logger.log.debug("PortfolioDetail.onClickMore : portfolio_item=",portfolio_item);
             
             //store.getters.nav.add(this.$route);

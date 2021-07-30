@@ -79,9 +79,6 @@ export default {
             if (this.filled=="1") return true;
             return false;
         },
-        v_errorMsg() {
-            return this.errorMsg;
-        }
     },
     data() {
         return {
@@ -92,6 +89,9 @@ export default {
 			v_search: null,
 			v_options: [],
             g_options: [],
+
+            v_errorMsg: this.errorMsg,
+
         };
     },
     created() {
@@ -164,14 +164,21 @@ export default {
                 _this.v_loading=false;
             });
         },
-        setError(value) {
+        setError(value,msg='') {
             this.v_error = value;
+            if (msg.length==0) {
+                this.v_errorMsg = this.errorMsg;
+            } else {
+                this.v_errorMsg = msg;
+            }
         },
+
+
 		onSearch(value) {
 			//logger.log.debug('onSearch=',value);
 		},
 		onSearchInput(item) {
-			logger.log.debug("AutoComplete.onSearchInput=", this.v_search,item);
+			//logger.log.debug("AutoComplete.onSearchInput=", this.v_search,item);
 			//this.g_input = item;            
             this.v_search = item;
 
@@ -189,8 +196,7 @@ export default {
                 }                
             }
 
-            logger.log.debug("CryptoSelect.onSearchChange=", this.v_search,value);
-
+            //logger.log.debug("CryptoSelect.onSearchChange=", this.v_search,value);
 		},
 		onSearchEnter(event) {
 			let a_item = this.getItem(this.g_options,event.target.value);

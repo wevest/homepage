@@ -221,6 +221,7 @@ export default {
             }            
             if (this.$refs.cryptoSelector) {
                 this.$refs.cryptoSelector.setValue('');
+                this.$refs.cryptoSelector.setError(false);
             }
             this.v_loading = false;
         },
@@ -358,16 +359,35 @@ export default {
             });
 
         },
+        setPrice() {
+            let a_price = store.state.prices.getPrice(this.v_selected_asset.symbol);                
+            if (a_price) {
+                this.v_portfolio_item.price = a_price.last;
+            } else {
+                this.$refs.cryptoSelector.setError(true,'The price of selected asset is not provided');
+            }
 
-        onSelectAsset(asset) {
-            logger.log.debug('AddPortfolioDialog.onSelectAsset param - ',asset);
+            logger.log.debug('AddPortfolioDialog.setPrice param - ',this.v_selected_asset.symbol,a_price);            
+            return;
+        },
+        processPriceFetch() {
+            
+            if (store.state.prices.items.length>0) {
+                this.setPrice();
+                return;
+            } 
+
+            const _this=this;
+            store.state.prices.load().then( response => {
+                _this.setPrice();
+            })            
+        },
+
+        onSelectAsset(asset) {            
             this.v_selected_asset = asset;
             this.v_portfolio_item.asset_id = asset.id;
             
-            let a_price = store.state.prices.getPrice(this.v_selected_asset.symbol);
-            if (a_price) {
-                this.v_portfolio_item.price = a_price.last;
-            }            
+            this.processPriceFetch();
         },
 
         onClickSave() {                        
