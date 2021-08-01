@@ -18,7 +18,9 @@
 					</q-item-section>
 					<q-item-section top @click.stop="onClickPortfolio(a_user)">
 						<q-item-label lines="1">
-							<span class="gUserNameSM">{{ a_user.display_name }}</span>
+							<span class="gUserNameSM">
+								{{ a_user.display_name ? a_user.display_name : a_user.username }}
+							</span>
 
 							<span class="q-ml-md"> at </span>
 							<q-badge

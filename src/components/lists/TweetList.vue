@@ -18,7 +18,7 @@
 				<q-item-section top>
 					<q-item-label class="no-margin" lines="1" @click.stop="onClickTweet(a_tweet.id)" v-ripple>
 						<div class="gUserNameSM">
-                            {{a_tweet.owner.display_name}}
+							{{ a_tweet.owner.display_name ? a_tweet.owner.display_name : a_tweet.owner.username }}
                         </div>
                         <WSubinfo 
 							:pub_date="a_tweet.created_at" 

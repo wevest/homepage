@@ -54,6 +54,7 @@ export default {
 
         onClickVote(dicParam) {
             logger.log.debug("CommentList.onClickVote:dicParam=",dicParam,this.v_post);
+            
             this.$emit("onClickVote",dicParam);
         },
 

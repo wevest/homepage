@@ -28,13 +28,9 @@
 </template>
 
 <script>
-import { MoaConfig } from 'src/data/MoaConfig';
+import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
-import MoaBackendAPI from 'src/services/apiService';
-import DataService from 'src/services/dataService';
-
-import {TickerListModel} from 'src/models/AssetModel';
 
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
@@ -53,8 +49,6 @@ export default {
     },
     data() {
         return {
-            v_tickers: new TickerListModel(),
-
             v_data: {
                 btc: {
                     price:0, ret:0, updated_at:''
@@ -69,23 +63,18 @@ export default {
         update() {
             const _this = this;
 
-            this.v_tickers.load(null,null).then(resp=>{
-                //logger.log.debug("MarketIndexWidget.update : items=",_this.v_tickers.items);
-
-                const a_btc = _this.v_tickers.getByPair('BTC/USDT');                
+            store.state.prices.load().then( response => {
+                let a_btc = store.state.prices.getPrice('BTC');
                 _this.v_data.btc.price = a_btc.last;
                 _this.v_data.btc.ret = a_btc.change_percentage;
                 _this.v_data.btc.updated_at = a_btc.updated_at;
 
-                const a_eth = _this.v_tickers.getByPair('ETH/USDT');  
-                //logger.log.debug("MarketIndexWidget.update : eth=",a_eth);
+                let a_eth = store.state.prices.getPrice('ETH');
                 _this.v_data.eth.price = a_eth.last;
                 _this.v_data.eth.ret = a_eth.change_percentage;
                 _this.v_data.eth.updated_at = a_eth.updated_at;
+            })            
 
-            }).catch(err=>{
-                logger.log.error("MarketIndexWidget.update : err=",err);
-            });
         },
 
         onClick(symbol) {

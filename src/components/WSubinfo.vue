@@ -68,6 +68,9 @@ export default {
         },
         read_count: {
             default: -1
+        },
+        dateFormat: {
+            default: "1"
         }
     },
     computed: {
@@ -76,6 +79,10 @@ export default {
         },
         v_updated_at() {
             return (value) => {
+                if (this.dateFormat=="0") {
+                    return value;
+                }
+                
                 let ret = CommonFunc.minifyDatetime(value);
                 //console.log("WSubinfo.ret=",ret);
                 if (ret=="Invalid date") {

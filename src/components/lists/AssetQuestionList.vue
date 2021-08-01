@@ -36,7 +36,7 @@
 					<q-item-label lines="1">
 
 						<WSubinfo 
-							:username="a_question.owner.display_name" 
+							:username="a_question.owner.display_name ? a_question.owner.display_name:a_question.owner.username" 
 							:pub_date="a_question.pub_date" 
 							:read_count="a_question.read_count" 
                             like_count="-1" 

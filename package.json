@@ -4,7 +4,7 @@
   "description": "A Quasar Framework app",
   "productName": "Quasar App",
   "author": "james.ahn <38304972+Edenpartners@users.noreply.github.com>",
-  "license" : "MIT license",
+  "license": "MIT license",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",

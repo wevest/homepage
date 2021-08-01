@@ -21,22 +21,23 @@ export class PriceModel{
     constructor() {
     }
 
-    static create(item) {
+    static create(symbol,item) {
         let a_item = new PriceModel();
+        item.symbol = symbol;
         a_item.assign(item);
         return a_item;
     }
 
     assign(item) {
-        this.currency_pair = item.symbol;
+        this.symbol = item.symbol;
         this.last = Number(item.last);
-        this.lowest_ask= Number(item.lowest_ask);
-        this.highest_bid = Number(item.highest_bid);
-        this.change_percentage = Number(item.change);
-        this.base_volume = Number(item.baseVolume);
-        this.quote_volume = Number(item.quoteVolume);
-        this.high_24h = Number(item.high); 
-        this.low_24h = Number(item.low);
+        //this.lowest_ask= Number(item.lowest_ask);
+        //this.highest_bid = Number(item.highest_bid);
+        this.change_percentage = Number(item.ret);
+        this.base_volume = Number(item.vol);
+        //this.quote_volume = Number(item.quoteVolume);
+        //this.high_24h = Number(item.high); 
+        //this.low_24h = Number(item.low);
     }
 
     toDict() {
@@ -79,7 +80,12 @@ export class PriceListModel extends baseCollection{
         return _.find(this.items,{currency_pair:a_pair} );
     }
 
-    getPrice(symbol,quotePair="USDT") {
+    getPrice(symbol) {
+        //logger.log.debug("findPrice.pair=",a_pair);
+        return _.find(this.items,{symbol:symbol} );
+    }
+
+    getPriceByPair(symbol,quotePair="USDT") {
         let a_pair = symbol + "/" + quotePair;
         //logger.log.debug("findPrice.pair=",a_pair);
         return _.find(this.items,{currency_pair:a_pair} );
@@ -88,7 +94,7 @@ export class PriceListModel extends baseCollection{
     fetch() {
         const _this = this;
         
-        let reqParam = { token: store.getters.token};
+        let reqParam = {};
         return new Promise(function(resolve,reject) {
             PriceService.getPrice(reqParam).then( response => {
                 const items = response.data.data;
@@ -99,18 +105,10 @@ export class PriceListModel extends baseCollection{
                 
                 for (let a_key in items) {
                     let a_item = items[a_key];
-                    if (a_key.indexOf('USD')>-1) {
-                        _this.add( PriceModel.create(a_item) );
-                    }                    
+                    _this.add( PriceModel.create(a_key,a_item) );
                 }
-
-                /*
-                for gateio
-                for (let index=0;index<items.length;index++) {
-                    _this.add( PriceModel.create(items[index]) );
-                }
-                */
                 resolve(response);
+
             }).catch(err=> {
                 reject(err);
             });        

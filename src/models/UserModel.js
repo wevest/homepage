@@ -378,30 +378,30 @@ export default class User {
     }
 
     fromJson(obj) {
-        this.id = obj.id;
-        this.username = obj.username;
-        this.display_name = obj.display_name;
-        this.avatar = obj.avatar;
-        this.avatar_thumb = obj.avatar_thumb;
-        this.staySignedIn =obj.staySignedIn;
-        this.loggedIn = obj.loggedIn;
-        this.email = obj.email;
+        this.id = CommonFunc.safeGetKeyValue(obj,'id');
+        this.username = CommonFunc.safeGetKeyValue(obj,'username');
+        this.display_name = CommonFunc.safeGetKeyValue(obj,'display_name');
+        this.avatar = CommonFunc.safeGetKeyValue(obj,'avatar');
+        this.avatar_thumb = CommonFunc.safeGetKeyValue(obj,'avatar_thumb');
+        this.staySignedIn = CommonFunc.safeGetKeyValue(obj,'staySignedIn');
+        this.loggedIn = CommonFunc.safeGetKeyValue(obj,'loggedIn');
+        this.email = CommonFunc.safeGetKeyValue(obj,'email');
         
-        if (obj.hasOwnProperty('default_lang')) {
+        this.default_lang = 'en';
+        if ( (obj) && (obj.hasOwnProperty('default_lang'))) {
             this.default_lang = obj.default_lang;
-        } else {
-            this.default_lang = 'en';
         }
-
-        if (obj.hasOwnProperty('extra')) {
-            this.password = Hasher.decode(this.username,obj.extra);
-        } else {
-            this.password = '';
+        
+        this.password = '';
+        if ( (obj) && (obj.hasOwnProperty('extra'))) {
+            if (this.username) {
+                this.password = Hasher.decode(this.username,obj.extra);
+            }
         }
-        if (obj.hasOwnProperty('token')) {
+        
+        this.token = '';
+        if ( (obj) && (obj.hasOwnProperty('token'))) {
             this.token = Hasher.decode(this.username,obj.token);
-        } else {
-            this.token = '';
         }
     }
 

@@ -166,6 +166,10 @@ export default class CommonFunc {
     }
 
     static safeGetKeyValue(obj,key,default_value=null) {
+        if (! obj) {
+            return default_value;
+        }
+        
         if (key in obj) {
             return obj[key];
         }
@@ -302,6 +306,10 @@ export default class CommonFunc {
     }
 
     static calcRet(v0,v1) {
+        if (v0==0) {
+            return 0;
+        }
+        
         let value = (v1/v0)-1;
         return value;
     }

@@ -140,7 +140,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+//import { ref } from 'vue';
 import {store} from 'src/store/store';
 import {MoaConfig} from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
@@ -201,13 +201,13 @@ export default {
         v_loading_signup:false,
     }),
 
-    mounted: function() {
+    mounted() {
         logger.log.debug("SigninView.mounted - params=",this.$route.params);
         //this.refresh();
         this.fillUserdata();
     },
     methods: {
-        fillUserdata: function() {
+        fillUserdata() {
 
             this.v_user = {
                 username: CommonFunc.safeGetKeyValue(this.v_me,'username',''), 

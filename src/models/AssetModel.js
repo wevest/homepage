@@ -14,27 +14,51 @@ import CMSAPI from 'src/services/cmsService';
 import {HolderModel,HolderListModel} from 'src/models/UserModel';
 
 export class TickerModel {
-    pair=null;
+    name=null;
     symbol=null;
-    change_percentage=null;
+
+    cmc_rank=null;
+    date_added=null;
+    num_market_pairs=null;
+
     last=null;
-    high_24h=null;
-    low_24h=null;
-    base_volume=null;
-    updated_at=null;
-    
+    volume=null;
+    ret_24h=null;
+    ret_7d=null;
+    ret_1m=null;
+    ret_3m=null;
+
     assign(obj) {
         //logger.log.debug("TickerModel.assign:obj=",obj);
 
-        this.pair=obj.symbol;
-        this.symbol=this.pair.split('/')[0];
-        this.change_percentage=parseFloat(obj.percentage);
-        this.last=parseFloat(obj.close);
-        this.high_24h=parseFloat(obj.high);
-        this.low_24h=parseFloat(obj.low);
-        this.base_volume=parseFloat(obj.baseVolume);
+        this.symbol=obj.symbol;
+        this.name=obj.name;
+        this.cmc_rank=obj.cmc_rank;
+        this.num_market_pairs=obj.num_market_pairs;
+
+        this.ret_24h=parseFloat(obj['quote']['USD'].percent_change_24h);
+        this.ret_7d=parseFloat(obj['quote']['USD'].percent_change_7d);
+        this.ret_1m=parseFloat(obj['quote']['USD'].percent_change_30d);
+        this.ret_3m=parseFloat(obj['quote']['USD'].percent_change_90d);
+
+        this.last=parseFloat(obj['quote']['USD'].price);
+        this.volume=parseFloat(obj['quote']['USD'].volume_24h);
+        
         this.updated_at = CommonFunc.getCurrentDatetime(2);
     }
+
+    assignExt(key,obj) {
+        //logger.log.debug("TickerModel.assign:obj=",obj);
+
+        //this.pair=obj.symbol;
+        this.symbol=key;
+        this.name = obj.name;
+        this.last=parseFloat(obj.last);
+        this.base_volume=parseFloat(obj.vol);
+        this.change_percentage=parseFloat(obj.ret);
+        this.updated_at = CommonFunc.getCurrentDatetime(2);
+    }
+
 }
 
 
@@ -45,11 +69,19 @@ export class TickerListModel extends baseCollection {
         
         for (let key in items) {
             let a_ticker = new TickerModel();
-            if (items[key].symbol.indexOf('USD')>-1) {
-                //logger.log.debug("TickerListModel.ticker=",items[key]);            
-                a_ticker.assign(items[key]);
-                this.add(a_ticker);    
-            }
+            //logger.log.debug("TickerListModel.ticker=",items[key]);            
+            a_ticker.assign(items[key]);
+            this.add(a_ticker);    
+        }
+    }
+
+    assignExt(items) {
+        //for (let index=0;index<items.length;index++) {
+        
+        for (let key in items) {
+            let a_ticker = new TickerModel();            
+            a_ticker.assignExt(key,items[key]);
+            this.add(a_ticker);    
         }
     }
 
@@ -57,7 +89,7 @@ export class TickerListModel extends baseCollection {
         return _.find(this.items,{pair:pair} );
     }
 
-    getBySymbol(symbol) {
+    getBySymbol(symbol) {                
         return _.find(this.items,{symbol:symbol} );
     }
 
@@ -74,7 +106,7 @@ export class TickerListModel extends baseCollection {
                 logger.log.debug("TickerListModel.load - response=",response.data.data);
                 
                 //if (! response.data.data.hasOwnProperty('label')) {}
-                _this.assign(response.data.data);                                
+                _this.assignExt(response.data.data);                                
                 resolve(response);
 
             }).catch(err=>{
@@ -300,14 +332,15 @@ export class AssetModel{
 
     getPriceTicker(quoteCurrency="USDT") {
         const _this = this;
-        let dic_param = {pair:this.symbol+"/"+quoteCurrency,exchange:this.exchanges};
+        
+        let dic_param = {symbol:this.symbol};
         logger.log.debug("AssetModel.getPriceTicker - dic_param=",dic_param);        
 
         return new Promise(function(resolve,reject) {            
-            PriceService.getPrice(dic_param).then(response=>{
-                logger.log.debug("AssetModel.getPriceTicker - response",response);
+            PriceService.getTicker(dic_param).then(response=>{
+                logger.log.debug("AssetModel.getPriceTicker - response",response.data);
                 
-                _this.ticker.assign(response.data.data);
+                _this.ticker.assign(response.data.data[_this.symbol]);
                 resolve(response);
                 
             }).catch(err=>{

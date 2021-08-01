@@ -371,7 +371,7 @@ export default {
 
         },
         setPrice() {
-            let a_price = store.state.prices.getPrice(this.v_selected_asset.symbol);                
+            let a_price = store.state.prices.getPrice(this.v_selected_asset.symbol);
             if (a_price) {
                 this.v_portfolio_item.price = a_price.last;
             } else {

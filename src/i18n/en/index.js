@@ -100,9 +100,7 @@ export default {
 		max_supply: "Max supply",
 	},
 	
-	
-	page:{
-	
+	page:{	
 		login : {
 			title : 'Sign-In',
 			input : {
@@ -226,8 +224,7 @@ export default {
 			accepted : {
 				title: 'accepted answer',
 			}
-		},
-		//page.profile.title
+		},		
 		profile: {
 			title:'profile',
 			desc:'',
@@ -455,6 +452,11 @@ export default {
 		delete : {
 			title : 'Do you want to delete?',
 		},
+		edit_dialog: {
+			biography: {
+				title:'Biography'
+			}
+		}
 	},
 		
 	button: {

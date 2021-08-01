@@ -33,13 +33,29 @@ export default class PriceAPI {
 	}
 
 	static getPrice(reqParam) {
+		let a_method = "/api/proxy/price";
+    	let url = PriceAPI.getUrl(MoaConfig.urls.moa, a_method);
+		//logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
+		return new Promise(function(resolve, reject) {
+			callAPI("GET", url, {}, reqParam)
+			.then(response => {
+				//logger.log.debug("PriceAPI.getPrice : response = ",response);
+				resolve(response);
+			})
+			.catch(err => {
+				reject(err);
+			});
+		});
+	}
+
+	static getPrice_old(reqParam) {
 		let a_method = "/api/proxy/price?pair="+reqParam.pair+"&exchange="+reqParam.exchange;
     let url = PriceAPI.getUrl(MoaConfig.urls.moa, a_method);
 		//logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
 		return new Promise(function(resolve, reject) {
 			callAPI("GET", url, {}, reqParam)
 			.then(response => {
-				logger.log.debug("PriceAPI.getPrice : response = ",response);
+				//logger.log.debug("PriceAPI.getPrice : response = ",response);
 				resolve(response);
 			})
 			.catch(err => {
@@ -49,7 +65,8 @@ export default class PriceAPI {
 	}
 
 	static getTicker(reqParam) {
-		let url = PriceAPI.getUrl(MoaConfig.urls.moa, "/api/proxy/ticker");
+		let a_method = "/api/proxy/ticker?symbol=" + reqParam.symbol;
+		let url = PriceAPI.getUrl(MoaConfig.urls.moa, a_method);
 		//logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
 		return new Promise(function(resolve, reject) {
 		callAPI("GET", url, {}, reqParam)

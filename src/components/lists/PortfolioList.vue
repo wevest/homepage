@@ -17,15 +17,16 @@
                             <span>{{v_shorten_name(a_portfolio.api_user,13)}}</span>
                         </div>                        
                         <div class="gCaption">
-                            <WSubinfo 
+                            <WSubinfo dateFormat="0"
                                 :username="a_portfolio.name"                                 
+                                :pub_date="a_portfolio.portfolio_updated_at"
                                 like_count="-1" 
                                 dislike_count="-1" />
                         </div>
                     </div>
                     <q-space />
                     <div class="gROILG q-pt-lg">
-                        <span :class="v_color(a_portfolio.roi)">{{v_format(a_portfolio.roi)}} %</span>
+                        <span :class="v_color(a_portfolio.roi)">{{v_format(a_portfolio.roi*100)}} %</span>
                     </div>
                     <div class="q-pt-lg">
                       <q-btn class="q-mb-md" size="14px"  flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />

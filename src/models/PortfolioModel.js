@@ -121,12 +121,17 @@ export class PortfolioModel extends baseCollection {
     description=null;
     created_at=null;
     updated_at=null;
+    count=0;
     estimated_value=0;
     roi=0;
+    profit=0;
+    avg_holding=0;
+    portfolio_updated_at=null;
     read_count=0;
     comment_count=0;
     like_count=0;
     dislike_count=0;
+    avg_holding=0;
     api_user=null;
 
     comments=new CommentListModel();
@@ -141,8 +146,12 @@ export class PortfolioModel extends baseCollection {
         this.comment_count = item.comment_count;
         this.like_count = item.like_count;
         this.dislike_count = item.dislike_count;
+        
         this.roi = item.roi;
+        this.profit = item.profit;
+        this.avg_holding = item.avg_holding;
         this.estimated_value = item.estimated_value;
+        this.portfolio_updated_at = item.portfolio_updated_at;
 
         this.api_user = item.api_user;
         
@@ -160,8 +169,13 @@ export class PortfolioModel extends baseCollection {
 
     calcPerformance(prices) {
         //logger.log.debug("PortfolioModel.calcPerformance : prices=",prices);
-        let dic_perf = {value:0, roi:0, count:0};
+        let dic_perf = {value:0, roi:0, count:0, invest:0, estimated:0};
         let qty = 1;
+        
+        this.count = 0;
+        this.estimated_value = 0;
+        this.roi = 0;    
+        this.profit = 0;
 
         const _this=this;
         for (let index=0;index<this.items.length;index++) {
@@ -170,28 +184,27 @@ export class PortfolioModel extends baseCollection {
             //logger.log.debug("PortfolioModel.calcPerformance .item =",this.items[index],a_price);
             if (a_price) {
                 //logger.log.debug("PortfolioModel.calcPerformance: item =",this.items[index],a_price);
-
                 this.items[index].last = a_price.last;
                 this.items[index].roi = CommonFunc.calcRet(this.items[index].price,a_price.last)*100;
 
                 if (this.items[index].qty!=0) {
                     qty = this.items[index].qty;
                 }
-                dic_perf.count = dic_perf.count+1;
-                dic_perf.roi = dic_perf.roi + this.items[index].roi;
-                dic_perf.value += this.items[index].last*qty;
+                //dic_perf.count = dic_perf.count+1;
+                //dic_perf.value += this.items[index].last*qty;                
+                //dic_perf.invest += this.items[index].price;
+                //dic_perf.estimated += this.items[index].last;
+
+                //dic_perf.roi = dic_perf.roi + this.items[index].roi;
+                this.count += 1;
+                this.roi += this.items[index].roi;
+                this.profit += this.items[index].last - this.items[index].price;
+                this.estimated_value += this.items[index].last;
 
                 //logger.log.debug("PortfolioModel.calcPerformance : item=",this.items[index].qty,dic_perf);
             }
         }
 
-        this.estimated_value = 0;
-        this.roi = 0;    
-
-        if (dic_perf.count>0) {
-            this.estimated_value = dic_perf.value;
-            this.roi = dic_perf.roi/dic_perf.count;    
-        }
     }
 
     load(is_selected=1) { 

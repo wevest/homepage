@@ -7,7 +7,7 @@ import {actions} from 'src/store/actions';
 import logger from "src/error/Logger";
 import User from "src/models/UserModel";
 import { DataModel, NavBackModel } from "src/models/DataModel";
-import { AssetModel, AssetListModel } from "src/models/AssetModel";
+import { AssetModel, TickerListModel, AssetListModel } from "src/models/AssetModel";
 import { PriceModel, PriceListModel } from "src/models/PriceModel";
 
 
@@ -21,8 +21,10 @@ const state = {
     nav: new NavBackModel(),
 
     me: new User(),
+    
     prices: new PriceListModel(),
     assets: new AssetListModel(),    
+    tickers: new TickerListModel(),
 };
 
 const getters = {

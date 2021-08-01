@@ -62,11 +62,9 @@
                             {{
                                 isExpanded ? $t('button.collapse') : ` ${replyCount} ${$t('button.reply')}`
                             }}
-                            <i
-                                :class="
-                                    !isExpanded ? 'el-icon-arrow-down' : 'el-icon-arrow-up'
-                                "
-                            ></i>
+                            
+                            <i :class="!isExpanded ? 'el-icon-arrow-down' : 'el-icon-arrow-up'"></i>
+
                         </q-btn>
                     </div>
                     

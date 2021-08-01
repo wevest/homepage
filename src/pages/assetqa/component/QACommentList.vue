@@ -21,7 +21,9 @@
                             <WAvatar :avatar="a_comment.owner.avatar_thumb" :username="a_comment.owner.username" />
                         </div>
                         <div class="col">
-                            <div class="gUserNameSM q-pt-sm"> {{a_comment.owner.display_name}} </div>
+                            <div class="gUserNameSM q-pt-sm"> 
+                                {{a_comment.owner.display_name?a_comment.owner.display_name:a_comment.owner.username}} 
+                            </div>
                             <WSubinfo username="" :pub_date="a_comment.pub_date" like_count="-1" dislike_count="-1" />
                         </div>
                         

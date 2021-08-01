@@ -10,7 +10,7 @@
 
                 <div class="row q-pb-sm">
                     <WSubinfo
-                        :username="v_question.owner.display_name"
+                        :username="v_question.owner.display_name?v_question.owner.display_name:v_question.owner.username"
                         :pub_date="v_question.pub_date"
                         :read_count="v_question.read_count"
                         like_count="-1"

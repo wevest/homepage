@@ -1,19 +1,41 @@
 <template>
 
-    <div class="">
-        <div class="price_box">
-            <div class="price_big">
+    <div>
+        <div class="row">
+            <div class="col-6">
 
                 <CBigLabel ref='label_btc' 
                     title="" :moreButton="$t('button.chartview')"
                     :value="data.ticker.last" 
-                    :valueRet="data.ticker.change_percentage"
+                    :valueRet="data.ticker.ret_24h"
                     :updatedAt="data.ticker.updated_at"
-                    :extraCaption="v_price_range(data)"
+                    :extraCaption="v_price_volume(data)"
                     extraClass="gUserNameSM"
                     @onClick="onClick"></CBigLabel>
                     
             </div>
+            <div class="col-6">
+                <div>
+                    <div>{{data.ticker.ret_7d}}</div>
+                    <div>
+                        1W ROI
+                    </div>
+                </div>                
+                <div>
+                    <div>{{data.ticker.ret_1m}}</div>
+                    <div>
+                        1M ROI
+                    </div>
+                </div>                
+                <div>
+                    <div>{{data.ticker.ret_3m}}</div>
+                    <div>
+                        3M ROI
+                    </div>
+                </div>                
+
+            </div>
+
         </div>
 
 <!--                    
@@ -146,10 +168,9 @@ export default {
                 return msg;
             }
         },
-        v_price_range() {
+        v_price_volume() {
             return (data) => {
-                let msg = "24H Min , Max : $" + this.v_format(data.ticker.low_24h);
-                msg += " ~  $" + this.v_format(data.ticker.high_24h);
+                let msg = "Volume : $" + this.v_format(data.ticker.volume);
                 return msg;
             }
         }

@@ -10,7 +10,7 @@
                 <div class="col">
                     <div class="q-pt-xs q-pl-md">
                         <div class="gUserNameQA">
-                            {{a_answer.owner.display_name}}&nbsp;님 답변 
+                            {{a_answer.owner.display_name?a_answer.owner.display_name:a_answer.owner.username}}&nbsp;님 답변 
                         </div>
 
                         <div class="row">                        

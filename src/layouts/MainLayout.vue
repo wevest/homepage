@@ -183,11 +183,15 @@ export default {
 
 		setLocale(locale) {
 			logger.log.debug("MainToolbar.setLocale : locale=",locale);
+			
 			// set the Vue-i18n locale
 			this.$i18n.locale = locale;
+			
 			// load the Quasar language pack dynamically
+			const _this = this;
 			import(`src/i18n/${locale}`).then(({ default: messages }) => {
-				this.$q.lang.set(messages);
+				
+				_this.$q.lang.set(messages);
 			});
 		},
 
