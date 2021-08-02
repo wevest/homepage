@@ -169,7 +169,7 @@ export default {
                 chart: null,
             },
             g_period: 30,
-            v_tab: 'tweet',
+            v_tab: 'blog',
                                 
             v_price_loaded: false,
             v_visible_table:false,
