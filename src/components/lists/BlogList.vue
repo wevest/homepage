@@ -5,42 +5,49 @@
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreBlog"></CTitle>
 
 		<q-skeleton v-if="!v_list_loaded" height="150px" square animation="pulse-x" />                    
-
 		<div v-show="v_list_loaded">
-			<q-list separator class="rounded-borders">
-				<q-item 
-					class="q-pa-sm"
-					clickable
-					v-ripple
-					:key="index"
-					v-for="(a_post, index) in v_posts.items"
-					v-if="index<v_maxLength"
-					@click.stop="onClickBlog(a_post.id)"
-				>
-					<q-item-section class="blogAvatar" avatar top>
-						<WAvatar :avatar="a_post.api_owner.avatar_thumb" :username="a_post.api_owner.username" />
-					</q-item-section>
-					<q-item-section top>
-						<q-item-label lines="1">
-							<span class="gListTitle">{{ v_shorten(a_post.title) }}</span>
-						</q-item-label>
-						<q-item-label class="no-margin" lines="1">
+			<div>
+				<q-list separator class="rounded-borders">
+					<q-item 
+						class="q-pa-sm"
+						clickable
+						v-ripple
+						:key="index"
+						v-for="(a_post, index) in v_posts.items"
+						v-if="index<v_maxLength"
+						@click.stop="onClickBlog(a_post.id)"
+					>
+						<q-item-section class="blogAvatar" avatar top>
+							<WAvatar :avatar="a_post.api_owner.avatar_thumb" :username="a_post.api_owner.username" />
+						</q-item-section>
+						<q-item-section top>
+							<q-item-label lines="1">
+								<span class="gListTitle">{{ v_shorten(a_post.title) }}</span>
+							</q-item-label>
+							<q-item-label class="no-margin" lines="1">
 
-							<WSubinfo 
-								:username="a_post.api_owner.display_name ? a_post.api_owner.display_name:a_post.api_owner.username" 
-								:pub_date="a_post.pub_date" 
-								:like_count="a_post.like_count" 
-								:dislike_count="a_post.dislike_count" />
+								<WSubinfo 
+									:username="a_post.api_owner.display_name ? a_post.api_owner.display_name:a_post.api_owner.username" 
+									:pub_date="a_post.pub_date" 
+									:like_count="a_post.like_count" 
+									:dislike_count="a_post.dislike_count" />
 
-						</q-item-label>
-					</q-item-section>
+							</q-item-label>
+						</q-item-section>
 
-				</q-item>
-				<q-separator class="q-mb-md" size="1px" />
+					</q-item>
+					<q-separator class="q-mb-md" size="1px" />
 
-			</q-list>
+				</q-list>
+				
+				<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+			</div>
 
-			<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+			<div v-if="(! v_posts) || (v_posts.items.length==0)" class="q-pb-lg">
+				<div class="gNoListTitle"> {{ $t('name.no_blogpost') }} </div>
+				<div class="gNoListMessage"> {{ $t('name.no_blogpost_desc') }} </div>
+			</div>
+
 		</div>
 
 	</div>

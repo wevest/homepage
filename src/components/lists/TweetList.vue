@@ -6,47 +6,53 @@
 
 		<q-skeleton v-if="!v_list_loaded" height="150px" square animation="pulse-x" />
 		<div v-show="v_list_loaded">
+			<div>
+				<q-list separator class="rounded-borders">
+					<q-item 
+						class="q-pa-sm"
+						clickable
+						:key="index"
+						v-for="(a_tweet, index) in v_tweets.items"
+						v-if="index<v_maxLength"
+					>
+						<q-item-section class="blogAvatar" avatar top>
+							<WAvatar :avatar="a_tweet.owner.avatar_thumb" :username="a_tweet.owner.username" />
+						</q-item-section>
+						<q-item-section top>
+							<q-item-label class="no-margin" lines="1" @click.stop="onClickTweet(a_tweet.id)" v-ripple>
+								<div class="gUserNameSM">
+									{{ a_tweet.owner.display_name ? a_tweet.owner.display_name : a_tweet.owner.username }}
+								</div>
+								<WSubinfo 
+									:pub_date="a_tweet.created_at" 
+									like_count="-1" 
+									dislike_count="-1" />
 
-			<q-list separator class="rounded-borders">
-				<q-item 
-					class="q-pa-sm"
-					clickable
-					:key="index"
-					v-for="(a_tweet, index) in v_tweets.items"
-					v-if="index<v_maxLength"
-				>
-					<q-item-section class="blogAvatar" avatar top>
-						<WAvatar :avatar="a_tweet.owner.avatar_thumb" :username="a_tweet.owner.username" />
-					</q-item-section>
-					<q-item-section top>
-						<q-item-label class="no-margin" lines="1" @click.stop="onClickTweet(a_tweet.id)" v-ripple>
-							<div class="gUserNameSM">
-								{{ a_tweet.owner.display_name ? a_tweet.owner.display_name : a_tweet.owner.username }}
-							</div>
-							<WSubinfo 
-								:pub_date="a_tweet.created_at" 
-								like_count="-1" 
-								dislike_count="-1" />
+								<div class="gBodyLG" v-html="a_tweet.text"></div>
+								
+							</q-item-label>
+							<q-item-label>
+								<WRatingSmallButton ref="ratingButton" 
+									:data="a_tweet" :likeCount="a_tweet.like_count" :dislikeCount="a_tweet.dislike_count" 
+									@onClickRating="onClickRating" />
+							</q-item-label>
 
-							<div class="gBodyLG" v-html="a_tweet.text"></div>
-							
-						</q-item-label>
-						<q-item-label>
-							<WRatingSmallButton ref="ratingButton" 
-								:data="a_tweet" :likeCount="a_tweet.like_count" :dislikeCount="a_tweet.dislike_count" 
-								@onClickRating="onClickRating" />
-						</q-item-label>
+						</q-item-section>
 
-					</q-item-section>
+					</q-item>
+					<q-separator class="q-mb-md" size="1px" />
 
-				</q-item>
-				<q-separator class="q-mb-md" size="1px" />
+				</q-list>
 
-			</q-list>
+				<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+			</div>
 
-			<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+			<div v-if="(! v_tweets) || (v_tweets.items.length==0)" class="q-pb-lg">
+				<div class="gNoListTitle"> {{ $t('name.no_tweet') }} </div>
+				<div class="gNoListMessage"> {{ $t('name.no_tweet_desc') }} </div>
+			</div>
+
 		</div>
-
 	</div>
 </template>
 

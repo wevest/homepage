@@ -125,6 +125,7 @@ export default {
 	button: {
 		more: '더보기',
 		send: '확인',
+		ssend: '보내기',
 		save: '저장',
 		edit: '수정',
 		cancel: '취소',
@@ -170,6 +171,10 @@ export default {
 		no_following:"내가 팔로잉한 사람이 여기에 표시됩니다.",
 		no_userfeed:"팔로우 한 사람의 새로운 소식이 여기에 표시됩니다",
 		no_portfolio:"포트폴리오가 여기에 나타납니다.",
+
+		no_blogpost:"No Blog Post",
+		no_blogpost_desc:"You will see blog posts when posted blogs",
+
 	},
 	dialog: {
 		password_edit: {
@@ -207,7 +212,7 @@ export default {
 				title: '포트폴리오 편입이유',
 			},
 		},
-		delete: {
+		delete : {
 			title: '삭제하시겠습니까?',
 		},
 		edit_dialog: {
@@ -217,7 +222,12 @@ export default {
 			portfolio: {
 				title:'새로운 포트폴리오 그룹'
 			}
-		}
+		},
+		messageWriter : {
+			desc : '메시지를 전하세요!',
+			subject : '제목',
+			body : '내용',
+		},
 	},
 	page: {
 		login: {
@@ -433,6 +443,9 @@ export default {
 			forecastlist: {
 				title: '예측목록',
 				desc: ''
+			},
+			input : {
+				title : '님, 가격이 오를까요? 떨어질까요?', 
 			}
 		},
 		blogwriter: {
@@ -541,9 +554,6 @@ export default {
 				title: '사용자피드가 없습니다',
 				desc: '팔로우 한 사람의 새로운 사용자 피드가 여기에 표시됩니다',
 			}
-		},
-		forecast: {
-			title: '님 가격이 오를까요? 떨어질까요?',
 		},
 		portfolio_index : {
 			title : '포트폴리오',

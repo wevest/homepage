@@ -8,50 +8,58 @@
 
         <q-skeleton v-if="!v_list_loaded" height="150px" square animation="pulse-x" />
         <div v-show="v_list_loaded" >
-            <q-list separator class="rounded-borders">
-                <q-item 
-                    clickable
-                    v-ripple
-                    class="q-pa-sm"
-                    v-for="(a_question, index) in v_questions.items"
-                    v-if="index<v_maxLength"
-                    :key="index"
-                    @click.stop="onClickQuestion(a_question)"
-                >
-                    <q-item-section avatar top>
-                        <WAvatar :avatar="a_question.owner.avatar_thumb" :username="a_question.owner.username" />
-                    </q-item-section>
-                    <q-item-section top>
-                        <q-item-label lines="1">
-                            <q-badge
-                                class="RewardPoint q-mr-sm" 
-                                color="purple-4"
-                                text-color="white">
-                                <span>{{a_question.reward}}</span>
-                            </q-badge>
+            <div>
+                <q-list separator class="rounded-borders">
+                    <q-item 
+                        clickable
+                        v-ripple
+                        class="q-pa-sm"
+                        v-for="(a_question, index) in v_questions.items"
+                        v-if="index<v_maxLength"
+                        :key="index"
+                        @click.stop="onClickQuestion(a_question)"
+                    >
+                        <q-item-section avatar top>
+                            <WAvatar :avatar="a_question.owner.avatar_thumb" :username="a_question.owner.username" />
+                        </q-item-section>
+                        <q-item-section top>
+                            <q-item-label lines="1">
+                                <q-badge
+                                    class="RewardPoint q-mr-sm" 
+                                    color="purple-4"
+                                    text-color="white">
+                                    <span>{{a_question.reward}}</span>
+                                </q-badge>
 
-                            <span class="gListTitle">{{ v_shorten(a_question.title) }}</span>
-    <!--
-                            &nbsp;<q-icon name="done_all" v-if="a_question.closed" />
-    -->                        
-                        </q-item-label>
-                        <q-item-label lines="1">
+                                <span class="gListTitle">{{ v_shorten(a_question.title) }}</span>
+        <!--
+                                &nbsp;<q-icon name="done_all" v-if="a_question.closed" />
+        -->                        
+                            </q-item-label>
+                            <q-item-label lines="1">
 
-                            <WSubinfo 
-                                :username="a_question.owner.display_name ? a_question.owner.display_name:a_question.owner.username" 
-                                :pub_date="a_question.pub_date" 
-                                :read_count="a_question.read_count" 
-                                like_count="-1" 
-                                dislike_count="-1" />
+                                <WSubinfo 
+                                    :username="a_question.owner.display_name ? a_question.owner.display_name:a_question.owner.username" 
+                                    :pub_date="a_question.pub_date" 
+                                    :read_count="a_question.read_count" 
+                                    like_count="-1" 
+                                    dislike_count="-1" />
 
-                        </q-item-label>
-                    </q-item-section>
-                </q-item>
-                <q-separator class="loadmoreSeparator" size="1px" />
+                            </q-item-label>
+                        </q-item-section>
+                    </q-item>
+                    <q-separator class="loadmoreSeparator" size="1px" />
 
-            </q-list>
+                </q-list>
 
-            <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+                <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+
+            </div>
+
+			<div v-if="(! v_questions) || (v_questions.items.length==0)" class="q-py-lg">
+				<div class="gNoListTitle"> {{ $t('name.no_qa') }} </div>
+				<div class="gNoListMessage"> {{ $t('name.no_qa_desc') }} </div>
+			</div>
 
         </div>
 

@@ -68,10 +68,12 @@
                     <!-- Please share your knowledge! -->
                 </div>
                 <q-separator class="gSeparator" />
+
                 <BlogList ref='blogList' :title="$t('page.asset.bloglist.title')" :desc="$t('page.asset.bloglist.desc')"
                     maxLength="10" :moreCaption="$t('button.more')" 
                     :tab="v_tab"
                     :category="v_asset.object_category" :symbol="v_asset.symbol" :objectId="v_asset.id" />
+ 
             </q-tab-panel>
         
             <q-tab-panel name="qa" class="gNoMargin">

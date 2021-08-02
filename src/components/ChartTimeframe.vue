@@ -59,6 +59,9 @@
 
 
 <script>
+import logger from "src/error/Logger";
+import CommonFunc from 'src/util/CommonFunc';
+
 export default {
     name:'ChartTimeframe',
     components: {},

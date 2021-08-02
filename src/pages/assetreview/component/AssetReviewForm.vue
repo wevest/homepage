@@ -34,7 +34,7 @@
 
 				<div align="right" v-if="v_me.loggedIn">
 					<q-btn
-						class="gButtonMD" label="save" ripple
+						class="gButtonMD" :label="$t('button.save')" ripple
 						:loading="v_loading"
 						@click.stop="onClickSubmit"
 						v-if="showSaveButton"

@@ -13,97 +13,104 @@
 
         <q-skeleton v-if="!v_list_loaded" height="150px" square animation="pulse-x" />
         <div v-show="v_list_loaded"> 
-            <q-list separator class="rounded-borders">
+            <div>
+                <q-list separator class="rounded-borders">
 
-                <q-item 
-                    clickable class="q-pa-sm"
-                    :key="index"
-                    v-for="(a_review,index) in v_reviews.items" 
-                    v-if="index<v_max_length"
-                >
-                    <q-item-section class="reviewAvatar" avatar top>
-                        <WAvatar :avatar="a_review.user.avatar_thumb" :username="a_review.user.username" />
-                    </q-item-section>
+                    <q-item 
+                        clickable class="q-pa-sm"
+                        :key="index"
+                        v-for="(a_review,index) in v_reviews.items" 
+                        v-if="index<v_max_length"
+                    >
+                        <q-item-section class="reviewAvatar" avatar top>
+                            <WAvatar :avatar="a_review.user.avatar_thumb" :username="a_review.user.username" />
+                        </q-item-section>
 
-                    <q-item-section top>
-                        <q-item-label>
-                            <div class="row">
-    <!--
-                                <div class="displayName q-px-md q-py-xs" :style="v_rating_color(a_review)">
-                                    <span class="gUserNameSM text-white"> {{a_review.user.display_name}}</span>
-                                    &nbsp;<q-icon class="q-ml-xs text-white vertical-top" 
-                                        style="font-size: 1.5em;" 
-                                        :name="v_icon_name(a_review.average_rating)" />
+                        <q-item-section top>
+                            <q-item-label>
+                                <div class="row">
+        <!--
+                                    <div class="displayName q-px-md q-py-xs" :style="v_rating_color(a_review)">
+                                        <span class="gUserNameSM text-white"> {{a_review.user.display_name}}</span>
+                                        &nbsp;<q-icon class="q-ml-xs text-white vertical-top" 
+                                            style="font-size: 1.5em;" 
+                                            :name="v_icon_name(a_review.average_rating)" />
+                                    </div>
+        -->
+
+                                    <div class="q-py-xs">
+                                        <span class="gUserNameSM"> {{a_review.user.display_name}}</span>
+                                    </div>
+
+                                    <q-space />
+                                    <div>
+                                        <WCommandBar :data="a_review" :isOwner="a_review.is_owner" 
+                                            updateBtn="" deleteBtn="delete" 
+                                            @onClickUpdate="onClickEdit" 
+                                            @onClickDelete="onClickDelete" 
+                                        />
+                                    </div>
+
                                 </div>
-    -->
 
-                                <div class="q-py-xs">
-                                    <span class="gUserNameSM"> {{a_review.user.display_name}}</span>
-                                </div>
+                            </q-item-label>
+                                            
+                            <q-item-label>
 
-                                <q-space />
-                                <div>
-                                    <WCommandBar :data="a_review" :isOwner="a_review.is_owner" 
-                                        updateBtn="" deleteBtn="delete" 
-                                        @onClickUpdate="onClickEdit" 
-                                        @onClickDelete="onClickDelete" 
-                                    />
-                                </div>
-
-                            </div>
-
-                        </q-item-label>
-                                        
-                        <q-item-label>
-
-                            <WSubinfo 
-                                :pub_date="a_review.creation_date" 
-                                like_count="-1" dislike_count="-1" read_count="-1" />
-                        
-                        </q-item-label>  
-                        <q-item-label>
-                            <q-rating
-                                v-model="a_review.average_rating"
-                                name="quality"
-                                max="5" readonly
-                                size="1.3em" color="red-5"
-                                icon="star_outline" icon-selected="star" icon-half="star_half"
-                                no-dimming style="padding-left:-5px;"
-                        />
-                        </q-item-label>
-
-                        <q-item-label class="q-py-md">
-                            <div v-html="a_review.content" class="gCommentMD"></div>
-                        </q-item-label>
-                    
-                        <q-item-label>
+                                <WSubinfo 
+                                    :pub_date="a_review.creation_date" 
+                                    like_count="-1" dislike_count="-1" read_count="-1" />
                             
-                            <WRatingSmallButton ref="ratingButton" 
-                                :data="a_review" :likeCount="a_review.like_count" :dislikeCount="a_review.dislike_count" 
-                                @onClickRating="onClickRating" />
+                            </q-item-label>  
+                            <q-item-label>
+                                <q-rating
+                                    v-model="a_review.average_rating"
+                                    name="quality"
+                                    max="5" readonly
+                                    size="1.3em" color="red-5"
+                                    icon="star_outline" icon-selected="star" icon-half="star_half"
+                                    no-dimming style="padding-left:-5px;"
+                            />
+                            </q-item-label>
 
-                        </q-item-label>
+                            <q-item-label class="q-py-md">
+                                <div v-html="a_review.content" class="gCommentMD"></div>
+                            </q-item-label>
+                        
+                            <q-item-label>
+                                
+                                <WRatingSmallButton ref="ratingButton" 
+                                    :data="a_review" :likeCount="a_review.like_count" :dislikeCount="a_review.dislike_count" 
+                                    @onClickRating="onClickRating" />
 
-                        <q-item-label>
-                            <div :ref="'editorContainer'+a_review.id" :id="'editorContainer'+a_review.id"></div>
-                        </q-item-label>
-                    </q-item-section>
-                                    
-                </q-item>
+                            </q-item-label>
 
-            </q-list>
+                            <q-item-label>
+                                <div :ref="'editorContainer'+a_review.id" :id="'editorContainer'+a_review.id"></div>
+                            </q-item-label>
+                        </q-item-section>
+                                        
+                    </q-item>
 
-            <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
-    <!--
-            <div ref="reviewContainer">
-                <AssetReviewForm ref="reviewEditor" 
-                    :category="category" :assetId="assetId"
-                    @onClickReviewSave="onClickReviewSave" 
-                /> 
+                </q-list>
+
+                <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+        <!--
+                <div ref="reviewContainer">
+                    <AssetReviewForm ref="reviewEditor" 
+                        :category="category" :assetId="assetId"
+                        @onClickReviewSave="onClickReviewSave" 
+                    /> 
+                </div>
+        -->
             </div>
-    -->
-        </div>
 
+			<div v-if="(! v_reviews) || (v_reviews.items.length==0)" class="q-py-lg">
+				<div class="gNoListTitle"> {{ $t('name.no_review') }} </div>
+				<div class="gNoListMessage"> {{ $t('name.no_review_desc') }} </div>
+			</div>
+
+        </div>
     </div>  
   
 </template>
