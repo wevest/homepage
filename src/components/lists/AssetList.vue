@@ -163,8 +163,8 @@ export default {
             v_headers: [                
                 { name:'cmc_rank', label: this.$t('name.rank'), field: 'cmc_rank', sortable: true, align:'left', style:"max-width:14px"},
                 { name:'symbol', label: this.$t('name.symbol'), field: 'symbol', sortable: true, align:'left', required:true, },
-                { name:'name', label: "$ "+this.$t('name.name'), field: 'name', sortable: true, align:'left',},                
-                { name:'date_added', label: "$ "+this.$t('name.date_added'), field: 'date_added', sortable: true, align:'left',},
+                { name:'name', label: this.$t('name.name'), field: 'name', sortable: true, align:'left',},                
+                { name:'date_added', label: this.$t('name.date_added'), field: 'date_added', sortable: true, align:'left',},
             ],
             v_pagination: {
                 sortBy: 'cmc_rank',

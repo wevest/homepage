@@ -8,7 +8,7 @@
 -->
         <div class="q-my-lg">
             <WBanner :title="v_banner_title" button="" buttonLink=""
-                imgSrc="" myClass="gSubTitleMD text-white text-center" />
+                imgSrc="" myClass="q-py-sm text-subtitle1 text-white text-center" />
         </div>
 
         <div>

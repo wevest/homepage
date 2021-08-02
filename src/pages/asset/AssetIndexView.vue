@@ -1,7 +1,7 @@
 <template>
     
     <div class="q-ma-md">
-        <CTitle ttype='title' :title="$t('page.assetIndex.title')" :desc="$t('page.assetIndex.desc')"></CTitle>
+        <CTitle ttype='title' :title="$t('page.asset_index.title')" :desc="$t('page.asset_index.desc')"></CTitle>
 
         <div>
 			<WCategoryChip ref="categoryChip" color="primary" textColor="white" 
@@ -40,10 +40,10 @@ export default {
     data() {
         return {
 			v_options: [
-				{label:'시가총액순', value:'market_capital', icon:'event', selected:true},
-                {label:'24시간 급상승 애셋', value:'price_surge', icon:'event', selected:false},
-				{label:'신규상장 애셋', value:'new', icon:'event', selected:false},
-				{label:'모두 보기', value:'all', selected:false},
+				{label:this.$t('name.market_capital'), value:'market_capital', icon:'event', selected:true},
+                {label:this.$t('name.price_surge'), value:'price_surge', icon:'event', selected:false},
+				{label:this.$t('name.new_listing'), value:'new', icon:'event', selected:false},
+				{label:this.$t('name.all'), value:'all', selected:false},
 			],
 			v_category: null,			
 			v_list_title: '',

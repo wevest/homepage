@@ -22,7 +22,7 @@
                             <div class="gCaption">
                                 <WSubinfo dateFormat="0"
                                     username=""
-                                    :pub_date="v_format_date(a_portfolio.portfolio_updated_at)"
+                                    :pub_date="v_format_date(a_portfolio.created_at)"
                                     like_count="-1" 
                                     dislike_count="-1" />
                             </div>

@@ -53,10 +53,10 @@ export default {
         return {
             v_headers: [
                 { name:'trade_date', label: this.$t('name.trade_date'), field: 'trade_date', align:'left', required:true  },
-                { name:'open', label: "$ "+this.$t('name.open'), field: 'open'},
-                { name:'high', label: "$ "+this.$t('name.high'), field: 'high'},
-                { name:'low', label: "$ "+this.$t('name.low'), field: 'low'},
-                { name:'close', label: "$ "+this.$t('name.close'), field: 'close'},
+                { name:'open', label: "$ "+this.$t('name.price_open'), field: 'open'},
+                { name:'high', label: "$ "+this.$t('name.price_high'), field: 'high'},
+                { name:'low', label: "$ "+this.$t('name.price_low'), field: 'low'},
+                { name:'close', label: "$ "+this.$t('name.price_close'), field: 'close'},
                 { name:'volume', label: this.$t('name.volume'), field: 'volume'},
             ],
             v_pagination: {

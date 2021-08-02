@@ -39,15 +39,9 @@ export default {
 		bb_upper: "Resistence level",
 		bb_lower: "Support level",
 		bb_mid: "Moving average",
-		volume: "Volume",
 		kpremium: "KPremium",
 		tv: "trade volume",
 		alt: "alt coin",
-		price_prev: "price prev.",
-		price_high: "price high",
-		price_low: "price low",
-		price_open: "price open",
-		volume: "volume",
 		intro: "intro",
 		fundamental: "fundamental",
 		price: "가격",
@@ -72,8 +66,7 @@ export default {
 		avg_roi: "Avg ROI",
 		avg_total_return: "Avg Total Return",
 		homepage: "Homepage",
-		count: "Count",
-		price_surge: "price surge",
+		count: "Count",		
 		volume_surge: "Volume surge",
 		volume_change: "Volme change",
 		index: "Index",
@@ -89,7 +82,7 @@ export default {
 		estimated_value: "Estimated Price",
 		current_price: "Current Price",
 		symbol: "Symbol",
-		date_added: "listing date",
+		date_added: "Listing date",
 		blog_writing: "Please share your knowledge!",
 		comment_writing: "Please leave a comment!",
 		tweet_writing: "Tweet write...",
@@ -109,6 +102,25 @@ export default {
 		circulating_supply:"Circulating supply",
 		total_supply: "Totla supply",
 		max_supply: "Max supply",
+		
+		market_capital:"Market Capital",
+		new_listing: "New Asset",		
+		price_surge: "Gainers",
+
+		price_prev: "price prev.",
+		price_high: "High",
+		price_low: "Low",
+		price_open: "Open",
+		price_close:"Close",
+		volume:"Volume",
+
+		crypto_vc:'Crypto VC',
+		good_roi:'Profitable',
+		trending:'Trending',
+
+		latest_news:'Latest',
+		trending_news:'Trending',
+		comments_news:'Comments'
 	},
 	
 	page:{	
@@ -228,12 +240,8 @@ export default {
 			title : 'BLOG',
 			desc : ''
 		},
-		assetIndex : {
+		asset_index : {
 			title : 'ASSET',
-			desc : ''
-		},
-		portfolioIndex : {
-			title : 'PORTFOLIO',
 			desc : ''
 		},
 		notification : {
@@ -436,7 +444,12 @@ export default {
 		},
 		forecast : {
 			title : 'Will the price go up in the future?',
+		},
+		portfolio_index : {
+			title : 'Portfolio',
+			desc: ''
 		}
+
 	},
 
 
@@ -526,5 +539,6 @@ export default {
 		resend_activate: "Resend Activate Mail",
 		go_login: "Go to Log In",
 		profile:"Profile",
+		reset_password:"Reset Password",
 	}
 };

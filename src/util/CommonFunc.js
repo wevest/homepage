@@ -651,6 +651,11 @@ export default class CommonFunc {
 
     static navTweetDetail(a_this,id) {
         logger.log.debug("CommonFunc.navTweetDetail - ",a_this.$route);
+
+        if ( (! CommonFunc.isEmptyObject(a_this.tab)) && (a_this.tab.length>0) )  {
+            a_this.$route.query['tab'] = a_this.tab;
+        }
+
         store.getters.nav.add(a_this.$route);
         let dic_param = { name:'tweet_detail', path:'tweet_detail', query: {id:id} };            
         a_this.$router.push(dic_param);
@@ -685,19 +690,25 @@ export default class CommonFunc {
     
     static navBlogDetail(a_this,page_id) {
         let dic_param = {
-            name: "blog_detail",path: "blog_detail", query: { page_id: page_id }, meta: {transition:'zoom'} 
+            name: "blog_detail",path: "blog_detail", query: { page_id: page_id, tab:a_this.tab }, meta: {transition:'zoom'} 
         };
-        
-        logger.log.debug("navBlogDetail : dic_param=",dic_param);
+        if ( (! CommonFunc.isEmptyObject(a_this.tab)) && (a_this.tab.length>0) )  {
+            a_this.$route.query['tab'] = a_this.tab;
+        }
+        logger.log.debug("navBlogDetail : dic_param,route=",dic_param,a_this.$route);
         store.getters.nav.add(a_this.$route);
         a_this.$router.push(dic_param);
     }
 
     static navQADetail(a_this,page_id) {
+        if ( (! CommonFunc.isEmptyObject(a_this.tab)) && (a_this.tab.length>0) )  {
+            a_this.$route.query['tab'] = a_this.tab;
+        }
+        store.getters.nav.add(a_this.$route);
+
         let dic_param = {
             name: "assetqa_detail",path: "assetqa_detail", query: { id: page_id },
         };
-        store.getters.nav.add(a_this.$route);
         a_this.$router.push(dic_param);
     }
 
@@ -750,10 +761,13 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);
     }
 
-    static navAssetDetail(a_this,symbol,page_id) {
+    static navAssetDetail(a_this,symbol,page_id,tab=null) {
         let dic_param = {
-            name: "asset_detail",path: "asset_detail", query: { symbol:symbol, id: page_id},
+            name: "asset_detail",path: "asset_detail", query: { symbol:symbol, id: page_id, tab:tab },
         };
+
+        if (tab) a_this.$route.query['tab'] = tab;
+
         store.getters.nav.add(a_this.$route);
         a_this.$router.push(dic_param);
     }

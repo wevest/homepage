@@ -31,7 +31,7 @@
 
         <div class="gBodyLG" v-html="v_tweet.text"></div>
 
-        <WRatingButton ref="ratingButton" :data="v_tweet" />
+        <WRatingButton ref="ratingButton" :data="v_tweet" :likeCaption="$t('button.blog_like')" :dislikeCaption="$t('button.blog_dislike')" />
 
         <q-separator class="gSeparator" />
     

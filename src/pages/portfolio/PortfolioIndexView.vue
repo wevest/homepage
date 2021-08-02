@@ -3,8 +3,8 @@
 		<div>
 			<CTitle
 				ttype="title"
-				:title="$t('page.portfolioIndex.title')"
-				:desc="$t('page.portfolioIndex.desc')"
+				:title="$t('page.portfolio_index.title')"
+				:desc="$t('page.portfolio_index.desc')"
 			></CTitle>
 		</div>
 
@@ -55,10 +55,10 @@ export default {
 	data() {
 		return {
 			v_options: [
-				{label:'Crypto VC들이 사랑하는 포트폴리오', value:'vc', icon:'event', selected:true},
-				{label:'수익율이 좋은 포트폴리오', value:'roi', icon:'event', selected:false},
-				{label:'사람들이 좋아하는 포트폴리오', value:'voted', icon:'event', selected:false},
-				{label:'모두 보기', value:'all', selected:false},
+				{label:this.$t('name.crypto_vc'), value:'vc', icon:'event', selected:true},
+				{label:this.$t('name.good_roi'), value:'roi', icon:'event', selected:false},
+				{label:this.$t('name.trending'), value:'voted', icon:'event', selected:false},
+				{label:this.$t('name.all'), value:'all', selected:false},
 			],
 			v_category: null,			
 			v_list_title: '',

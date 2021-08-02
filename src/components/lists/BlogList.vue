@@ -89,6 +89,9 @@ export default {
 		objectId: {
 			required:true,
 			default:-1
+		},
+		tab: {
+			default:''
 		}
     },
     computed: {
@@ -199,7 +202,7 @@ export default {
 		},
 
 		onClickBlog: function (page_id) {
-			logger.log.debug("onClickBlog : page_id = ", page_id);			
+			logger.log.debug("onClickBlog : page_id = ", page_id);
 			CommonFunc.navBlogDetail(this,page_id);
 			//this.$emit("onClickBlog",{page_id:page_id});
 		},

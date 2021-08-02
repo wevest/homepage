@@ -1,6 +1,6 @@
 <template>
 
-    <div class="q-pa-md">
+    <div class="q-ma-md">
         <div>
             <CTitle ttype='title' :title="v_asset.symbol" desc="" 
                 loadMoreCaption="" @onClickTitleMore="onClickTitleMore"></CTitle>         
@@ -22,8 +22,8 @@
         <q-separator class="gSeparator" />        
 -->
 
-        <div class="q-my-xl">
-            <CTitle ttype='subtitle' :title="$t('page.asset_detail.price_chart.title')" :desc="$t('page.asset_detail.price_chart.desc')"></CTitle>
+        <div class="q-my-md">
+            <CTitle ttype='subtitle' :title="$t('page.asset_detail.price_chart.title')" :desc="$t('page.asset_detail.price_chart.desc')" class="gNoBoxMargin"></CTitle>
             <ChartTimeframe class="q-mt-md" period='all' @onClick="onClickTimeframe" selected='y1'></ChartTimeframe>
             <WAssetChart ref="assetChart"
                 :tableTitle="$t('page.asset_detail.price_data.title')" :tableDesc="$t('page.asset_detail.price_data.title')"

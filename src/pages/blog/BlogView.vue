@@ -62,16 +62,16 @@ export default {
             },
 
 			v_options: [
-				{label:'최신뉴스', value:'latest', icon:'event', selected:true},
-				{label:'좋아요 많은 뉴스', value:'voted', icon:'event', selected:false},
-				{label:'댓글 많은 뉴스', value:'comments', icon:'event', selected:false},
+				{label:this.$t('name.latest_news'), value:'latest', icon:'event', selected:true},
+				{label:this.$t('name.trending_news'), value:'voted', icon:'event', selected:false},
+				{label:this.$t('name.comments_news'), value:'comments', icon:'event', selected:false},
 			],
 			v_category: null,			
 			v_list_title: '',
 
         }
     },
-    created: function () {
+    created() {
         //console.log("HomeView.created");
         console.log("BlogView.created - query=",this.$route.query);
 
@@ -96,7 +96,7 @@ export default {
 
             CommonFunc.navError404(this);
         },        
-        refresh: function(symbol,offset=360) {
+        refresh(symbol,offset=360) {
             logger.log.debug('Refresh - ',symbol,offset);
 
             if ( (!symbol) || ( (symbol.length)==0 ) ) {
@@ -107,9 +107,9 @@ export default {
 
         },
 
-        loadBlogList: function() {
+        loadBlogList() {
             //const category = CONST.ASSETPAGE_CATEGORY+this.g_asset.symbol;
-            //console.log('AssetView.loadBlogList - ',category);            
+            console.log('BlogView.loadBlogList - ',this.g_asset.category);            
             this.$refs.blogList.updateByCategory(this.g_asset.category);
         },
 

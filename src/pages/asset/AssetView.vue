@@ -58,7 +58,7 @@
                 </div>
                 <q-separator class="gSeparator" />
                 <TweetList ref='tweetList' title="Tweets" maxLength="10" moreCaption="" 
-                    :category="v_asset.object_category" :symbol="v_asset.symbol" :assetId="v_asset.id" />
+                    :tab="v_tab" :category="v_asset.object_category" :symbol="v_asset.symbol" :assetId="v_asset.id" />
 
             </q-tab-panel>
 
@@ -70,7 +70,8 @@
                 <q-separator class="gSeparator" />
                 <BlogList ref='blogList' :title="$t('page.asset.bloglist.title')" :desc="$t('page.asset.bloglist.desc')"
                     maxLength="10" :moreCaption="$t('button.more')" 
-                    :category="v_asset.object_category" :symbol="v_asset.symbol" :objectId="v_asset.id" />            
+                    :tab="v_tab"
+                    :category="v_asset.object_category" :symbol="v_asset.symbol" :objectId="v_asset.id" />
             </q-tab-panel>
         
             <q-tab-panel name="qa" class="gNoMargin">
@@ -80,8 +81,8 @@
                 </div>
                 <q-separator class="gSeparator" />
                 <AssetQuestionList ref="questionList" :title="$t('page.asset.questionlist.title')" :desc="$t('page.asset.questionlist.desc')"
-                    maxLength="10" :moreCaption="$t('button.more')"
-                    :symbol="v_asset.symbol" :assetId="v_asset.id"
+                    maxLength="10" moreCaption=""
+                    :tab="v_tab" :symbol="v_asset.symbol" :assetId="v_asset.id"
                     @onClickQuestionRating="onClickQuestionRating"
                 >
                 </AssetQuestionList>            
@@ -97,7 +98,7 @@
                 </div>
                 <q-separator class="gSeparator" />
                 <AssetReviewList ref="reviewList" :title="$t('page.asset.priceforecast.title')" :desc="$t('page.asset.priceforecast.desc')" 
-                    :moreCaption="$t('button.more')" maxLength="10" 
+                    moreCaption="" maxLength="10" 
                     :category="v_asset.symbol" :assetId="v_asset.id" 
                     @onClickRating="onClickReviewRating"> 
                 </AssetReviewList>
@@ -190,10 +191,7 @@ export default {
         //console.log("AssetView.created - query=",this.$route.query);
         
         this.validateQuery();
-
-        this.v_asset.symbol = this.$route.query.symbol;
-        this.v_asset.object_category = CONST.ASSETPAGE_CATEGORY+this.v_asset.symbol;
-        this.v_asset.id = parseInt(this.$route.query.id);
+        this.prepare();
     },
     mounted() {
         //this.g_asset.symbol = 'BTC';
@@ -216,7 +214,14 @@ export default {
 
             CommonFunc.navError404(this);
         },
-
+        prepare() {
+            this.v_asset.symbol = this.$route.query.symbol;
+            this.v_asset.object_category = CONST.ASSETPAGE_CATEGORY+this.v_asset.symbol;
+            this.v_asset.id = parseInt(this.$route.query.id);
+            if (this.$route.query.hasOwnProperty('tab')) {
+                this.v_tab = this.$route.query.tab;
+            }
+        },
         addTabQuery() {
             if (this.$route.query.tab) {
                 if (this.$route.query.tab==this.v_tab) {
@@ -243,7 +248,7 @@ export default {
         
         updateTab() {
             
-            this.addTabQuery();
+            //this.addTabQuery();
 
             if (this.v_tab=="review") {
                 if (! this.v_loaded.review) {
@@ -385,12 +390,12 @@ export default {
         },
 
         loadAssetReviewData() {
-            let dic_param = {'asset_id':this.v_asset.id};
+            let dic_param = {'asset_id':this.v_asset.id,tab:this.v_tab};
             this.$refs.reviewList.update(dic_param);
         },
 
         loadAssetQuestionData() {
-            let dic_param = {'asset_id':this.v_asset.id};
+            let dic_param = {'asset_id':this.v_asset.id,tab:this.v_tab};
             this.$refs.questionList.update(dic_param);
         },
 
@@ -526,7 +531,7 @@ export default {
         onClickPrice(dicParam) {
             logger.log.debug('AssetView.onClickPrice');
             //store.getters.nav.add(this.$route);
-            CommonFunc.navAssetDetail(this,this.v_asset.symbol,this.v_asset.id);
+            CommonFunc.navAssetDetail(this,this.v_asset.symbol,this.v_asset.id,this.v_tab);
         },
 
         onClickWrite() {

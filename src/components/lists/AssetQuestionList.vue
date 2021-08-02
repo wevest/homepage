@@ -102,7 +102,10 @@ export default {
 		assetId: {
 			required:true,
 			default:-1
-		}
+		},
+        tab: {
+            default:''
+        }
     },    
     computed: {
         v_shorten() {

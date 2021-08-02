@@ -38,15 +38,9 @@ export default {
 		bb_upper: "저항선",
 		bb_lower: "지지선",
 		bb_mid: "이동평균",
-		volume: "거래량",
 		kpremium: "김치프리미엄",
 		tv: "거래대금",
 		alt: "알트코인",
-		price_prev: "전일",
-		price_high: "고가",
-		price_low: "저가",
-		price_open: "시가",
-		volume: "거래량",
 		intro: "개요",
 		fundamental: "기본정보",
 		price: "가격",
@@ -109,6 +103,24 @@ export default {
 		total_supply: "총발행량",
 		max_supply: " 최대가능발행량",
 
+		market_capital:"시가총액",
+		new_listing: "신규상장",		
+		price_surge: "가격급상승",
+
+		price_prev: "전일",		
+		price_high: "고가",
+		price_low: "저가",
+		price_open: "시가",
+		price_close:"종가",
+		volume:"거래량",
+
+		crypto_vc:'크립토투자가',
+		good_roi:'수익성이 좋은',
+		trending:'인기있는',
+		
+		latest_news:'최신',
+		trending_news:'인기있는',
+		comments_news:'댓글많은 '
 	},
 	button: {
 		more: '더보기',
@@ -150,6 +162,7 @@ export default {
 		profile: "프로파일",
 		resend_activate: "인증 메일 재발송",
 		go_login: "로그인하기",
+		reset_password:"비밀번호 설정",
 	},
 	dialog: {
 		password_edit: {
@@ -512,6 +525,10 @@ export default {
 		},
 		forecast: {
 			title: '님 가격이 오를까요? 떨어질까요?',
+		},
+		portfolio_index : {
+			title : '포트폴리오',
+			desc: ''
 		}
 	}
 }

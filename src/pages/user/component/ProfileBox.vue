@@ -3,8 +3,9 @@
         <q-card style="text-align: center;" v-if="v_user"> 
             <q-card-actions align="right">
                 
-                <WMoreButton ref="moreButtons" 
-                    :buttons=" $t('button.ResetPassword') " 
+                <WMoreButton v-if="v_me.isOwner"
+                    ref="moreButtons" 
+                    :buttons=" $t('button.reset_password') " 
                     @onClick="onClickMoreButton" />
 
             </q-card-actions>
