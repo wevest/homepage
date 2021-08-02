@@ -123,7 +123,7 @@ export default {
 		portfolio_like: '훌륭합니다',
 		portfolio_dislike: '리밸런싱이 필요합니다',
 		reply: '답글',
-		expand: '펼치기',
+		expand: '댓글수',
 		collapse: '접기',
 		update: '업데이트',
 		add: '추가',
@@ -228,18 +228,18 @@ export default {
 				title: '마켓 위험 알림',
 				desc: ''
 			},
-			blog_list: {
+			blog: {
 				title: '마켓트랜드'
 			},
-			portfolio_list: {
+			portfolio: {
 				title: 'VC 포트폴리오',
 				desc: ''
 			},
-			new_asset_list: {
+			asset: {
 				title: '신규에셋목록',
 				desc: '',
 			},
-			userfeed_list: {
+			userfeed: {
 				title: '사용자피드',
 				desc: ''
 			},
@@ -290,6 +290,21 @@ export default {
 			mail_sent: {
 				title: '비밀번호 변경을 위한 메일이 발송되었습니다',
 			}
+		},
+		blog : {
+			title : '블로그',
+		},
+		assetIndex : {
+			title : '애셋',
+			desc : ''
+		},
+		portfolioIndex : {
+			title : '포트폴리오',
+			desc : ''
+		},
+		notification : {
+			title : '알림메시지',	
+			desc :''
 		},
 		assetqa: {
 			title: 'QA',
@@ -478,7 +493,7 @@ export default {
 			title: '사용자피드',
 			desc: '',
 			userfeed: {
-				title: '사용자피드 목록',
+				title: '사용자피드',
 				desc: ''
 			},
 			nouserfeed: {

@@ -13,22 +13,22 @@
         </div>
 
         <div>
-            <PortfolioList ref="pfVC" :title="$t('page.home.portfolio_list.title')" :desc="$t('page.home.portfolio_list.desc')"
+            <PortfolioList ref="pfVC" :title="$t('page.home.portfolio.title')" :desc="$t('page.home.portfolio.desc')"
                 maxLength="10" :moreCaption="$t('button.more')"></PortfolioList>
         </div>
 
         <div class="col">
-            <AssetList ref='assetList' :title="$t('page.home.new_asset_list.title')" :desc="$t('page.home.new_asset_list.desc')"
+            <AssetList ref='assetList' :title="$t('page.home.asset.title')" :desc="$t('page.home.asset.desc')"
             maxLength="10" :moreCaption="$t('button.more')" ></AssetList>
         </div>
 
         <div>
-            <UserFeedList ref='feedList' :title="$t('page.home.userfeed_list.title')" 
+            <UserFeedList ref='feedList' :title="$t('page.home.userfeed.title')" 
                 maxLength="10" :moreCaption="$t('button.more')" user="v_me"></UserFeedList>
         </div>                                               
 
         <div>
-            <BlogList ref='blogList' :title="$t('page.home.blog_list.title')" maxLength="10" 
+            <BlogList ref='blogList' :title="$t('page.home.blog.title')" maxLength="10" 
                 :moreCaption="$t('button.more')" 
                 category="" symbol="" objectId="-1"></BlogList>
         </div>

@@ -1,7 +1,7 @@
 <template>
     
     <div class="q-ma-md">
-        <CTitle ttype='title' :title="$t('page.asset_index.title')" :desc="$t('page.asset_index.desc')"></CTitle>
+        <CTitle ttype='title' :title="$t('page.assetIndex.title')" :desc="$t('page.assetIndex.desc')"></CTitle>
 
         <div>
 			<WCategoryChip ref="categoryChip" color="primary" textColor="white" 

@@ -147,18 +147,18 @@ export default {
 				title : 'market risk alarm',
 				desc : ''
 			},
-			blog_list: {
+			blog: {
 				title:'market trend'
 			},
-			portfolio_list: {
+			portfolio: {
 				title:'VC portfolio',
 				desc: ''
 			},
-			new_asset_list : {
+			asset : {
 				title : 'new asset list',
 				desc : '',
 			},
-			userfeed_list: {
+			userfeed: {
 				title:'USERFEEDS',
 				desc:''				
 			},
@@ -212,6 +212,22 @@ export default {
 			mail_sent : {
 				title : 'Password Reset Email Sent',
 			}
+		},
+		blog : {
+			title : 'BLOG',
+			desc : ''
+		},
+		assetIndex : {
+			title : 'ASSET',
+			desc : ''
+		},
+		portfolioIndex : {
+			title : 'PORTFOLIO',
+			desc : ''
+		},
+		notification : {
+			title : 'Notification',	
+			desc :''
 		},
 		assetqa: {
 			title: 'QA',
