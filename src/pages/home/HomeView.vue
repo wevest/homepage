@@ -1,15 +1,23 @@
 <template>
     
   <div class="q-ma-md">
+<!--      
         <div>
             <CTitle ttype='title' :title="$t ('page.home.title')" :desc="$t('page.home.desc')"></CTitle>
         </div>
-
+-->
+        <div class="q-my-lg">
+            <WBanner :title="v_banner_title" button="" buttonLink=""
+                imgSrc="" myClass="gSubTitleMD text-white text-center" />
+        </div>
 
         <div>
             <MarketIndexWidget ref="indexWidget" @onClick="onClickIndex"/>
-            <MarketWatchWidget ref="watchWidget" :title="$t('page.home.marketwatching.title')" :desc="$t('page.home.marketwatching.desc')"
+<!--            
+            <MarketWatchWidget ref="watchWidget" 
+                :title="$t('page.home.marketwatching.title')" :desc="$t('page.home.marketwatching.desc')"
                 :moreButton="$t('button.more')" />
+-->                
         </div>
 
         <div>
@@ -62,7 +70,7 @@ import UserFeedList from 'components/lists/UserFeedList';
 import DataService from 'src/services/dataService';
 
 
-//import CIndexChart from 'pages/home/CIndexChart';
+import WBanner from 'components/WBanner';
 //import CExchangeIndexChart from 'pages/home/CExchangeIndexChart';
 import MarketIndexWidget from 'pages/home/components/MarketIndexWidget';
 import MarketWatchWidget from 'pages/home/components/MarketWatchWidget';
@@ -73,6 +81,7 @@ export default {
     components: {
         CTitle,
         CBigLabel,
+        WBanner,
         MarketIndexWidget,
         MarketWatchWidget,
         BlogList,
@@ -95,7 +104,8 @@ export default {
             v_page: {title:'page.home.title', desc:''},
             v_subpage: { 
                 cwatch: { title:'page.home.cwatch.title', desc:''} 
-            },                
+            },       
+            v_banner_title: "WeVest Alpha Test Starts!!!",         
         }
     },
     created() {
@@ -126,8 +136,9 @@ export default {
                 this.loadPortfolioList(),
                 this.loadFeedList(),
                 //this.loadReviewStatList(),
-                this.loadCryptoWatch(),
                 this.loadMarketIndex(),
+
+                //this.loadCryptoWatch(),                
                 /*
                 this.loadIndexData(),
                 this.loadCryptoTopAssetData('1h'),

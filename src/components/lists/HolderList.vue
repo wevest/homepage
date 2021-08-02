@@ -4,67 +4,76 @@
 		<CTitle ttype='subtitle' :title="v_title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreFriend"></CTitle>
 
-		<div v-show="data && data.holders.items.length>0">
-			<q-list separator class="rounded-borders">
-				<q-item 
-					class="q-pa-sm"
-					clickable
-					:key="index"
-					v-if="index<v_maxLength && data.holders.items.length>0"
-					v-for="(a_user, index) in data.holders.items"				
-				>
-					<q-item-section class="avatar" avatar top>
-						<WAvatar :avatar="a_user.avatar" :username="a_user.username" />
-					</q-item-section>
-					<q-item-section top @click.stop="onClickPortfolio(a_user)">
-						<q-item-label lines="1">
-							<span class="gUserNameSM">
-								{{ a_user.display_name ? a_user.display_name : a_user.username }}
-							</span>
+		<q-skeleton v-if="!v_list_loaded" height="150px" square animation="pulse-x" />
+		<div v-show="v_list_loaded">
+			<div v-show="data && data.holders.items.length>0">
+				<q-list separator class="rounded-borders">
+					<q-item 
+						class="q-pa-sm"
+						clickable
+						:key="index"
+						v-if="index<v_maxLength && data.holders.items.length>0"
+						v-for="(a_user, index) in data.holders.items"				
+					>
+						<q-item-section class="avatar" avatar top>
+							<WAvatar :avatar="a_user.avatar" :username="a_user.username" />
+						</q-item-section>
 
-							<span class="q-ml-md"> at </span>
-							<q-badge
-								class="q-ml-xs" 
-								color="purple-4"
-								text-color="white">
-								<span>$ {{v_format(a_user.price)}}</span>
-							</q-badge>
-								
-						</q-item-label>
-						<q-item-label lines="1">
+						<q-item-section top @click.stop="onClickPortfolio(a_user)">
+							
+							<q-item-label lines="1">
+								<span class="gUserNameSM">
+									{{ a_user.display_name ? a_user.display_name : a_user.username }}
+								</span>
 
-							<WSubinfo 
-								username="" 
-								:pub_date="a_user.created_at" 
-								:like_count="-1" 
-								:dislike_count="-1" />
+								<span class="q-ml-sm gCaption"> buy at </span>
+								<q-badge
+									class="q-ml-xs" color="purple-4" text-color="white">
+									<span>$ {{ v_format(a_user.price) }}</span>
+								</q-badge>
+								<span class="q-ml-sm"> </span>
+								<q-badge
+									class="q-ml-xs" color="red-14" text-color="white">
+									<span> {{ v_roi(a_user) }}</span>
+								</q-badge>								
 
-						</q-item-label>
-					</q-item-section>
-					
-					<q-item-section side>
-						<q-item-label lines="1">
-							<q-btn dense icon="navigate_next" @click="onClickPortfolio(a_user)" />
-						</q-item-label>
-					</q-item-section>
+							</q-item-label>
 
-				</q-item>
-				<q-separator class="q-mb-md" size="1px" />
+							<q-item-label lines="1">
 
-			</q-list>
+								<WSubinfo 
+									dateFormat="0"
+									username=""  
+									:pub_date="a_user.created_at" 
+									:like_count="-1" 
+									:dislike_count="-1" />
 
-			<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
-		</div>
+							</q-item-label>
+						</q-item-section>
+						
+						<q-item-section side>
+							<q-item-label lines="1">
+								<q-btn dense icon="navigate_next" @click="onClickPortfolio(a_user)" />
+							</q-item-label>
+						</q-item-section>
 
-		<div v-show="(! data ) || (data.holders.items.length==0)" class="text-center">
-			<div class="gListTitle"> 
-				{{noDataTitle}}
+					</q-item>
+					<q-separator class="q-mb-md" size="1px" />
+
+				</q-list>
+
+				<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
 			</div>
-			<div class="gCaption">
-				{{noDataDescription}}
+
+			<div v-show="(! data ) || (data.holders.items.length==0)" class="text-center">
+				<div class="gListTitle"> 
+					{{noDataTitle}}
+				</div>
+				<div class="gCaption">
+					{{noDataDescription}}
+				</div>
 			</div>
 		</div>
-
 	</div>
 
 </template>
@@ -134,10 +143,27 @@ export default {
                 return CommonFunc.shortenString(value,MoaConfig.setting.maxTitleLength);
             };
         },		
+        v_roi() {
+            return (user) => {				
+				if (! this.v_price) {
+					this.v_price = store.state.prices.getPrice(user.asset.symbol);
+				}
+				if (! this.v_price) {
+					return '';
+				}
+
+				logger.log.debug('HolderList.v_roi : user,price=',user,this.v_price);				
+				const a_ret = CommonFunc.calcRet(user.price,this.v_price.last)*100;
+				return CommonFunc.formatNumber(a_ret,2)+"%";
+			}
+        },
+
     },
 
 	data() {
 		return {
+			v_list_loaded: false,
+
 			g_data: null,
 			
 			v_title: this.title,
@@ -148,6 +174,8 @@ export default {
                 offset: 0,
                 limit: this.limit,
             },
+
+			v_price: null,
 
 			v_asset: this.data,
 			v_items: null,
@@ -186,19 +214,21 @@ export default {
                 logger.log.debug("HolderList.loadHolders - response=",response);
 				_this.$refs.loadMore.setPageParameter(response.data);
 				_this.setTitle(_this.$refs.loadMore.v_count);
+				_this.v_list_loaded = true;
             }).catch(err=>{
 				logger.log.error("ProfileView.loadFollower - err=",err);
+				_this.v_list_loaded = true;
             });
 
         },
 
-		onClickUser: function (username) {
+		onClickUser(username) {
 			logger.log.debug("onClickUser : username = ", username);			
 			CommonFunc.navProfile(this,username);
 			//this.$emit("onClickBlog",{page_id:page_id});
 		},
 
-		onClickLoadMore: function() {
+		onClickLoadMore() {
 			logger.log.debug("onClickLoadMore : next_url = ", this.v_next_url);
 
 			this.v_maxLength = 999999;
@@ -208,7 +238,7 @@ export default {
 
 		},
 
-		onClickMoreFriend: function() {
+		onClickMoreFriend() {
 			logger.log.debug("FriendList.onClickMoreFriend : 1");
 			
 			//store.getters.nav.add(this.$route);

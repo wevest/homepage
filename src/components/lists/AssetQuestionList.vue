@@ -6,52 +6,56 @@
 		<CTitle ttype='subtitle' :title="v_title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreQuestion"></CTitle>
 
-		<q-list separator class="rounded-borders">
-			<q-item 
-				clickable
-				v-ripple
-                class="q-pa-sm"
-				v-for="(a_question, index) in v_questions.items"
-                v-if="index<v_maxLength"
-				:key="index"
-				@click.stop="onClickQuestion(a_question)"
-			>
-				<q-item-section avatar top>
-					<WAvatar :avatar="a_question.owner.avatar_thumb" :username="a_question.owner.username" />
-				</q-item-section>
-				<q-item-section top>
-					<q-item-label lines="1">
-                        <q-badge
-                            class="RewardPoint q-mr-sm" 
-                            color="purple-4"
-                            text-color="white">
-                            <span>{{a_question.reward}}</span>
-                        </q-badge>
+        <q-skeleton v-if="!v_list_loaded" height="150px" square animation="pulse-x" />
+        <div v-show="v_list_loaded" >
+            <q-list separator class="rounded-borders">
+                <q-item 
+                    clickable
+                    v-ripple
+                    class="q-pa-sm"
+                    v-for="(a_question, index) in v_questions.items"
+                    v-if="index<v_maxLength"
+                    :key="index"
+                    @click.stop="onClickQuestion(a_question)"
+                >
+                    <q-item-section avatar top>
+                        <WAvatar :avatar="a_question.owner.avatar_thumb" :username="a_question.owner.username" />
+                    </q-item-section>
+                    <q-item-section top>
+                        <q-item-label lines="1">
+                            <q-badge
+                                class="RewardPoint q-mr-sm" 
+                                color="purple-4"
+                                text-color="white">
+                                <span>{{a_question.reward}}</span>
+                            </q-badge>
 
-						<span class="gListTitle">{{ v_shorten(a_question.title) }}</span>
-<!--
-                        &nbsp;<q-icon name="done_all" v-if="a_question.closed" />
--->                        
-					</q-item-label>
-					<q-item-label lines="1">
+                            <span class="gListTitle">{{ v_shorten(a_question.title) }}</span>
+    <!--
+                            &nbsp;<q-icon name="done_all" v-if="a_question.closed" />
+    -->                        
+                        </q-item-label>
+                        <q-item-label lines="1">
 
-						<WSubinfo 
-							:username="a_question.owner.display_name ? a_question.owner.display_name:a_question.owner.username" 
-							:pub_date="a_question.pub_date" 
-							:read_count="a_question.read_count" 
-                            like_count="-1" 
-							dislike_count="-1" />
+                            <WSubinfo 
+                                :username="a_question.owner.display_name ? a_question.owner.display_name:a_question.owner.username" 
+                                :pub_date="a_question.pub_date" 
+                                :read_count="a_question.read_count" 
+                                like_count="-1" 
+                                dislike_count="-1" />
 
-					</q-item-label>
-				</q-item-section>
-			</q-item>
-			<q-separator class="loadmoreSeparator" size="1px" />
+                        </q-item-label>
+                    </q-item-section>
+                </q-item>
+                <q-separator class="loadmoreSeparator" size="1px" />
 
-		</q-list>
+            </q-list>
 
-		<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+            <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
 
-  </div>  
+        </div>
+
+    </div>  
   
 </template>
 
@@ -109,6 +113,7 @@ export default {
     },
     data () {
         return {
+            v_list_loaded: false,
             g_data: null,
 
             v_title: this.title,
@@ -135,45 +140,46 @@ export default {
 
     methods: {
 
-        update: function(dic_param) {
+        update(dic_param) {
             const _this = this;
 
             this.v_questions.load(dic_param).then( response => {
                 _this.g_data = response;
                 _this.$refs.loadMore.setPageParameter(response.data);
+                _this.v_list_loaded = true;
             }).catch( err=> {
-
+                logger.log.debug('AssetQuestionList : err = ',err);
             });
             
         },
 
-        addQuestion:function(response) {
+        addQuestion(response) {
             logger.log.debug('addQuestion : response = ',response);
             this.v_questions.addFirst(response.data);
         },
 
 
-        onClickRating: function(value,question) {
+        onClickRating(value,question) {
             logger.log.debug('onClickRating : question = ',question);
             //let dic_param = {'rtype':rtype, 'obj':json_review};
             question.value = value;
             this.$emit("onClickQuestionRating",question);
         },
 
-        onClickAsset: function(asset) {
+        onClickAsset(asset) {
           logger.log.debug('onClickBlog : asset = ',asset);
           
           let dic_param = { name:'asset', path:'asset', params:{ symbol:asset } };          
           this.$emit("onClickAsset",dic_param);          
         },
 
-        onClickQuestion: function(jsonObject) {
+        onClickQuestion(jsonObject) {
             logger.log.debug('onClickQuestion - ',jsonObject);             
             CommonFunc.navQADetail(this,jsonObject.id);            
             //this.$emit("onClickQuestion",jsonObject);          
         },
 
-        onClickLoadMore: function() {                        
+        onClickLoadMore() {                        
             let dic_param = {'asset_id':this.assetId};
 			dic_param.limit = this.$refs.loadMore.v_next.limit;
 			dic_param.offset = this.$refs.loadMore.v_next.offset;
@@ -183,12 +189,12 @@ export default {
             this.update(dic_param);
         },
 
-        onClickAvatar: function(username) {
+        onClickAvatar(username) {
             logger.log.debug('onClickAvatar');
             CommonFunc.navProfile(this,username);
         },
 
-        onClickMoreQuestion:function() {
+        onClickMoreQuestion() {
             logger.log.debug('AssetQuestionList.onClickMoreQuestion');
             CommonFunc.navQA(this,this.symbol,this.assetId);
         }

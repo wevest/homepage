@@ -1,25 +1,29 @@
 <template>
 
-    <div class="row q-gutter-sm text-center">
+    <div class="row q-gutter-sm text-center">        
         <div class="col">
+            <q-skeleton v-if="!v_index_loaded" height="95px" square animation="pulse-x" />                    
             <CBigLabel ref='labelBtc' 
                 title="BTC" moreButton=" "
                 :value="v_data.btc.price" 
-                :valueRet="v_data.btc.ret"
+                :valueRet="v_format(v_data.btc.ret)"
                 :updatedAt="v_data.btc.updated_at"
                 extraCaption=""
                 extraClass=""
+                v-show="v_index_loaded"
                 @onClick="onClick('BTC')"></CBigLabel>
             
         </div>
         <div class="col">
+            <q-skeleton v-if="!v_index_loaded" height="95px" square animation="pulse-x" />                    
             <CBigLabel ref='labelEth' 
                 title="ETH" moreButton=" "
                 :value="v_data.eth.price" 
-                :valueRet="v_data.eth.ret"
+                :valueRet="v_format(v_data.eth.ret)"
                 :updatedAt="v_data.eth.updated_at"
                 extraCaption=""
                 extraClass=""
+                v-show="v_index_loaded"
                 @onClick="onClick('ETH')"></CBigLabel>
 
         </div>
@@ -47,6 +51,13 @@ export default {
             default:null,
         },
     },
+    computed: {
+        v_format() {
+            return (value) => {
+                return CommonFunc.formatNumber(value,2);
+            };            
+        },
+    },
     data() {
         return {
             v_data: {
@@ -56,7 +67,8 @@ export default {
                 eth: {
                     price:0, ret:0, updated_at:''
                 },
-            }
+            },
+            v_index_loaded: false,
         }
     },
     methods: {
@@ -73,6 +85,8 @@ export default {
                 _this.v_data.eth.price = a_eth.last;
                 _this.v_data.eth.ret = a_eth.change_percentage;
                 _this.v_data.eth.updated_at = a_eth.updated_at;
+
+                _this.v_index_loaded = true;
             })            
 
         },

@@ -1,7 +1,9 @@
 <template>
 
   <div class="boxChart">    
-    <highcharts class="hc" :options="g_chart['chart1']" ref="chart1"></highcharts>    
+    <q-skeleton v-if="!v_chart_loaded" height="200px" square animation="pulse" />
+    <highcharts class="hc" :options="g_chart['chart1']" ref="chart1" v-show="v_chart_loaded">
+    </highcharts>    
   </div>
 
 </template>
@@ -24,6 +26,8 @@ export default {
     },
     data() {
       return {
+        v_chart_loaded: false,
+
         g_data: null,
         g_data_kvix: null,
         g_data_event: null,
@@ -63,6 +67,7 @@ export default {
 
         update: function(portfolio) {
             this.showChart(portfolio);
+            this.v_chart_loaded = true;
         },
 
     }

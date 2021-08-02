@@ -49,17 +49,17 @@
 
         <q-item clickable v-ripple>
             <q-item-section class="col-3 itemLabel">{{ $t('name.circulating_supply') }}</q-item-section>
-            <q-item-section class="text-right">{{v_format(v_asset.circulating_supply)}}</q-item-section>
+            <q-item-section>{{v_format(v_asset.circulating_supply)}}</q-item-section>
         </q-item>
 
         <q-item clickable v-ripple>
             <q-item-section class="col-3 itemLabel">{{ $t('name.max_supply') }}</q-item-section>
-            <q-item-section class="text-right">{{v_format(v_asset.max_supply)}}</q-item-section>
+            <q-item-section>{{v_format(v_asset.max_supply)}}</q-item-section>
         </q-item>
 
         <q-item clickable v-ripple>
             <q-item-section class="col-3 itemLabel">{{ $t('name.total_supply') }}</q-item-section>
-            <q-item-section class="text-right">{{v_format(v_asset.total_supply)}}</q-item-section>
+            <q-item-section>{{v_format(v_asset.total_supply)}}</q-item-section>
         </q-item>
 
     </q-list>

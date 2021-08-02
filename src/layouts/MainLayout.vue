@@ -16,15 +16,18 @@
 						@click="leftDrawerOpen = !leftDrawerOpen"
 					/>
 					
-					<div class="toolbar_title" @click="onClickLogo">WeVest</div>
+					<div class="toolbar_title" @click="onClickLogo">
+						WeVest
+						<q-badge align="top" class="boxBadge">v0.1</q-badge>
+					</div>
 
-					<CryptoSelect class="q-pl-md" ref="searchInput" hideBottomSpace="1" hideDropdownIcon="1"
+					<CryptoSelect class="q-pl-sm" ref="searchInput" hideBottomSpace="1" hideDropdownIcon="1"
 						@onSelect="onSearch" label="" filled="0" myStyle="width:80px;" />
 
 					<q-space />
 					<div v-if="v_login == true">
-						<q-btn flat round dense color="yellow" icon="mail" @click="onClickMessage" />
-						<q-btn flat round dense color="red" icon="notifications_none" @click="onClickNotification" />
+						<q-btn flat round dense icon="mail_outline" @click="onClickMessage" />
+						<q-btn flat round dense icon="notifications_none" @click="onClickNotification" />
 
 						<WMoreButton ref="moreButtons" 
 							:buttons="v_more_buttons" 
@@ -381,9 +384,11 @@ export default {
 .toolbar_title {
 	font-size: 1.5em;
 	font-weight: bolder;
-	/* 
-  text-overflow: none !important;
-  width:100%; */
 }
 
+.boxBadge {
+	margin-top:-10px;
+	margin-left:-25px;
+	font-size: 10px;
+}
 </style>

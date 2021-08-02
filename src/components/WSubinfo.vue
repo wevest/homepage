@@ -18,7 +18,7 @@
 
         </div>
         <div v-if="(username) && (username.length>0)">
-            {{ username }}
+            {{ v_shorten(username) }}
         </div>
         <div v-if="(pub_date) && (pub_date.length>0)">
              {{ v_updated_at(pub_date) }} 
@@ -77,6 +77,11 @@ export default {
         v_me() {
             return store.getters.me;
         },
+        v_shorten() {
+            return (value) => {
+                return CommonFunc.shortenString(value,15);
+            }
+        },
         v_updated_at() {
             return (value) => {
                 if (this.dateFormat=="0") {
@@ -124,8 +129,7 @@ export default {
                 //return "padding-left:20px;";
             }
             return "";
-        }
-        
+        }        
     },
     data() {    
         return {

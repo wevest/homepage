@@ -4,60 +4,64 @@
 		<CTitle ttype='subtitle' :title="v_title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreFriend"></CTitle>
 
-		<div v-show="v_items">
-			<q-list separator class="rounded-borders">
-				<q-item 
-					class="q-pa-sm"
-					clickable
-					:key="index"
-					v-if="index<v_maxLength && v_items"
-					v-for="(a_user, index) in v_items"				
-				>
-					<q-item-section class="avatar" avatar top>
-						<WAvatar :avatar="a_user.avatar" :username="a_user.username" />
-					</q-item-section>
-					<q-item-section top @click.stop="onClickUser(a_user.username)">
-						<q-item-label lines="1">
-							<span class="gUserNameSM">{{ a_user.username }}</span>
-						</q-item-label>
-						<q-item-label lines="1">
+		<q-skeleton v-if="!v_list_loaded" height="150px" square animation="pulse-x" />                    
 
-							<WSubinfo 
-								username="" 
-								:pub_date="a_user.created_at" 
-								:like_count="-1" 
-								:dislike_count="-1" />
+		<div v-show="v_list_loaded">
+			<div v-show="v_items">
+				<q-list separator class="rounded-borders">
+					<q-item 
+						class="q-pa-sm"
+						clickable
+						:key="index"
+						v-if="index<v_maxLength && v_items"
+						v-for="(a_user, index) in v_items"				
+					>
+						<q-item-section class="avatar" avatar top>
+							<WAvatar :avatar="a_user.avatar" :username="a_user.username" />
+						</q-item-section>
+						<q-item-section top @click.stop="onClickUser(a_user.username)">
+							<q-item-label lines="1">
+								<span class="gUserNameSM">{{ a_user.username }}</span>
+							</q-item-label>
+							<q-item-label lines="1">
 
-						</q-item-label>
-					</q-item-section>
-					
-					<q-item-section side>
-						<q-item-label lines="1">
-							<q-btn ripple :outline="v_follow_color_mine(a_user)" color="primary"
-								:label="v_label_follow_mine(a_user)" :ref="'btnFollow_'+index"
-								@click="onClickFollow(a_user,index)" v-if="v_is_owner" />
+								<WSubinfo 
+									username="" 
+									:pub_date="a_user.created_at" 
+									:like_count="-1" 
+									:dislike_count="-1" />
 
-							<q-btn ripple :outline="v_follow_color_user(a_user)" color="primary"
-								:label="v_label_follow_user(a_user)" :ref="'btnFollow_'+index"
-								@click="onClickFollow(a_user,index)" v-if="! v_is_owner" />
+							</q-item-label>
+						</q-item-section>
+						
+						<q-item-section side>
+							<q-item-label lines="1">
+								<q-btn ripple :outline="v_follow_color_mine(a_user)" color="primary"
+									:label="v_label_follow_mine(a_user)" :ref="'btnFollow_'+index"
+									@click="onClickFollow(a_user,index)" v-if="v_is_owner" />
 
-						</q-item-label>
-					</q-item-section>
+								<q-btn ripple :outline="v_follow_color_user(a_user)" color="primary"
+									:label="v_label_follow_user(a_user)" :ref="'btnFollow_'+index"
+									@click="onClickFollow(a_user,index)" v-if="! v_is_owner" />
 
-				</q-item>
-				<q-separator class="q-mb-md" size="1px" />
+							</q-item-label>
+						</q-item-section>
 
-			</q-list>
+					</q-item>
+					<q-separator class="q-mb-md" size="1px" />
 
-			<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
-		</div>
+				</q-list>
 
-		<div v-show="(! v_items) || (v_items.length==0)" class="text-center">
-			<div class="gListTitle"> 
-				{{v_error_title}}
+				<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
 			</div>
-			<div class="gCaption">
-				{{v_error_msg}}
+
+			<div v-show="(! v_items) || (v_items.length==0)" class="text-center">
+				<div class="gListTitle"> 
+					{{v_error_title}}
+				</div>
+				<div class="gCaption">
+					{{v_error_msg}}
+				</div>
 			</div>
 		</div>
 
@@ -189,6 +193,7 @@ export default {
 
 	data() {
 		return {
+			v_list_loaded: false,
 			g_data: null,
 			
 			v_title: this.title,
@@ -243,6 +248,7 @@ export default {
                 if (! _this.v_is_owner) { _this.v_user.follower.setFollowers(false) };
 				_this.v_items = _this.v_user.follower.items;				
 				_this.$refs.loadMore.setPagination(response.data.results,_this.v_pagination.offset,_this.v_pagination.limit);
+				_this.v_list_loaded = true;
             }).catch(err=>{
 				logger.log.error("ProfileView.loadFollower - err=",err);
             });
@@ -256,26 +262,27 @@ export default {
                 if (! _this.v_is_owner) { _this.v_user.following.setFollowings(false) };
 				_this.v_items = _this.v_user.following.items;
 				_this.$refs.loadMore.setPagination(response.data.results,_this.v_pagination.offset,_this.v_pagination.limit);
+				_this.v_list_loaded = true;
             }).catch(err=>{
 				logger.log.error("ProfileView.loadFollowing - err=",err);
             });
 
         },
 
-		onClickUser: function (username) {
+		onClickUser(username) {
 			logger.log.debug("onClickUser : username = ", username);			
 			CommonFunc.navProfile(this,username);
 			//this.$emit("onClickBlog",{page_id:page_id});
 		},
 
-		onClickLoadMore: function() {
+		onClickLoadMore() {
 			logger.log.debug("onClickLoadMore : next_url = ", this.v_next_url);
 
 			this.v_pagination.offset += this.v_pagination.limit;
 			this.loadRelation();
 		},
 
-		onClickMoreFriend: function() {
+		onClickMoreFriend() {
 			logger.log.debug("FriendList.onClickMoreFriend : 1");
 			
 			//store.getters.nav.add(this.$route);

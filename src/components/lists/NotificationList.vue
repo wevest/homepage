@@ -4,50 +4,54 @@
 		<CTitle ttype='subtitle' :title="v_title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreFeed"></CTitle>
 
-		<div v-show="v_notification">
-			<q-list separator class="rounded-borders">
-				<q-item 
-					class="q-pa-sm"
-					clickable
-					v-ripple
-					:key="index"
-					v-for="(a_feed, index) in v_notification.items"
-					v-if="index<v_maxLength"
-					@click.stop="onClickFeed(a_feed)"
-				>
-					<q-item-section class="feedAvatar" avatar top>
-						<WAvatar :avatar="v_avatar(a_feed)" :username="v_username(a_feed)" />
-					</q-item-section>
-					<q-item-section top>
-						<q-item-label class="q-pt-xs" lines="1">
-							<span class="gListTitle">{{ v_title_item(a_feed) }}</span>
-						</q-item-label>
-						<q-item-label class="no-margin" lines="1">
+		<q-skeleton v-if="!v_list_loaded" height="150px" square animation="pulse-x" />
 
-							<WSubinfo 
-								username="" 
-								:pub_date="a_feed.pub_date" 
-								like_count="-1" 
-								dislike_count="-1" />
+		<div v-show="v_list_loaded">
+			<div v-show="v_notification">
+				<q-list separator class="rounded-borders">
+					<q-item 
+						class="q-pa-sm"
+						clickable
+						v-ripple
+						:key="index"
+						v-for="(a_feed, index) in v_notification.items"
+						v-if="index<v_maxLength"
+						@click.stop="onClickFeed(a_feed)"
+					>
+						<q-item-section class="feedAvatar" avatar top>
+							<WAvatar :avatar="v_avatar(a_feed)" :username="v_username(a_feed)" />
+						</q-item-section>
+						<q-item-section top>
+							<q-item-label class="q-pt-xs" lines="1">
+								<span class="gListTitle">{{ v_title_item(a_feed) }}</span>
+							</q-item-label>
+							<q-item-label class="no-margin" lines="1">
 
-						</q-item-label>
-					</q-item-section>
+								<WSubinfo 
+									username="" 
+									:pub_date="a_feed.pub_date" 
+									like_count="-1" 
+									dislike_count="-1" />
 
-				</q-item>
-				<q-separator class="q-mb-md" size="1px" /> 
-				<!-- v-if="v_feeds.items>0"  -->
-				
+							</q-item-label>
+						</q-item-section>
+
+					</q-item>
+					<q-separator class="q-mb-md" size="1px" /> 
+					<!-- v-if="v_feeds.items>0"  -->
+					
 
 
-			</q-list>
+				</q-list>
 
-			<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+				<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
 
-		</div>
+			</div>
 
-		<div v-if="(! v_notification) || (v_notification.items.length==0) ">
-			<div class="gNoListTitle">No Notification</div>
-			<div class="gNoListMessage">새로운 알림이 여기에 표시됩니다</div>
+			<div v-if="(! v_notification) || (v_notification.items.length==0) ">
+				<div class="gNoListTitle">No Notification</div>
+				<div class="gNoListMessage">새로운 알림이 여기에 표시됩니다</div>
+			</div>
 		</div>
 
 	</div>
@@ -130,6 +134,8 @@ export default {
 
 	data() {
 		return {
+			v_list_loaded:false,
+
 			g_data: null,
 			
 			v_title: this.title,
@@ -220,14 +226,16 @@ export default {
 				_this.g_data = response.data;
 				_this.$refs.loadMore.setFeedPagination(response.data.next);
 				logger.log.debug("NotificationList.loadNotification - response",_this.g_data);
+				_this.v_list_loaded = true;
 			}).catch(err=>{
 				logger.log.error("NotificationList.loadNotification - err",err);
+				_this.v_list_loaded = true;
 			});
 		
 		},
 
 
-		onClickFeed: function (feed) {
+		onClickFeed(feed) {
 			logger.log.debug("onClickFeed : feed = ", feed);			
 			//return;
 			

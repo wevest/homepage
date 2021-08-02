@@ -2,6 +2,15 @@
 // so you can safely delete all default props below
 
 export default {
+	menu: {
+		home: "위베스트",
+		about: "서비스소개",
+		about_wevest: "위베스트란?",
+		news: "뉴스",
+		feeds: "사용자피드",
+		asset: "자산",
+		portfolio: "포트폴리오",
+	},
 	name: {
 		binance: "바이낸스",
 		upbit: "업비트",
@@ -58,7 +67,6 @@ export default {
 		investor: "투자자",
 		development: "개발",
 		name: "이름",
-		roi: "투자수익율",
 		total_return: "총수익율",
 		avg_roi: "평균 투자수익율",
 		avg_total_return: "평균 총수익율",
@@ -73,6 +81,7 @@ export default {
 		volume_score: "거래량",
 		rank: "순위",
 		roi: "수익률",
+		avg_holding: "평균 보유기간",
 		follower: "팔로워",
 		following: "팔로잉",
 		portfolio_description: "포트폴리오 요약",

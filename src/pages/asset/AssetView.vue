@@ -5,7 +5,7 @@
             <CTitle ttype='title' :title="v_page_title" desc=""></CTitle>          
         </div>
 
-        <div @click="onClickPrice">
+        <div @click="onClickPrice">            
             <PriceSummaryBox ref="priceBox" :data="v_asset" @onClick="onClickPrice" />
         </div>
 
@@ -156,7 +156,7 @@ export default {
             return this.v_asset.symbol
         }
     },
-    data: function() {
+    data() {
         return {
             g_data: {
                 base:null,
@@ -170,6 +170,7 @@ export default {
             g_period: 30,
             v_tab: 'tweet',
                                 
+            v_price_loaded: false,
             v_visible_table:false,
             v_items: [],         
             v_loaded: {
@@ -184,7 +185,7 @@ export default {
         }
     },
 
-    created: function () {
+    created() {
         //console.log("HomeView.created");
         //console.log("AssetView.created - query=",this.$route.query);
         
@@ -194,13 +195,13 @@ export default {
         this.v_asset.object_category = CONST.ASSETPAGE_CATEGORY+this.v_asset.symbol;
         this.v_asset.id = parseInt(this.$route.query.id);
     },
-    mounted: function() {
+    mounted() {
         //this.g_asset.symbol = 'BTC';
         //this.g_asset.object_id = 20;
 
         this.refresh();
     },
-    updated: function() {
+    updated() {
         //console.log("AssetView.updated - query=",this.$route.query);        
     },
     
@@ -216,6 +217,21 @@ export default {
             CommonFunc.navError404(this);
         },
 
+        addTabQuery() {
+            if (this.$route.query.tab) {
+                if (this.$route.query.tab==this.v_tab) {
+                    return;
+                }                
+            }
+            
+            logger.log.debug("addTabQuery : test");
+
+            let dic_param = { name:'asset', path:'asset', 
+                query:{ symbol:this.v_asset.symbol, id:this.v_asset.id, tab: this.v_tab } 
+            };
+            this.$router.replace(dic_param);
+        },
+
         refresh() {
             //logger.log.debug('Refresh');            
             //this.loadPriceTicker();
@@ -226,6 +242,9 @@ export default {
         },
         
         updateTab() {
+            
+            this.addTabQuery();
+
             if (this.v_tab=="review") {
                 if (! this.v_loaded.review) {
                     this.v_loaded.review = true;                    
@@ -308,6 +327,7 @@ export default {
             logger.log.debug("AssetView.loadPriceTicker");
             this.v_asset.getPriceTicker().then(resp=>{
                 logger.log.debug("AssetView.loadPriceTicker - resp=",resp,_this.v_asset);
+                _this.$refs.priceBox.setLoading(true);
             }).catch(err=>{
                 logger.log.debug("AssetView.loadPriceTicker - err=",err);
             });
@@ -402,7 +422,7 @@ export default {
             return;
         },
 
-        onClickReviewRating: function(review) {
+        onClickReviewRating(review) {
             logger.log.debug('AssetView.onClickReviewRating - ',review);
             
             const _this = this;
@@ -414,7 +434,7 @@ export default {
             });
         },
 
-        onClickQuestionRating: function(question) {
+        onClickQuestionRating(question) {
             logger.log.debug('AssetView.onClickQuestionRating - ',question);
             
             const _this = this;
@@ -426,8 +446,8 @@ export default {
             });            
         },
 
-
-        onTabChange: function(newValue,oldValue) {
+/*
+        onTabChange(newValue,oldValue) {
             logger.log.debug('AssetView.onTabChange',newValue);
 
             if (newValue=="qa") {
@@ -443,8 +463,9 @@ export default {
                 this.$refs.blogList.update(null,category);
             }
         },
+*/
 
-        onClickWriteBlog: function() {
+        onClickWriteBlog() {
             logger.log.debug('AssetView.onClickWriteBlog');
             //this.navBlogWriter();
 
@@ -456,64 +477,64 @@ export default {
             this.$refs.blogWriter.show(a_post);
         },
 
-        onFocusReviewForm: function(event) {
+        onFocusReviewForm(event) {
             logger.log.debug('AssetView.onFocusReviewForm');
             this.$refs.reviewForm.v_rows = "5";
         },
 
-        onFocusoutReviewForm: function(event) {
+        onFocusoutReviewForm(event) {
             logger.log.debug('AssetView.onFocusoutReviewForm');
             this.$refs.reviewForm.v_rows = "1";
         },
 
-        onClickBlog: function(param) {
+        onClickBlog(param) {
             logger.log.debug('AssetView.onClickBlog',this.$route);			
 			CommonFunc.navBlog(this,param.page_id);
         },
 
-        onBlogAdded: function(dic_param) {
+        onBlogAdded(dic_param) {
             logger.log.debug('AssetView.onBlogAdded : dic_param=',dic_param);
             this.$refs.blogList.addBlog(dic_param.response);
         },
 
-        onBlogDeleted: function(post) {
+        onBlogDeleted(post) {
             logger.log.debug('AssetView.onBlogDeleted : post=',post);
             this.$refs.blogList.deleteBlog(post.id);
         },
 
-        onQuestionAdded: function(dic_param) {
+        onQuestionAdded(dic_param) {
             logger.log.debug('AssetView.onQuestionAdded : dic_param=',dic_param);
             this.$refs.questionList.addQuestion(dic_param.response);
         },
 
-        onClickMoreReview: function() {
+        onClickMoreReview() {
             logger.log.debug('AssetView.onClickMoreReview');
             store.getters.nav.add(this.$route);
             CommonFunc.navReview(this,this.v_asset.symbol,this.v_asset.id);
         },
 
-        onClickChart: function(evt) {
+        onClickChart(evt) {
             logger.log.debug('AssetView.onClickChart : evt=',evt);
             this.loadPriceHistory();
         },
 
-        onClickInfo: function(evt) {
+        onClickInfo(evt) {
             logger.log.debug('AssetView.onClickInfo : evt=',evt);
             this.loadCryptoBaseinfo();
         },
 
-        onClickPrice: function(dicParam) {
+        onClickPrice(dicParam) {
             logger.log.debug('AssetView.onClickPrice');
             //store.getters.nav.add(this.$route);
             CommonFunc.navAssetDetail(this,this.v_asset.symbol,this.v_asset.id);
         },
 
-        onClickWrite: function() {
+        onClickWrite() {
             logger.log.debug('AssetView.onClickWrite');
             CommonFunc.navTweetWriter(this,this.v_asset.id)
         },
 
-        onClickWriteQuestion: function() {
+        onClickWriteQuestion() {
             logger.log.debug('AssetView.onClickWrite');
 
             let a_post = new QuestionPageModel();
@@ -529,7 +550,7 @@ export default {
             this.$router.push(dic_param);        
         },
 
-        onClickWriteBlog: function() {
+        onClickWriteBlog() {
             logger.log.debug('AssetQAView.onClickWrite');
 
             let a_post = new PostPageModel();            

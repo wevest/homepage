@@ -17,7 +17,7 @@
         <q-expansion-item
             default-opened
             expand-separator
-            icon="mail"
+            :icon="icon"
             :label="title"
             :caption="caption"
             :header-inset-level="level"

@@ -4,44 +4,48 @@
 		<CTitle ttype='subtitle' :title="title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMorePortfolio"></CTitle>
 
-        <q-card class="q-my-sm" flat bordered 
-            v-for="(a_portfolio,index) in v_portfolio.items" :key="index" 
-            v-if="index<v_maxLength" >
-            <q-card-section class="no-padding">  
-                <div class="row boxContainer">
-                    <div class="portfolioAvatar q-pa-md">
-                        <WAvatar :avatar="a_portfolio.api_user.avatar_thumb" :username="a_portfolio.api_user.username" />
-                    </div>
-                    <div class="boxInfo q-pt-md" @click="onClickPortfolio(a_portfolio)">
-                        <div class="gListTitle">
-                            <span>{{v_shorten_name(a_portfolio.api_user,13)}}</span>
-                        </div>                        
-                        <div class="gCaption">
-                            <WSubinfo dateFormat="0"
-                                :username="a_portfolio.name"                                 
-                                :pub_date="a_portfolio.portfolio_updated_at"
-                                like_count="-1" 
-                                dislike_count="-1" />
+        <q-skeleton v-if="!v_list_loaded" height="150px" square animation="pulse-x" />                    
+
+        <div v-show="v_list_loaded">
+            <q-card class="q-my-sm" flat bordered 
+                v-for="(a_portfolio,index) in v_portfolio.items" :key="index" 
+                v-if="index<v_maxLength" >
+                <q-card-section class="no-padding">  
+                    <div class="row boxContainer">
+                        <div class="portfolioAvatar q-pa-sm">
+                            <WAvatar :avatar="a_portfolio.api_user.avatar_thumb" :username="a_portfolio.api_user.username" />
                         </div>
+                        <div class="boxInfo q-pt-md" @click="onClickPortfolio(a_portfolio)">
+                            <div class="gListTitle">
+                                <span>{{v_shorten_name(a_portfolio.api_user,13)}}</span>
+                            </div>                        
+                            <div class="gCaption">
+                                <WSubinfo dateFormat="0"
+                                    username=""
+                                    :pub_date="v_format_date(a_portfolio.portfolio_updated_at)"
+                                    like_count="-1" 
+                                    dislike_count="-1" />
+                            </div>
+                        </div>
+                        <q-space />
+                        <div class="gROILG q-pt-lg">
+                            <span :class="v_color(a_portfolio.roi)">{{v_format(a_portfolio.roi*100)}} %</span>
+                        </div>
+                        <div class="q-pt-lg">
+                        <q-btn class="q-mb-md" size="14px"  flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
+                        </div>
+                    </div>                     
+                </q-card-section>
+                <q-card-section class="gParagraphSM" v-if="showDescription=='1'"> 
+                    <div>
+                        <span class="text-body2 text-grey-8">{{v_shorten(a_portfolio.description)}}</span>
                     </div>
-                    <q-space />
-                    <div class="gROILG q-pt-lg">
-                        <span :class="v_color(a_portfolio.roi)">{{v_format(a_portfolio.roi*100)}} %</span>
-                    </div>
-                    <div class="q-pt-lg">
-                      <q-btn class="q-mb-md" size="14px"  flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
-                    </div>
-                </div>                     
-            </q-card-section>
-            <q-card-section class="gParagraphSM" v-if="showDescription=='1'"> 
-                <div>
-                     <span class="text-body2 text-grey-8">{{v_shorten(a_portfolio.description)}}</span>
-                </div>
-            </q-card-section>          
+                </q-card-section>          
 
-        </q-card>
+            </q-card>
 
-        <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+            <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+        </div>
 
     </div>
 
@@ -93,12 +97,13 @@ export default {
                 if(!value) {
                     return '';
                 }
-                return value.toLocaleString();
+                //return value.toLocaleString();
+                return CommonFunc.milifyNumber(value);
             };
         },
-        v_updated_at() {
+        v_format_date() {
             return (value) => {
-                return CommonFunc.minifyDatetime(value);
+                return value.substring(0,10);
             };
         },
         v_shorten() {
@@ -124,6 +129,8 @@ export default {
 
     data () {
         return {
+            v_list_loaded: false,
+
             g_data: null,
 
             //v_title: this.title,
@@ -153,6 +160,7 @@ export default {
             this.v_portfolio.load(dicParam).then(response=>{
                 logger.log.debug("PortfolioList.update:response=",response);
                 _this.$refs.loadMore.setPageParameter(response.data);
+                _this.v_list_loaded = true;
             }).catch(err=>{
                 logger.log.error("PortfolioList.update:err=",err);
             });

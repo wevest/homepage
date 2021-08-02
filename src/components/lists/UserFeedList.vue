@@ -4,52 +4,55 @@
 		<CTitle ttype='subtitle' :title="v_title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreFeed"></CTitle>
 
-		<div v-show="v_feeds">
-			<q-list separator class="rounded-borders">
-				<q-item 
-					class="q-pa-sm"
-					clickable
-					v-ripple
-					:key="index"
-					v-for="(a_feed, index) in v_feeds.items"
-					v-if="index<v_maxLength"
-					@click.stop="onClickFeed(a_feed)"
-				>
-					<q-item-section class="feedAvatar" avatar top>
-						<WAvatar :avatar="a_feed.avatar" :username="a_feed.username" />
-					</q-item-section>
-					<q-item-section top>
-						<q-item-label class="q-pt-xs" lines="1">
-							<span class="gListTitle">{{ v_title_item(a_feed) }}</span>
-						</q-item-label>
-						<q-item-label class="no-margin" lines="1">
+		<q-skeleton v-if="!v_list_loaded" height="150px" square animation="pulse-x" />                    
+		
+		<div v-show="v_list_loaded">
+			<div v-show="v_feeds">
+				<q-list separator class="rounded-borders">
+					<q-item 
+						class="q-pa-sm"
+						clickable
+						v-ripple
+						:key="index"
+						v-for="(a_feed, index) in v_feeds.items"
+						v-if="index<v_maxLength"
+						@click.stop="onClickFeed(a_feed)"
+					>
+						<q-item-section class="feedAvatar" avatar top>
+							<WAvatar :avatar="a_feed.avatar" :username="a_feed.username" />
+						</q-item-section>
+						<q-item-section top>
+							<q-item-label class="q-pt-xs" lines="1">
+								<span class="gListTitle">{{ v_title_item(a_feed) }}</span>
+							</q-item-label>
+							<q-item-label class="no-margin" lines="1">
 
-							<WSubinfo 
-								:username="a_feed.username" 
-								:pub_date="a_feed.pub_date" 
-								like_count="-1" 
-								dislike_count="-1" />
+								<WSubinfo 
+									:username="a_feed.username" 
+									:pub_date="a_feed.pub_date" 
+									like_count="-1" 
+									dislike_count="-1" />
 
-						</q-item-label>
-					</q-item-section>
+							</q-item-label>
+						</q-item-section>
 
-				</q-item>
-				<q-separator class="q-mb-md" size="1px" /> 
-				<!-- v-if="v_feeds.items>0"  -->
-				
+					</q-item>
+					<q-separator class="q-mb-md" size="1px" /> 
+					<!-- v-if="v_feeds.items>0"  -->
+					
 
 
-			</q-list>
+				</q-list>
 
-			<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+				<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
 
+			</div>
+
+			<div class="text-center" v-if="(! v_feeds) || (v_feeds.items.length==0) ">
+				<div class="gListTitle">No Userfeed</div>
+				<div class="gCaption">팔로우 한 사람의 새로운 소식이 여기에 표시됩니다</div>
+			</div>
 		</div>
-
-		<div class="text-center" v-if="(! v_feeds) || (v_feeds.items.length==0) ">
-			<div class="gListTitle">No Userfeed</div>
-			<div class="gCaption">팔로우 한 사람의 새로운 소식이 여기에 표시됩니다</div>
-		</div>
-
 	</div>
 </template>
 
@@ -114,6 +117,8 @@ export default {
 
 	data() {
 		return {
+			v_list_loaded: false,
+
 			g_data: null,
 			
 			v_title: this.title,
@@ -206,8 +211,7 @@ export default {
             this.v_user = user;
         },
 
-		loadFeeds: function () {
-			
+		loadFeeds() {			
 			logger.log.debug("UserFeedList.loadFeeds");
 			if (CommonFunc.isEmptyObject(this.v_user.id)) {
 				return;
@@ -218,6 +222,8 @@ export default {
 				_this.g_data = response.data;
 				_this.$refs.loadMore.setFeedPagination(response.data.next);
 				logger.log.debug("UserFeedList.loadFeeds - response",_this.g_data);
+				
+				_this.v_list_loaded = true;
 			}).catch(err=>{
 				logger.log.error("UserFeedList.loadFeeds - err",err);
 			});
@@ -225,8 +231,7 @@ export default {
 		},
 
 
-		loadMyFeeds: function () {
-			
+		loadMyFeeds() {			
 			logger.log.debug("UserFeedList.loadMyFeeds : v_user=",this.v_user);
 			if (CommonFunc.isEmptyObject(this.v_user.id)) {
 				return;
@@ -237,14 +242,14 @@ export default {
 				_this.g_data = response.data;
 				logger.log.debug("UserFeedList.loadMyFeeds - response",_this.g_data);
 				_this.$refs.loadMore.setFeedPagination(response.data.next);
-				
+				_this.v_list_loaded = true;
 			}).catch(err=>{
 				logger.log.error("UserFeedList.loadMyFeeds - err",err);
 			});
 
 		},
 
-		onClickFeed: function (feed) {
+		onClickFeed(feed) {
 			logger.log.debug("onClickFeed : feed = ", feed);			
 			//return;
 			
@@ -289,7 +294,7 @@ export default {
 			
 		},
 
-		onClickLoadMore: function() {
+		onClickLoadMore() {
 			logger.log.debug("onClickLoadMore : next_url = ", this.$refs.loadMore.v_next);
 
 			this.v_pagination.uuid = this.$refs.loadMore.v_next.uuid;
@@ -304,9 +309,8 @@ export default {
 			
 		},
 
-		onClickMoreFeed: function() {
-			logger.log.debug("BlogList.onClickMoreFeed : 1");
-			
+		onClickMoreFeed() {
+			logger.log.debug("BlogList.onClickMoreFeed : 1");			
             CommonFunc.navFeeds(this);
 		}
 
@@ -315,8 +319,6 @@ export default {
 </script>
 
 
-<style lang="sass">
-</style>
 <style scope>
 
 .feedAvatar {

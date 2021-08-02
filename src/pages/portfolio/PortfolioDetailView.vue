@@ -46,10 +46,13 @@
                 </div>
             </div>
 
-            <div class="row q-my-lg text-center">                    
+            <q-skeleton v-if="!v_roi_loaded" height="95px" square animation="pulse" />                    
+            <div class="row q-my-lg text-center" v-if="v_roi_loaded">
                 <div class="col">
                     <div class="text-h4 text-weight-bolder" :style="v_color(v_portfolio.roi)">
-                        {{ v_format(v_portfolio.roi) }}% 
+                        <span v-if="v_portfolio.roi>0">
+                            {{ v_format(v_portfolio.roi) }}
+                        </span>
                     </div>
                     <div class="gCaption">{{ $t('name.roi') }}</div>                         
                 </div>  
@@ -58,14 +61,14 @@
                 
                 <div class="col">   
                     <div class="text-h4 text-weight-bold">
-                        {{ v_format_price(v_portfolio.avg_holding) }} days
+                        {{ v_format_price(v_portfolio.avg_holding) }} 
+                        <span class="gParagraphSM"> days </span>
                     </div>
                     <div class="gCaption">{{ $t('name.avg_holding') }}</div>                         
                 </div>
             </div>
         </div>
 
-        
         <q-separator class="gSeparator" />
 
         <div>
@@ -140,8 +143,9 @@
                         <div class="col align-items">
                             <span class="gCaption">{{ $t('name.roi') }}</span>
                             <br>
-                            <span class="text-h5 text-weight-bolder" :style="v_color(a_portfolio.roi)">
-                                {{v_format(a_portfolio.roi)}} %
+                            <span class="text-h5 text-weight-bolder" 
+                                :style="v_color(a_portfolio.roi)" >
+                                {{v_format(a_portfolio.roi)}}
                             </span>
                         </div>    
                         <div class="col">  
@@ -221,8 +225,8 @@ export default {
                     return '';
                 }
                 //return CommonFunc.formatNumber(value,decimal);
-                //return CommonFunc.milifyNumber(value,decimal);
-                return value.toLocaleString();
+                return CommonFunc.milifyNumber(value,decimal)+" %";
+                //return value.toLocaleString();
             };
         },
         v_format_price() {
@@ -266,6 +270,7 @@ export default {
     },
     data() {
         return {
+            v_roi_loaded: false,
             v_content_type:"portfolio.portfolio",
             
             v_query: null,
@@ -342,6 +347,7 @@ export default {
             store.state.prices.load().then( response => {
                 _this.v_portfolio.calcPerformance(store.state.prices);
                 _this.$refs.portfolioChart.update(_this.v_portfolio);
+                _this.v_roi_loaded = true;
             })            
         },
 

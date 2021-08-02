@@ -5,44 +5,45 @@
 		<CTitle ttype='subtitle' :title="v_title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreReview"></CTitle>
 
+		<q-skeleton v-if="!v_list_loaded" height="150px" square animation="pulse-x" />
+        <div v-show="v_list_loaded">
+            <q-list separator class="rounded-borders">
+                <q-item 
+                    clickable class="q-pa-sm"
+                    :key="index"
+                    v-for="(a_review,index) in v_reviews.items" 
+                    v-if="index<v_max_length"
+                    @click.stop="onClickAsset(a_review)"
+                >
+                    <q-item-section top>
+                        
+                        <q-item-label lines="1">
+                            <q-badge
+                                class="RewardPoint q-mr-sm" 
+                                color="purple-4"
+                                text-color="white">
+                                <span>{{v_format(a_review.average_rating)}}</span>
+                            </q-badge>
 
-        <q-list separator class="rounded-borders">
+                            <span class="gListTitle">{{ a_review.category }}</span>
+                        </q-item-label>            
 
-            <q-item 
-                clickable class="q-pa-sm"
-                :key="index"
-                v-for="(a_review,index) in v_reviews.items" 
-                v-if="index<v_max_length"
-                @click.stop="onClickAsset(a_review)"
-            >
-                <q-item-section top>
+                        <q-item-label>
+
+                            <WSubinfo 
+                                :pub_date="a_review.updated_at"
+                                like_count="-1" dislike_count="-1" read_count="-1" />
+                        
+                        </q-item-label>  
                     
-                    <q-item-label lines="1">
-                        <q-badge
-                            class="RewardPoint q-mr-sm" 
-                            color="purple-4"
-                            text-color="white">
-                            <span>{{v_format(a_review.average_rating)}}</span>
-                        </q-badge>
+                    </q-item-section>
+                                    
+                </q-item>
 
-						<span class="gListTitle">{{ a_review.category }}</span>
-					</q-item-label>            
+            </q-list>
 
-                    <q-item-label>
-
-                        <WSubinfo 
-                            :pub_date="a_review.updated_at"
-                            like_count="-1" dislike_count="-1" read_count="-1" />
-                    
-                    </q-item-label>  
-                
-                </q-item-section>
-                                
-            </q-item>
-
-        </q-list>
-
-        <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+            <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+        </div>
 
   </div>  
   
@@ -102,6 +103,8 @@ export default {
 
     data () {
         return {
+            v_list_loaded:false,
+
             g_data: null,        
 
             v_title: this.title,
@@ -113,14 +116,14 @@ export default {
             v_selected_review: null,
         }
     },
-    mounted: function() {
+    mounted() {
         logger.log.debug("ReviewStatList.mounted");
     },
-    beforeDestroy: function() {
+    beforeDestroy() {
         logger.log.debug("ReviewStatList.beforeDestroy");
     },
     methods: {
-        update: function(category) {                        
+        update(category) {                        
             const _this = this;            
 
             this.v_reviews.load(category).then( response => {
@@ -128,11 +131,12 @@ export default {
                 _this.$refs.loadMore.setPageParameter(response.data);
                 //_this.v_reviews_count = response.data.count;                
                 _this.g_data = response.data;
+                _this.v_list_loaded = true;
             });
 
         },
 
-        onClickRating: function(dicParam) {
+        onClickRating(dicParam) {
             logger.log.debug('onClickRating : dicParam = ',dicParam);
             
             let review = dicParam.data;
@@ -152,12 +156,12 @@ export default {
             //this.$emit("onClickRating",review);
         },
 
-        onClickAsset: function(asset) {
+        onClickAsset(asset) {
             logger.log.debug('onClickAsset : asset = ',asset);          
             CommonFunc.navReview(this,asset.category);     
         },
 
-        onClickLoadMore: function() {
+        onClickLoadMore() {
             logger.log.debug('AssetReviewList.onClickLoadMore');
             this.$emit("onClickLoadmore",{});
 
@@ -167,7 +171,7 @@ export default {
 			this.update(dic_param);
         },
 
-        onClickMoreReview: function() {
+        onClickMoreReview() {
             logger.log.debug('AssetReviewList.onClickMoreReview');
 
             //store.getters.nav.add(this.$route);

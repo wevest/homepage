@@ -2,6 +2,16 @@
 // so you can safely delete all default props below
 
 export default {
+	menu: {
+		home: "WeVest",
+		about: "About",
+		news: "News",
+		feeds: "Feeds",
+		asset: "Asset",
+		portfolio: "Portfolio",
+		about_wevest: "WeVest?"
+	},
+
 	name: {
 		binance: "Binance",
 		upbit: "UPbit",
@@ -72,6 +82,7 @@ export default {
 		volume_score: "Volume",
 		rank: "Rank",
 		roi: "ROI",
+		avg_holding: "Avg Holding Period",
 		follower: "follower",
 		following: "following",
 		portfolio_description: "Portfolio Summary",

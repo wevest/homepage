@@ -1336,7 +1336,7 @@ export default class CommonFunc {
 
         let a_value = null;
 
-        if(x < 1) {
+        if(x < 100) {
             return CommonFunc.formatNumber(x,decimal,false);
         } else if(x < 99999) {            
             return CommonFunc.formatNumber(x,decimal,true);

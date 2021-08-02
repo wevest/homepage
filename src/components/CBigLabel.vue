@@ -30,7 +30,7 @@
                 </div>
                 <q-space />
                 <div v-if="moreButton.length>0"> 
-                    <q-btn flat dense :label="moreButton" icon-right="navigate_next" />
+                    <q-btn flat dense :label="moreButton" size="10px" icon-right="navigate_next" />
                 </div>
             </div>
                     

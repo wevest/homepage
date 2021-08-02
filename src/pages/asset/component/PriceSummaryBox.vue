@@ -1,37 +1,43 @@
 <template>
 
     <div>
-        <div class="row">
+        <q-skeleton v-if="!v_price_loaded" height="100px" square animation="pulse" />
+
+        <div class="row" v-if="v_price_loaded">
             <div class="col-6">
 
                 <CBigLabel ref='label_btc' 
                     title="" :moreButton="$t('button.chartview')"
                     :value="data.ticker.last" 
-                    :valueRet="data.ticker.ret_24h"
+                    :valueRet="v_format(data.ticker.ret_24h)"
                     :updatedAt="data.ticker.updated_at"
                     :extraCaption="v_price_volume(data)"
                     extraClass="gUserNameSM"
                     @onClick="onClick"></CBigLabel>
                     
             </div>
-            <div class="col-6">
-                <div>
-                    <div>{{data.ticker.ret_7d}}</div>
-                    <div>
-                        1W ROI
+            <div class="col-6 q-pt-sm q-px-md text-center">
+                <div class="titleProfitBox">
+                    ROI
+                </div>
+                <div class="boxProfit">
+                    <div class="titleProfit">
+                        {{v_format(data.ticker.ret_7d)}} %
+                        <span class="gCaption">1W</span>
                     </div>
-                </div>                
-                <div>
-                    <div>{{data.ticker.ret_1m}}</div>
-                    <div>
-                        1M ROI
-                    </div>
-                </div>                
-                <div>
-                    <div>{{data.ticker.ret_3m}}</div>
-                    <div>
-                        3M ROI
-                    </div>
+                    
+                </div>       
+                <div class="boxProfit">
+                    <div class="titleProfit" :class="v_color(data.ticker.ret_1m)">
+                        {{v_format(data.ticker.ret_1m)}} %
+                        <span class="gCaption">1M</span>
+                    </div>                    
+                </div>         
+                <div class="boxProfit">
+                    <div class="titleProfit">
+                        {{v_format(data.ticker.ret_3m)}} %
+                        <span class="gCaption">3M</span>
+                    </div>                    
                 </div>                
 
             </div>
@@ -144,6 +150,9 @@ export default {
 	computed: {
         v_color() {
             return (value) => {                
+                if (! value) return;
+
+                logger.log.debug("AssetView.PriceSummaryBox.v_color=",value);
                 return CommonFunc.getPerfColor(value);
             };            
         },
@@ -170,7 +179,9 @@ export default {
         },
         v_price_volume() {
             return (data) => {
-                let msg = "Volume : $" + this.v_format(data.ticker.volume);
+                if (! data.ticker.volume) return '';
+
+                let msg = "Volume : $" + CommonFunc.milifyNumber(data.ticker.volume);
                 return msg;
             }
         }
@@ -180,11 +191,16 @@ export default {
             g_price: {'price_prev':0, 'price_low':0, 'price_high':0, 'price_open':0, 
                 'price':0, 'price_ret':0, 'volume':0, 'tv':0, 
                 'updated_date':'', 'icon':'arrow_drop_up', class:'text-red'},    
+            
+            v_price_loaded: false,
         }
     },
     methods: {
-        update: function(json_data) {
-            logger.log.debug("data=",json_data);
+        setLoading(value) {
+            this.v_price_loaded = value;
+        },
+        update(json_data) {
+            logger.log.debug("PriceSummaryBox.update : data=",json_data);
 
             const dic_columns = CommonFunc.getColumnDic(json_data['overall'].columns,[],[]);
             const a_price = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['priceClose']];
@@ -264,10 +280,6 @@ export default {
 }
 */
 
-
-
-
-
 .price_table td {
     text-align:left;
 }
@@ -318,5 +330,23 @@ export default {
 
 .q-slider div {
     height:5px !important;
+}
+
+.boxProfit {
+
+    padding:2px 0px 2px 0px;
+}
+
+.titleProfit {
+    font-size:20px;
+    font-weight: bold;
+}
+
+.titleProfitBox {
+    font-size:20px;    
+    font-weight: bolder;
+    border-bottom:1px solid #e6e6e6;
+    padding-top:5px;
+    padding-bottom:5px;
 }
 </style>

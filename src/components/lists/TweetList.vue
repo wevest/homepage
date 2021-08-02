@@ -4,44 +4,48 @@
 		<CTitle ttype='subtitle' :title="v_title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreBlog"></CTitle>
 
-		<q-list separator class="rounded-borders">
-			<q-item 
-				class="q-pa-sm"
-				clickable
-				:key="index"
-				v-for="(a_tweet, index) in v_tweets.items"
-				v-if="index<v_maxLength"
-			>
-				<q-item-section class="blogAvatar" avatar top>
-					<WAvatar :avatar="a_tweet.owner.avatar_thumb" :username="a_tweet.owner.username" />
-				</q-item-section>
-				<q-item-section top>
-					<q-item-label class="no-margin" lines="1" @click.stop="onClickTweet(a_tweet.id)" v-ripple>
-						<div class="gUserNameSM">
-							{{ a_tweet.owner.display_name ? a_tweet.owner.display_name : a_tweet.owner.username }}
-                        </div>
-                        <WSubinfo 
-							:pub_date="a_tweet.created_at" 
-							like_count="-1" 
-							dislike_count="-1" />
+		<q-skeleton v-if="!v_list_loaded" height="150px" square animation="pulse-x" />
+		<div v-show="v_list_loaded">
 
-                        <div class="gBodyLG" v-html="a_tweet.text"></div>
-                        
-					</q-item-label>
-                    <q-item-label>
-                        <WRatingSmallButton ref="ratingButton" 
-                            :data="a_tweet" :likeCount="a_tweet.like_count" :dislikeCount="a_tweet.dislike_count" 
-                            @onClickRating="onClickRating" />
-                    </q-item-label>
+			<q-list separator class="rounded-borders">
+				<q-item 
+					class="q-pa-sm"
+					clickable
+					:key="index"
+					v-for="(a_tweet, index) in v_tweets.items"
+					v-if="index<v_maxLength"
+				>
+					<q-item-section class="blogAvatar" avatar top>
+						<WAvatar :avatar="a_tweet.owner.avatar_thumb" :username="a_tweet.owner.username" />
+					</q-item-section>
+					<q-item-section top>
+						<q-item-label class="no-margin" lines="1" @click.stop="onClickTweet(a_tweet.id)" v-ripple>
+							<div class="gUserNameSM">
+								{{ a_tweet.owner.display_name ? a_tweet.owner.display_name : a_tweet.owner.username }}
+							</div>
+							<WSubinfo 
+								:pub_date="a_tweet.created_at" 
+								like_count="-1" 
+								dislike_count="-1" />
 
-				</q-item-section>
+							<div class="gBodyLG" v-html="a_tweet.text"></div>
+							
+						</q-item-label>
+						<q-item-label>
+							<WRatingSmallButton ref="ratingButton" 
+								:data="a_tweet" :likeCount="a_tweet.like_count" :dislikeCount="a_tweet.dislike_count" 
+								@onClickRating="onClickRating" />
+						</q-item-label>
 
-			</q-item>
-			<q-separator class="q-mb-md" size="1px" />
+					</q-item-section>
 
-		</q-list>
+				</q-item>
+				<q-separator class="q-mb-md" size="1px" />
 
-		<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+			</q-list>
+
+			<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+		</div>
 
 	</div>
 </template>
@@ -105,6 +109,7 @@ export default {
 
 	data() {
 		return {
+			v_list_loaded: false,
 			g_data: null,
 			
 			v_title: this.title,
@@ -122,35 +127,36 @@ export default {
 	},
 
 	methods: {
-		loadTweet: function (param) {
+		loadTweet(param) {
 			const _this = this;
 
 			this.v_tweets.load(param).then((response) => {
 				_this.g_data = response.data;
 				_this.$refs.loadMore.setPageParameter(response.data);
+				_this.v_list_loaded = true;
 				logger.log.debug("TweetList.loadTweet - response",_this.g_data);
 			})
 			.catch((err) => {
-
+				_this.v_list_loaded = true;
 			});
 		},
 
 
-		update: function () {
+		update() {
 			this.v_query.user_id = null;
 			this.v_query.category = null;
 			this.v_query.content_type= null;			
 			this.loadBlogData(this.v_query);
 		},
 
-		updateByAsset: function (asset_id) {
+		updateByAsset(asset_id) {
 			let dic_param = {
 				asset_id: asset_id,
 			};
 			this.loadTweet(dic_param);
 		},
 
-		updateByCategory: function (category) {
+		updateByCategory(category) {
 			let dic_param = {
 				user_id: null,
 				category: category,
@@ -159,7 +165,7 @@ export default {
 			this.loadBlogData(dic_param);
 		},
 
-		updateByUser: function (user_id) {
+		updateByUser(user_id) {
 			let dic_param = {
 				user_id: user_id,
 				category: null,
@@ -168,12 +174,12 @@ export default {
 			this.loadBlogData(dic_param);
 		},
 
-		addBlog:function(response) {
+		addBlog(response) {
 			logger.log.debug("BlogList.addBlog : response = ", response);
 			this.v_posts.addFirst(response.data);
 		},
 
-		deleteBlog:function(post_id) {
+		deleteBlog(post_id) {
 			logger.log.debug("BlogList.deleteBlog : post_id = ", post_id);
 			this.v_posts.delete(post_id);
 			//this.v_posts.items = this.v_posts.delete(post_id);
@@ -185,7 +191,7 @@ export default {
 			//this.$emit("onClickBlog",{page_id:page_id});
 		},
 
-		onClickLoadMore: function() {
+		onClickLoadMore() {
 			logger.log.debug("BlogList.onClickLoadMore : next_url = ", this.v_next_url);
 			
 			this.v_maxLength = 999999;
@@ -194,12 +200,12 @@ export default {
 			this.loadBlogData(this.v_query);
 		},
 
-		onClickMoreBlog: function() {
+		onClickMoreBlog() {
 			logger.log.debug("BlogList.onClickMoreBlog : 1");			
             CommonFunc.navBlog(this,this.category,this.symbol,this.objectId);
 		},
 
-        onClickRating: function(dicParam) {
+        onClickRating(dicParam) {
             logger.log.debug('AssetReviewList.onClickRating : dicParam = ',dicParam);
             
             let tweet = dicParam.data;

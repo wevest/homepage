@@ -234,7 +234,7 @@ export class HolderModel {
     biography=null;
     description=null;
     price=null;
-
+    asset=null;
     portfolio_id=null;
     portfolio_item_id=null;
     
@@ -244,18 +244,19 @@ export class HolderModel {
         this.display_name = obj.api_user.display_name;
         this.biography = obj.api_user.biography;
         this.avatar = obj.api_user.avatar;
-        this.avatar_thumb = obj.api_user.avatar_thumb;
-        
-        if (CommonFunc.isEmptyObject(this.display_name)) {
-            this.display_name = this.username;
-        }
-
+        this.avatar_thumb = obj.api_user.avatar_thumb;        
         this.description=obj.description;
         this.price = obj.price;
         this.portfolio_id = obj.portfolio_id;
         this.portfolio_item_id = obj.portfolio_item_id;
         this.created_at = obj.created_at;
         this.updated_at = obj.updated_at;
+        this.asset = obj.api_asset;
+
+        if (CommonFunc.isEmptyObject(this.display_name)) {
+            this.display_name = this.username;
+        }
+
     }
 }
 

@@ -4,40 +4,44 @@
 		<CTitle ttype='subtitle' :title="v_title" desc=""
 			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreBlog"></CTitle>
 
-		<q-list separator class="rounded-borders">
-			<q-item 
-				class="q-pa-sm"
-				clickable
-				v-ripple
-				:key="index"
-				v-for="(a_post, index) in v_posts.items"
-				v-if="index<v_maxLength"
-				@click.stop="onClickBlog(a_post.id)"
-			>
-				<q-item-section class="blogAvatar" avatar top>
-					<WAvatar :avatar="a_post.api_owner.avatar_thumb" :username="a_post.api_owner.username" />
-				</q-item-section>
-				<q-item-section top>
-					<q-item-label lines="1">
-						<span class="gListTitle">{{ v_shorten(a_post.title) }}</span>
-					</q-item-label>
-					<q-item-label class="no-margin" lines="1">
+		<q-skeleton v-if="!v_list_loaded" height="150px" square animation="pulse-x" />                    
 
-						<WSubinfo 
-							:username="a_post.api_owner.display_name ? a_post.api_owner.display_name:a_post.api_owner.username" 
-							:pub_date="a_post.pub_date" 
-							:like_count="a_post.like_count" 
-							:dislike_count="a_post.dislike_count" />
+		<div v-show="v_list_loaded">
+			<q-list separator class="rounded-borders">
+				<q-item 
+					class="q-pa-sm"
+					clickable
+					v-ripple
+					:key="index"
+					v-for="(a_post, index) in v_posts.items"
+					v-if="index<v_maxLength"
+					@click.stop="onClickBlog(a_post.id)"
+				>
+					<q-item-section class="blogAvatar" avatar top>
+						<WAvatar :avatar="a_post.api_owner.avatar_thumb" :username="a_post.api_owner.username" />
+					</q-item-section>
+					<q-item-section top>
+						<q-item-label lines="1">
+							<span class="gListTitle">{{ v_shorten(a_post.title) }}</span>
+						</q-item-label>
+						<q-item-label class="no-margin" lines="1">
 
-					</q-item-label>
-				</q-item-section>
+							<WSubinfo 
+								:username="a_post.api_owner.display_name ? a_post.api_owner.display_name:a_post.api_owner.username" 
+								:pub_date="a_post.pub_date" 
+								:like_count="a_post.like_count" 
+								:dislike_count="a_post.dislike_count" />
 
-			</q-item>
-			<q-separator class="q-mb-md" size="1px" />
+						</q-item-label>
+					</q-item-section>
 
-		</q-list>
+				</q-item>
+				<q-separator class="q-mb-md" size="1px" />
 
-		<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+			</q-list>
+
+			<LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
+		</div>
 
 	</div>
 </template>
@@ -99,6 +103,7 @@ export default {
 		return {
 			g_data: null,
 			
+			v_list_loaded: false,
 			v_title: this.title,
 			v_maxLength: this.maxLength,
 			v_more_caption: this.moreCaption,								
@@ -126,6 +131,8 @@ export default {
 				_this.g_data = response.data;
 				_this.$refs.loadMore.setPageParameter(response.data);
 				logger.log.debug("BlogList.loadBlogData - response",_this.g_data);
+
+				_this.v_list_loaded = true;
 			})
 			.catch((err) => {
 
@@ -133,7 +140,7 @@ export default {
 		},
 
 
-		update: function () {
+		update() {
 			this.v_query.user_id = null;
 			this.v_query.category = null;
 			this.v_query.content_type= null;			

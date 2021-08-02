@@ -63,7 +63,7 @@ export default {
             default: '90px'
         }
     },
-    data:function() {
+    data() {
         return {
                 v_risk: {
                 btc: {value:56, color:'red'}, 
