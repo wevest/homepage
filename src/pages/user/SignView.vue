@@ -46,11 +46,12 @@
                                     class="cursor-pointer"
                                     v-on:click="isPwd = !isPwd"></q-icon>
                             </template>                                
-                        </q-input>
-                        <q-checkbox v-model="v_user.stay_loggedin" :label="$t('page.login.signedin.title')" />
+                        </q-input>                        
 
-                        <q-btn class="q-ml-xl" flat 
+                        <q-checkbox v-model="v_user.stay_loggedin" :label="$t('page.login.signedin.title')" />
+                        <q-btn class="q-ml-md" flat dense
                             :label="$t('page.login.forgot_password.title')" @click="onClickForgot" />
+
                         <div>
                             <q-btn :label="$t('button.login')" :loading="v_loading_signup"
                                 type="submit" color="primary"/>
