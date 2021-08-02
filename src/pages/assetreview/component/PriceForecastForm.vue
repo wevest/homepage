@@ -5,7 +5,7 @@
 				<div class="q-pr-md">
 					<WAvatar :avatar="v_me.avatar_thumb" :username="v_me.username" :displayname="v_me.dispaly_name" />
 				</div>
-				<div class="gUserNameSM q-pt-md"> {{v_me.display_name}} {{ $t('page.forecast.title') }} </div>
+				<div class="gUserNameSM q-pt-md"> {{v_me.display_name}} {{ $t('page.review.input.title') }} </div>
 			</div>
 
 			<div class="row q-pa-md justify-center text-center">

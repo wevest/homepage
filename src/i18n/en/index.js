@@ -246,7 +246,10 @@ export default {
 		},
 		notification : {
 			title : 'Notification',	
-			desc :''
+			desc :'',
+			feed : {
+				title: 'New'
+			}
 		},
 		assetqa: {
 			title: 'QA',
@@ -333,6 +336,9 @@ export default {
 			forecastlist : {
 				title : 'forecast list',
 				desc : ''
+			},
+			input : {
+				title : 'Will the price go up?'
 			}
 		},
 		blogwriter : {
@@ -442,9 +448,6 @@ export default {
 				desc : 'Updates from people you are following',
 			}
 		},
-		forecast : {
-			title : 'Will the price go up in the future?',
-		},
 		portfolio_index : {
 			title : 'Portfolio',
 			desc: ''
@@ -474,7 +477,7 @@ export default {
 			}
 		},
 		add_portfolio : {
-			title : '포트폴리오를 추가',
+			title : 'Add Portfolio',
 			desc :'Please manage your portfolio!',
 			asset : {
 				title : 'Asset',
@@ -492,6 +495,11 @@ export default {
 		delete : {
 			title : 'Do you want to delete?',
 		},
+		messageWriter : {
+			desc : 'Send the message!',
+			subject : 'Subject',
+			body : 'Body',
+		},
 		edit_dialog: {
 			biography: {
 				title:'Biography'
@@ -502,6 +510,7 @@ export default {
 	button: {
 		more: 'MORE',
 		send: 'CONFIRM',
+		ssend: 'SEND',
 		save: 'SAVE',
 		edit: 'Update',
 		cancel: 'CANCEL',

@@ -125,6 +125,7 @@ export default {
 	button: {
 		more: '더보기',
 		send: '확인',
+		ssend: '보내기',
 		save: '저장',
 		edit: '수정',
 		cancel: '취소',
@@ -200,9 +201,15 @@ export default {
 				title: '포트폴리오 편입이유',
 			},
 		},
-		delete: {
+		delete : {
 			title: '삭제하시겠습니까?',
-		}
+		},
+		messageWriter : {
+			desc : '메시지를 전하세요!',
+			subject : '제목',
+			body : '내용',
+		},
+		 
 	},
 	page: {
 		login: {
@@ -326,7 +333,10 @@ export default {
 		},
 		notification : {
 			title : '알림메시지',	
-			desc :''
+			desc :'',
+			feed : {
+				title: '새 알림'
+			}
 		},
 		assetqa: {
 			title: 'QA',
@@ -414,6 +424,9 @@ export default {
 			forecastlist: {
 				title: '예측목록',
 				desc: ''
+			},
+			input : {
+				title : '님, 가격이 오를까요? 떨어질까요?', 
 			}
 		},
 		blogwriter: {
@@ -522,9 +535,6 @@ export default {
 				title: '사용자피드가 없습니다',
 				desc: '팔로우 한 사람의 새로운 사용자 피드가 여기에 표시됩니다',
 			}
-		},
-		forecast: {
-			title: '님 가격이 오를까요? 떨어질까요?',
 		},
 		portfolio_index : {
 			title : '포트폴리오',

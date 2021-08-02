@@ -20,7 +20,7 @@
             
             <q-card-section class="boxUser">            
                 <div class="text-h5 text-bold">{{v_message.to_username}}</div>
-                <div class="ProfileMessage">메시지를 전달하세요!</div>
+                <div class="ProfileMessage">{{ $t('dialog.messageWriter.desc') }}</div>
             </q-card-section>
 
             <q-separator />
@@ -29,12 +29,12 @@
 <!--                
                 <q-input v-model="v_message.to_user" label="TO" />
 -->                
-                <q-input v-model="v_message.subject" label="Subject" />
-                <q-input type="textarea" v-model="v_message.content" label="Body" />
+                <q-input v-model="v_message.subject" :label="$t('dialog.messageWriter.subject')" />
+                <q-input type="textarea" v-model="v_message.content" :label="$t('dialog.messageWriter.body')" />
             </q-card-section>
 
             <q-card-actions align="center">
-                <q-btn class="fit" label="Send" color="primary" ripple
+                <q-btn class="fit" :label="$t('button.ssend')" color="primary" ripple
                     :loading="v_loading"
                     @click="onClickSend" />
             </q-card-actions>
