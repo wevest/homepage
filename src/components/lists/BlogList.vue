@@ -127,7 +127,7 @@ export default {
         logger.log.debug("BlogList.mounted");
     },
 	methods: {
-		loadBlogData: function (param) {
+		loadBlogData(param) {
 			const _this = this;
 
 			this.v_posts.load(param).then((response) => {
@@ -141,7 +141,9 @@ export default {
 
 			});
 		},
-
+		clear() {
+			this.v_posts.clear();
+		},
 
 		update() {
 			this.v_query.user_id = null;
@@ -150,7 +152,7 @@ export default {
 			this.loadBlogData(this.v_query);
 		},
 
-		updateByContentType: function (content_type) {
+		updateByContentType(content_type) {
 			let dic_param = {
 				user_id: null,
 				category: null,
@@ -160,7 +162,7 @@ export default {
 			this.loadBlogData(dic_param);
 		},
 
-		updateByCategory: function (category) {
+		updateByCategory(category) {
 			let dic_param = {
 				user_id: null,
 				category: category,
@@ -170,7 +172,7 @@ export default {
 			this.loadBlogData(dic_param);
 		},
 
-		updateByAsset: function (asset_id) {
+		updateByAsset(asset_id) {
 			let dic_param = {
 				user_id: null,
 				category: null,
@@ -180,7 +182,7 @@ export default {
 			this.loadBlogData(dic_param);
 		},
 
-		updateByUser: function (user_id) {
+		updateByUser(user_id) {
 			let dic_param = {
 				user_id: user_id,
 				category: null,
@@ -190,24 +192,24 @@ export default {
 			this.loadBlogData(dic_param);
 		},
 
-		addBlog:function(response) {
+		addBlog(response) {
 			logger.log.debug("BlogList.addBlog : response = ", response);
 			this.v_posts.addFirst(response.data);
 		},
 
-		deleteBlog:function(post_id) {
+		deleteBlog(post_id) {
 			logger.log.debug("BlogList.deleteBlog : post_id = ", post_id);
 			this.v_posts.delete(post_id);
 			//this.v_posts.items = this.v_posts.delete(post_id);
 		},
 
-		onClickBlog: function (page_id) {
+		onClickBlog(page_id) {
 			logger.log.debug("onClickBlog : page_id = ", page_id);
 			CommonFunc.navBlogDetail(this,page_id);
 			//this.$emit("onClickBlog",{page_id:page_id});
 		},
 
-		onClickLoadMore: function() {
+		onClickLoadMore() {
 			logger.log.debug("BlogList.onClickLoadMore : next_url = ", this.v_next_url);
 			
 			this.v_maxLength = 999999;
@@ -216,7 +218,7 @@ export default {
 			this.loadBlogData(this.v_query);
 		},
 
-		onClickMoreBlog: function() {
+		onClickMoreBlog() {
 			logger.log.debug("BlogList.onClickMoreBlog : 1");			
             CommonFunc.navBlog(this,this.category,this.symbol,this.objectId);
 		}

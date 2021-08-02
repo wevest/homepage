@@ -94,11 +94,11 @@ export default {
         }
     },
 
-    created: function () {
-        console.log("BlogWriterView.created");
+    created() {
+        logger.log.debug("BlogWriterView.created");
     },
-    mounted: function() {},
-    updated: function() {
+    mounted() {},
+    updated() {
         this.fillData();
     },
     
@@ -107,14 +107,14 @@ export default {
             this.v_post = post;
         },
 
-        fillData: function() {
+        fillData() {
             //this.$refs.baseEditor.setConent(this.v_post.body);
             if (this.$refs.baseEditor) {
                 this.$refs.baseEditor.setPostModel(this.v_post);
             }            
         },
 
-        validate: function(v_post) {
+        validate(v_post) {
             let a_text = this.$refs.baseEditor.getContents();
             if (CommonFunc.isEmptyObject(a_text)) {
                 this.v_error.text.error = true;
@@ -126,26 +126,26 @@ export default {
         },
 
 
-        show: function(v_post) {
+        show(v_post) {
             logger.log.debug("AnswerWriterDialog.show : v_post=",v_post);
             this.setPost(v_post);
             this.v_show = true;
         },
 
-        hide: function() {
+        hide() {
             this.v_show = false;
         },
 
-        setPostID: function(id) {
+        setPostID(id) {
             this.v_post.id = id;
         },
 
-        postProcess: function(response) {
+        postProcess(response) {
             this.setPostID(response.data.id);
             this.v_post.saved = true;
         },
 
-        onClickSave: function() {                        
+        onClickSave() {                        
             logger.log.debug('onClickSave - ',this.v_post);
 
             if (! this.validate(this.v_post)) {
@@ -158,17 +158,17 @@ export default {
             this.$refs.baseEditor.save(v_post);
         },
 
-        onClickBack: function() {
+        onClickBack() {
             logger.log.debug('onClickBack - ');
             this.hide();
         },
         
-        onClickDelete: function() {
+        onClickDelete() {
             logger.log.debug('onClickDelete - ');
             this.$refs.baseEditor.delete(this.v_post);
         },
 
-        onPostSave: function(dic_param) {
+        onPostSave(dic_param) {
             logger.log.debug('onPostSave - ',dic_param);
 
             if (dic_param.ret==1) {

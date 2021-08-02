@@ -172,17 +172,17 @@ export default {
         }
     },
 
-    created: function() {
-        console.log("BlogView.created : query=",this.$route.query);
+    created() {
+        logger.log.debug("BlogView.created : query=",this.$route.query);
         this.validateQuery();
     },
-    mounted: function() {        
+    mounted() {        
         logger.log.debug("BlogView.mounted - params=",this.$route.query);
 
         this.v_post.id=this.$route.query.page_id;
         this.refresh(this.v_post.id);
     },
-    updated: function() {
+    updated() {
         //console.log("HomeView.updated");
     },
     

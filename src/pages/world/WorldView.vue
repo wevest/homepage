@@ -125,25 +125,25 @@ export default {
     }),
 
 
-    created: function () {
+    created () {
         //console.log("HomeView.created");
     },
-    mounted: function() {
+    mounted() {
         //console.log("HomeView.mounted - ");
         this.refresh();
     },
-    updated: function() {
+    updated() {
         //console.log("HomeView.updated");
     },
     
     methods: {
-        test: function() {
+        test() {
             logger.log.debug("HomeView.test=");
             this.showChart('A051910');
             //this.getFilteredData('A051910');
         },
 
-        refresh: function() {
+        refresh() {
             const _this = this;
         
             //CommonFunc.getAppData('spinner').show();            
@@ -156,7 +156,7 @@ export default {
         },
 
 
-        loadMarketOverview: function(ioffset=360) 
+        loadMarketOverview(ioffset=360) 
         {
             const _this = this;
 
@@ -186,7 +186,7 @@ export default {
             });
         },
 
-        updateBiglabels: function(data) {            
+        updateBiglabels(data) {            
             let dic_columns = CommonFunc.getColumnDic(data.asset['btc'].columns,[],[]);            
             for (var asset in data.asset) {            
                 let a_index = data.asset[asset].values[data.asset[asset].values.length-1][dic_columns['close']];
@@ -200,36 +200,36 @@ export default {
                     a_tag = 'lower_breakout';
                 }
                 let a_label = {title:this.$t('name.'+asset), value:a_index, value_pct_change: a_ret, tag:this.$t(a_tag), zscore:a_upper-a_lower };
-                console.log(a_label);
+                logger.log.debug(a_label);
                 this.$refs['label_'+asset].update(a_label);
             }
             
         },
 
-        updateMarketOverview: function(data) {
+        updateMarketOverview(data) {
             this.updateBiglabels(data);
             this.$refs.overviewScaledChart.update(data);
         },
 
 
-        navSector: function(category) {
+        navSector(category) {
             logger.log.debug("SearchAnalyst.navSector - ",category);
             CommonFunc.navSector(this,category);
         },
 
-        navInstrument: function(asset,date,category,name,price) {
+        navInstrument(asset,date,category,name,price) {
             logger.log.debug("SearchAnalyst.navInstrument - ",category);
             let a_data = {asset:asset, jw52_date:date, name:name, category:category, jw52_price:price};
             CommonFunc.setAppData('asset',a_data);
             CommonFunc.navInstrument(this,asset);
         },
 
-        reload: function(offset) {
+        reload(offset) {
             this.loadMarketOverview(offset);
         },
 
-        onLoad: function(progress) {
-            console.log('onLoad - ',progress);
+        onLoad(progress) {
+            logger.log.debug('onLoad - ',progress);
         },
 
     },

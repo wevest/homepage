@@ -398,7 +398,7 @@ export default class CommonFunc {
     }
 
     static getReportList(list,category,data_type=0) {
-        console.log('showReportList=',list);
+        logger.log.debug('showReportList=',list);
 
         let a_table_items = [];
         let a_categories = [];
@@ -458,7 +458,7 @@ export default class CommonFunc {
 
 
     static getIndustryList(list,category,data_type=0) {
-        console.log('getIndustryList=',list);
+        logger.log.debug('getIndustryList=',list);
 
         let a_table_items = [];
         let a_categories = [];
@@ -840,16 +840,16 @@ export default class CommonFunc {
     }
 
     static setComponent(key,value) {
-        console.log("Common.setComponent=",key,value);
+        logger.log.debug("Common.setComponent=",key,value);
         store.commit(Actions.SET_COMPONENT,{key:key,value:value});        
     }
 
     static getComponent(key) {
-        console.log("Common.getComponent=",store.getters.components);
+        logger.log.debug("Common.getComponent=",store.getters.components);
         if (store.getters.components.hasOwnProperty(key)) { 
             return store.getters.components[key];
         }
-        console.log("fail to find");
+        logger.log.debug("fail to find");
         return null;
     }
 
@@ -890,7 +890,7 @@ export default class CommonFunc {
                             dic_columns[a_column] = column_index;
                         } else {
                             let found = false;
-                            console.log('getColumnDic : found ->',a_column,excludes);                        
+                            logger.log.debug('getColumnDic : found ->',a_column,excludes);                        
                             execludes.forEach(a_exclude => {
                                 if (a_column.indexOf(a_exclude)>-1) {
                                     found = true;
@@ -1370,7 +1370,7 @@ export default class CommonFunc {
             return CommonFunc.formatNumber(a_value,2) + "B";
         }
 
-        console.log("milify--1",x);
+        logger.log.debug("milify--1",x);
 
         a_value = x/(1000*1000*1000*1000);
         a_value = CommonFunc.formatNumber(a_value,2) + "T";

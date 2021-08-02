@@ -199,7 +199,7 @@ export default {
 			this.$el.remove();
 		},
 		setOwnerMessage(data) {
-			console.log("CommentForm.setOwnerMessage=", data);
+			logger.log.debug("CommentForm.setOwnerMessage=", data);
 			this.ownerMessage = data;
 		},
 		setCommentItem(item) {

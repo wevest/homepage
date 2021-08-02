@@ -250,14 +250,14 @@ export default {
         }
     },
 
-    created: function () {
+    created() {
         //console.log("HomeView.created");
     },
-    mounted: function() {
-        console.log("AssetView.mounted - symbol=",this.symbol,this.$route.params);
+    mounted() {
+        logger.log.debug("AssetView.mounted - symbol=",this.symbol,this.$route.params);
 /*
         let a_selected = CommonFunc.getAppData('crypto_selected');
-        console.log("InstrumentView.mounted - ",a_selected);
+        logger.log.debug("InstrumentView.mounted - ",a_selected);
         if (a_selected)  {
             //this.showChart(a_selected,[],'');
         }
@@ -265,8 +265,8 @@ export default {
         this.g_asset = this.$route.params.symbol;
         this.refresh(this.g_asset);
     },
-    updated: function() {
-        console.log("AssetView.updated - symbol=",this.symbol,this.$route.params);
+    updated() {
+        logger.log.debug("AssetView.updated - symbol=",this.symbol,this.$route.params);
         
         if (this.$route.params.symbol) {
             this.g_asset = this.$route.params.symbol;
@@ -473,8 +473,8 @@ export default {
         },
 
 
-        onClickTimeframe: function(offset,timeframe) {
-            console.log('AssetView.onClickTimeframe - ',offset,timeframe);
+        onClickTimeframe(offset,timeframe) {
+            logger.log.debug('AssetView.onClickTimeframe - ',offset,timeframe);
             this.g_freq = timeframe;
             this.refresh(this.g_asset,offset);
         },

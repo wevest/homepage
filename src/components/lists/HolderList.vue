@@ -26,12 +26,11 @@
 									{{ a_user.display_name ? a_user.display_name : a_user.username }}
 								</span>
 
-								<span class="q-ml-sm gCaption"> buy at </span>
+								<span class="q-ml-sm gCaption">at</span>
 								<q-badge
 									class="q-ml-xs" color="purple-4" text-color="white">
 									<span>$ {{ v_format(a_user.price) }}</span>
-								</q-badge>
-								<span class="q-ml-sm"> </span>
+								</q-badge>								
 								<q-badge
 									class="q-ml-xs" color="red-14" text-color="white">
 									<span> {{ v_roi(a_user) }}</span>

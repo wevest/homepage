@@ -104,14 +104,14 @@ export default {
         }
     },
 
-    created: function () {
-        console.log("BlogWriterView.created");
+    created() {
+        logger.log.debug("BlogWriterView.created");
     },
-    mounted: function() {        
+    mounted() {        
         logger.log.debug("BlogWriterView.mounted : params=",this.$route.params);
         this.prepare();
     },
-    updated: function() {
+    updated() {
         //console.log("HomeView.updated");
     },
     

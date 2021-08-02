@@ -175,7 +175,7 @@ export default {
             this.isExpanded = value > this.level;
         },
         isExpanded(value) {
-            console.log("watch.value=",value);
+            logger.log.debug("watch.value=",value);
             this.$messageTree.$emit("tree-expanded", this.data, value);
             if (!value) {
                 if (! CommonFunc.isEmptyObject(this.$refs.messageTreeContainer)) {

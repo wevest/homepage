@@ -84,7 +84,7 @@ export default {
 
     methods: {
         
-        filterData: function(prices,series,thresh) {
+        filterData(prices,series,thresh) {
             let items =[];
             for (let index=0;index<series.length;index++) {
                 if (Math.abs(series[index].y)>thresh) {
@@ -94,12 +94,12 @@ export default {
             return items;
         },
 
-        getProbThresh: function() {
+        getProbThresh() {
             let a_thresh = (90+this.g_thresh)/100;
             return a_thresh;
         },
 
-        updateRiskTable: function(json_data,symbol) {
+        updateRiskTable(json_data,symbol) {
             let dic_column = CommonFunc.getColumnDic( json_data[symbol].columns ,[],[]);
 
             let items = [];            
@@ -119,7 +119,7 @@ export default {
             this.v_items[symbol] = items;
         },
 
-        updateRiskChart: function(chart,json_data,symbol) {
+        updateRiskChart(chart,json_data,symbol) {
 
             let thresh = this.getProbThresh();
 
@@ -146,12 +146,12 @@ export default {
             this.g_chart[chart] = a_option;
         },
 
-        updateIndexChart: function(json_data) {
+        updateIndexChart(json_data) {
             this.updateRiskChart('chart1',json_data,'BTC');
             this.updateRiskChart('chart2',json_data,'ETH');
         },
 
-        updateOracleChart: function(json_data,freq) {
+        updateOracleChart(json_data,freq) {
             let data_long = CommonFunc.getChartData(json_data,freq,'long_count','utctime',false,0);
             let data_short = CommonFunc.getChartData(json_data,freq,'short_count','utctime',false,0);
             
@@ -162,14 +162,14 @@ export default {
                 { name: this.$t('name.long'),type: 'scatter', yAxis:0, data: data_long.data},
             ];
 
-            console.log("updateOracleChart : data_price=",data_long.data);
+            logger.log.debug("updateOracleChart : data_price=",data_long.data);
 
             let a_option = CommonFunc.getChartOption(series);
             //a_option.yAxis[1] = {mshow:true, opposite:true, gridLineWidth:0};
             this.g_chart['chart3'] = a_option;
         },
 
-        update: function(json_data) {
+        update(json_data) {
             logger.log.debug('CWatchChart.update : =',json_data);
 
             this.g_data = json_data;
@@ -179,7 +179,7 @@ export default {
             this.v_chart_loaded = true;
         },
 
-        updateOracle: function(json_data) {
+        updateOracle(json_data) {
             logger.log.debug('CWatchChart.updateOracle : =',json_data);
 
             this.g_data_oracle = json_data;
@@ -187,11 +187,11 @@ export default {
         },
 
 
-        onClickRefresh: function() {
+        onClickRefresh() {
             this.updateIndexChart(this.g_data);
         },
 
-        onChangeProb: function(value) {
+        onChangeProb(value) {
             logger.log.debug('CWatchChart.onChangeProb : =',value);            
             this.updateIndexChart(this.g_data);
         }

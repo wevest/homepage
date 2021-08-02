@@ -76,20 +76,20 @@ export default {
         }
     },
 
-    created: function () {
+    created() {
         //console.log("HomeView.created");
-        console.log("AssetReviewView.created - query=",this.$route.query);
+        logger.log.debug("AssetReviewView.created - query=",this.$route.query);
 
         this.validateQuery();
         
         this.g_asset.symbol = this.$route.query.symbol;
         this.g_asset.object_id = parseInt(this.$route.query.id);
     },
-    mounted: function() {
+    mounted() {
         this.refresh(this.g_asset);
     },
-    updated: function() {
-        console.log("AssetView.updated - query=",this.$route.query);
+    updated() {
+        logger.log.debug("AssetView.updated - query=",this.$route.query);
         
         //if (this.$route.query.symbol) {
         //    this.g_asset.symbol = this.$route.query.symbol;
@@ -113,7 +113,7 @@ export default {
             CommonFunc.navError404(this);
         },
 
-        refresh: function(symbol,offset=360) {
+        refresh(symbol,offset=360) {
             logger.log.debug('Refresh - ',symbol,offset);
 
             if ( (!symbol) || ( (symbol.length)==0 ) ) {

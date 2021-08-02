@@ -103,7 +103,7 @@ export default {
             return store.getters.me;
         },
 		v_label() {
-			return this.v_me.display_name + " 앞으로 가격이 오를까요?";
+			return this.v_me.display_name + " " + this.$t('name.price_forecast');
 		}
 	},
 	data() {
@@ -165,8 +165,7 @@ export default {
         },
 
 		setReview(review) {
-			console.log("AssetReviewForm.setReview=", review);
-			
+			logger.log.debug("AssetReviewForm.setReview=", review);			
             this.v_review = review;
             this.$refs.descText.setValue(this.v_review.content);
 		},
@@ -181,7 +180,7 @@ export default {
 		},
 
 		validate() {
-			console.log("AssetReviewForm.validate");
+			logger.log.debug("AssetReviewForm.validate");
 
 			if (CommonFunc.isEmptyObject(this.v_review.content)) {
 				this.v_error.error = true;

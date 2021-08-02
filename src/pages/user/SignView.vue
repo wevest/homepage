@@ -119,13 +119,13 @@
                         </q-input>
                         
 
-                        <q-select class="gParagraphSM" ref="langSelect" filled                            
+                        <q-select class="gParagraphSM" ref="langSelect" filled
                             v-model="v_user.default_lang" :options="v_lang" 
                             label="Default Language" />
 
                         <div>
                             <q-btn :label="$t('button.signup')" :loading="v_loading_signup"
-                                type="submit" color="primary"/>
+                                type="submit" color="primary" disabled />
                         </div>                    
                     </q-form>
                 </q-tab-panel>
@@ -336,7 +336,7 @@ export default {
 
                 const fields = ['username','password'];
                 for (let a_key in fields) {
-                    console.log('key=',a_key);
+                    logger.log.debug('key=',a_key);
                     _this.v_error[fields[a_key]].error = true;
                     _this.v_error[fields[a_key]].msg = this.$t("page.login.input.error");
                 }

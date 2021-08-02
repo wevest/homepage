@@ -79,7 +79,7 @@ export default {
             return valid;
         },
 
-        show: function(tag,etype,value) {
+        show(tag,etype,value) {
             logger.log.debug("EditDialog.show : value=",value);
             
             this.v_tag = tag;

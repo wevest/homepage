@@ -50,7 +50,7 @@ import BaseEditor from 'components/BaseEditor';
 import WWriterToolbar from 'components/WWriterToolbar';
 
 export default {
-    name: 'PageBlogWriter',
+    name: 'TweetWriter',
     components: {
         CTitle,
         WWriterToolbar,
@@ -67,7 +67,7 @@ export default {
             return true;
         }
     },
-    data: function () {
+    data() {
         return {
             g_data: '',
             g_page_id: null,
@@ -83,12 +83,12 @@ export default {
         }
     },
 
-    created: function () {},
-    mounted: function() {        
+    created () {},
+    mounted() {        
         logger.log.debug("TweetWriterView.mounted : params=",this.$route.query);
         this.prepare();
     },
-    updated: function() {
+    updated() {
         //console.log("HomeView.updated");
     },
     

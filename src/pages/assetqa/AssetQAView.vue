@@ -71,23 +71,22 @@ export default {
         }
     },
 
-    created: function () {
+    created() {
         //console.log("HomeView.created");
-        console.log("AssetQAView.created - query=",this.$route.query);
+        logger.log.debug("AssetQAView.created - query=",this.$route.query);
 
         this.validateQuery();
         
         this.g_asset.symbol = this.$route.query.symbol;
         this.g_asset.object_id = parseInt(this.$route.query.id);
     },
-    mounted: function() {
+    mounted() {
         //this.g_asset.symbol = 'BTC';
         //this.g_asset.object_id = 20;
         this.refresh(this.g_asset);
     },
-    updated: function() {
-        console.log("AssetQAView.updated - query=",this.$route.query);
-                
+    updated() {
+        logger.log.debug("AssetQAView.updated - query=",this.$route.query);                
         //CommonFunc.setAppData('onSearchEvent',this.onSearchEvent);
     },
     
@@ -103,14 +102,14 @@ export default {
             CommonFunc.navError404(this);
         },
 
-        refresh: function(symbol,offset=360) {
+        refresh(symbol,offset=360) {
             logger.log.debug('Refresh - ',symbol,offset);
 
             this.loadAssetQuestionData();                    
 
         },
         
-        updatePageHeader: function(symbol,json_data) {            
+        updatePageHeader(symbol,json_data) {            
             const dic_columns = CommonFunc.getColumnDic(json_data['overall'].columns,[],[]);
             let a_date = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['time']];
             //let a_name = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['name']];
@@ -119,13 +118,13 @@ export default {
             this.v_page.desc = a_date;
         },
 
-        loadAssetQuestionData: function() {
+        loadAssetQuestionData() {
             let dic_param = {'asset_id':this.g_asset.object_id};
             this.$refs.questionList.update(dic_param);
         },
 
 
-        onClickQuestionRating: function(question) {
+        onClickQuestionRating(question) {
             logger.log.debug('AssetView.onClickQuestionRating - ',question);
             
             const _this = this;
@@ -137,16 +136,16 @@ export default {
             });            
         },
 
-        onClickLoadmore: function() {
+        onClickLoadmore() {
             logger.log.debug('AssetView.onClickLoadmore');
         },
 
-        onQuestionAdded: function(dic_param) {
+        onQuestionAdded(dic_param) {
             logger.log.debug('AssetView.onQuestionAdded : dic_param=',dic_param);
             this.$refs.questionList.addQuestion(dic_param.response);
         },
 
-        onClickWrite: function() {
+        onClickWrite() {
             logger.log.debug('AssetQAView.onClickWrite');
 
             let a_post = new QuestionPageModel();
@@ -161,7 +160,6 @@ export default {
             };
             this.$router.push(dic_param);        
         },
-
 
     },
 

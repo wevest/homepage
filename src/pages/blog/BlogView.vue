@@ -62,9 +62,9 @@ export default {
             },
 
 			v_options: [
-				{label:this.$t('name.latest_news'), value:'latest', icon:'event', selected:true},
-				{label:this.$t('name.trending_news'), value:'voted', icon:'event', selected:false},
-				{label:this.$t('name.comments_news'), value:'comments', icon:'event', selected:false},
+				{label:this.$t('name.latest_news'), value:'latest', selected:true},
+				{label:this.$t('name.trending_news'), value:'voted', selected:false},
+				{label:this.$t('name.comments_news'), value:'comments', selected:false},
 			],
 			v_category: null,			
 			v_list_title: '',
@@ -73,7 +73,7 @@ export default {
     },
     created() {
         //console.log("HomeView.created");
-        console.log("BlogView.created - query=",this.$route.query);
+        logger.log.debug("BlogView.created - query=",this.$route.query);
 
         //this.validateQuery();
 
@@ -81,7 +81,7 @@ export default {
         this.g_asset.symbol = this.$route.query.symbol;
         this.g_asset.object_id = parseInt(this.$route.query.id);
     },
-    mounted: function() {
+    mounted() {
         //this.g_asset.symbol = 'BTC';
         //this.g_asset.object_id = 20;
 
@@ -109,8 +109,8 @@ export default {
 
         loadBlogList() {
             //const category = CONST.ASSETPAGE_CATEGORY+this.g_asset.symbol;
-            console.log('BlogView.loadBlogList - ',this.g_asset.category);            
-            this.$refs.blogList.updateByCategory(this.g_asset.category);
+            logger.log.debug('BlogView.loadBlogList - ',this.v_category);
+            this.$refs.blogList.updateByCategory(this.v_category);
         },
 
         navWriter() {
@@ -127,9 +127,11 @@ export default {
         },
 
 		onClickCategory(option) {
-			logger.log.debug("PortfolioIndexView.onClickCategory : option=",option);
-			this.v_category = option;
-			this.refresh();
+			logger.log.debug("BlogView.onClickCategory : option=",option);
+			this.v_category = option.value;
+            
+            this.$refs.blogList.clear();
+			this.loadBlogList(this.v_category);
 		}
 
     }

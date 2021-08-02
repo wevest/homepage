@@ -64,24 +64,24 @@ export default {
         }
     },
 
-    created: function () {
-        console.log("BlogWriterView.created");
+    created() {
+        logger.log.debug("BlogWriterView.created");
     },
-    mounted: function() {},
+    mounted() {},
 
-    updated: function() {},
+    updated() {},
     
     methods: {
         setContent(content) {
             this.$refs.toastEditor.invoke('setMarkdown', content);
         },
 
-        setPostModel: function(post) {
+        setPostModel(post) {
             this.v_post.assign(post);
             this.setContent(this.v_post.body);
         },
 
-        createThumbnail: function(img) {
+        createThumbnail(img) {
             const resizedImage = CommonFunc.resizeImage(img,MoaConfig.setting.thumbNailWidth, MoaConfig.setting.thumbNailHeight, 0);
             return resizedImage;
         },
@@ -107,7 +107,7 @@ export default {
 
             const _this = this;
 
-            console.log("uploadImage=",blob);
+            //logger.log.debug("uploadImage=",blob);
 /*
             AWS.config.update( {
                 region: MoaConfig.s3.region,

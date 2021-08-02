@@ -400,12 +400,12 @@ export default {
         },
 
         loadBlogList() {
-            console.log('AssetView.loadBlogList - ',this.v_asset.id);
+            logger.log.debug('AssetView.loadBlogList - ',this.v_asset.id);
             this.$refs.blogList.updateByAsset(this.v_asset.id);
         },
 
         loadTweetList() {
-            console.log('AssetView.loadTweetList - ',this.v_asset.id);
+            logger.log.debug('AssetView.loadTweetList - ',this.v_asset.id);
             this.$refs.tweetList.updateByAsset(this.v_asset.id);
         },
 

@@ -110,7 +110,7 @@ export default {
             
             
             let codes = LocalStorageService.getCode();
-            console.log('codes=',codes);
+            logger.log.debug('codes=',codes);
             let data = [];
             for (var a_item in codes) {
                 //console.log('a_item=',a_item);    

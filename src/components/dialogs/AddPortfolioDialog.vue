@@ -94,7 +94,7 @@
 
         </q-dialog>
 
-        <EditDialog ref="dialogEdit" :title="$t('dialog.edit_dialog.biography.title')" @onSave="onSaveEdit" />
+        <EditDialog ref="dialogEdit" :title="$t('dialog.edit_dialog.portfolio.title')" @onSave="onSaveEdit" />
     </div>
 
 </template>

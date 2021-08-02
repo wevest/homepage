@@ -60,7 +60,7 @@ export default {
     methods: {
 
         
-        updateWidget: function(ntype,data) {
+        updateWidget(ntype,data) {
             if (ntype=='crisis') {
                 let data_crisis = DataService.getCrisisData(data);
                 let a_value = data_crisis.raw_point[ data_crisis.raw_point.length-1 ].y;
@@ -105,7 +105,7 @@ export default {
             }
         },
 
-        refresh: function() {
+        refresh() {
             const _this = this;
         
             //CommonFunc.getAppData('spinner').show();
@@ -121,7 +121,7 @@ export default {
         },
 
 
-        loadMarketOverview: function() 
+        loadMarketOverview() 
         {
             const _this = this;
 
@@ -147,14 +147,14 @@ export default {
             });
         },
 
-        updateMarketOverview: function(data) {         
+        updateMarketOverview(data) {         
             this.updateBiglabels(data);
             this.$refs.overviewScaledChart.update(data);
         },
 
 
-        onUpdateWidget: function(ntype,data) {
-            console.log('onUpdateWidget - ',ntype,data);
+        onUpdateWidget(ntype,data) {
+            logger.log.debug('onUpdateWidget - ',ntype,data);
             this.updateWidget(ntype,data);
         },
 

@@ -12,7 +12,9 @@
                 <div class="row q-py-md text-center">                    
                     <div class="col-4">
                         <div> 
-                            <span class="gROILG" :style="v_color_style(v_roi)"> {{ v_roi }} % </span>
+                            <span class="gROILG" :style="v_color_style(v_roi)"> 
+                                {{ v_format(v_user.portfolio.roi) }} % 
+                            </span>
                         </div>
                         <div> 
                             <span class="gCaption"> {{ $t('name.roi') }} </span>
@@ -143,6 +145,14 @@ export default {
                 return 0;
             }
             return CommonFunc.formatNumber(this.v_user.portfolio.roi,2);
+        
+        },
+        v_format() {
+            return (value) => {
+                if (! value) return "";
+
+                return CommonFunc.milifyNumber(value,2);
+            }            
         },
         v_evaluated_value() {
             if (! this.v_user.portfolio.evaluated_value) {
@@ -169,7 +179,7 @@ export default {
     },
     mounted() {
         //console.log("HomeView.mounted - ");
-        console.log("ProfileView.mounted - symbol=",this.$route.query);
+        logger.log.debug("ProfileView.mounted - symbol=",this.$route.query);
         
         this.setUser(this.$route.query);        
         this.prepare();

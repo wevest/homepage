@@ -183,14 +183,14 @@ export default {
         },
 
         showChart(asset,dates,a_date) {
-            console.log('HomeView.showChart=',asset);        
+            logger.log.debug('HomeView.showChart=',asset);        
             //this.items_52w = json_list;
             this.$refs.chartWinner.update('gaia_crypto_trend_upbit',asset,dates);
         },
 
 
         onLoad(progress) {
-            console.log('onLoad - ',progress);
+            logger.log.debug('onLoad - ',progress);
         },
 
         onClickCategory(sector) {

@@ -16,7 +16,7 @@ export default class AuthService{
     }
 
     static signUp(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/auth/users/");
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/auth/users/");
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -38,7 +38,7 @@ export default class AuthService{
     }
 
     static signIn(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/auth/token/login/");
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/auth/token/login/");
         //reqParam.no_token = "1";
 
         callCMSAPI("POST",url,{},reqParam)
@@ -51,7 +51,7 @@ export default class AuthService{
     }
 
     static signOut(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/auth/token/logout/");
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/auth/token/logout/");
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -157,7 +157,7 @@ export default class AuthService{
     }    
 
     static getUserinfo(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/auth/users/me/");
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/auth/users/me/");
         callCMSAPI("GET",url,{},reqParam)
         .then( (response) => {
             func(response);

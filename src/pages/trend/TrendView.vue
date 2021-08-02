@@ -76,25 +76,25 @@ export default {
     },
 
 
-    created: function () {
+    created() {
         //console.log("HomeView.created");
     },
-    mounted: function() {
+    mounted() {
         //console.log("HomeView.mounted - ");
         this.refresh();
     },
-    updated: function() {
+    updated() {
         //console.log("HomeView.updated");
     },
     
     methods: {
-        updatePageHeader: function(json_data) {
+        updatePageHeader(json_data) {
             const dic_columns = CommonFunc.getColumnDic(json_data['upbit']['btc'].columns,[],[]);
             let watch_date = json_data['upbit']['btc'].values[json_data['upbit']['btc'].values.length-1][dic_columns['trade_date']];
             this.v_page.desc = watch_date;
         },
 
-        refresh: function() {
+        refresh() {
             const _this = this;
         
             //this.$q.loadingBar.start();
@@ -112,7 +112,7 @@ export default {
 
         },
 
-        loadDailyOverviewData: function(ioffset=180) {
+        loadDailyOverviewData(ioffset=180) {
             const _this = this;
 
             return new Promise(function(resolve,reject) {
@@ -142,7 +142,7 @@ export default {
         },
 
 
-        loadDailySummaryData: function(exchange) {
+        loadDailySummaryData(exchange) {
             const _this = this;
 
             return new Promise(function(resolve,reject) {
@@ -168,7 +168,7 @@ export default {
             });            
         },
 
-        updateAssetTable: function(json_data) {
+        updateAssetTable(json_data) {
 
             let dic_columns = CommonFunc.getColumnDic(json_data['summary'].columns,[],[]);
 
@@ -203,7 +203,7 @@ export default {
             return a_table_items;
         },
 
-        updateWidget: function(obj,json_data,exchange) {
+        updateWidget(obj,json_data,exchange) {
             let data = json_data[exchange];
             //logger.log.debug('data=',data);
             let dic_columns = CommonFunc.getColumnDic(data['overall'].columns,[],[]);            
@@ -229,18 +229,18 @@ export default {
             }
         },
 
-        showChart: function(asset,dates,a_date) {
-            console.log('HomeView.showChart=',asset);        
+        showChart(asset,dates,a_date) {
+            logger.log.debug('HomeView.showChart=',asset);        
             //this.items_52w = json_list;
             this.$refs.chartWinner.update('gaia_crypto_trend_upbit',asset,dates);
         },
 
 
-        onLoad: function(progress) {
-            console.log('onLoad - ',progress);
+        onLoad(progress) {
+            logger.log.debug('onLoad - ',progress);
         },
 
-        onClickCategory: function(exchange,category) {
+        onClickCategory(exchange,category) {
             //console.log('onClickCategory - ',category);
             if (exchange=='upbit') {
                 this.$refs.csectorUpbitChart.update(this.g_data[exchange],category);
@@ -250,8 +250,8 @@ export default {
             
         },
 
-        onClickTimeframe: function(atype,ioffset) {
-            console.log('onClickTimeframe - ',atype,ioffset);            
+        onClickTimeframe(atype,ioffset) {
+            logger.log.debug('onClickTimeframe - ',atype,ioffset);            
             this.loadDailyOverviewData(ioffset);
         }
 

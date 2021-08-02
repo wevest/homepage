@@ -45,7 +45,7 @@ export default {
     }),
     mounted: function() {
         //console.log("HomeView.mounted - ");
-        console.log("ProfileView.mounted - symbol=",this.$route.query);
+        logger.log.debug("ProfileView.mounted - symbol=",this.$route.query);
         
         //this.setUser(this.$route.query);
         this.refresh();

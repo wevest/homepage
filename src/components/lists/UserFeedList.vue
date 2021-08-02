@@ -50,7 +50,7 @@
 
 			<div class="text-center" v-if="(! v_feeds) || (v_feeds.items.length==0) ">
 				<div class="gListTitle">No Userfeed</div>
-				<div class="gCaption">팔로우 한 사람의 새로운 소식이 여기에 표시됩니다</div>
+				<div class="gCaption">{{$t('name.no_userfeed')}}</div>
 			</div>
 		</div>
 	</div>
@@ -192,14 +192,14 @@ export default {
 			return msg;
 		},
 
-		update: function (user) {
+		update(user) {
 			logger.log.debug("UserFeedList.update - user",user);
 			this.v_type = "user";
 			this.setUser(user);
             this.loadFeeds();
 		},
 
-		updateMine: function (user) {
+		updateMine(user) {
 			logger.log.debug("UserFeedList.updateMine - user",user);
 			this.v_type = "mine";
 			this.setUser(user);
@@ -214,6 +214,7 @@ export default {
 		loadFeeds() {			
 			logger.log.debug("UserFeedList.loadFeeds");
 			if (CommonFunc.isEmptyObject(this.v_user.id)) {
+				this.v_list_loaded = true;
 				return;
 			}
 

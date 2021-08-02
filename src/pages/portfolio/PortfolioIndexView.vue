@@ -55,9 +55,9 @@ export default {
 	data() {
 		return {
 			v_options: [
-				{label:this.$t('name.crypto_vc'), value:'vc', icon:'event', selected:true},
-				{label:this.$t('name.good_roi'), value:'roi', icon:'event', selected:false},
-				{label:this.$t('name.trending'), value:'voted', icon:'event', selected:false},
+				{label:this.$t('name.crypto_vc'), value:'vc', selected:true},
+				{label:this.$t('name.good_roi'), value:'roi', selected:false},
+				//{label:this.$t('name.trending'), value:'voted', selected:false},
 				{label:this.$t('name.all'), value:'all', selected:false},
 			],
 			v_category: null,			

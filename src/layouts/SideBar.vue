@@ -52,6 +52,7 @@ export default {
 				link: "#/asset_index",				
 				children: [],
 			},
+/*			
 			{
 				title: this.$t('menu.about'), icon: "info",level: 0,
 				link: "#",				
@@ -64,6 +65,7 @@ export default {
 				],
 
 			}
+*/			
 		];
 		
 		const linksMenu2 = [

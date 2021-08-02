@@ -85,12 +85,12 @@ export default {
             v_tweet: new TweetModel(),
         }
     },
-    created: function() {
+    created() {
         this.validateQuery();
     },
-    mounted: function() {
+    mounted() {
         //console.log("HomeView.mounted - ");
-        console.log("TweetDetailView.mounted - symbol=",this.$route.query);
+        logger.log.debug("TweetDetailView.mounted - symbol=",this.$route.query);
         this.setTweet(this.$route.query);        
         this.refresh();
     },

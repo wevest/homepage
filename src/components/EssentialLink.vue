@@ -104,8 +104,8 @@ export default {
     }
   },
   methods: {
-    debug: function(title,msg) {
-      console.log(title,msg);
+    debug(title,msg) {
+      //logger.log(title,msg);
     },
   }
 

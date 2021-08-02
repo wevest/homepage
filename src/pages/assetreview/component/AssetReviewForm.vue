@@ -148,7 +148,7 @@ export default {
         },
 
 		setReview(review) {
-			console.log("AssetReviewForm.setReview=", review);
+			logger.log.debug("AssetReviewForm.setReview=", review);
 			
             this.v_review = review;
             this.v_comments = this.v_review.content;

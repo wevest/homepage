@@ -40,9 +40,9 @@ export default {
     data() {
         return {
 			v_options: [
-				{label:this.$t('name.market_capital'), value:'market_capital', icon:'event', selected:true},
-                {label:this.$t('name.price_surge'), value:'price_surge', icon:'event', selected:false},
-				{label:this.$t('name.new_listing'), value:'new', icon:'event', selected:false},
+				{label:this.$t('name.market_capital'), value:'market_capital', selected:true},
+                //{label:this.$t('name.price_surge'), value:'price_surge', selected:false},
+				{label:this.$t('name.new_listing'), value:'new', selected:false},
 				{label:this.$t('name.all'), value:'all', selected:false},
 			],
 			v_category: null,			
@@ -70,6 +70,8 @@ export default {
 				this.$refs.assetList.updateByCategory("roi");
 			} else if (this.v_category.value=="voting") {
 				this.$refs.assetList.updateByCategory("voting");
+			} else if (this.v_category.value=="new") {
+				this.$refs.assetList.updateByCategory("new");
 			} else if (this.v_category.value=="all") {
 				this.$refs.assetList.updateByCategory(null);
 			}

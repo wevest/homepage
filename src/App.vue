@@ -12,8 +12,7 @@ export default {
 	name: "App",
 
 	created: function () {
-		console.log("App.created");
-
+		//console.log("App.created");
 		//LocalStorageService.loadKCodes();
 		//LocalStorageService.loadCoinCodes(false);
 	},

@@ -151,7 +151,7 @@ export default {
         },
 
         loadBlogList: function() {
-            console.log('AssetDetailView.loadBlogList - ',this.v_asset.symbol);            
+            logger.log.debug('AssetDetailView.loadBlogList - ',this.v_asset.symbol);            
             this.$refs.blogList.updateByCategory(this.v_asset.symbol);
         },
 

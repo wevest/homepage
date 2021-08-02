@@ -185,9 +185,11 @@ export default {
 		},
 		v_error_msg (){
 			if (this.mode=="follower") {
-				return "다른 사람이 팔로우하면 여기에 표시됩니다.";
+				return this.$t('name.no_follower');
+				//return "다른 사람이 팔로우하면 여기에 표시됩니다.";
 			}
-			return "내가 팔로잉한 사람이 여기에 표시됩니다.";
+			//return "내가 팔로잉한 사람이 여기에 표시됩니다.";
+			return this.$t('name.no_following');
 		},
     },
 

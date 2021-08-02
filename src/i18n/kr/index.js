@@ -163,6 +163,13 @@ export default {
 		resend_activate: "인증 메일 재발송",
 		go_login: "로그인하기",
 		reset_password:"비밀번호 설정",
+
+		price_forecast: "앞으로 어떻게 될까요?",
+
+		no_follower:"다른 사람이 팔로우하면 여기에 표시됩니다.",
+		no_following:"내가 팔로잉한 사람이 여기에 표시됩니다.",
+		no_userfeed:"팔로우 한 사람의 새로운 소식이 여기에 표시됩니다",
+		no_portfolio:"포트폴리오가 여기에 나타납니다.",
 	},
 	dialog: {
 		password_edit: {
@@ -202,6 +209,14 @@ export default {
 		},
 		delete: {
 			title: '삭제하시겠습니까?',
+		},
+		edit_dialog: {
+			biography: {
+				title:'소개'
+			},
+			portfolio: {
+				title:'새로운 포트폴리오 그룹'
+			}
 		}
 	},
 	page: {
@@ -326,7 +341,11 @@ export default {
 		},
 		notification : {
 			title : '알림메시지',	
-			desc :''
+			desc :'',
+			notification_feed : {
+				title: '새로운 알림',
+				desc: ''
+			}
 		},
 		assetqa: {
 			title: 'QA',

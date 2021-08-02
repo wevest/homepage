@@ -102,9 +102,9 @@ export default {
 
         v_no_message: false,
     }),
-    mounted: function() {
+    mounted() {
         //console.log("HomeView.mounted - ");
-        console.log("MessageView.mounted - params=",this.$route.params, this.v_message);
+        logger.log.debug("MessageView.mounted - params=",this.$route.params, this.v_message);
         
         this.refresh();
     },
@@ -128,12 +128,12 @@ export default {
 
         },
 
-        onClickWrite: function() {
+        onClickWrite() {
             logger.log.debug("onClickWrite");
             this.$refs.messageWriter.show(this.v_message);
         },
 
-        onClickMessage: function(index,thread) {
+        onClickMessage(index,thread) {
             logger.log.debug("onClickMessage: thread=",thread);
             this.g_thread = thread;
             
@@ -144,7 +144,7 @@ export default {
             this.$router.push(dic_param);
         },
 
-        onClickDelete: function(thread) {
+        onClickDelete(thread) {
             logger.log.debug("onClickDelete: thread=",thread);
 
             const _this=this;

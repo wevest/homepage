@@ -126,7 +126,7 @@ export default {
         },
 
         onClickTab(timeframe) {
-            console.log("ChartTimeframe=",timeframe);
+            logger.log.debug("ChartTimeframe=",timeframe);
             let ioffset = this.getOffset(timeframe);
             this.$emit("onClick",{timeframe:timeframe});
         }

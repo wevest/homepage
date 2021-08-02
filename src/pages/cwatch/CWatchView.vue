@@ -124,7 +124,7 @@ export default {
             ];
         },
 
-        refresh: function() {
+        refresh() {
             const _this = this;
         
             LoadingBar.start();
@@ -140,7 +140,7 @@ export default {
         },
         
 
-        loadCryptoWatchData: function(ioffset=30) {
+        loadCryptoWatchData(ioffset=30) {
             const _this = this;
 
             DataService.loadCryptoWatchData(ioffset).then(function(data) {
@@ -153,7 +153,7 @@ export default {
         },
         
 
-        loadCryptoOracleData: function(ioffset=100) {
+        loadCryptoOracleData(ioffset=100) {
             const _this = this;
 
             return new Promise(function(resolve,reject) {
@@ -178,7 +178,7 @@ export default {
         },
         
 
-        updateWidget: function(data,n_recent=3) {
+        updateWidget(data,n_recent=3) {
 
             let dic_columns = CommonFunc.getColumnDic(data['BTC'].columns,[],[]);            
             let n_count = data['BTC'].values.length;
@@ -211,12 +211,10 @@ export default {
                 }
 
             }
-            console.log('updateWidget:',dic_count);
-
-            
+            logger.log.debug('updateWidget:',dic_count);            
         },
 
-        updateExchangeWidget: function(data,exchange) {
+        updateExchangeWidget(data,exchange) {
             let dic_columns = CommonFunc.getColumnDic(data[exchange]['overall'].columns,[],[]);            
             let column_ret = dic_columns['index_ret'];
             let column_price = dic_columns['price_avg'];
@@ -232,24 +230,24 @@ export default {
             }
         },
 
-        updateCwatchChart: function(data) {
+        updateCwatchChart(data) {
             logger.log.debug("updateCwatchChart");
             this.$refs.cwatchChart.update(data);
         },
 
-        updateOracleChart: function(data) {
+        updateOracleChart(data) {
             this.$refs.cwatchChart.updateOracle(data);
         },
 
 
-        onLoad: function(progress) {
-            console.log('onLoad - ',progress);
+        onLoad(progress) {
+            logger.log.debug('onLoad - ',progress);
         },
 
 
-        onClickTimeframe: function(offset,timeframe) {
+        onClickTimeframe(offset,timeframe) {
             //let ioffset = CONST.timeframe[this.g_timeframe];
-            console.log('onClickTimeframe.ioffset=',offset);
+            logger.log.debug('onClickTimeframe.ioffset=',offset);
 
             this.loadCryptoWatchData(offset);
         },

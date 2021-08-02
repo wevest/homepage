@@ -44,7 +44,7 @@ export default {
 		alt: "alt coin",
 		intro: "intro",
 		fundamental: "fundamental",
-		price: "가격",
+		price: "Price",
 		subscriber_count: "subscriber count",
 		language: "language",
 		watcher_count: "watcher count",
@@ -120,7 +120,13 @@ export default {
 
 		latest_news:'Latest',
 		trending_news:'Trending',
-		comments_news:'Comments'
+		comments_news:'Comments',
+
+		price_forecast: "Do you think about this asset?",
+		no_follower:"You will see followers when you have followers",
+		no_following:"You will see followings when you have followings",
+		no_userfeed:"You will see feeds when your followins post something",
+		no_portfolio:"You will see portfolio when you have portfolio",
 	},
 	
 	page:{	
@@ -246,7 +252,11 @@ export default {
 		},
 		notification : {
 			title : 'Notification',	
-			desc :''
+			desc :'',
+			notification_feed : {
+				title: 'New',
+				desc: ''
+			}
 		},
 		assetqa: {
 			title: 'QA',
@@ -495,6 +505,9 @@ export default {
 		edit_dialog: {
 			biography: {
 				title:'Biography'
+			},
+			portfolio: {
+				title:'New Portfolio Group'
 			}
 		}
 	},

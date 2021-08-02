@@ -118,9 +118,8 @@ export default {
     }),
     computed: {},
 
-    mounted: function() {
-        console.log("HomeView.mounted - auth",MoaConfig.auth);
-        console.log("MessageView.mounted - params=",this.$route.params);
+    mounted() {
+        logger.log.debug("MessageView.mounted - params=",this.$route.params);
         
         this.v_user = MoaConfig.auth;
         //this.v_message.subject = "test";

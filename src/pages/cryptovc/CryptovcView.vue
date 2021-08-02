@@ -128,19 +128,19 @@ export default {
         items: [],
     }
   },
-    created: function () {
+    created() {
         //console.log("HomeView.created");
     },
-    mounted: function() {
+    mounted() {
         //console.log("HomeView.mounted - ");
         this.refresh();
     },
-    updated: function() {
+    update() {
         //console.log("HomeView.updated");
     },
     
     methods: {
-        refresh: function() {
+        refresh() {
             const _this = this;
         
             LoadingBar.start();
@@ -155,7 +155,7 @@ export default {
 
         },
         
-        getMean: function(data,column) {
+        getMean(data,column) {
             let dic_columns = CommonFunc.getColumnDic(data.columns,[],[]);
             let a_sum = 0;
             for (let index=0;index<data.values.length;index++) {
@@ -164,7 +164,7 @@ export default {
             return a_sum/data.values.length;
         },
 
-        updateWidget: function(data) {            
+        updateWidget(data) {            
             logger.log.debug('data=',data);
 
             const a_roi = this.getMean(data,'avg_roi');
@@ -177,11 +177,11 @@ export default {
             this.$refs['label_total'].update(a_label);                            
         },
 
-        updateListData:function(data) {
+        updateListData(data) {
             this.items = CommonFunc.formatArrayToJson(data);
         },
 
-        loadCryptovcData: function() {
+        loadCryptovcData() {
             const _this = this;
 
             return new Promise(function(resolve,reject) {
@@ -203,7 +203,7 @@ export default {
         },
         
 
-        updateVCChart: function(data) {
+        updateVCChart(data) {
 
             let dic_columns = CommonFunc.getColumnDic(data.columns,[],[]);
             let items = [];
@@ -231,21 +231,21 @@ export default {
             this.v_chart_loaded = true;
         },
 
-        updatePortfolioTitle: function(vc) {
+        updatePortfolioTitle(vc) {
             this.v_portfolio.title = vc;
             this.v_portfolio.desc = this.$t('name.portfolio_desction');
         },
 
-        navAsset:function(symbol) {
+        navAsset(symbol) {
           let dic_param = { name:'asset', params:{ symbol:symbol } };
           this.$router.push(dic_param);
         },
 
-        onLoad: function(progress) {
+        onLoad(progress) {
             logger.log.debug('onLoad - ',progress);
         },
 
-        onClickVC: function(vc) {
+        onClickVC(vc) {
             logger.log.debug('onClickVC - ',vc);
             this.updatePortfolioTitle(vc);
             this.$refs.portfolioTable.update(vc);

@@ -54,7 +54,7 @@
 				No Portfolio
 			</div>
 			<div class="gCaption">
-				포트폴리오가 생성되면 여기에 표시됩니다.
+				{{ $t('name.no_portfolio') }}
 			</div>
         </div>
 

@@ -45,12 +45,12 @@
                     <q-tr :props="props" v-ripple @click="onClickAsset(props.row)" >
                         <q-td key="cmc_rank" :props="props">{{ props.row.cmc_rank }}</q-td>
                         <q-td key="symbol" :props="props" class="text-red-10 text-bold">
-                            <div class="row" style="width:70px;">
+                            <div class="row" style="width:80px;">
                                 <div>
                                     <q-img :src="props.row.logo_thumb" width="18px" height="18px" />
                                 </div>
                                 <div class="q-pl-sm">
-                                    {{ props.row.symbol }}
+                                    {{ v_shorten(props.row.symbol,7) }}
                                 </div>
                             </div>
                         </q-td>
@@ -138,6 +138,11 @@ export default {
     computed: {
         v_title() {
             return this.title;
+        },
+        v_shorten() {
+            return (value,len) => {
+                return CommonFunc.shortenString(value,len);
+            };
         },
         v_pagination_label() {
             return (scope) => {

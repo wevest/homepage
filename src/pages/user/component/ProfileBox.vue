@@ -282,8 +282,8 @@ export default {
                         CommonFunc.showErrorMessage(_this,'Fail to upload image to s3');
                         resolve('');
                     }
-                    console.log("upload.err=",err);
-                    console.log("upload=",response);
+                    logger.log.debug("upload.err=",err);
+                    logger.log.debug("upload=",response);
                     resolve(response.Location);
                 }
             )});
@@ -310,9 +310,9 @@ export default {
 
             let image_avatar = await this.blobToImage(blob_avatar);
             //console.log("process-0",image_avatar);
-            console.log("process-1",blob_avatar);
+            logger.log.debug("process-1",blob_avatar);
             let blob_avatar_thumb = await CommonFunc.resizeImage(image_avatar,MoaConfig.setting.thumbNailWidth,MoaConfig.setting.thumbNailHeight,0);
-            console.log("process-2",blob_avatar_thumb);
+            logger.log.debug("process-2",blob_avatar_thumb);
 
             const s3 = new AWS.S3({
                 accessKeyId: MoaConfig.s3.key,
@@ -327,7 +327,7 @@ export default {
                 let a_url = await _this.upload(s3,files[index].key, files[index].data);
                 files[index].url = a_url;
             }
-            console.log("files=",files);
+            logger.log.debug("files=",files);
             
             this.updateUserPhoto(files);
             return files;

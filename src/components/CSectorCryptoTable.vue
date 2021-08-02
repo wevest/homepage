@@ -119,20 +119,20 @@ export default {
 
         },
 
-        showReportList: function(data) {
+        showReportList(data) {
             const table_items = this.getReportList(data);
-            console.log('showReportList : result = ',table_items);
+            logger.log.debug('showReportList : result = ',table_items);
             this.items = table_items;
         },
 
-        update: function(data) {
-            console.log('CSectorCryptoTable.update - ',data);
+        update(data) {
+            logger.log.debug('CSectorCryptoTable.update - ',data);
             this.g_data = data;            
             this.showReportList(data);
         },
 
-        onClickAsset: function(symbol) {
-            console.log('CSectorTable.navAsset - ',symbol);
+        onClickAsset(symbol) {
+            logger.log.debug('CSectorTable.navAsset - ',symbol);
             CommonFunc.navAsset(this,symbol);
         },
 

@@ -502,7 +502,7 @@ export default {
 			this.v_items_info = items;
 		},
 
-		updateDevWidget: function (data_base) {
+		updateDevWidget(data_base) {
 			const dic_columns = CommonFunc.getColumnDic(
 				data_base.columns,
 				[],
@@ -533,8 +533,8 @@ export default {
 				data_base["values"][0][dic_columns["github_language"]];
 		},
 
-		update: function (data_base, data_vc) {
-			console.log("CAssetInfoTable.update - ", data_base);
+		update(data_base, data_vc) {
+			logger.log.debug("CAssetInfoTable.update - ", data_base);
 			this.g_data = data_base;
 			this.g_data_vc = data_vc;
 
@@ -542,7 +542,7 @@ export default {
 			this.updateDevWidget(this.g_data);
 		},
 
-		updateCommitChart: function (json_data) {
+		updateCommitChart(json_data) {
 			let data_count = CommonFunc.getChartData(
 				json_data,
 				"commit",
@@ -565,19 +565,19 @@ export default {
 			this.g_chart["chart1"] = a_option;
 		},
 
-		updateChart: function (data_commit) {
-			console.log("CAssetInfoTable.updateChart - ", data_commit);
+		updateChart(data_commit) {
+			logger.log.debug("CAssetInfoTable.updateChart - ", data_commit);
 			this.g_data_commit = data_commit;
 			this.updateCommitChart(data_commit);
 		},
 
-		onClickTab: function (value) {
+		onClickTab(value) {
 			logger.log.debug("CAssetInfo.onClick - ", value);
 			//this.updateTable(this.g_data,value);
 			//this.loadGithubData(this.g_data);
 		},
 
-		onClickVC: function (vc) {
+		onClickVC(vc) {
 			logger.log.debug("CAssetInfo.onClick - ", vc);
 			let dic_param = { name: "cryptovc", params: {} };
 			this.$router.push(dic_param);

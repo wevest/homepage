@@ -119,7 +119,7 @@ export class CommentListModel extends baseCollection {
             items[parentIndex].children.push(node);
         });
         
-        console.log("CommenList.toTreeData=",root);
+        logger.log.debug("CommenList.toTreeData=",root);
         return root;
     }
 

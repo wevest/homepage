@@ -96,7 +96,7 @@ export default class DataService{
     }
 
     static getWinnerTable(json_data,n_top=30) {
-        console.log("getWinnerTable.json_date=",json_data);
+        logger.log.debug("getWinnerTable.json_date=",json_data);
 
         /*
         let a_table = CommonFunc.getAppData('winnerTable');
