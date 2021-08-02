@@ -58,9 +58,9 @@
                 
                 <div class="col">   
                     <div class="text-h4 text-weight-bold">
-                        $ {{ v_format_price(v_portfolio.estimated_value) }}
+                        {{ v_format_price(v_portfolio.avg_holding) }} days
                     </div>
-                    <div class="gCaption">{{ $t('name.estimated_value') }}</div>                         
+                    <div class="gCaption">{{ $t('name.avg_holding') }}</div>                         
                 </div>
             </div>
         </div>
