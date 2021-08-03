@@ -1,6 +1,6 @@
 <template>
     
-    <div class="q-ma-sm">
+    <div class="q-pa-md">
         <div>
             <CTitle :title="$t('page.activation.title')" :desc="$t('page.activation.desc')"></CTitle>
         </div> 
@@ -8,12 +8,16 @@
             <div>           
                 <q-icon name="mail_outline" class="text-positive" style="font-size: 6em;" />
             </div>
-            <h6 class="gSubTitleLG q-pb-md"> {{ $t('page.activation.mail_sent.title') }}</h6>
+            <h6 class="gSubTitleLG"> {{ $t('page.activation.mail_sent.title') }}</h6>
             <div>
-                <p class="q-pa-md" style="line-height:30px;">메일함에서 <span class="email_address" >(support@wevest.ai)</span> 인증 메일을 확인 바랍니다.
-                    이메일의 인증 버튼을 선택하면 회원가입이 완료됩니다. </p>
+                <p class="q-pa-md" style="line-height:30px;">
+                    {{ $t('page.activation.mail_sent.desc') }}                    
+<!--                    
+                    <span class="email_address">support@wevest.ai</span> 
+-->                    
+                </p>
             </div>
-            <div class="q-pt-md">
+            <div class="q-pt-xs">
                 <q-btn :label="$t('button.go_home')" color="primary" @click="onClick" />
             </div>
         </div>

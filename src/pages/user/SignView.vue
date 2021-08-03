@@ -125,7 +125,7 @@
 
                         <div>
                             <q-btn :label="$t('button.signup')" :loading="v_loading_signup"
-                                type="submit" color="primary" disabled />
+                                type="submit" color="primary" />
                         </div>                    
                     </q-form>
                 </q-tab-panel>

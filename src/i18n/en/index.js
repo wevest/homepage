@@ -219,6 +219,7 @@ export default {
 			desc : '',
 			mail_sent : {
 				title : 'Activation Mail Sent',
+				desc : 'Please check your email to activate your account',
 			}
 		},
 		registration : {

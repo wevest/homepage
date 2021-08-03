@@ -1,6 +1,6 @@
 <template>
     
-    <div class="q-ma-md">
+    <div class="q-pa-md">
         <div>
             <CTitle :title="$t('page.registration.title')" :desc="$t('page.registration.desc')"></CTitle>
         </div>            
@@ -14,10 +14,14 @@
             </div>
 
             <div class="gPageTitle">
-                {{ $t('page.registration.complete.title') }}                
+                <span>{{ $t('page.registration.complete.title') }} </span>                
+                <div class="q-py-md">
+                    {{ $t('page.registration.complete.desc') }}
+                </div>
             </div>
+<!--            
                 <p class="q-pa-md" style="line-height:32px;"> {{ $t('page.registration.complete.desc') }}</p>
-
+-->
             <div>
                 <q-btn color="primary" :label="$t('button.go_login')" @click="onClick" />
             </div>

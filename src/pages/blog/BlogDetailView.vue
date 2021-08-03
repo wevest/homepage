@@ -43,18 +43,19 @@
         </div>
 
         <div>
-            <div class="q-py-xl">
+            <div class="q-py-lg">
+<!--            
                 <div class="gBodyLG" v-html="v_post.body"></div>
-<!--                
+-->                 
                 <Viewer 
                     ref="toastViewer"
                     :value="v_post.body"
                     :options="editorOptions"
                     :visible="editorVisible"
-                    previewStyle="vertical"
-                    height="200px"
+                    previewStyle="vertical" height="200px"
                 />
-                <p> {{ v_post.tags }} </p>                
+<!--                
+                <p> {{ v_post.tags }} </p>                   
 -->                
             </div>
 
@@ -203,23 +204,23 @@ export default {
         },
 
 
-        refresh: function(page_id) {
+        refresh(page_id) {
             logger.log.debug("BlogView.mounted - refresh");
             
             this.loadBlogPost(page_id);
             this.loadBlogComments(page_id);
         },
         
-        handlePostPage: function(post) {
+        handlePostPage(post) {
             logger.log.debug("handlePostPage.post=",post);
 
             this.v_post.assign(post);            
             logger.log.debug("handlePostPage.v_post=",this.v_post);
                     
-            //this.setContent(this.v_post.body);
+            this.setContent(this.v_post.body);
         },
 
-        loadBlogPost: function(page_id) {
+        loadBlogPost(page_id) {
             if (! page_id) {
                 return;
             }
@@ -236,7 +237,7 @@ export default {
 
         },
         
-        loadBlogComments: function(page_id,limit=null,offset=null) {
+        loadBlogComments(page_id,limit=null,offset=null) {
             const _this = this;
 
             let dic_param = {content_type:'blog-postpage' , id:page_id, limit:limit, offset:offset};
@@ -257,7 +258,7 @@ export default {
         },
 
 
-        navWriter:function(mode) {
+        navWriter(mode) {
             let a_post = new PostPageModel();
             if (mode=="new") {
                 a_post.id = null;
@@ -278,7 +279,7 @@ export default {
         },
 
 
-        onClickDelete: function() {                        
+        onClickDelete() {                        
             const _this = this;
             //let dic_param = { id:this.v_post.id, token:store.getters.token};
             logger.log.debug('BlogPage.onClickDelete');
@@ -292,17 +293,17 @@ export default {
 
         },
 
-        onClickWrite: function(dic_param) {
+        onClickWrite(dic_param) {
             logger.log.debug('onClickWrite - ',dic_param);
             this.navWriter("new");
         },
 
-        onClickUpdate: function() {
+        onClickUpdate() {
             logger.log.debug("BlogPage.onClickUpdate");
             this.navWriter("update");
         },
 
-        onClickCommentReply: function(dic_param) {
+        onClickCommentReply(dic_param) {
             logger.log.debug('onClickCommentReply : dic_param=',dic_param);
             CommonFunc.showOkMessage(this,'Comments posted');  
         },
@@ -313,7 +314,7 @@ export default {
             this.loadBlogComments(this.v_post.id,dic_page.param.limit,dic_page.param.offset);
         },
 
-        onClickRate: function(dic_payload) {
+        onClickRate(dic_payload) {
             const _this = this;
             logger.log.debug("BlogDetailView.onClickRate=",dic_payload);
 
@@ -323,11 +324,11 @@ export default {
             });
         },
 
-        onBlogAdded: function() {
+        onBlogAdded() {
             logger.log.debug("BlogPage.onBlogAdded=");            
         },
 
-        onBlogDeleted: function() {
+        onBlogDeleted() {
             logger.log.debug("BlogPage.onBlogDeleted=");            
         },
 
