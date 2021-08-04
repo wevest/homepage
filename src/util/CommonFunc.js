@@ -958,7 +958,7 @@ export default class CommonFunc {
         return data;
     }
 
-    static getMinMaxInSeries(series) {
+    static getMinMaxInSeries(series,ratio=0) {
         let a_min = 10000000000000;
         let a_max = -99999999;
         series.forEach(a_item => {
@@ -973,7 +973,7 @@ export default class CommonFunc {
             }
         });
 
-        return {min:a_min, max:a_max};
+        return {min:a_min*(1-ratio), max:a_max*(1+ratio)};
     }
 
     static getAssetInSector(category,format_number=false) {
@@ -1256,9 +1256,11 @@ export default class CommonFunc {
                 followTouchMove: false,
             },    
             title: {text:''},
-            xAxis: { type: 'datetime' },                
+            xAxis: [
+                { type: 'datetime', gridLineWidth:0 },
+            ],
             yAxis: [
-                {opposite:false, show:true, endOnTick:false, title:{text:''} },
+                {opposite:false, show:true, endOnTick:false, title:{text:''}, gridLineWidth:0 },
                 {opposite:true, show:true, endOnTick:false, title:{text:''}, gridLineWidth:0 },    
                 {opposite:true, show:true, endOnTick:false, title:{text:''}, min:0.8, gridLineWidth:0 },
             ],

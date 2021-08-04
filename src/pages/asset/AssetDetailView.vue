@@ -23,7 +23,9 @@
 -->
 
         <div class="q-my-md">
+<!--            
             <CTitle ttype='subtitle' :title="$t('page.asset_detail.price_chart.title')" :desc="$t('page.asset_detail.price_chart.desc')" class="gNoBoxMargin"></CTitle>
+-->            
             <ChartTimeframe class="q-mt-md" period='all' @onClick="onClickTimeframe" selected='y1'></ChartTimeframe>
             <WAssetChart ref="assetChart"
                 :tableTitle="$t('page.asset_detail.price_data.title')" :tableDesc="$t('page.asset_detail.price_data.title')"
@@ -133,11 +135,11 @@ export default {
             this.v_asset.symbol = query.symbol;            
         },
 
-        updatePriceWiget: function(json_data) {  
+        updatePriceWiget(json_data) {  
             this.$refs.priceBox.update(json_data);
         },
 
-        updatePageHeader: function(json_data) {            
+        updatePageHeader(json_data) {            
             const dic_columns = CommonFunc.getColumnDic(json_data['overall'].columns,[],[]);
             let a_date = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['time']];
             //let a_name = json_data['overall'].values[ json_data['overall'].values.length-1 ][dic_columns['name']];
@@ -146,16 +148,16 @@ export default {
             this.v_page.desc = a_date;
         },
 
-        updatePriceChart:function(json_data) {
+        updatePriceChart(json_data) {
             this.$refs.assetChart.update(json_data, true);                    
         },
 
-        loadBlogList: function() {
+        loadBlogList() {
             logger.log.debug('AssetDetailView.loadBlogList - ',this.v_asset.symbol);            
             this.$refs.blogList.updateByCategory(this.v_asset.symbol);
         },
 
-        loadCryptoBaseinfo: function() {
+        loadCryptoBaseinfo() {
             const _this = this;
 
             this.v_asset.loadBaseinfo().then(resp=>{
@@ -203,17 +205,17 @@ export default {
             this.loadCryptoPriceHistory(this.g_freq);
         },
 
-        onClickShare: function(asset) {
+        onClickShare(asset) {
             let a_url = CommonFunc.navAssetDetail(this,asset.symbol,asset.id,true);
             logger.log.debug("AssetDetailView.onClickShare=",asset,a_url);            
             CommonFunc.copyUrl(this,a_url);
         },
 
-        onClickTitleMore: function() {
+        onClickTitleMore() {
             logger.log.debug('AssetDetailView.onClickTitleMore');
         },
 
-        onClickCopy: function(data) {
+        onClickCopy(data) {
             logger.log.debug('AssetDetailView.onClickCopy : data=',data);
         }
     },

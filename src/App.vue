@@ -6,12 +6,12 @@
 
 
 <script>
-import LocalStorageService from "src/services/localStorage";
+//import LocalStorageService from "src/services/localStorage";
 
 export default {
 	name: "App",
 
-	created: function () {
+	created() {
 		//console.log("App.created");
 		//LocalStorageService.loadKCodes();
 		//LocalStorageService.loadCoinCodes(false);

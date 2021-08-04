@@ -180,6 +180,9 @@ export default {
 				title : 'Password confirm',
 				error : 'Password do not match', 
 			},
+			code: {
+				title: 'Authentification Code',
+			}
 		},
  		
 		home:{
@@ -569,9 +572,13 @@ export default {
 		chartview: "CHART",
 		confirm: "Confirm",
 		go_home: "Go home",
+		send: "Send",
+		resend: "Resend",
 		resend_activate: "Resend Activate Mail",
 		go_login: "Go to Log In",
 		profile:"Profile",
 		reset_password:"Reset Password",
+		next: "Next",
+		back: "Back",
 	}
 };

@@ -86,6 +86,18 @@ export default class AuthService{
         });
     }
 
+    static requestActivationCode(reqParam,func,funcErr) {
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/activation/");
+        callCMSAPI("POST",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            logger.log.error("AuthService.requestActivationCode : err=",err);
+            funcErr(err);
+        });
+    }
+
 /*
     static setData(json_auth) {
         MoaConfig.auth = json_auth;

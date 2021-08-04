@@ -16,14 +16,13 @@
                     @onClick="onClick"></CBigLabel>
                     
             </div>
-            <div class="col-6 q-pt-sm q-px-md text-center">
-                <div class="titleProfitBox">
-                    ROI
-                </div>
+            <div class="col-6 q-pt-sm q-px-md">
                 <div class="boxProfit">
                     <div class="titleProfit">
                         {{v_format(data.ticker.ret_7d)}} %
+                        <q-badge align="top">1w</q-badge>
                         <span class="gCaption">1W</span>
+                        <q-linear-progress value="0.7" />                        
                     </div>
                     
                 </div>       
@@ -31,12 +30,14 @@
                     <div class="titleProfit" :class="v_color(data.ticker.ret_1m)">
                         {{v_format(data.ticker.ret_1m)}} %
                         <span class="gCaption">1M</span>
+                        <q-linear-progress value="0.7" />
                     </div>                    
                 </div>         
                 <div class="boxProfit">
                     <div class="titleProfit">
                         {{v_format(data.ticker.ret_3m)}} %
                         <span class="gCaption">3M</span>
+                        <q-linear-progress value="0.45" />
                     </div>                    
                 </div>                
 

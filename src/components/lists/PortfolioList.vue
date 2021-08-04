@@ -158,10 +158,11 @@ export default {
             
             let dicParam = {type:type, limit:this.$refs.loadMore.v_next.limit, offset:this.$refs.loadMore.v_next.offset};            
             this.v_portfolio.load(dicParam).then(response=>{
+                _this.v_list_loaded = true;                
                 logger.log.debug("PortfolioList.update:response=",response);
                 _this.$refs.loadMore.setPageParameter(response.data);
-                _this.v_list_loaded = true;
             }).catch(err=>{
+                _this.v_list_loaded = true;                
                 logger.log.error("PortfolioList.update:err=",err);
             });
         },
@@ -177,7 +178,6 @@ export default {
         onClickPortfolio(a_portfolio) {
             logger.log.debug("onClickPortfolio: portfolio=",a_portfolio);
             //this.$emit("onClickPortfolio",a_portfolio);
-
 
             this.v_user.id = a_portfolio.api_user.id;
             this.v_user.username = a_portfolio.api_user.username;

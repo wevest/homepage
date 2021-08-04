@@ -15,10 +15,10 @@
 
             <q-tr :props="props">
                 <q-td key="trade_date" :props="props">{{ props.row.trade_date }}</q-td>
+                <q-td key="close" :props="props" class="text-red-10 text-bold">{{ Number(props.row.close).toLocaleString() }}</q-td>                
                 <q-td key="open" :props="props" class="text-red-10 text-bold">{{ Number(props.row.open).toLocaleString() }}</q-td>
                 <q-td key="high" :props="props" class="text-red-10 text-bold">{{ Number(props.row.high).toLocaleString() }}</q-td>
                 <q-td key="low" :props="props" class="text-red-10 text-bold">{{ Number(props.row.low).toLocaleString() }}</q-td>
-                <q-td key="close" :props="props" class="text-red-10 text-bold">{{ Number(props.row.close).toLocaleString() }}</q-td>
                 <q-td key="volume" :props="props">{{ Number(props.row.volume).toLocaleString() }}</q-td>
             </q-tr>            
 
@@ -53,11 +53,11 @@ export default {
         return {
             v_headers: [
                 { name:'trade_date', label: this.$t('name.trade_date'), field: 'trade_date', align:'left', required:true  },
-                { name:'open', label: "$ "+this.$t('name.price_open'), field: 'open'},
-                { name:'high', label: "$ "+this.$t('name.price_high'), field: 'high'},
-                { name:'low', label: "$ "+this.$t('name.price_low'), field: 'low'},
-                { name:'close', label: "$ "+this.$t('name.price_close'), field: 'close'},
-                { name:'volume', label: this.$t('name.volume'), field: 'volume'},
+                { name:'close', label: this.$t('name.price_close')+"($)", field: 'close'},
+                { name:'open', label: this.$t('name.price_open'), field: 'open'},
+                { name:'high', label: this.$t('name.price_high'), field: 'high'},
+                { name:'low', label: this.$t('name.price_low'), field: 'low'},
+                { name:'volume', label: this.$t('name.volume')+"($)", field: 'volume'},
             ],
             v_pagination: {
                 sortBy: 'trade_date',

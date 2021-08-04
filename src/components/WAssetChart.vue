@@ -7,7 +7,13 @@
 -->     
         <q-skeleton v-if="!v_chart_loaded" animation="pulse-x" square height="450px" />
         <div v-show="v_chart_loaded">
-            <highcharts class="box_chart" :options="g_chart['chart1']" ref="chart1"></highcharts>
+            <highcharts class="box_chart" :options="g_chart['chart1']" ref="chart1" style="height:250px;"></highcharts>
+            
+            <q-separator color="black" size="1px" class="q-mt-sm" />
+
+            <highcharts class="box_chart" :options="g_chart['chart2']" ref="chart2" style="height:100px;"></highcharts>
+
+            <q-separator color="black" size="1px" class="q-mt-sm" />
 
             <div class="text-center q-mt-md">
                 <q-toggle v-model="v_visible_table" :label="$t('button.show_table')" class="q-mb-md center" />
@@ -15,8 +21,9 @@
 
             <q-slide-transition>
                 <div v-show="v_visible_table" class="q-my-md">
-                    
+<!--                    
                     <CTitle ttype='subtitle' :title="v_table_title" :desc="v_table_desc"></CTitle>
+-->                    
                     <div class="gBoxNoMargin">
                         <WPriceDataTable ref="dataTable" />                    
                     </div>
@@ -81,25 +88,6 @@ export default {
         }
     },
     methods: {
-    
-        updateChart_old(json_data) {
-            let data_price = CommonFunc.getChartData(json_data,'overall','priceClose','trade_date',false,0);
-            let data_volume = CommonFunc.getChartData(json_data,'overall','volume','trade_date',false,0);
-            let data_volume_top = CommonFunc.getChartData(json_data,'overall','top_tier_volume_total','trade_date',false,0);
-
-            let series = [
-                { name: this.$t('name.price'),type: 'line', yAxis:0, data: data_price.data},
-                { name: this.$t('name.volume'),type: 'bar', yAxis:1, data: data_volume.data},
-                //{ name: 'top_tier_volume',type: 'bar', yAxis:1, data: data_volume_top.data},
-            ];
-
-            let a_option = CommonFunc.getChartOption(series);
-            this.g_chart['chart1'] = a_option;
-            this.v_chart_loaded = true;
-
-            logger.log.debug('WAssetChart.updateChart : =',json_data);
-        },
-
         getChartData(json_data,column_index,date_index,dtype=0,idecimal=3) {
                     
             let data_price = [];
@@ -121,26 +109,48 @@ export default {
             return {data:data_price, values:values};
         },
 
-        updateChart(json_data) {
+        updatePriceChart(json_data) {
             let data_price = this.getChartData(json_data,4,0,false,0);
-            let data_volume = this.getChartData(json_data,5,0,false,0);
+
+            let a_minmax = CommonFunc.getMinMaxInSeries(data_price.data,0.05);            
 
             let series = [
-                { name: this.$t('name.price'),type: 'line', yAxis:0, data: data_price.data},
-                { name: this.$t('name.volume'),type: 'bar', yAxis:1, data: data_volume.data},
+                { name: this.$t('name.price'), type: 'area', yAxis:0, data: data_price.data, 
+                    showInLegend: false, min:a_minmax.min,max:a_minmax.max},
                 //{ name: 'top_tier_volume',type: 'bar', yAxis:1, data: data_volume_top.data},
             ];
 
             let a_option = CommonFunc.getChartOption(series);
+            //logger.log.debug('WAssetChart.updateChart : =',a_option);
+
+            a_option['xAxis'][0]['visible'] = false;
+            a_option['yAxis'][0]['min'] = a_minmax.min;
+            a_option['yAxis'][0]['max'] = a_minmax.max;
             this.g_chart['chart1'] = a_option;
+            logger.log.debug('WAssetChart.updatePriceChart : =',a_minmax,a_option);
+        },
+        updateVolumeChart(json_data) {
+            let data_volume = this.getChartData(json_data,5,0,false,0);
+
+            let series = [
+                { name: this.$t('name.volume'),type: 'bar', yAxis:0, data: data_volume.data, showInLegend: false, color:'black'},
+                //{ name: 'top_tier_volume',type: 'bar', yAxis:1, data: data_volume_top.data},
+            ];
+
+            let a_option = CommonFunc.getChartOption(series);
+            a_option['yAxis']['gridLineWidth'] = 0;
+            a_option['xAxis']['gridLineWidth'] = 0;
+            //a_option['xAxis']['tickWidth'] = 0;
+            this.g_chart['chart2'] = a_option;
             this.v_chart_loaded = true;
 
-            //logger.log.debug('WAssetChart.updateChart : =',data_price.data);
+            //logger.log.debug('WAssetChart.updateChart : =',a_option);
         },
 
         update(json_data,show_table=true) {
             //logger.log.debug('WAssetChart.update : =',json_data);
-            this.updateChart(json_data); 
+            this.updatePriceChart(json_data); 
+            this.updateVolumeChart(json_data); 
             this.$refs.dataTable.update(json_data);           
             
             this.v_visible_table = show_table;

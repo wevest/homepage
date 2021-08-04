@@ -1,11 +1,16 @@
 {
+  "private": true,
   "name": "wevest",
-  "version": "0.0.1",
-  "description": "A Quasar Framework app",
-  "productName": "Quasar App",
+  "version": "0.1",  
+  "productName": "WeVest.ai",  
+  "description": "Next-Generation Community-Driven Investment Platform",  
   "author": "james.ahn <38304972+Edenpartners@users.noreply.github.com>",
   "license": "MIT license",
-  "private": true,
+  "homepage": "https://wevest.ai",
+  "keywords": [
+    "investment",
+    "community"
+  ],
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
@@ -41,7 +46,8 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-vue": "^7.7.0",
-    "eslint-webpack-plugin": "^2.4.0"
+    "eslint-webpack-plugin": "^2.4.0",
+    "workbox-webpack-plugin": "^5.0.0"
   },
   "browserslist": [
     "ie >= 11",

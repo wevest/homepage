@@ -120,7 +120,15 @@ export default {
 		
 		latest_news:'최신',
 		trending_news:'인기있는',
-		comments_news:'댓글많은 '
+		comments_news:'댓글많은',
+
+		no_follower:"다른 사람이 팔로우하면 여기에 표시됩니다.",
+		no_following:"내가 팔로잉한 사람이 여기에 표시됩니다.",
+		no_userfeed:"팔로우 한 사람의 새로운 소식이 여기에 표시됩니다",
+		no_portfolio:"포트폴리오가 여기에 나타납니다.",
+
+		no_blogpost:"No Blog Post",
+		no_blogpost_desc:"You will see blog posts when posted blogs",		
 	},
 	button: {
 		more: '더보기',
@@ -164,17 +172,11 @@ export default {
 		resend_activate: "인증 메일 재발송",
 		go_login: "로그인하기",
 		reset_password:"비밀번호 설정",
-
+		send: "전송",
+		resend:"재전송",
 		price_forecast: "앞으로 어떻게 될까요?",
-
-		no_follower:"다른 사람이 팔로우하면 여기에 표시됩니다.",
-		no_following:"내가 팔로잉한 사람이 여기에 표시됩니다.",
-		no_userfeed:"팔로우 한 사람의 새로운 소식이 여기에 표시됩니다",
-		no_portfolio:"포트폴리오가 여기에 나타납니다.",
-
-		no_blogpost:"No Blog Post",
-		no_blogpost_desc:"You will see blog posts when posted blogs",
-
+		next: "다음",
+		back: "이전",
 	},
 	dialog: {
 		password_edit: {
@@ -266,6 +268,9 @@ export default {
 				title: '비밀번호 확인',
 				error: '비밀번호가 일치하지 않습니다',
 			},
+			code: {
+				title: '인증코드',
+			}
 		},
 
 		home: {
@@ -303,6 +308,7 @@ export default {
 			title: '회원가입 인증',
 			mail_sent: {
 				title: '인증 메일이 발송되었습니다',
+				desc : '계정을 활성화시키기 위해 이메일을 확인해주세요',
 			}
 		},
 		registration: {

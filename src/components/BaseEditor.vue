@@ -21,6 +21,7 @@ import AWS from 'aws-sdk';
 import 'codemirror/lib/codemirror.css'; 
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/vue-editor';
+//import { colorSyntax } from Editor.plugin;
 
 import { CONST } from 'src/data/const';
 import { MoaConfig } from 'src/data/MoaConfig';
@@ -36,14 +37,14 @@ export default {
         Editor,
     },
     computed: {
-        isNewPost: function() {
+        isNewPost() {
             if (this.g_page_id) {
                 return false;
             }
             return true;
         }
     },
-    data: function () {
+    data() {
         return {
             v_post: new PostPageModel(),
             v_confirm: false,
@@ -86,21 +87,21 @@ export default {
             return resizedImage;
         },
 
-        showConfirm: function(msg) {
+        showConfirm(msg) {
           this.v_confirm_title = msg;
           this.v_confirm = true;
         },
 
-        hideConfirm: function() {
+        hideConfirm() {
           this.v_confirm = false;
         },
 
-        getContents: function() {
-          let a_text = this.$refs.toastEditor.invoke('getHtml');
+        getContents() {
+          let a_text = this.$refs.toastEditor.invoke('getMarkdown');
           return a_text;
         },
 
-        uploadImage:function(blob) {
+        uploadImage(blob) {
             // check the following link
             // https://solve-programming.tistory.com/29    
             // https://day0404.tistory.com/entry/Nuxtjs-Toast-Ui-Editor-%EC%A0%81%EC%9A%A9
@@ -147,7 +148,7 @@ export default {
             });
         },
 
-        save: function(v_post,a_tag) {                        
+        save(v_post,a_tag) {                        
             const _this = this;
             let a_text = this.getContents();
             
@@ -188,7 +189,7 @@ export default {
 
         },
 
-        delete: function(v_post) {                        
+        delete(v_post) {                        
             const _this = this;
             let dic_param = { id:v_post.id, token:MoaConfig.auth.token};
             logger.log.debug('onClickDelete - ',dic_param);
@@ -199,7 +200,7 @@ export default {
             });
         },
 
-        onClickConfirm: function(value) {
+        onClickConfirm(value) {
           this.v_confirm = false;
           this.$emit("onClickConfirm",value);
         }

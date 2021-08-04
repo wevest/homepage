@@ -44,16 +44,16 @@
 
         <div>
             <div class="q-py-lg">
-<!--            
+<!--
                 <div class="gBodyLG" v-html="v_post.body"></div>
--->                 
+-->
                 <Viewer 
                     ref="toastViewer"
                     :value="v_post.body"
                     :options="editorOptions"
                     :visible="editorVisible"
                     previewStyle="vertical" height="200px"
-                />
+                />                
 <!--                
                 <p> {{ v_post.tags }} </p>                   
 -->                
@@ -200,7 +200,10 @@ export default {
         },
 
         setContent(content) {
-            this.$refs.toastViewer.invoke('setMarkdown', content);
+            if (this.$refs.toastViewer) {
+                this.$refs.toastViewer.invoke('setMarkdown', content);
+            }
+            
         },
 
 
