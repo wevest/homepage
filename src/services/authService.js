@@ -98,6 +98,18 @@ export default class AuthService{
         });
     }
 
+    static checkAccount(reqParam,func,funcErr) {
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/check/");
+        callCMSAPI("POST",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            logger.log.error("AuthService.checkAccount : err=",err);
+            funcErr(err);
+        });
+    }
+
 /*
     static setData(json_auth) {
         MoaConfig.auth = json_auth;
