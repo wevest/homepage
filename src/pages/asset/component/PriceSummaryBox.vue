@@ -16,7 +16,7 @@
                     @onClick="onClick"></CBigLabel>
                     
             </div>
-            <div class="col-6 q-pl-md">
+            <div class="col-6 q-pl-lg">
                 <div class="boxProfit q-mb-md ">
                     <div class="titleProfit">
                         {{v_format(data.ticker.ret_7d)}} %
