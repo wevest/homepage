@@ -104,10 +104,7 @@ export default {
         },
         v_color() {
             return (value) => {
-                if (value<0) {
-                    return 'bg-positive';
-                }
-                return 'bg-negative';
+                return "bg-"+CommonFunc.getPerfColor(value);
             }
         },
         v_icon() {

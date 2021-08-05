@@ -54,6 +54,9 @@ export default {
     computed: {
         v_format() {
             return (value) => {
+                if (value>0) {
+                    return "+"+CommonFunc.formatNumber(value,2);    
+                }
                 return CommonFunc.formatNumber(value,2);
             };            
         },

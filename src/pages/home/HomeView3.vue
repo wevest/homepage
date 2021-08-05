@@ -20,14 +20,14 @@
 -->                
         </div>
 
-        <div class="col">
-            <AssetCommunityList ref='assetList' :title="$t('page.home.asset.title')" :desc="$t('page.home.asset.desc')"
-            maxLength="10" :moreCaption="$t('button.more')" ></AssetCommunityList>
-        </div>
-
         <div>
             <PortfolioList ref="pfVC" :title="$t('page.home.portfolio.title')" :desc="$t('page.home.portfolio.desc')"
                 maxLength="10" :moreCaption="$t('button.more')"></PortfolioList>
+        </div>
+
+        <div class="col">
+            <AssetList ref='assetList' :title="$t('page.home.asset.title')" :desc="$t('page.home.asset.desc')"
+            maxLength="10" :moreCaption="$t('button.more')" ></AssetList>
         </div>
 
         <div>
@@ -62,7 +62,7 @@ import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
 
 import BlogList from 'components/lists/BlogList';
-import AssetCommunityList from 'components/lists/AssetCommunityList';
+import AssetList from 'components/lists/AssetList';
 import PortfolioList from 'components/lists/PortfolioList';
 import ReviewStatList from 'components/lists/ReviewStatList';
 import UserFeedList from 'components/lists/UserFeedList';
@@ -86,7 +86,7 @@ export default {
         MarketWatchWidget,
         BlogList,
         PortfolioList,
-        AssetCommunityList,
+        AssetList,
         UserFeedList,
         ReviewStatList
     },

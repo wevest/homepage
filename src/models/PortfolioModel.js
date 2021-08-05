@@ -262,7 +262,7 @@ export class PortfolioModel extends baseCollection {
             });
         });
     }
-
+    
     update(description) {
         let dic_param = {id:this.id, 
             description:description, 

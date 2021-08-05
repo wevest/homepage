@@ -15,7 +15,7 @@ export default class AuthService{
         return host + url;
     }
 
-    static signUp(reqParam,func,funcErr) {
+    static signUp_foractivation(reqParam,func,funcErr) {
         let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/auth/users/");
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
@@ -26,7 +26,7 @@ export default class AuthService{
         });
     }
 
-    static signUp2(reqParam,func,funcErr) {
+    static signUp(reqParam,func,funcErr) {
         let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/");
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
@@ -62,14 +62,14 @@ export default class AuthService{
         });
     }
 
-    static resetPassword(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/reset/");
+    static changePassword(reqParam,func,funcErr) {
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/change_password/");
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
         })
         .catch( (err) => {
-            logger.log.error("AuthService.resetPassword : err=",err);
+            logger.log.error("AuthService.changePassword : err=",err);
             funcErr(err);
         });
     }
@@ -87,7 +87,7 @@ export default class AuthService{
     }
 
     static requestActivationCode(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/activation/");
+        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/authcode/");
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);

@@ -63,7 +63,8 @@
                         v-model="v_user.default_lang" :options="v_lang" 
                         label="Default Language" />
 -->
-                    <q-btn :label="$t('button.next')" color="primary" @click="onClickSignupNav(1)" />
+                    <q-btn :label="$t('button.next')" color="primary" :loading="v_loading_next"
+                        @click="onClickSignupNav(1)" />
                 </q-form>
             </div>
         </q-slide-transition>                        
@@ -75,7 +76,7 @@
                         Please verify your email to complate sign-up
                     </div>
                     <q-input
-                        filled maxlength="6" type="number" 
+                        filled maxlength="6" type="number"
                         v-model="v_user.code"
                         :label="$t('page.signup.code.title')" ref="fldCode"
                         :error="v_error.code.error"
@@ -83,18 +84,24 @@
                     >
                         <template v-slot:append>
                             
-                            <WTimer ref="authTimer" class="q-mx-sm" @onTimeout="onTimeout"/>
-
                             <q-btn :label="v_button_send" :loading="v_loading_token"
                                 :disable="! v_button_send_enabled" color="primary" 
                                 @click="onClickResend" />
+
                         </template>    
 
                     </q-input>
+
+                    <WTimer ref="authTimer" class="q-mx-sm text-center" caption="This code will expire in" 
+                        :visible="v_show_timer" @onTimeout="onTimeout"/>
+
                 </div>
                 <div class="q-mt-lg">
+<!--                    
                     <q-btn :label="$t('button.back')" @click="onClickSignupNav(-1)" />
-                    <q-btn class="q-ml-md" :label="$t('button.signup')" :loading="v_loading_signup"
+-->                    
+                    <q-btn class="" :label="$t('button.signup')" 
+                        :loading="v_loading_signup" :disable="v_button_signup_disable"
                         color="primary" @click="onClickSignUp" />
                 </div>      
             
@@ -106,6 +113,7 @@
 
 <script>
 import {store} from 'src/store/store';
+import {MoaConfig} from 'src/data/MoaConfig';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
@@ -134,7 +142,7 @@ export default {
             return [
                 (v) => !!v || this.$t('page.signup.password.error'),
                 (v) => v == this.$refs.fldPasswordChange.value || this.$t('page.signup.password_confirm.error')
-                ]
+            ]
         },
         v_me() {
             return store.getters.me;
@@ -143,17 +151,23 @@ export default {
     data() {
         return {
             isPwd:true,
+
             v_user: this.data,
             v_verified: false,
+            
+            v_show_timer: false,
 
             v_button_send: '',
             v_button_send_enabled: true,
 
+            v_button_signup_disable: true,
+
             v_show_signup1: true,
             v_show_signup2: false,
 
-            v_loading_token:false,
-            v_loading_signup:false,
+            v_loading_token: false,
+            v_loading_signup: false,
+            v_loading_next: false,
 
             v_error: { 
                 username: {error:false, msg:''},
@@ -170,7 +184,15 @@ export default {
     methods: {
         prepare() {
             this.v_button_send = this.$t('button.send');
-        },        
+            this.v_button_signup_disable = true;
+        },      
+        clearErrors() {
+            const keys = Object.keys(this.v_error);
+            for (let index=0;index<keys.length;index++) {
+                this.v_error[keys[index]].error = false;
+                this.v_error[keys[index]].msg = '';
+            }
+        },
         updateEmailVerification () {
             // eslint-disable-next-line
             let reg =  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/
@@ -202,12 +224,65 @@ export default {
             }
             return valid;
         },
-        clearErrors() {
-            const keys = Object.keys(this.v_error);
-            for (let index=0;index<keys.length;index++) {
-                this.v_error[keys[index]].error = false;
-                this.v_error[keys[index]].msg = '';
+        updateCodeVeirification() {
+            if (this.v_user.code.length==6) {
+                return true;
             }
+            return false;
+        },
+        setAccountAvailability(response) {
+            if (response.data.data.email==-1) {
+                this.v_error.email.error = true;
+                this.v_error.email.msg = this.$t('page.signup.email.error2');                
+            } else {
+                this.v_error.email.error = false;
+                this.v_error.email.msg = '';
+            }
+
+            if (response.data.data.username==-1) {
+                this.v_error.username.error = true;
+                this.v_error.username.msg = this.$t('page.signup.username.error2');
+            } else {
+                this.v_error.username.error = false;
+                this.v_error.username.msg = '';
+            }
+            return this.v_error.email.error || this.v_error.username.error
+        },
+        checkAccountAvailability(offset) {
+            logger.log.debug("SignupBox.checkAccountAvailability");
+            
+            const _this = this;
+            
+            this.v_loading_next = true;
+            let dicParam = {email: this.v_user.email, username: this.v_user.username};
+            AuthService.checkAccount(dicParam, function(response) {
+                logger.log.debug("SignupBox.checkAccountAvailability : response=",response);
+                _this.v_loading_next = false;
+
+                if (! _this.setAccountAvailability(response)) {
+                    //if no error found
+                    _this.navNextStep(offset);
+                }
+                
+            }, function(err) {
+                logger.log.error("SignupBox.checkAccountAvailability : err=",err);
+                _this.v_loading_next = false;
+            });
+        },
+        navNextStep(offset) {
+            if (offset==1) {
+                this.v_show_signup1 = false;
+                this.v_show_signup2 = true;                
+            } else if (offset==-1) {
+                this.v_show_signup2 = false;
+                this.v_show_signup1 = true;                
+            }
+        },
+        processLogin(dic_param) {
+            dic_param.stay_loggedin = true;
+            this.v_me.signIn(dic_param).then( resp => {
+                CommonFunc.navHome(this);
+            });
         },
 
         onClickResend() {
@@ -222,16 +297,21 @@ export default {
             let dicReq = {email:this.v_user.email};
             this.v_loading_token = true;
             AuthService.requestActivationCode(dicReq,function(resp) {
-                _this.v_loading_token = false;
                 logger.log.debug("SignupBox.onClickResend:resp=",resp);
+                _this.v_loading_token = false;
+                                
+                _this.v_show_timer = true;
+                _this.$refs.authTimer.setTime(MoaConfig.setting.authCodeTimelimit);                
                 
-                _this.$refs.authTimer.setTime(3);
+                _this.v_button_signup_disable = false;
                 _this.v_button_send_enabled = false;
                 _this.v_button_send = _this.$t('button.resend');
+                _this.v_user.code = '';
 
             },function(err) {
                 logger.log.error("SignView.onClickResend:err=",err);
                 _this.v_loading_token = false;
+                _this.v_button_signup_disable = true;
             });
         },
 
@@ -247,32 +327,29 @@ export default {
                     return;
                 }
 
-                this.v_show_signup1 = false;
-                this.v_show_signup2 = true;                
+                this.checkAccountAvailability(offset);
             }
 
             if (offset==-1) {
-                this.v_show_signup2 = false;
-                this.v_show_signup1 = true;                
+                this.navNextStep(offset);
             }
         },
         onClickSignUp() {
-            logger.log.debug("SignView.onClickSignUp");
+            logger.log.debug("SignupBox.onClickSignUp");
 
             if (!this.updateEmailVerification()) return;
             if (!this.updateUsernameVerification()) return;
-            if (!this.v_verified) {
-                return;
-            }
+            if (!this.updateCodeVeirification()) return;
 
             const _this = this;
             let dic_param = {
                 username:this.v_user.username,
-                title: this.v_user.username,
+                display_name: this.v_user.username,
                 email:this.v_user.email,
                 default_lang:this.v_user.default_lang,
                 password:this.v_user.password, re_password:this.v_user.password2,
-                emailValid:this.v_user.emailValid
+                emailValid:this.v_user.emailValid,
+                code: this.v_user.code
             };
 
             this.clearErrors();
@@ -283,7 +360,21 @@ export default {
 				logger.log.debug("SigninView.SignUp: response=",response);
                 //const a_dialog = store.getters.components.getComponent('alertDialog');
 				//a_dialog.show('Success','Please check your email to activate your account!');
-                CommonFunc.navActivationNotification(_this);
+                //CommonFunc.navActivationNotification(_this);
+                
+                if (response.data.ret!=0) {                    
+                    _this.$refs.authTimer.reset();
+                    
+                    _this.v_user.code = '';
+                    _this.v_button_signup_disable = true;
+                    _this.v_button_send_enabled = true;
+
+                    const a_dialog = store.getters.components.getComponent('alertDialog');
+                    a_dialog.show('Error','Auth code is wrong, please try again');
+                    return;
+                }
+
+                _this.processLogin(dic_param);
 
             }).catch( response=> {
                 _this.v_loading_signup = false;
@@ -295,9 +386,18 @@ export default {
             });
         },
 
+        onInput(value) {
+            logger.log.debug("SigninView.onInput: value=",value,this.v_user.code);
+            if (this.v_user.code.length>6) {
+                logger.log.debug("SigninView.onInput: 1");   
+                this.v_user.code = value.substring(0,6);
+            }
+        },
+
         onTimeout(dicParam) {
             logger.log.debug("SigninView.onTimeout: dicParam=",dicParam);
             this.v_button_send_enabled = true;
+            this.v_button_signup_disable = true;
         }
     }
 };

@@ -167,10 +167,12 @@ export default {
 			email : {
 				title : 'Email',
 				error : 'Email is invalid',
+				error2 : 'it is a registered email',
 			},
 			username : {
 				title : 'Username',
 				error : 'Username is invalid, please use numbers and letters only',
+				error2 : 'Username is already taken',
 			},
 			password :{
 				title : 'Password',
@@ -182,6 +184,7 @@ export default {
 			},
 			code: {
 				title: 'Authentification Code',
+				error : 'Please input 6-digits authentification code', 
 			}
 		},
  		
@@ -200,7 +203,7 @@ export default {
 				desc: ''
 			},
 			asset : {
-				title : 'new asset list',
+				title : 'Find Your Favorite Asset community',
 				desc : '',
 			},
 			userfeed: {
@@ -578,6 +581,7 @@ export default {
 		go_login: "Go to Log In",
 		profile:"Profile",
 		reset_password:"Reset Password",
+		change_password:"Change Password",
 		next: "Next",
 		back: "Back",
 	}
