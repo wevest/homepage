@@ -7,11 +7,7 @@
 
         <div class="q-mt-xl q-mb-sm">
             <NotificationList ref='notificationList' 
-<<<<<<< HEAD
-                :title="$t('page.notification.notification_feed.title')" 
-=======
-                :title="$t('page.notification.feed.title')" 
->>>>>>> 1dd5eba4c65d6674ccfe4be4662abdb1ee4ff89d
+                :title="$t('page.notification.list.title')" 
                 maxLength="25" moreCaption="" user="v_user"></NotificationList>
         </div>
 

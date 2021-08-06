@@ -114,7 +114,7 @@ export default {
 		price_close:"Close",
 		volume:"Volume",
 
-		crypto_vc:'Crypto VC',
+		crypto_vc:'Crypto VC LIST',
 		good_roi:'Profitable',
 		trending:'Trending',
 
@@ -281,10 +281,11 @@ export default {
 		notification : {
 			title : 'Notification',	
 			desc :'',
-			notification_feed : {
-				title: 'New',
+			list : {
+				title: 'List',
 				desc: ''
 			}
+			
 		},
 		assetqa: {
 			title: 'QA',
@@ -475,7 +476,7 @@ export default {
 			title : 'USERFEEDS',
 			desc : '',
 			userfeed : {		
-				title : 'USERFEED LIST',
+				title : 'LIST',
 				desc : ''
 			},
 			nouserfeed : {

@@ -114,7 +114,7 @@ export default {
 		price_close:"종가",
 		volume:"거래량",
 
-		crypto_vc:'크립토투자가',
+		crypto_vc:'VC 목록',
 		good_roi:'수익성이 좋은',
 		trending:'인기있는',
 		
@@ -360,8 +360,8 @@ export default {
 		notification : {
 			title : '알림메시지',	
 			desc :'',
-			notification_feed : {
-				title: '새로운 알림',
+			list : {
+				title: '목록',
 				desc: ''
 			}
 		},
