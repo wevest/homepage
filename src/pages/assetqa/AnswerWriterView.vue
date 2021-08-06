@@ -45,14 +45,14 @@ export default {
         WWriterToolbar
     },
     computed: {
-        isNewPost: function() {
+        isNewPost() {
             if (this.v_post.id) {
                 return false;
             }
             return true;
         }
     },
-    data: function () {
+    data() {
         return {
             g_data: '',
             
@@ -67,15 +67,15 @@ export default {
         }
     },
 
-    created: function () {
+    created() {
         logger.log.debug("AnswerWriterView.created");
     },
-    mounted: function() {
+    mounted() {
         logger.log.debug("AnswerWriterView.mounted : param=",this.$route.params);
         this.setPost(this.$route.params.post);
         this.prepare();
     },
-    updated: function() {
+    updated() {
         
     },
     
@@ -84,14 +84,18 @@ export default {
             this.v_post = post;
         },
 
-        prepare: function() {
+        prepare() {
             logger.log.debug("AnswerWriterView.prepare");
             if (this.$refs.baseEditor) {
                 this.$refs.baseEditor.setPostModel(this.v_post);
             }            
         },
 
-        validate: function(v_post) {
+        setPostID(id) {
+            this.v_post.id = id;
+        },
+
+        validate(v_post) {
             let a_text = this.$refs.baseEditor.getContents();
             if (CommonFunc.isEmptyObject(a_text)) {
                 this.v_error.text.error = true;
@@ -102,11 +106,7 @@ export default {
             return true;
         },
 
-        setPostID: function(id) {
-            this.v_post.id = id;
-        },
-
-        onClickSave: function() {                        
+        onClickSave() {                        
             logger.log.debug('onClickSave - ',this.v_post);
 
             if (! this.validate(this.v_post)) {
@@ -116,9 +116,14 @@ export default {
             let v_post = this.v_post;
             v_post.question_id = this.v_post.question_id;
 
+            
+            let a_text = this.$refs.baseEditor.getContents();
+
             let tags = [];
             for (let index=0;index<this.v_post.api_tags.length;index++) {
-                tags.push(this.v_post.api_tags[index].name);
+                if (a_text.indexOf(this.v_post.api_tags[index].name)==-1) {
+                    tags.push(this.v_post.api_tags[index].name);
+                }                
             }
 
             this.$refs.writerToolbar.setLoading(true);
@@ -127,7 +132,7 @@ export default {
             //this.$refs.baseEditor.save(v_post);
         },
 
-        onPostSave: function(dic_param) {
+        onPostSave(dic_param) {
             logger.log.debug('onPostSave - ',dic_param);
 
             this.$refs.writerToolbar.setLoading(false);

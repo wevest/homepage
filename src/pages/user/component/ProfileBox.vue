@@ -401,13 +401,13 @@ export default {
         onClickDisplayName() {
             logger.log.debug("ProfileView.onClickDisplayName");
             this.$refs.dialogEdit.setMaxlength(20);
-            this.$refs.dialogEdit.show('display_name','text',this.v_user.title);
+            this.$refs.dialogEdit.show('display_name','text',this.v_user.title,'Display Name');
         },
 
         onClickBiography() {
             logger.log.debug("ProfileView.onClickBiography : ",this.v_edit);
             this.$refs.dialogEdit.setMaxlength(3000);
-            this.$refs.dialogEdit.show('biography','textarea',this.v_user.biography);
+            this.$refs.dialogEdit.show('biography','textarea',this.v_user.biography,'Biography');
         },
         onClickLanguage() {
             logger.log.debug("ProfileView.onClickLanguage");

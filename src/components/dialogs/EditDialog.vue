@@ -5,7 +5,7 @@
         <q-dialog v-model="v_show" full-width>
             <q-card>
                 <q-card-section >
-                    <div class="text-h6">{{ title }}</div>
+                    <div class="text-h6">{{ v_title }}</div>
                     <div class="gBodyMD"> {{desc}} </div>
                 </q-card-section>
 
@@ -53,6 +53,7 @@ export default {
         return {
             v_show: false,
             
+            v_title: this.title,
             v_maxlength: 100,
             v_value: '',
             v_tag: '',
@@ -79,17 +80,18 @@ export default {
             return valid;
         },
 
-        show(tag,etype,value) {
+        show(tag,etype,value,title='') {
             logger.log.debug("EditDialog.show : value=",value);
             
             this.v_tag = tag;
             this.v_value = value;
             this.v_type = etype;
+            this.v_title = title;
             
             this.v_show = true;
         },
 
-        hide: function() {
+        hide() {
             this.v_show = false;
         },        
         setMaxlength(value) {

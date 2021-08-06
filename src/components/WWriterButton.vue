@@ -70,7 +70,6 @@ export default {
                     CommonFunc.navSignin(_this,true);
                     return;
                 }
-                _this.$emit("onClickWrite",{});
             });            
         }
     }

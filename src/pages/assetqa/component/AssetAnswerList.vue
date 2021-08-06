@@ -34,7 +34,18 @@
             <q-separator />
 
             <div class="gAnswerContent">
-                <div class="q-py-lg gBodyMD" v-html="a_answer.body">  </div>            
+
+<!--                
+                <div class="q-py-lg gBodyMD" v-html="a_answer.body">  </div>     
+-->                
+                <Viewer 
+                    ref="toastViewer"
+                    :value="v_post.body"
+                    :options="editorOptions"
+                    previewStyle="vertical" height="200px"
+                />                
+
+
             </div>
             <div class="gAnswerRatingBox">              
                 <WRatingButton ref="ratingButton" 
@@ -100,6 +111,7 @@ import WSubinfo from 'components/WSubinfo';
 import WCommandBar from "components/WCommandBar.vue";
 import WRatingButton from 'components/WRatingButton';
 
+import { Viewer } from "@toast-ui/vue-editor";
 import QACommentList from "src/pages/assetqa/component/QACommentList.vue";
 
 import {AnswerCommentListModel} from "src/models/CommentModel";
@@ -115,7 +127,8 @@ export default {
         WCommandBar,
         WRatingButton,
         QACommentList,
-        CommentForm
+        CommentForm,
+        Viewer
     },
     computed: {
         v_me() {
@@ -153,6 +166,8 @@ export default {
         },
         g_question_id: null,
 
+        editorOptions:{},
+        
         v_comments: [],
         v_comment: null,
         v_loading: false,

@@ -434,7 +434,15 @@ export default {
                 CommonFunc.showOkMessage(_this,'Portfolio deleted');
             });
         },
-
+        getPrice(symbol) {
+            //const a_price = store.state.prices.getPrice(portfolio.api_asset.symbol);
+            const a_price = store.state.prices.getPrice(symbol);
+            if (! a_price) {
+                logger.log.error("PortfolioDetailView.getPrice : No price data=",symbol);
+                return 0;
+            }
+            return a_price.last;
+        },
 
 
         onClickEdit() {
@@ -531,14 +539,17 @@ export default {
         },
 
         onClickAddToMyPortfolio(jsonPortfolio) {
-            logger.log.debug("PortfolioDetail.onClickAddToMyPortfolio : portfolio=",jsonPortfolio);
+            logger.log.debug("PortfolioDetail.onClickAddToMyPortfolio : jsonPortfolio=",jsonPortfolio);
             
             const _this=this;
             
             let portfolio = new PortfolioItemModel();
             portfolio.assign(jsonPortfolio);
             portfolio.portfolio_id = -1;
-            portfolio.description += '\r\n Copied from ' + this.v_user.username;
+            portfolio.description += '\r\n Copied from ' + this.v_user.username;            
+            portfolio.price = this.getPrice(portfolio.api_asset.symbol);
+
+            logger.log.debug("PortfolioDetail.onClickAddToMyPortfolio : portfolio=",portfolio);
 
             portfolio.addToServer().then(response=>{
                 logger.log.debug("PortfolioDetail.onClickAddToMyPortfolio : response=",response);    

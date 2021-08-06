@@ -220,7 +220,7 @@ export default class CMSAPI {
   	}
 
 	static postCommentFeedback(dic_param, func, funcErr) {
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/comments/api/feedback/");
+		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/comments/api/feedback/");
 		callCMSAPI("POST", url, {}, dic_param)
 		.then(response => {
 			func(response);
@@ -231,8 +231,7 @@ export default class CMSAPI {
 	}
 
 	static getComments(dic_param, func, funcErr) {
-		let a_method =
-		"/api/comments/api/" + dic_param.content_type + "/" + dic_param.id + "/";
+		let a_method = "/api/comments/api/" + dic_param.content_type + "/" + dic_param.id + "/";
 		if (dic_param.limit) {
 		a_method =
 			a_method + "?limit=" + dic_param.limit + "&offset=" + dic_param.offset;
