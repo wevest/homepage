@@ -1,7 +1,7 @@
 <template>
     <div class="countdown">
-        <div>
-            {{ v_timeLeft }}
+        <div v-if="visible">
+            {{caption}} <span class="text-red-10"> <b>{{ v_timeLeft }}</b> </span>
         </div>        
     </div>    
 </template>
@@ -21,6 +21,11 @@ function hourConvert(hour) {
 
 
 export default{
+    props: {
+        //value: { type:String},
+        caption: { default:"" },
+        visible: { default:true },
+    },
     data() {
         return {
             intervalTimer: null,

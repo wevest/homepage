@@ -172,6 +172,7 @@ export default {
 		resend_activate: "인증 메일 재발송",
 		go_login: "로그인하기",
 		reset_password:"비밀번호 설정",
+		change_password:"비밀번호 설정",
 		send: "전송",
 		resend:"재전송",
 		price_forecast: "앞으로 어떻게 될까요?",
@@ -270,6 +271,7 @@ export default {
 			},
 			code: {
 				title: '인증코드',
+				error: '인증코드를 입력하세요.'
 			}
 		},
 

@@ -112,7 +112,8 @@ export class FeedListModel extends baseCollection{
     }
 
     loadMine(userid,username,offset=0,limit=20,uuid='') {
-        let dic_param = {user_id:userid,username:username,uuid:uuid,offset:offset,limit:limit};
+        let dic_param = {user_id:userid,username:username,
+            token:store.getters.token,uuid:uuid,offset:offset,limit:limit};
         
         const _this = this;
         return new Promise(function(resolve,reject) {
@@ -149,7 +150,8 @@ export class NotificationListModel extends FeedListModel{
     }
 
     load(userid,username,limit=20,uuid='') {
-        let dic_param = {user_id:userid,username:username,uuid:uuid,limit:limit};
+        let dic_param = {user_id:userid,username:username,
+            token:store.getters.token,uuid:uuid,limit:limit};
         
         const _this = this;
         return new Promise(function(resolve,reject) {
@@ -362,7 +364,7 @@ export default class User {
     }
 
     toJson() {
-        return {
+        let jsonData = {
             id: this.id,
             username: this.username,
             avatar: this.avatar,
@@ -371,11 +373,21 @@ export default class User {
             staySignedIn:this.staySignedIn,
             loggedIn:this.loggedIn,
             email: this.email,
-            default_lang: this.default_lang,
-            
-            extra: Hasher.encode(this.username,this.password),
-            token: Hasher.encode(this.username,this.token),          
+            default_lang: this.default_lang,        
+            extra:'',
+            token:''
+        };
+        
+
+        if ( (this.password) && (this.password.length>0) ) {
+            jsonData.extra = Hasher.encode(this.username,this.password);
         }
+
+        if ( (this.token) && (this.token.length>0) ) {
+            jsonData.token = Hasher.encode(this.username,this.token);
+        }
+        
+        return jsonData;
     }
 
     fromJson(obj) {
@@ -393,16 +405,21 @@ export default class User {
             this.default_lang = obj.default_lang;
         }
         
+
         this.password = '';
         if ( (obj) && (obj.hasOwnProperty('extra'))) {
             if (this.username) {
-                this.password = Hasher.decode(this.username,obj.extra);
+                if ( (obj.extra) && (obj.extra.length>0) ) {
+                    this.password = Hasher.decode(this.username,obj.extra);
+                }                
             }
         }
-        
+
         this.token = '';
         if ( (obj) && (obj.hasOwnProperty('token'))) {
-            this.token = Hasher.decode(this.username,obj.token);
+            if ( (obj.token) && (obj.token.length>0) ) {
+                this.token = Hasher.decode(this.username,obj.token);
+            }            
         }
     }
 
@@ -485,15 +502,8 @@ export default class User {
         return new Promise(function(resolve,reject) {
             AuthService.signUp(dic_param,function(response) {
                 logger.log.debug("UserModel.signUp.response=",response);
-                // need to wait for user activation, so do nothing...
-                resolve(response);
-                
-                /*
-                dic_param.stay_loggedin = true;
-                _this.signIn(dic_param).then( resp => {
-                    resolve(resp);
-                });
-                */
+                resolve(response);                
+                                
             }, function(response) {
                 if (response.status==400) {
                     reject(response);
@@ -545,7 +555,8 @@ export default class User {
                 logger.log.debug("User.signOut - done");
                 resolve(response);
             }, function(response) {
-                logger.log.debug("onClickSignOut.Error - response=",response);
+                logger.log.debug("onClickSignOut.Error - response=",response);                
+                _this.processLogout();
                 reject(response);                
             });
         });
@@ -554,6 +565,7 @@ export default class User {
 
     processLogout() {
         this.loggedIn = false;
+        this.token = '';
         this.saveToCookie();
     }
 
@@ -657,7 +669,8 @@ export default class User {
     }
     
     getRelation(offset,limit) {
-        let dic_param = {id:this.id,username:this.username,offset:offset,limit:limit};
+        let dic_param = {id:this.id,username:this.username,token:store.getters.token,
+            offset:offset,limit:limit};
         
         const _this = this;
         return new Promise(function(resolve,reject) {
@@ -676,7 +689,8 @@ export default class User {
     }
 
     loadFollower(offset,limit) {
-        let dic_param = {id:this.id,username:this.username,offset:offset,limit:limit};
+        let dic_param = {id:this.id,username:this.username,token:store.getters.token,
+            offset:offset,limit:limit};
         
         const _this = this;
         return new Promise(function(resolve,reject) {
@@ -698,7 +712,8 @@ export default class User {
     }
 
     loadFollowing(offset,limit) {
-        let dic_param = {id:this.id,username:this.username,offset:offset,limit:limit};
+        let dic_param = {id:this.id,username:this.username, token:store.getters.token,
+            offset:offset,limit:limit};
         
         const _this = this;
         return new Promise(function(resolve,reject) {
@@ -738,6 +753,21 @@ export default class User {
             _this.feeds.loadMine(_this.id,_this.username,offset,limit,uuid).then(response=>{
                 resolve(response);
             }).catch(err=>{
+                reject(err);
+            });                
+        });            
+    }
+
+    changePassword(dicParam) {
+        dicParam.id=this.id;
+        dicParam.token = store.getters.token;
+        logger.log.debug("UserModel.changePassword : dicParam=",dicParam);
+                
+        const _this = this;
+        return new Promise(function(resolve,reject) {            
+            AuthService.changePassword(dicParam,function(response) {
+                resolve(response);
+            },function(err) {
                 reject(err);
             });                
         });            

@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <q-skeleton v-if="!v_price_loaded" height="100px" square animation="pulse" />
+        <q-skeleton v-if="!v_price_loaded" height="100px" square animation="pulse-x" />
 
         <div class="row" v-if="v_price_loaded">
             <div class="col-6">
@@ -21,17 +21,16 @@
                     <div class="titleProfit">
                         {{v_format(data.ticker.ret_7d)}} %
                         <q-badge class="q-ml-sm" align="top">1W</q-badge>
-                        <!-- <span class="gCaption"></span> -->
-                        <q-linear-progress value="0.7" />                        
+                        <q-linear-progress :color="v_color(data.ticker.ret_7d)" :value="v_format_roi(data.ticker.ret_7d)" />
                     </div>
                     
                 </div>       
                 <div class="boxProfit q-mb-md">
-                    <div class="titleProfit" :class="v_color(data.ticker.ret_1m)">
+                    <div class="titleProfit">
                         {{v_format(data.ticker.ret_1m)}} %
                         <q-badge class="q-ml-sm" align="top">1M</q-badge>
                         <!-- <span class="gCaption"></span> -->
-                        <q-linear-progress value="0.7" />
+                        <q-linear-progress :color="v_color(data.ticker.ret_1m)" :value="v_format_roi(data.ticker.ret_1m)" />
                     </div>                    
                 </div>         
                 <div class="boxProfit">
@@ -39,7 +38,7 @@
                         {{v_format(data.ticker.ret_3m)}} %
                         <q-badge class="q-ml-sm" align="top">3M</q-badge>
                         <!-- <span class="gCaption"></span> -->
-                        <q-linear-progress value="0.45" />
+                        <q-linear-progress :color="v_color(data.ticker.ret_3m)" :value="v_format_roi(data.ticker.ret_3m)" />
                     </div>                    
                 </div>                
 
@@ -171,7 +170,18 @@ export default {
                 if(!value) {
                     return '';
                 }
-                return value.toLocaleString();
+                if (value>0) {
+                    return "+" + CommonFunc.formatNumber(value,2);    
+                }
+                return CommonFunc.formatNumber(value,2);
+            };
+        },
+        v_format_roi() {
+            return (value) => {
+                if(!value) {
+                    return 0;
+                }
+                return Math.abs(value/100);
             };
         },
         v_label() {

@@ -138,7 +138,7 @@ export default {
             }
         },
 
-        validate: function() {
+        validate() {
             if (CommonFunc.isEmptyObject(v_password)) {
                 this.v_error.text.error = true;
                 this.v_error.text.msg = 'Please type something';
@@ -148,12 +148,12 @@ export default {
             return true;
         },
 
-        show: function() {
+        show() {
             logger.log.debug("ResetPasswordDialog.show");
             this.v_show = true;
         },
 
-        hide: function() {
+        hide() {
             this.v_show = false;
         },
 
@@ -177,7 +177,7 @@ export default {
                 if (! ret) { return; }
 
                 _this.v_loading = true;
-                _this.v_me.resetPassword(dicParam).then(resp=>{
+                _this.v_me.changePassword(dicParam).then(resp=>{
                     logger.log.debug('ResetPasswordDialog.onClickSave - resp=',resp);
                     _this.postProcess(resp);
                     _this.v_loading = false;

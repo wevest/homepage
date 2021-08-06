@@ -197,9 +197,14 @@ const routes = [
 				component: () => import("pages/writer/TweetWriterView.vue"),
 			},
 			{
-				name: "reset_password",
-				path: "reset_password",
-				component: () => import("pages/user/ResetPasswordView.vue"),
+				name: "change_password",
+				path: "change_password",
+				component: () => import("pages/user/ChangePasswordView.vue"),
+			},
+			{
+				name: "forgot_password",
+				path: "forgot_password",
+				component: () => import("pages/user/ForgotPasswordView.vue"),
 			},
 			{
 				name: "reset_notification",

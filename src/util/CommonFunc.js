@@ -583,12 +583,12 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);
     }
 
-    static navResetPassword(a_this) {
-        logger.log.debug("CommonFunc.navResetPassword - ",a_this.$route);
+    static navChangePassword(a_this) {
+        logger.log.debug("CommonFunc.navChangePassword - ",a_this.$route);
         
         store.getters.nav.add(a_this.$route);
 
-        let dic_param = {name:'reset_password', params:{ path:a_this.$route.name, query:a_this.$route.query }};
+        let dic_param = {name:'change_password', params:{ path:a_this.$route.name, query:a_this.$route.query }};
         a_this.$router.push(dic_param);
     }
 
@@ -769,6 +769,24 @@ export default class CommonFunc {
         if (tab) a_this.$route.query['tab'] = tab;
 
         store.getters.nav.add(a_this.$route);
+        a_this.$router.push(dic_param);
+    }
+
+    static navPasswordReset(a_this) {
+        let dic_param = {
+            name: "reset_password",path: "reset_password", query: {},
+        };
+
+        //store.getters.nav.add(a_this.$route);
+        a_this.$router.push(dic_param);
+    }
+
+    static navForgotPassword(a_this) {
+        let dic_param = {
+            name: "forgot_password",path: "forgot_password", query: {},
+        };
+
+        //store.getters.nav.add(a_this.$route);
         a_this.$router.push(dic_param);
     }
     
@@ -1660,10 +1678,28 @@ export default class CommonFunc {
     }
 
     static getPerfColor(value) {
+        
+        if (store.getters.me.default_lang) {
+
+            if (store.getters.me.default_lang=="kr") {
+                if (value>0) {
+                    return "positive"
+                }
+                return "primary";
+            } 
+        }
+
+        if (value>0) {
+            return "positive"
+        }
+        return "negative";
+
+/*        
         if (value>0) {
             return "color:#c10015;"
         }
         return "color:#005dde;";
+*/        
     }
 
     static isNumeric(str) {
@@ -1694,5 +1730,13 @@ export default class CommonFunc {
     static addUrlParams() {
 
     }
+
+    static verifyEmail(email) {
+        // eslint-disable-next-line
+        let reg =  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/
+        const valid = reg.test(email);
+        return valid;
+    }
+
 }
 

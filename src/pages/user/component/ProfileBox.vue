@@ -3,9 +3,9 @@
         <q-card style="text-align: center;" v-if="v_user"> 
             <q-card-actions align="right">
                 
-                <WMoreButton v-if="v_me.isOwner"
+                <WMoreButton v-if="isOwner"
                     ref="moreButtons" 
-                    :buttons=" $t('button.reset_password') " 
+                    :buttons=" $t('button.change_password') " 
                     @onClick="onClickMoreButton" />
 
             </q-card-actions>
@@ -156,6 +156,8 @@ export default {
             return store.getters.me;
         },
         isOwner() {
+            logger.log.debug("profilebox.isOwner",this.v_user,this.v_me);
+
             if (this.v_user.username==this.v_me.username) {
                 return true;
             }
@@ -390,8 +392,8 @@ export default {
 
         onClickMoreButton(dicParam) {
             logger.log.debug("ProfileView.onClickMoreButton : dicParam=",dicParam);
-            if (dicParam.caption=='Reset Password') {
-                CommonFunc.navResetPassword(this);
+            if (dicParam.caption=='Change Password') {
+                CommonFunc.navChangePassword(this);
             }
 
         },

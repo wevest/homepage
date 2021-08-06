@@ -148,18 +148,31 @@ export const callCMSAPI = async(call_method,url,config,req_params) => {
             //json: true
         };
         
-        //logger.log.debug("callCMS -- 1");
-        if (url.indexOf('/auth/token/login/')==-1) {
-            //logger.log.debug("callCMS -- 2, url=",url);
-
-            if (store.getters.me.isLoggedIn()) {
+        /*
+        const excludes = ['/api/auth/token/login/',
+            '/api/user/users/check/','/api/user/users/activation/'];
+        
+        let addToken = true;
+        for (let index=0;index<excludes.length;index++) {
+            if (url.indexOf(excludes[index])>-1) {
+                logger.log.debug("callCMS -- me=",url,store.getters.me);    
                 //logger.log.debug("callCMS -- 3");
-                config.headers['Authorization'] = 'Token ' + store.getters.me.token;
-            } else if (req_params.hasOwnProperty('token')) {
-                //config.headers['Authorization'] = 'Token ' + req_params.token;
+                addToken = false;                
             }
-
         }
+        
+        if (addToken) {
+            if (store.getters.me.isLoggedIn()) {
+                config.headers['Authorization'] = 'Token ' + store.getters.me.token;
+            }
+        }
+        */
+        
+        if (req_params.hasOwnProperty('token')) {
+            config.headers['Authorization'] = 'Token ' + req_params.token;
+            delete req_params.token;
+        }
+        
 
         config['url'] = url;
         config['method'] = call_method;
