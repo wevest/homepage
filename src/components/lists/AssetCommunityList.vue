@@ -7,16 +7,27 @@
 
         <q-skeleton v-if="!v_table_loaded" animation="fade" square height="150px" />
         <div v-show="v_table_loaded">
-            
-            <div class="row justify-center q-gutter-sm">            
+
+            <div>
+                <CryptoSelect class="q-pl-sm" ref="searchInput" hideBottomSpace="1" hideDropdownIcon="1"
+                    @onSelect="onSearch" label="" filled="0" myStyle="" />
+
+            </div>            
+
+            <div class="row justify-center q-gutter-md">            
 
                 <q-card v-for="(a_asset,index) in v_assets.items" :key="index">
-                    <q-img :src="a_asset.logo_thumb" width="88px" height="88px" >
-                        <div class="absolute-bottom">
-
-                            <div class="">{{a_asset.symbol}} Community</div>
+                    
+                    <q-card-section @click="onClickAsset(a_asset)" class="text-center">
+                        <q-img :src="a_asset.logo_thumb" width="64px" height="64px" ></q-img>                        
+                        <div>
+                            <div class="gListTitle q-pt-sm">{{a_asset.symbol}}</div>
+                            <div class="gCaption">{{a_asset.name}}</div>
                         </div>
-                    </q-img>
+<!--                        
+                        <div class="text-subtitle2">by John Doe</div>
+-->                        
+                    </q-card-section>
 
                 </q-card>
 
@@ -72,11 +83,13 @@ import { AssetListModel } from "src/models/AssetModel";
 
 import CTitle from 'components/CTitle';
 import LoadMore from "src/components/LoadMore";
+import CryptoSelect from "src/components/CryptoSelect";
 
 export default {
 	components: {
 		CTitle,
-        LoadMore
+        LoadMore,
+        CryptoSelect
 	},
     props: {
         maxLength: {
@@ -156,7 +169,7 @@ export default {
 
             this.v_loading_table = true;                        
             this.v_assets.load(dicParam).then(response=>{
-                logger.log.debug("AssetList.update : response=",response);
+                logger.log.debug("AssetCommunityList.update : response=",response);
                 _this.$refs.loadMore.setPageParameter(response.data);
                 
                 _this.v_pagination.rowsNumber = _this.$refs.loadMore.v_count;
@@ -165,7 +178,7 @@ export default {
                 _this.v_table_loaded = true;
 
             }).catch(err=>{
-                logger.log.error("AssetList.update : err=",err);
+                logger.log.error("AssetCommunityList.update : err=",err);
             });
 
         },
@@ -175,21 +188,21 @@ export default {
             this.update(this.v_category);
         },
 
-        onClickAsset: function(asset) {
-            logger.log.debug('AssetList.onClickAsset : asset = ',asset);          
+        onClickAsset(asset) {
+            logger.log.debug('AssetCommunityList.onClickAsset : asset = ',asset);          
             CommonFunc.navAsset(this,asset.symbol,asset.id);
         },
 
         onClickMoreAsset: function() {
-            logger.log.debug('AssetList.onClickMoreAsset');
+            logger.log.debug('AssetCommunityList.onClickMoreAsset');
             CommonFunc.navAssetIndex(this);
         },
         onClickMore() {
-            logger.log.debug('AssetList.onClickMore');
+            logger.log.debug('AssetCommunityList.onClickMore');
         },
 
         onClickLoadMore: function() {                        
-            logger.log.debug('AssetList.onClickLoadMore : v_next=',this.$refs.loadMore.v_next);
+            logger.log.debug('AssetCommunityList.onClickLoadMore : v_next=',this.$refs.loadMore.v_next);
             
             this.v_maxLength = 100000;
             this.update(this.$refs.loadMore.v_next.limit,this.$refs.loadMore.v_next.offset);
@@ -201,7 +214,7 @@ export default {
             const lastIndex = this.v_assets.items.length - 1;
             const lastPage = Math.ceil(this.$refs.loadMore.v_count / this.v_pagination.rowsPerPage);
 
-            logger.log.debug('AssetList.onScroll : ',to,lastIndex, this.v_next_page, lastPage);
+            logger.log.debug('AssetCommunityList.onScroll : ',to,lastIndex, this.v_next_page, lastPage);
             //if (! this.v_loading_table.value) && nextPage.value < lastPage && to === lastIndex) {
             if ( (! this.v_loading_table) && (this.v_next_page<lastPage) && (to === lastIndex)) {                
                 this.v_next_page++;
@@ -225,16 +238,21 @@ export default {
         },
 
         onRequest (props) {
-            logger.log.debug('AssetList.onRequest : props=',props);
+            logger.log.debug('AssetCommunityList.onRequest : props=',props);
             this.update(this.$refs.loadMore.v_next.limit,this.$refs.loadMore.v_next.offset);
             this.v_pagination.page++; 
             this.v_pagination.rowsPerPage=20; 
         },
 
         onPagination(props) {
-            logger.log.debug('AssetList.onPagination : props=',props);            
-        }
-
+            logger.log.debug('AssetCommunityList.onPagination : props=',props);            
+        },
+        
+		onSearch(asset) {
+			logger.log.debug("AssetCommunityList.onSearch=", asset);
+			//this.movePage(item);
+            CommonFunc.navAsset(this,asset.symbol,asset.id);
+		},
     }
 }
 </script>

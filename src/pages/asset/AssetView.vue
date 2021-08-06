@@ -1,8 +1,13 @@
 <template>
 
     <div class="q-ma-md">
-        <div class="col">
-            <CTitle ttype='title' :title="v_page_title" desc=""></CTitle>          
+        <div class="row">            
+            <CTitle ttype='title' :title="v_page_title" desc="" ></CTitle>          
+            <q-space />
+            <div>
+                <q-btn label="Buy" color="primary" disable />&nbsp;
+                <q-btn label="Swap" disable />
+            </div>
         </div>
 
         <div @click="onClickPrice">            

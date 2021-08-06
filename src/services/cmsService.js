@@ -665,6 +665,21 @@ export default class CMSAPI {
         });
     }
 
+	static getCaptains(dic_param, func, funcErr) {
+        logger.log.debug("CMSAPI.getCaptains");
+
+        let a_method = "/api/user/users/captain?type="+dic_param.type;
+        const url = CMSAPI.getUrl(MoaConfig.urls.cms,a_method);
+
+        callCMSAPI("GET", url, {}, dic_param)
+        .then(response => {
+            func(response);
+        })
+        .catch(err => {
+            funcErr(err);
+        });
+    }
+
 	static getMyFeeds(dic_param, func, funcErr) {
     	let url = CMSAPI.getUrl(
       		MoaConfig.urls.cms,

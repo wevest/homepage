@@ -49,7 +49,7 @@
             <q-skeleton v-if="!v_roi_loaded" height="95px" square animation="pulse" />                    
             <div class="row q-my-lg text-center" v-if="v_roi_loaded">
                 <div class="col">
-                    <div class="text-h4 text-weight-bolder" :style="v_color(v_portfolio.roi)">
+                    <div class="text-h4 text-weight-bolder" :class="v_color(v_portfolio.roi)">
                         <span v-if="v_portfolio.roi>0">
                             {{ v_format(v_portfolio.roi) }}
                         </span>
@@ -144,7 +144,7 @@
                             <span class="gCaption">{{ $t('name.roi') }}</span>
                             <br>
                             <span class="text-h5 text-weight-bolder" 
-                                :style="v_color(a_portfolio.roi)" >
+                                :class="v_color(a_portfolio.roi)" >
                                 {{v_format(a_portfolio.roi)}}
                             </span>
                         </div>    
@@ -263,7 +263,7 @@ export default {
         },
         v_color() {
             return (value) => {
-                return CommonFunc.getPerfColor(value);
+                return "text-"+CommonFunc.getPerfColor(value);
             };
         }
 

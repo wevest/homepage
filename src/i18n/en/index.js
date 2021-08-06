@@ -191,6 +191,10 @@ export default {
 		home:{
 			title : 'HOME',
 			desc :'',
+			marketindex: {
+				title : 'Check BTC, ETH To Sense Crypto Market',
+				desc : ''
+			},
 			marketwatching : {
 				title : 'market risk alarm',
 				desc : ''
@@ -199,11 +203,15 @@ export default {
 				title:'market trend'
 			},
 			portfolio: {
-				title:'VC portfolio',
+				title:'Discover Promising Asset, and Start Copy-Investment',
 				desc: ''
 			},
 			asset : {
-				title : 'Find Your Favorite Asset community',
+				title : 'Get Connected to Asset community',
+				desc : '',
+			},
+			captain: {
+				title : 'Follow The Winners To Win ',
 				desc : '',
 			},
 			userfeed: {
@@ -417,7 +425,7 @@ export default {
 			}
 		},
 		vcportfolio : {
-			title : 'VC Portfolio',
+			title : 'Discover Promising Asset, and Copy it',
 			desc :'',
 			roi : {
 				title : 'VC ROI',
@@ -426,7 +434,7 @@ export default {
 			
 		},
 		cryptovc : {
-			title : 'CRYPTO VC',
+			title : 'Discover Promising Asset, and Start Copy Investment',
 			desc : '',
 			roi : {
 				title : 'CRYPTO VC ROI',

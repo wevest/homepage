@@ -12,7 +12,7 @@
         </div>
 
         <div>
-            <MarketIndexWidget ref="indexWidget" @onClick="onClickIndex"/>
+            <MarketIndexWidget ref="indexWidget" :title="$t('page.home.marketindex.title')" @onClick="onClickIndex"/>
 <!--            
             <MarketWatchWidget ref="watchWidget" 
                 :title="$t('page.home.marketwatching.title')" :desc="$t('page.home.marketwatching.desc')"
@@ -26,9 +26,14 @@
         </div>
 
         <div>
-            <PortfolioList ref="pfVC" :title="$t('page.home.portfolio.title')" :desc="$t('page.home.portfolio.desc')"
-                maxLength="10" :moreCaption="$t('button.more')"></PortfolioList>
+            <PortfolioCard ref="pfVC" :title="$t('page.home.portfolio.title')" :desc="$t('page.home.portfolio.desc')"
+                maxLength="10" :moreCaption="$t('button.more')"></PortfolioCard>
         </div>
+
+        <div>
+            <CaptainList ref='feedList' :title="$t('page.home.captain.title')" 
+                maxLength="10" :moreCaption="$t('button.more')" user="v_me"></CaptainList>
+        </div>                                               
 
         <div>
             <UserFeedList ref='feedList' :title="$t('page.home.userfeed.title')" 
@@ -64,11 +69,12 @@ import CBigLabel from 'components/CBigLabel';
 import BlogList from 'components/lists/BlogList';
 import AssetCommunityList from 'components/lists/AssetCommunityList';
 import PortfolioList from 'components/lists/PortfolioList';
+import PortfolioCard from 'components/cards/PortfolioCard';
 import ReviewStatList from 'components/lists/ReviewStatList';
 import UserFeedList from 'components/lists/UserFeedList';
+import CaptainList from 'components/lists/CaptainList';
 
 import DataService from 'src/services/dataService';
-
 
 import WBanner from 'components/WBanner';
 //import CExchangeIndexChart from 'pages/home/CExchangeIndexChart';
@@ -88,7 +94,9 @@ export default {
         PortfolioList,
         AssetCommunityList,
         UserFeedList,
-        ReviewStatList
+        CaptainList,
+        ReviewStatList,
+        PortfolioCard
     },
     computed: {
         v_me() {

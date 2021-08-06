@@ -788,3 +788,35 @@ export default class User {
     }
 }
 
+
+export class UserListModel extends baseCollection{
+
+    assign(items) {
+        for (let index=0; index<items.length; index++) {
+            let a_user = new User();            
+            //logger.log.debug("FriendListModel.assign : item=",items[index]);
+            a_user.assign(items[index]);
+            this.add(a_user);
+        }
+    }
+
+    load(dic_param) {
+        logger.log.debug("UserListModel.load");
+                
+        const _this = this;
+        return new Promise(function(resolve,reject) {
+            CMSAPI.getCaptains(dic_param,function(response) {
+                logger.log.debug("UserListModel.load - response",response.data);
+                
+                _this.assign(response.data.data.results);
+                logger.log.debug("UserListModel.load - this=",_this);
+
+                resolve(response.data);
+            },function(err) {
+                logger.log.error("UserListModel.getFollower - error",err);                
+                reject(err);
+            });
+        });            
+
+    }
+}

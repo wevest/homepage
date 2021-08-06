@@ -1,5 +1,5 @@
 <template>
-    <q-avatar class="avatar q-py-sm" @click="onClickAvatar">
+    <q-avatar class="avatar q-py-sm" :size="size" @click="onClickAvatar">
         <q-img
             v-if="avatar && avatar.length > 0"
             :src="avatar"
@@ -8,7 +8,7 @@
             v-else
             name="person"
             color="black"
-            size="34px"
+            :size="size"
         />
     </q-avatar>
 </template>
@@ -25,6 +25,7 @@ export default {
         user: { default: null},
         avatar: {required:false, type:String},
         username: {required:false, type:String},
+        size: {required:false, type:String, default:'48px'},
     },
     data() {    
         return {
