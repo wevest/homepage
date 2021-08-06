@@ -7,42 +7,25 @@
         <q-skeleton v-if="!v_list_loaded" height="150px" square animation="pulse-x" />                    
 
         <div v-show="v_list_loaded">
-            <q-card class="q-my-sm" flat bordered 
-                v-for="(a_portfolio,index) in v_portfolio.items" :key="index" 
-                v-if="index<v_maxLength" >
-                <q-card-section class="no-padding">  
-                    <div class="row boxContainer">
-                        <div class="portfolioAvatar q-pa-sm">
-                            <WAvatar :avatar="a_portfolio.api_user.avatar_thumb" :username="a_portfolio.api_user.username" />
-                        </div>
-                        <div class="boxInfo q-pt-md" @click="onClickPortfolio(a_portfolio)">
-                            <div class="gListTitle">
-                                <span>{{v_shorten_name(a_portfolio.api_user,13)}}</span>
-                            </div>                        
-                            <div class="gCaption">
-                                <WSubinfo dateFormat="0"
-                                    username=""
-                                    :pub_date="v_format_date(a_portfolio.created_at)"
-                                    like_count="-1" 
-                                    dislike_count="-1" />
-                            </div>
-                        </div>
-                        <q-space />
-                        <div class="gROILG q-pt-lg">
-                            <span :class="v_color(a_portfolio.roi)">{{v_format(a_portfolio.roi*100)}} %</span>
-                        </div>
-                        <div class="q-pt-lg">
-                        <q-btn class="q-mb-md" size="14px"  flat dense icon="navigate_next" @click="onClickPortfolio(a_portfolio)" />
-                        </div>
-                    </div>                     
-                </q-card-section>
-                <q-card-section class="gParagraphSM" v-if="showDescription=='1'"> 
-                    <div>
-                        <span class="text-body2 text-grey-8">{{v_shorten(a_portfolio.description)}}</span>
-                    </div>
-                </q-card-section>          
+            <div class="row justify-center q-gutter-md">
+                <q-card class="q-my-sm" bordered 
+                    v-for="(a_portfolio,index) in v_portfolio.items" :key="index" 
+                    v-if="index<v_maxLength" >
 
-            </q-card>
+                    <q-card-section class="text-center" @click="onClickPortfolio(a_portfolio)">  
+                        <q-img :src="a_portfolio.api_user.avatar_thumb" width="64px" height="64px" ></q-img>
+
+                        <div class="gListTitle q-pt-sm">
+                            <span>{{v_shorten_name(a_portfolio.api_user,13)}}</span>
+                        </div>                        
+                        <div class="gROILG q-pt-lg">
+                            <span :class="v_color(a_portfolio.roi)">
+                                {{v_format(a_portfolio.roi*100)}} %
+                            </span>
+                        </div>
+                    </q-card-section>
+                </q-card>
+            </div>
 
             <LoadMore ref="loadMore" @onClickLoadMore="onClickLoadMore" />
         </div>
@@ -122,9 +105,8 @@ export default {
         },
         v_color() {
             return (value) => {                
-                const a_color = CommonFunc.getPerfColor(value);
-                logger.log.debug("PortfolioList.color=",a_color);
-                return a_color;
+                //logger.log.debug("PortfolioList.color=",value);
+                return "text-"+CommonFunc.getPerfColor(value);
             };            
         },
     },

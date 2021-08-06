@@ -283,6 +283,7 @@ export class CommentListModel extends baseCollection {
         const _this=this;
         logger.log.debug("CommentListModel.removeComment : dic_param,items=",dic_param,_this.items);
         return new Promise(function(resolve,reject) {
+            dic_param.token = store.getters.token;
             CMSAPI.deleteBlogComment(dic_param,function(response) {
                 _this.removeComments(dic_param,response);
                 logger.log.debug("CommentListModel.removeComment:items=",_this.items);

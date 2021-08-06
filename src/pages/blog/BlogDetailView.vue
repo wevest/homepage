@@ -202,8 +202,7 @@ export default {
         setContent(content) {
             if (this.$refs.toastViewer) {
                 this.$refs.toastViewer.invoke('setMarkdown', content);
-            }
-            
+            }            
         },
 
 

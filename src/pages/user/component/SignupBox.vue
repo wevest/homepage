@@ -90,13 +90,9 @@
                             <q-btn :label="v_button_send" :loading="v_loading_token"
                                 :disable="! v_button_send_enabled" color="primary" 
                                 @click="onClickResend" />
-<<<<<<< HEAD
-                        </template>
-=======
 
                         </template>    
 
->>>>>>> 909dba710c2b6a0fe79552afb1d62878c3a78311
                     </q-input>
 
                     <WTimer ref="authTimer" class="q-mx-sm text-center" caption="This code will expire in" 
