@@ -1,32 +1,36 @@
 <template>
     
     <div class="q-ma-md">
-        
-		<q-list>
-			<q-item class="q-pa-sm" v-if="v_tweet.owner">
-				<q-item-section class="blogAvatar" avatar top>
-					<WAvatar :avatar="v_tweet.owner.avatar_thumb" :username="v_tweet.owner.username" />
-				</q-item-section>
-				<q-item-section top>
+        		
+		<div class="q-pa-sm" v-if="v_tweet.owner">
+            <div class="row">
+			    <div>
+                    <WAvatar :avatar="v_tweet.owner.avatar_thumb" :username="v_tweet.owner.username" />
+                </div>
+                <div>
+					<div>
+						<div class="gListTitle">{{ v_tweet.owner.display_name }}</div>
 
-					<q-item-label lines="1">
-						<span class="gListTitle">{{ v_tweet.owner.display_name }}</span>
-					</q-item-label>
+                        <WCommandBar :data="v_tweet" :isOwner="v_is_owner" 
+                            shareBtn="" updateBtn="update" deleteBtn="delete" 
+                            @onClickUpdate="onClickUpdate" 
+                            @onClickDelete="onClickDelete" 
+                        />
 
-					<q-item-label class="no-margin" lines="1">
+					</div>
+
+                    <div>
 
 						<WSubinfo 
 							:pub_date="v_tweet.created_at" 
 							:like_count="v_tweet.like_count" 
 							:dislike_count="v_tweet.dislike_count" />
 
-					</q-item-label>
-				</q-item-section>
+					</div>
+				</div>
 
-			</q-item>
-			<q-separator class="q-mb-md" size="1px" />
-
-		</q-list>
+			</div>			
+		</div>
 
 
         <div class="gBodyLG" v-html="v_tweet.text"></div>
@@ -78,6 +82,12 @@ export default {
         v_me() {
             return store.getters.me;
         },
+        v_is_owner() {
+            if (this.v_tweet.owner.id==this.v_me.id) {
+                return true;
+            }
+            return false;
+        }
     },
     data() {
         return {
@@ -139,6 +149,24 @@ export default {
         },
 
 
+        onClickUpdate() {
+            logger.log.debug("TweetDetailView.onClickUpdate");
+            this.navWriter("update");
+        },
+
+        onClickDelete() {                        
+            const _this = this;
+            //let dic_param = { id:this.v_post.id, token:store.getters.token};
+            logger.log.debug('BlogPage.onClickDelete');
+            
+            this.v_post.remove().then( response => {
+                CommonFunc.showOkMessage(_this,'Blog deleted');       
+                CommonFunc.navBack(_this);
+            }).catch(err=>{
+                CommonFunc.showErrorMessage(_this,err.data.msg);
+            });
+
+        },
 
         onClickDeleteComment() {
             logger.log.debug("TweetDetailView.loadTweet");

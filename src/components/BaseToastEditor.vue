@@ -1,7 +1,16 @@
 <template>
   <div>
-
-    <froala :tag="'textarea'" :config="v_config" v-model="v_post.body"></froala>
+    <Editor 
+        ref="toastEditor"
+        :value="v_post.text"
+        :options="editorOptions"
+        :visible="editorVisible"
+        :initialValue="editorHtml"
+        previewStyle="vertical"
+        height="400px"
+        mode="wysiwyg"
+        initialEditType="wysiwyg"
+    />
 
   </div>
 
@@ -9,6 +18,10 @@
 
 <script>
 import AWS from 'aws-sdk';
+import 'codemirror/lib/codemirror.css'; 
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Editor } from '@toast-ui/vue-editor';
+//import { colorSyntax } from Editor.plugin;
 
 import { CONST } from 'src/data/const';
 import { MoaConfig } from 'src/data/MoaConfig';
@@ -16,14 +29,12 @@ import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import CMSAPI from 'src/services/cmsService';
 
-import VueFroala from 'vue-froala-wysiwyg';
-
 import {PostPageModel} from "src/models/PageModel";
 
 export default {
     name: 'BaseEditor',
     components: {
-        VueFroala,
+        Editor,
     },
     computed: {
         isNewPost() {
@@ -38,20 +49,19 @@ export default {
             v_post: new PostPageModel(),
             v_confirm: false,
             v_confirm_title: 'Do you want to quit?',
-            v_config: {
-                charCounterCount: true,
-                toolbarBottom: true,
-                toolbarButtons: {
-                    'moreRich': {
-                        'buttons': ['insertLink', 'insertImage', 'insertVideo', 'insertTable', 'emoticons', 'fontAwesome', 'specialCharacters', 'embedly', 'insertFile', 'insertHR']
-                    },
+
+            editorOptions: {
+                hideModeSwitch: true,
+                hooks:{                      
+                    addImageBlobHook: async (blob, callback) => {
+                        const uploadedImageURL = await this.uploadImage(blob);
+                        callback(uploadedImageURL, "alt text");
+                        return false;                 
+                    }                    
                 },
-                events: {
-                    'froalaEditor.initialized': function () {
-                        logger.log.debug('BaseEditor.initialized')
-                    }
-                }
-            }
+            },
+            editorHtml: '',
+            editorVisible: true,
         }
     },
 
@@ -63,8 +73,8 @@ export default {
     updated() {},
     
     methods: {
-        setContent(content) {            
-            //this.$refs.toastEditor.invoke('setMarkdown', content);
+        setContent(content) {
+            this.$refs.toastEditor.invoke('setMarkdown', content);
         },
 
         setPostModel(post) {
