@@ -4,9 +4,9 @@
     <div class="q-pa-xl">
 
         <div>
-            <CTitle :title="$t('page.forgot_pwd.title')" :desc="$t('page.forgot_pwd.desc')" />
+            <CTitle :title="$t('page.forgot_password.title')" :desc="$t('page.forgot_password.desc')" />
             <div class="gCaption">
-                {{ $t('page.forgot_pwd.rules.title') }}
+                {{ $t('page.forgot_password.rules.title') }}
             </div>
         </div>
 
@@ -53,7 +53,7 @@
                     </q-input>
                     
                     <div class="text-center">
-                        <WTimer ref="authTimer" class="q-mx-sm" caption="This code will expire in" 
+                        <WTimer ref="authTimer" class="q-mx-sm" :caption="$t('page.forgot_password.expire.title')" 
                             :visible="v_show_password" @onTimeout="onTimeout"/>
                     </div>
 
@@ -104,7 +104,7 @@
                     class="q-my-md" name="task_alt" style="font-size: 7em; color: #4caf50;" />
 
                 <div class="q-my-md gPageTitle">
-                    {{ $t('dialog.reset_password.password_reset.title') }}
+                    {{ $t('dialog.reset_password.title') }}
                 </div>
                 <div class="gParagraphSM">
                     {{ $t('dialog.reset_password.password_changed.title') }}
@@ -193,7 +193,7 @@ export default {
     
     methods: {      
         prepare() {
-            this.v_button_send = this.$t('button.send');
+            this.v_button_send = this.$t('button.send2');
             this.v_button_signup_disable = true;
         },
         checkPassword(PasswordParameter) {
@@ -282,7 +282,7 @@ export default {
                 logger.log.debug("ForgotPasswordView.verifyEmail");
 
                 this.v_error.email.error = true;
-                this.v_error.email.msg = this.$t("page.forgot_pwd.email.error");
+                this.v_error.email.msg = this.$t("page.forgot_password.email.error");
                 return false;
             } 
             

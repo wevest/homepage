@@ -132,8 +132,10 @@ export default {
 	},
 	button: {
 		more: '더보기',
-		send: '확인',
-		ssend: '보내기',
+		send2: '보내기',
+		send: "전송",
+		resend:"재전송",
+
 		save: '저장',
 		edit: '수정',
 		cancel: '취소',
@@ -173,8 +175,6 @@ export default {
 		go_login: "로그인하기",
 		reset_password:"비밀번호 설정",
 		change_password:"비밀번호 설정",
-		send: "전송",
-		resend:"재전송",
 		price_forecast: "앞으로 어떻게 될까요?",
 		next: "다음",
 		back: "이전",
@@ -189,11 +189,12 @@ export default {
 
 		},
 		reset_password: {
+			title : '비밀번호가 성공적으로 변경되었습니다',
 			password_updated: {
 				title: '비밀번호 변경',
 			},
 			password_changed: {
-				title: "비밀번호가 성공적으로 변경되었습니다.",
+				title: "",
 			},
 			password_complete: {
 				title: '이제 변경된 비밀번호로 로그인할 수 있습니다.',
@@ -247,9 +248,22 @@ export default {
 			signedin: {
 				title: '로그인 상태 유지',
 			},
-			forgot_password: {
-				title: '비밀번호 찾기',
+			forgot_password : {
+				title : '비밀번호 찾기',
 			},
+		},
+		forgot_password: {
+				title: '비밀번호 찾기',
+				desc : '',
+				rules : {
+					title : 'WeVest에 등록된 이메일 주소를 입력하세요!'
+				},
+				email : {
+					error : '이메일 주소를 확인하세요!',
+				},
+				expire : {
+					title : '인증코드 만료: '
+				}
 		},
 		signup: {
 			title: '회원가입',
