@@ -69,10 +69,13 @@
         </q-slide-transition>                        
 
         <q-slide-transition>
-            <div class="col-width q-pt-xl" v-if="v_show_signup2">
+            <div class="col-width q-pt-xs" v-if="v_show_signup2">
                 <div>
-                    <div class="">
-                        Please verify your email to complate sign-up
+                    <div class="verifyTitle text-center gSubTitleLG q-pb-sm">
+                        Verify Your Email
+                    </div>    
+                    <div class="q-pb-lg">
+                        Enter the six digit code we send to your email address to verify your new WeVest account:
                     </div>
                     <q-input
                         filled maxlength="6" type="number" 
@@ -88,10 +91,10 @@
                             <q-btn :label="v_button_send" :loading="v_loading_token"
                                 :disable="! v_button_send_enabled" color="primary" 
                                 @click="onClickResend" />
-                        </template>    
-
+                        </template>
                     </q-input>
                 </div>
+
                 <div class="q-mt-lg">
                     <q-btn :label="$t('button.back')" @click="onClickSignupNav(-1)" />
                     <q-btn class="q-ml-md" :label="$t('button.signup')" :loading="v_loading_signup"
