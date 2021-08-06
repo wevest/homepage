@@ -63,12 +63,22 @@
             <q-slide-transition>
                 <div v-if="v_show_password">
                     <div>
-                        <q-input lazy-rules v-model="v_input.new_password" type="password" :label="$t('page.change_pwd.new.title')" 
+                        <q-input v-model="v_input.new_password" type="password" 
+                            :label="$t('page.change_pwd.new.title')" 
                             ref="fldPasswordChange"
-                            :rules="[ val => val && val.length > 8 || $t('page.change_pwd.new.error') ]" />
+                            :rules="[ val => val && val.length > 8 || $t('page.change_pwd.new.error') ]" 
+                            :error="v_error.password.error"
+                            :error-message="v_error.password.msg"
+                        />
 
-                        <q-input lazy-rules v-model="v_input.new_password2" type="password" :label="$t('page.change_pwd.confirm.title')"
-                            ref="fldPasswordChangeConfirm" v-bind:rules="v_confirm" />
+                        <q-input 
+                            v-model="v_input.new_password2" type="password" 
+                            ref="fldPasswordChangeConfirm"                             
+                            :label="$t('page.change_pwd.confirm.title')"
+                            :error="v_error.password2.error"
+                            :error-message="v_error.password2.msg"
+                        />
+
                     </div>
 
                     <div class="q-gutter-md text-center">
@@ -140,6 +150,9 @@ export default {
                 (v) => v == this.$refs.fldPasswordChange.value || this.$t('page.change_pwd.confirm.error')
             ]
         },
+        v_validate_code() {
+            return [ (v) => v.length!=6 || this.$t('page.change_pwd.code') ]            
+        }
     },
     data () {
         return {            
@@ -156,8 +169,8 @@ export default {
             },
 
             v_error: { 
-                username: {error:false, msg:''},
                 password: {error:false, msg:''},
+                password2: {error:false, msg:''},
                 email: {error:false, msg:''},
                 code: {error:false, msg:''},
             },
@@ -204,13 +217,77 @@ export default {
             this.v_show_password = value;
         },
 
-        validate() {
-            if (CommonFunc.isEmptyObject(v_password)) {
-                this.v_error.text.error = true;
-                this.v_error.text.msg = 'Please type something';
+        validatePassword() {
+            logger.log.debug("validatePassword - 1");
+
+            if (CommonFunc.isEmptyObject(this.v_input.new_password)) {
+                logger.log.debug("validatePassword - 1.1");
+                this.v_error.password.error = true;
+                this.v_error.password.msg = 'Please type password';
+                return false;
+            } else {
+                this.v_error.password.error = false;
+                this.v_error.password.msg = '';
+            }
+
+            logger.log.debug("validatePassword - 2");
+
+            if (CommonFunc.isEmptyObject(this.v_input.new_password2)) {
+                this.v_error.password2.error = true;
+                this.v_error.password2.msg = 'Please type confirm password';
+                return false;
+            } else {
+                this.v_error.password2.error = false;
+                this.v_error.password2.msg = '';
+            }
+
+            logger.log.debug("validatePassword - 3");
+            if (this.v_input.new_password!=this.v_input.new_password2) {
+                this.v_error.password2.error = true;
+                this.v_error.password2.msg = 'password does not match';
                 return false;
             }
 
+            logger.log.debug("validatePassword - 4");
+
+            this.v_error.password.error = false;
+            this.v_error.password.msg = '';
+            this.v_error.password2.error = false;
+            this.v_error.password2.msg = '';
+
+            return true;
+        },
+
+        validateCode() {
+            if (CommonFunc.isEmptyObject(this.v_input.code)) {
+                this.v_error.code.error = true;
+                this.v_error.code.msg = 'Please type code';
+                return false;
+            }
+
+            if (this.v_input.code.length!=6) {
+                this.v_error.code.error = true;
+                this.v_error.code.msg = 'Please type 6-digits code';
+                return false;
+            }
+
+            this.v_error.code.error = false;
+            this.v_error.code.msg = '';
+
+            return true;
+        },
+
+        verifyEmail() {
+            if (! CommonFunc.verifyEmail(this.v_input.email)) {
+                logger.log.debug("ForgotPasswordView.verifyEmail");
+
+                this.v_error.email.error = true;
+                this.v_error.email.msg = this.$t("page.forgot_pwd.email.error");
+                return false;
+            } 
+            
+            this.v_error.email.error = false;
+            this.v_error.email.msg = '';
             return true;
         },
 
@@ -230,20 +307,6 @@ export default {
                 return
             }            
 
-        },
-
-        verifyEmail() {
-            if (! CommonFunc.verifyEmail(this.v_input.email)) {
-                logger.log.debug("ForgotPasswordView.verifyEmail");
-
-                this.v_error.email.error = true;
-                this.v_error.email.msg = this.$t("page.forgot_pwd.email.error");
-                return false;
-            } 
-            
-            this.v_error.email.error = false;
-            this.v_error.email.msg = '';
-            return true;
         },
 
         onClickResend() {
@@ -279,6 +342,9 @@ export default {
         onClickSave() {                        
             const _this=this;
             
+            if (! this.validateCode()) return;
+            if (! this.validatePassword()) return;
+
             this.$refs.formPassword.validate().then(ret=>{
                 logger.log.debug('ForgotPasswordView.onClickSave - ret=',_this.v_me);
                 if (! ret) { return; }

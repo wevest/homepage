@@ -19,26 +19,26 @@
             <div class="col-6 q-pl-lg">
                 <div class="boxProfit q-mb-md ">
                     <div class="titleProfit">
-                        {{v_format(data.ticker.ret_7d)}} %
+                        <span :class="v_color(data.ticker.ret_7d,1)">{{v_format(data.ticker.ret_7d)}} %</span>
                         <q-badge class="q-ml-sm" align="top">1W</q-badge>
-                        <q-linear-progress :color="v_color(data.ticker.ret_7d)" :value="v_format_roi(data.ticker.ret_7d)" />
+                        <q-linear-progress :color="v_color(data.ticker.ret_7d,0)" :value="v_format_roi(data.ticker.ret_7d)" />
                     </div>
                     
                 </div>       
                 <div class="boxProfit q-mb-md">
                     <div class="titleProfit">
-                        {{v_format(data.ticker.ret_1m)}} %
+                        <span :class="v_color(data.ticker.ret_1m,1)">{{v_format(data.ticker.ret_1m)}} %</span>
                         <q-badge class="q-ml-sm" align="top">1M</q-badge>
                         <!-- <span class="gCaption"></span> -->
-                        <q-linear-progress :color="v_color(data.ticker.ret_1m)" :value="v_format_roi(data.ticker.ret_1m)" />
+                        <q-linear-progress :color="v_color(data.ticker.ret_1m,0)" :value="v_format_roi(data.ticker.ret_1m)" />
                     </div>                    
                 </div>         
                 <div class="boxProfit">
                     <div class="titleProfit">
-                        {{v_format(data.ticker.ret_3m)}} %
+                        <span :class="v_color(data.ticker.ret_3m,1)">{{v_format(data.ticker.ret_3m)}} %</span>
                         <q-badge class="q-ml-sm" align="top">3M</q-badge>
                         <!-- <span class="gCaption"></span> -->
-                        <q-linear-progress :color="v_color(data.ticker.ret_3m)" :value="v_format_roi(data.ticker.ret_3m)" />
+                        <q-linear-progress :color="v_color(data.ticker.ret_3m,0)" :value="v_format_roi(data.ticker.ret_3m)" />
                     </div>                    
                 </div>                
 
@@ -151,11 +151,13 @@ export default {
     },
 	computed: {
         v_color() {
-            return (value) => {                
+            return (value,ctype=0) => {                
                 if (! value) return;
-
-                logger.log.debug("AssetView.PriceSummaryBox.v_color=",value);
-                return CommonFunc.getPerfColor(value);
+                //logger.log.debug("AssetView.PriceSummaryBox.v_color=",value);
+                if (ctype==0) {
+                    return CommonFunc.getPerfColor(value);
+                }
+                return "text-"+CommonFunc.getPerfColor(value);
             };            
         },
         v_change() {

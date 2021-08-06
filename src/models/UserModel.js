@@ -779,7 +779,7 @@ export default class User {
                 
         const _this = this;
         return new Promise(function(resolve,reject) {
-            AuthService.resetPassword(dicParam,function(response) {
+            AuthService.forgotPassword(dicParam,function(response) {
                 resolve(response);
             },function(err) {
                 reject(err);

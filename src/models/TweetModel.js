@@ -56,10 +56,11 @@ export class TweetModel{
 
 
     vote(dic_param) {
-        const _this = this;
-        dic_param['method'] = 'vote';
+        const _this = this;        
         return new Promise(function(resolve,reject) {
             //let dic_param = { id:_this.id, value:_this.value, method: 'vote', token:store.getters.token };
+            dic_param['method'] = 'vote';
+            dic_param['token'] = store.getters.token;
             CMSAPI.voteTweet(dic_param,function(response) {
                 logger.log.debug('onClickReviewRating - ',response);
                 CommonFunc.updateRatingCount(_this,response);
@@ -109,7 +110,7 @@ export class TweetListModel extends baseCollection{
         const _this = this;
         
         return new Promise(function(resolve,reject) {
-            dic_param.token = store.getters.token;
+            //dic_param.token = store.getters.token;
             CMSAPI.getTweet(dic_param,function(response) {
                 logger.log.debug("TweetListModel.load : response=",response);
                 _this.assign(response.data.results);

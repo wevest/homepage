@@ -22,7 +22,7 @@ module.exports = function (/* ctx */) {
 		// app boot file (/src/boot)
 		// --> boot files are part of "main.js"
 		// https://v1.quasar.dev/quasar-cli/boot-files
-		boot: ["i18n", "axios", "vplugins", "pwa"],
+		boot: ["i18n", "axios", "vplugins", "pwa", "froala"],
 
 		// https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
 		css: ["app.scss"],
