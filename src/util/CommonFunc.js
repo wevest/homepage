@@ -728,10 +728,13 @@ export default class CommonFunc {
         a_this.$router.push(dic_param);
     }
 
-    static navTweetWriter(a_this,asset_id) {
+    static navTweetWriter(a_this,asset_id,tweet_id=null,contents=null) {
         let dic_param = {
             name: "tweet_writer",path: "tweet_writer", query: { id: asset_id },
         };
+        if (tweet_id) dic_param.query['tweet_id'] = tweet_id;
+        if (contents) dic_param.params = {contents:contents};
+
         store.getters.nav.add(a_this.$route);
         a_this.$router.push(dic_param);
     }

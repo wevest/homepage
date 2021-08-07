@@ -217,6 +217,11 @@ const routes = [
 				component: () => import("pages/notification/NotificationView.vue"),
 			},
 			{
+				name: "bookmark",
+				path: "bookmark",
+				component: () => import("pages/bookmark/BookmarkView.vue"),
+			},
+			{
 				name: "error_404",
 				path: "error_404",
 				component: () => import("pages/Error404.vue"),

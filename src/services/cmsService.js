@@ -154,6 +154,17 @@ export default class CMSAPI {
 		});
   	}
 
+	  static removeTweet(dic_param, func, funcErr) {
+		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/twitter/tweets/");
+		callCMSAPI("DELETE", url, {}, dic_param)
+		.then(response => {
+			func(response);
+		})
+		.catch(err => {
+			funcErr(err);
+		});
+  	}
+
 	static voteTweet(dic_param, func, funcErr) {
 		let url = CMSAPI.getUrl(
 		MoaConfig.urls.cms,

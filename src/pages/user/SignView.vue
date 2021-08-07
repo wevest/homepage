@@ -93,7 +93,6 @@ export default {
 
         },
 
-
         onResetSignin () {
             this.name = null
             this.age = null

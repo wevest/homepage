@@ -40,12 +40,13 @@ export class TweetModel{
 
     post() {
         let dic_param = {
+            id: this.id,
             text: this.text,
-            asset_id: this.asset_id
+            asset_id: this.asset_id,
+            token: store.getters.token            
         };
 
         return new Promise(function(resolve,reject) {
-            dic_param.token = store.getters.token;
             CMSAPI.postTweet(dic_param,function(response) {
                 resolve(response);    
             }, function(response) {
@@ -54,6 +55,21 @@ export class TweetModel{
         });
     }
 
+    remove() {
+        let dic_param = {
+            id: this.id,
+            asset_id: this.asset_id,
+            token: store.getters.token
+        };
+
+        return new Promise(function(resolve,reject) {            
+            CMSAPI.removeTweet(dic_param,function(response) {
+                resolve(response);    
+            }, function(response) {
+                reject(response);
+            });
+        });
+    }
 
     vote(dic_param) {
         const _this = this;        

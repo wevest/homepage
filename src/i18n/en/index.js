@@ -203,11 +203,11 @@ export default {
 				title:'market trend'
 			},
 			portfolio: {
-				title:'Discover Promising Asset, and Start Copy-Investment',
+				title:'Discover Promising Asset, Start Copy-Investment',
 				desc: ''
 			},
 			asset : {
-				title : 'Get Connected to Asset community',
+				title : 'Connect to Asset community',
 				desc : '',
 			},
 			captain: {
@@ -215,7 +215,7 @@ export default {
 				desc : '',
 			},
 			userfeed: {
-				title:'USERFEEDS',
+				title:'Activities from your Followings',
 				desc:''				
 			},
 				roi: {

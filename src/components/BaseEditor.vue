@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <froala :tag="'textarea'" :config="v_config" v-model="v_post.body"></froala>
+    <froala :tag="'textarea'" :config="v_config" v-model="v_contents"></froala>
 
   </div>
 
@@ -25,6 +25,14 @@ export default {
     components: {
         VueFroala,
     },
+    props: {
+        contents: {
+            default:null,
+        },
+        customSave: {
+            default: '0'
+        }
+    },
     computed: {
         isNewPost() {
             if (this.g_page_id) {
@@ -35,17 +43,21 @@ export default {
     },
     data() {
         return {
+            v_contents: this.contents,
+
             v_post: new PostPageModel(),
             v_confirm: false,
             v_confirm_title: 'Do you want to quit?',
             v_config: {
                 charCounterCount: true,
                 toolbarBottom: true,
+/*                
                 toolbarButtons: {
                     'moreRich': {
                         'buttons': ['insertLink', 'insertImage', 'insertVideo', 'insertTable', 'emoticons', 'fontAwesome', 'specialCharacters', 'embedly', 'insertFile', 'insertHR']
                     },
                 },
+*/                
                 events: {
                     'froalaEditor.initialized': function () {
                         logger.log.debug('BaseEditor.initialized')
@@ -65,6 +77,12 @@ export default {
     methods: {
         setContent(content) {            
             //this.$refs.toastEditor.invoke('setMarkdown', content);
+            this.v_post.body = content;
+        },
+
+        getContents() {
+          //let a_text = this.$refs.toastEditor.invoke('getMarkdown');
+          return this.v_post.body;
         },
 
         setPostModel(post) {
@@ -84,11 +102,6 @@ export default {
 
         hideConfirm() {
           this.v_confirm = false;
-        },
-
-        getContents() {
-          let a_text = this.$refs.toastEditor.invoke('getMarkdown');
-          return a_text;
         },
 
         uploadImage(blob) {

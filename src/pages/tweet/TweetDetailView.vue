@@ -2,20 +2,22 @@
     
     <div class="q-ma-md">
         		
-		<div class="q-pa-sm" v-if="v_tweet.owner">
-            <div class="row">
-			    <div>
+		<div v-if="v_tweet.owner">
+            <div class="boxToolbar">
+			    <div class="boxAvatar">
                     <WAvatar :avatar="v_tweet.owner.avatar_thumb" :username="v_tweet.owner.username" />
                 </div>
-                <div>
-					<div>
-						<div class="gListTitle">{{ v_tweet.owner.display_name }}</div>
+                <div class="q-pa-sm boxToolbarTitle">
+					<div class="boxToolbar">
 
-                        <WCommandBar :data="v_tweet" :isOwner="v_is_owner" 
-                            shareBtn="" updateBtn="update" deleteBtn="delete" 
-                            @onClickUpdate="onClickUpdate" 
-                            @onClickDelete="onClickDelete" 
-                        />
+                        <div class="gListTitle boxToolbarTitle">{{ v_tweet.owner.display_name }}</div>
+                        <div>
+                            <WCommandBar :data="v_tweet" :isOwner="v_is_owner" 
+                                shareBtn="" updateBtn="update" deleteBtn="delete" 
+                                @onClickUpdate="onClickUpdate" 
+                                @onClickDelete="onClickDelete" 
+                            />
+                        </div>
 
 					</div>
 
@@ -28,12 +30,11 @@
 
 					</div>
 				</div>
-
 			</div>			
 		</div>
 
-
-        <div class="gBodyLG" v-html="v_tweet.text"></div>
+        <q-separator />
+        <div class="q-pt-sm gBodyLG" v-html="v_tweet.text"></div>
 
         <WRatingButton ref="ratingButton" :data="v_tweet" :likeCaption="$t('button.blog_like')" :dislikeCaption="$t('button.blog_dislike')" />
 
@@ -69,11 +70,13 @@ import WSubinfo from 'components/WSubinfo';
 import CommentBox from "components/comments/CommentBox.vue";
 import CommentList from "components/comments/CommentList.vue";
 import WRatingButton from 'components/WRatingButton';
+import WCommandBar from "components/WCommandBar.vue";
 
 export default {
     name: 'TweetDetailView',
     components: {
         WAvatar,
+        WCommandBar,
         WSubinfo,
         CommentList,
         WRatingButton
@@ -150,17 +153,17 @@ export default {
 
 
         onClickUpdate() {
-            logger.log.debug("TweetDetailView.onClickUpdate");
-            this.navWriter("update");
+            logger.log.debug("TweetDetailView.onClickUpdate : tweet=",this.v_tweet);
+            CommonFunc.navTweetWriter(this,this.v_tweet.asset.id,this.v_tweet.id,this.v_tweet.text);
         },
 
         onClickDelete() {                        
             const _this = this;
             //let dic_param = { id:this.v_post.id, token:store.getters.token};
-            logger.log.debug('BlogPage.onClickDelete');
+            logger.log.debug('TweetDetailView.onClickDelete');
             
-            this.v_post.remove().then( response => {
-                CommonFunc.showOkMessage(_this,'Blog deleted');       
+            this.v_tweet.remove().then( response => {
+                CommonFunc.showOkMessage(_this,'Tweet deleted');       
                 CommonFunc.navBack(_this);
             }).catch(err=>{
                 CommonFunc.showErrorMessage(_this,err.data.msg);
@@ -179,5 +182,17 @@ export default {
 
 
 <style scoped>
+
+.boxToolbar {
+    display:flex;
+}
+
+.boxToolbarTitle {
+    flex:1 auto;
+}
+
+.boxAvatar {
+    width:50px;
+}
 
 </style>

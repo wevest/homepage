@@ -3,11 +3,16 @@
     <div class="q-ma-md">
 
         <WWriterToolbar ref="writerToolbar" @onClickSave="onClickSave" />
+        <q-btn label="Test" @click="onClickTest" />
 
         <div v-if="v_tweet">
             <div class="gBoxNoMargin">
-                <BaseEditor ref="baseEditor" @onPostSave="onPostSave" />
+
+                <Froala :tag="'textarea'" :config="v_config" v-model="v_tweet.text"></Froala>
+
 <!--                
+                <BaseEditor ref="baseEditor" :contents="v_tweet.text" @onPostSave="onPostSave" />
+
                 <Editor 
                     hide-bottom-space
                     ref="toastEditor"
@@ -46,7 +51,9 @@ import logger from 'src/error/Logger';
 
 import {TweetModel} from "src/models/TweetModel";
 import CTitle from 'components/CTitle';
-import BaseEditor from 'components/BaseEditor';
+
+import VueFroala from 'vue-froala-wysiwyg';
+//import BaseEditor from 'components/BaseEditor';
 import WWriterToolbar from 'components/WWriterToolbar';
 
 export default {
@@ -54,13 +61,13 @@ export default {
     components: {
         CTitle,
         WWriterToolbar,
-        BaseEditor
+        //BaseEditor
     },
     computed: {
         v_me() {
             return store.getters.me;
         },
-        isNewPost: function() {
+        v_is_new: function() {
             if (this.v_tweet.id) {
                 return false;
             }
@@ -80,10 +87,20 @@ export default {
                 title: {error:false, msg:''},
                 text: {error:false, msg:''},
             },        
+
+            v_config: {
+                charCounterCount: true,
+                toolbarBottom: true,
+                toolbarButtons: {
+                    indexOf: key => Object.keys(this).indexOf(key),
+                }
+            }
         }
     },
 
-    created () {},
+    created () {
+        this.validateQuery();
+    },
     mounted() {        
         logger.log.debug("TweetWriterView.mounted : params=",this.$route.query);
         this.prepare();
@@ -93,22 +110,30 @@ export default {
     },
     
     methods: {
+        validateQuery() {            
+            if (! CommonFunc.isEmptyObject(this.$route.query.id)) {
+                return;
+            }
+
+            CommonFunc.navError404(this);
+        },        
         prepare() {
-            this.setTweet(this.$route.query.id);
-            this.fillData();
+            this.setTweet(this.$route);
+            //this.fillData();
         },
 
-        setTweet(asset_id) {
-            this.v_tweet.asset_id = asset_id;
-        },
+        setTweet(route) {
+            this.v_tweet.asset_id = route.query.id;
+            if (route.query.hasOwnProperty('tweet_id')) {
+                logger.log.debug("TwitterWriter.setTweet : contents=",route.params.contents);
 
-        fillData: function() {
-            if (this.$refs.baseEditor) {
-                //this.$refs.baseEditor.setPostModel(this.v_tweet);
-            }            
+                this.v_tweet.id = route.query.tweet_id;
+                //this.v_tweet.text = route.params.contents;
+                this.v_tweet.text = "route.params.content";
+            }
         },
         
-        validate: function() {
+        validate() {
             this.v_tweet.text = this.$refs.baseEditor.getContents();
             if (CommonFunc.isEmptyObject(this.v_tweet.text)) {
                 this.v_error.text.error = true;
@@ -141,7 +166,9 @@ export default {
             });            
         },
 
-        onPostSave: function(dic_param) {
+
+
+        onPostSave(dic_param) {
             logger.log.debug('TweetWriterDialog.onPostSave : dic_param=',dic_param);
 
             this.$refs.writerToolbar.setLoading(false);
@@ -155,7 +182,7 @@ export default {
             }        
         },
 
-        onClickSave: function() {
+        onClickSave() {
             logger.log.debug('TweetWriterDialog.onClickSave');
 
             if (! this.validate() ) {
@@ -167,6 +194,10 @@ export default {
         
         },
 
+        onClickTest() {
+            logger.log.debug('TweetWriterDialog.onClickTest');
+            this.v_tweet.text = this.$route.params.contents;
+        }
     }
 
 };
