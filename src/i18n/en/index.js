@@ -114,7 +114,7 @@ export default {
 		price_close:"Close",
 		volume:"Volume",
 
-		crypto_vc:'Crypto VC',
+		crypto_vc:'Crypto VC LIST',
 		good_roi:'Profitable',
 		trending:'Trending',
 
@@ -156,11 +156,23 @@ export default {
 			},
 			signedin : {
 				title : 'Stay loged-In',
-			},				
-			forgot_password : {
-				title : 'Forgot password',
 			},
-
+			forgot_password : {
+				title : 'forgot password',
+			}				
+		},
+		forgot_password : {
+				title : 'Forgot password',
+				desc : '',
+				rules : {
+					title : 'Please enter your registered email ID!'
+				},
+				email : {
+					error : 'Check your email address!'
+				},
+				expire : {
+					title : 'This code will expire in'
+				},
 		},
 		signup : {
 			title : 'Sign-Up',
@@ -281,10 +293,11 @@ export default {
 		notification : {
 			title : 'Notification',	
 			desc :'',
-			notification_feed : {
-				title: 'New',
+			list : {
+				title: 'List',
 				desc: ''
 			}
+			
 		},
 		assetqa: {
 			title: 'QA',
@@ -475,7 +488,7 @@ export default {
 			title : 'USERFEEDS',
 			desc : '',
 			userfeed : {		
-				title : 'USERFEED LIST',
+				title : 'LIST',
 				desc : ''
 			},
 			nouserfeed : {
@@ -501,14 +514,15 @@ export default {
 		},
 		
 		reset_password : {
+			title : 'Password has been changed succefully.',
 			password_updated : {
 				title : 'Password updated.', 
 			},
 			password_changed : {
-				title: "Password has been changed succefully.",
+				title: '',
 			},
 			password_complete : {
-				title : 'Use your new password password to log in.',
+				title : 'Use your new password to log in.',
 			}
 		},
 		add_portfolio : {
