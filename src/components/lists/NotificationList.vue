@@ -61,6 +61,7 @@
 <script>
 import { store } from 'src/store/store';
 import { MoaConfig } from 'src/data/MoaConfig';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
@@ -240,40 +241,40 @@ export default {
 			//return;
 			
 			if (feed.verb=="PostPage") {
-                CommonFunc.navBlogDetail(this,feed.id);
+                NavFunc.navBlogDetail(this,feed.id);
 			} else if (feed.verb=="PostPageVote") {
-				CommonFunc.navBlogDetail(this,feed.parent_id);
+				NavFunc.navBlogDetail(this,feed.parent_id);
 			} else if (feed.verb=="Review") {
-				CommonFunc.navReview(this,feed.category,feed.id);
+				NavFunc.navReview(this,feed.category,feed.id);
 			} else if (feed.verb=="ReviewVote") {
-				CommonFunc.navReview(this,feed.category,feed.id);
+				NavFunc.navReview(this,feed.category,feed.id);
 			} else if (feed.verb=="QuestionPage") {
-				CommonFunc.navQADetail(this,feed.id);
+				NavFunc.navQADetail(this,feed.id);
 			} else if (feed.verb=="AnswerVote") {
-				CommonFunc.navQADetail(this,feed.question_id);
+				NavFunc.navQADetail(this,feed.question_id);
 
 			} else if (feed.verb=="CustomComment") {
 
 				if (feed.parent=="portfolio.portfolio") {
-					CommonFunc.navPortfolio(this,feed.owner,feed.parent_id);
+					NavFunc.navPortfolio(this,feed.owner,feed.parent_id);
 				} else {
-					CommonFunc.navBlogDetail(this,feed.parent_id);
+					NavFunc.navBlogDetail(this,feed.parent_id);
 				}
 				
 			} else if (feed.verb=="AnswerPage") {
-				CommonFunc.navQADetail(this,feed.question_id);
+				NavFunc.navQADetail(this,feed.question_id);
 			} else if (feed.verb=="AnswerComment") {
-				CommonFunc.navQADetail(this,feed.question_id);
+				NavFunc.navQADetail(this,feed.question_id);
 			} else if (feed.verb=="AnswerCommentVote") {
-				CommonFunc.navQADetail(this,feed.question_id);
+				NavFunc.navQADetail(this,feed.question_id);
 			} else if (feed.verb=="QuestionComment") {
-				CommonFunc.navQADetail(this,feed.parent_id);
+				NavFunc.navQADetail(this,feed.parent_id);
 			} else if (feed.verb=="QuestionCommentVote") {
-				CommonFunc.navQADetail(this,feed.question_id);
+				NavFunc.navQADetail(this,feed.question_id);
 			} else if (feed.verb=="PortfolioVote") {
-				CommonFunc.navPortfolio(this,feed.owner,feed.parent_id);
+				NavFunc.navPortfolio(this,feed.owner,feed.parent_id);
 			} else if (feed.verb=="PortfolioItem") {
-				CommonFunc.navPortfolio(this,feed.owner,feed.parent_id);
+				NavFunc.navPortfolio(this,feed.owner,feed.parent_id);
 			}
 
 			return;
@@ -294,7 +295,7 @@ export default {
 		onClickMoreFeed() {
 			logger.log.debug("NotificationList.onClickMoreFeed : 1");
 			
-            CommonFunc.navFeeds(this);
+            NavFunc.navFeeds(this);
 		}
 
 	},

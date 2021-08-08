@@ -2,6 +2,10 @@
 // so you can safely delete all default props below
 
 export default {
+	table: {
+		selectedRecords: "selectedRecords",
+	},
+
 	menu: {
 		home: "WeVest",
 		about: "About",

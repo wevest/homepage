@@ -118,6 +118,7 @@
 <script>
 import {store} from 'src/store/store';
 import {MoaConfig} from 'src/data/MoaConfig';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
@@ -285,7 +286,7 @@ export default {
         processLogin(dic_param) {
             dic_param.stay_loggedin = true;
             this.v_me.signIn(dic_param).then( resp => {
-                CommonFunc.navHome(this);
+                NavFunc.navHome(this);
             });
         },
 
@@ -364,7 +365,7 @@ export default {
 				logger.log.debug("SigninView.SignUp: response=",response);
                 //const a_dialog = store.getters.components.getComponent('alertDialog');
 				//a_dialog.show('Success','Please check your email to activate your account!');
-                //CommonFunc.navActivationNotification(_this);
+                //NavFunc.navActivationNotification(_this);
                 
                 if (response.data.ret!=0) {                    
                     _this.$refs.authTimer.reset();

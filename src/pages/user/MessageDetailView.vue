@@ -55,6 +55,7 @@
 
 <script>
 import { store } from 'src/store/store';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import AuthService from 'src/services/authService';
@@ -117,7 +118,7 @@ export default {
                     return;
                 }                
             }                
-            CommonFunc.navError404(this);
+            NavFunc.navError404(this);
         },        
 
         setChatMessageHeight(windowHeight) {

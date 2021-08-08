@@ -17,6 +17,7 @@
 <script>
 import {store} from "src/store/store";
 import CommonFunc from "src/util/CommonFunc";
+import NvaFunc from 'src/util/NavFunc';
 import logger from "src/error/Logger";
 import WAvatar from "components/WAvatar.vue";
 
@@ -67,7 +68,7 @@ export default {
             store.getters.components.getComponent('confirmDialog').show('Please login first',function(value) {
                 logger.log.debug("WWriterButton.onClickWrite - confirm=",value,_this.$route);
                 if (value) {
-                    CommonFunc.navSignin(_this,true);
+                    NavFunc.navSignin(_this,true);
                     return;
                 }
             });            

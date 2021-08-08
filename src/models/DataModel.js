@@ -1,6 +1,7 @@
 import {CONST} from "src/data/const";
 import { store } from "src/store/store";
 import logger from "src/error/Logger";
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 
 
@@ -76,7 +77,7 @@ export class NavBackModel {
         logger.log.debug("NavModel.back : route=",dic_param);
 
         if ( (! dic_param) || (! dic_param.name) ) {
-            CommonFunc.navBack(a_this);
+            NavFunc.navBack(a_this);
         } else {
             a_this.$router.push(dic_param);
         }

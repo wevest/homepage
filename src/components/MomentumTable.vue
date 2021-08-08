@@ -40,6 +40,7 @@
 
 
 <script>
+import NvaFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import MoaBackendAPI from 'src/services/apiService';
 import logger from "src/error/Logger";
@@ -216,14 +217,14 @@ export default {
 
         navSector: function(category) {
             console.log('MomentumTable.navSector - ',category);
-            CommonFunc.navSector(this.$parent,category);
+            NavFunc.navSector(this.$parent,category);
         },
 
         navInstrument: function(asset) {
             console.log('MomentumTable.navInstrument - ',asset);
             
-            CommonFunc.openInstrument(this.$parent,asset);
-            //CommonFunc.navInstrument(this.$parent,asset);
+            NavFunc.openInstrument(this.$parent,asset);
+            //NavFunc.navInstrument(this.$parent,asset);
         }
 
     }

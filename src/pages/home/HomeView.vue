@@ -20,7 +20,7 @@
 -->                
         </div>
 
-        <div class="col">
+        <div>
             <AssetCommunityList ref='assetList' :title="$t('page.home.asset.title')" :desc="$t('page.home.asset.desc')"
             maxLength="10" :moreCaption="$t('button.more')" ></AssetCommunityList>
         </div>
@@ -60,6 +60,7 @@
 
 <script>
 import { store } from 'src/store/store';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 
@@ -242,7 +243,7 @@ export default {
         },
         onClickIndex(dicParam) {
             logger.log.debug('Home.onClickIndex : ',dicParam);
-            CommonFunc.navAssetDetail(this,dicParam.symbol,dicParam.id);
+            NavFunc.navAssetDetail(this,dicParam.symbol,dicParam.id);
         }
     }
 };

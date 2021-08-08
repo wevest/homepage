@@ -444,5 +444,50 @@ export default class AuthService{
             funcErr(err);
         });
     }
+
+
+    static getBookmarkData(reqParam,func,funcErr) {
+        let a_method = "/api/bookmark/bookmarks/";
+        if ( (reqParam.hasOwnProperty('userid')) && (reqParam.userid) ) {
+            a_method += "?userid="+reqParam.userid;
+        }
+        
+        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        url = CommonFunc.addLimitOffsetToQuery(url, reqParam);
+
+        callCMSAPI("GET",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }    
+
+    static addBookmarkData(reqParam,func,funcErr) {
+        let a_method = "/api/bookmark/bookmarks/";        
+        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+
+        callCMSAPI("POST",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }    
+
+    static deleteBookmarkData(reqParam,func,funcErr) {
+        let a_method = "/api/bookmark/bookmarks/";        
+        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+
+        callCMSAPI("DELETE",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }    
     
 }

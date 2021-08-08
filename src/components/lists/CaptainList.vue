@@ -41,6 +41,7 @@
 <script>
 import { store } from 'src/store/store';
 import { MoaConfig } from 'src/data/MoaConfig';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
@@ -170,7 +171,7 @@ export default {
 
 		onClickUser(user) {
 			logger.log.debug("onClickUser : user = ", user);
-			CommonFunc.navProfile(this,user.username);
+			NavFunc.navProfile(this,user.username);
 			//this.$emit("onClickBlog",{page_id:page_id});
 		},
 
@@ -188,7 +189,7 @@ export default {
 			logger.log.debug("FriendList.onClickMoreFriend : 1");
 			
 			//store.getters.nav.add(this.$route);
-            //CommonFunc.navProfile(this,this.v_user.username);
+            //NavFunc.navProfile(this,this.v_user.username);
 		},
 	},
 };

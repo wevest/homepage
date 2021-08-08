@@ -37,6 +37,7 @@
 <script>
 import { MoaConfig } from 'src/data/MoaConfig';
 import {store} from 'src/store/store';
+import NvaFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
@@ -166,7 +167,7 @@ export default {
             this.v_user.id = a_portfolio.api_user.id;
             this.v_user.username = a_portfolio.api_user.username;
             
-            CommonFunc.navPortfolio(this,this.v_user.username,a_portfolio.id);
+            NavFunc.navPortfolio(this,this.v_user.username,a_portfolio.id);
         },
 
 		onClickLoadMore() {
@@ -178,7 +179,7 @@ export default {
 
         onClickMorePortfolio() {
             logger.log.debug("PortfolioList.onClickMorePortfolio:");
-            CommonFunc.navPortfolioIndexView(this);
+            NavFunc.navPortfolioIndexView(this);
         }
     },
 

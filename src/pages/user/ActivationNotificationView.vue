@@ -28,6 +28,7 @@
 
 <script>
 import {store} from 'src/store/store';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
@@ -54,7 +55,7 @@ export default {
     methods: {
         onClick() {
             logger.log.debug("ActivationNotificationView.click");
-            CommonFunc.navHome(this);
+            NavFunc.navHome(this);
         }
     }
 

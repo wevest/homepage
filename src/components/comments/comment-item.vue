@@ -93,6 +93,7 @@
 <script>
 import {store} from "src/store/store";
 import logger from "src/error/Logger";
+import NvaFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 
 import WAvatar from "src/components/WAvatar";
@@ -310,7 +311,7 @@ export default {
 
         onClickAvatar: function(username) {
             logger.log.debug("CommentItem.onClickAvatar",username);
-            CommonFunc.navProfile(this,username);
+            NavFunc.navProfile(this,username);
         },
 
         onClickLike(dicParam) {            

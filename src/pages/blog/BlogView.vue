@@ -35,6 +35,7 @@
 <script>
 import { CONST } from 'src/data/const';
 import { store } from 'src/store/store';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
@@ -94,7 +95,7 @@ export default {
                 return;
             }
 
-            CommonFunc.navError404(this);
+            NavFunc.navError404(this);
         },        
         refresh(symbol,offset=360) {
             logger.log.debug('Refresh - ',symbol,offset);
@@ -118,7 +119,7 @@ export default {
             a_post.setContentType(CONST.CONENT_TYPE_BLOGPAGE);
             a_post.category_name = this.g_asset.category;
 
-            CommonFunc.navBlogWriter(this,a_post);
+            NavFunc.navBlogWriter(this,a_post);
         },
 
         onClickWrite(dicParam) {

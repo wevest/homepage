@@ -208,6 +208,7 @@
 
 <script>
 import { MoaConfig } from 'src/data/MoaConfig';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import MoaBackendAPI from 'src/services/apiService';
@@ -546,7 +547,7 @@ export default {
         },
 
         onClickBlog: function(param) {
-            CommonFunc.navBlog(this,param.page_id);
+            NavFunc.navBlog(this,param.page_id);
         }
     }
 

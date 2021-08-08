@@ -48,6 +48,7 @@
 
 <script>
 import {store} from "src/store/store";
+import NvaFunc from 'src/util/NavFunc';
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
@@ -314,7 +315,7 @@ export default {
 			this.v_input = value;
 		},
 
-		onClick: function() {
+		onClick() {
 			logger.log.debug("CommentForm.onClick : parent=",this.$parent);
 
 			if (this.v_me.isLoggedIn()) {
@@ -326,7 +327,7 @@ export default {
                 logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
                 if (value) {
 					store.getters.nav.add(this.$route);					
-                    CommonFunc.navSignin(_this);
+                    NavFunc.navSignin(_this);
                 }
             });
 

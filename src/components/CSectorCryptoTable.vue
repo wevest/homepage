@@ -38,6 +38,7 @@
 
 <script>
 import CommonFunc from 'src/util/CommonFunc';
+import NvaFunc from 'src/util/NavFunc';
 import MoaBackendAPI from 'src/services/apiService';
 import logger from "src/error/Logger";
 
@@ -133,7 +134,7 @@ export default {
 
         onClickAsset(symbol) {
             logger.log.debug('CSectorTable.navAsset - ',symbol);
-            CommonFunc.navAsset(this,symbol);
+            NavFunc.navAsset(this,symbol);
         },
 
     }

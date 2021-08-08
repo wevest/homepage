@@ -59,6 +59,7 @@
 <script>
 import { store } from 'src/store/store';
 import { MoaConfig } from 'src/data/MoaConfig';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
@@ -196,7 +197,7 @@ export default {
 
 		onClickTweet(id) {
 			logger.log.debug("onClickTweet : id = ", id);			
-			CommonFunc.navTweetDetail(this,id);
+			NavFunc.navTweetDetail(this,id);
 			//this.$emit("onClickBlog",{page_id:page_id});
 		},
 
@@ -211,7 +212,7 @@ export default {
 
 		onClickMoreBlog() {
 			logger.log.debug("BlogList.onClickMoreBlog : 1");			
-            CommonFunc.navBlog(this,this.category,this.symbol,this.objectId);
+            NavFunc.navBlog(this,this.category,this.symbol,this.objectId);
 		},
 
         onClickRating(dicParam) {

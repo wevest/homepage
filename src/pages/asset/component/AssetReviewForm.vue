@@ -57,6 +57,7 @@
 <script>
 import { CONST } from 'src/data/const';
 import {store} from "src/store/store";
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 import WTextArea from "src/components/WTextArea";
@@ -267,7 +268,7 @@ export default {
                 logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
                 if (value) {
 					store.getters.nav.add(this.$route);					
-                    CommonFunc.navSignin(_this);
+                    MavFunc.navSignin(_this);
                 }
             });
 		},

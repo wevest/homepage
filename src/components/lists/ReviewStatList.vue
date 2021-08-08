@@ -52,6 +52,7 @@
 
 <script>
 import { store } from 'src/store/store';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
@@ -158,7 +159,7 @@ export default {
 
         onClickAsset(asset) {
             logger.log.debug('onClickAsset : asset = ',asset);          
-            CommonFunc.navReview(this,asset.category);     
+            NavFunc.navReview(this,asset.category);     
         },
 
         onClickLoadMore() {
@@ -175,7 +176,7 @@ export default {
             logger.log.debug('AssetReviewList.onClickMoreReview');
 
             //store.getters.nav.add(this.$route);
-            CommonFunc.navReview(this,this.category,this.objectId);
+            NavFunc.navReview(this,this.category,this.objectId);
         }
     }
 }

@@ -50,6 +50,7 @@ import OverviewScaledChart from 'src/pages/world/OverviewScaledChart.vue';
 //import RiskChart from 'src/pages/world/RiskChart';
 
 import {MoaConfig} from 'src/data/MoaConfig';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import MoaBackendAPI from 'src/services/apiService';
 import DataService from 'src/services/dataService';
@@ -214,14 +215,14 @@ export default {
 
         navSector(category) {
             logger.log.debug("SearchAnalyst.navSector - ",category);
-            CommonFunc.navSector(this,category);
+            NavFunc.navSector(this,category);
         },
 
         navInstrument(asset,date,category,name,price) {
             logger.log.debug("SearchAnalyst.navInstrument - ",category);
             let a_data = {asset:asset, jw52_date:date, name:name, category:category, jw52_price:price};
             CommonFunc.setAppData('asset',a_data);
-            CommonFunc.navInstrument(this,asset);
+            NavFunc.navInstrument(this,asset);
         },
 
         reload(offset) {

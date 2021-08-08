@@ -634,13 +634,11 @@ export default class MoaBackendAPI {
 		let a_method = "/api/asset/assets/";
 		if (reqParam.hasOwnProperty("asset_id")) {
 			a_method += "?asset_id=" + reqParam.asset_id;
-		} else if (reqParam.hasOwnProperty("category")) {
+		} else if ((reqParam.hasOwnProperty("category")) && (reqParam.category) ) {
 			a_method += "?category=" + reqParam.category;
-		}
-
-		if (!reqParam.hasOwnProperty("limit")) {
-			//a_method += "?limit=10000";
-		}
+		} else if ((reqParam.hasOwnProperty("query")) && (reqParam.query) ) {
+      		a_method += "?query=" + reqParam.query;
+    	}
 
 		let url = MoaBackendAPI.getUrl(MoaConfig.urls.cms, a_method);
 		url = CommonFunc.addLimitOffsetToQuery(url, reqParam);

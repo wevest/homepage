@@ -3,18 +3,21 @@
     <div>
         
 		<CTitle ttype='subtitle' :title="v_title" desc=""
-			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreAsset"></CTitle>
+			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreAsset" 
+            v-if="v_title.length>0" />
 
         <q-skeleton v-if="!v_table_loaded" animation="fade" square height="150px" />
         <div v-show="v_table_loaded">
             <q-table
                 row-key="name" flat                    
-                hide-pagination hide-no-data
+                hide-pagination hide-no-data hide-bottom
+                selection="multiple"
+                :selected.sync="v_selected"
                 :data="v_assets.items"
                 :columns="v_headers"            
                 :loading="v_table_loading"
                 :filter="v_filter"
-                :rows-per-page-options="[0]"
+                :rows-per-page-options="[0]"                
                 :pagination.sync="v_pagination" >
 
                 <template v-slot:top-right v-if="hideHeader=='0'">
@@ -43,6 +46,9 @@
                 <template v-slot:body="props">
 
                     <q-tr :props="props" v-ripple @click="onClickAsset(props.row)" >
+                        <q-td>                     
+                            <q-checkbox v-model="props.selected"/><!-- add this line -->
+                        </q-td>                                        
                         <q-td key="cmc_rank" :props="props">{{ props.row.cmc_rank }}</q-td>
                         <q-td key="symbol" :props="props" class="text-red-10 text-bold">
                             <div class="row" style="width:80px;">
@@ -105,6 +111,7 @@
 
 <script>
 import { store } from 'src/store/store';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
@@ -157,6 +164,7 @@ export default {
     data () {
         return {
             g_data: null,
+
             v_maxLength: this.maxLength,
             v_more_caption: this.moreCaption,								
 
@@ -164,6 +172,7 @@ export default {
 
             v_assets: new AssetListModel(),
             v_category: null,
+            v_selected: [],
 
             v_headers: [                
                 { name:'cmc_rank', label: this.$t('name.rank'), field: 'cmc_rank', sortable: true, align:'left', style:"max-width:14px"},
@@ -189,10 +198,17 @@ export default {
             this.$refs.loadMore.clear();
         },
 
-        update(category) {
+        getCount() {
+            return this.$refs.loadMore.v_count;
+        },        
+        getSelected() {
+            return this.v_selected;
+        },
+        update(category,keyword) {
             const _this=this;
             
-            let dicParam = {category:category, limit:this.$refs.loadMore.v_next.limit, offset:this.$refs.loadMore.v_next.offset};
+            let dicParam = {category:category, query:keyword,
+                limit:this.$refs.loadMore.v_next.limit, offset:this.$refs.loadMore.v_next.offset};
 
             this.v_loading_table = true;                        
             this.v_assets.load(dicParam).then(response=>{
@@ -203,6 +219,8 @@ export default {
                 _this.v_loading_table = false;
 
                 _this.v_table_loaded = true;
+
+                _this.$emit('onUpdateDone',_this.$refs.loadMore);
 
             }).catch(err=>{
                 logger.log.error("AssetList.update : err=",err);
@@ -215,20 +233,20 @@ export default {
             this.update(this.v_category);
         },
 
-        onClickAsset: function(asset) {
+        onClickAsset(asset) {
             logger.log.debug('AssetList.onClickAsset : asset = ',asset);          
-            CommonFunc.navAsset(this,asset.symbol,asset.id);
+            NavFunc.navAsset(this,asset.symbol,asset.id);
         },
 
-        onClickMoreAsset: function() {
+        onClickMoreAsset() {
             logger.log.debug('AssetList.onClickMoreAsset');
-            CommonFunc.navAssetIndex(this);
+            NavFunc.navAssetIndex(this);
         },
         onClickMore() {
             logger.log.debug('AssetList.onClickMore');
         },
 
-        onClickLoadMore: function() {                        
+        onClickLoadMore() {                        
             logger.log.debug('AssetList.onClickLoadMore : v_next=',this.$refs.loadMore.v_next);
             
             this.v_maxLength = 100000;

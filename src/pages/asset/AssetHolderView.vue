@@ -18,6 +18,7 @@
 
 
 <script>
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
@@ -62,7 +63,7 @@ export default {
             if (! CommonFunc.isEmptyObject(this.$route.query.id)) {
                 return;
             }                
-            CommonFunc.navError404(this);
+            NavFunc.navError404(this);
         },
 
         setAsset(query) {

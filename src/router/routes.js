@@ -222,6 +222,11 @@ const routes = [
 				component: () => import("pages/bookmark/BookmarkView.vue"),
 			},
 			{
+				name: "add_bookmark",
+				path: "add_bookmark",
+				component: () => import("pages/bookmark/AddBookmarkView.vue"),
+			},
+			{
 				name: "error_404",
 				path: "error_404",
 				component: () => import("pages/Error404.vue"),

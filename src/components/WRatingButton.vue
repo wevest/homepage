@@ -30,6 +30,7 @@
 
 <script>
 import {store} from "src/store/store";
+import NvaFunc from 'src/util/NavFunc';
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
@@ -122,7 +123,7 @@ export default {
             store.getters.components.getComponent('confirmDialog').show('Please login first',function(value) {
                 logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
                 if (! value) return;
-                CommonFunc.navSignin(_this);                
+                NavFunc.navSignin(_this);                
             });            
 
         }

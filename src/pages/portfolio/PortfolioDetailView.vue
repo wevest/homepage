@@ -189,6 +189,7 @@
 <script>
 import {store} from 'src/store/store';
 import {MoaConfig} from 'src/data/MoaConfig';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 import UserModel from "src/models/UserModel";
@@ -311,7 +312,7 @@ export default {
                 }                
             }                
 
-            CommonFunc.navError404(this);
+            NavFunc.navError404(this);
         },        
 
         prepare() {
@@ -570,7 +571,7 @@ export default {
 
         onClickSymbol(symbol) {
             logger.log.debug("PortfolioDetail.onClickSymbol : symbol=",symbol);        
-            //CommonFunc.navAsset(this,symbol);
+            //NavFunc.navAsset(this,symbol);
         },
 
 		onClickLoadMore() {
@@ -584,7 +585,7 @@ export default {
             logger.log.debug("PortfolioDetail.onClickMore : portfolio_item=",portfolio_item);
             
             //store.getters.nav.add(this.$route);
-            CommonFunc.navAsset(this,portfolio_item.api_asset.symbol,portfolio_item.api_asset.id);
+            NavFunc.navAsset(this,portfolio_item.api_asset.symbol,portfolio_item.api_asset.id);
         },
         onPortfolioItemAdd(dicParam) {
             logger.log.debug("PortfolioDetail.onPortfolioItemAdd : dicParam=",dicParam);

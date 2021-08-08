@@ -118,6 +118,7 @@
 
 <script>
 import { store } from 'src/store/store';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import CMSAPI from 'src/services/cmsService';
 import logger from "src/error/Logger";
@@ -294,14 +295,14 @@ export default {
             //this.$emit("onClickRating",review);
         },
 
-        onClickAsset: function(asset) {
+        onClickAsset(asset) {
           logger.log.debug('onClickBlog : asset = ',asset);
           
           let dic_param = { name:'asset', path:'asset', params:{ symbol:asset } };          
           this.$emit("onClickAsset",dic_param);          
         },
 
-        onClickLoadMore: function() {
+        onClickLoadMore() {
             logger.log.debug('AssetReviewList.onClickLoadMore');
             this.$emit("onClickLoadmore",{});
 
@@ -350,7 +351,7 @@ export default {
             logger.log.debug('AssetReviewList.onClickMoreReview');
 
             store.getters.nav.add(this.$route);
-            CommonFunc.navReview(this,this.category,this.assetId);
+            NavFunc.navReview(this,this.category,this.assetId);
         }
     }
 }

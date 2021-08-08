@@ -121,7 +121,7 @@
 import { CONST } from 'src/data/const';
 import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
-//import MoaBackendAPI from 'src/services/apiService';
+import NavFunc from 'src/util/NavFunc';
 import logger from "src/error/Logger";
 
 import {AssetModel} from "src/models/AssetModel";
@@ -219,7 +219,7 @@ export default {
                 }                
             }                
 
-            CommonFunc.navError404(this);
+            NavFunc.navError404(this);
         },
         prepare() {
             this.v_asset.symbol = this.$route.query.symbol;
@@ -501,7 +501,7 @@ export default {
 
         onClickBlog(param) {
             logger.log.debug('AssetView.onClickBlog',this.$route);			
-			CommonFunc.navBlog(this,param.page_id);
+			NavFunc.navBlog(this,param.page_id);
         },
 
         onBlogAdded(dic_param) {
@@ -522,7 +522,7 @@ export default {
         onClickMoreReview() {
             logger.log.debug('AssetView.onClickMoreReview');
             store.getters.nav.add(this.$route);
-            CommonFunc.navReview(this,this.v_asset.symbol,this.v_asset.id);
+            NavFunc.navReview(this,this.v_asset.symbol,this.v_asset.id);
         },
 
         onClickChart(evt) {
@@ -538,12 +538,12 @@ export default {
         onClickPrice(dicParam) {
             logger.log.debug('AssetView.onClickPrice');
             //store.getters.nav.add(this.$route);
-            CommonFunc.navAssetDetail(this,this.v_asset.symbol,this.v_asset.id,this.v_tab);
+            NavFunc.navAssetDetail(this,this.v_asset.symbol,this.v_asset.id,this.v_tab);
         },
 
         onClickWrite() {
             logger.log.debug('AssetView.onClickWrite');
-            CommonFunc.navTweetWriter(this,this.v_asset.id)
+            NavFunc.navTweetWriter(this,this.v_asset.id)
         },
 
         onClickWriteQuestion() {
@@ -584,7 +584,7 @@ export default {
 
         onClickHolder() {
             logger.log.debug('AssetView.onClickHolder');
-            CommonFunc.navHolder(this,this.v_asset.id,this.v_asset.symbol);
+            NavFunc.navHolder(this,this.v_asset.id,this.v_asset.symbol);
         },
 
         onSearchEvent(item) {

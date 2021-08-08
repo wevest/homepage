@@ -93,6 +93,7 @@ import { Viewer } from "@toast-ui/vue-editor";
 
 import { CONST } from "src/data/const";
 import { store } from "src/store/store";
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
@@ -101,6 +102,7 @@ import {
   AnswerPageModel,
   AnswerPageListModel,
 } from "src/models/PageModel";
+
 import { AnswerCommentListModel } from "src/models/CommentModel";
 
 import WSubinfo from "components/WSubinfo";
@@ -155,11 +157,11 @@ export default {
         }
     },
 
-    created: function () {
+    created() {
         //console.log("HomeView.created");
         this.validateQuery();
     },
-    mounted: function() {
+    mounted() {
         logger.log.debug("AssetQAView.mounted - param=",this.$route.query);
         
         this.v_question.id = this.$route.query.id;
@@ -173,7 +175,7 @@ export default {
                 return;
             }                
 
-            CommonFunc.navError404(this);
+            NavFunc.navError404(this);
         },
 
         setContent(content) {
@@ -248,7 +250,7 @@ export default {
             store.getters.components.getComponent('confirmDialog').show('Please login first',function(value) {
                 logger.log.debug("AssetQAView.onClickAnswer - confirm=",value,_this.$route);
                 if (value) {
-                    CommonFunc.navSignin(_this);
+                    NavFunc.navSignin(_this);
                 }
             });
         },
@@ -326,18 +328,18 @@ export default {
             this.$router.push(dic_param);
         },
         
-        onClickDelete: function () {
+        onClickDelete() {
             logger.log.debug("AssetQAView.onClickDelete");
             const _this = this;
             this.v_question.remove().then((response) => {
                 logger.log.debug("AssetQAView.onClickDelete : response=", response);
                 CommonFunc.showOkMessage(_this, "Question Deleted");
-                CommonFunc.navBack(_this);
+                NavFunc.navBack(_this);
             }).catch((err) => {
                 CommonFunc.showErrorMessage(_this, err.data.msg);
             });
         },
-        onClickAnswerUpdate: function (answer) {
+        onClickAnswerUpdate(answer) {
             logger.log.debug("AssetQAView.onClickAnswerUpdate : answer=", answer);
             this.$refs.answerWriter.show(answer);
         },

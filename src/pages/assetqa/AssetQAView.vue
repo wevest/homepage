@@ -99,7 +99,7 @@ export default {
                 }                
             }                
 
-            CommonFunc.navError404(this);
+            NavFunc.navError404(this);
         },
 
         refresh(symbol,offset=360) {

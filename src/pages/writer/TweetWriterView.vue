@@ -46,6 +46,7 @@
 
 <script>
 import { store } from 'src/store/store';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 
@@ -89,6 +90,7 @@ export default {
             },        
 
             v_config: {
+                key: 're1H1qB1C1D7C7E6C5F4iAa1Tb1YZNYAh1CUKUEQOHFVANUqD1G1F4A3B1C8E5D2B4B4==',
                 charCounterCount: true,
                 toolbarBottom: true,
                 toolbarButtons: {
@@ -115,7 +117,7 @@ export default {
                 return;
             }
 
-            CommonFunc.navError404(this);
+            NavFunc.navError404(this);
         },        
         prepare() {
             this.setTweet(this.$route);

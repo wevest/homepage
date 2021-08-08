@@ -96,6 +96,7 @@ import { Viewer } from "@toast-ui/vue-editor";
 import { CONST } from 'src/data/const';
 import { MoaConfig } from 'src/data/MoaConfig';
 import { store } from 'src/store/store';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 
@@ -196,7 +197,7 @@ export default {
                 }
             }                
 
-            CommonFunc.navError404(this);
+            NavFunc.navError404(this);
         },
 
         setContent(content) {
@@ -288,7 +289,7 @@ export default {
             
             this.v_post.remove().then( response => {
                 CommonFunc.showOkMessage(_this,'Blog deleted');       
-                CommonFunc.navBack(_this);
+                NavFunc.navBack(_this);
             }).catch(err=>{
                 CommonFunc.showErrorMessage(_this,err.data.msg);
             });

@@ -60,6 +60,7 @@
 
 <script>
 import { store } from 'src/store/store';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 
@@ -111,7 +112,7 @@ export default {
         validateQuery() {                        
             if (this.$route.query.hasOwnProperty('id')) {
                 if (CommonFunc.isEmptyObject(this.$route.query.id)) {
-                    CommonFunc.navError404(this);
+                    NavFunc.navError404(this);
                 }
             }            
             
@@ -154,7 +155,7 @@ export default {
 
         onClickUpdate() {
             logger.log.debug("TweetDetailView.onClickUpdate : tweet=",this.v_tweet);
-            CommonFunc.navTweetWriter(this,this.v_tweet.asset.id,this.v_tweet.id,this.v_tweet.text);
+            NavFunc.navTweetWriter(this,this.v_tweet.asset.id,this.v_tweet.id,this.v_tweet.text);
         },
 
         onClickDelete() {                        
@@ -164,7 +165,7 @@ export default {
             
             this.v_tweet.remove().then( response => {
                 CommonFunc.showOkMessage(_this,'Tweet deleted');       
-                CommonFunc.navBack(_this);
+                NavFunc.navBack(_this);
             }).catch(err=>{
                 CommonFunc.showErrorMessage(_this,err.data.msg);
             });

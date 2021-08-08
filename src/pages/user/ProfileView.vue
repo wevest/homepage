@@ -99,6 +99,7 @@
 import AWS from 'aws-sdk';
 import {MoaConfig} from 'src/data/MoaConfig';
 import {store} from 'src/store/store';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
@@ -193,7 +194,7 @@ export default {
         validateQuery() {                        
             if (this.$route.query.hasOwnProperty('username')) {
                 if (CommonFunc.isEmptyObject(this.$route.query.username)) {
-                    CommonFunc.navError404(this);
+                    NavFunc.navError404(this);
                 }
             }            
             
@@ -325,12 +326,12 @@ export default {
 
         onClickMorePortfolio() {
             logger.log.debug("ProfileView.onClickMorePortfolio");
-            CommonFunc.navPortfolioView(this,this.v_user);
+            NavFunc.navPortfolioView(this,this.v_user);
         },
 
         onClickPortfolio(portfolio) {
             logger.log.debug("ProfileView.onClickPortfolio:portfolio=",portfolio);
-            CommonFunc.navPortfolio(this,this.v_user.username,portfolio.id);
+            NavFunc.navPortfolio(this,this.v_user.username,portfolio.id);
         },
 
         onClickFollower(user) {

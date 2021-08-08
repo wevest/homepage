@@ -71,6 +71,7 @@
 <script>
 import { store } from 'src/store/store';
 import { MoaConfig } from 'src/data/MoaConfig';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
@@ -186,7 +187,7 @@ export default {
 
         onClickQuestion(jsonObject) {
             logger.log.debug('onClickQuestion - ',jsonObject);             
-            CommonFunc.navQADetail(this,jsonObject.id);            
+            NavFunc.navQADetail(this,jsonObject.id);            
             //this.$emit("onClickQuestion",jsonObject);          
         },
 
@@ -202,12 +203,12 @@ export default {
 
         onClickAvatar(username) {
             logger.log.debug('onClickAvatar');
-            CommonFunc.navProfile(this,username);
+            NavFunc.navProfile(this,username);
         },
 
         onClickMoreQuestion() {
             logger.log.debug('AssetQuestionList.onClickMoreQuestion');
-            CommonFunc.navQA(this,this.symbol,this.assetId);
+            NavFunc.navQA(this,this.symbol,this.assetId);
         }
 
     }

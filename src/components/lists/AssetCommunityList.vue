@@ -76,6 +76,7 @@
 
 <script>
 import { store } from 'src/store/store';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
@@ -190,18 +191,18 @@ export default {
 
         onClickAsset(asset) {
             logger.log.debug('AssetCommunityList.onClickAsset : asset = ',asset);          
-            CommonFunc.navAsset(this,asset.symbol,asset.id);
+            NavFunc.navAsset(this,asset.symbol,asset.id);
         },
 
         onClickMoreAsset: function() {
             logger.log.debug('AssetCommunityList.onClickMoreAsset');
-            CommonFunc.navAssetIndex(this);
+            NavFunc.navAssetIndex(this);
         },
         onClickMore() {
             logger.log.debug('AssetCommunityList.onClickMore');
         },
 
-        onClickLoadMore: function() {                        
+        onClickLoadMore() {                        
             logger.log.debug('AssetCommunityList.onClickLoadMore : v_next=',this.$refs.loadMore.v_next);
             
             this.v_maxLength = 100000;
@@ -251,7 +252,7 @@ export default {
 		onSearch(asset) {
 			logger.log.debug("AssetCommunityList.onSearch=", asset);
 			//this.movePage(item);
-            CommonFunc.navAsset(this,asset.symbol,asset.id);
+            NavFunc.navAsset(this,asset.symbol,asset.id);
 		},
     }
 }

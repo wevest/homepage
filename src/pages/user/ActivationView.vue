@@ -35,6 +35,7 @@
 <script>
 import {store} from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
+import NavFunc from 'src/util/NavFunc';
 import logger from "src/error/Logger";
 
 import UserModel from "src/models/UserModel";
@@ -69,7 +70,7 @@ export default {
 
         onClick() {
             logger.log.debug("AvtivationView.click");
-            CommonFunc.navSignin(this);
+            NavFunc.navSignin(this);
         }
     }
 };

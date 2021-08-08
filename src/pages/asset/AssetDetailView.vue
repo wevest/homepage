@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import MoaBackendAPI from 'src/services/apiService';
 import DataService from 'src/services/dataService';
@@ -121,7 +122,7 @@ export default {
                 }                
             }                
 
-            CommonFunc.navError404(this);
+            NavFunc.navError404(this);
         },
 
         refresh() {
@@ -206,7 +207,7 @@ export default {
         },
 
         onClickShare(asset) {
-            let a_url = CommonFunc.navAssetDetail(this,asset.symbol,asset.id,true);
+            let a_url = NavFunc.navAssetDetail(this,asset.symbol,asset.id,true);
             logger.log.debug("AssetDetailView.onClickShare=",asset,a_url);            
             CommonFunc.copyUrl(this,a_url);
         },

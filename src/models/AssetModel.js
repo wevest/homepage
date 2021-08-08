@@ -391,7 +391,8 @@ export class AssetListModel extends baseCollection{
             //if (limit) reqParam['limit'] = limit;
             //if (offset) reqParam['offset'] = offset;
             //if (asset_id) reqParam['asset_id'] = asset_id;
-
+            logger.log.debug("AssetList.load : dicParam=",reqParam);
+            
             APIService.getAssetData(reqParam,function(response) {
                 logger.log.debug("load : response=",response);
 

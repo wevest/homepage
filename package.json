@@ -38,7 +38,8 @@
     "vue-jsonp": "^2.0.0",
     "vue-mc": "^0.6.0",
     "vue-moment": "^4.1.0",
-    "vuelidate": "^0.7.6"
+    "vuelidate": "^0.7.6",
+    "vuedraggable": "^2.23.2"
   },
   "devDependencies": {
     "@quasar/app": "^2.2.10",

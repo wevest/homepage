@@ -7,6 +7,7 @@
 
 <script>
 import {store} from "src/store/store";
+import NvaFunc from 'src/util/NavFunc';
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
@@ -80,7 +81,7 @@ export default {
                         _this.$emit("onClick",{});
                         return;
                     }
-                    CommonFunc.navSignin(_this);
+                    NavFunc.navSignin(_this);
                 });                            
             }
 

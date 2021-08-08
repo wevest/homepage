@@ -114,6 +114,7 @@ import { mapState } from "vuex";
 import { store } from "src/store/store";
 import { CONST } from "src/data/const";
 import { MoaConfig } from "src/data/MoaConfig";
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
@@ -228,7 +229,7 @@ export default {
 				return;	
 			}
 
-			CommonFunc.navAsset(this, item.symbol, item.id);
+			NavFunc.navAsset(this, item.symbol, item.id);
 		},
 
 
@@ -260,7 +261,7 @@ export default {
 
 		onClickNotification() {
 			logger.log.debug("MainLayout.onClickNotification");
-			CommonFunc.navNotification(this);
+			NavFunc.navNotification(this);
 		},
 
 		onClickSignIn() {

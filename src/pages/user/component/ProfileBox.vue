@@ -128,6 +128,7 @@
 import AWS from 'aws-sdk';
 import {MoaConfig} from 'src/data/MoaConfig';
 import {store} from 'src/store/store';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
@@ -393,7 +394,7 @@ export default {
         onClickMoreButton(dicParam) {
             logger.log.debug("ProfileView.onClickMoreButton : dicParam=",dicParam);
             if (dicParam.caption=='Change Password') {
-                CommonFunc.navChangePassword(this);
+                NavFunc.navChangePassword(this);
             }
 
         },

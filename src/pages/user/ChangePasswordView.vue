@@ -69,6 +69,7 @@
 
 <script>
 import { store } from 'src/store/store';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import CTitle from 'components/CTitle';
@@ -200,7 +201,7 @@ export default {
         
         onClickSignin() {
             logger.log.debug('ResetPasswordView.onClickSignin');
-            CommonFunc.navSignin(this,false);
+            NavFunc.navSignin(this,false);
         }
     }
 

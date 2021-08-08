@@ -27,6 +27,12 @@ export class baseCollection {
         return _.find(this.items,{id:id} );
     }
 
+    find(key,value) {
+        let dicData = {};
+        dicData[key] = value;
+        return _.find( this.items, dicData );    
+    }
+    
     delete(id) {
         //logger.log.debug("baseCollection.delete : items=",this.items);
         //let removed = _.remove(this.items, {id:id});

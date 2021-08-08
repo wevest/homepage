@@ -51,6 +51,7 @@
 <script>
 import {store} from 'src/store/store';
 import {MoaConfig} from 'src/data/MoaConfig';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
@@ -125,7 +126,7 @@ export default {
                     return;
                 }
 
-                CommonFunc.navHome(_this);
+                NavFunc.navHome(_this);
                 
             }).catch( err => {                
                 logger.log.debug("SignIn.err=",err);
@@ -158,7 +159,7 @@ export default {
                     return;
                 }
 
-                CommonFunc.navResetNotification(_this);
+                NavFunc.navResetNotification(_this);
 
             },function(err) {
                 logger.log.error("SignView.onSaveEdit:err=",err);
@@ -176,7 +177,7 @@ export default {
         onClickForgot() {
             logger.log.debug("SignView.onClickForgot");
             //this.$refs.dialogEdit.show('email','text','');
-            CommonFunc.navForgotPassword(this);
+            NavFunc.navForgotPassword(this);
         },
 
     }

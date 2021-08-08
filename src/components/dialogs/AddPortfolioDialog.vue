@@ -297,7 +297,7 @@ export default {
             this.v_show = true;
         },
 
-        hide: function() {
+        hide() {
             this.v_show = false;
         },
 

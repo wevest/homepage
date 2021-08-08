@@ -6,13 +6,14 @@ import AuthService from 'src/services/authService';
 
 import {baseCollection} from 'src/models/baseModel';
 
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import Hasher from 'src/util/Hasher';
 import logger from "src/error/Logger";
 
 import LocalStorageService from 'src/services/localStorage';
 import { PortfolioListModel, PortfolioModel, PortfolioItemModel} from "src/models/PortfolioModel";
-
+import { BookmarkListModel } from "src/models/BookmarkModel";
 
 export class FeedModel {
     id=null;
@@ -71,7 +72,7 @@ export class FeedModel {
         let a_url = "";
 
         if (this.verb=='post') {
-            a_url = CommonFunc.navBlogDetail(null,this.id,true);
+            a_url = NavFunc.navBlogDetail(null,this.id,true);
         }
         
         return a_url;
@@ -311,6 +312,7 @@ export default class User {
     following = new FriendListModel();
 
     feeds = new FeedListModel();
+    bookmarks = new BookmarkListModel();
 
     constructor() {
 
@@ -343,7 +345,8 @@ export default class User {
         this.follower = new FriendListModel();
         this.following = new FriendListModel();    
         this.feeds = new FeedListModel();
-        
+        this.bookmarks = new BookmarkListModel();
+
         if (CommonFunc.isEmptyObject(this.display_name)) {
             this.display_name = this.username;
         }
@@ -374,6 +377,7 @@ export default class User {
             loggedIn:this.loggedIn,
             email: this.email,
             default_lang: this.default_lang,        
+            bookmarks: this.bookmarks.toDict(),
             extra:'',
             token:''
         };
@@ -405,7 +409,6 @@ export default class User {
             this.default_lang = obj.default_lang;
         }
         
-
         this.password = '';
         if ( (obj) && (obj.hasOwnProperty('extra'))) {
             if (this.username) {
@@ -421,6 +424,12 @@ export default class User {
                 this.token = Hasher.decode(this.username,obj.token);
             }            
         }
+
+
+        if ( (obj) && (obj.hasOwnProperty('bookmarks'))) {
+            this.bookmarks.fromJson(obj.bookmarks);
+        }
+        
     }
 
     getToken() {
@@ -751,6 +760,20 @@ export default class User {
         const _this = this;
         return new Promise(function(resolve,reject) {
             _this.feeds.loadMine(_this.id,_this.username,offset,limit,uuid).then(response=>{
+                resolve(response);
+            }).catch(err=>{
+                reject(err);
+            });                
+        });            
+    }
+
+    loadBookmarks() {
+        logger.log.debug("UserModel.loadBookmarks");
+        const _this = this;
+
+        let dicParam = {userid:this.id,offset:0,limit:1000};
+        return new Promise(function(resolve,reject) {
+            _this.bookmarks.load(dicParam).then(response=>{
                 resolve(response);
             }).catch(err=>{
                 reject(err);

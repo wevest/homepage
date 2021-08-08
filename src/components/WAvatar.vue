@@ -15,6 +15,7 @@
 
 <script>
 import {store} from 'src/store/store';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
@@ -35,7 +36,7 @@ export default {
     methods: {
         onClickAvatar: function() {
             logger.log.debug("WAvatar.onClick");            
-            CommonFunc.navProfile(this,this.username);
+            NavFunc.navProfile(this,this.username);
         }
     }
 }
