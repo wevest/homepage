@@ -22,7 +22,7 @@
 
 
 <script>
-import { MoaConfig } from 'src/data/MoaConfig';
+import { Config } from 'src/data/Config';
 import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
@@ -78,7 +78,7 @@ export default {
         v_shorten() {
             return (value) => {
                 if (this.shortenBiography=="1") {
-                    return CommonFunc.shortenString(value,MoaConfig.setting.maxBiographyLength);
+                    return CommonFunc.shortenString(value,Config.setting.maxBiographyLength);
                 }
                 return value;
             };

@@ -8,24 +8,10 @@
         <div v-if="v_tweet">
             <div class="gBoxNoMargin">
 
-                <Froala :tag="'textarea'" :config="v_config" v-model="v_tweet.text"></Froala>
-
-<!--                
-                <BaseEditor ref="baseEditor" :contents="v_tweet.text" @onPostSave="onPostSave" />
-
-                <Editor 
-                    hide-bottom-space
-                    ref="toastEditor"
-                    :value="v_post.text"
-                    :options="editorOptions"
-                    :visible="editorVisible"
-                    :initialValue="editorHtml"
-                    previewStyle="vertical"
-                    height="360px"
-                    mode="wysiwyg"
-                    initialEditType="wysiwyg"
-                />
--->                
+                <froala ref="editor" :tag="'textarea'" id="v_text" name="v_text"
+                    :immediateVueModelUpdate="true" :config="v_config"
+                    v-model="v_text"></froala>
+           
                 <div class="gErrorMsg" v-if="v_error.text.error">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{v_error.text.msg}}
                 </div>
@@ -46,6 +32,7 @@
 
 <script>
 import { store } from 'src/store/store';
+import { Config } from 'src/data/Config';
 import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
@@ -62,25 +49,29 @@ export default {
     components: {
         CTitle,
         WWriterToolbar,
+        VueFroala
         //BaseEditor
     },
     computed: {
         v_me() {
             return store.getters.me;
         },
-        v_is_new: function() {
+        v_is_new() {
             if (this.v_tweet.id) {
                 return false;
             }
             return true;
-        }
+        },
     },
     data() {
         return {
-            g_data: '',
+            editor: null,
+
             g_page_id: null,
             g_category_id: null,
             
+            v_update_flag: false,
+            v_text: '',
             v_tweet: new TweetModel(),
                     
             v_page: {title:this.$t('page.cryptovc.title'), desc:''},
@@ -90,12 +81,24 @@ export default {
             },        
 
             v_config: {
-                key: 're1H1qB1C1D7C7E6C5F4iAa1Tb1YZNYAh1CUKUEQOHFVANUqD1G1F4A3B1C8E5D2B4B4==',
-                charCounterCount: true,
-                toolbarBottom: true,
-                toolbarButtons: {
-                    indexOf: key => Object.keys(this).indexOf(key),
-                }
+                key: Config.key.froala,
+                attribution: false,
+                //iframe: true,
+
+                htmlRemoveTags: ["script"],
+                immediateVueModelUpdate: true,
+                codeMirrorOptions: {
+                    indentWithTabs: true,
+                    lineNumbers: true,
+                    lineWrapping: true,
+                    mode: "text/html",
+                    tabMode: "indent",
+                    tabSize: 2,
+                },
+                toolbarButtons: [
+                    ['fontSize', 'textColor', 'backgroundColor'],
+                    ['insertLink', 'insertImage', 'insertVideo', 'emoticons','embedly']
+                ],
             }
         }
     },
@@ -105,12 +108,25 @@ export default {
     },
     mounted() {        
         logger.log.debug("TweetWriterView.mounted : params=",this.$route.query);
-        this.prepare();
+        
+        this.$nextTick(function() {
+            // 모든 화면이 렌더링된 후 실행합니다.            
+            this.prepare();
+            //this.setContents();            
+        });
+        
+    },
+    beforeUpdate() {
+        //logger.log.debug("TweetWriterView.beforeUpdated : params=",this.$route.query);
+        //this.prepare();
     },
     updated() {
-        //console.log("HomeView.updated");
+        logger.log.debug("TweetWriterView.Updated");
+        this.setContents();
     },
-    
+    beforeDestroy() {
+        //this.v_update_flag = false;
+    },
     methods: {
         validateQuery() {            
             if (! CommonFunc.isEmptyObject(this.$route.query.id)) {
@@ -118,25 +134,32 @@ export default {
             }
 
             NavFunc.navError404(this);
-        },        
-        prepare() {
-            this.setTweet(this.$route);
-            //this.fillData();
         },
-
+        prepare() {
+            this.setTweet(this.$route);            
+        },
+        setContents() {
+            //logger.log.debug("TwitterWriter.setContents : v_tweet=",this.v_update_flag,this.v_tweet);
+            if (! this.v_update_flag) {
+                //logger.log.debug("TwitterWriter.setContents :text=",this.v_tweet.text); 
+                this.v_text = this.v_tweet.text;
+                this.v_update_flag = true;
+            }
+        },
         setTweet(route) {
+            logger.log.debug("TwitterWriter.setTweet : v_tweet=",this.v_tweet);
             this.v_tweet.asset_id = route.query.id;
             if (route.query.hasOwnProperty('tweet_id')) {
-                logger.log.debug("TwitterWriter.setTweet : contents=",route.params.contents);
-
+                //logger.log.debug("TwitterWriter.setTweet : contents=",route.params.contents);
                 this.v_tweet.id = route.query.tweet_id;
-                //this.v_tweet.text = route.params.contents;
-                this.v_tweet.text = "route.params.content";
+                this.v_tweet.text = route.params.contents;
             }
+
+            this.v_text = '1';
         },
         
         validate() {
-            this.v_tweet.text = this.$refs.baseEditor.getContents();
+            //this.v_tweet.text = this.v_text;
             if (CommonFunc.isEmptyObject(this.v_tweet.text)) {
                 this.v_error.text.error = true;
                 this.v_error.text.msg = 'Please type something';
@@ -187,6 +210,7 @@ export default {
         onClickSave() {
             logger.log.debug('TweetWriterDialog.onClickSave');
 
+            this.v_tweet.text = this.v_text;
             if (! this.validate() ) {
                 return;
             }
@@ -198,7 +222,7 @@ export default {
 
         onClickTest() {
             logger.log.debug('TweetWriterDialog.onClickTest');
-            this.v_tweet.text = this.$route.params.contents;
+            this.v_text = "this.$route.params.contents";
         }
     }
 

@@ -4,8 +4,11 @@
             <div>
                 <span>{{ title }}</span>
             </div>
-            <q-space v-if="loadMoreCaption.length>0" />
+            <q-space v-if="(loadMoreCaption.length>0) || (extraCaption.length>0)" />
             <div>                
+                <q-btn class="gButtonSM" flat ripple
+                    :label="extraCaption" @click="onClickExtra" v-if="extraCaption.length>0" />
+
                 <q-btn class="gButtonSM" flat ripple
                     :label="loadMoreCaption" @click="onClickMore" v-if="loadMoreCaption.length>0" />
             </div>
@@ -39,6 +42,10 @@ export default {
         loadMoreCaption: {
             type:String,
             default:""
+        },
+        extraCaption: {
+            type:String,
+            default:""
         }
     },
     computed: {
@@ -54,8 +61,12 @@ export default {
         }
     },
     methods: {        
-        onClickMore: function() {
+        onClickMore() {
             this.$emit("onClickTitleMore",{});
+        },
+
+        onClickExtra() {
+            this.$emit("onClickTitleExtra",{});
         }
     }
 }

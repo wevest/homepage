@@ -18,7 +18,7 @@
 
 <script>
 import {store} from 'src/store/store';
-import {MoaConfig} from 'src/data/MoaConfig';
+import {Config} from 'src/data/Config';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 

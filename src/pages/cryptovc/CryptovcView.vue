@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { MoaConfig } from 'src/data/MoaConfig';
+import { Config } from 'src/data/Config';
 import { CONST } from 'src/data/const';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';

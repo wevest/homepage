@@ -18,7 +18,6 @@ export class PostPageModel {
     api_tags = null;
     api_owner = {id:null, avatar:'', avatar_thumb:'', username:null, first_name:'', last_name:'', biography:''};
 
-    
     body = null;
     text = null;
     dislike_count=null;

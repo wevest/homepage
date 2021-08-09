@@ -49,7 +49,7 @@ import OverviewHeatmap from '@/view/component/OverviewHeatmap.vue';
 import OverviewScaledChart from 'src/pages/world/OverviewScaledChart.vue';
 //import RiskChart from 'src/pages/world/RiskChart';
 
-import {MoaConfig} from 'src/data/MoaConfig';
+import {Config} from 'src/data/Config';
 import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import MoaBackendAPI from 'src/services/apiService';

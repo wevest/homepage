@@ -45,7 +45,8 @@
                         </div>
 
                         <AssetList ref='assetList' title="" desc="" moreCaption="" 
-                            @onUpdateDone="onUpdateDone"></AssetList>
+                            linkDisable="1"
+                            @onUpdateDone="onUpdateDone" />
 
                     </div>
                 </q-card-section>       
@@ -68,7 +69,7 @@
 
 <script>
 import { store } from 'src/store/store';
-import { MoaConfig } from 'src/data/MoaConfig';
+import { Config } from 'src/data/Config';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 

@@ -1,16 +1,19 @@
 <template>
     
     <div class="q-pa-md">
-        <div>
-            <CTitle ttype='title' :title="$t('page.bookmark.title')" :desc="$t('page.bookmark.desc')"></CTitle>
-        </div>
+
+        <CTitle ttype='title' 
+            :title="$t('page.bookmark.title')" :desc="$t('page.bookmark.desc')" 
+            extraCaption="Add" @onClickTitleExtra="onClickAdd" />
+
 
         <q-separator class="gSeparator" />
 
-        <q-btn label="add" @click="onClickAdd" />
-        <q-btn label="Save" @click="onClickSave" />
+<!--        
+        <q-btn label="Add" @click="onClickAdd" />
+        <q-btn label="Save" @click="onClickSave" />    
         <q-btn label="test" @click="onClickTest" />
-
+-->
         <div v-if="v_data && v_data.length>0">
 
             <draggable class="list-group" tag="ul"
@@ -31,7 +34,16 @@
 
                         <div class="row">
                             <div>
-                                {{ a_bookmark.name }}
+                                <q-img :src="a_bookmark.logo_thumb" width="32px" height="32px" v-if="a_bookmark.logo_thumb" />
+                                <q-icon name="monetization_on" size="32px" v-else />
+                            </div>
+                            <div>
+                                <div>
+                                    {{ a_bookmark.name }}
+                                </div>
+                                <div>
+                                    {{ a_bookmark.symbol }}
+                                </div>
                             </div>
                             <q-space />
 
@@ -41,8 +53,6 @@
                             />
 
                         </div>
-                        
-
                     </li>
 
                 </transition-group>
@@ -120,13 +130,16 @@ export default {
         logger.log.debug("BlogView.created - query=",this.$route.query);
 
         //this.validateQuery();
-
     },
     mounted() {
         //this.g_asset.symbol = 'BTC';
         //this.g_asset.object_id = 20;
 
         this.refresh();
+    },
+    beforeDestroy() {
+        logger.log.debug("BookmarkView.beforeDestroy");
+        this.onClickSave();
     },
     methods: {
         validateQuery() {            
@@ -198,7 +211,7 @@ export default {
             let bookmarks = [];
             for (let index=0;index<items.length;index++) {
                 bookmarks.push( {
-                    id:items[index].id, 
+                    id:items[index].bookmark_id, 
                     asset_id:items[index].api_asset.id, seq:index+1, vote:1 
                 } );
             }

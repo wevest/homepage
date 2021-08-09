@@ -24,7 +24,7 @@ import { Editor } from '@toast-ui/vue-editor';
 //import { colorSyntax } from Editor.plugin;
 
 import { CONST } from 'src/data/const';
-import { MoaConfig } from 'src/data/MoaConfig';
+import { Config } from 'src/data/Config';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import CMSAPI from 'src/services/cmsService';
@@ -83,7 +83,7 @@ export default {
         },
 
         createThumbnail(img) {
-            const resizedImage = CommonFunc.resizeImage(img,MoaConfig.setting.thumbNailWidth, MoaConfig.setting.thumbNailHeight, 0);
+            const resizedImage = CommonFunc.resizeImage(img,Config.setting.thumbNailWidth, Config.setting.thumbNailHeight, 0);
             return resizedImage;
         },
 
@@ -111,9 +111,9 @@ export default {
             //logger.log.debug("uploadImage=",blob);
 /*
             AWS.config.update( {
-                region: MoaConfig.s3.region,
+                region: Config.s3.region,
                 credentials: new AWS.CognitoIdentityCredentials({
-                    IdentityPoolId: MoaConfig.s3.poolId
+                    IdentityPoolId: Config.s3.poolId
                 })
             });
 */
@@ -121,8 +121,8 @@ export default {
             return new Promise(function(resolve,reject) {
 
                 const s3 = new AWS.S3({
-                    accessKeyId: MoaConfig.s3.key,
-                    secretAccessKey: MoaConfig.s3.secret 
+                    accessKeyId: Config.s3.key,
+                    secretAccessKey: Config.s3.secret 
                 });
 
                 let file_key = CommonFunc.getBucketKey(blob.name);
@@ -130,7 +130,7 @@ export default {
 
                 const params = {
                     Key: file_key,
-                    Bucket: MoaConfig.s3.bucket,
+                    Bucket: Config.s3.bucket,
                     Body: blob,
                     ACL:'public-read'
                 };
@@ -159,7 +159,7 @@ export default {
                 category_id: v_post.category, 
                 content_type: v_post.content_type,
                 asset_id: v_post.asset_id,
-                token:MoaConfig.auth.token,
+                token:Config.auth.token,
                 text: CommonFunc.addHashTag(a_text,a_tag)
             };
 
@@ -191,7 +191,7 @@ export default {
 
         delete(v_post) {                        
             const _this = this;
-            let dic_param = { id:v_post.id, token:MoaConfig.auth.token};
+            let dic_param = { id:v_post.id, token:Config.auth.token};
             logger.log.debug('onClickDelete - ',dic_param);
             CMSAPI.deleteBlogPost(dic_param,function(response) {
               _this.$emit("onPostDelete",{ret:1, response:response});

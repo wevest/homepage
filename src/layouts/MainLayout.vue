@@ -18,7 +18,7 @@
 					
 					<div class="toolbar_title" @click="onClickLogo">
 						WeVest
-						<q-badge align="top" class="boxBadge">v0.1</q-badge>
+						<q-badge align="top" class="boxBadge">v0.2</q-badge>
 					</div>
 
 					<CryptoSelect class="q-pl-sm" ref="searchInput" hideBottomSpace="1" hideDropdownIcon="1"
@@ -113,7 +113,7 @@ import { mapState } from "vuex";
 
 import { store } from "src/store/store";
 import { CONST } from "src/data/const";
-import { MoaConfig } from "src/data/MoaConfig";
+import { Config } from "src/data/Config";
 import NavFunc from 'src/util/NavFunc';
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
@@ -150,7 +150,7 @@ export default {
 	data() {
 		return {
 			v_show_back_button: false,
-			v_more_buttons: this.$t('button.profile')+"|"+this.$t('button.logout'),
+			v_more_buttons: this.$t('button.profile')+"|"+this.$t('button.bookmark')+"|"+this.$t('button.logout'),
 			//lang: this.$i18n.locale,
 
 			leftDrawerOpen: false,
@@ -340,6 +340,8 @@ export default {
                 this.onClickSignOut();
             } else if ( (dicParam.caption.toLowerCase()=='profile') || (dicParam.caption=='프로파일')) {
 				this.onClickUser();
+			} else if ( (dicParam.caption.toLowerCase()=='bookmark') || (dicParam.caption=='북마크')) {
+				NavFunc.navBookmark(this);
 			}
 
         },

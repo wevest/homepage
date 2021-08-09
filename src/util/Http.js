@@ -13,7 +13,7 @@ import {store} from 'src/store/store';
 //import request from 'request-promise'
 import {store} from '@/store/store';
 */
-import {MoaConfig} from 'src/data/MoaConfig';
+import {Config} from 'src/data/Config';
 import CommonFunc from 'src/util/CommonFunc';
 
 
@@ -137,7 +137,7 @@ export const callCMSAPI = async(call_method,url,config,req_params) => {
                 'Content-Type': 'application/json',
                 //'Content-Type': 'application/x-www-form-urlencoded',
                 //'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-                //'Authorization': 'Token ' + MoaConfig.auth.token,
+                //'Authorization': 'Token ' + Config.auth.token,
                 //'X-CSRFToken': Cookies.get('csrftoken')
             },
             timeout: 0,
@@ -179,6 +179,50 @@ export const callCMSAPI = async(call_method,url,config,req_params) => {
         config['data'] = req_params;
         //config['data'] = JSON.stringify(req_params);
         logger.log.debug('HTTP.callCMSAPI',config);           
+
+        axios(config)
+        .then(function(response) {
+            resolve(response);
+        })
+        .catch(function(error) {
+            logger.log.error('callCMSAPI - error ',error.response);
+            //reject(error);
+            if (error.response.status==400) {
+                reject(error.response);
+            } else if (error.response.status==403) {
+                reject(error.response);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                //ehandler.throw(new Errors.OtherNetworkError(error=error));
+                ehandler.throw(Errors.raise(Errors.ERRCODE.OPERATION.OtherNetworkError,'',error.response));
+                //console.log('Error', error.message);
+            }
+            //console.log(error.config);            
+        });        
+    });
+
+};
+
+export const callImageAPI = async(call_method,url,config,req_params) => {
+    return new Promise(function(resolve,reject) {
+
+        config = {
+            mode: 'no-cors',
+            headers: {
+                //'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Token ' + store.getters.token
+            },
+            timeout: 0,
+            maxContentLength: 1024*1024,
+            maxBodyLength: 1024*1024,
+        };            
+        
+        config['url'] = url;
+        config['method'] = call_method;
+        config['data'] = req_params;
+        //config['data'] = JSON.stringify(req_params);
+        logger.log.debug('HTTP.callImageAPI',config);           
 
         axios(config)
         .then(function(response) {

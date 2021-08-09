@@ -3,7 +3,8 @@
     <div>
         
 		<CTitle ttype='subtitle' :title="v_title" desc=""
-			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreAsset"></CTitle>
+			:loadMoreCaption="v_more_caption" @onClickTitleMore="onClickMoreAsset"
+            extraCaption="Bookmark" @onClickTitleExtra="onClickAssetExtra"></CTitle>
 
         <q-skeleton v-if="!v_table_loaded" animation="fade" square height="150px" />
         <div v-show="v_table_loaded">
@@ -19,7 +20,9 @@
                 <q-card v-for="(a_asset,index) in v_assets.items" :key="index">
                     
                     <q-card-section @click="onClickAsset(a_asset)" class="text-center">
-                        <q-img :src="a_asset.logo_thumb" width="64px" height="64px" ></q-img>                        
+                        
+                        <q-img :src="a_asset.logo_thumb" width="64px" height="64px" v-if="a_asset.logo_thumb" />
+                        <q-icon name="monetization_on" size="64px" v-else />
                         <div>
                             <div class="gListTitle q-pt-sm">{{a_asset.symbol}}</div>
                             <div class="gCaption">{{a_asset.name}}</div>
@@ -80,7 +83,7 @@ import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
-import { AssetListModel } from "src/models/AssetModel";
+import { AssetModel, AssetListModel } from "src/models/AssetModel";
 
 import CTitle from 'components/CTitle';
 import LoadMore from "src/components/LoadMore";
@@ -110,6 +113,9 @@ export default {
         }
     },
     computed: {
+        v_me() {
+            return store.getters.me;
+        },
         v_title() {
             return this.title;
         },
@@ -184,6 +190,14 @@ export default {
 
         },
 
+        updateByBookmarks() {
+            logger.log.debug('AssetCommunityList.updateByBookmarks : bookmarks=',this.v_me.bookmarks.items);
+            
+            this.v_assets.items = this.v_me.bookmarks.items;
+            this.v_loading_table = false;
+            this.v_table_loaded = true;
+        },
+
         updateByCategory(category) {
             this.v_category = category;
             this.update(this.v_category);
@@ -254,6 +268,11 @@ export default {
 			//this.movePage(item);
             NavFunc.navAsset(this,asset.symbol,asset.id);
 		},
+
+        onClickAssetExtra(dicParam) {
+            logger.log.debug("AssetCommunityList.onClickAssetExtra=", dicParam);
+            NavFunc.navBookmark(this);
+        }
     }
 }
 </script>

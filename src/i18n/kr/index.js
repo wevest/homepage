@@ -176,6 +176,7 @@ export default {
 		reset_password:"비밀번호 설정",
 		change_password:"비밀번호 설정",
 		price_forecast: "앞으로 어떻게 될까요?",
+		bookmark:"북마크",
 		next: "다음",
 		back: "이전",
 	},

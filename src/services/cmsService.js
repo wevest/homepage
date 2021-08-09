@@ -1,6 +1,6 @@
 //import api from '@/services/api'
 import { callAPI, callCMSAPI, callPostAPI } from "src/util/Http";
-import { MoaConfig } from "src/data/MoaConfig";
+import { Config } from "src/data/Config";
 import logger from "src/error/Logger";
 import CommonFunc from "src/util/CommonFunc";
 
@@ -13,7 +13,7 @@ export default class CMSAPI {
   	}
 
   	static getBlogCategory(dic_param, func, funcErr) {
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/blog/categories/");
+		let url = CMSAPI.getUrl(Config.urls.cms, "/api/blog/categories/");
 		callCMSAPI("GET", url, {}, dic_param)
 		.then(response => {
 			func(response);
@@ -24,7 +24,7 @@ export default class CMSAPI {
   	}
 
   	static getBlogData(reqParam, func, funcErr) {
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/blog/posts/");
+		let url = CMSAPI.getUrl(Config.urls.cms, "/api/blog/posts/");
 		if (reqParam.hasOwnProperty("content_type") && reqParam.content_type) {
 			url = url + "?content_type=" + reqParam.content_type;
 		} else if (reqParam.hasOwnProperty("category") && reqParam.category) {
@@ -54,7 +54,7 @@ export default class CMSAPI {
 	}
 
   	static postBlogPost(dic_param, func, funcErr) {
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/blog/posts/");
+		let url = CMSAPI.getUrl(Config.urls.cms, "/api/blog/posts/");
 		callCMSAPI("POST", url, {}, dic_param)
 		.then(response => {
 			func(response);
@@ -66,10 +66,10 @@ export default class CMSAPI {
 
 	static deleteBlogPost(dic_param, func, funcErr) {
 		let url = CMSAPI.getUrl(
-			MoaConfig.urls.cms,
+			Config.urls.cms,
 			"/api/blog/posts/" + dic_param["id"] + "/"
 		);
-		//let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/blog/posts/");
+		//let url = CMSAPI.getUrl(Config.urls.cms,"/api/blog/posts/");
 		callCMSAPI("DELETE", url, {}, dic_param)
 		.then(response => {
 			func(response);
@@ -81,7 +81,7 @@ export default class CMSAPI {
 
 	static voteBlogPost(dic_param, func, funcErr) {
 		let url = CMSAPI.getUrl(
-			MoaConfig.urls.cms,
+			Config.urls.cms,
 			"/api/blog/posts/" + dic_param.id + "/vote/"
 		);
 		callCMSAPI("POST", url, {}, dic_param)
@@ -94,7 +94,7 @@ export default class CMSAPI {
 	}
 
 	static postBlogComment(dic_param, func, funcErr) {
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/comments/api/comment/");
+		let url = CMSAPI.getUrl(Config.urls.cms, "/api/comments/api/comment/");
 		callCMSAPI("POST", url, {}, dic_param)
 		.then(response => {
 			func(response);
@@ -105,7 +105,7 @@ export default class CMSAPI {
 	}
 
 	static editBlogComment(dic_param, func, funcErr) {
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/comment/comments");
+		let url = CMSAPI.getUrl(Config.urls.cms, "/api/comment/comments");
 		callCMSAPI("POST", url, {}, dic_param)
 		.then(response => {
 			func(response);
@@ -116,7 +116,7 @@ export default class CMSAPI {
 	}
 
   	static deleteBlogComment(dic_param, func, funcErr) {
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/comment/comments");
+		let url = CMSAPI.getUrl(Config.urls.cms, "/api/comment/comments");
 		callCMSAPI("DELETE", url, {}, dic_param)
 		.then(response => {
 			func(response);
@@ -133,7 +133,7 @@ export default class CMSAPI {
 		} else if (dic_param.hasOwnProperty('asset_id')) {
 			a_method += "?asset_id=" + dic_param.asset_id;
 		}
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, a_method);
+		let url = CMSAPI.getUrl(Config.urls.cms, a_method);
 		callCMSAPI("GET", url, {}, dic_param)
 		.then(response => {
 			func(response);
@@ -144,7 +144,7 @@ export default class CMSAPI {
   	}
 
 	static postTweet(dic_param, func, funcErr) {
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/twitter/tweets/");
+		let url = CMSAPI.getUrl(Config.urls.cms, "/api/twitter/tweets/");
 		callCMSAPI("POST", url, {}, dic_param)
 		.then(response => {
 			func(response);
@@ -155,7 +155,7 @@ export default class CMSAPI {
   	}
 
 	  static removeTweet(dic_param, func, funcErr) {
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/twitter/tweets/");
+		let url = CMSAPI.getUrl(Config.urls.cms, "/api/twitter/tweets/");
 		callCMSAPI("DELETE", url, {}, dic_param)
 		.then(response => {
 			func(response);
@@ -167,7 +167,7 @@ export default class CMSAPI {
 
 	static voteTweet(dic_param, func, funcErr) {
 		let url = CMSAPI.getUrl(
-		MoaConfig.urls.cms,
+		Config.urls.cms,
 		"/api/twitter/tweets/" + dic_param.id + "/" + dic_param.method + "/"
 		);
 		callCMSAPI("POST", url, {}, dic_param)
@@ -181,7 +181,7 @@ export default class CMSAPI {
 
 	static getTweetComment(dic_param, func, funcErr) {
     	let url = CMSAPI.getUrl(
-      		MoaConfig.urls.cms,
+      		Config.urls.cms,
       		"/api/twitter/twcomments/?tweet_id=" + dic_param.tweet_id
     	);
 
@@ -197,7 +197,7 @@ export default class CMSAPI {
   	}
 
   	static postTweetComment(dic_param, func, funcErr) {
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/twitter/twcomments/");
+		let url = CMSAPI.getUrl(Config.urls.cms, "/api/twitter/twcomments/");
 		callCMSAPI("POST", url, {}, dic_param)
 	  	.then(response => {
 			func(response);
@@ -208,7 +208,7 @@ export default class CMSAPI {
   	}
 	  
   	static deleteTweetComment(dic_param, func, funcErr) {
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/twitter/twcomments/"+dic_param.id + "/");
+		let url = CMSAPI.getUrl(Config.urls.cms, "/api/twitter/twcomments/"+dic_param.id + "/");
 		callCMSAPI("DELETE", url, {}, dic_param)
 	  	.then(response => {
 			func(response);
@@ -219,7 +219,7 @@ export default class CMSAPI {
   	}
 
   	static voteTweetComment(dic_param, func, funcErr) {
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, 
+		let url = CMSAPI.getUrl(Config.urls.cms, 
 			"/api/twitter/twcomments/" + dic_param.id + "/" + dic_param.method + "/");
 		callCMSAPI("POST", url, {}, dic_param)
 	  	.then(response => {
@@ -231,7 +231,7 @@ export default class CMSAPI {
   	}
 
 	static postCommentFeedback(dic_param, func, funcErr) {
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/comments/api/feedback/");
+		let url = CMSAPI.getUrl(Config.urls.cms, "/api/comments/api/feedback/");
 		callCMSAPI("POST", url, {}, dic_param)
 		.then(response => {
 			func(response);
@@ -248,7 +248,7 @@ export default class CMSAPI {
 			a_method + "?limit=" + dic_param.limit + "&offset=" + dic_param.offset;
 		}
 
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, a_method);
+		let url = CMSAPI.getUrl(Config.urls.cms, a_method);
 		callCMSAPI("GET", url, {}, dic_param)
 		.then(response => {
 			func(response);
@@ -260,7 +260,7 @@ export default class CMSAPI {
 
   static getPostData(page_id, func, funcErr) {
     let url = CMSAPI.getUrl(
-      MoaConfig.urls.cms,
+      Config.urls.cms,
       "/api/blog/posts/?id=" + page_id
     );
     callCMSAPI("GET", url, {}, {})
@@ -273,7 +273,7 @@ export default class CMSAPI {
   }
 
   static getAssetPage(reqParam, func, funcErr) {
-    let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/asset/assetpage/");
+    let url = CMSAPI.getUrl(Config.urls.cms, "/api/asset/assetpage/");
     callCMSAPI("GET", url, {}, reqParam)
       .then(response => {
         func(response);
@@ -285,7 +285,7 @@ export default class CMSAPI {
 
 	static getAssetReview(reqParam, func, funcErr) {
 		let url = CMSAPI.getUrl(
-			MoaConfig.urls.cms,
+			Config.urls.cms,
 			"/api/review/reviews/?asset_id=" + reqParam.asset_id + "&category=" + reqParam.category
 		);
 		url = CommonFunc.addLimitOffsetToQuery(url, reqParam);
@@ -300,7 +300,7 @@ export default class CMSAPI {
 	}
 
 	static postAssetReview(reqParam, func, funcErr) {
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/review/reviews/");
+		let url = CMSAPI.getUrl(Config.urls.cms, "/api/review/reviews/");
 		callCMSAPI("POST", url, {}, reqParam)
 		.then(response => {
 			func(response);
@@ -311,7 +311,7 @@ export default class CMSAPI {
 	}
 
 	static removeAssetReview(reqParam, func, funcErr) {
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/review/reviews/");
+		let url = CMSAPI.getUrl(Config.urls.cms, "/api/review/reviews/");
 		callCMSAPI("DELETE", url, {}, reqParam)
 		.then(response => {
 			func(response);
@@ -323,7 +323,7 @@ export default class CMSAPI {
 
 	static voteAssetReview(dic_param, func, funcErr) {
 		let url = CMSAPI.getUrl(
-			MoaConfig.urls.cms,
+			Config.urls.cms,
 			"/api/review/reviews/" + dic_param.id + "/" + dic_param.method + "/"
 		);
 		callCMSAPI("POST", url, {}, dic_param)
@@ -337,7 +337,7 @@ export default class CMSAPI {
 
 	static getAssetReviewStat(reqParam, func, funcErr) {
 		let url = CMSAPI.getUrl(
-			MoaConfig.urls.cms,
+			Config.urls.cms,
 			"/api/review/reviewstat?asset_id="+reqParam.asset_id
 		);
 		
@@ -352,7 +352,7 @@ export default class CMSAPI {
 
   	static readPortfolio(dic_param, func, funcErr) {
     	let url = CMSAPI.getUrl(
-		    MoaConfig.urls.cms,
+		    Config.urls.cms,
 			"/api/portfolio/portfolios/" + dic_param.id + "/read/"
 		);
 		callCMSAPI("POST", url, {}, dic_param)
@@ -366,7 +366,7 @@ export default class CMSAPI {
 
 	static votePortfolio(dic_param, func, funcErr) {
 		let url = CMSAPI.getUrl(
-			MoaConfig.urls.cms,
+			Config.urls.cms,
 			"/api/portfolio/portfolios/" + dic_param.id + "/vote/"
 		);
 		callCMSAPI("POST", url, {}, dic_param)
@@ -385,7 +385,7 @@ export default class CMSAPI {
 		if (dic_param.hasOwnProperty('user_id')) a_method += "?user_id=" + dic_param.user_id;
 
 		let url = CMSAPI.getUrl(
-		    MoaConfig.urls.cms,
+		    Config.urls.cms,
 			a_method
 		);
 		url = CommonFunc.addLimitOffsetToQuery(url, dic_param);
@@ -408,7 +408,7 @@ export default class CMSAPI {
 			a_method = "/api/qa/questions/?id=" + dic_param.id;
 		}
 
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, a_method);
+		let url = CMSAPI.getUrl(Config.urls.cms, a_method);
 		url = CommonFunc.addLimitOffsetToQuery(url, dic_param);
 
 		callCMSAPI("GET", url, {}, dic_param)
@@ -421,7 +421,7 @@ export default class CMSAPI {
 	}
 
   	static postAssetQuestion(dic_param, func, funcErr) {
-    	let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/qa/questions/");
+    	let url = CMSAPI.getUrl(Config.urls.cms, "/api/qa/questions/");
     	callCMSAPI("POST", url, {}, dic_param)
       	.then(response => {
         	func(response);
@@ -433,7 +433,7 @@ export default class CMSAPI {
 
   	static voteAssetQuestion(dic_param, func, funcErr) {
     	let url = CMSAPI.getUrl(
-      		MoaConfig.urls.cms,
+      		Config.urls.cms,
       		"/api/qa/questions/" + dic_param.id + "/" + dic_param.method + "/"
     	);
     	callCMSAPI("POST", url, {}, dic_param)
@@ -447,7 +447,7 @@ export default class CMSAPI {
 
 	static deleteAssetQuestion(dic_param, func, funcErr) {
     	let url = CMSAPI.getUrl(
-      		MoaConfig.urls.cms,
+      		Config.urls.cms,
       		"/api/qa/questions/" + dic_param.id + "/"
     	);
     	callCMSAPI("DELETE", url, {}, dic_param)
@@ -460,7 +460,7 @@ export default class CMSAPI {
   	}
 
 	static postAssetAnswer(dic_param, func, funcErr) {
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/qa/answers/");
+		let url = CMSAPI.getUrl(Config.urls.cms, "/api/qa/answers/");
 		callCMSAPI("POST", url, {}, dic_param)
 		.then(response => {
 			func(response);
@@ -472,7 +472,7 @@ export default class CMSAPI {
 
   	static getAssetAnswer(dic_param, func, funcErr) {
     	let url = CMSAPI.getUrl(
-      		MoaConfig.urls.cms,
+      		Config.urls.cms,
       		"/api/qa/answers/?question_id=" + dic_param.question_id
     	);
 		url = CommonFunc.addLimitOffsetToQuery(url, dic_param);
@@ -487,7 +487,7 @@ export default class CMSAPI {
 
 	static voteAssetAnswer(dic_param, func, funcErr) {
 		let url = CMSAPI.getUrl(
-		MoaConfig.urls.cms,
+		Config.urls.cms,
 		"/api/qa/answers/" + dic_param.id + "/" + dic_param.method + "/"
 		);
 		callCMSAPI("POST", url, {}, dic_param)
@@ -501,10 +501,10 @@ export default class CMSAPI {
 
 	static deleteAnswerPost(dic_param, func, funcErr) {
 		let url = CMSAPI.getUrl(
-			MoaConfig.urls.cms,
+			Config.urls.cms,
 			"/api/qa/answers/" + dic_param["id"] + "/"
 		);
-		//let url = CMSAPI.getUrl(MoaConfig.urls.cms,"/api/blog/posts/");
+		//let url = CMSAPI.getUrl(Config.urls.cms,"/api/blog/posts/");
 		callCMSAPI("DELETE", url, {}, dic_param)
 		.then(response => {
 			func(response);
@@ -516,7 +516,7 @@ export default class CMSAPI {
 
   	static getAssetAnswerComment(dic_param, func, funcErr) {
     	let url = CMSAPI.getUrl(
-      		MoaConfig.urls.cms,
+      		Config.urls.cms,
       		"/api/qa/acomments/?question_id=" + dic_param.question_id+"&answer_id="+dic_param.answer_id
     	);
 
@@ -532,7 +532,7 @@ export default class CMSAPI {
   	}
 
   	static postAssetAnswerComment(dic_param, func, funcErr) {
-    	let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/qa/acomments/");
+    	let url = CMSAPI.getUrl(Config.urls.cms, "/api/qa/acomments/");
     	callCMSAPI("POST", url, {}, dic_param)
       	.then(response => {
         	func(response);
@@ -544,7 +544,7 @@ export default class CMSAPI {
 
   	static deleteAssetAnswerComment(dic_param, func, funcErr) {
     	let url = CMSAPI.getUrl(
-			MoaConfig.urls.cms, 
+			Config.urls.cms, 
 			"/api/qa/acomments/" + dic_param.id + "/"
 		);
     	callCMSAPI("Delete", url, {}, dic_param)
@@ -558,7 +558,7 @@ export default class CMSAPI {
 
 	static voteAssetAnswerComment(dic_param, func, funcErr) {
 		let url = CMSAPI.getUrl(
-		MoaConfig.urls.cms,
+		Config.urls.cms,
 		"/api/qa/acomments/" + dic_param.id + "/" + dic_param.method + "/"
 		);
 		callCMSAPI("POST", url, {}, dic_param)
@@ -573,7 +573,7 @@ export default class CMSAPI {
 
 	static getAssetQuestionComment(dic_param, func, funcErr) {
     	let url = CMSAPI.getUrl(
-      		MoaConfig.urls.cms,
+      		Config.urls.cms,
       		"/api/qa/qcomments/?question_id=" + dic_param.question_id
     	);
 
@@ -589,7 +589,7 @@ export default class CMSAPI {
   	}
 
   	static postAssetQuestionComment(dic_param, func, funcErr) {
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms, "/api/qa/qcomments/");
+		let url = CMSAPI.getUrl(Config.urls.cms, "/api/qa/qcomments/");
 		callCMSAPI("POST", url, {}, dic_param)
 	  	.then(response => {
 			func(response);
@@ -602,7 +602,7 @@ export default class CMSAPI {
 
   	static deleteAssetQuestionComment(dic_param, func, funcErr) {
     	let url = CMSAPI.getUrl(
-			MoaConfig.urls.cms, 
+			Config.urls.cms, 
 			"/api/qa/qcomments/" + dic_param.id + "/"
 		);
     	callCMSAPI("Delete", url, {}, dic_param)
@@ -617,7 +617,7 @@ export default class CMSAPI {
 
 	static voteAssetQuestionComment(dic_param, func, funcErr) {
 		let url = CMSAPI.getUrl(
-		MoaConfig.urls.cms,
+		Config.urls.cms,
 		"/api/qa/qcomments/" + dic_param.id + "/" + dic_param.method + "/"
 		);
 		callCMSAPI("POST", url, {}, dic_param)
@@ -632,7 +632,7 @@ export default class CMSAPI {
 /*
 	static getUserRelation(dic_param, func, funcErr) {
 		let url = CMSAPI.getUrl(
-			MoaConfig.urls.cms,
+			Config.urls.cms,
 			"/api/user/users/" + dic_param.id + "/relation/"
 		);
 		callCMSAPI("POST", url, {}, dic_param)
@@ -649,7 +649,7 @@ export default class CMSAPI {
         logger.log.debug("CMSAPI.getFollower");
 
         let a_method = "/api/user/users/" + dic_param.id + "/follower/";
-        const url = CMSAPI.getUrl(MoaConfig.urls.cms,a_method);
+        const url = CMSAPI.getUrl(Config.urls.cms,a_method);
 
         callCMSAPI("POST", url, {}, dic_param)
         .then(response => {
@@ -664,7 +664,7 @@ export default class CMSAPI {
         logger.log.debug("CMSAPI.getFollowing");
 
         let a_method = "/api/user/users/" + dic_param.id + "/following/";
-        const url = CMSAPI.getUrl(MoaConfig.urls.cms,a_method);
+        const url = CMSAPI.getUrl(Config.urls.cms,a_method);
 
         callCMSAPI("POST", url, {}, dic_param)
         .then(response => {
@@ -679,7 +679,7 @@ export default class CMSAPI {
         logger.log.debug("CMSAPI.getCaptains");
 
         let a_method = "/api/user/users/captain?type="+dic_param.type;
-        const url = CMSAPI.getUrl(MoaConfig.urls.cms,a_method);
+        const url = CMSAPI.getUrl(Config.urls.cms,a_method);
 
         callCMSAPI("GET", url, {}, dic_param)
         .then(response => {
@@ -692,7 +692,7 @@ export default class CMSAPI {
 
 	static getMyFeeds(dic_param, func, funcErr) {
     	let url = CMSAPI.getUrl(
-      		MoaConfig.urls.cms,
+      		Config.urls.cms,
       		"/api/user/users/" + dic_param.user_id + "/myfeed/"
     	);
     	callCMSAPI("POST", url, {}, dic_param)
@@ -706,7 +706,7 @@ export default class CMSAPI {
 
   	static getUserFeeds(dic_param, func, funcErr) {
     	let url = CMSAPI.getUrl(
-      		MoaConfig.urls.cms,
+      		Config.urls.cms,
       		"/api/user/users/" + dic_param.user_id + "/feed/"
     	);
     	callCMSAPI("POST", url, {}, dic_param)
@@ -720,7 +720,7 @@ export default class CMSAPI {
 
   	static getUserNotification(dic_param, func, funcErr) {
     	let a_method = "/api/user/users/" + dic_param.user_id + "/notification/";
-		let url = CMSAPI.getUrl(MoaConfig.urls.cms,a_method);
+		let url = CMSAPI.getUrl(Config.urls.cms,a_method);
     	callCMSAPI("POST", url, {}, dic_param)
       	.then(response => {
         	func(response);

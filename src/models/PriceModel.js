@@ -1,5 +1,5 @@
 import {store} from 'src/store/store';
-//import {MoaConfig} from 'src/data/MoaConfig';
+//import {Config} from 'src/data/Config';
 import {baseCollection} from 'src/models/baseModel';
 import _ from 'lodash';
 

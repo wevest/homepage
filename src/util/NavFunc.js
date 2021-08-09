@@ -1,5 +1,5 @@
 import {store} from 'src/store/store';
-//import * as Actions from 'src/store/constants'
+import CommonFunc from 'src/util/CommonFunc';
 
 import logger from "src/error/Logger";
 import Errors from 'src/error/Errors';
@@ -283,6 +283,14 @@ export default class NavFunc {
         //CommonFunc.setAppData('selected_sector',category);
 
         let dic_param = {name:'sector', params:{ param_category:category }};
+        a_this.$router.push(dic_param);
+    }
+
+    static navBookmark(a_this) {
+        logger.log.debug("CommonFunc.navBookmark");
+        
+        store.getters.nav.add(a_this.$route);
+        let dic_param = { name:'bookmark', path:'bookmark', query:{} };
         a_this.$router.push(dic_param);
     }
 

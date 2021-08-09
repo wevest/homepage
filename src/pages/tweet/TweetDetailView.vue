@@ -34,8 +34,13 @@
 		</div>
 
         <q-separator />
+<!--
         <div class="q-pt-sm gBodyLG" v-html="v_tweet.text"></div>
-
+-->        
+        <div class="q-pt-sm gBodyLG">
+            <FroalaView v-model="v_tweet.text" />
+        </div>
+        
         <WRatingButton ref="ratingButton" :data="v_tweet" :likeCaption="$t('button.blog_like')" :dislikeCaption="$t('button.blog_dislike')" />
 
         <q-separator class="gSeparator" />

@@ -1,4 +1,4 @@
-import {MoaConfig} from 'src/data/MoaConfig';
+import {Config} from 'src/data/Config';
 import {baseCollection} from 'src/models/baseModel';
 import _ from 'lodash';
 
@@ -436,11 +436,11 @@ export class AssetListModel extends baseCollection{
     saveToCookie() {        
         let dic_data = {'last_updated':this.last_updated, 'items': this.items};
         //logger.log.debug("saveToCookie:=",JSON.stringify(dic_data));
-        LocalStorageService.save(MoaConfig.general.COINCODE, dic_data );
+        LocalStorageService.save(Config.general.COINCODE, dic_data );
     }
 
     loadFromCookie() {
-        let dic_data = LocalStorageService.load(MoaConfig.general.COINCODE);
+        let dic_data = LocalStorageService.load(Config.general.COINCODE);
         //logger.log.debug("Assets.loadFromCookie:=",dic_data);
         
         const _this = this;

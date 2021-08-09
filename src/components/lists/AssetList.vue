@@ -45,7 +45,7 @@
 
                 <template v-slot:body="props">
 
-                    <q-tr :props="props" v-ripple @click="onClickAsset(props.row)" >
+                    <q-tr :props="props" :v-ripple="v_ripple" @click="onClickAsset(props.row)" >
                         <q-td>                     
                             <q-checkbox v-model="props.selected"/><!-- add this line -->
                         </q-td>                                        
@@ -140,6 +140,9 @@ export default {
         hideHeader: {
             type:String,
             default:"1"
+        },
+        linkDisable: {
+            default:"0"
         }
     },
     computed: {
@@ -159,6 +162,10 @@ export default {
                 let caption = this.v_assets.items.length.toString() + " of " + scope.pagination.rowsNumber.toString();
                 return caption;
             };
+        },
+        v_ripple() {
+            if (this.linkDisable=="1") return false;
+            return true;
         }
     },
     data () {
@@ -235,6 +242,8 @@ export default {
 
         onClickAsset(asset) {
             logger.log.debug('AssetList.onClickAsset : asset = ',asset);          
+            if (this.linkDisable=="1") return;
+
             NavFunc.navAsset(this,asset.symbol,asset.id);
         },
 

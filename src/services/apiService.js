@@ -1,6 +1,6 @@
 //import api from '@/services/api'
 import { callAPI, callGetAPI, callPostAPI, callJsonRPC } from "src/util/Http";
-import { MoaConfig } from "src/data/MoaConfig";
+import { Config } from "src/data/Config";
 import logger from "src/error/Logger";
 import CommonFunc from "src/util/CommonFunc";
 
@@ -12,7 +12,7 @@ export default class MoaBackendAPI {
   }
 
   static getAnalyst(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/analyst");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/analyst");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -24,7 +24,7 @@ export default class MoaBackendAPI {
   }
 
   static getPrice(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/ohlcv");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/ohlcv");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -36,7 +36,7 @@ export default class MoaBackendAPI {
   }
 
   static getSectorStat(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/sector/stat");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/sector/stat");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -48,7 +48,7 @@ export default class MoaBackendAPI {
   }
 
   static getSectorAuthorList(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/sector/author");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/sector/author");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -60,7 +60,7 @@ export default class MoaBackendAPI {
   }
 
   static getAsset(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/asset");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/asset");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -72,7 +72,7 @@ export default class MoaBackendAPI {
   }
 
   static getRecommend(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/recommend");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/recommend");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -84,7 +84,7 @@ export default class MoaBackendAPI {
   }
 
   static getWinner(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/winner");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/winner");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -96,7 +96,7 @@ export default class MoaBackendAPI {
   }
 
   static getCode(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/code");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/code");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -108,7 +108,7 @@ export default class MoaBackendAPI {
   }
 
   static getIndustry(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/industry");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/industry");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -120,7 +120,7 @@ export default class MoaBackendAPI {
   }
 
   static getJW52(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/52w");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/52w");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -132,7 +132,7 @@ export default class MoaBackendAPI {
   }
 
   static getKospiTrend(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/trend/kospi");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/trend/kospi");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -144,7 +144,7 @@ export default class MoaBackendAPI {
   }
 
   static getIndustryChart(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/industry/chart");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/industry/chart");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -156,7 +156,7 @@ export default class MoaBackendAPI {
   }
 
   static getMarketRiskData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/market/risk");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/market/risk");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -168,7 +168,7 @@ export default class MoaBackendAPI {
   }
 
   static getAssetTrendData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/trend/asset");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/trend/asset");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -180,7 +180,7 @@ export default class MoaBackendAPI {
   }
 
   static getIndustryTrendData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/trend/industry");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/trend/industry");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -192,7 +192,7 @@ export default class MoaBackendAPI {
   }
 
   static getSectorTrendData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/trend/sector");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/trend/sector");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -205,7 +205,7 @@ export default class MoaBackendAPI {
 
   static getSectorMCTrendData(reqParam, func, funcErr) {
     let url = MoaBackendAPI.getUrl(
-      MoaConfig.urls.moa,
+      Config.urls.moa,
       "/api/trend/market_capital"
     );
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
@@ -219,7 +219,7 @@ export default class MoaBackendAPI {
   }
 
   static get52WStatData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/52w/stat");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/52w/stat");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -231,7 +231,7 @@ export default class MoaBackendAPI {
   }
 
   static getJW52Form(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/form/get_jw52");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/form/get_jw52");
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
         func(response);
@@ -242,7 +242,7 @@ export default class MoaBackendAPI {
   }
 
   static getJW52List(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/form/list_jw52");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/form/list_jw52");
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
         func(response);
@@ -253,7 +253,7 @@ export default class MoaBackendAPI {
   }
 
   static postJW52Form(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/form/jw52");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/form/jw52");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -265,7 +265,7 @@ export default class MoaBackendAPI {
   }
 
   static deleteJW52Form(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/form/delete_jw52");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/form/delete_jw52");
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
         func(response);
@@ -276,7 +276,7 @@ export default class MoaBackendAPI {
   }
 
   static getMomentumList(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/momentum");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/momentum");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -288,7 +288,7 @@ export default class MoaBackendAPI {
   }
 
   static getInvestorTrendDatat(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/trend/investor");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/trend/investor");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -300,7 +300,7 @@ export default class MoaBackendAPI {
   }
 
   static getMarketEventData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/market/event");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/market/event");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -312,7 +312,7 @@ export default class MoaBackendAPI {
   }
 
   static getRstrengthData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/strength");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/strength");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -324,7 +324,7 @@ export default class MoaBackendAPI {
   }
 
   static getKvixData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/market/kvix");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/market/kvix");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -336,7 +336,7 @@ export default class MoaBackendAPI {
   }
 
   static getCryptoTrendData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/trend/crypto");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/trend/crypto");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -348,7 +348,7 @@ export default class MoaBackendAPI {
   }
 
   static getPVData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/pv");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/pv");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -360,7 +360,7 @@ export default class MoaBackendAPI {
   }
 
   static getPVTrendData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/trend/pv");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/trend/pv");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -372,7 +372,7 @@ export default class MoaBackendAPI {
   }
 
   static getCryptoTVData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/crypto/tv");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/crypto/tv");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -384,7 +384,7 @@ export default class MoaBackendAPI {
   }
 
   static getCryptoWinnerData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/crypto/winner");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/crypto/winner");
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
         func(response);
@@ -395,7 +395,7 @@ export default class MoaBackendAPI {
   }
 
   static getCryptoMomentumList(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/crypto/momentum");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/crypto/momentum");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -407,7 +407,7 @@ export default class MoaBackendAPI {
   }
 
   static getMarketOverview(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/market/overview");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/market/overview");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -419,7 +419,7 @@ export default class MoaBackendAPI {
   }
 
   static getCryptoMarketOverview(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/crypto/overview");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/crypto/overview");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -432,7 +432,7 @@ export default class MoaBackendAPI {
 
   static getCryptoMarketDailyOverview(reqParam, func, funcErr) {
     let url = MoaBackendAPI.getUrl(
-      MoaConfig.urls.moa,
+      Config.urls.moa,
       "/api/crypto/daily_overview"
     );
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
@@ -447,7 +447,7 @@ export default class MoaBackendAPI {
 
   static getCryptoMarketDailySummary(reqParam, func, funcErr) {
     let url = MoaBackendAPI.getUrl(
-      MoaConfig.urls.moa,
+      Config.urls.moa,
       "/api/crypto/daily_summary"
     );
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
@@ -461,7 +461,7 @@ export default class MoaBackendAPI {
   }
 
   static getCryptoTodayData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/crypto/today");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/crypto/today");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -473,7 +473,7 @@ export default class MoaBackendAPI {
   }
 
   static getCryptoIndexData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/crypto/index");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/crypto/index");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -485,7 +485,7 @@ export default class MoaBackendAPI {
   }
 
   static getCryptoTopAssetData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/crypto/top_asset");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/crypto/top_asset");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -498,7 +498,7 @@ export default class MoaBackendAPI {
 
   static getSectorAssetData(reqParam, func, funcErr) {
     let url = MoaBackendAPI.getUrl(
-      MoaConfig.urls.moa,
+      Config.urls.moa,
       "/api/crypto/sector/asset"
     );
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
@@ -512,7 +512,7 @@ export default class MoaBackendAPI {
   }
 
   static getCryptoCalendarEffectData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/crypto/ce");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/crypto/ce");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -524,7 +524,7 @@ export default class MoaBackendAPI {
   }
 
   static getOSIndexData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/market/os_index");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/market/os_index");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -536,7 +536,7 @@ export default class MoaBackendAPI {
   }
 
   static getCryptoWatchData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/crypto/cwatch");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/crypto/cwatch");
     //logger.log.debug("MoaBackendAPI.validateToken - url = ",url);
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
@@ -548,7 +548,7 @@ export default class MoaBackendAPI {
   }
 
   static getCryptovcData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/cryptovc");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/cryptovc");
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
         func(response);
@@ -559,7 +559,7 @@ export default class MoaBackendAPI {
   }
 
   static getCryptoBaseinfo(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/crypto/baseinfo");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/crypto/baseinfo");
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
         func(response);
@@ -570,7 +570,7 @@ export default class MoaBackendAPI {
   }
 
   static getCryptoPriceHistory(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/proxy/history");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/proxy/history");
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
         func(response);
@@ -581,7 +581,7 @@ export default class MoaBackendAPI {
   }
 
   static getCommitData(reqParam, func, funcErr) {
-    let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/crypto/commit");
+    let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/crypto/commit");
     callAPI("POST", url, {}, reqParam)
       .then((response) => {
         func(response);
@@ -593,7 +593,7 @@ export default class MoaBackendAPI {
 
   static getCryptoVCPerformanceData(reqParam, func, funcErr) {
     let url = MoaBackendAPI.getUrl(
-      MoaConfig.urls.moa,
+      Config.urls.moa,
       "/api/cryptovc/performance"
     );
     callAPI("POST", url, {}, reqParam)
@@ -607,7 +607,7 @@ export default class MoaBackendAPI {
 
   static getCryptoVCPortfolioData(reqParam, func, funcErr) {
     let url = MoaBackendAPI.getUrl(
-      MoaConfig.urls.moa,
+      Config.urls.moa,
       "/api/cryptovc/portfolio"
     );
     callAPI("POST", url, {}, reqParam)
@@ -620,7 +620,7 @@ export default class MoaBackendAPI {
   }
 
 	static getCryptoOracleData(reqParam, func, funcErr) {
-		let url = MoaBackendAPI.getUrl(MoaConfig.urls.moa, "/api/crypto/oracle");
+		let url = MoaBackendAPI.getUrl(Config.urls.moa, "/api/crypto/oracle");
 		callAPI("POST", url, {}, reqParam)
 		.then((response) => {
 			func(response);
@@ -640,7 +640,7 @@ export default class MoaBackendAPI {
       		a_method += "?query=" + reqParam.query;
     	}
 
-		let url = MoaBackendAPI.getUrl(MoaConfig.urls.cms, a_method);
+		let url = MoaBackendAPI.getUrl(Config.urls.cms, a_method);
 		url = CommonFunc.addLimitOffsetToQuery(url, reqParam);
 
 		callAPI("GET", url, {}, reqParam)
@@ -658,7 +658,7 @@ export default class MoaBackendAPI {
 			a_method += "?search=" + reqParam.keyword;
 		}
 
-		let url = MoaBackendAPI.getUrl(MoaConfig.urls.cms, a_method);
+		let url = MoaBackendAPI.getUrl(Config.urls.cms, a_method);
 		url = CommonFunc.addLimitOffsetToQuery(url, reqParam);
 
 		callAPI("GET", url, {}, reqParam)

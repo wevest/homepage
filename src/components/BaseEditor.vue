@@ -9,23 +9,25 @@
 
 <script>
 import AWS from 'aws-sdk';
-
+import { store } from 'src/store/store';
 import { CONST } from 'src/data/const';
-import { MoaConfig } from 'src/data/MoaConfig';
+import { Config } from 'src/data/Config';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import CMSAPI from 'src/services/cmsService';
 
-import VueFroala from 'vue-froala-wysiwyg';
+//import VueFroala from 'vue-froala-wysiwyg';
 
 import {PostPageModel} from "src/models/PageModel";
 
+
 export default {
     name: 'BaseEditor',
-    components: {
-        VueFroala,
-    },
+    components: {},
     props: {
+        data: {
+            default: null
+        },
         contents: {
             default:null,
         },
@@ -48,22 +50,27 @@ export default {
             v_post: new PostPageModel(),
             v_confirm: false,
             v_confirm_title: 'Do you want to quit?',
+
             v_config: {
-                charCounterCount: true,
-                toolbarBottom: true,
-/*                
-                toolbarButtons: {
-                    'moreRich': {
-                        'buttons': ['insertLink', 'insertImage', 'insertVideo', 'insertTable', 'emoticons', 'fontAwesome', 'specialCharacters', 'embedly', 'insertFile', 'insertHR']
-                    },
+                key: Config.key.froala,
+                attribution: false,
+                //iframe: true,
+
+                htmlRemoveTags: ["script"],
+                immediateVueModelUpdate: true,
+                codeMirrorOptions: {
+                    indentWithTabs: true,
+                    lineNumbers: true,
+                    lineWrapping: true,
+                    mode: "text/html",
+                    tabMode: "indent",
+                    tabSize: 2,
                 },
-*/                
-                events: {
-                    'froalaEditor.initialized': function () {
-                        logger.log.debug('BaseEditor.initialized')
-                    }
-                }
-            }
+                toolbarButtons: [
+                    ['fontSize', 'textColor', 'backgroundColor'],
+                    ['insertLink', 'insertImage', 'insertVideo', 'emoticons','embedly']
+                ],
+            }            
         }
     },
 
@@ -76,8 +83,8 @@ export default {
     
     methods: {
         setContent(content) {            
-            //this.$refs.toastEditor.invoke('setMarkdown', content);
-            this.v_post.body = content;
+            logger.log.debug("BlogWriterView.setContent : contents=",content);
+            this.v_contents = content;
         },
 
         getContents() {
@@ -86,12 +93,13 @@ export default {
         },
 
         setPostModel(post) {
+            logger.log.debug("BlogWriterView.setPostModel : post=",post);
             this.v_post.assign(post);
-            this.setContent(this.v_post.body);
+            //this.setContent(this.v_post.body);
         },
 
         createThumbnail(img) {
-            const resizedImage = CommonFunc.resizeImage(img,MoaConfig.setting.thumbNailWidth, MoaConfig.setting.thumbNailHeight, 0);
+            const resizedImage = CommonFunc.resizeImage(img,Config.setting.thumbNailWidth, Config.setting.thumbNailHeight, 0);
             return resizedImage;
         },
 
@@ -114,9 +122,9 @@ export default {
             //logger.log.debug("uploadImage=",blob);
 /*
             AWS.config.update( {
-                region: MoaConfig.s3.region,
+                region: Config.s3.region,
                 credentials: new AWS.CognitoIdentityCredentials({
-                    IdentityPoolId: MoaConfig.s3.poolId
+                    IdentityPoolId: Config.s3.poolId
                 })
             });
 */
@@ -124,8 +132,8 @@ export default {
             return new Promise(function(resolve,reject) {
 
                 const s3 = new AWS.S3({
-                    accessKeyId: MoaConfig.s3.key,
-                    secretAccessKey: MoaConfig.s3.secret 
+                    accessKeyId: Config.s3.key,
+                    secretAccessKey: Config.s3.secret 
                 });
 
                 let file_key = CommonFunc.getBucketKey(blob.name);
@@ -133,7 +141,7 @@ export default {
 
                 const params = {
                     Key: file_key,
-                    Bucket: MoaConfig.s3.bucket,
+                    Bucket: Config.s3.bucket,
                     Body: blob,
                     ACL:'public-read'
                 };
@@ -162,13 +170,15 @@ export default {
                 category_id: v_post.category, 
                 content_type: v_post.content_type,
                 asset_id: v_post.asset_id,
-                token:MoaConfig.auth.token,
+                token:store.getters.token,
                 text: CommonFunc.addHashTag(a_text,a_tag)
             };
 
             if (v_post.content_type==CONST.CONENT_TYPE_ASSET_ANSWER) {
                 dic_param.question_id = v_post.question_id; 
             }
+
+            logger.log.debug("BaseEditor.onClickSave : dic_param=",dic_param);
 
             v_post.post(dic_param).then( response => {
                 logger.log.debug("onClickSave : response=",response);
@@ -194,7 +204,7 @@ export default {
 
         delete(v_post) {                        
             const _this = this;
-            let dic_param = { id:v_post.id, token:MoaConfig.auth.token};
+            let dic_param = { id:v_post.id, token:store.getters.token};
             logger.log.debug('onClickDelete - ',dic_param);
             CMSAPI.deleteBlogPost(dic_param,function(response) {
               _this.$emit("onPostDelete",{ret:1, response:response});

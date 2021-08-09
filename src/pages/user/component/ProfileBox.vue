@@ -126,7 +126,7 @@
 
 <script>
 import AWS from 'aws-sdk';
-import {MoaConfig} from 'src/data/MoaConfig';
+import {Config} from 'src/data/Config';
 import {store} from 'src/store/store';
 import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
@@ -134,10 +134,14 @@ import logger from "src/error/Logger";
 
 import UserModel from "src/models/UserModel";
 
+import AuthService from 'src/services/authService';
+
 import AvatarCropper from "vue-avatar-cropper";
 import WMoreButton from "src/components/WMoreButton";
 import EditDialog from "src/components/dialogs/EditDialog";
 import ResetPasswordDialog from "src/components/dialogs/ResetPasswordDialog";
+
+
 
 export default {
     components: {
@@ -256,15 +260,26 @@ export default {
             //cropper.getCroppedCanvas(this.outputOptions).toBlob(
             cropper.getCroppedCanvas(avatar.outputOptions).toBlob(
                 blob => {
+                    
                     let form = new FormData();
                     //let xhr = new XMLHttpRequest();
                     let data = Object.assign({}, avatar.uploadFormData);
                     for (let key in data) {
+                        //logger.log.debug("ProfileBox.uploadAvatarHandler : key=",key);
                         form.append(key, data[key]);
                     }
                     form.append(avatar.uploadFormName, blob, avatar.filename);
                     
-                    _this.processAvatarPhoto(cropper,blob);
+                    logger.log.debug("avatar.uploadFormData=",avatar.uploadFormData);
+                    //form.append('name', avatar.filename);
+                    //form.append('image', blob);
+
+                    AuthService.uploadImage(form,function(response) {
+                        logger.log.debug("ProfileBox.uploadAvatarHandler");
+                    }, function(err) {
+                        logger.log.error("ProfileBox.uploadAvatarHandler");
+                    })
+                    //_this.processAvatarPhoto(cropper,blob);
                 },
                 outputMimes,
                 outputQuality
@@ -276,7 +291,7 @@ export default {
             return new Promise(function(resolve,reject) {
                 s3.upload( {
                     Key: key, 
-                    Bucket: MoaConfig.s3.bucket, 
+                    Bucket: Config.s3.bucket, 
                     Body: data, 
                     ACL:'public-read', 
                 }, function(err,response) {
@@ -314,12 +329,12 @@ export default {
             let image_avatar = await this.blobToImage(blob_avatar);
             //console.log("process-0",image_avatar);
             logger.log.debug("process-1",blob_avatar);
-            let blob_avatar_thumb = await CommonFunc.resizeImage(image_avatar,MoaConfig.setting.thumbNailWidth,MoaConfig.setting.thumbNailHeight,0);
+            let blob_avatar_thumb = await CommonFunc.resizeImage(image_avatar,Config.setting.thumbNailWidth,Config.setting.thumbNailHeight,0);
             logger.log.debug("process-2",blob_avatar_thumb);
 
             const s3 = new AWS.S3({
-                accessKeyId: MoaConfig.s3.key,
-                secretAccessKey: MoaConfig.s3.secret 
+                accessKeyId: Config.s3.key,
+                secretAccessKey: Config.s3.secret 
             });
             
             let files = [];

@@ -1,7 +1,7 @@
 //import api from '@/services/api'
-import {callAPI, callCMSAPI, callPostAPI, callJsonRPC} from 'src/util/Http';
+import {callAPI, callCMSAPI, callImageAPI} from 'src/util/Http';
 import {store} from 'src/store/store';
-import {MoaConfig} from 'src/data/MoaConfig';
+import {Config} from 'src/data/Config';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 //import LocalStorageService from 'src/services/localStorage';
@@ -16,7 +16,7 @@ export default class AuthService{
     }
 
     static signUp_foractivation(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/auth/users/");
+        let url = AuthService.getUrl(Config.urls.cms,"/api/auth/users/");
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -27,7 +27,7 @@ export default class AuthService{
     }
 
     static signUp(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/");
+        let url = AuthService.getUrl(Config.urls.cms,"/api/user/users/");
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -38,7 +38,7 @@ export default class AuthService{
     }
 
     static signIn(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/auth/token/login/");
+        let url = AuthService.getUrl(Config.urls.cms,"/api/auth/token/login/");
         //reqParam.no_token = "1";
 
         callCMSAPI("POST",url,{},reqParam)
@@ -51,7 +51,7 @@ export default class AuthService{
     }
 
     static signOut(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/auth/token/logout/");
+        let url = AuthService.getUrl(Config.urls.cms,"/api/auth/token/logout/");
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -63,7 +63,7 @@ export default class AuthService{
     }
 
     static changePassword(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/change_password/");
+        let url = AuthService.getUrl(Config.urls.cms,"/api/user/users/change_password/");
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -75,7 +75,7 @@ export default class AuthService{
     }
 
     static forgotPassword(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/reset_password/");
+        let url = AuthService.getUrl(Config.urls.cms,"/api/user/users/reset_password/");
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -87,7 +87,7 @@ export default class AuthService{
     }
 
     static requestActivationCode(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/authcode/");
+        let url = AuthService.getUrl(Config.urls.cms,"/api/user/users/authcode/");
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -99,7 +99,7 @@ export default class AuthService{
     }
 
     static checkAccount(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/check/");
+        let url = AuthService.getUrl(Config.urls.cms,"/api/user/users/check/");
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -112,20 +112,20 @@ export default class AuthService{
 
 /*
     static setData(json_auth) {
-        MoaConfig.auth = json_auth;
+        Config.auth = json_auth;
         AuthService.saveToCookie()
     }
 
     static saveToCookie() {
-        logger.log.debug("saveToCookie=",MoaConfig.auth);
-        LocalStorageService.save('auth',MoaConfig.auth);
+        logger.log.debug("saveToCookie=",Config.auth);
+        LocalStorageService.save('auth',Config.auth);
     }
 
     static loadFromCookie() {
         let auth_data = LocalStorageService.load('auth');
         logger.log.debug('loadFromCookie=',auth_data);
-        MoaConfig.auth = auth_data;
-        return MoaConfig.auth;
+        Config.auth = auth_data;
+        return Config.auth;
     }
 */
     static processLogin(username,auth_token,staySignedIn) {
@@ -150,13 +150,13 @@ export default class AuthService{
 
     static processLogout(username) {
         let json_auth = {
-            username:username, token:null,loggedIn: false, staySignedIn: MoaConfig.auth.staySignedIn
+            username:username, token:null,loggedIn: false, staySignedIn: Config.auth.staySignedIn
         }
         AuthService.setData(json_auth);
     }
 
     static getUserProfile(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users?username="+reqParam.username);
+        let url = AuthService.getUrl(Config.urls.cms,"/api/user/users?username="+reqParam.username);
         callCMSAPI("GET",url,{},reqParam)
         .then( (response) => {
             logger.log.debug("getUserProfile:dic_param=",reqParam);
@@ -170,7 +170,7 @@ export default class AuthService{
 
 
     static updateUserProfile(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/user/users/");
+        let url = AuthService.getUrl(Config.urls.cms,"/api/user/users/");
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -181,7 +181,7 @@ export default class AuthService{
     }    
 
     static getUserinfo(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/auth/users/me/");
+        let url = AuthService.getUrl(Config.urls.cms,"/api/auth/users/me/");
         callCMSAPI("GET",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -192,7 +192,7 @@ export default class AuthService{
     }    
 
     static getInboxMessage(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/dm/inbox/");
+        let url = AuthService.getUrl(Config.urls.cms,"/api/dm/inbox/");
         callCMSAPI("GET",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -204,7 +204,7 @@ export default class AuthService{
 
     static postPrivateMessage(reqParam,func,funcErr) {
         let a_method = "/api/dm/message/thread/"+store.getters.me.id+"/send/";
-        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        let url = AuthService.getUrl(Config.urls.cms,a_method);
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -217,7 +217,7 @@ export default class AuthService{
     static deletePrivateMessage(reqParam,func,funcErr) {
         let a_method = "/api/dm/message/thread/"+reqParam.uuid+"/" + reqParam.id + "/delete/";
 
-        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        let url = AuthService.getUrl(Config.urls.cms,a_method);
         callCMSAPI("DELETE",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -228,7 +228,7 @@ export default class AuthService{
     }    
 
     static getThreadMessage(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/dm/message/thread/"+reqParam.uuid+"/");
+        let url = AuthService.getUrl(Config.urls.cms,"/api/dm/message/thread/"+reqParam.uuid+"/");
         callCMSAPI("GET",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -240,7 +240,7 @@ export default class AuthService{
 
     static editThreadMessage(reqParam,func,funcErr) {
         let a_method = "/api/dm/message/thread/"+store.getters.me.id+"/"+reqParam.thread+"/edit/"
-        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        let url = AuthService.getUrl(Config.urls.cms,a_method);
         callCMSAPI("PUT",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -253,7 +253,7 @@ export default class AuthService{
 
     static deleteThreadMessage(reqParam,func,funcErr) {
         let a_method = "/api/dm/message/thread/"+store.getters.me.id+"/"+reqParam.thread+"/remove/"
-        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        let url = AuthService.getUrl(Config.urls.cms,a_method);
         callCMSAPI("DELETE",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -265,7 +265,7 @@ export default class AuthService{
 
     static replyThreadMessage(reqParam,func,funcErr) {
         let a_method = "/api/dm/message/thread/"+reqParam.uuid+"/"+store.getters.me.id+"/send/";
-        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        let url = AuthService.getUrl(Config.urls.cms,a_method);
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -276,7 +276,7 @@ export default class AuthService{
     }    
 
     static addPortfolioItem(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/portfolio/portfolios/");
+        let url = AuthService.getUrl(Config.urls.cms,"/api/portfolio/portfolios/");
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -288,7 +288,7 @@ export default class AuthService{
 
     static updatePortfolioItem(reqParam,func,funcErr) {
         let a_method = "/api/portfolio/portfolioitems/";
-        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        let url = AuthService.getUrl(Config.urls.cms,a_method);
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -299,7 +299,7 @@ export default class AuthService{
     }    
 
     static deletePortfolioItem(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/portfolio/portfolioitems/");
+        let url = AuthService.getUrl(Config.urls.cms,"/api/portfolio/portfolioitems/");
         callCMSAPI("DELETE",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -311,7 +311,7 @@ export default class AuthService{
 
 
     static deletePortfolio(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/portfolio/portfolios/");
+        let url = AuthService.getUrl(Config.urls.cms,"/api/portfolio/portfolios/");
         callCMSAPI("DELETE",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -340,7 +340,7 @@ export default class AuthService{
             }            
         }
         
-        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        let url = AuthService.getUrl(Config.urls.cms,a_method);
 
         url = CommonFunc.addLimitOffsetToQuery(url, reqParam);
 
@@ -355,7 +355,7 @@ export default class AuthService{
 
 
     static getPortfolioGroup(reqParam,func,funcErr) {
-        let url = AuthService.getUrl(MoaConfig.urls.cms,"/api/portfolio/portfolios/list/");
+        let url = AuthService.getUrl(Config.urls.cms,"/api/portfolio/portfolios/list/");
         callCMSAPI("GET",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -369,7 +369,7 @@ export default class AuthService{
         let a_method = "/api/qa/answers/"+reqParam.id+"/accept/";
         logger.log.debug("AuthService.acceptAnaswer : method="+a_method);
 
-        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        let url = AuthService.getUrl(Config.urls.cms,a_method);
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
             func(response);
@@ -384,7 +384,7 @@ export default class AuthService{
         logger.log.debug("AuthService.followUser");
 
         let a_method = "/api/user/users/" + dic_param.id + "/follow/";
-        const url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        const url = AuthService.getUrl(Config.urls.cms,a_method);
 
         //logger.log.debug("AuthService.followUser : URL=",url);
 
@@ -402,7 +402,7 @@ export default class AuthService{
         logger.log.debug("AuthService.getRelations");
 
         let a_method = "/api/user/users/" + dic_param.id + "/relation/";
-        const url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        const url = AuthService.getUrl(Config.urls.cms,a_method);
 
         //logger.log.debug("AuthService.followUser : URL=",url);
 
@@ -419,7 +419,7 @@ export default class AuthService{
         logger.log.debug("AuthService.getFollower");
 
         let a_method = "/api/user/users/" + dic_param.id + "/follower/";
-        const url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        const url = AuthService.getUrl(Config.urls.cms,a_method);
 
         callCMSAPI("POST", url, {}, dic_param)
         .then(response => {
@@ -434,7 +434,7 @@ export default class AuthService{
         logger.log.debug("AuthService.getFollowing");
 
         let a_method = "/api/user/users/" + dic_param.id + "/following/";
-        const url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        const url = AuthService.getUrl(Config.urls.cms,a_method);
 
         callCMSAPI("POST", url, {}, dic_param)
         .then(response => {
@@ -452,7 +452,7 @@ export default class AuthService{
             a_method += "?userid="+reqParam.userid;
         }
         
-        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        let url = AuthService.getUrl(Config.urls.cms,a_method);
         url = CommonFunc.addLimitOffsetToQuery(url, reqParam);
 
         callCMSAPI("GET",url,{},reqParam)
@@ -466,7 +466,7 @@ export default class AuthService{
 
     static addBookmarkData(reqParam,func,funcErr) {
         let a_method = "/api/bookmark/bookmarks/";        
-        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        let url = AuthService.getUrl(Config.urls.cms,a_method);
 
         callCMSAPI("POST",url,{},reqParam)
         .then( (response) => {
@@ -479,7 +479,7 @@ export default class AuthService{
 
     static deleteBookmarkData(reqParam,func,funcErr) {
         let a_method = "/api/bookmark/bookmarks/";        
-        let url = AuthService.getUrl(MoaConfig.urls.cms,a_method);
+        let url = AuthService.getUrl(Config.urls.cms,a_method);
 
         callCMSAPI("DELETE",url,{},reqParam)
         .then( (response) => {
@@ -490,4 +490,16 @@ export default class AuthService{
         });
     }    
     
+    static uploadImage(reqParam,func,funcErr) {
+        let a_method = "/api/image/upload";
+        let url = AuthService.getUrl(Config.urls.cms,a_method);
+
+        callImageAPI("POST",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }
 }

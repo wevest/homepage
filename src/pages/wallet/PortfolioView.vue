@@ -80,7 +80,7 @@
 
 <script>
 import {store} from 'src/store/store';
-import {MoaConfig} from 'src/data/MoaConfig';
+import {Config} from 'src/data/Config';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
@@ -121,7 +121,7 @@ export default {
     mounted() {
         logger.log.debug("MessageView.mounted - params=",this.$route.params);
         
-        this.v_user = MoaConfig.auth;
+        this.v_user = store.getters.me;
         //this.v_message.subject = "test";
         //this.v_message.to_user = "tester1002";
         //this.v_message.body = "private message";

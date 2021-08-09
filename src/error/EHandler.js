@@ -1,12 +1,12 @@
 //import Firebase from 'firebase';
-import {MoaConfig} from 'src/data/MoaConfig';
+import {Config} from 'src/data/Config';
 import Errors from 'src/error/Errors';
 import logger from "src/error/Logger";
 
 
 export class EHandler {
     constructor() {
-        this.options = MoaConfig.error;
+        this.options = Config.error;
         this.errors = [];
         this.firestore = null;
         this.errorHandler = null;

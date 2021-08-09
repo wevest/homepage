@@ -11,7 +11,6 @@
         
         <q-separator class="gSeparator" />
 
-
         <div>
 
             <AssetQuestionList ref="questionList" :title="$t('page.assetqa.questionlist.title')" maxLength="20000" moreCaption=""

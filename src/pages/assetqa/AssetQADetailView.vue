@@ -34,16 +34,9 @@
             <q-separator size="1px" />
 
             <div class="gPageContent q-my-xl">
-                <div class="gBodyLG" v-html="v_question.body"></div>
-                    <!--                
-                        <Viewer 
-                            ref="toastViewer"
-                            :value="v_question.body"
-                            :options="editorOptions"
-                            :visible="v_show_editor"
-                            previewStyle="vertical"
-                        />
-                    -->
+                <div class="gBodyLG">
+                    <FroalaView v-model="v_question.body" />                
+                </div>
             </div>
 
         <!--
@@ -87,10 +80,6 @@
 
         
 <script>
-import "codemirror/lib/codemirror.css";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import { Viewer } from "@toast-ui/vue-editor";
-
 import { CONST } from "src/data/const";
 import { store } from "src/store/store";
 import NavFunc from 'src/util/NavFunc';
@@ -117,7 +106,6 @@ import QuestionCommentBox from "src/pages/assetqa/component/QuestionCommentBox.v
 export default {
     name:'assetView',
     components: {
-        Viewer,
         AssetAnswerList,
         WRatingButton,
         WSubinfo,

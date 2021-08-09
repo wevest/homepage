@@ -21,8 +21,9 @@
         </div>
 
         <div>
-            <AssetCommunityList ref='assetList' :title="$t('page.home.asset.title')" :desc="$t('page.home.asset.desc')"
-            maxLength="10" :moreCaption="$t('button.more')" ></AssetCommunityList>
+            <AssetCommunityCard ref='assetList' 
+                :title="$t('page.home.asset.title')" :desc="$t('page.home.asset.desc')"
+                maxLength="10" :moreCaption="$t('button.more')" ></AssetCommunityCard>
         </div>
 
         <div>
@@ -68,7 +69,7 @@ import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
 
 import BlogList from 'components/lists/BlogList';
-import AssetCommunityList from 'components/lists/AssetCommunityList';
+import AssetCommunityCard from 'components/cards/AssetCommunityCard';
 import PortfolioList from 'components/lists/PortfolioList';
 import PortfolioCard from 'components/cards/PortfolioCard';
 import ReviewStatList from 'components/lists/ReviewStatList';
@@ -93,7 +94,7 @@ export default {
         MarketWatchWidget,
         BlogList,
         PortfolioList,
-        AssetCommunityList,
+        AssetCommunityCard,
         UserFeedList,
         CaptainList,
         ReviewStatList,
@@ -174,7 +175,12 @@ export default {
         },
 
         loadAssetList() {
-            this.$refs.assetList.updateByCategory('market_capital');
+            if ( (this.v_me.bookmarks) && (this.v_me.bookmarks.items.length>0) ) {
+                this.$refs.assetList.updateByBookmarks();
+            } else {
+                this.$refs.assetList.updateByCategory('market_capital');
+            }
+            
         },
 
         loadFeedList() {

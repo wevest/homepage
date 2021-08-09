@@ -122,7 +122,7 @@
 </template>
 
 <script>
-import {MoaConfig} from 'src/data/MoaConfig';
+import {Config} from 'src/data/Config';
 import { store } from 'src/store/store';
 import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
@@ -324,7 +324,7 @@ export default {
                 logger.log.debug("ForgotPasswordView.onClickResend:resp=",resp);
                 _this.v_loading_token = false;
                                 
-                _this.$refs.authTimer.setTime(MoaConfig.setting.authCodeTimelimit);
+                _this.$refs.authTimer.setTime(Config.setting.authCodeTimelimit);
                 
                 _this.v_button_update_disable = false;
                 _this.v_button_send_enabled = false;

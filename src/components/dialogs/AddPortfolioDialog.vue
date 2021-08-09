@@ -102,7 +102,7 @@
 
 <script>
 import { store } from 'src/store/store';
-import { MoaConfig } from 'src/data/MoaConfig';
+import { Config } from 'src/data/Config';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 
@@ -245,7 +245,7 @@ export default {
             let groups = [];
             
             if (v_portfolio.items.length==0) {
-                groups.push( {name: MoaConfig.setting.defaultPortfolio, icon:'', label:MoaConfig.setting.defaultPortfolio} );
+                groups.push( {name: Config.setting.defaultPortfolio, icon:'', label:Config.setting.defaultPortfolio} );
             } else {
                 for (let index=0;index<v_portfolio.items.length;index++) {
                     groups.push( {name:v_portfolio.items[index].name, icon:'', label:v_portfolio.items[index].name} );

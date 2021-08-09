@@ -608,6 +608,7 @@ export default {
 		profile:"Profile",
 		reset_password:"Reset Password",
 		change_password:"Change Password",
+		bookmark:"Bookmark",
 		next: "Next",
 		back: "Back",
 	}

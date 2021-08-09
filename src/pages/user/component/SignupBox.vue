@@ -117,7 +117,7 @@
 
 <script>
 import {store} from 'src/store/store';
-import {MoaConfig} from 'src/data/MoaConfig';
+import {Config} from 'src/data/Config';
 import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
@@ -306,7 +306,7 @@ export default {
                 _this.v_loading_token = false;
                                 
                 _this.v_show_timer = true;
-                _this.$refs.authTimer.setTime(MoaConfig.setting.authCodeTimelimit);                
+                _this.$refs.authTimer.setTime(Config.setting.authCodeTimelimit);                
                 
                 _this.v_button_signup_disable = false;
                 _this.v_button_send_enabled = false;

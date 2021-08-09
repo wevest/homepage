@@ -207,7 +207,7 @@
 
 
 <script>
-import { MoaConfig } from 'src/data/MoaConfig';
+import { Config } from 'src/data/Config';
 import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
@@ -457,8 +457,8 @@ export default {
             let column_ret = dic_columns['index_ret'];
             let column_price = dic_columns['price_avg'];
             
-            for (let index=0; index<MoaConfig.general.SECTORS.length;index++) {
-                let a_sector = MoaConfig.general.SECTORS[index];
+            for (let index=0; index<Config.general.SECTORS.length;index++) {
+                let a_sector = Config.general.SECTORS[index];
                 //console.log('sector=',a_sector);
                 let a_index = data[exchange][a_sector].values[data[exchange][a_sector].values.length-1][column_price];
                 let a_ret = data[exchange][a_sector].values[data[exchange][a_sector].values.length-1][column_ret];

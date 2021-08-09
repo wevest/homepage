@@ -1,5 +1,5 @@
 import { store } from 'src/store/store';
-import { MoaConfig } from 'src/data/MoaConfig';
+import { Config } from 'src/data/Config';
 
 import logger from "src/error/Logger";
 import CommonFunc from 'src/util/CommonFunc';
@@ -28,7 +28,7 @@ export default class LocalStorageService{
     }
 
     static loadKCodes() {
-        const a_code = LocalStorageService.load(MoaConfig.general.KCODE);
+        const a_code = LocalStorageService.load(Config.general.KCODE);
         //console.log("localStorage.getCode=",a_code);
 
         if ( a_code) {
@@ -43,7 +43,7 @@ export default class LocalStorageService{
 
                 logger.log.debug("LocalStorageService.loadCode - response",g_code);                                
                 
-                LocalStorageService.save(MoaConfig.general.KCODE,g_code);
+                LocalStorageService.save(Config.general.KCODE,g_code);
                 resolve(g_code);
 
             },function(err) {
@@ -54,7 +54,7 @@ export default class LocalStorageService{
     }
 
     static loadCoinCodes(force=false) {
-        const a_code = LocalStorageService.load(MoaConfig.general.COINCODE);
+        const a_code = LocalStorageService.load(Config.general.COINCODE);
         //console.log("localStorage.getCode=",a_code);
 
         if ((! force) && ( a_code)) {
@@ -70,7 +70,7 @@ export default class LocalStorageService{
 
                 logger.log.debug("LocalStorageService.loadCoinCodes - response",g_code);                                
                 
-                LocalStorageService.save(MoaConfig.general.COINCODE,g_code);
+                LocalStorageService.save(Config.general.COINCODE,g_code);
                 resolve(g_code);
 
             },function(err) {
@@ -81,11 +81,11 @@ export default class LocalStorageService{
     }
 
     static getCoinCode() {
-        return LocalStorageService.load(MoaConfig.general.COINCODE);    
+        return LocalStorageService.load(Config.general.COINCODE);    
     }
 
     static getCode() {
-        return LocalStorageService.load(MoaConfig.general.KCODE);    
+        return LocalStorageService.load(Config.general.KCODE);    
     }
 
     static getCodes() {

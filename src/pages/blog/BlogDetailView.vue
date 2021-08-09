@@ -44,9 +44,11 @@
 
         <div>
             <div class="q-py-lg">
+            
+                <FroalaView v-model="v_post.body" />                
 <!--
                 <div class="gBodyLG" v-html="v_post.body"></div>
--->
+
                 <Viewer 
                     ref="toastViewer"
                     :value="v_post.body"
@@ -54,7 +56,6 @@
                     :visible="editorVisible"
                     previewStyle="vertical" height="200px"
                 />                
-<!--                
                 <p> {{ v_post.tags }} </p>                   
 -->                
             </div>
@@ -89,12 +90,8 @@
 </template>
 
 <script>
-import 'codemirror/lib/codemirror.css'; 
-import '@toast-ui/editor/dist/toastui-editor.css';
-import { Viewer } from "@toast-ui/vue-editor";
-
 import { CONST } from 'src/data/const';
-import { MoaConfig } from 'src/data/MoaConfig';
+import { Config } from 'src/data/Config';
 import { store } from 'src/store/store';
 import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
@@ -118,7 +115,6 @@ export default {
     components: {
         CTitle,
         CBigLabel,
-        Viewer,
         WAvatar,
         CommentBox,
         WRatingButton,
@@ -132,7 +128,7 @@ export default {
         },
         v_shorten() {
             return (value) => {
-                return CommonFunc.shortenString(value,MoaConfig.setting.maxBiographyLength);
+                return CommonFunc.shortenString(value,Config.setting.maxBiographyLength);
             };
         },
         v_owner() {

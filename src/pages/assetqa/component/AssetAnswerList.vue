@@ -34,17 +34,10 @@
             <q-separator />
 
             <div class="gAnswerContent">
-
 <!--                
                 <div class="q-py-lg gBodyMD" v-html="a_answer.body">  </div>     
 -->                
-                <Viewer 
-                    ref="toastViewer"
-                    :value="v_post.body"
-                    :options="editorOptions"
-                    previewStyle="vertical" height="200px"
-                />                
-
+                <FroalaView v-model="a_answer.body" />
 
             </div>
             <div class="gAnswerRatingBox">              
@@ -149,7 +142,7 @@ export default {
         },
         v_shorten() {
             return (value) => {
-                return CommonFunc.shortenString(value,MoaConfig.setting.maxTitleLength);
+                return CommonFunc.shortenString(value,Config.setting.maxTitleLength);
             };
         },
         v_ref() {
@@ -167,7 +160,7 @@ export default {
         g_question_id: null,
 
         editorOptions:{},
-        
+
         v_comments: [],
         v_comment: null,
         v_loading: false,
@@ -183,7 +176,7 @@ export default {
       }
     },
 
-    mounted: function() {
+    mounted() {
         //logger.log.debug("AssetQAView.mounted - param=",this.$route.params);
         //this.g_question_id = 24;
         //this.loadAssetAnswerComment(this.g_question_id);
@@ -194,13 +187,19 @@ export default {
             this.v_question = question;
         },
 
-        update: function(question_id,a_offset=null,a_limit=null) {                        
+        setContent(content) {
+            if (this.$refs.toastViewer) {
+                this.$refs.toastViewer.invoke('setMarkdown', content);
+            }            
+        },
+
+        update(question_id,a_offset=null,a_limit=null) {                        
             
             const _this=this;
 
             this.v_answers.load(question_id,a_offset,a_limit).then(response=>{             
                 //logger.log.debug("AssetAnswerList.loadAnswers : response=",response);
-                _this.$refs.loadMore.setPageParameter(response.data);
+                _this.$refs.loadMore.setPageParameter(response.data);                
                 _this.loadAnswerComments(question_id);
             }).catch(err=>{
 
@@ -208,7 +207,7 @@ export default {
 
         },
 
-        loadAnswerComments: function(question_id) {
+        loadAnswerComments(question_id) {
             const _this=this;
 
             //logger.log.debug("AssetAnswerList.loadAnswerComments");    
@@ -284,7 +283,7 @@ export default {
             //this.$emit("onClickLoadmore",{});
         },
 
-        onClickAccept: function(jsonObject) {
+        onClickAccept(jsonObject) {
             logger.log.debug('AssetAnswerList.onClickAccept - ',jsonObject);
             
             this.v_loading = true;
@@ -292,7 +291,7 @@ export default {
             this.$emit("onClickQuestionAccept",jsonObject);          
         },
 
-        onClickSaveComment: function(dicParam) {
+        onClickSaveComment(dicParam) {
             const _this = this;
 
             logger.log.debug("AssetAnswerList.onClickSaveComment=",dicParam, this.$refs.commentEditor[0]);
@@ -316,7 +315,7 @@ export default {
         },
 
 
-        onClickVoteComment: function(value,comment) {
+        onClickVoteComment(value,comment) {
             const _this = this;
 
             logger.log.debug("AssetAnswerList.onClickVoteComment=",comment);
@@ -332,7 +331,7 @@ export default {
 
         },
 
-        onClickAnswerUpdate:function(answer) {
+        onClickAnswerUpdate(answer) {
             logger.log.debug("AssetAnswerList.onClickUpdate=",answer);
 
             store.getters.nav.add(this.$route); 
@@ -342,7 +341,7 @@ export default {
             this.$router.push(dic_param);
         },
 
-        onClickAnswerDelete:function(answer) {
+        onClickAnswerDelete(answer) {
             logger.log.debug("AssetAnswerList.onClickAnswerDelete=",answer);
 
             const _this=this;
@@ -361,7 +360,7 @@ export default {
 
         },
 
-        onClickDeleteComment: function(dicParam) {
+        onClickDeleteComment(dicParam) {
             logger.log.debug("AssetAnswerList.onClickDeleteComment=",dicParam);            
             this.v_answers_comments.remove(dicParam.answer.comments,dicParam.comment.id);                
         }

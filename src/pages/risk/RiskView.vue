@@ -27,7 +27,7 @@
 <script>
 import RiskChart from 'src/pages/risk/RiskChart';
 
-import {MoaConfig} from 'src/data/MoaConfig';
+import {Config} from 'src/data/Config';
 import CommonFunc from 'src/util/CommonFunc';
 import MoaBackendAPI from 'src/services/apiService';
 import DataService from 'src/services/dataService';

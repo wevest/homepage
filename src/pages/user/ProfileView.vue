@@ -97,7 +97,7 @@
 
 <script>
 import AWS from 'aws-sdk';
-import {MoaConfig} from 'src/data/MoaConfig';
+import {Config} from 'src/data/Config';
 import {store} from 'src/store/store';
 import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';

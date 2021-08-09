@@ -1,11 +1,11 @@
 //import Vue from 'vue';
-import {MoaConfig} from 'src/data/MoaConfig';
+import {Config} from 'src/data/Config';
 import Errors from 'src/error/Errors';
 
 const logLevels = ['debug', 'info', 'warn', 'error', 'fatal'];
 
 
-//const firebaseApp = Firebase.initializeApp(MoaConfig.firebase);
+//const firebaseApp = Firebase.initializeApp(Config.firebase);
 /*
 window.onerror = function (errorMsg, url, lineNumber) {
     alert('Error - Global : ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
@@ -14,10 +14,10 @@ window.onerror = function (errorMsg, url, lineNumber) {
 
 export class Logger {
     constructor() {
-        this.options = MoaConfig.log;
+        this.options = Config.log;
         this.log = this.initLoggerInstance(this.options,logLevels);
         //this.firestore = firebaseApp;
-        //console.log("Logger.constructor",MoaConfig.log);
+        //console.log("Logger.constructor",Config.log);
     }
     
     _toJson(obj) {

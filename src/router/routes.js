@@ -52,7 +52,7 @@ const routes = [
 			{
 				name: "blog_writer",
 				path: "blog_writer",
-				component: () => import("pages/blog/BlogWriterView.vue"),
+				component: () => import("pages/writer/BlogWriterView.vue"),
 				meta: { transition: "overlay-right" },
 			},
 			{
@@ -135,13 +135,13 @@ const routes = [
 			{
 				name: "assetqa_answer_writer",
 				path: "/assetqa_answer_writer",
-				component: () => import("pages/assetqa/AnswerWriterView.vue"),
+				component: () => import("pages/writer/AnswerWriterView.vue"),
 				meta: { transition: "overlay-right" },
 			},
 			{
 				name: "assetqa_question_writer",
 				path: "/assetqa_question_writer",
-				component: () => import("pages/assetqa/QuestionWriterView.vue"),
+				component: () => import("pages/writer/QuestionWriterView.vue"),
 				meta: { transition: "overlay-right" },
 			},
 			{

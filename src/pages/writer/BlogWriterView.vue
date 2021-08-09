@@ -28,20 +28,6 @@
             </div>
             <div class="gBoxNoMargin">
                 <BaseEditor ref="baseEditor" @onPostSave="onPostSave" />
-<!--                
-                <Editor 
-                    hide-bottom-space
-                    ref="toastEditor"
-                    :value="v_post.text"
-                    :options="editorOptions"
-                    :visible="editorVisible"
-                    :initialValue="editorHtml"
-                    previewStyle="vertical"
-                    height="360px"
-                    mode="wysiwyg"
-                    initialEditType="wysiwyg"
-                />
--->                
                 <div class="gErrorMsg" v-if="v_error.text.error">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{v_error.text.msg}}
                 </div>
@@ -81,19 +67,21 @@ export default {
         v_me() {
             return store.getters.me;
         },
-        isNewPost: function() {
+        isNewPost() {
             if (this.v_post.id) {
                 return false;
             }
             return true;
         }
     },
-    data: function () {
+    data() {
         return {
             g_data: '',
             g_page_id: null,
             g_category_id: null,
             
+            v_update_flag: false,
+
             v_post: new PostPageModel(),
                     
             v_page: {title:this.$t('page.cryptovc.title'), desc:''},
@@ -112,7 +100,11 @@ export default {
         this.prepare();
     },
     updated() {
-        //console.log("HomeView.updated");
+        logger.log.debug("BlogWriterView.updated");
+        if (! this.v_update_flag) {
+            this.$refs.baseEditor.setContent(this.v_post.body);
+            this.v_update_flag = true;
+        }
     },
     
     methods: {
@@ -128,8 +120,9 @@ export default {
             this.g_page_id = page_id;
         },
 
-        fillData: function() {
+        fillData() {
             if (this.$refs.baseEditor) {
+                logger.log.debug("BlogWriterView.fillData");
                 this.$refs.baseEditor.setPostModel(this.v_post);
             }            
         },
