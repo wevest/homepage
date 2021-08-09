@@ -4423,6 +4423,11 @@
     "error-stack-parser" "^2.0.0"
     "string-width" "^2.0.0"
 
+"froala-editor@^3.2.7":
+  "integrity" "sha512-/nHMuA/MYZnNx0TbrGnGJoiRuRHFN6JKtvfV6So0j3Ijwyj48s8NhU4AAzQx4ge8Jx5JmcHf5jJX4sDcJAU+CQ=="
+  "resolved" "https://registry.npmjs.org/froala-editor/-/froala-editor-3.2.7.tgz"
+  "version" "3.2.7"
+
 "froala-editor@^4.0.4":
   "integrity" "sha512-0g+ZRh4bDNC3ORevmXoui/+/eMqy2oBvbYn5KAwEyKH/JEGWsvg7MYrLdEjKhdFq8h93nEbmeMrcqsB2Y6Q9kw=="
   "resolved" "https://registry.npmjs.org/froala-editor/-/froala-editor-4.0.4.tgz"
@@ -8406,6 +8411,16 @@
   dependencies:
     "is-plain-obj" "^1.0.0"
 
+"sortablejs@^1.10.2":
+  "integrity" "sha512-pBXvQCs5/33fdN1/39pPL0NZF20LeRbLQ5jtnheIPN9JQAaufGjKdWduZn4U7wCtVuzKhmRkI0DFYHYRbB2H1w=="
+  "resolved" "https://registry.npmjs.org/sortablejs/-/sortablejs-1.14.0.tgz"
+  "version" "1.14.0"
+
+"sortablejs@1.10.2":
+  "integrity" "sha512-YkPGufevysvfwn5rfdlGyrGjt7/CRHwvRPogD/lC+TnvcN29jDpCifKP+rBqf+LRldfXSTh+0CGLcSg0VIxq3A=="
+  "resolved" "https://registry.npmjs.org/sortablejs/-/sortablejs-1.10.2.tgz"
+  "version" "1.10.2"
+
 "source-list-map@^2.0.0":
   "integrity" "sha512-qnQ7gVMxGNxsiL4lEuJwe/To8UnK7fAnmbGEEH8RpLouuKbeEm0lhbQVFIrNSuB+G7tVrAlVsZgETT5nljf+Iw=="
   "resolved" "https://registry.npmjs.org/source-list-map/-/source-list-map-2.0.1.tgz"
@@ -9411,6 +9426,11 @@
   "resolved" "https://registry.npmjs.org/vue-avatar-cropper/-/vue-avatar-cropper-2.0.0.tgz"
   "version" "2.0.0"
 
+"vue-draggable@^2.0.6":
+  "integrity" "sha512-/FHtAwrhy6a4duF/zr5Sf3oowf3BMHdcEfi1v8SsYYFCNqbKvBFUaiMs7Lw1ZQq2/2j6yvBoAHPKVmuLFSSiJw=="
+  "resolved" "https://registry.npmjs.org/vue-draggable/-/vue-draggable-2.0.6.tgz"
+  "version" "2.0.6"
+
 "vue-eslint-parser@^7.6.0":
   "integrity" "sha512-QXxqH8ZevBrtiZMZK0LpwaMfevQi9UL7lY6Kcp+ogWHC88AuwUPwwCIzkOUc1LR4XsYAt/F9yHXAB/QoD17QXA=="
   "resolved" "https://registry.npmjs.org/vue-eslint-parser/-/vue-eslint-parser-7.6.0.tgz"
@@ -9423,14 +9443,14 @@
     "esquery" "^1.4.0"
     "lodash" "^4.17.15"
 
-"vue-froala-wysiwyg@^4.0.4":
-  "integrity" "sha512-ULl/xZNL0NM2prlOfDc103Bl21JVtcENf5j+WjxVzJZaJuLmsESpcLtraeQrLKhyR9g1Ml4prp4fETfeFsXddg=="
-  "resolved" "https://registry.npmjs.org/vue-froala-wysiwyg/-/vue-froala-wysiwyg-4.0.4.tgz"
-  "version" "4.0.4"
+"vue-froala-wysiwyg@^3.2.4":
+  "integrity" "sha512-HXqTUmxcB3MorA/GXqaytdqWQfsQweIZqHoz1W1PpTzVv0ZLCBNW+cAsDpn+ByZ+IKwPmWpdQmSzi8lZ4TInlw=="
+  "resolved" "https://registry.npmjs.org/vue-froala-wysiwyg/-/vue-froala-wysiwyg-3.2.7.tgz"
+  "version" "3.2.7"
   dependencies:
     "@babel/runtime-corejs2" "^7.7.7"
     "babel-runtime" "^6.26.0"
-    "froala-editor" "^4.0.4"
+    "froala-editor" "^3.2.7"
     "vue" "2.6.6"
 
 "vue-hot-reload-api@^2.3.0":
@@ -9526,6 +9546,13 @@
   "integrity" "sha512-Y2DdOZD8sxApS+iUlwv1v8U1qN41kq6Kw45lM6nVZKhygeWA49q7VCCXkjXqeDBXgurrKWkYQ9cJeEJwAq0b9Q=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-2.6.6.tgz"
   "version" "2.6.6"
+
+"vuedraggable@^2.24.3":
+  "integrity" "sha512-6/HDXi92GzB+Hcs9fC6PAAozK1RLt1ewPTLjK0anTYguXLAeySDmcnqE8IC0xa7shvSzRjQXq3/+dsZ7ETGF3g=="
+  "resolved" "https://registry.npmjs.org/vuedraggable/-/vuedraggable-2.24.3.tgz"
+  "version" "2.24.3"
+  dependencies:
+    "sortablejs" "1.10.2"
 
 "vuelidate@^0.7.6":
   "integrity" "sha512-suzIuet1jGcyZ4oUSW8J27R2tNrJ9cIfklAh63EbAkFjE380iv97BAiIeolRYoB9bF9usBXCu4BxftWN1Dkn3g=="

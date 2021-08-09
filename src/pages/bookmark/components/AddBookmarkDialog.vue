@@ -36,9 +36,9 @@
                             @onSelect="onSelectAsset"  />
 -->
                         <div class="row q-mb-md">
-                            <q-input dense outlined v-model="v_search" />
+                            <q-input class="col-10" dense outlined v-model="v_search" />
                             <q-space />
-                            <q-btn dense label="Search" @click="onClickSearch" />
+                            <q-btn class="col-2" outline color="grey-5" dense icon="search" @click="onClickSearch" />
                         </div>
                         <div v-if="v_query_count>-1">
                             Total Results : {{v_query_count}}

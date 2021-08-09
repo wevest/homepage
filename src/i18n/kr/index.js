@@ -380,6 +380,10 @@ export default {
 				desc: ''
 			}
 		},
+		bookmark : {
+			title : '북마크',
+			desc : '에셋 커뮤니티를 북마크하세요!',
+		},
 		assetqa: {
 			title: 'QA',
 			desc: '궁금한 것이 있으면 참으면 안됩니다',
