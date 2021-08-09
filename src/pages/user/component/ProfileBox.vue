@@ -232,7 +232,6 @@ export default {
             this.updateUserProfile();
         },
 
-
         handleUploaded(resp) {
             logger.log.debug("handleUploaded",resp);
             this.user.photo = resp.relative_url;
@@ -257,10 +256,13 @@ export default {
             const outputMimes = 'image/jpeg';
             const outputQuality = 0.7;
 
+            this.v_loading_change = true;
             //cropper.getCroppedCanvas(this.outputOptions).toBlob(
             cropper.getCroppedCanvas(avatar.outputOptions).toBlob(
                 blob => {
-                    
+                    /*
+                    //form.append('name', avatar.filename);
+                    //form.append('image', blob);
                     let form = new FormData();
                     //let xhr = new XMLHttpRequest();
                     let data = Object.assign({}, avatar.uploadFormData);
@@ -268,18 +270,12 @@ export default {
                         //logger.log.debug("ProfileBox.uploadAvatarHandler : key=",key);
                         form.append(key, data[key]);
                     }
-                    form.append(avatar.uploadFormName, blob, avatar.filename);
-                    
+                    form.append(avatar.uploadFormName, blob, avatar.filename);            
                     logger.log.debug("avatar.uploadFormData=",avatar.uploadFormData);
-                    //form.append('name', avatar.filename);
-                    //form.append('image', blob);
 
-                    AuthService.uploadImage(form,function(response) {
-                        logger.log.debug("ProfileBox.uploadAvatarHandler");
-                    }, function(err) {
-                        logger.log.error("ProfileBox.uploadAvatarHandler");
-                    })
-                    //_this.processAvatarPhoto(cropper,blob);
+                    _this.v_me.uploadAvatar(form);
+                    */
+                    _this.processAvatarPhoto(cropper,avatar,blob);
                 },
                 outputMimes,
                 outputQuality
@@ -319,19 +315,50 @@ export default {
             });
         },
 
-        processAvatarPhoto:async function(cropper,blob_avatar) {
+        processAvatarPhoto:async function(cropper,avatar,blob_avatar) {
             // check the following link
             // https://solve-programming.tistory.com/29    
             // https://day0404.tistory.com/entry/Nuxtjs-Toast-Ui-Editor-%EC%A0%81%EC%9A%A9
 
             const _this = this;
-
+            
             let image_avatar = await this.blobToImage(blob_avatar);
             //console.log("process-0",image_avatar);
-            logger.log.debug("process-1",blob_avatar);
+            //logger.log.debug("process-1",blob_avatar);
             let blob_avatar_thumb = await CommonFunc.resizeImage(image_avatar,Config.setting.thumbNailWidth,Config.setting.thumbNailHeight,0);
-            logger.log.debug("process-2",blob_avatar_thumb);
+            //logger.log.debug("process-2",blob_avatar_thumb);
+            
 
+            let form = new FormData();
+            let data = Object.assign({}, avatar.uploadFormData);
+            for (let key in data) {
+                //logger.log.debug("ProfileBox.uploadAvatarHandler : key=",key);
+                form.append(key, data[key]);
+            }
+            form.append(avatar.uploadFormName, blob_avatar, avatar.filename); 
+            form.append(avatar.uploadFormName, blob_avatar_thumb, avatar.filename); 
+
+            this.v_me.uploadAvatar(form).then(resp=>{
+                logger.log.debug("avatar.processAvatarPhoto : resp=",resp);
+
+                _this.v_loading_change = false;
+
+                if (resp.data.ret!=0) {
+                    logger.log.error("avatar.processAvatarPhoto : resp=",resp);
+                    return;
+                }
+                
+                _this.v_user.avatar = resp.data.data['avatar'];
+                _this.v_user.avatar_thumb = resp.data.data['avatar_thumb'];                
+                _this.updateUserProfile();
+
+            }).catch(err=>{
+                logger.log.error("avatar.processAvatarPhoto : err=",err);
+                _this.v_loading_change = false;
+            });
+
+
+            /*
             const s3 = new AWS.S3({
                 accessKeyId: Config.s3.key,
                 secretAccessKey: Config.s3.secret 
@@ -349,13 +376,14 @@ export default {
             
             this.updateUserPhoto(files);
             return files;
+            */
         },
 
-        onClickChangeProfile: function() {
+        onClickChangeProfile() {
             logger.log.debug("ProfileBox.onClickChangeProfile");
         },
 
-        onClickMessage: function() {
+        onClickMessage() {
             logger.log.debug("ProfileView.onClickMessage");
 
             const _this=this;
@@ -371,7 +399,7 @@ export default {
             });
         },
 
-        onClickFollow: function(value) {
+        onClickFollow(value) {
             logger.log.debug("onClickFollow");
                         
             const _this=this;
@@ -394,15 +422,15 @@ export default {
         },
 
 
-        onClickFollower: function(user) {
+        onClickFollower(user) {
             logger.log.debug("onClickFollower",user);
         },
 
-        onClickMoreFollower: function() {
+        onClickMoreFollower() {
             logger.log.debug("ProfileView.onClickFollower");
         },
 
-        onClickFriend: function() {
+        onClickFriend() {
             logger.log.debug("ProfileView.onClickFriend");
         },
 

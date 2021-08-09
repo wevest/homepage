@@ -37,7 +37,7 @@
 <script>
 import { Config } from 'src/data/Config';
 import {store} from 'src/store/store';
-import NvaFunc from 'src/util/NavFunc';
+import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 

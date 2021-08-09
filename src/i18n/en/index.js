@@ -104,7 +104,7 @@ export default {
 		source_codes: "Source codes",
 		token_address: "Token address",
 		circulating_supply:"Circulating supply",
-		total_supply: "Totla supply",
+		total_supply: "Total supply",
 		max_supply: "Max supply",
 		
 		market_capital:"Market Capital",

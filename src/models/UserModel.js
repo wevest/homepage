@@ -809,6 +809,20 @@ export default class User {
             });                
         });            
     }
+
+    uploadAvatar(form) {
+        const _this=this;
+
+        return new Promise(function(resolve,reject) {
+            AuthService.uploadAvatar(form,function(response) {
+                logger.log.debug("UserModel.uploadAvatar");
+                resolve(response);
+            }, function(err) {
+                logger.log.error("UserModel.uploadAvatar");
+                reject(err);
+            })
+        });
+    }
 }
 
 

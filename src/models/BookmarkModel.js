@@ -45,11 +45,11 @@ export class BookmarkModel {
 
     toDict() {
         return { 
-            bookmark_id: this.id, 
+            bookmark_id: this.bookmark_id, 
             name: this.name, 
-            id:this.api_asset.id, 
-            symbol: this.api_asset.symbol,
-            logo_thumb: this.api_asset.logo_thumb
+            id:this.id, 
+            symbol: this.symbol,
+            logo_thumb: this.logo_thumb
         }
     }
 }

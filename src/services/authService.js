@@ -490,8 +490,9 @@ export default class AuthService{
         });
     }    
     
-    static uploadImage(reqParam,func,funcErr) {
-        let a_method = "/api/image/upload";
+    static uploadAvatar(reqParam,func,funcErr) {
+        let a_method = "/api/user/users/upload_avatar/";
+        //let a_method = "/api/image/upload";
         let url = AuthService.getUrl(Config.urls.cms,a_method);
 
         callImageAPI("POST",url,{},reqParam)
