@@ -32,27 +32,28 @@
                         :key="a_bookmark.name"
                     >
 
-                        <div class="row">
+                        <div class="row q-pa-md">
                             <div>
-                                <q-img :src="a_bookmark.logo_thumb" width="32px" height="32px" v-if="a_bookmark.logo_thumb" />
-                                <q-icon name="monetization_on" size="32px" v-else />
+                                <q-img class="q-mr-sm" :src="a_bookmark.logo_thumb" width="32px" height="32px" v-if="a_bookmark.logo_thumb" />
+                                <q-icon class="q-mr-sm" name="monetization_on" size="36px" v-else />
                             </div>
-                            <div>
-                                <div>
-                                    {{ a_bookmark.name }}
-                                </div>
-                                <div>
-                                    {{ a_bookmark.symbol }}
-                                </div>
-                            </div>
-                            <q-space />
 
-                            <WCommandBar :data="a_bookmark" :isOwner="v_is_owner" 
-                                shareBtn="" updateBtn="" deleteBtn="delete" 
-                                @onClickDelete="onClickDelete" 
-                            />
+                                <div>
+                                    <div class="gAssetName">
+                                        {{ a_bookmark.name }}
+                                    </div>
+                                    <div class="gCaption">
+                                        {{ a_bookmark.symbol }}
+                                    </div>
+                                </div>
+                                <q-space />
 
-                        </div>
+                                <WCommandBar :data="a_bookmark" :isOwner="v_is_owner" 
+                                    shareBtn="" updateBtn="" deleteBtn="delete" 
+                                    @onClickDelete="onClickDelete" 
+                                />
+                        </div>    
+                         <q-separator color="grey-5" />                        
                     </li>
 
                 </transition-group>
@@ -284,7 +285,10 @@ export default {
 }
 .list-group {
   min-height: 20px;
+  margin-left : -40px;
+  list-style-type: none;
 }
+
 .list-group-item {
   cursor: move;
 }

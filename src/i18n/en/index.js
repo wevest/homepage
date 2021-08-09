@@ -300,8 +300,11 @@ export default {
 			list : {
 				title: 'List',
 				desc: ''
-			}
-			
+			}			
+		},
+		bookmark : {
+			title : 'Bookmark',
+			desc : 'Add Your Favorite Asset Community!',
 		},
 		assetqa: {
 			title: 'QA',
