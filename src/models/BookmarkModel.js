@@ -93,11 +93,15 @@ export class BookmarkListModel extends baseCollection{
 
         for (let index = 0; index < assets.length; index++) {
             let a_bookmark = new BookmarkModel();
-            a_bookmark.id = null;
+            a_bookmark.bookmark_id = null;
             a_bookmark.api_asset = assets[index];
             a_bookmark.seq_no = this.items.length+1;
-            a_bookmark.name = a_bookmark.api_asset.name;
             
+            a_bookmark.id = a_bookmark.api_asset.id;
+            a_bookmark.name = a_bookmark.api_asset.name;
+            a_bookmark.symbol = a_bookmark.api_asset.symbol;
+            a_bookmark.logo_thumb = a_bookmark.api_asset.logo_thumb;
+
             //logger.log.debug("BookmarkModel.assignExt : api_asset=",a_bookmark.api_asset);
 
             const a_found = this.find('name',a_bookmark.name);

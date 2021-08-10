@@ -129,46 +129,22 @@ export default {
     methods: {   
         clear() {
             this.v_loading = false;
+            this.v_query_count = -1;
+            if (this.$refs.assetList) {
+                this.$refs.assetList.clear();
+            }            
+            
         },
 
         show() {
             logger.log.debug("AddBookmarkDialog.show : ");
             
-            this.v_loading = false;
+            this.clear();
             this.v_show = true;
         },
 
         hide() {
             this.v_show = false;
-        },
-
-        processSave() {
-            const _this = this;
-            this.v_loading = true;
-            this.v_portfolio_item.addToServer().then( response => {
-                _this.v_loading = false;                
-                if (response.data.ret!=0) {                    
-                    CommonFunc.showErrorMessage(_this,response.data.msg);
-                    return;
-                }
-                
-                logger.log.debug("AddPortfolioDialog.processSave : response=",response);
-
-                CommonFunc.showOkMessage(_this,'Portfolio added');
-                
-                _this.v_user.portfolio.addPortfolioItem(response.data.portfolio_item);
-                _this.v_user.portfolio.calcPerformance(store.state.prices);                
-                
-                _this.$emit("onPortfolioItemAdded",response.data.portfolio_item);
-                
-                _this.clear();
-                //_this.hide();
-
-            }).catch( err=> {
-                _this.v_loading = false;
-                CommonFunc.showErrorMessage(_this,'Portfolio error');
-            });
-
         },
 
         onClickSave() {

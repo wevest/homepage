@@ -62,11 +62,11 @@
                               
         </div>
 
-<!--
-        <q-draggable-tree v-model="v_data" :data="v_data" 
-            group="name" rowKey="id">
-        </q-draggable-tree>
--->
+        <div v-if="(! v_data) || (v_data.length==0)" class="q-py-lg">
+            <div class="gNoListTitle"> {{ $t('name.no_bookmark') }} </div>
+            <div class="gNoListMessage"> {{ $t('name.no_bookmark_desc') }} </div>
+        </div>
+        
 
         <AddBookmarkDialog ref="bookmarkDialog" title="Add Favorite Community" 
             @onClickSave="onBookmarkAdded" />
@@ -108,7 +108,9 @@ export default {
                 animation: 200,
                 group: "description",
                 disabled: false,
-                ghostClass: "ghost"
+                ghostClass: "ghost",
+                delayOnTouchOnly: true,
+                delay:200, 
             }
         },
         v_is_owner() {
@@ -179,7 +181,7 @@ export default {
         checkMove(e) {
             logger.log.debug("Future index: " + e.draggedContext.futureIndex);
         },
-
+/*
         added(event, group) {
             const newItems = this.v_rows
                 .map(group => group.items)
@@ -202,6 +204,7 @@ export default {
             newItems.splice(event.detail.index, 0, ...reorderedItems);
             group.items = newItems;
         },
+*/        
         addBookmarks(selected) {
             logger.log.debug("BookmarkView.addBookmarks : selected=",selected);
             this.v_me.bookmarks.assignExt(selected);

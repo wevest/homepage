@@ -27,12 +27,16 @@ export default class CommonFunc {
     }
 
     static formatNumber(value,decimal=4,add_comma=false) {
-        let new_value = value.toFixed(decimal).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        
+        return value.toLocaleString('en-US', {maximumFractionDigits:decimal}) // "1,234.57"
+/*
+        let new_value = value.toFixed(decimal).replace(/\d(?=(\d{3})+\.)/g, '$&,');        
         if (add_comma) {
             return String(new_value).replace(/^0+/, '').replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     
         return new_value;
+*/        
     }
 
     static formatDate(d) {
@@ -307,11 +311,11 @@ export default class CommonFunc {
     }
 
     static calcRet(v0,v1) {
-        if (v0==0) {
+        if ((v0==0) || (v1==0)) {
             return 0;
         }
         
-        let value = (v1/v0)-1;
+        let value = ((v1-v0)/v0);
         return value;
     }
 

@@ -145,13 +145,18 @@
                             <br>
                             <span class="text-h5 text-weight-bolder" 
                                 :class="v_color(a_portfolio.roi)" >
-                                {{v_format(a_portfolio.roi)}}
+                                {{v_format(a_portfolio.roi,1)}}
                             </span>
                         </div>    
                         <div class="col">  
-                            <span class="gCaption">{{ $t('name.current_price') }}</span>
+                            <span class="gCaption">
+                                {{ $t('name.current_price') }}&nbsp;($)
+                            </span>
                             <br>
-                            <span class="text-h5 text-weight-bold">$ {{ v_format_price(a_portfolio.last) }}</span>
+                            <div class="text-h5 text-weight-bold">
+                                {{ v_format_price(a_portfolio.last) }}
+                                <q-badge align="top">{{ v_format_price(a_portfolio.price) }} </q-badge>
+                            </div>
                         </div>                            
                     </div>
 
@@ -238,6 +243,8 @@ export default {
                 //return CommonFunc.formatNumber(value,decimal);
                 let decimal = 0;
                 if (value<1) decimal=5;
+                else if (value<100) decimal=1;
+                
                 return CommonFunc.milifyNumber(value,decimal);
                 //return value.toLocaleString();
             };
