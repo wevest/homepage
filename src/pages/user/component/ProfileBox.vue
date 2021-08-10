@@ -118,7 +118,10 @@
             
         </q-card>
     
-        <EditDialog ref="dialogEdit" :title="$t('dialog.edit_dialog.biography.title')" @onSave="onSaveEdit" />
+        <EditDialog ref="dialogEdit" 
+            :title="$t('dialog.edit_dialog.biography.title')" 
+            :buttonCaption="$t('button.send')"            
+            @onSave="onSaveEdit" />
 
     </div>
 

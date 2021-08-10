@@ -73,7 +73,7 @@ import NavFunc from 'src/util/NavFunc';
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 import WTextArea from "src/components/WTextArea";
-import WAvatar from "src/components/WAvatar";
+import WAvatar from "src/components/w/WAvatar";
 
 import {AssetReviewPageModel} from "src/models/PageModel";
 

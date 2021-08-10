@@ -96,7 +96,7 @@ import logger from "src/error/Logger";
 import NvaFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 
-import WAvatar from "src/components/WAvatar";
+import WAvatar from "src/components/w/WAvatar";
 import WSubinfo from 'components/WSubinfo';
 import WCommandBar from "components/WCommandBar.vue";
 import WRatingSmallButton from 'components/WRatingSmallButton';

@@ -17,7 +17,7 @@
 
                 <q-card-actions align="around">
                     <q-btn flat v-close-popup>{{ $t('button.cancel') }}</q-btn>
-                    <q-btn flat @click="onClickSave">{{ $t('button.send') }}</q-btn>
+                    <q-btn flat @click="onClickSave">{{ buttonCaption}}</q-btn>
                 </q-card-actions>
             </q-card>
 
@@ -39,6 +39,7 @@ export default {
     props: {
         title: { required:false, type:String, default: ''},
         desc: { required:false, type:String, default: ''},
+        buttonCaption: { default: 'Send' },
         width: {
             type: String,
             default: "400px"

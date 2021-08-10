@@ -47,7 +47,7 @@ import {AssetModel} from "src/models/AssetModel";
 
 import CTitle from 'components/CTitle';
 import ChartTimeframe from 'components/ChartTimeframe';
-import WAssetChart from 'components/WAssetChart';
+import WAssetChart from 'components/w/WAssetChart';
 import CAssetInfoTable from 'src/pages/asset/component/CAssetInfoTable';
 
 import PriceSummaryBox from 'src/pages/asset/component/PriceSummaryBox';

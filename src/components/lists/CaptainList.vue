@@ -46,7 +46,7 @@ import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
 import CTitle from 'components/CTitle';
-import WAvatar from "src/components/WAvatar";
+import WAvatar from "src/components/w/WAvatar";
 import WSubinfo from 'components/WSubinfo';
 import LoadMore from "src/components/LoadMore";
 import {UserListModel} from "src/models/UserModel";

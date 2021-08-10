@@ -71,7 +71,7 @@ import logger from 'src/error/Logger';
 
 import {TweetModel, TweetListModel} from "src/models/TweetModel";
 
-import WAvatar from "src/components/WAvatar";
+import WAvatar from "src/components/w/WAvatar";
 import WSubinfo from 'components/WSubinfo';
 import CommentBox from "components/comments/CommentBox.vue";
 import CommentList from "components/comments/CommentList.vue";

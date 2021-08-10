@@ -75,7 +75,7 @@ import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
-import WAvatar from "components/WAvatar.vue";
+import WAvatar from "components/w/WAvatar.vue";
 import WSubinfo from 'components/WSubinfo';
 import LoadMore from "src/components/LoadMore";
 import CTitle from 'components/CTitle';

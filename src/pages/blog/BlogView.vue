@@ -44,7 +44,7 @@ import {PostPageModel,QuestionPageModel} from "src/models/PageModel";
 import CTitle from 'components/CTitle';
 import WWriterButton from 'components/WWriterButton';
 import BlogList from 'components/lists/BlogList';
-import WCategoryChip from "components/WCategoryChip";
+import WCategoryChip from "components/w/WCategoryChip";
 
 export default {
     name: 'BlogIndex',

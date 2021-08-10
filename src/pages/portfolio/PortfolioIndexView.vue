@@ -34,8 +34,7 @@ import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
 import CTitle from "components/CTitle";
-import WCategoryChip from "components/WCategoryChip";
-
+import WCategoryChip from "components/w/WCategoryChip";
 import PortfolioList from "components/lists/PortfolioList";
 
 

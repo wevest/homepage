@@ -1248,6 +1248,57 @@ export default class CommonFunc {
 
     }
 
+    static slimImage(img,quality=0.7) {
+        
+        return new Promise((resolve, reject) => {
+            var canvas = document.createElement("canvas");
+            var canvasContext = canvas.getContext("2d");
+
+            canvas.width = img.width;
+            canvas.height = img.height;
+            canvasContext.drawImage(img, 0, 0);
+
+            const MIME_TYPE = "image/jpeg";
+                        
+            canvas.toBlob(blob => {
+                    resolve(blob);
+                },
+                MIME_TYPE,
+                quality                
+            );
+            
+        });
+
+    }
+
+    static loadImageFile(file) {
+        return new Promise((resolve, reject) => {
+            var reader = new FileReader(); // CREATE AN NEW INSTANCE.
+            
+            reader.onload = function (e) {
+                var img = new Image();      
+
+                img.src = e.target.result;
+                img.onload = function () {
+                    //var w = this.width;
+                    //var h = this.height;
+                    resolve(img);
+                    /*
+                    console.log(
+                            'Name: ' + file.name + '\n' +
+                            'File Extension: ' + file.fileExtension + '\n' +
+                            'Size: ' + Math.round((file.size / 1024)) + 'KB \n' +
+                            'Width: ' + w + '\n' +
+                            'Height: ' + h + '\n' +
+                            'Type: ' + file.type + '\n' +
+                            'Last Modified: ' + file.lastModifiedDate );
+                    */                            
+                }
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
     static minifyDatetime(value,dtype=0) {
         if (dtype==0) {
             return moment(value,"YYYY-MM-DDThh:mm:ss").fromNow();

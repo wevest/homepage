@@ -65,7 +65,7 @@ import MessageWriterDialog from 'components/dialogs/MessageWriterDialog';
 
 import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/models/MessageModel";
 
-import WAvatar from "components/WAvatar.vue";
+import WAvatar from "components/w/WAvatar";
 import CTitle from 'components/CTitle';
 
 

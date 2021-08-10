@@ -58,7 +58,7 @@ import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
-import WAvatar from "src/components/WAvatar";
+import WAvatar from "src/components/w/WAvatar";
 import CTitle from 'components/CTitle';
 import WSubinfo from 'components/WSubinfo';
 import LoadMore from "src/components/LoadMore";

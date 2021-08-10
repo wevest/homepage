@@ -52,7 +52,7 @@ import NvaFunc from 'src/util/NavFunc';
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
 
-import WAvatar from "src/components/WAvatar";
+import WAvatar from "src/components/w/WAvatar";
 import WTextArea from "src/components/WTextArea";
 
 

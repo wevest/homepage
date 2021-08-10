@@ -42,7 +42,7 @@ import logger from 'src/error/Logger';
 
 import CTitle from 'src/components/CTitle';
 import ChartTimeframe from 'components/ChartTimeframe';
-import WPriceDataTable from 'components/WPriceDataTable';
+import WPriceDataTable from 'components/w/WPriceDataTable';
 
 export default {
     name: 'WAssetChart',

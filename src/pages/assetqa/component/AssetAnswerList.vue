@@ -99,7 +99,7 @@ import logger from "src/error/Logger";
 import LoadMore from "src/components/LoadMore";
 import CommentForm from "components/comments/comment-form.vue";
 
-import WAvatar from "components/WAvatar.vue";
+import WAvatar from "components/w/WAvatar.vue";
 import WSubinfo from 'components/WSubinfo';
 import WCommandBar from "components/WCommandBar.vue";
 import WRatingButton from 'components/WRatingButton';

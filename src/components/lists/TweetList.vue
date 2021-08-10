@@ -66,7 +66,7 @@ import logger from "src/error/Logger";
 import { TweetListModel } from "src/models/TweetModel";
 
 import CTitle from 'components/CTitle';
-import WAvatar from "src/components/WAvatar";
+import WAvatar from "src/components/w/WAvatar";
 import WSubinfo from 'components/WSubinfo';
 import LoadMore from "src/components/LoadMore";
 import WRatingSmallButton from 'components/WRatingSmallButton';

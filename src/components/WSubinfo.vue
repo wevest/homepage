@@ -45,7 +45,7 @@
 import {store} from "src/store/store";
 import CommonFunc from "src/util/CommonFunc";
 import logger from "src/error/Logger";
-import WAvatar from "components/WAvatar.vue";
+import WAvatar from "components/w/WAvatar.vue";
 
 export default {
 	props: {

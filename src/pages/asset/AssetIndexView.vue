@@ -23,7 +23,7 @@ import logger from "src/error/Logger";
 
 import AssetList from 'components/lists/AssetList';
 import CTitle from 'components/CTitle';
-import WCategoryChip from "components/WCategoryChip";
+import WCategoryChip from "components/w/WCategoryChip";
 
 export default {
     name:'assetIndexView',

@@ -68,7 +68,7 @@ import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 import LoadMore from "src/components/LoadMore";
 
-import WAvatar from "components/WAvatar.vue";
+import WAvatar from "components/w/WAvatar.vue";
 import WSubinfo from 'components/WSubinfo';
 import WCommandBar from "components/WCommandBar.vue";
 import WRatingSmallButton from 'components/WRatingSmallButton';

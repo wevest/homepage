@@ -104,13 +104,13 @@
                 <q-card-section>
                     <div class="row">
                         <div class="row iconBox">
-                            <div class="q-pr-sm">  
+                            <div class="q-pr-sm q-mt-xs">  
                                 <q-icon class="coinIcon" name="monetization_on" color="black" size="34px" v-if="! a_portfolio.api_asset.logo_thumb" />
                                 <q-img :src="a_portfolio.api_asset.logo_thumb" 
                                     crossorigin="anonymous" width="32px" height="32px"
                                     v-if="a_portfolio.api_asset.logo_thumb" />
                             </div>    
-                            <div @click="onClickMore(a_portfolio)" v-ripple>
+                            <div v-ripple @click="onClickMore(a_portfolio)">
                                 <div class="symbolBox">
                                     <span class="text-h6 text-weight-bold"> {{a_portfolio.api_asset.symbol}}</span>
                                     <span class="text-caption text-grey-6"> &nbsp; ({{a_portfolio.api_asset.name}}) </span>
@@ -155,7 +155,7 @@
                             <br>
                             <div class="text-h5 text-weight-bold">
                                 {{ v_format_price(a_portfolio.last) }}
-                                <q-badge align="top">{{ v_format_price(a_portfolio.price) }} </q-badge>
+                                <q-badge align="top" v-if="a_portfolio.price && a_portfolio.price>0">{{ v_format_price(a_portfolio.price) }} </q-badge>
                             </div>
                         </div>                            
                     </div>
@@ -628,7 +628,7 @@ export default {
 
 
 .cardSection2 {
-     padding:5px 0px 5px 53px; 
+    padding:0px 0px 5px 53px; 
 }
 
 .NavigationBtn {

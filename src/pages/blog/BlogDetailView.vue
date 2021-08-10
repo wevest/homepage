@@ -101,7 +101,7 @@ import {PostPageModel,CommentModel,CommentListModel} from "src/models/PageModel"
 
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
-import WAvatar from "components/WAvatar.vue";
+import WAvatar from "components/w/WAvatar.vue";
 import WCommandBar from "components/WCommandBar.vue";
 import WRatingButton from 'components/WRatingButton';
 import WSubinfo from 'components/WSubinfo';

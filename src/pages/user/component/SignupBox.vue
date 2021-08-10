@@ -124,7 +124,7 @@ import logger from "src/error/Logger";
 
 import AuthService from 'src/services/authService';
 
-import WTimer from "components/WTimer";
+import WTimer from "components/w/WTimer";
 
 export default {
     components: {

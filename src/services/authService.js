@@ -503,4 +503,18 @@ export default class AuthService{
             funcErr(err);
         });
     }
+
+    static uploadImage(reqParam,func,funcErr) {
+        let a_method = "/api/user/users/upload_image/";
+        let url = AuthService.getUrl(Config.urls.cms,a_method);
+
+        callImageAPI("POST",url,{},reqParam)
+        .then( (response) => {
+            func(response);
+        })
+        .catch( (err) => {
+            funcErr(err);
+        });
+    }
+
 }

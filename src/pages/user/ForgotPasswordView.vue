@@ -128,7 +128,7 @@ import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import CTitle from 'components/CTitle';
-import WTimer from "components/WTimer";
+import WTimer from "components/w/WTimer";
 
 import AuthService from 'src/services/authService';
 

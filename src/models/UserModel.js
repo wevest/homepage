@@ -823,6 +823,21 @@ export default class User {
             })
         });
     }
+
+    uploadImage(form) {
+        const _this=this;
+
+        return new Promise(function(resolve,reject) {
+            AuthService.uploadImage(form,function(response) {
+                logger.log.debug("UserModel.uploadImage");
+                resolve(response);
+            }, function(err) {
+                logger.log.error("UserModel.uploadImage");
+                reject(err);
+            })
+        });
+    }
+
 }
 
 
