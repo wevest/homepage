@@ -211,7 +211,7 @@ import { Config } from 'src/data/Config';
 import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
-import MoaBackendAPI from 'src/services/apiService';
+import APIService from 'src/services/apiService';
 import DataService from 'src/services/dataService';
 
 import CTitle from 'components/CTitle';
@@ -348,7 +348,7 @@ export default {
                 let dic_param = {freq:freq};
                 logger.log.debug("HomeView.loadCalendarEffectData - dic_param=",dic_param);
 
-                MoaBackendAPI.getCryptoCalendarEffectData(dic_param,function(response) {
+                APIService.getCryptoCalendarEffectData(dic_param,function(response) {
                     _this.g_data_ce = response.data.data;
                     logger.log.debug("HomeView.loadCalendarEffectData - response",_this.g_data_ce);
                     //_this.$refs.sectorTable.update(_this.g_data);
@@ -373,7 +373,7 @@ export default {
                 let dic_param = {freq:'1h',start_date:a_start_date};
                 logger.log.debug("HomeView.loadIndexData - dic_param=",dic_param);
 
-                MoaBackendAPI.getCryptoIndexData(dic_param,function(response) {
+                APIService.getCryptoIndexData(dic_param,function(response) {
                     _this.g_data = response.data.data;
                     logger.log.debug("HomeView.getCryptoIndexData - response",_this.g_data);
                     
@@ -405,7 +405,7 @@ export default {
                 let dic_param = {freq:freq,start_date:a_start_date};
                 logger.log.debug("HomeView.loadCryptoTopAssetData - dic_param=",dic_param);
 
-                MoaBackendAPI.getCryptoTopAssetData(dic_param,function(response) {                    
+                APIService.getCryptoTopAssetData(dic_param,function(response) {                    
                     _this.g_data_top = response.data.data;
                     //logger.log.debug("HomeView.loadCryptoTopAssetData - response",response.data);
                     logger.log.debug("HomeView.loadCryptoTopAssetData - response",_this.g_data_top);

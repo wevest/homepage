@@ -54,7 +54,14 @@
 		</slot>
 	</div>
 </template>
+
 <script>
+import CommonFunc from 'src/util/CommonFunc';
+import logger from 'src/error/Logger';
+
+import APIService from 'src/services/apiService';
+
+
 export default {
 	name: "VueLinkPreview",
 	props: {
@@ -64,7 +71,7 @@ export default {
 		},
 		width: {
 			type: String,
-			default: "90%",
+			default: "100%",
 		},
 		maxWidth: {
 			type: String,
@@ -119,17 +126,42 @@ export default {
 			};
 		},
 	},
+	created() {
+		logger.log.debug("WLinkPreview : created");
+	},
 	mounted() {
+		logger.log.debug("WLinkPreview : mounted");
 		this.update(this.url);
 	},
 	methods: {
 		update(url) {
+			const _this=this;
+
+			if (!this.isValidUrl(url)) {
+				logger.log.error("WLinkPreview.update : url is not valid",url);
+				return;
+			}
+
 			this.loading = true;
 			this.url = url;
+
+
+            APIService.getLinkPreview({url:url}).then(resp=>{
+                logger.log.debug("WLinkPreview.update : data=",resp.data.data);
+				_this.preview = resp.data.data;                
+				_this.loading = false;
+            }).catch(err=>{
+				_this.loading = false;
+				logger.log.error("WLinkPreview.updte : err=",err);
+            });
+
+/*			
 			this.loadUrlPreviewData(url).then((response) => {
 				this.preview = response;
 				this.loading = false;
 			});
+*/
+
 		},
 		isValidUrl(url) {
 			const regex =

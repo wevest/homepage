@@ -1,6 +1,6 @@
 import logger from "src/error/Logger";
 import CommonFunc from 'src/util/CommonFunc';
-import MoaBackendAPI from 'src/services/apiService';
+import APIService from 'src/services/apiService';
 
 
 export default class DataService{
@@ -178,7 +178,7 @@ export default class DataService{
             let dic_param = { freq:'1H',start_date:a_start_date, symbol:'BTC', itype:'overall' };
             logger.log.debug("DataService.loadCryptoWatchData - dic_param=",dic_param);
 
-            MoaBackendAPI.getCryptoWatchData(dic_param,function(response) {
+            APIService.getCryptoWatchData(dic_param,function(response) {
                 resolve(response.data.data);
             },function(err) {
                 logger.log.error("DataService.loadOverviewData - error",err);
@@ -193,7 +193,7 @@ export default class DataService{
         return new Promise(function(resolve,reject) {        
 
             let dic_param = {};
-            MoaBackendAPI.getCryptovcData(dic_param,function(response) {
+            APIService.getCryptovcData(dic_param,function(response) {
                 let g_data = response.data.data;
                 //CommonFunc.setAppData('winnerData',g_data);
                 logger.log.debug("Services.loadCryptovcData - response",g_data);                

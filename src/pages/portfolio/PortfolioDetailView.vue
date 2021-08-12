@@ -117,7 +117,7 @@
                                 </div>
                                 <div>
                                     <span class="text-caption text-grey-6 q-mt-sm">
-                                        {{v_updated_at(a_portfolio.updated_at)}}</span>
+                                        {{v_updated_at(a_portfolio.created_at)}}</span>
                                 </div>
                             </div>        
                         </div>    

@@ -39,7 +39,7 @@
 
 <script>
 import CommonFunc from 'src/util/CommonFunc';
-import MoaBackendAPI from 'src/services/apiService';
+import APIService from 'src/services/apiService';
 import logger from "src/error/Logger";
 
 
@@ -77,7 +77,7 @@ export default {
             return new Promise(function(resolve,reject) {
                 //logger.log.debug("CWatchView.loadCryptoWatchData - dic_param=",dic_param);
                 let dic_param = {vc:vc};
-                MoaBackendAPI.getCryptoVCPerformanceData(dic_param,function(response) {
+                APIService.getCryptoVCPerformanceData(dic_param,function(response) {
                     _this.g_data = response.data.data;
                     logger.log.debug("PortfolioTable.loadCryptovcPerformanceData - response",_this.g_data);
                     _this.updateTable(_this.g_data);

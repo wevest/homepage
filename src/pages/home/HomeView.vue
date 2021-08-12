@@ -21,8 +21,8 @@
         </div>
 
         <div>
-            <AssetCommunityCard ref='assetList' 
-                :title="$t('page.home.asset.title')" :desc="$t('page.home.asset.desc')"
+            <AssetCommunityCard ref='communityList' 
+                :title="$t('page.home.community.title')" :desc="$t('page.home.community.desc')"
                 maxLength="10" :moreCaption="$t('button.more')" ></AssetCommunityCard>
         </div>
 
@@ -30,6 +30,12 @@
             <PortfolioCard ref="pfVC" :title="$t('page.home.portfolio.title')" :desc="$t('page.home.portfolio.desc')"
                 maxLength="10" :moreCaption="$t('button.more')"></PortfolioCard>
         </div>
+
+
+        <div>
+            <AssetCard ref='assetList' :title="$t('page.home.asset.title')" 
+                maxLength="10" :moreCaption="$t('button.more')" user="v_me"></AssetCard>
+        </div>                                               
 
         <div>
             <CaptainList ref='feedList' :title="$t('page.home.captain.title')" 
@@ -68,6 +74,7 @@ import logger from 'src/error/Logger';
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
 
+import AssetCard from 'components/cards/AssetCard';
 import BlogList from 'components/lists/BlogList';
 import AssetCommunityCard from 'components/cards/AssetCommunityCard';
 import PortfolioList from 'components/lists/PortfolioList';
@@ -93,6 +100,7 @@ export default {
         MarketIndexWidget,
         MarketWatchWidget,
         BlogList,
+        AssetCard,
         PortfolioList,
         AssetCommunityCard,
         UserFeedList,
@@ -142,6 +150,7 @@ export default {
             let funcs = [            
                 //this.loadCalendarEffectData('1h'),
                 this.loadBlogList(),
+                this.loadCommunityList(),
                 this.loadAssetList(),
                 this.loadPortfolioList(),
                 this.loadFeedList(),
@@ -175,10 +184,14 @@ export default {
         },
 
         loadAssetList() {
+            this.$refs.assetList.updateByCategory('market_capital');
+        },
+
+        loadCommunityList() {
             if ( (this.v_me.bookmarks) && (this.v_me.bookmarks.items.length>0) ) {
-                this.$refs.assetList.updateByBookmarks();
+                this.$refs.communityList.updateByBookmarks();
             } else {
-                this.$refs.assetList.updateByCategory('market_capital');
+                this.$refs.communityList.updateByCategory('market_capital');
             }
             
         },

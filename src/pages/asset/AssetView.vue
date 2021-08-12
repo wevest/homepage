@@ -384,7 +384,7 @@ export default {
 
             return new Promise(function(resolve,reject) {
                 let dic_param = {symbol:symbol};
-                MoaBackendAPI.getCommitData(dic_param,function(response) {
+                APIService.getCommitData(dic_param,function(response) {
                     _this.g_data.commit = response.data.data;
                     logger.log.debug("AssetView.loadCommitData - response",_this.g_data.commit);
                     _this.$refs.assetinfoTable.updateChart(_this.g_data.commit);

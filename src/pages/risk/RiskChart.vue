@@ -18,7 +18,7 @@
 
 <script>
 import CommonFunc from 'src/util/CommonFunc';
-import MoaBackendAPI from 'src/services/apiService';
+import APIService from 'src/services/apiService';
 import DataService from 'src/services/dataService';
 import logger from "src/error/Logger";
 
@@ -71,7 +71,7 @@ export default {
               let dic_param = {start_date:a_start_date, end_date:a_end_date};
               logger.log.debug("RiskChart.loadMarketEvent - dic_param=",dic_param);
 
-              MoaBackendAPI.getMarketEventData(dic_param,function(response) {                  
+              APIService.getMarketEventData(dic_param,function(response) {                  
                   _this.g_data_event = response.data.data;
                   logger.log.debug("RiskChart.loadMarketEvent - response",_this.g_data_event);
                   //CommonFunc.setAppData('chartEvent',_this.g_data);
@@ -98,7 +98,7 @@ export default {
               let dic_param = {start_date:a_start_date, end_date:a_end_date};
               logger.log.debug("RiskChart.loadMarketRisk - dic_param=",dic_param);
 
-              MoaBackendAPI.getMarketRiskData(dic_param,function(response) {
+              APIService.getMarketRiskData(dic_param,function(response) {
                   logger.log.debug("RiskChart.loadMarketRisk - response",response.data.data);
                   //_this.g_data = CommonFunc.setAppData('chartRisk',response.data.data.list);
                   _this.g_data = response.data.data;
@@ -124,7 +124,7 @@ export default {
               let dic_param = {start_date:a_start_date, end_date:a_end_date};
               logger.log.debug("RiskChart.loadKvixData - dic_param=",dic_param);
 
-              MoaBackendAPI.getKvixData(dic_param,function(response) {                  
+              APIService.getKvixData(dic_param,function(response) {                  
                   _this.g_data_kvix = response.data.data;
                   logger.log.debug("RiskChart.loadKvixData - response",_this.g_data_kvix);
                   //CommonFunc.setAppData('kvixData',_this.g_data_kvix);

@@ -219,7 +219,7 @@
 
 <script>
 import CommonFunc from "src/util/CommonFunc";
-import MoaBackendAPI from "src/services/apiService";
+import APIService from "src/services/apiService";
 import logger from "src/error/Logger";
 
 import CTitle from "src/components/CTitle";

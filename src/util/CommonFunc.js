@@ -5,7 +5,7 @@ import NavFunc from 'src/util/NavFunc';
 import logger from "src/error/Logger";
 import Errors from 'src/error/Errors';
 import ehandler from 'src/error/EHandler';
-import MoaBackendAPI from 'src/services/apiService';
+import APIService from 'src/services/apiService';
 import LocalStorageService from 'src/services/localStorage';
 
 import moment from 'moment';
@@ -757,7 +757,7 @@ export default class CommonFunc {
         
         return new Promise(function(resolve,reject) {
             const dic_param = {};
-            MoaBackendAPI.getCode(dic_param,function(response) {
+            APIService.getCode(dic_param,function(response) {
                 let g_code = response.data.data.values;
 
                 logger.log.debug("CommonFunc.loadCode - response",g_code);

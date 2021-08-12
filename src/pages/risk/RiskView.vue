@@ -29,7 +29,7 @@ import RiskChart from 'src/pages/risk/RiskChart';
 
 import {Config} from 'src/data/Config';
 import CommonFunc from 'src/util/CommonFunc';
-import MoaBackendAPI from 'src/services/apiService';
+import APIService from 'src/services/apiService';
 import DataService from 'src/services/dataService';
 import logger from "src/error/Logger";
 
@@ -133,7 +133,7 @@ export default {
                 let dic_param = {start_date:a_start_date, end_date:a_end_date, period_type:'W'};
                 logger.log.debug("HomeView.loadMarketOverview - dic_param=",dic_param);
 
-                MoaBackendAPI.getMarketOverview(dic_param,function(response) {
+                APIService.getMarketOverview(dic_param,function(response) {
                     _this.g_market_overview = response.data.data;
                     logger.log.debug("HomeView.loadMarketOverview - response",_this.g_market_overview);
                     //logger.log.debug("HomeView.search - json_data",_this.g_json_data);

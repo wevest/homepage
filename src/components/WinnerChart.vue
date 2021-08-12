@@ -20,7 +20,7 @@
 
 <script>
 import CommonFunc from 'src/util/CommonFunc';
-import MoaBackendAPI from 'src/services/apiService';
+import APIService from 'src/services/apiService';
 import logger from "src/error/Logger";
 
 import CTitle from 'components/CTitle';
@@ -258,7 +258,7 @@ export default {
             let dic_param = {'start_date':a_start_date,'asset':asset,'index':'U001', 'scale':'0'};
             //console.log("dic_param=",dic_param);
 
-            MoaBackendAPI.getPrice(dic_param,function(response) {
+            APIService.getPrice(dic_param,function(response) {
                 _this.g_data = response.data.data;
 
                 logger.log.debug("WinnerChart.update - response",_this.g_data);

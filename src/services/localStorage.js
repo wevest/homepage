@@ -3,7 +3,7 @@ import { Config } from 'src/data/Config';
 
 import logger from "src/error/Logger";
 import CommonFunc from 'src/util/CommonFunc';
-import MoaBackendAPI from 'src/services/apiService';
+import APIService from 'src/services/apiService';
 
 
 export default class LocalStorageService{
@@ -38,7 +38,7 @@ export default class LocalStorageService{
         
         return new Promise(function(resolve,reject) {
             const dic_param = {};
-            MoaBackendAPI.getCode(dic_param,function(response) {
+            APIService.getCode(dic_param,function(response) {
                 let g_code = response.data.data.values;
 
                 logger.log.debug("LocalStorageService.loadCode - response",g_code);                                
@@ -65,7 +65,7 @@ export default class LocalStorageService{
         return new Promise(function(resolve,reject) {
             const dic_param = {'type':'simple'};
 
-            MoaBackendAPI.getCryptoBaseinfo(dic_param,function(response) {
+            APIService.getCryptoBaseinfo(dic_param,function(response) {
                 let g_code = response.data.data.values;
 
                 logger.log.debug("LocalStorageService.loadCoinCodes - response",g_code);                                

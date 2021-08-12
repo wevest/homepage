@@ -197,7 +197,7 @@
 
 <script>
 import CommonFunc from 'src/util/CommonFunc';
-import MoaBackendAPI from 'src/services/apiService';
+import APIService from 'src/services/apiService';
 import DataService from 'src/services/dataService';
 import logger from "src/error/Logger";
 
@@ -404,7 +404,7 @@ export default {
                 let dic_param = {symbol:symbol};
                 logger.log.debug("AssetView.loadCryptoBaseinfo - dic_param=",dic_param);
 
-                MoaBackendAPI.getCryptoBaseinfo(dic_param,function(response) {
+                APIService.getCryptoBaseinfo(dic_param,function(response) {
                     _this.g_data = response.data.data;
                     logger.log.debug("AssetView.loadCryptoBaseinfo - response",_this.g_data);
                     //_this.$refs.assetTable.update(_this.g_data);
@@ -439,7 +439,7 @@ export default {
                 let dic_param = {symbol:symbol,quote:'USD',freq:a_freq,start_date:a_start_date, end_date:a_end_date, exchange:'cc',quote:'USD' };
                 logger.log.debug("AssetView.loadCryptoPriceHistory - dic_param=",dic_param);
 
-                MoaBackendAPI.getCryptoPriceHistory(dic_param,function(response) {
+                APIService.getCryptoPriceHistory(dic_param,function(response) {
                     _this.g_data_price = response.data.data;
                     logger.log.debug("AssetView.loadCryptoPriceHistory - response",_this.g_data_price);
                     _this.updatePageHeader(symbol,_this.g_data_price);
@@ -460,7 +460,7 @@ export default {
 
             return new Promise(function(resolve,reject) {
                 let dic_param = {symbol:symbol};
-                MoaBackendAPI.getCommitData(dic_param,function(response) {
+                APIService.getCommitData(dic_param,function(response) {
                     _this.g_data_commit = response.data.data;
                     logger.log.debug("AssetView.loadCommitData - response",_this.g_data_commit);                                        
                     _this.$refs.assetinfoTable.updateChart(_this.g_data_commit);

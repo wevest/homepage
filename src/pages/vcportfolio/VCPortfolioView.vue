@@ -109,7 +109,7 @@ import { Config } from 'src/data/Config';
 import { CONST } from 'src/data/const';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
-import MoaBackendAPI from 'src/services/apiService';
+import APIService from 'src/services/apiService';
 import { LoadingBar } from 'quasar';
 
 import CTitle from 'components/CTitle';
@@ -220,7 +220,7 @@ export default {
             return new Promise(function(resolve,reject) {
                 //logger.log.debug("CWatchView.loadCryptoWatchData - dic_param=",dic_param);
                 let dic_param = {vc:''};
-                MoaBackendAPI.getCryptoVCPortfolioData(dic_param,function(response) {
+                APIService.getCryptoVCPortfolioData(dic_param,function(response) {
                     _this.g_data = response.data.data;
                     logger.log.debug("VCPortfolioView.loadCryptovcPortfolioData - response",_this.g_data);
                     _this.$refs.portfolioTable.update(_this.g_data);
@@ -236,7 +236,7 @@ export default {
         loadCryptovcData: function() {
             const _this = this;
             return new Promise(function(resolve,reject) {
-                MoaBackendAPI.getCryptovcData({},function(response) {
+                APIService.getCryptovcData({},function(response) {
                     _this.g_data_vc = response.data.data;
                     logger.log.debug("VCPortfolioView.loadCryptovcData - response",_this.g_data_vc);
                     resolve();

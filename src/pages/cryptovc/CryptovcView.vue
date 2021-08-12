@@ -79,7 +79,7 @@ import { Config } from 'src/data/Config';
 import { CONST } from 'src/data/const';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
-import MoaBackendAPI from 'src/services/apiService';
+import APIService from 'src/services/apiService';
 import { LoadingBar } from 'quasar';
 
 import CTitle from 'components/CTitle';
@@ -187,7 +187,7 @@ export default {
             return new Promise(function(resolve,reject) {
                 //logger.log.debug("CWatchView.loadCryptoWatchData - dic_param=",dic_param);
 
-                MoaBackendAPI.getCryptovcData({},function(response) {
+                APIService.getCryptovcData({},function(response) {
                     _this.g_data = response.data.data;
                     logger.log.debug("CWatchView.loadCryptovcData - response",_this.g_data);
                     _this.updateWidget(_this.g_data);

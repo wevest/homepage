@@ -39,7 +39,7 @@
 <script>
 import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
-import MoaBackendAPI from 'src/services/apiService';
+import APIService from 'src/services/apiService';
 import DataService from 'src/services/dataService';
 import logger from "src/error/Logger";
 

@@ -10,10 +10,12 @@
                 <froala ref="editor" :tag="'textarea'" id="v_text" name="v_text"
                     :immediateVueModelUpdate="true" :config="v_config"
                     v-model="v_text"></froala>
--->
 
                 <BaseEditor ref="editor" :data="v_tweet" :contents="v_tweet.text" 
                     theme="snow" placeholder="Please type something" />
+-->
+
+                <TipTap :options="v_options" />
 
                 <div class="gErrorMsg" v-if="v_error.text.error">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{v_error.text.msg}}
@@ -52,7 +54,8 @@ import CTitle from 'components/CTitle';
 import EditDialog from "src/components/dialogs/EditDialog";
 
 //import VueFroala from 'vue-froala-wysiwyg';
-import BaseEditor from 'components/BaseEditor';
+//import BaseEditor from 'components/BaseEditor';
+import TipTap from 'components/tiptap/TipTap';
 import WWriterToolbar from 'components/WWriterToolbar';
 
 export default {
@@ -60,7 +63,7 @@ export default {
     components: {
         CTitle,
         WWriterToolbar,
-        BaseEditor
+        TipTap
         //VueFroala
         //BaseEditor
     },
@@ -136,6 +139,12 @@ export default {
  
             },
 
+            v_options: {
+                content: '<blockquote><p>Testing...</p></blockquote><ul><li><p><b>bold</b></p></li><li><p><i>italic</i></p></li><li><p><u>underline</u></p></li></ul>',
+                editable: true,
+                supportImage: true,
+                supportVideo: true
+            }
         }
     },
 
@@ -148,7 +157,7 @@ export default {
         this.$nextTick(function() {
             // 모든 화면이 렌더링된 후 실행합니다.            
             this.prepare();
-            this.setContents();            
+            //this.setContents();            
         });
         
     },

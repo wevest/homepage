@@ -320,7 +320,7 @@ export class AssetModel{
         const _this = this;
         let dic_param = {symbol:this.symbol};
         return new Promise(function(resolve,reject) {            
-            MoaBackendAPI.getCommitData(dic_param,function(response) {
+            APIService.getCommitData(dic_param,function(response) {
                 logger.log.debug("AssetModel.loadCommitData - response",response.data.data);
                 resolve(response.data.data);
             },function(err) {

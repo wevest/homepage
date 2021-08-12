@@ -1,6 +1,6 @@
 //import api from '@/services/api'
 import CommonFunc from 'src/util/CommonFunc';
-import MoaBackendAPI from 'src/services/apiService';
+import APIService from 'src/services/apiService';
 import logger from "src/error/Logger";
 
 //import logger from "@/error/Logger";
@@ -30,7 +30,7 @@ export default class Services{
             //CommonFunc.getAppData('spinner').show();
 
             let dic_param = {start_date:a_start_date, n_top:n_top, thresh:1.5};
-            MoaBackendAPI.getWinner(dic_param,function(response) {
+            APIService.getWinner(dic_param,function(response) {
                 g_data = response.data.data;
                 //CommonFunc.setAppData('winnerData',g_data);
                 logger.log.debug("Services.loadMarketWinner - response",g_data);
@@ -64,7 +64,7 @@ export default class Services{
             CommonFunc.getAppData('spinner').show();
 
             let dic_param = {start_date:a_start_date, n_top:n_top, table:a_table};
-            MoaBackendAPI.getCryptoWinnerData(dic_param,function(response) {
+            APIService.getCryptoWinnerData(dic_param,function(response) {
                 g_data = response.data.data;
                 CommonFunc.setAppData(a_name,g_data);
                 logger.log.debug("Services.loadCryptoWinner - response",g_data);
@@ -96,7 +96,7 @@ export default class Services{
             CommonFunc.getAppData('spinner').show();
 
             let dic_param = {start_date:a_start_date, end_date:a_today, n_top:n_top, freq:a_freq};
-            MoaBackendAPI.getPVTrendData(dic_param,function(response) {
+            APIService.getPVTrendData(dic_param,function(response) {
                 g_data = response.data.data;
                 CommonFunc.setAppData('rvTrendData',g_data);
                 logger.log.debug("Services.loadRVTrend - response",g_data);

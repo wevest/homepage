@@ -48,7 +48,7 @@ import CSectorCryptoTable from 'src/components/CSectorCryptoTable';
 import CTitle from 'components/CTitle';
 
 import CommonFunc from 'src/util/CommonFunc';
-import MoaBackendAPI from 'src/services/apiService';
+import APIService from 'src/services/apiService';
 import DataService from 'src/services/dataService';
 import logger from "src/error/Logger";
 
@@ -118,7 +118,7 @@ export default {
                 let dic_param = {start_date:a_start_date, end_date:a_end_date, freq:'d'};
                 logger.log.debug("SectorView.loadDailyOverviewData - dic_param=",dic_param);
 
-                MoaBackendAPI.getCryptoIndexData(dic_param,function(response) {
+                APIService.getCryptoIndexData(dic_param,function(response) {
                     _this.g_data = response.data.data;
                     logger.log.debug("SectorView.loadDailyOverviewData - response",_this.g_data);
                     //logger.log.debug("HomeView.search - json_data",_this.g_json_data);
@@ -150,7 +150,7 @@ export default {
                 let dic_param = {start_date:a_start_date, end_date:a_end_date, freq:'d', exchange:exchange, sector:sector};
                 logger.log.debug("SectorView.loadSectorAssetData - dic_param=",dic_param);
 
-                MoaBackendAPI.getSectorAssetData(dic_param,function(response) {
+                APIService.getSectorAssetData(dic_param,function(response) {
                     _this.g_data_asset = response.data.data;
                     logger.log.debug("SectorView.loadSectorAssetData - response",_this.g_data_asset);                                        
                     

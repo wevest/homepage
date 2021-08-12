@@ -42,7 +42,7 @@
 <script>
 import NvaFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
-import MoaBackendAPI from 'src/services/apiService';
+import APIService from 'src/services/apiService';
 import logger from "src/error/Logger";
 
 import LocalStorageService from 'src/services/localStorage';
@@ -140,7 +140,7 @@ export default {
 
             let dic_param = {start_date:a_start_date,end_date:a_today,period_type:period_type};
 
-            MoaBackendAPI.getMomentumList(dic_param,function(response) {
+            APIService.getMomentumList(dic_param,function(response) {
                 _this.g_data = response.data.data;
                 logger.log.debug("MomentumTable.updateList - response",response);
                 

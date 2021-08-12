@@ -52,7 +52,7 @@ import { Config } from 'src/data/Config';
 import { CONST } from 'src/data/const';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
-import MoaBackendAPI from 'src/services/apiService';
+import APIService from 'src/services/apiService';
 import DataService from 'src/services/dataService';
 import { LoadingBar } from 'quasar';
 
@@ -164,7 +164,7 @@ export default {
                 let dic_param = { freq:'1H',start_date:a_start_date, thresh:'3' };
                 logger.log.debug("CWatchView.loadCryptoOracleData - dic_param=",dic_param);
 
-                MoaBackendAPI.getCryptoOracleData(dic_param,function(response) {
+                APIService.getCryptoOracleData(dic_param,function(response) {
                     _this.g_data_oracle = response.data.data;
                     logger.log.debug("CWatchView.loadCryptoOracleData - response",_this.g_data_oracle);
                     

@@ -15,7 +15,7 @@
 
 <script>
 import CommonFunc from 'src/util/CommonFunc';
-import MoaBackendAPI from 'src/services/apiService';
+import APIService from 'src/services/apiService';
 import logger from "src/error/Logger";
 
 import CTitle from 'components/CTitle';
@@ -136,7 +136,7 @@ export default {
                 let dic_param = {start_date:a_start_date, end_date:a_end_date};
                 //logger.log.debug("MarketCapitalChart.loadSectorTrend - dic_param=",dic_param);
 
-                MoaBackendAPI.getSectorMCTrendData(dic_param,function(response) {
+                APIService.getSectorMCTrendData(dic_param,function(response) {
                     _this.g_data = CommonFunc.setAppData('dataMC',response.data.data);
                     logger.log.debug("MarketCapitalChart.loadSectorTrend - response",response.data.data);
                     

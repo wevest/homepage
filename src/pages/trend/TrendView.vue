@@ -15,7 +15,7 @@
 
 <script>
 import CommonFunc from 'src/util/CommonFunc';
-import MoaBackendAPI from 'src/services/apiService';
+import APIService from 'src/services/apiService';
 import logger from "src/error/Logger";
 
 import { LoadingBar } from 'quasar';
@@ -124,7 +124,7 @@ export default {
                 let dic_param = {start_date:a_start_date, end_date:a_end_date, freq:'d'};
                 logger.log.debug("DailyView.loadDailyOverviewData - dic_param=",dic_param);
 
-                MoaBackendAPI.getCryptoIndexData(dic_param,function(response) {
+                APIService.getCryptoIndexData(dic_param,function(response) {
                     _this.g_data = response.data.data;
                     logger.log.debug("DailyView.loadDailyOverviewData - response",_this.g_data);
                     //logger.log.debug("HomeView.search - json_data",_this.g_json_data);
@@ -154,7 +154,7 @@ export default {
                 let dic_param = {start_date:a_start_date, end_date:a_end_date, freq:'D', exchange:exchange};
                 logger.log.debug("HomeView.getCryptoMarketDailySummary - dic_param=",dic_param);
 
-                MoaBackendAPI.getCryptoMarketDailySummary(dic_param,function(response) {
+                APIService.getCryptoMarketDailySummary(dic_param,function(response) {
                     _this.g_data_summary = response.data.data;
                     logger.log.debug("HomeView.getCryptoMarketDailySummary - response",_this.g_data_summary);
                     _this.updateAssetTable(_this.g_data_summary);

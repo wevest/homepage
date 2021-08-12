@@ -1,17 +1,43 @@
 <template>
     <div>
         <div>
-            <div class="scroll-container">
-                <quill-editor
-                    ref="editor"
-                    v-model="v_contents.text"
-                    :options="v_option"
-                    @blur="onEditorBlur($event)"
-                    @focus="onEditorFocus($event)"
-                    @ready="onEditorReady($event)"
-                />
+            <div>
+
             </div>
 
+            <div v-if="v_editor">
+                <div>
+                    <span class="ql-formats">
+                        <q-btn label="Link" @click="onClickLink" />
+                        <q-btn label="Image" />
+                        <q-btn label="Youtube" @click="onClickYoutube" />
+                        <q-btn label="Emoji" @click="onClickEmoji" />
+                    </span>
+                </div>            
+
+                <TipTap :options="v_options"/>
+
+<!--
+                    <quill-editor
+                        ref="editor"
+                        class="boxEditor"
+                        v-model="v_contents.text"
+                        :options="v_option"
+                        @blur="onEditorBlur($event)"
+                        @focus="onEditorFocus($event)"
+                        @ready="onEditorReady($event)"
+                    />
+-->
+                <div class="scroll-container">
+                </div>
+
+<!--
+                <editor-content :editor="v_editor" />
+-->                
+            </div>
+
+<!--
+-->
 
             <div v-if="v_contents.youtube && v_contents.youtube.length>0">
                 <WIframe :src="v_contents.youtube" />
@@ -22,15 +48,6 @@
             </div>
 
         </div>
-
-        <div>
-            <span class="ql-formats">
-                <q-btn label="Link" @click="onClickLink" />
-                <q-btn label="Image" />
-                <q-btn label="Youtube" @click="onClickYoutube" />
-                <q-btn label="Emoji" @click="onClickEmoji" />
-            </span>
-        </div>            
 
         <EditDialog ref="dialogEdit" buttonCaption="OK"
             :title="$t('dialog.edit_dialog.biography.title')" 
@@ -47,13 +64,23 @@ import { Config } from 'src/data/Config';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import CMSAPI from 'src/services/cmsService';
+import APIService from 'src/services/apiService';
 
+/*
+import { Editor, EditorContent } from '@tiptap/vue-2';
+import StarterKit from '@tiptap/starter-kit';
+import Document from '@tiptap/extension-document';
+import Paragraph from '@tiptap/extension-paragraph';
+import Text from '@tiptap/extension-text';
+*/
 
 import WIframe from "src/components/w/WIframe";
 import WLinkPreview from "src/components/w/WLinkPreview";
 import EditDialog from "src/components/dialogs/EditDialog";
+import TipTap from "src/components/tiptap/TipTap";
 
-//import VueFroala from 'vue-froala-wysiwyg';
+
+//import { quillEditor } from 'vue-quill-editor';
 
 import {PostPageModel} from "src/models/PageModel";
 
@@ -77,6 +104,7 @@ const toolbarOptions = {
 export default {
     name: 'BaseEditor',
     components: {
+        TipTap,
         WIframe,
         WLinkPreview,
         EditDialog
@@ -102,9 +130,11 @@ export default {
         v_me() {
             return store.getters.me;
         },
+
         v_editor() {
             return this.$refs.editor.quill;
-        }      ,        
+        },        
+
         isNewPost() {
             if (this.g_page_id) {
                 return false;
@@ -114,7 +144,7 @@ export default {
     },
     data() {
         return {
-            v_url: null,
+            //v_editor: null,
 
             v_contents: {
                 text: '',
@@ -127,10 +157,17 @@ export default {
             v_confirm: false,
             v_confirm_title: 'Do you want to quit?',
 
+            v_options: {
+                content: '<blockquote><p>Testing...</p></blockquote><ul><li><p><b>bold</b></p></li><li><p><i>italic</i></p></li><li><p><u>underline</u></p></li></ul>',
+                editable: true,
+                supportImage: true,
+                supportVideo: true
+            },
+
             v_option: {
                 placeholder: this.placeholder,
                 theme: this.theme,
-                scrollingContainer: '.scroll-container',                
+                //scrollingContainer: '.scroll-container',                
                 modules: {
                     toolbar: {
                         handlers: {
@@ -146,12 +183,29 @@ export default {
         logger.log.debug("BaseEditor.created");
     },
     mounted() {
-        this.v_editor.format('font-size', '20px');
+        //this.v_editor.format('font-size', '20px');
+        this.prepare();
     },
 
     updated() {},
-    
+    beforeDestroy() {
+        //this.v_editor.destroy();
+    },
+
     methods: {
+        prepare() {
+/*            
+            this.v_editor = new Editor({
+                extensions: [
+                    StarterKit,
+                    Document,
+                    Paragraph,
+                    Text,                    
+                ],
+                content: 'hello',
+            });
+*/            
+        },
         setContents(content) {            
             logger.log.debug("BaseEditor.setContent : contents=",content);
             this.v_contents.text = content;
@@ -319,29 +373,49 @@ export default {
 
         getLinkPreviewHTML(preview) {
             let html = '';
-			html = '<div class="link-preview-section" >';
-			html += '<div class="link-description">';
-			html += '<div class="domain">'
-			html += '<span class="link-url">{{ preview.domain }}</span>';
-			html += '</div>';
-			html += '<div class="link-data">';
-			html += '<div class="link-title">';
-			html += '{{ preview.title }}';
-			html += '</div>';
-			html += '<div class="link-description">';
-			html += '{{ preview.description }}';
-			html += '</div>';
-			html += '</div>';
-			html += '</div>';
-			html += '<div class="link-image">';
-			html += '<img v-if="preview.img"';
-			html += 'src="preview.img"';
-			html += 'alt="preview.description" />';					
-			html += '</div>';
+			html = '<div class="gLinkPreviewBox" >';
+			html += '  <div class="gLinkDescription">';
+			html += '    <div class="domain">'
+			html += '      <span class="link-url">' + preview.url + '</span>';
+			html += '    </div>';
+			html += '    <div class="link-data">';
+			html += '      <div class="link-title">';
+			html += preview.title ;
+			html += '      </div>';
+			html += '      <div class="gLinkDescription">';
+			html += preview.description;
+			html += '      </div>';
+			html += '    </div>';
+			html += '  </div>';
+			html += '  <div class="gLinkImage">';
+			html += '    <img v-if="' + preview.image +'"';
+			html += '       src="' + preview.image + '"';
+			html += '       alt="' + preview.description + '" />';					
+			html += '  </div>';
 			html += '</div>';
 
             return html;
         },
+        insertLinkPreview(url) {
+            const _this=this;
+
+            APIService.getLinkPreview({url:url}).then(resp=>{
+                logger.log.debug("insertLinkPreview : resp=",resp);
+                
+                let html = _this.getLinkPreviewHTML(resp.data.data);
+                logger.log.debug("insertLinkPreview : html=",html);
+
+                const range = _this.v_editor.getSelection(true);
+                //const delta = _this.v_editor.clipboard.convert(html)
+                const delta = _this.v_editor.clipboard.dangerouslyPasteHTML(range.index,html)
+                //_this.v_editor.insertText(range.index,html,'user');
+                //_this.v_editor.insertEmbed(range.index,html,'user');
+
+            }).catch(err=>{
+
+            });
+        },
+
 
         onEditorBlur(quill) {
             //logger.log.debug('editor blur!', quill);
@@ -381,6 +455,7 @@ export default {
                 //this.v_url = this.v_contents.youtube;
             } else if (dicParam.tag=="link") {
                 this.v_contents.link = dicParam.value;
+                //this.insertLinkPreview(this.v_contents.link);
             }
 
             //this.updateUserProfile(this.v_user);
@@ -402,113 +477,29 @@ export default {
 </script>
 
 
-<style scoped>
-
+<style lang="scss" scoped>
 .scroll-container {
-    overflow: auto;
-    /* background-color: beige; */
-    height: 180px;
-}
-
-.ql-container {
-    font-size: 30px !important;
-}
-
-.link-preview-section {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	padding: 14px;
-	border-radius: 5px;
-	margin: 20px 0px;
-	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1),
-		0 -4px 24px 2px rgba(0, 0, 0, 0.03);
-	line-height: 1.5;
-	cursor: pointer;
-}
-.link-preview-section .animated-background,
-.link-preview-section .link-image-loader .img {
-	animation-duration: 2.25s;
-	animation-fill-mode: forwards;
-	animation-iteration-count: infinite;
-	animation-name: placeHolderShimmer;
-	animation-timing-function: linear;
-	background: #f6f6f6;
-	background: linear-gradient(to right, #f6f6f6 8%, #f0f0f0 18%, #f6f6f6 33%);
-	position: relative;
-}
-@keyframes placeHolderShimmer {
-	0% {
-		background-position: -468px 0;
-	}
-	100% {
-		background-position: 468px 0;
-	}
-}
-.link-preview-section .link-description {
-	display: flex;
-	flex-direction: column;
-}
-.link-preview-section .link-description .domain {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	margin-bottom: 4px;
-}
-.link-preview-section .link-description .domain img {
-	height: 16px;
-	width: 16px;
-}
-.link-preview-section .link-description .domain .link-url,
-.link-preview-section .link-description .domain .link-url-loader {
-	font-weight: 600;
-}
-.link-preview-section .link-description .domain .link-url-loader {
-	background-color: #f6f6f6;
-	color: #f6f6f6;
-	border-radius: 10px;
-}
-.link-preview-section .link-description .link-data .link-title {
-	color: #1364a2;
-	font-weight: 600;
-	font-size: 15px;
-}
-.link-preview-section .link-description .link-data .link-description {
-	font-size: 14px;
-	text-align: left;
-}
-.link-preview-section .link-description .link-data-loader .p1 {
-	font-weight: 600;
-	font-size: 15px;
-}
-.link-preview-section .link-description .link-data-loader .p2 {
-	font-size: 14px;
-}
-.link-preview-section .link-description .link-data-loader .p1,
-.link-preview-section .link-description .link-data-loader .p2 {
-	background-color: #f6f6f6;
-	color: #f6f6f6;
-	border-radius: 10px;
-	margin-bottom: 4px;
-}
-.link-preview-section .link-image {
-	display: flex;
-	align-content: center;
-	align-items: center;
-	height: 100%;
-}
-.link-preview-section .link-image img {
-	max-height: 64px;
-	object-fit: cover;
-}
-.link-preview-section .link-image-loader {
-	display: flex;
-	align-content: center;
-	align-items: center;
-}
-.link-preview-section .link-image-loader .img {
-	height: 64px;
-	width: 64px;
-}
-
+    display: flex;
+    flex-direction: column;
+    .boxEditor {
+      height: 40rem;
+      overflow: hidden;
+    }
+    .output {
+      width: 100%;
+      height: 20rem;
+      margin: 0;
+      border: 1px solid #ccc;
+      overflow-y: auto;
+      resize: vertical;
+      &.code {
+        padding: 1rem;
+        height: 16rem;
+      }
+      &.ql-snow {
+        border-top: none;
+        height: 24rem;
+      }
+    }
+  }
 </style>
