@@ -56,13 +56,13 @@
 							<q-btn flat dense label="deleteRow" @click.prevent="commands.deleteRow" />
 							<q-btn flat dense label="merge" @click.prevent="commands.toggleCellMerge" />
 						</span>
-
+<!--
 						<q-btn @click.prevent="editor.chain().focus().setTextAlign('left').run()" :class="{ 'is-active': isActive({ textAlign: 'left' }) }" />
 						<q-btn @click.prevent="editor.chain().focus().setTextAlign('center').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }" />
 						<q-btn @click.prevent="editor.chain().focus().setTextAlign('right').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }" />
 						<q-btn @click.prevent="editor.chain().focus().setTextAlign('justify').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'justify' }) }" />
 						<q-btn @click.prevent="editor.chain().focus().unsetTextAlign().run()" />
-
+-->
 					</span>
 				</span>
 
