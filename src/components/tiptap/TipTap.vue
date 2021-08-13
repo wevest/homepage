@@ -13,30 +13,33 @@
 
 				<span v-if="toolbar=='1'">
 					<span>
-						<q-btn flat dense label="undo" @click="commands.undo" />        
-						<q-btn flat dense label="redo" @click="commands.redo" />	
+						<q-btn flat dense label="undo" @click.prevent="commands.undo" />        
+						<q-btn flat dense label="redo" @click.prevent="commands.redo" />	
 					</span>										
 
 					<span class="q-pl-sm">
-						<q-btn flat dense label="h1" :class="{ 'is-active': isActive.heading({ level: 1 }) }" @click="commands.heading({ level: 1 })" />
-						<q-btn flat dense label="h2" :class="{ 'is-active': isActive.heading({ level: 2 }) }" @click="commands.heading({ level: 2 })" />
-						<q-btn flat dense label="h3" :class="{ 'is-active': isActive.heading({ level: 3 }) }" @click="commands.heading({ level: 3 })" />
+						<q-btn flat dense label="h1" class="menubar__button" :class="{ 'is-active': isActive.heading({ level: 1 }) }" @click.prevent="commands.heading({ level: 1 })" />
+						<q-btn flat dense label="h2" class="menubar__button" :class="{ 'is-active': isActive.heading({ level: 2 }) }" @click.prevent="commands.heading({ level: 2 })" />
+						<q-btn flat dense label="h3" class="menubar__button" :class="{ 'is-active': isActive.heading({ level: 3 }) }" @click.prevent="commands.heading({ level: 3 })" />
+						<q-btn flat dense label="Paragraph" class="menubar__button" :class="{ 'is-active': isActive.paragraph() }" @click.prevent="commands.paragraph" /> 
 
-						<q-btn flat dense label="bold" icon="bold" :class="{ 'is-active': isActive.bold() }" @click="commands.bold" />
-						<q-btn flat dense label="italic" :class="{ 'is-active': isActive.italic() }" @click="commands.italic" />
-						<q-btn flat dense label="strike" :class="{ 'is-active': isActive.strike() }" @click="commands.strike" />
-						<q-btn flat dense label="underline" :class="{ 'is-active': isActive.underline() }" @click="commands.underline" />
-						<q-btn flat dense label="code" :class="{ 'is-active': isActive.code() }" @click="commands.code" />
-						<q-btn flat dense label="link" :class="{ 'is-disabled': shouldDisableButton(isActive.link()), 'is-active': isActive.link() }" @click.prevent="isActive.link() ? changeLinkDialog(commands.link, getMarkAttrs('link')) : addLinkDialog(commands.link, getMarkAttrs('link'))" />
 
-						<q-btn flat dense label="bullet" :class="{ 'is-active': isActive.bullet_list() }" @click="commands.bullet_list" />
-						<q-btn flat dense label="order" :class="{ 'is-active': isActive.ordered_list() }" @click="commands.ordered_list" />
-						<q-btn flat dense label="quote" :class="{ 'is-active': isActive.blockquote() }" @click="commands.blockquote" />
-						<q-btn flat dense label="code" :class="{ 'is-active': isActive.code_block() }" @click="commands.code_block" />
-						<q-btn flat dense label="line" @click="commands.horizontal_rule" />
+						<q-btn flat dense label="bold" icon="bold" class="menubar__button" :class="{ 'is-active': isActive.bold() }" @click.prevent="commands.bold" />
+						<q-btn flat dense label="italic" class="menubar__button" :class="{ 'is-active': isActive.italic() }" @click.prevent="commands.italic" />
+						<q-btn flat dense label="strike" class="menubar__button" :class="{ 'is-active': isActive.strike() }" @click.prevent="commands.strike" />
+						<q-btn flat dense label="underline" class="menubar__button" :class="{ 'is-active': isActive.underline() }" @click.prevent="commands.underline" />
+						<q-btn flat dense label="code" class="menubar__button" :class="{ 'is-active': isActive.code() }" @click.prevent="commands.code" />
+<!--						
+						<q-btn flat dense label="link" class="menubar__button" :class="{ 'is-disabled': shouldDisableButton(isActive.link()), 'is-active': isActive.link() }" @click.prevent="isActive.link() ? changeLinkDialog(commands.link, getMarkAttrs('link')) : addLinkDialog(commands.link, getMarkAttrs('link'))" />
+-->
+						<q-btn flat dense label="bullet" class="menubar__button" :class="{ 'is-active': isActive.bullet_list() }" @click.prevent="commands.bullet_list" />
+						<q-btn flat dense label="order" class="menubar__button" :class="{ 'is-active': isActive.ordered_list() }" @click.prevent="commands.ordered_list" />
+						<q-btn flat dense label="quote" class="menubar__button" :class="{ 'is-active': isActive.blockquote() }" @click.prevent="commands.blockquote" />
+						<q-btn flat dense label="code" class="menubar__button" :class="{ 'is-active': isActive.code_block() }" @click.prevent="commands.code_block" />
+						<q-btn flat dense label="line" class="menubar__button" @click.prevent="commands.horizontal_rule" />
 
-						<q-btn flat dense label="table"
-							@click="commands.createTable({
+						<q-btn flat dense label="table" class="menubar__button"
+							@click.prevent="commands.createTable({
 								rowsCount: 3,
 								colsCount: 3,
 								withHeaderRow: true
@@ -44,21 +47,28 @@
 						/>
 
 						<span v-if="isActive.table()">
-							<q-btn flat dense label="DeleteTable" @click="commands.deleteTable" />
-							<q-btn flat dense label="addCol" @click="commands.addColumnBefore" />
-							<q-btn flat dense label="addCol2" @click="commands.addColumnAfter" />
-							<q-btn flat dense label="addRow" @click="commands.addRowBefore" />
-							<q-btn flat dense label="addRow2" @click="commands.addRowAfter" />
-							<q-btn flat dense label="deleteCol" @click="commands.deleteColumn"/>
-							<q-btn flat dense label="deleteRow" @click="commands.deleteRow" />
-							<q-btn flat dense label="merge" @click="commands.toggleCellMerge" />
+							<q-btn flat dense label="DeleteTable" @click.prevent="commands.deleteTable" />
+							<q-btn flat dense label="addCol" @click.prevent="commands.addColumnBefore" />
+							<q-btn flat dense label="addCol2" @click.prevent="commands.addColumnAfter" />
+							<q-btn flat dense label="addRow" @click.prevent="commands.addRowBefore" />
+							<q-btn flat dense label="addRow2" @click.prevent="commands.addRowAfter" />
+							<q-btn flat dense label="deleteCol" @click.prevent="commands.deleteColumn"/>
+							<q-btn flat dense label="deleteRow" @click.prevent="commands.deleteRow" />
+							<q-btn flat dense label="merge" @click.prevent="commands.toggleCellMerge" />
 						</span>
+
+						<q-btn @click.prevent="editor.chain().focus().setTextAlign('left').run()" :class="{ 'is-active': isActive({ textAlign: 'left' }) }" />
+						<q-btn @click.prevent="editor.chain().focus().setTextAlign('center').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }" />
+						<q-btn @click.prevent="editor.chain().focus().setTextAlign('right').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }" />
+						<q-btn @click.prevent="editor.chain().focus().setTextAlign('justify').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'justify' }) }" />
+						<q-btn @click.prevent="editor.chain().focus().unsetTextAlign().run()" />
+
 					</span>
 				</span>
 
 				<q-btn flat dense label="link" @click="onClickLink(commands.image)" />
 				<q-btn flat dense label="image" :loading="v_loading_image" @click="onClickImage(commands.image)" />
-				<q-btn flat dense label="video" @click="onClickYoutube" />
+				<q-btn flat dense label="video" icon="videocam" @click="onClickYoutube" />
 <!--				
 				<q-btn flat label="EMOJI" :color="v_emoji_color" @click="onClickEmoji" />
 				<q-btn flat label="Test" @click="onClickTest" />

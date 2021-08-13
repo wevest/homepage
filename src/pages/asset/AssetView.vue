@@ -39,7 +39,9 @@
                 <q-tab name="info" :label="$t('name.info')" />
                 <q-tab name="tweet" :label="$t('name.tweet')" />
                 <q-tab name="blog" :label="$t('name.blog')" />
+<!--                
                 <q-tab name="qa" :label="$t('name.qa')" />
+-->                
                 <q-tab name="review" :label="$t('name.review')" />
             </q-tabs>
         </div>
@@ -80,11 +82,11 @@
                     :category="v_asset.object_category" :symbol="v_asset.symbol" :objectId="v_asset.id" />
  
             </q-tab-panel>
-        
+
+<!--        
             <q-tab-panel name="qa" class="gNoMargin">
                 <div class="q-my-sm">
                     <WWriterButton :placeholder="$t('name.qa_writing')" @onClickWrite="onClickWriteQuestion" />
-                    <!-- Please ask anything -->
                 </div>
                 <q-separator class="gSeparator" />
                 <AssetQuestionList ref="questionList" :title="$t('page.asset.questionlist.title')" :desc="$t('page.asset.questionlist.desc')"
@@ -94,7 +96,8 @@
                 >
                 </AssetQuestionList>            
             </q-tab-panel>
-            
+-->            
+
             <q-tab-panel name="review" class="gNoMargin">
                 <div class="q-my-sm">
                     <AssetReviewForm ref="reviewForm" 

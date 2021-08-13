@@ -71,7 +71,7 @@ import UserFeedList from 'components/lists/UserFeedList';
 import DataService from 'src/services/dataService';
 
 
-import WBanner from 'components/WBanner';
+import WBanner from 'components/w/WBanner';
 //import CExchangeIndexChart from 'pages/home/CExchangeIndexChart';
 import MarketIndexWidget from 'pages/home/components/MarketIndexWidget';
 import MarketWatchWidget from 'pages/home/components/MarketWatchWidget';
