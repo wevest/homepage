@@ -236,11 +236,8 @@ export default {
 </script>
 
 
-<style lang="sass">
-</style>
 <style scope>
 .blogAvatar {
 	margin-top:-4px;
 }
-
 </style>

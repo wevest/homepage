@@ -29,7 +29,7 @@
 									dislike_count="-1" />
 
 								
-								<div class="gBodyLG" v-html="a_tweet.text"></div>
+								<div class="gBodyLG" v-html="a_tweet.body"></div>
 								
 							</q-item-label>
 							<q-item-label>

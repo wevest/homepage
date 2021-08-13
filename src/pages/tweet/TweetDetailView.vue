@@ -35,7 +35,7 @@
 
         <q-separator />
 
-        <div class="q-pt-sm gBodyLG" v-html="v_tweet.text"></div>
+        <div class="q-pt-sm gBodyLG" v-html="v_tweet.body"></div>
          
         <WRatingButton ref="ratingButton" :data="v_tweet" :likeCaption="$t('button.blog_like')" :dislikeCaption="$t('button.blog_dislike')" />
 
@@ -123,7 +123,7 @@ export default {
         },
 
         loadTweet() {            
-            let dicParam = {tweet_id: this.v_tweet.id};
+            let dicParam = {id: this.v_tweet.id};
             
             const _this=this;
             let a_tweet = new TweetListModel();
@@ -156,7 +156,7 @@ export default {
 
         onClickUpdate() {
             logger.log.debug("TweetDetailView.onClickUpdate : tweet=",this.v_tweet);
-            NavFunc.navTweetWriter(this,this.v_tweet.asset.id,this.v_tweet.id,this.v_tweet.text);
+            NavFunc.navTweetWriter(this,this.v_tweet.asset.id,this.v_tweet.id,this.v_tweet.body);
         },
 
         onClickDelete() {                        

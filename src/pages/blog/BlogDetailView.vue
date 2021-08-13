@@ -45,9 +45,9 @@
         <div>
             <div class="q-py-lg">
             
-                <FroalaView v-model="v_post.body" />                
-<!--
                 <div class="gBodyLG" v-html="v_post.body"></div>
+<!--
+                
 
                 <Viewer 
                     ref="toastViewer"

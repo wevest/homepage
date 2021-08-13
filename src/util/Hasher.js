@@ -1,6 +1,3 @@
-
-
-
 export default class Hasher {
     static b64_table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 

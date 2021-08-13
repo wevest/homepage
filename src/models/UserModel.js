@@ -15,6 +15,7 @@ import LocalStorageService from 'src/services/localStorage';
 import { PortfolioListModel, PortfolioModel, PortfolioItemModel} from "src/models/PortfolioModel";
 import { BookmarkListModel } from "src/models/BookmarkModel";
 
+
 export class FeedModel {
     id=null;
     uuid=null;

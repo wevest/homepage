@@ -37,6 +37,10 @@ export class PostPageModel {
     category_name=null;
     tags=null;
     
+    youtube_url=null;
+    image_url=null;
+    link_url=null;
+
     //to check saved
     saved=null;
 
@@ -99,6 +103,10 @@ export class PostPageModel {
             }
         }
 
+        this.youtube_url = obj.youtube_url;
+        this.image_url = obj.image_url;
+        this.link_url = obj.link_url;
+
         this.api_categories = obj.api_categories;
 
         this.category_id=null;
@@ -113,7 +121,7 @@ export class PostPageModel {
         this.api_tags = obj.api_tags;
         
         this.tags = this.formatTags(this.api_tags);
-
+        
         // for editor
         //this.text = null;
     }

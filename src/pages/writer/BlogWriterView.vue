@@ -28,10 +28,8 @@
             </div>
             <div class="gBoxNoMargin">
                 
-                <TipTap ref="editor" :options="v_options" toolbar="1" />
-<!--                
-                <BaseEditor ref="baseEditor" @onPostSave="onPostSave" />
--->
+                <TipTap ref="editor" :options="v_options" toolbar="1" @onPostSave="onPostSave" />
+
                 <div class="gErrorMsg" v-if="v_error.text.error">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{v_error.text.msg}}
                 </div>
@@ -113,7 +111,7 @@ export default {
     updated() {
         logger.log.debug("BlogWriterView.updated");
         if (! this.v_update_flag) {
-            this.$refs.baseEditor.setContent(this.v_post.body);
+            this.$refs.editor.setContents(this.v_post.body);
             this.v_update_flag = true;
         }
     },
@@ -138,15 +136,15 @@ export default {
             }            
         },
         
-        validate: function(v_post) {
+        validate(v_post) {
             if (CommonFunc.isEmptyObject(v_post.title)) {
                 this.v_error.title.error = true;
                 this.v_error.title.msg = 'Please type title';
                 return false;
             }
             
-            let a_text = this.$refs.baseEditor.getContents();
-            if (CommonFunc.isEmptyObject(a_text)) {
+            let contents = this.$refs.editor.getContents();
+            if (CommonFunc.isEmptyObject(contents.body)) {
                 this.v_error.text.error = true;
                 this.v_error.text.msg = 'Please type something';
                 return false;
@@ -155,7 +153,7 @@ export default {
             return true;
         },
 
-        onPostSave: function(dic_param) {
+        onPostSave(dic_param) {
             logger.log.debug('QuestionWriterDialog.onPostSave : dic_param=',dic_param);
 
             this.$refs.writerToolbar.setLoading(false);
@@ -163,20 +161,25 @@ export default {
             if (dic_param.ret==1) {
                 this.$refs.writerToolbar.onClickClose();
                 //this.postProcess(dic_param.response);
-                //CommonFunc.showOkMessage(this,'Blog posted');
+                CommonFunc.showOkMessage(this,'Blog posted');
             } else {
                 CommonFunc.showErrorMessage(this,'Blog error');
             }        
         },
 
-        onClickSave: function() {
+        onClickSave() {
             if (! this.validate(this.v_post)) {
                 return;
             }
 
+            let contents = this.$refs.editor.getContents();    
+            this.v_post.body = contents.body;
+            if (!CommonFunc.isEmptyObject(contents.youtube_url)) this.v_post.youtube_url = contents.youtube_url;
+            if (!CommonFunc.isEmptyObject(contents.image_url)) this.v_post.image_url = contents.image_url;
+            if (!CommonFunc.isEmptyObject(contents.link_url)) this.v_post.link_url = contents.link_url;
+
             this.$refs.writerToolbar.setLoading(true);
-            this.$refs.baseEditor.save(this.v_post,[this.v_post.category_name]);
-            
+            this.$refs.editor.postToServer(this.v_post,[this.v_post.category_name]);            
         },
 
     }

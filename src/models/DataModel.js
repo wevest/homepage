@@ -5,13 +5,11 @@ import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 
 
-
 export class DataModel {
     items = {};
 
     constructor() {}
     static placeholder(){ return new DataModel(); }
-
 
     addComponent(key,value) {
         this.items[key] = value;

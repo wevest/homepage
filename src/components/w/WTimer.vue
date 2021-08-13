@@ -1,13 +1,13 @@
 <template>
     <div class="countdown">
         <div v-if="visible">
-            {{caption}} <span class="text-red-10"> <b>{{ v_timeLeft }}</b> </span>
+            <span>{{caption}}</span> <span class="text-red-10"> <b>{{ v_timeLeft }}</b> </span>
         </div>        
     </div>    
 </template>
 
-<script>
 
+<script>
 
 function zeroPadded(num) {
   // 4 --> 04
@@ -104,6 +104,8 @@ export default{
 };
 
 </script>
+
+
 
 <style scoped>
 

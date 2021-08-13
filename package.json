@@ -23,6 +23,7 @@
     "axios": "^0.21.1",
     "axios-jsonp": "^1.0.4",
     "core-js": "^3.6.5",
+    "emoji-mart-vue-fast": "^10.0.1",
     "froala-editor": "^4.0.4",
     "hangul-js": "^0.2.6",
     "highcharts": "^9.0.1",

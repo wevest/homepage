@@ -12,7 +12,7 @@ import {TweetCommentModel, TweetCommentListModel} from 'src/models/CommentModel'
 
 export class TweetModel{        
     id=null;    
-    text=null;
+    body=null;
     youtube_url=null;
     image_url=null;    
     link_url=null;
@@ -36,7 +36,7 @@ export class TweetModel{
         
         this.id = obj.id;
         this.created_at = obj.created_at;
-        this.text = obj.text;
+        this.body = obj.body;
         this.link_url = obj.link_url;
         this.image_url = obj.image_url;
         this.youtube_url = obj.youtube_url;
@@ -58,7 +58,7 @@ export class TweetModel{
         let dic_param = {
             id: this.id,
             asset_id: this.asset_id,
-            text: this.text,
+            body: this.body,
             youtube_url: this.youtube_url,
             image_url: this.image_url,
             link_url: this.link_url,
@@ -145,7 +145,6 @@ export class TweetListModel extends baseCollection{
         const _this = this;
         
         return new Promise(function(resolve,reject) {
-            //dic_param.token = store.getters.token;
             CMSAPI.getTweet(dic_param,function(response) {
                 logger.log.debug("TweetListModel.load : response=",response);
                 _this.assign(response.data.results);

@@ -12,44 +12,47 @@
       		<div class="menubar">
 
 				<span v-if="toolbar=='1'">
-					<q-btn flat dense label="undo" @click="commands.undo" />        
-					<q-btn flat dense label="redo" @click="commands.redo" />	
+					<span>
+						<q-btn flat dense label="undo" @click="commands.undo" />        
+						<q-btn flat dense label="redo" @click="commands.redo" />	
+					</span>										
 
-					<q-btn flat dense label="h1" :class="{ 'is-active': isActive.heading({ level: 1 }) }" @click="commands.heading({ level: 1 })" />
-					<q-btn flat dense label="h2" :class="{ 'is-active': isActive.heading({ level: 2 }) }" @click="commands.heading({ level: 2 })" />
-					<q-btn flat dense label="h3" :class="{ 'is-active': isActive.heading({ level: 3 }) }" @click="commands.heading({ level: 3 })" />
+					<span class="q-pl-sm">
+						<q-btn flat dense label="h1" :class="{ 'is-active': isActive.heading({ level: 1 }) }" @click="commands.heading({ level: 1 })" />
+						<q-btn flat dense label="h2" :class="{ 'is-active': isActive.heading({ level: 2 }) }" @click="commands.heading({ level: 2 })" />
+						<q-btn flat dense label="h3" :class="{ 'is-active': isActive.heading({ level: 3 }) }" @click="commands.heading({ level: 3 })" />
 
-					<q-btn flat dense label="line" @click="commands.horizontal_rule" />
+						<q-btn flat dense label="bold" icon="bold" :class="{ 'is-active': isActive.bold() }" @click="commands.bold" />
+						<q-btn flat dense label="italic" :class="{ 'is-active': isActive.italic() }" @click="commands.italic" />
+						<q-btn flat dense label="strike" :class="{ 'is-active': isActive.strike() }" @click="commands.strike" />
+						<q-btn flat dense label="underline" :class="{ 'is-active': isActive.underline() }" @click="commands.underline" />
+						<q-btn flat dense label="code" :class="{ 'is-active': isActive.code() }" @click="commands.code" />
+						<q-btn flat dense label="link" :class="{ 'is-disabled': shouldDisableButton(isActive.link()), 'is-active': isActive.link() }" @click.prevent="isActive.link() ? changeLinkDialog(commands.link, getMarkAttrs('link')) : addLinkDialog(commands.link, getMarkAttrs('link'))" />
 
-					<q-btn flat dense label="bold" icon="bold" :class="{ 'is-active': isActive.bold() }" @click="commands.bold" />
-					<q-btn flat dense label="italic" :class="{ 'is-active': isActive.italic() }" @click="commands.italic" />
-					<q-btn flat dense label="strike" :class="{ 'is-active': isActive.strike() }" @click="commands.strike" />
-					<q-btn flat dense label="underline" :class="{ 'is-active': isActive.underline() }" @click="commands.underline" />
-					<q-btn flat dense label="code" :class="{ 'is-active': isActive.code() }" @click="commands.code" />
-					<q-btn flat dense label="link" :class="{ 'is-disabled': shouldDisableButton(isActive.link()), 'is-active': isActive.link() }" @click.prevent="isActive.link() ? changeLinkDialog(commands.link, getMarkAttrs('link')) : addLinkDialog(commands.link, getMarkAttrs('link'))" />
+						<q-btn flat dense label="bullet" :class="{ 'is-active': isActive.bullet_list() }" @click="commands.bullet_list" />
+						<q-btn flat dense label="order" :class="{ 'is-active': isActive.ordered_list() }" @click="commands.ordered_list" />
+						<q-btn flat dense label="quote" :class="{ 'is-active': isActive.blockquote() }" @click="commands.blockquote" />
+						<q-btn flat dense label="code" :class="{ 'is-active': isActive.code_block() }" @click="commands.code_block" />
+						<q-btn flat dense label="line" @click="commands.horizontal_rule" />
 
-					<q-btn flat dense label="bullet" :class="{ 'is-active': isActive.bullet_list() }" @click="commands.bullet_list" />
-					<q-btn flat dense label="order" :class="{ 'is-active': isActive.ordered_list() }" @click="commands.ordered_list" />
-					<q-btn flat dense label="quote" :class="{ 'is-active': isActive.blockquote() }" @click="commands.blockquote" />
-					<q-btn flat dense label="code" :class="{ 'is-active': isActive.code_block() }" @click="commands.code_block" />
+						<q-btn flat dense label="table"
+							@click="commands.createTable({
+								rowsCount: 3,
+								colsCount: 3,
+								withHeaderRow: true
+							})"
+						/>
 
-					<q-btn flat dense label="table"
-						@click="commands.createTable({
-							rowsCount: 3,
-							colsCount: 3,
-							withHeaderRow: true
-						})"
-					/>
-
-					<span v-if="isActive.table()">
-						<q-btn flat dense label="DeleteTable" @click="commands.deleteTable" />
-						<q-btn flat dense label="addCol" @click="commands.addColumnBefore" />
-						<q-btn flat dense label="addCol2" @click="commands.addColumnAfter" />
-						<q-btn flat dense label="addRow" @click="commands.addRowBefore" />
-						<q-btn flat dense label="addRow2" @click="commands.addRowAfter" />
-						<q-btn flat dense label="deleteCol" @click="commands.deleteColumn"/>
-						<q-btn flat dense label="deleteRow" @click="commands.deleteRow" />
-						<q-btn flat dense label="merge" @click="commands.toggleCellMerge" />
+						<span v-if="isActive.table()">
+							<q-btn flat dense label="DeleteTable" @click="commands.deleteTable" />
+							<q-btn flat dense label="addCol" @click="commands.addColumnBefore" />
+							<q-btn flat dense label="addCol2" @click="commands.addColumnAfter" />
+							<q-btn flat dense label="addRow" @click="commands.addRowBefore" />
+							<q-btn flat dense label="addRow2" @click="commands.addRowAfter" />
+							<q-btn flat dense label="deleteCol" @click="commands.deleteColumn"/>
+							<q-btn flat dense label="deleteRow" @click="commands.deleteRow" />
+							<q-btn flat dense label="merge" @click="commands.toggleCellMerge" />
+						</span>
 					</span>
 				</span>
 
@@ -168,7 +171,7 @@ export default {
 			imageTab: null,
 			
 			v_contents: {
-				text: '',
+				body: '',
 				link_url: null,
 				youtube_url: null,
 			},
@@ -226,12 +229,12 @@ export default {
 		},
 
 		getContents() {			
-			this.v_contents['text'] = this.editor.getHTML();
+			this.v_contents.body = this.editor.getHTML();
 			return this.v_contents;
 		},
 		setContents(txt) {
-			this.v_contents.text = txt;
-			this.editor.setContent(this.v_contents.text);
+			this.v_contents.body = txt;
+			this.editor.setContent(this.v_contents.body);
 		},
 
         shouldDisableButton(isActive) {
@@ -275,7 +278,8 @@ export default {
 			}
 
 			//let embed = '<iframe src={src} width="320" height="180"></iframe>'.replace('{src}', url);			
-			let embed = '<iframe src={src}></iframe>'.replace('{src}', url);			
+			//let embed = '<iframe src={src}></iframe>'.replace('{src}', url);			
+			let embed = '<iframe src={src} style="display:block; width:40vw; height: 40vh"></iframe>'.replace('{src}', url);
 			this.insertHTML(this.editor, embed);
 
 			return;
@@ -420,9 +424,41 @@ export default {
 			logger.log.debug('showEmoji : emoji=',this.emojisOutput);
     	},
 
+        postToServer(v_post,a_tag) {                        
+            const _this = this;
+            //let a_text = this.getContents();
+            
+            let dic_param = {
+                id: v_post.id,
+                title: v_post.title,
+                tags: v_post.tags, 
+                category_id: v_post.category, 
+                content_type: v_post.content_type,
+                asset_id: v_post.asset_id,
+                youtube_url: v_post.youtube_url,                
+                image_url: v_post.image_url,
+                link_url: v_post.link_url, 
+                text: CommonFunc.addHashTag(v_post.body,a_tag),                
+                token:store.getters.token,                
+            };
+
+            if (v_post.content_type==CONST.CONENT_TYPE_ASSET_ANSWER) {
+                dic_param.question_id = v_post.question_id; 
+            }
+
+            logger.log.debug("BaseEditor.onClickSave : dic_param=",dic_param);
+
+            v_post.post(dic_param).then( response => {
+                logger.log.debug("onClickSave : response=",response);
+                _this.$emit("onPostSave",{ret:1, response:response});
+            }).catch(err=>{
+                _this.$emit("onPostSave",{ret:0, response:error});
+            });
+        },
+
 
 		onClickYoutube() {			
-			logger.log.debug('onClickLink : html=',this.v_contents.text);
+			logger.log.debug('onClickLink : html=',this.v_contents.body);
             this.$refs.dialogEdit.setMaxlength(200);
             this.$refs.dialogEdit.show('youtube','text',"",'Youtube Link');
 		},

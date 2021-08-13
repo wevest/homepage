@@ -35,10 +35,11 @@ export default class Iframe extends Node {
             "iframe",
             {
                 src: node.attrs.src,
-                width: node.attrs.width,
-                height: node.attrs.height,
+                //width: node.attrs.width,
+                //height: node.attrs.height,
                 frameborder: 0,
                 allowfullscreen: "true",
+                style: "display:block; width:60vw; height: 60vh",
                 allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             }
         ]};

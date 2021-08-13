@@ -83,7 +83,7 @@ export default {
             v_tweet: new TweetModel(),
             
             v_contents: {
-                text: '',
+                body: '',
                 youtube: '',
                 link: '',
                 image: '',
@@ -93,27 +93,6 @@ export default {
                 title: {error:false, msg:''},
                 text: {error:false, msg:''},
             },        
-
-            v_config: {
-                key: Config.key.froala,
-                attribution: false,
-                //iframe: true,
-
-                htmlRemoveTags: ["script"],
-                immediateVueModelUpdate: true,
-                codeMirrorOptions: {
-                    indentWithTabs: true,
-                    lineNumbers: true,
-                    lineWrapping: true,
-                    mode: "text/html",
-                    tabMode: "indent",
-                    tabSize: 2,
-                },
-                toolbarButtons: [
-                    ['fontSize', 'textColor', 'backgroundColor'],
-                    ['insertLink', 'insertImage', 'insertVideo', 'emoticons','embedly']
-                ],
-            },
 
             v_options: {
                 content: '<blockquote><p>Testing...</p></blockquote><ul><li><p><b>bold</b></p></li><li><p><i>italic</i></p></li><li><p><u>underline</u></p></li></ul>',
@@ -164,10 +143,10 @@ export default {
             //logger.log.debug("TwitterWriter.setContents : v_tweet=",this.v_update_flag,this.v_tweet);
             if (! this.v_update_flag) {
                 //logger.log.debug("TwitterWriter.setContents :text=",this.v_tweet.text); 
-                this.v_contents.text = this.v_tweet.text;                
+                this.v_contents.body = this.v_tweet.body;                
                 this.v_update_flag = true;
             }
-            this.$refs.editor.setContents(this.v_contents.text);
+            this.$refs.editor.setContents(this.v_contents.body);
         },
         setTweet(route) {
             logger.log.debug("TwitterWriter.setTweet : v_tweet=",this.v_tweet);
@@ -175,15 +154,15 @@ export default {
             if (route.query.hasOwnProperty('tweet_id')) {
                 //logger.log.debug("TwitterWriter.setTweet : contents=",route.params.contents);
                 this.v_tweet.id = route.query.tweet_id;
-                this.v_tweet.text = route.params.contents;
+                this.v_tweet.body = route.params.contents;
             }
 
-            this.v_contents.text = '1';
+            //this.v_contents.body = '1';
         },
         
         validate() {
             //this.v_tweet.text = this.v_text;
-            if (CommonFunc.isEmptyObject(this.v_tweet.text)) {
+            if (CommonFunc.isEmptyObject(this.v_tweet.body)) {
                 this.v_error.text.error = true;
                 this.v_error.text.msg = 'Please type something';
                 return false;
@@ -265,6 +244,7 @@ export default {
                 _this.$refs.writerToolbar.setLoading(false);
                 _this.$refs.writerToolbar.onClickClose();
                 CommonFunc.showOkMessage(_this,'Posting ok');
+                
             }).catch(err=>{
                 logger.log.error("onClickSave : err=",err);
                 _this.$refs.writerToolbar.setLoading(false);
@@ -293,13 +273,16 @@ export default {
             this.v_contents = this.$refs.editor.getContents();
             logger.log.debug('TweetWriterDialog.onClickSave : v_contents=',this.v_contents);
             
-            this.v_tweet.text = this.v_contents.text;
+            this.v_tweet.body = this.v_contents.body;
+            if (!CommonFunc.isEmptyObject(contents.youtube_url)) this.v_tweet.youtube_url = contents.youtube_url;
+            if (!CommonFunc.isEmptyObject(contents.image_url)) this.v_tweet.image_url = contents.image_url;
+            if (!CommonFunc.isEmptyObject(contents.link_url)) this.v_tweet.link_url = contents.link_url;
+
             if (! this.validate() ) {
                 return;
             }
             this.save(this.v_tweet);
-            //this.$refs.writerToolbar.setLoading(true);
-        
+            //this.$refs.writerToolbar.setLoading(true);        
         },
 
 

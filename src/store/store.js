@@ -10,16 +10,13 @@ import { DataModel, NavBackModel } from "src/models/DataModel";
 import { AssetModel, TickerListModel, AssetListModel } from "src/models/AssetModel";
 import { PriceModel, PriceListModel } from "src/models/PriceModel";
 
-
 Vue.use(Vuex);
-
 
 const state = {
     data: {},
+    
     components:new DataModel(),
-
     nav: new NavBackModel(),
-
     me: new User(),
     
     prices: new PriceListModel(),

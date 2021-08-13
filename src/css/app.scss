@@ -521,5 +521,45 @@
     object-fit: contain;
     border-radius: 3px;
 }
-/* end */
 
+@media only screen and (hover: none) and (pointer: coarse){
+  
+  @media (orientation: landscape) {
+    .gBodyLG iframe {
+      display: block;       /* iframes are inline by default */
+      border: none;         /* Reset default border */
+      height: 100vh;        /* Viewport-relative units */
+      width: 100vw;
+    }
+  }
+
+  @media (orientation: portrait) {
+    .gBodyLG iframe {
+      display: block;       /* iframes are inline by default */
+      border: none;         /* Reset default border */
+      height: 35vh;        /* Viewport-relative units */
+      width: 70vw;
+    }
+  }
+
+}
+
+@media (orientation: landscape) {
+  .gBodyLG iframe {
+    display: block;       /* iframes are inline by default */
+    border: none;         /* Reset default border */
+    height: 60vh;        /* Viewport-relative units */
+    width: 60vw;
+  }
+}
+
+@media (orientation: portrait) {
+  .gBodyLG iframe {
+    display: block;       /* iframes are inline by default */
+    border: none;         /* Reset default border */
+    height: 35vh;        /* Viewport-relative units */
+    width: 70vw;
+  }
+}
+
+/* end */

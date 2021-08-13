@@ -20,7 +20,7 @@
 						WeVest
 						<q-badge align="top" class="boxBadge">v0.2</q-badge>
 					</div>
-
+					
 					<CryptoSelect class="q-pl-sm" ref="searchInput" hideBottomSpace="1" hideDropdownIcon="1"
 						@onSelect="onSearch" label="" filled="0" myStyle="width:80px;" />
 

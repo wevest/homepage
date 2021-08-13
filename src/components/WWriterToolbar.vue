@@ -12,7 +12,6 @@
     
 </template>
 
-
 <script>
 import { store } from 'src/store/store';
 import CommonFunc from 'src/util/CommonFunc';
