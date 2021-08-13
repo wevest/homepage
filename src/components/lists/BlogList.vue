@@ -16,7 +16,7 @@
 						v-for="(a_post, index) in v_posts.items"
 						v-if="index<v_maxLength"
 						@click.stop="onClickBlog(a_post.id)"
-					>
+					>					
 						<q-item-section class="blogAvatar" avatar top>
 							<WAvatar :avatar="a_post.api_owner.avatar_thumb" :username="a_post.api_owner.username" />
 						</q-item-section>

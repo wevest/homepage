@@ -26,8 +26,8 @@ export default class Iframe extends Node {
                     tag: "iframe",
                     getAttrs: dom => ({
                         src: dom.getAttribute("src"),
-                        width: dom.getAttribute("width") || 640,
-                        height: dom.getAttribute("height") || 360
+                        width: dom.getAttribute("width") || "90%",
+                        height: dom.getAttribute("height") || "90%"
                     })
                 }
             ],

@@ -13,7 +13,17 @@ import {TweetCommentModel, TweetCommentListModel} from 'src/models/CommentModel'
 export class TweetModel{        
     id=null;    
     text=null;
+    youtube_url=null;
+    image_url=null;    
+    link_url=null;
     created_at=null;
+    
+    like_count=null;
+    dislike_count=null;
+    read_count=null;
+    comment_count=null;
+    share_count=null;
+
     owner=null;
     asset=null;
     asset_id=null;
@@ -27,9 +37,15 @@ export class TweetModel{
         this.id = obj.id;
         this.created_at = obj.created_at;
         this.text = obj.text;
+        this.link_url = obj.link_url;
+        this.image_url = obj.image_url;
+        this.youtube_url = obj.youtube_url;
+
         this.like_count = obj.like_count;
         this.dislike_count = obj.dislike_count;
         this.share_count = obj.share_count;
+        this.comment_count = obj.comment_count;
+        this.read_count = obj.read_count;
     }
 
     addCommentFirst(jsonComment) {
@@ -41,8 +57,11 @@ export class TweetModel{
     post() {
         let dic_param = {
             id: this.id,
-            text: this.text,
             asset_id: this.asset_id,
+            text: this.text,
+            youtube_url: this.youtube_url,
+            image_url: this.image_url,
+            link_url: this.link_url,
             token: store.getters.token            
         };
 

@@ -28,12 +28,14 @@
 									like_count="-1" 
 									dislike_count="-1" />
 
+								
 								<div class="gBodyLG" v-html="a_tweet.text"></div>
 								
 							</q-item-label>
 							<q-item-label>
 								<WRatingSmallButton ref="ratingButton" 
 									:data="a_tweet" :likeCount="a_tweet.like_count" :dislikeCount="a_tweet.dislike_count" 
+									:commentCount="a_tweet.comment_count"
 									@onClickRating="onClickRating" />
 							</q-item-label>
 

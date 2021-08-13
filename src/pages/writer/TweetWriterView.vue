@@ -15,7 +15,7 @@
                     theme="snow" placeholder="Please type something" />
 -->
 
-                <TipTap :options="v_options" />
+                <TipTap ref="editor" :options="v_options" />
 
                 <div class="gErrorMsg" v-if="v_error.text.error">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{v_error.text.msg}}
@@ -23,10 +23,6 @@
 
             </div>
 
-            <div class="q-pa-md" v-if="v_contents.youtube.length>0">
-                <q-video :src="v_contents.youtube" />
-            </div>
-            
 <!--            
             <div style="padding-top:10px;">
                 <q-input v-model="v_post.tags" label="Tags" />
@@ -77,14 +73,9 @@ export default {
             }
             return true;
         },
-        v_editor() {
-            return this.$refs.editor.quill;
-        }      
     },
     data() {
         return {
-            //editor: null,
-
             g_page_id: null,
             g_category_id: null,
             
@@ -124,21 +115,6 @@ export default {
                 ],
             },
 
-            v_option: {
-                placeholder: '',
-                theme: 'snow',
-
-                modules: {
-                    toolbar: {
-                        handlers: {
-                            'image': this.imageHandler
-                                //document.getElementById('getFile').click();
-                        }
-                    }
-                }
- 
-            },
-
             v_options: {
                 content: '<blockquote><p>Testing...</p></blockquote><ul><li><p><b>bold</b></p></li><li><p><i>italic</i></p></li><li><p><u>underline</u></p></li></ul>',
                 editable: true,
@@ -157,7 +133,7 @@ export default {
         this.$nextTick(function() {
             // 모든 화면이 렌더링된 후 실행합니다.            
             this.prepare();
-            //this.setContents();            
+            this.setContents();            
         });
         
     },
@@ -188,11 +164,10 @@ export default {
             //logger.log.debug("TwitterWriter.setContents : v_tweet=",this.v_update_flag,this.v_tweet);
             if (! this.v_update_flag) {
                 //logger.log.debug("TwitterWriter.setContents :text=",this.v_tweet.text); 
-                this.v_contents.text = this.v_tweet.text;
-                
+                this.v_contents.text = this.v_tweet.text;                
                 this.v_update_flag = true;
             }
-            this.$refs.editor.setContents("this.v_tweet.text");
+            this.$refs.editor.setContents(this.v_contents.text);
         },
         setTweet(route) {
             logger.log.debug("TwitterWriter.setTweet : v_tweet=",this.v_tweet);
@@ -217,67 +192,6 @@ export default {
             return true;
         },
 
-        save(tweet) {
-            const _this = this;
-
-            let dic_param = {
-                id: tweet.id,
-                asset_id: tweet.asset_id,
-                text: CommonFunc.addHashTag(tweet.text,[])
-            };
-            
-            tweet.post().then( response => {
-                logger.log.debug("onClickSave : response=",response);
-                //_this.$emit("onPostSave",{ret:1, response:response});
-                _this.$refs.writerToolbar.setLoading(false);
-                _this.$refs.writerToolbar.onClickClose();
-            }).catch(err=>{
-                logger.log.error("onClickSave : err=",err);
-                _this.$refs.writerToolbar.setLoading(false);
-                CommonFunc.showErrorMessage(_this,'Posting error');
-                //_this.$emit("onPostSave",{ret:0, response:error});
-            });            
-        },
-
-        uploadFunction(e){        
-            //you can get images data in e.target.files
-            //an single example for using formData to post to server
-            logger.log.debug("uploadFunction : e=",e);
-
-            var range = this.v_editor.getSelection();
-            //var value = prompt('please copy paste the image url here.');
-            if (range) {
-                //this.v_editor.insertEmbed(range.index, 'image', e.target.files, Quill.sources.USER);
-                this.v_editor.insertEmbed(range.index, 'image', e.target.files, "user");
-            } else {
-                this.v_editor.insertEmbed(0, 'image', e.target.files[0], "user");                
-            }
-            
-            
-            var form = new FormData()
-            form.append('file[]', e.target.files[0])            
-        },
-
-/*
-    imageHandler() {
-        const input = document.createElement('input');
-        input.setAttribute('type', 'file');
-        input.setAttribute('accept', 'image/*');
-        input.click();
-        input.onchange = async function() {
-            const file = input.files[0];
-            console.log('User trying to uplaod this:', file);
-
-            const id = await uploadFile(file); // I'm using react, so whatever upload function
-            const range = this.quill.getSelection();
-            const link = `${ROOT_URL}/file/${id}`;
-
-            // this part the image is inserted
-            // by 'image' option below, you just have to put src(link) of img here. 
-            this.quill.insertEmbed(range.index, 'image', link); 
-        }.bind(this); // react thing
-    }
-*/
         uploadToEditor(dicUrls) {
             const range = this.v_editor.getSelection(true);
 
@@ -289,9 +203,9 @@ export default {
 
         async convertFile(file) {
             let img = await CommonFunc.loadImageFile(file);
-            logger.log.debug("imageHandler : img=",img);
+            //logger.log.debug("imageHandler : img=",img);
             let blob = await CommonFunc.slimImage(img);
-            logger.log.debug("imageHandler : blob=",blob);
+            //logger.log.debug("imageHandler : blob=",blob);
             return blob;
         },
 
@@ -336,30 +250,29 @@ export default {
 
             input.onchange = async () => {
                 _this.uploadFiles(input.files);
-
-                // Save current cursor state
-                const range = this.v_editor.getSelection(true);
-
-                // Insert temporary loading placeholder image
-                //_this.v_editor.insertEmbed(range.index, 'image', `${ window.location.origin }/images/loaders/placeholder.gif`); 
-
-                // Move cursor to right side of image (easier to continue typing)
-                //_this.v_editor.setSelection(range.index + 1);
-
-                //const res = await apiPostNewsImage(formData); // API post, returns image location as string e.g. 'http://www.example.com/images/foo.png'
-
-                // Remove placeholder image
-                //_this.v_editor.deleteText(range.index, 1);
-
-                // Insert uploaded image
-                //_this.v_editor.insertEmbed(range.index, 'image', res.body.image); 
-
-                //_this.v_editor.uploader.upload(range, input.files);
-
-                //_this.v_editor.insertEmbed(range.index, 'image', ''); 
             }
 
         },
+
+
+        save(tweet) {
+            const _this = this;
+            
+            _this.$refs.writerToolbar.setLoading(true);
+            tweet.post().then( response => {
+                logger.log.debug("onClickSave : response=",response);
+                //_this.$emit("onPostSave",{ret:1, response:response});
+                _this.$refs.writerToolbar.setLoading(false);
+                _this.$refs.writerToolbar.onClickClose();
+                CommonFunc.showOkMessage(_this,'Posting ok');
+            }).catch(err=>{
+                logger.log.error("onClickSave : err=",err);
+                _this.$refs.writerToolbar.setLoading(false);
+                CommonFunc.showErrorMessage(_this,'Posting error');
+                //_this.$emit("onPostSave",{ret:0, response:error});
+            });            
+        },
+
 
         onPostSave(dic_param) {
             logger.log.debug('TweetWriterDialog.onPostSave : dic_param=',dic_param);
@@ -368,70 +281,27 @@ export default {
 
             if (dic_param.ret==1) {
                 this.$refs.writerToolbar.onClickClose();
-                //this.postProcess(dic_param.response);
-                //CommonFunc.showOkMessage(this,'Blog posted');
+                //this.postProcess(dic_param.response);                
             } else {
                 
             }        
         },
 
-        onClickSave() {
-            logger.log.debug('TweetWriterDialog.onClickSave');
+        onClickSave() {            
+            //logger.log.debug('TweetWriterDialog.onClickSave : editor=',this.$refs.editor);
 
+            this.v_contents = this.$refs.editor.getContents();
+            logger.log.debug('TweetWriterDialog.onClickSave : v_contents=',this.v_contents);
+            
             this.v_tweet.text = this.v_contents.text;
             if (! this.validate() ) {
                 return;
             }
             this.save(this.v_tweet);
             //this.$refs.writerToolbar.setLoading(true);
-            //this.$refs.baseEditor.save(this.v_tweet,[]);
         
         },
 
-        onClickTest() {
-            logger.log.debug('TweetWriterDialog.onClickTest');
-            this.v_contents.text = "this.$route.params.contents";
-        },
-
-        onEditorBlur(quill) {
-            logger.log.debug('editor blur!', quill);
-        },
-        onEditorFocus(quill) {
-            logger.log.debug('editor focus!', quill);
-        },
-        onEditorReady(quill) {
-            logger.log.debug('editor ready!', quill);
-        },
-
-        onClickYoutube() {
-            logger.log.debug('onClickYoutube');
-
-            this.$refs.dialogEdit.setMaxlength(200);
-            this.$refs.dialogEdit.show('youtube','text',"",'Youtube Link');
-        },
-
-        onClickEmoji() {
-            logger.log.debug('onClickEmoji : veditor=',this.v_editor);
-            this.v_editor.theme.modules.toolbar.handlers.image();
-
-        },
-
-        onClickLink() {
-            logger.log.debug('onClickLink : html=',this.v_editor.root.innerHTML);
-        },
-
-        onSaveEdit(dicParam) {
-            logger.log.debug("TweetWriter.onSaveEdit : ",dicParam);
-
-            if (dicParam.tag=="youtube") {
-                this.v_contents.youtube = dicParam.value;
-            } else if (dicParam.tag=="link") {
-                this.v_contents.link = dicParam.value;
-            }
-
-            //this.updateUserProfile(this.v_user);
-
-        }
 
     }
 

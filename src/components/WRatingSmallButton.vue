@@ -12,12 +12,21 @@
                     
         <span>
             <q-btn 
-                class="gRatingBtnXS"  flat dense ripple
+                class="gRatingBtnXS q-pl-xs"  flat dense ripple
                 :class="v_color_dislike"      
                 icon="thumb_down_off_alt"
                 @click="onClickRate('dislike')"> 
             </q-btn>
             <span class="gRatingCountSM">{{ dislikeCount }}</span>
+        </span>
+
+        <span v-show="commentCount>-1">
+            <q-btn 
+                class="gRatingBtnXS q-pl-md"  flat dense ripple
+                icon="chat_bubble_outline"
+                @click="onClickComment"> > 
+            </q-btn>
+            <span class="gRatingCountSM">{{ commentCount }}</span>
         </span>
     </div>
 
@@ -48,6 +57,9 @@ export default {
             type:String,
             default: "도움이 안 돼요",
         },
+        commentCount: {
+            default:-1,
+        }
     },
     computed: {
         v_me() {
@@ -87,6 +99,9 @@ export default {
                 NavFunc.navSignin(_this);                
             });            
 
+        },
+        onClickComment() {
+            this.$emit('onClickComment',{});
         }
     }
 

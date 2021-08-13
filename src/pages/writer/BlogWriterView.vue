@@ -27,7 +27,11 @@
                 />
             </div>
             <div class="gBoxNoMargin">
+                
+                <TipTap ref="editor" :options="v_options" toolbar="1" />
+<!--                
                 <BaseEditor ref="baseEditor" @onPostSave="onPostSave" />
+-->
                 <div class="gErrorMsg" v-if="v_error.text.error">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{v_error.text.msg}}
                 </div>
@@ -53,7 +57,7 @@ import logger from 'src/error/Logger';
 
 import {PostPageModel} from "src/models/PageModel";
 import CTitle from 'components/CTitle';
-import BaseEditor from 'components/BaseEditor';
+import TipTap from 'components/tiptap/TipTap';
 import WWriterToolbar from 'components/WWriterToolbar';
 
 export default {
@@ -61,7 +65,7 @@ export default {
     components: {
         CTitle,
         WWriterToolbar,
-        BaseEditor
+        TipTap
     },
     computed: {
         v_me() {
@@ -88,7 +92,14 @@ export default {
             v_error: {
                 title: {error:false, msg:''},
                 text: {error:false, msg:''},
-            },        
+            },    
+            
+            v_options: {
+                content: '<blockquote><p>Testing...</p></blockquote><ul><li><p><b>bold</b></p></li><li><p><i>italic</i></p></li><li><p><u>underline</u></p></li></ul>',
+                editable: true,
+                supportImage: true,
+                supportVideo: true
+            }            
         }
     },
 

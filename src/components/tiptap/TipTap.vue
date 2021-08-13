@@ -1,5 +1,8 @@
 <template>
   	<div class="editor q-pa-md">
+		<div v-if="v_loading_image">
+    		<q-linear-progress indeterminate size="md" />
+		</div>
 
     	<editor-menu-bar
 			:editor="editor"
@@ -8,34 +11,29 @@
 		>
       		<div class="menubar">
 
-				<q-btn label="link" @click="onClickLink(commands.image)" />
-				<q-btn label="image" @click="onClickImage(commands.image)" />
-				<q-btn label="video" @click="onClickYoutube" />
-				<q-btn label="Test" @click="onClickTest" />
-
 				<span v-if="toolbar=='1'">
-					<q-btn label="undo" @click="commands.undo" />        
-					<q-btn label="redo" @click="commands.redo" />	
+					<q-btn flat dense label="undo" @click="commands.undo" />        
+					<q-btn flat dense label="redo" @click="commands.redo" />	
 
-					<q-btn label="h1" :class="{ 'is-active': isActive.heading({ level: 1 }) }" @click="commands.heading({ level: 1 })" />
-					<q-btn label="h2" :class="{ 'is-active': isActive.heading({ level: 2 }) }" @click="commands.heading({ level: 2 })" />
-					<q-btn label="h3" :class="{ 'is-active': isActive.heading({ level: 3 }) }" @click="commands.heading({ level: 3 })" />
+					<q-btn flat dense label="h1" :class="{ 'is-active': isActive.heading({ level: 1 }) }" @click="commands.heading({ level: 1 })" />
+					<q-btn flat dense label="h2" :class="{ 'is-active': isActive.heading({ level: 2 }) }" @click="commands.heading({ level: 2 })" />
+					<q-btn flat dense label="h3" :class="{ 'is-active': isActive.heading({ level: 3 }) }" @click="commands.heading({ level: 3 })" />
 
-					<q-btn label="line" @click="commands.horizontal_rule" />
+					<q-btn flat dense label="line" @click="commands.horizontal_rule" />
 
-					<q-btn label="bold" :class="{ 'is-active': isActive.bold() }" @click="commands.bold" />
-					<q-btn label="italic" :class="{ 'is-active': isActive.italic() }" @click="commands.italic" />
-					<q-btn label="strike" :class="{ 'is-active': isActive.strike() }" @click="commands.strike" />
-					<q-btn label="underline" :class="{ 'is-active': isActive.underline() }" @click="commands.underline" />
-					<q-btn label="code" :class="{ 'is-active': isActive.code() }" @click="commands.code" />
-					<q-btn label="link" :class="{ 'is-disabled': shouldDisableButton(isActive.link()), 'is-active': isActive.link() }" @click.prevent="isActive.link() ? changeLinkDialog(commands.link, getMarkAttrs('link')) : addLinkDialog(commands.link, getMarkAttrs('link'))" />
+					<q-btn flat dense label="bold" icon="bold" :class="{ 'is-active': isActive.bold() }" @click="commands.bold" />
+					<q-btn flat dense label="italic" :class="{ 'is-active': isActive.italic() }" @click="commands.italic" />
+					<q-btn flat dense label="strike" :class="{ 'is-active': isActive.strike() }" @click="commands.strike" />
+					<q-btn flat dense label="underline" :class="{ 'is-active': isActive.underline() }" @click="commands.underline" />
+					<q-btn flat dense label="code" :class="{ 'is-active': isActive.code() }" @click="commands.code" />
+					<q-btn flat dense label="link" :class="{ 'is-disabled': shouldDisableButton(isActive.link()), 'is-active': isActive.link() }" @click.prevent="isActive.link() ? changeLinkDialog(commands.link, getMarkAttrs('link')) : addLinkDialog(commands.link, getMarkAttrs('link'))" />
 
-					<q-btn label="bullet" :class="{ 'is-active': isActive.bullet_list() }" @click="commands.bullet_list" />
-					<q-btn label="order" :class="{ 'is-active': isActive.ordered_list() }" @click="commands.ordered_list" />
-					<q-btn label="quote" :class="{ 'is-active': isActive.blockquote() }" @click="commands.blockquote" />
-					<q-btn label="code" :class="{ 'is-active': isActive.code_block() }" @click="commands.code_block" />
+					<q-btn flat dense label="bullet" :class="{ 'is-active': isActive.bullet_list() }" @click="commands.bullet_list" />
+					<q-btn flat dense label="order" :class="{ 'is-active': isActive.ordered_list() }" @click="commands.ordered_list" />
+					<q-btn flat dense label="quote" :class="{ 'is-active': isActive.blockquote() }" @click="commands.blockquote" />
+					<q-btn flat dense label="code" :class="{ 'is-active': isActive.code_block() }" @click="commands.code_block" />
 
-					<q-btn label="table"
+					<q-btn flat dense label="table"
 						@click="commands.createTable({
 							rowsCount: 3,
 							colsCount: 3,
@@ -44,16 +42,24 @@
 					/>
 
 					<span v-if="isActive.table()">
-						<q-btn label="DeleteTable" @click="commands.deleteTable" />
-						<q-btn label="addCol" @click="commands.addColumnBefore" />
-						<q-btn label="addCol2" @click="commands.addColumnAfter" />
-						<q-btn label="addRow" @click="commands.addRowBefore" />
-						<q-btn label="addRow2" @click="commands.addRowAfter" />
-						<q-btn label="deleteCol" @click="commands.deleteColumn"/>
-						<q-btn label="deleteRow" @click="commands.deleteRow" />
-						<q-btn label="merge" @click="commands.toggleCellMerge" />
+						<q-btn flat dense label="DeleteTable" @click="commands.deleteTable" />
+						<q-btn flat dense label="addCol" @click="commands.addColumnBefore" />
+						<q-btn flat dense label="addCol2" @click="commands.addColumnAfter" />
+						<q-btn flat dense label="addRow" @click="commands.addRowBefore" />
+						<q-btn flat dense label="addRow2" @click="commands.addRowAfter" />
+						<q-btn flat dense label="deleteCol" @click="commands.deleteColumn"/>
+						<q-btn flat dense label="deleteRow" @click="commands.deleteRow" />
+						<q-btn flat dense label="merge" @click="commands.toggleCellMerge" />
 					</span>
 				</span>
+
+				<q-btn flat dense label="link" @click="onClickLink(commands.image)" />
+				<q-btn flat dense label="image" :loading="v_loading_image" @click="onClickImage(commands.image)" />
+				<q-btn flat dense label="video" @click="onClickYoutube" />
+<!--				
+				<q-btn flat label="EMOJI" :color="v_emoji_color" @click="onClickEmoji" />
+				<q-btn flat label="Test" @click="onClickTest" />
+-->
 
       		</div>
 
@@ -61,6 +67,8 @@
 
     	<editor-content class="editor__content" :editor="editor" />
 		
+		<Picker :data="emojiIndex" set="twitter" @select="showEmoji" v-show="v_show_emoji" />
+
         <EditDialog ref="dialogEdit" buttonCaption="OK"
             :title="$t('dialog.edit_dialog.biography.title')" 
             @onSave="onSaveEdit" />
@@ -109,10 +117,17 @@ import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import APIService from 'src/services/apiService';
 
-//import axios from 'axios';
+
+import data from "emoji-mart-vue-fast/data/all.json";
+// Import default CSS
+import "emoji-mart-vue-fast/css/emoji-mart.css";
+import { Picker, EmojiIndex } from "emoji-mart-vue-fast";
+
+let emojiIndex = new EmojiIndex(data);
 
 export default {
     components: {
+		Picker,
         EditDialog,
 		EditorContent,
         EditorMenuBar,
@@ -134,10 +149,19 @@ export default {
 	computed: {
 		v_me() {
 			return store.getters.me;
+		},
+		v_emoji_color() {
+			if (this.v_show_emoji) {
+				return "primary";
+			}
+			return "";
 		}
 	},
     data () {
         return {
+			v_show_emoji: false,
+			v_loading_image: false,
+
 			editor: null,
 			imageDialog: false,
 			videoDialog: false,
@@ -145,13 +169,16 @@ export default {
 			
 			v_contents: {
 				text: '',
-				link: null,
-				youtube: null,
+				link_url: null,
+				youtube_url: null,
 			},
 
 			fileURL: null,
 			videoURL: null,
 			selectedFile: null,
+
+ 			emojiIndex: emojiIndex,
+      		emojisOutput: ""			
         }
     },
     mounted () {
@@ -198,10 +225,19 @@ export default {
 			})
 		},
 
+		getContents() {			
+			this.v_contents['text'] = this.editor.getHTML();
+			return this.v_contents;
+		},
+		setContents(txt) {
+			this.v_contents.text = txt;
+			this.editor.setContent(this.v_contents.text);
+		},
 
         shouldDisableButton(isActive) {
         	return !isActive & window.getSelection().isCollapsed;
         },
+/*		
         addLinkDialog: async function (command) {
 			if (window.getSelection().isCollapsed) {
 				return;
@@ -220,7 +256,7 @@ export default {
 				command({ href: res });
 			}
         },
-
+*/
         insertHTML({ state, view }, value) {
 			logger.log.debug("insertHTML:value=",value);
 
@@ -238,30 +274,11 @@ export default {
 				return;
 			}
 
+			//let embed = '<iframe src={src} width="320" height="180"></iframe>'.replace('{src}', url);			
 			let embed = '<iframe src={src}></iframe>'.replace('{src}', url);			
 			this.insertHTML(this.editor, embed);
 
 			return;
-
-			//let src = this.videoURL;
-			if (src.includes('youtube.com/') || src.includes('youtu.be/')) {
-				axios({
-					method: 'get',
-					url: 'https://www.youtube.com/oembed?url={url}&format=json&maxwidth=640&maxheight=360'.replace('{url}', src),
-				})
-				.then(function (response) {
-					const src = response.data['html'];
-					vm.insertHTML(vm.editor, src);
-					vm.videoURL = null;
-					vm.videoDialog = false;
-				})
-        	}
-			else {
-				let embed = '<iframe src={src}></iframe>'.replace('{src}', src);
-				this.insertHTML(vm.editor, embed);
-				this.videoURL = null;
-				this.videoDialog = false;
-			}
         },
 
 		insertEmoji() {
@@ -269,13 +286,6 @@ export default {
 		},
 
 
-        insertImage(command) {
-			logger.log.debug("TipTap.insertImage : command=",command);
-			this.imageHandler().catch(files=>{
-
-			});
-			return;
-        },
 		insertLinkPreview(url) {
 			const _this=this;
 			logger.log.debug("TipTap.insertLinkPreview : url=",url);
@@ -313,7 +323,8 @@ export default {
                 formData.append('files',blob,files[index].name);                
             }
             //logger.log.debug("imageHandler : formData=",formData);
-
+			
+			this.v_loading_image = true;			
             this.v_me.uploadImage(formData).then(resp=>{
                 logger.log.debug("uploadFiles.uploadImage : resp=",resp);
                 if (resp.data.ret!=0) {
@@ -321,9 +332,10 @@ export default {
                 }
                 _this.uploadToEditor(command,resp.data.data);
 
+				_this.v_loading_image = false;
             }).catch(err=>{
                 logger.log.error("uploadFiles.uploadImage : err=",err);
-
+				_this.v_loading_image = false;
             });
             
         },
@@ -336,6 +348,7 @@ export default {
 				logger.log.debug('uploadToEditor : url=',a_url);
 
 				command({ src:a_url });
+				this.insertHTML(this.editor, "<br>");
             }
         },
 
@@ -401,7 +414,11 @@ export default {
             return html;
         },
 
-
+    	showEmoji(emoji) {
+			//https://github.com/serebrov/emoji-mart-vue
+      		this.emojisOutput = this.emojisOutput + emoji.native;
+			logger.log.debug('showEmoji : emoji=',this.emojisOutput);
+    	},
 
 
 		onClickYoutube() {			
@@ -425,15 +442,19 @@ export default {
 			this.insertHTML(this.editor, a_html);
 		},
 
+		onClickEmoji() {
+			this.v_show_emoji = ! this.v_show_emoji;
+		},
+
         onSaveEdit(dicParam) {
             logger.log.debug("TweetWriter.onSaveEdit : ",dicParam);
 
             if (dicParam.tag=="youtube") {
-                this.v_contents.youtube = this.extractVideoUrl(dicParam.value);
-				this.insertVideo(this.v_contents.youtube);
+                this.v_contents.youtube_url = this.extractVideoUrl(dicParam.value);
+				this.insertVideo(this.v_contents.youtube_url);
             } else if (dicParam.tag=="link") {
-                this.v_contents.link = dicParam.value;
-                this.insertLinkPreview(this.v_contents.link);
+                this.v_contents.link_url = dicParam.value;
+                this.insertLinkPreview(this.v_contents.link_url);
             }
 
             //this.updateUserProfile(this.v_user);
