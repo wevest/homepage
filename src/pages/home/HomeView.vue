@@ -41,16 +41,16 @@
             <CaptainList ref='feedList' :title="$t('page.home.captain.title')" 
                 maxLength="10" :moreCaption="$t('button.more')" user="v_me"></CaptainList>
         </div>                                               
-
+<!--
         <div>
             <UserFeedList ref='feedList' :title="$t('page.home.userfeed.title')" 
                 maxLength="10" :moreCaption="$t('button.more')" user="v_me"></UserFeedList>
         </div>                                               
-
+-->
         <div>
             <BlogList ref='blogList' :title="$t('page.home.blog.title')" maxLength="10" 
                 :moreCaption="$t('button.more')" 
-                category="" symbol="" objectId="-1"></BlogList>
+                category="" symbol="" objectId="-1" updateType="0"></BlogList>
         </div>
 
 
@@ -153,7 +153,7 @@ export default {
                 this.loadCommunityList(),
                 this.loadAssetList(),
                 this.loadPortfolioList(),
-                this.loadFeedList(),
+                //this.loadFeedList(),
                 //this.loadReviewStatList(),
                 this.loadMarketIndex(),
 

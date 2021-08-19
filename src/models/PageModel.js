@@ -92,7 +92,7 @@ export class PostPageModel {
         this.read_count=obj.read_count;
         this.dislike_count=obj.dislike_count;
         this.like_count=obj.like_count;
-        this.pub_date = obj.last_published_at;        
+        this.pub_date = obj.first_published_at;        
 
         this.api_owner = obj.api_owner;
         this.is_owner = false;
@@ -103,6 +103,7 @@ export class PostPageModel {
             }
         }
 
+        this.asset_id = obj.asset_id;
         this.youtube_url = obj.youtube_url;
         this.image_url = obj.image_url;
         this.link_url = obj.link_url;
@@ -126,7 +127,6 @@ export class PostPageModel {
         //this.text = null;
     }
   
-
 
     load(page_id) {        
         logger.log.debug("PostModel.load");

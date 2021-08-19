@@ -1,7 +1,7 @@
 <template>
     <div class="countdown">
         <div v-if="visible">
-            <span>{{caption}}</span> <span class="text-red-10"> <b>{{ v_timeLeft }}</b> </span>
+            <span>{{caption}}</span> <span class="text-red-10">&nbsp;<b>{{ v_timeLeft }}</b> </span>
         </div>        
     </div>    
 </template>

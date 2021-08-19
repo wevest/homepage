@@ -23,7 +23,11 @@
 						</q-item-section>
 						<q-item-section top>
 							<q-item-label class="q-pt-xs" lines="1">
+								
+								<div class="gBodyLG" v-html="v_title_item(a_feed)"></div>
+<!--								
 								<span class="gListTitle">{{ v_title_item(a_feed) }}</span>
+-->
 							</q-item-label>
 							<q-item-label class="no-margin" lines="1">
 
@@ -105,7 +109,9 @@ export default {
     computed: {
         v_title_item() {
             return (feed) => {
-				return CommonFunc.shortenString(this.getTitleMsg(feed),Config.setting.maxTitleLength);
+				let a_html = CommonFunc.shortenString(this.getTitleMsg(feed),Config.setting.maxTitleLength);
+				//logger.log.debug("html=",a_html);
+				return a_html;
             };
         },
         v_shorten() {
@@ -290,7 +296,11 @@ export default {
 				NavFunc.navPortfolio(this,feed.owner,feed.parent_id);
 			} else if (feed.verb=="PortfolioItem") {
 				NavFunc.navPortfolio(this,feed.owner,feed.parent_id);
+			} else if (feed.verb=="Tweet") {
+				//NavFunc.navTweetDetail(this,feed.owner,feed.parent_id);
+				NavFunc.navTweetDetail(this,feed.id);
 			}
+
 
 			return;
 			

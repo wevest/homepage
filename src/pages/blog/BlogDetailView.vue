@@ -43,11 +43,12 @@
         </div>
 
         <div>
-            <div class="q-py-lg">
+            <div>
             
-                <div class="gBodyLG" v-html="v_post.body"></div>
-<!--
+                <TipTapViewer ref="viewer" :contents="v_post.body" />
                 
+<!--
+                <div class="gBodyLG" v-html="v_post.body"></div>
 
                 <Viewer 
                     ref="toastViewer"
@@ -74,7 +75,6 @@
         
         <q-separator class="gSeparator" />
     
-
         <div class="q-ma-sm">
             <div class="q-my-md"> 
                 <span class="gTextSubTitle">{{ $t('name.comments') }} : {{v_post.comments.items.length}}</span>
@@ -83,6 +83,13 @@
             <CommentBox ref="commentBox"             
                 :contentType="v_content_type" :post="v_post" :items="v_post.comments.items" 
                 @onClickLoadMore="onClickLoadMore" />            
+        </div>
+
+        <div class="q-my-md">
+            <BlogList ref='blogList' maxLength="2000000"
+                title="Related News" :desc="$t('page.blogwriter.bloglist.desc')"
+                category="" symbol="" objectId=""
+            ></BlogList>
         </div>
 
     </div>
@@ -106,9 +113,10 @@ import WCommandBar from "components/WCommandBar.vue";
 import WRatingButton from 'components/WRatingButton';
 import WSubinfo from 'components/WSubinfo';
 import WUserProfileBox from 'components/WUserProfileBox';
+import TipTapViewer from 'components/tiptap/TipTapViewer';
 
 import CommentBox from "components/comments/CommentBox.vue";
-
+import BlogList from 'components/lists/BlogList';
 
 export default {
     name: 'PageBlog',
@@ -119,8 +127,10 @@ export default {
         CommentBox,
         WRatingButton,
         WSubinfo,
+        BlogList,
         WCommandBar,
-        WUserProfileBox
+        WUserProfileBox,
+        TipTapViewer
     },
     computed: {
         v_me() {
@@ -209,7 +219,11 @@ export default {
             this.loadBlogPost(page_id);
             this.loadBlogComments(page_id);
         },
-        
+
+        loadBlogList(asset_id) {
+            this.$refs.blogList.updateByAsset(asset_id);
+        },
+
         handlePostPage(post) {
             logger.log.debug("handlePostPage.post=",post);
 
@@ -230,6 +244,7 @@ export default {
                 logger.log.debug("loadBlogPost.response=",response);
                 _this.g_data = response.data;
                 _this.handlePostPage(_this.g_data.results[0]);
+                _this.loadBlogList(_this.v_post.asset_id);
             }).catch( err => {
 
             });

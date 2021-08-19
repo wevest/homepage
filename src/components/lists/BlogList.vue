@@ -100,6 +100,9 @@ export default {
 		},
 		tab: {
 			default:''
+		},
+		updateType: {
+			default:"0"
 		}
     },
     computed: {
@@ -156,18 +159,18 @@ export default {
 		update() {
 			this.v_query.user_id = null;
 			this.v_query.category = null;
-			this.v_query.content_type= null;			
+			this.v_query.content_type= null;	
+
 			this.loadBlogData(this.v_query);
 		},
 
 		updateByContentType(content_type) {
-			let dic_param = {
-				user_id: null,
-				category: null,
-				asset_id: null,
-				content_type: content_type,
-			};
-			this.loadBlogData(dic_param);
+			this.v_query.user_id = null;
+			this.v_query.category = null;
+			this.v_query.content_type = content_type;
+			this.v_query.asset_id = null;
+
+			this.loadBlogData(this.v_query);
 		},
 
 		updateByCategory(category) {
@@ -177,17 +180,22 @@ export default {
 				content_type: null,
 				asset_id: null,
 			};
-			this.loadBlogData(dic_param);
+			
+			this.v_query.user_id = null;
+			this.v_query.category = category;
+			this.v_query.content_type = null;
+			this.v_query.asset_id = null;
+			
+			this.loadBlogData(this.v_query);
 		},
 
 		updateByAsset(asset_id) {
-			let dic_param = {
-				user_id: null,
-				category: null,
-				content_type: null,
-				asset_id: asset_id,
-			};
-			this.loadBlogData(dic_param);
+			this.v_query.user_id = null;
+			this.v_query.category = null;
+			this.v_query.content_type = null;
+			this.v_query.asset_id = asset_id;
+
+			this.loadBlogData(this.v_query);
 		},
 
 		updateByUser(user_id) {
@@ -197,7 +205,13 @@ export default {
 				content_type: null,
 				asset_id: null,
 			};
-			this.loadBlogData(dic_param);
+
+			this.v_query.user_id = user_id;
+			this.v_query.category = null;
+			this.v_query.content_type = null;
+			this.v_query.asset_id = null;
+
+			this.loadBlogData(this.v_query);
 		},
 
 		addBlog(response) {
@@ -223,6 +237,14 @@ export default {
 			this.v_maxLength = 999999;
 			this.v_query.limit = this.$refs.loadMore.v_next.limit;
 			this.v_query.offset = this.$refs.loadMore.v_next.offset;
+/*
+			if (this.updateType=="0") {
+				this.v_query.user_id = null;
+				this.v_query.category = category;
+				this.v_query.content_type = null;
+				this.v_query.asset_id = null;
+			}
+*/
 			this.loadBlogData(this.v_query);
 		},
 

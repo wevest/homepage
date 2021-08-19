@@ -1,6 +1,6 @@
 <template>
 
-    <div>
+    <div class="boxComment">
         <ul>
             <li v-for="(item,index) in dataList" :key="index">
                 <comment-item 
@@ -70,10 +70,17 @@ export default {
 
 
 <style>
-ul,
-li {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+
+.boxComment ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
+
+.boxComment ul li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
 </style>

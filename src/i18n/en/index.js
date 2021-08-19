@@ -216,7 +216,7 @@ export default {
 				desc : ''
 			},
 			blog: {
-				title:'market trend'
+				title:'Sharpen Your Competitive Edge with NEWS/Blog '
 			},
 			portfolio: {
 				title:'Discover Promising Asset, Start Copy-Investment',
