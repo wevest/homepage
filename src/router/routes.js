@@ -231,6 +231,8 @@ const routes = [
 				path: "error_404",
 				component: () => import("pages/Error404.vue"),
 			},
+
+			{ path: "swap", component: () => import("pages/swap/SwapView.vue") },			
 		],
 	},
 

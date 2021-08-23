@@ -501,6 +501,7 @@ export default {
                 youtube_url: v_post.youtube_url,                
                 image_url: v_post.image_url,
                 link_url: v_post.link_url, 
+				live: v_post.live,
                 text: CommonFunc.addHashTag(v_post.body,a_tag),                
                 token:store.getters.token,                
             };

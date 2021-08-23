@@ -277,7 +277,8 @@ export default {
         navNextStep(offset) {
             if (offset==1) {
                 this.v_show_signup1 = false;
-                this.v_show_signup2 = true;                
+                this.v_show_signup2 = true; 
+                this.onClickResend();
             } else if (offset==-1) {
                 this.v_show_signup2 = false;
                 this.v_show_signup1 = true;                

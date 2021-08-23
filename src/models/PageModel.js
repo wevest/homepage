@@ -29,6 +29,7 @@ export class PostPageModel {
     title=null;
     slug=null;
     url_path=null;
+    live=true;
 
     //computed fields
     is_owner=null;
@@ -107,6 +108,7 @@ export class PostPageModel {
         this.youtube_url = obj.youtube_url;
         this.image_url = obj.image_url;
         this.link_url = obj.link_url;
+        this.live = obj.live;
 
         this.api_categories = obj.api_categories;
 

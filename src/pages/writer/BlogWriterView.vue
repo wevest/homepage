@@ -2,7 +2,7 @@
     
     <div class="q-ma-md">
 
-        <WWriterToolbar ref="writerToolbar" @onClickSave="onClickSave" />
+        <WWriterToolbar ref="writerToolbar" :data="v_post" @onClickSave="onClickSave" />
 <!--        
         <div class="q-mt-sm gBoxNoMargin" style="border-bottom:1px solid #cccccc;">
             <div class="row q-pa-sm">
