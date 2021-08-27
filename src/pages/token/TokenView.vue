@@ -5,7 +5,6 @@
       <div class="row">
         <div class="col">
             <CTitle ttype='title' :title="$t('page.trend.title')" :desc="$t ('page.trend.desc')"></CTitle>          
-            <CTrendChart ref='indexTrendChart'></CTrendChart>
         </div>      
       </div>
 
@@ -18,16 +17,11 @@ import CommonFunc from 'src/util/CommonFunc';
 import APIService from 'src/services/apiService';
 import logger from "src/error/Logger";
 
-import { LoadingBar } from 'quasar';
-import CTrendChart from 'src/pages/trend/CTrendChart';
 import CTitle from 'components/CTitle';
-
 
 export default {
     components: {
         CTitle,
-        LoadingBar,
-        CTrendChart
     },
     data: function() {
         return {
@@ -35,38 +29,6 @@ export default {
             g_data_summary: null,
             g_period: 30,
 
-            g_widget_overall: {
-                'overall': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'Crypto', arrow:'angle-up' },
-                'btc': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'BTC', arrow:'angle-up' },
-                'alt': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'ALT', arrow:'angle-up' },
-            },
-            g_widget_exchange: {
-                'upbit': {
-                    'major': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'Major', arrow:'angle-up' },            
-                    'korean': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'한국코인', arrow:'angle-up' },
-                    'chinese': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'중국코인', arrow:'angle-up' },                        
-                    'defi': { color:'bg-primary', startVal:0, endVal:0, label:'DEFI', arrow:'angle-up' },
-                    'misc': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'잡코인', arrow:'angle-up' },
-                    'nft': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'NFT', arrow:'angle-up' },
-                },
-                'bithumb': {
-                    'major': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'Major', arrow:'angle-up' },            
-                    'korean': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'한국코인', arrow:'angle-up' },
-                    'chinese': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'중국코인', arrow:'angle-up' },                        
-                    'defi': { color:'bg-primary', startVal:0, endVal:0, label:'DEFI', arrow:'angle-up' },
-                    'misc': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'잡코인', arrow:'angle-up' },
-                    'nft': { 'ret':0, 'index':0, color:'bg-primary', startVal:0, endVal:0, label:'NFT', arrow:'angle-up' },
-                }
-            },
-            g_options: {
-                useEasing: true,
-                useGrouping: true,
-                separator: ',',
-                decimal: '.',
-                prefix: '',
-                suffix: '%'
-            },
-            
             v_page: {title: this.$t('page.trend.title'), desc:'' },
             
             v_visible_table: false,
@@ -81,7 +43,7 @@ export default {
     },
     mounted() {
         //console.log("HomeView.mounted - ");
-        this.refresh();
+        //this.refresh();
     },
     updated() {
         //console.log("HomeView.updated");

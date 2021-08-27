@@ -75,7 +75,7 @@ import WRatingButton from 'components/WRatingButton';
 import WCommandBar from "components/WCommandBar.vue";
 
 export default {
-    name: 'TweetDetailView',
+    name: 'PTSLView',
     components: {
         WAvatar,
         WCommandBar,

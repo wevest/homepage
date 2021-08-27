@@ -3,6 +3,32 @@
     <div class="q-ma-md">
 
 
+        <div>
+            <div class="row">
+                <div>
+                    Swap
+                </div>
+                <q-space />
+                <q-btn label="test" />
+            </div>
+            
+            <div class="row">
+                <div>
+                    eth 
+                </div>  
+                <q-space />   
+                <div>
+                    0.0
+                </div>
+            </div>
+
+            <div>
+                <q-btn label="connect" />
+            </div>
+
+        </div>
+
+
 
     </div>
 

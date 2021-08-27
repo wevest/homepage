@@ -6,71 +6,6 @@
             :title="$t('page.bookmark.title')" :desc="$t('page.bookmark.desc')" 
             extraCaption="Add" @onClickTitleExtra="onClickAdd" />
 
-
-        <q-separator class="gSeparator" />
-
-<!--        
-        <q-btn label="Add" @click="onClickAdd" />
-        <q-btn label="Save" @click="onClickSave" />    
-        <q-btn label="test" @click="onClickTest" />
--->
-        <div v-if="v_data && v_data.length>0">
-
-            <draggable class="list-group" tag="ul"
-                v-model="v_data"
-                v-bind="v_dragOptions"
-                :disabled="!v_enabled"
-                :move="checkMove"
-                @start="v_drag = true"
-                @end="v_drag = false" >
-
-                <transition-group type="transition" 
-                    :name="!v_drag ? 'flip-list' : null">
-
-                    <li class="list-group-item"
-                        v-for="a_bookmark in v_data"
-                        :key="a_bookmark.name"
-                    >
-
-                        <div class="row q-pa-md">
-                            <div>
-                                <q-img class="q-mr-sm" :src="a_bookmark.logo_thumb" width="32px" height="32px" v-if="a_bookmark.logo_thumb" />
-                                <q-icon class="q-mr-sm" name="monetization_on" size="36px" v-else />
-                            </div>
-
-                                <div>
-                                    <div class="gAssetName">
-                                        {{ a_bookmark.name }}
-                                    </div>
-                                    <div class="gCaption">
-                                        {{ a_bookmark.symbol }}
-                                    </div>
-                                </div>
-                                <q-space />
-
-                                <WCommandBar :data="a_bookmark" :isOwner="v_is_owner" 
-                                    shareBtn="" updateBtn="" deleteBtn="delete" 
-                                    @onClickDelete="onClickDelete" 
-                                />
-                        </div>    
-                         <q-separator color="grey-5" />                        
-                    </li>
-
-                </transition-group>
-
-            </draggable>
-                              
-        </div>
-
-        <div v-if="(! v_data) || (v_data.length==0)" class="q-py-lg">
-            <div class="gNoListTitle"> {{ $t('name.no_bookmark') }} </div>
-            <div class="gNoListMessage"> {{ $t('name.no_bookmark_desc') }} </div>
-        </div>
-        
-
-        <AddBookmarkDialog ref="bookmarkDialog" title="Add Favorite Community" 
-            @onClickSave="onBookmarkAdded" />
-
     </div>    
 
 </template>
@@ -83,21 +18,13 @@ import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
-import {BookmarkListModel} from "src/models/BookmarkModel";
-
-import draggable from 'vuedraggable';
 import CTitle from 'components/CTitle';
-import WCommandBar from "components/WCommandBar.vue";
-import AddBookmarkDialog from 'src/pages/bookmark/components/AddBookmarkDialog';
 
 
 export default {
-    name: 'Bookmark',
+    name: 'PoolView',
     components: {
-        draggable,
         CTitle,
-        AddBookmarkDialog,
-        WCommandBar,
     },
     computed: {
         v_me() {
@@ -138,11 +65,11 @@ export default {
         //this.g_asset.symbol = 'BTC';
         //this.g_asset.object_id = 20;
 
-        this.refresh();
+        //this.refresh();
     },
     beforeDestroy() {
         logger.log.debug("BookmarkView.beforeDestroy");
-        this.onClickSave();
+        //this.onClickSave();
     },
     methods: {
         validateQuery() {            

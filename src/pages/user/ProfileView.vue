@@ -68,10 +68,11 @@
         <div>
             <CTitle ttype="subtitle" :title="$t('page.profile.portfoliolist.title')" :desc="$t('page.profile.portfoliolist.desc')"
                 loadMoreCaption="" @onClickTitleMore="onClickMorePortfolio"></CTitle>
-
+<!--
             <PortfolioList ref='portfolioList' 
                 :data="v_user.portfolio" 
                 @onClickPortfolio="onClickPortfolio"></PortfolioList>
+-->                
         </div>
 
         <div class="q-mt-xl q-mb-sm">
@@ -115,7 +116,7 @@ import FriendList from 'components/lists/FriendList';
 import MessageWriterDialog from 'components/dialogs/MessageWriterDialog';
 
 import ProfileBox from 'src/pages/user/component/ProfileBox';
-import PortfolioList from 'src/pages/portfolio/component/PortfolioList';
+//import PortfolioList from 'src/pages/portfolio/component/PortfolioList';
 
 
 export default {
@@ -125,7 +126,6 @@ export default {
         BlogList,
         AvatarCropper,
         MessageWriterDialog,
-        PortfolioList,
         FriendList,
         UserFeedList,
         ProfileBox

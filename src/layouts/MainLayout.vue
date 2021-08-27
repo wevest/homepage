@@ -96,11 +96,6 @@
 
 		<WAlertDialog ref="alertDialog" />
 		<WConfirmDialog ref="confirmDialog" title="Do you want to delete the item?" @onClickConfirm="onClickDeleteConfirm" />
-		<AddPortfolioDialog ref="portfolioDialog" 
-			@onPortfolioItemAdded="onPortfolioItemAdded" 
-			@onPortfolioItemUpdated="onPortfolioItemUpdated"
-			/>
-		<StickyButtons ref="stickButton" @onClickPortfolio="onClickPortfolio" />
 
 	</q-layout>
 </template>

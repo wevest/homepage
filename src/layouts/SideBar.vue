@@ -33,23 +33,18 @@ export default {
 				children: []
 			},
 			{
-				title: this.$t('menu.portfolio'), icon: "business_center",level: 0,
-				link: "#/portfolio_index",				
-				children: [],
-			},
-			{
-				title: this.$t('menu.news'), icon: "article", level: 0,
-				link: "#/blog",
-				children: [],
-			},
-			{
-				title: this.$t('menu.feeds'), icon: "feed", level: 0,
-				link: "#/feeds",				
-				children: [],
-			},
-			{
 				title: this.$t('menu.asset'), icon: "monetization_on",level: 0,
-				link: "#/asset_index",				
+				link: "#/asset",
+				children: [],
+			},
+			{
+				title: "Token", icon: "article", level: 0,
+				link: "#/token",
+				children: [],
+			},
+			{
+				title: "Pool", icon: "feed", level: 0,
+				link: "#/pool",				
 				children: [],
 			},
 /*			

@@ -20,6 +20,7 @@
 -->                
         </div>
 
+<!--
         <div>
             <AssetCommunityCard ref='communityList' 
                 :title="$t('page.home.community.title')" :desc="$t('page.home.community.desc')"
@@ -41,18 +42,18 @@
             <CaptainList ref='feedList' :title="$t('page.home.captain.title')" 
                 maxLength="10" :moreCaption="$t('button.more')" user="v_me"></CaptainList>
         </div>                                               
-<!--
+
         <div>
             <UserFeedList ref='feedList' :title="$t('page.home.userfeed.title')" 
                 maxLength="10" :moreCaption="$t('button.more')" user="v_me"></UserFeedList>
         </div>                                               
--->
+
         <div>
             <BlogList ref='blogList' :title="$t('page.home.blog.title')" maxLength="10" 
                 :moreCaption="$t('button.more')" 
                 category="" symbol="" objectId="-1" updateType="0"></BlogList>
         </div>
-
+-->
 
 <!--
 
@@ -77,7 +78,6 @@ import CBigLabel from 'components/CBigLabel';
 import AssetCard from 'components/cards/AssetCard';
 import BlogList from 'components/lists/BlogList';
 import AssetCommunityCard from 'components/cards/AssetCommunityCard';
-import PortfolioList from 'components/lists/PortfolioList';
 import PortfolioCard from 'components/cards/PortfolioCard';
 import ReviewStatList from 'components/lists/ReviewStatList';
 import UserFeedList from 'components/lists/UserFeedList';
@@ -101,7 +101,7 @@ export default {
         MarketWatchWidget,
         BlogList,
         AssetCard,
-        PortfolioList,
+    
         AssetCommunityCard,
         UserFeedList,
         CaptainList,
@@ -138,21 +138,21 @@ export default {
     },
     
     methods: {
-        updatePageHeader: function(json_data) {
+        updatePageHeader(json_data) {
             const dic_columns = CommonFunc.getColumnDic(json_data['upbit']['btc'].columns,[],[]);
             let watch_date = json_data['upbit']['btc'].values[json_data['upbit']['btc'].values.length-1][dic_columns['trade_date']];
             this.v_page.desc = watch_date;
         },
 
-        refresh: function() {
+        refresh() {
             const _this = this;
         
             let funcs = [            
                 //this.loadCalendarEffectData('1h'),
-                this.loadBlogList(),
-                this.loadCommunityList(),
-                this.loadAssetList(),
-                this.loadPortfolioList(),
+                //this.loadBlogList(),
+                //this.loadCommunityList(),
+                //this.loadAssetList(),
+                //this.loadPortfolioList(),
                 //this.loadFeedList(),
                 //this.loadReviewStatList(),
                 this.loadMarketIndex(),

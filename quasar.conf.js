@@ -128,9 +128,9 @@ module.exports = function (/* ctx */) {
 				],
 			}, // only for GenerateSW
 			manifest: {
-				name: "WeVest.ai",
-				short_name: "WeVest.ai",
-				description: "Next-Generation Community-Driven Investment Platform",
+				name: "WeVest-Protocol-App",
+				short_name: "WeVestApp",
+				description: "Next-Generation Lending Protocol",
 				display: "standalone",
 				orientation: "portrait",
 				background_color: "#ffffff",
@@ -192,7 +192,7 @@ module.exports = function (/* ctx */) {
 
 			builder: {
 				// https://www.electron.build/configuration/configuration
-				appId: "WeVest",
+				appId: "WeVestApp",
 			},
 
 			// More info: https://v1.quasar.dev/quasar-cli/developing-electron-apps/node-integration
