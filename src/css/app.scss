@@ -1,0 +1,725 @@
+// app global css in SCSS form
+
+.moa_container {
+  background-color: #cdcdcd;
+}
+
+.box_chart {
+  margin-left: -16px;
+  margin-right: -16px;
+}
+
+
+.value_color {
+  color: #292626;
+  font-weight: bolder;
+  font-size: 12px;
+  text-align: right;
+}
+
+.tab_bgcolor {
+  background-color: #F7F7F7;
+}
+
+.sector_seperator {
+  height: 5px;
+  border: 0px solid #cdcdcd;
+  background-color: #F7F7F7;
+  margin: 16px -16px 16px -16px;
+}
+
+
+.sticky-column-table {
+  /* height or max-height is important */
+  /* height: 310px */
+
+  /* specifying max-width so the example can
+    highlight the sticky column on any browser window */
+  /* max-width: 600px */
+
+  td:first-child {
+    /* bg color is important for td; just specify one */
+    background-color: #ffffff !important;
+  }
+
+  tr th {
+    position: sticky;
+    /* higher than z-index for td below */
+    z-index: 2;
+    /* bg color is important; just specify one */
+    background: #fff;
+  }
+
+  /* this will be the loading indicator */
+  thead tr:last-child th {
+    /* height of all previous header rows */
+    top: 48px;
+    /* highest z-index */
+    z-index: 3;
+
+  }
+
+  thead tr:first-child th {
+    top: 0;
+    z-index: 1;
+  }
+
+  tr:first-child th:first-child {
+    /* highest z-index */
+    z-index: 3;
+  }
+
+  td:first-child {
+    z-index: 1;
+  }
+
+
+  td:first-child,
+  th:first-child {
+    position: sticky;
+    left: 0;
+  }
+
+}
+
+
+
+/* 
+  css for comment 
+*/
+
+
+
+
+
+/* end */
+
+
+/* 
+  css for blog list
+*/
+
+
+.gBlogUserDateBox {
+  padding: 13px 0px 0px 5px !important;
+}
+
+.gBlogRatingBox {
+  text-align: center;
+  padding: 4px 5px;
+}
+
+.gBlogRatingBtn {
+  font-size: 12px;
+  color: #616161;
+}
+
+.gBlogContent {
+  margin: 10px 0px;
+}
+
+
+
+
+
+.gPageRating {
+  color: #616161;
+  font-size: 13px;
+}
+
+.gPageRatingBox {
+  text-align: center;
+}
+
+.gPageRatingBtn {
+  color: #909090;
+  font-size: 14px;
+}
+
+.gPageEditBtn {
+  width: 40px;
+}
+
+.gPageEditStyle {
+  font-size: 20px;
+  color: #616161;
+}
+
+
+
+
+.gAnswerUser {
+  color: #000000;
+  font-size: 16px;
+  font-weight: bold;
+
+}
+
+.gAnswerDatetime {
+  color: #8C8C8C;
+  font-size: 15px;
+}
+
+.gAnswerRatingBox {
+  text-align: center;
+  padding-bottom: 8px;
+}
+
+.gAnswerRatingBtn {
+  font-size: 15px;
+  color: #616161;
+}
+
+.gAnswerRatingCount {
+  font-size: 15px;
+  color: #777777;
+}
+
+
+.gAnswerContent {
+  padding: 20px 0px 30px 0px;
+}
+
+.gSaveBtn {
+  margin-top: 25px;
+  color: #FFFFFF;
+  background-color: #1877F2;
+}
+
+.gCommentBox {
+  border-bottom: 1px solid #cccccc;
+}
+
+
+.gCommentDateInfo {
+  color: #777777;
+  font-size: 12px;
+}
+
+.gCommentRatingBox {
+  padding: 0px 0px 5px 0px;
+}
+
+
+.gSeparator {
+  height: 8px;
+  background: #f0f1f6;
+  margin: 0px -16px 0px -16px;
+}
+
+
+.gBoxNoMargin {
+  margin-left: -16px;
+  margin-right: -16px;
+}
+
+.gNoMargin {
+	margin: 0px !important;	
+	padding: 0px !important;	
+}
+  
+.gErrorMsg {
+  color: #C10015;
+  font-size: 12px;
+}
+
+
+.gUserNameLG {
+  font-size: map-get($h5, "size");
+  line-height: map-get($h5, "line-height");
+  letter-spacing: map-get($h5, "letter-spacing");
+  font-weight: bolder;
+  color: $grey-10;
+}
+
+.gUserNameMD {
+  color: $grey-10;
+  font-size: 17px;
+  line-height: map-get($body1, "line-height");
+  letter-spacing: map-get($body1, "letter-spacing");
+  font-weight: map-get($body1, "weight");
+
+}
+
+.gUserNameQA {
+  font-size: map-get($subtitle1, "size");
+  line-height: map-get($h5, "line-height");
+  letter-spacing: map-get($h6, "letter-spacing");
+  font-weight: bold;
+  color: $grey-10;
+}
+
+
+.gUserNameSM {
+  color: $grey-10;
+  font-size: map-get($body2, "size");
+  line-height: map-get($body2, "line-height");
+  letter-spacing: map-get($body2, "letter-spacing");
+  font-weight: bold;
+}
+
+
+
+.gCaptionSM {
+  font-size: map-get($caption, "size");
+  line-height: map-get($caption, "line-height");
+  font-weight: map-get($caption, "weight");
+  color: $grey-6;
+}
+
+
+.gPageTitle {
+  color: $grey-10;
+  font-size: map-get($h4, "size");
+  line-height: map-get($h4, "line-height");
+  letter-spacing: map-get($h4, "letter-spacing");
+  font-weight: map-get($text-weights, "bolder");
+  color: $grey-10;
+  margin: map-get($space-lg, "y") 0px map-get($space-lg, "y") 0px;
+  word-break: break-all;
+  word-wrap: break-word;  
+}
+
+
+.gSubTitleLG {
+  font-size: map-get($h5, "size");
+  line-height: map-get($h5, "line-height");
+  letter-spacing: map-get($h5, "letter-spacing");
+  font-weight: map-get($text-weights, "bold");
+  color: $grey-10;
+  margin: map-get($space-lg, "y") 0px map-get($space-lg, "y") 0px;
+  word-break: break-all;
+  word-wrap: break-word;  
+}
+
+.gSubTitleMD {
+  font-size: map-get($h6, "size");
+  line-height: map-get($h6, "line-height");
+  letter-spacing: map-get($h6, "letter-spacing");
+  font-weight: map-get($h6, "weight");
+  color: $grey-10;
+  margin: map-get($space-xl, "y") 0px map-get($space-lg, "y") 0px;
+}
+
+.gListTitle {
+  font-size: map-get($subtitle1, "size");
+  line-height: map-get($subtitle1, "line-height");
+  letter-spacing: map-get($subtitle1, "letter-spacing");
+  font-weight: map-get($text-weights, "bold");
+  color: $grey-10;
+}
+
+
+.gTextSubTitle {
+  font-size: map-get($subtitle2, "size");
+  line-height: map-get($subtitle2, "line-height");
+  letter-spacing: map-get($subtitle2, "letter-spacing");
+  font-weight: map-get($subtitle2, "weight");
+  color: $grey-10;
+
+}
+
+
+.gParagraphSM {
+  color: $grey-14;
+  font-size: map-get($body2, "size");
+  line-height: map-get($h1, "line-height");
+  letter-spacing: map-get($body2, "letter-spacing");
+  font-weight: map-get($body2, "weight");
+  word-break: break-all;
+  word-wrap: break-word;  
+}
+
+
+
+.gNoListTitle {
+  text-align:center;
+  font-size: map-get($h6,"size");
+  line-height: map-get($subtitle1,"line-height");
+  letter-spacing: map-get($subtitle1,"letter-spacing");
+  font-weight: map-get($text-weights,"bold");
+  color: $grey-10;
+}
+
+.gNoListMessage {
+  text-align:center;
+  font-size: map-get($body2,"size");
+  line-height: map-get($body2,"line-height");
+  letter-spacing: map-get($body2,"letter-spacing");
+  font-weight:600;
+  color: $grey-6;
+}
+
+
+.gROILG {
+  font-size: map-get($h5, "size");
+  line-height: map-get($h5, "line-height");
+  letter-spacing: map-get($h5, "letter-spacing");
+  font-weight: map-get($text-weights, "bold");
+}
+
+.gAvatarMD {
+  margin-top: -7px;
+  padding-bottom: 10px;
+}
+
+
+
+.gParagraphSM {
+  color: $grey-10;
+  font-size: map-get($body2, "size");
+  line-height: map-get($body2, "line-height");
+  letter-spacing: map-get($body2, "letter-spacing");
+  font-weight: map-get($body2, "weight");
+}
+
+.gCommentMD {
+  color: $grey-10;
+  font-size: map-get($body2, "size");
+  line-height: map-get($body2, "line-height");
+  letter-spacing: map-get($body2, "letter-spacing");
+  font-weight: map-get($body2, "weight");
+
+}
+
+
+
+.gCaption {
+  color: $grey-6;
+  font-size: map-get($caption, "size");
+  line-height: map-get($caption, "line-height");
+  letter-spacing: map-get($caption, "letter-spacing");
+  font-weight: map-get($caption, "weight");
+
+}
+
+.gRatingView {
+  color: $grey-7;
+  font-size: 14px;
+}
+
+.gRatingBtnMD {
+  color: $grey-8;
+  font-size: 16px;
+}
+
+.gRatingCountMD {
+  color: $grey-10;
+  font-size: 13px;
+}
+
+.gButtonMD {
+  color: $grey-1;
+  font-size: 12px;
+  font-weight: bold;
+  background-color: $primary;
+  width: 60px;
+}
+
+
+.gButtonSM {
+  color: #777777;
+  font-size: 12px;
+  font-weight: bold;
+
+
+
+}
+
+.gCommentBtnMD {
+  color: #999999;
+  font-size: 10px;
+}
+
+.gCommandBtnSM {
+  color: $grey-7;
+}
+
+.gRatingBtnXS {
+  font-size: 10px;
+  color: $grey-8;
+  padding-right: 1px;
+}
+
+.gRatingBtnSM {
+  font-size: 16px;
+  color: $grey-8;
+  padding-right: 2px;
+}
+
+.gRatingCountSM {
+  font-size: 14px;
+  color: $grey-8;
+}
+
+.gFollowBtn {
+  font-size: 13px;
+  color: $primary;
+}
+
+
+.gBodyLG {
+  color: #000000;
+  font-size: 15px;
+  line-height: map-get($h5, "line-height");
+  letter-spacing: map-get($body1, "letter-spacing");
+  font-weight: map-get($body2, "weight");
+}
+
+.gBodyMD {
+  color: #000000;
+  font-size: 14px;
+  line-height: map-get($h6, "line-height");
+  letter-spacing: map-get($body2, "letter-spacing");
+  font-weight: map-get($body2, "weight");
+  ;
+}
+
+.gBodySM {
+  color: #000000;
+  ;
+  font-size: 14px;
+  line-height: map-get($subtitle1, "line-height");
+  letter-spacing: map-get($body2, "letter-spacing");
+  font-weight: map-get($body2, "weight");
+  ;
+}
+
+.gAssetName {
+  color: #222222;
+}
+
+
+.gLinkPreviewBox {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding: 14px;
+	border-radius: 5px;
+	margin: 20px 0px;
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1),
+		0 -4px 24px 2px rgba(0, 0, 0, 0.03);
+	line-height: 1.5;
+	cursor: pointer;
+}
+
+.ql-editor .gLinkPreviewBox .gLinkImage {
+	display: flex;
+	align-content: center;
+	align-items: center;
+	height: 100%;
+}
+.ql-editor .gLinkPreviewBox .gLinkImage img {
+	max-height: 64px;
+	object-fit: cover;
+}
+
+.gBodyLG img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 3px;
+}
+
+@media only screen and (hover: none) and (pointer: coarse){
+  
+  @media (orientation: landscape) {
+    .gBodyLG iframe {
+      display: block;       /* iframes are inline by default */
+      border: none;         /* Reset default border */
+      height: 100vh;        /* Viewport-relative units */
+      width: 100vw;
+    }
+  }
+
+  @media (orientation: portrait) {
+    .gBodyLG iframe {
+      display: block;       /* iframes are inline by default */
+      border: none;         /* Reset default border */
+      height: 35vh;        /* Viewport-relative units */
+      width: 70vw;
+    }
+  }
+
+}
+
+@media (orientation: landscape) {
+  .gBodyLG iframe {
+    display: block;       /* iframes are inline by default */
+    border: none;         /* Reset default border */
+    height: 60vh;        /* Viewport-relative units */
+    width: 60vw;
+  }
+}
+
+@media (orientation: portrait) {
+  .gBodyLG iframe {
+    display: block;       /* iframes are inline by default */
+    border: none;         /* Reset default border */
+    height: 35vh;        /* Viewport-relative units */
+    width: 70vw;
+  }
+}
+
+.gViewer {
+  /* max-width: 60rem; */
+/*  
+  margin: 0 auto 5rem auto;
+  position: relative;
+  border: 1px solid #f5f5f5;
+  box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 10%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+
+  $color-black: #000000;
+  $color-white: #ffffff;
+  $color-grey: #dddddd;
+
+*/
+
+    padding: 1rem;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+
+    * {
+      caret-color: currentColor;
+    }
+
+    h1,h2,h3,h4,h5,h6,
+    p,
+    ul,
+    ol,
+    pre,
+    blockquote {
+      margin: 1rem 0;
+    
+      &:first-child {
+        margin-top: 0;
+      }
+    
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    
+    h1,h2,h3,h4,h5,h6 {
+      line-height: 1.3;
+      margin: 0 !important;
+      padding: 0 !important;
+      margin-block-start: 0;
+    }
+    
+    pre {
+      padding: 0.7rem 1rem;
+      border-radius: 5px;
+
+      background: #000000;
+      color: #ffffff;
+  
+      font-size: 0.8rem;
+      overflow-x: auto;
+
+      code {
+        display: block;
+      }
+    }
+
+    p code {
+      padding: 0.2rem 0.4rem;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      background: rgba(#000000, 0.1);
+      color: rgba(#ffffff, 0.8);
+    }
+
+    ul,
+    ol {
+      padding-left: 2rem;
+    }
+
+    li > p,
+    li > ol,
+    li > ul {
+       margin: 0; 
+    }
+
+    a {
+      color: inherit;
+    }
+
+    blockquote {
+      border-left: 3px solid rgba(#000000, 0.1);
+      color: rgba(#000000, 0.8);
+      padding-left: 0.8rem;
+      font-style: italic;
+
+      p {
+        margin: 0;
+      }
+    }
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 3px;
+      display:block;
+      margin:0px auto;
+    }
+
+    table {
+      border-collapse: collapse;
+      table-layout: fixed;
+      width: 100%;
+      margin: 0;
+      overflow: hidden;
+
+      td, th {
+        min-width: 1em;
+        border: 2px solid #dddddd;
+        padding: 3px 5px;
+        vertical-align: top;
+        box-sizing: border-box;
+        position: relative;
+        > * {
+          margin-bottom: 0;
+        }
+      }
+
+      th {
+        font-weight: bold;
+        text-align: left;
+      }
+
+      .selectedCell:after {
+        z-index: 2;
+        position: absolute;
+        content: "";
+        left: 0; right: 0; top: 0; bottom: 0;
+        background: rgba(200, 200, 255, 0.4);
+        pointer-events: none;
+      }
+
+      .column-resize-handle {
+        position: absolute;
+        right: -2px; top: 0; bottom: 0;
+        width: 4px;
+        z-index: 20;
+        background-color: #adf;
+        pointer-events: none;
+      }
+    }
+
+    .tableWrapper {
+      margin: 1em 0;
+      overflow-x: auto;
+    }
+
+    .resize-cursor {
+      cursor: ew-resize;
+      cursor: col-resize;
+    }
+  
+}
+
+/* end */
