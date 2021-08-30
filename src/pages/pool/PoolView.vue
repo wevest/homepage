@@ -57,7 +57,7 @@
         <div class="q-pa-md">
             <div CLASS="row"> 
                 <div>
-                    토큰 선택
+                    토큰 선
                 </div> 
                 <q-space />
                 <div>
