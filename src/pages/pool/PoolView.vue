@@ -7,12 +7,12 @@
                 extraCaption="Add" @onClickTitleExtra="onClickAdd" />
         </div>    
         <div> 
-            풀 개요
+            풀 개요 (풀의 초기 화면)
         </div>
-        <div class="q-my-md"> 
-            <q-btn color="primary" label="유동성 추가" />
+        <div class="q-my-md text-center"> 
+            <q-btn color="primary" label="유동성 추가 전 단계" />
         </div>
-        <div class="boarder2 text-center">
+        <div class="gBoarder2 text-center">
             <div class="q-my-lg"> 
                 <q-icon color="grey-7" size="60px" name="move_to_inbox" />
             </div>
@@ -24,6 +24,7 @@
             </div>
         </div>
         <!-- 유동성 추가 전 페이지 -->
+        <q-separator class="q-my-lg" color="orange"  size="10px" inset />
         <!-- 쌍 선택 -->
         <div class="">
             <CTitle ttype='title' 
@@ -31,17 +32,47 @@
                 extraCaption="Add" @onClickTitleExtra="onClickAdd" />
         </div>   
         <div> 
-            쌍 선택
+            유동성 추가
         </div>
         <div class="row justify-center q-my-md">
             <div class="q-mx-xs"> 
-                <q-select style="width: 140px" rounded outlined v-model="model" :options="options" label="USDT" />
+                <q-select style="width: 150px" rounded outlined v-model="model" :options="options" label="Stable Coin" hint="코인을 추가하세요!" />
             </div>
-            <div class="q-mx-xs"> 
-                <q-select style="width: 140px" rounded outlined v-model="model" :options="options" label="토큰선택" />
+            <q-space />
+            <div class="q-mt-sm"> 
+                <q-btn color="primary" label="ADD" />
             </div>
         </div>
-        <div class="boarder2 text-center">
+        <div class="gBoarder2 q-mb-sm q-pa-md"> 
+            <div class="q-mb-sm">
+                금액
+            </div>
+            <div class="full-width">
+                <q-btn-toggle
+                v-model="v_utilization"
+                toggle-color="primary"
+                spread
+                :options="[
+                    {label: '0%', value: '0'},
+                    {label: '25%', value: '25'},
+                    {label: '50%', value: '50'},
+                    {label: '75%', value: '75'}, 
+                    {label: '100%', value: '100'} 
+                    ]" />
+            </div>   
+            <div class="q-mt-md">
+                <q-badge color="secondary">
+                        Model: {{ basicModel }} (0 to 100, step 5)
+                        </q-badge>
+                        <q-slider
+                        v-model="basicModel"
+                        :step="5"
+                        label-always
+                        color="primary"
+                        />
+            </div>
+        </div>
+        <div class="gBoarder2 text-center">
             <div class="q-my-lg"> 
                 <q-icon color="grey-7" size="60px" name="move_to_inbox" />
             </div>
@@ -53,81 +84,211 @@
             </div>
         </div>
         <!-- 쌍 선택  -->
-        <!-- 토큰 선택 dialog -->
-        <div class="q-pa-md">
-            <div CLASS="row"> 
-                <div>
-                    토큰 선
+        <q-separator class="q-my-lg" color="orange" size="10px" inset />
+        <!-- 토큰선택-dialog-START -->
+        <q-card>
+            <q-card-section>
+                <div class="q-pa-md">
+                    <div CLASS="row"> 
+                        <div>
+                            토큰 선택
+                        </div> 
+                        <q-space />
+                        <div>
+                            <q-btn flat icon="close" />
+                        </div> 
+                    </div>
+                    <div> 
+                        <q-input filled v-model="ph" placeholder="이름 검색 또는 주소 붙여 넣기" :dense="dense" />
+                    </div>
+                    <q-separator class="q-my-md" />
+                    <div class="gBoarder3 q-pa-md">
+                        <div class="row q-my-sm">
+                            <div class="q-mr-sm">
+                                <q-icon size="40px" name="paid" />
+                            </div> 
+                            <div>
+                                <div>ETH</div> 
+                                <div class="gCaption">Ethereum</div> 
+                            </div> 
+                            <q-space />
+                            <div class="text-h6">
+                                0.07354
+                            </div> 
+                        </div>
+                        <div class="row q-my-sm">
+                            <div class="q-mr-sm">
+                                <q-icon size="40px" name="paid" />
+                            </div> 
+                            <div>
+                                <div>1INCH</div> 
+                                <div class="gCaption">1Inch</div> 
+                            </div> 
+                            <q-space />
+                            <div class="text-h6">
+                                98.14
+                            </div> 
+                        </div>
+                        <div class="row q-my-sm">
+                            <div class="q-mr-sm">
+                                <q-icon size="40px" name="paid" />
+                            </div> 
+                            <div>
+                                <div>AAVE</div> 
+                                <div class="gCaption">AaveToken</div> 
+                            </div> 
+                            <q-space />
+                            <div class="text-h6">
+                                0
+                            </div> 
+                        </div>
+                        <div class="row">
+                            <div class="q-mr-sm">
+                                <q-icon size="40px" name="paid" />
+                            </div> 
+                            <div>
+                                <div>ANT</div> 
+                                <div class="gCaption">Aragon Network Token</div> 
+                            </div> 
+                            <q-space />
+                            <div class="text-h6">
+                                0
+                            </div> 
+                        </div>
+                    </div>
+                    <div>
+                        <q-btn class="full-width" text-color="primary" outline icon="edit_note" label="토큰 목록 관리" />
+                    </div>
+                </div>
+            </q-card-section>
+        </q-card>
+        <!-- 토큰선택-dialog-END -->
+        <q-separator class="q-my-lg" color="orange" size="10px" inset />
+        <!-- 유동성추가-dialog-START-->
+        <q-card>
+            <q-card-section>
+                <div class="q-ma-md"> 
+                    <div class="row q-pa-md"> 
+                        <div> 
+                            유동성 추가
+                        </div>
+                        <q-space />
+                        <div> 
+                            <q-btn flat icon="close" /> 
+                        </div>
+                    </div>
+                    <div class="row q-pa-md gBoarder2"> 
+                        <div>USDT 풀링추가</div> 
+                        <q-space />
+                        <div> $350 </div>
+                    </div>   
+                    <div class="text-center q-mt-lg"> 
+                        <q-btn rounded color="primary" label="Confirm" />
+                    </div>        
+                </div>
+            </q-card-section>
+        </q-card>
+        <!-- 유동성추가-dialog-END-->
+        <q-separator class="q-my-lg" color="orange" size="10px" inset />
+        
+        <!-- Confirm-dialog-START-->
+        <q-card> 
+            <q-card-section>
+                <div class="row"> 
+                    <q-space />
+                    <div class="">
+                        <q-btn flat icon="close" />
+                    </div>
+                </div>
+                <div class="q-my-md text-center">
+                    <q-spinner color="primary" size="4em" />
                 </div> 
-                <q-space />
-                <div>
-                    <q-btn flat icon="close" />
-                </div> 
-            </div>
-            <div> 
-                <q-input filled v-model="ph" placeholder="이름 검색 또는 주소 붙여 넣기" :dense="dense" />
-            </div>
-            <q-separator class="q-my-md" />
-            <div class="boarder3 q-pa-md">
-                <div class="row q-my-sm">
-                    <div class="q-mr-sm">
-                        <q-icon size="40px" name="paid" />
-                    </div> 
-                    <div>
-                        <div>ETH</div> 
-                        <div class="gCaption">Ethereum</div> 
-                    </div> 
-                    <q-space />
-                    <div class="text-h6">
-                        0.07354
-                    </div> 
+                <div class="text-center text-bold">
+                    확인을 기다리는 중    
                 </div>
-                <div class="row q-my-sm">
-                    <div class="q-mr-sm">
-                        <q-icon size="40px" name="paid" />
-                    </div> 
-                    <div>
-                        <div>1INCH</div> 
-                        <div class="gCaption">1Inch</div> 
-                    </div> 
-                    <q-space />
-                    <div class="text-h6">
-                        98.14
-                    </div> 
+                <div class="row justify-center q-ma-md">
+                    <div class="q-mr-md"> 
+                        Adding 
+                    </div>
+                    <div> 
+                        51.8775 USDT
+                    </div>
                 </div>
-                <div class="row q-my-sm">
-                    <div class="q-mr-sm">
-                        <q-icon size="40px" name="paid" />
-                    </div> 
-                    <div>
-                        <div>AAVE</div> 
-                        <div class="gCaption">AaveToken</div> 
-                    </div> 
-                    <q-space />
-                    <div class="text-h6">
-                        0
-                    </div> 
+                <div class="text-center q-mb-md">  
+                    지갑에서 이 거래를 확인하세요!
                 </div>
-                <div class="row">
-                    <div class="q-mr-sm">
-                        <q-icon size="40px" name="paid" />
-                    </div> 
-                    <div>
-                        <div>ANT</div> 
-                        <div class="gCaption">Aragon Network Token</div> 
-                    </div> 
-                    <q-space />
-                    <div class="text-h6">
-                        0
-                    </div> 
+            </q-card-section>
+        </q-card>
+        <!-- Confirm-dialog-END-->
+        <q-separator class="q-my-lg" color="orange" size="10px" inset />
+
+        <!-- Confirm Payment-dialog-START -->
+        <q-card> 
+            <q-card-section>
+                <div class="q-mb-md">
+                    <div class="gDialogTitle"> 
+                        Confirm Payment
+                    </div>
+                    <div class="gCaption">
+                        https://app.wevest.io/#/remove/
+                    </div>
                 </div>
-            </div>
-            <div>
-                <q-btn class="full-width" text-color="primary" outline icon="edit_note" label="토큰 목록 관리" />
-            </div>
-            
+                <div> 
+                    This dapp is requesting an action, which could take money from your wallet.
+                    Make sure you trust this site.
+                </div>
+                <q-separator class="q-my-md" />
+                <div class="row justify-center">
+                    <div class="q-mr-sm"> 
+                        <q-btn rounded text-color="primary" label="Cancel" />
+                    </div>
+                    <div class="q-ml-sm"> 
+                        <q-btn rounded color="primary" label="Confirm" />
+                    </div>
+                </div>
+
+            </q-card-section>
+        </q-card>
+        <!-- Confirm Payment-dialog-END -->
+        <q-separator class="q-my-lg" color="orange" size="10px" inset />
+
+        <!-- 제출된 거래-dialog-START -->
+        <q-card> 
+            <q-card-section> 
+                <div class="registered"> 
+                    <div class="row">
+                        <q-space /> 
+                        <div> 
+                            <q-btn flat icon="close" />
+                        </div> 
+                    </div>
+                    <div class="q-my-lg"> 
+                        <q-icon color="primary" size="4rem" name="arrow_circle_up" />
+                    </div>
+                    <div class="gDialogTitle q-my-md"> 
+                        제출된 거래 
+                    </div>
+                    <div class=""> 
+                        Explore에서 보기  
+                    </div>
+                    <div class="q-my-md "> 
+                        <q-btn rounded color="primary" label="close" />
+                    </div>
+                </div>
+            </q-card-section>
+        </q-card>
+        <!-- 제출된 거래-dialog-END -->
+        <q-separator class="q-my-lg" color="orange" size="10px" inset />
+
+
+        <div class="">
+            <CTitle ttype='title' 
+                :title="$t('page.pool.title')" :desc="$t('page.pool.desc')" 
+                extraCaption="Add" @onClickTitleExtra="onClickAdd" />
         </div>
-        <!-- 토큰 선택 dialog -->
+        <div>   
+        </div>   
+        <!-- 유동성 추가 - END -->
 
     </div>
     
@@ -327,20 +488,8 @@ export default {
 
 <style scoped>
 
-.boarder {
-    border: 1px solid #bcbcbc;
-    border-radius: 7px;
-    background-color: #F2F4F4;  
+.registered div {
+    text-align: center;
 }
 
-.boarder2 {
-    border: 1px solid #bcbcbc;
-    border-radius: 7px;
-    background-color: white;  
-}
-
-.boarder3 {
-    border: 1px solid #bcbcbc;
-    background-color: white;  
-}
 </style>

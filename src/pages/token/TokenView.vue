@@ -10,7 +10,7 @@
         </div>
         <div class="row q-mb-xs">
             <q-space />
-            <div class="boarder q-px-sm q-mr-xs">
+            <div class="gBoarder2 q-px-sm q-mr-xs">
                  0x6f259637dcD74C...
             </div>
             <div>
@@ -42,7 +42,7 @@
                 </q-btn>
             </div>
         </div>
-        <div class="boarder">
+        <div class="gBoarder">
             <div class="row q-mt-lg q-ma-md">
                 <div>
                     <q-select rounded outlined v-model="model" :options="options" 
@@ -54,12 +54,12 @@
                 </div>
             </div>
         </div>
-        <div class="q-mt-sm boarder q-pa-md">
+        <div class="q-mt-sm gBoarder q-pa-md">
             <div class="q-pb-sm text-subtitle2">Utilization</div>
             <div class="full-width">
                 <q-btn-toggle
                 v-model="v_utilization"
-                toggle-color="grey-10"
+                toggle-color="primary"
                 spread
                 :options="[
                     {label: '25%', value: '25'},
@@ -69,7 +69,7 @@
                     ]" />
             </div>    
         </div>
-        <div class="row boarder q-pa-md q-my-sm">
+        <div class="row gBoarder q-pa-md q-my-sm">
             <div class="q-pb-sm text-subtitle2">Position</div>
             <div class="full-width">
                 <q-btn-toggle
@@ -85,7 +85,7 @@
                 ]"  />
             </div>
         </div>
-        <div class="boarder q-pa-md">
+        <div class="gBoarder q-pa-md">
             <div class="q-pb-sm text-subtitle2">Leverage</div>
             <div>
                 <div class="text-center">
@@ -120,12 +120,12 @@
                     <q-btn flat icon="close" />
                 </div>
             </div>
-            <div class="boarder q-pa-md q-mb-md" style="background-color: #F8F9F9"> 
+            <div class="gBoarder q-pa-md q-mb-md" style="background-color: #F8F9F9"> 
                 <div>
                     지갑을 연결하면 Wevest 의 <span class="terms">서비스 약관</span>에 동의하고 <span class="terms">Wevest 프로토콜 면책 조항</span>을 이해했음을 인정하는 것입니다. 
                 </div>
             </div>
-            <div class="row boarder q-pa-md">
+            <div class="row gBoarder q-pa-md">
                 <div>
                     Wallet Connect
                 </div>
@@ -134,7 +134,7 @@
                     <q-icon size="23px" name="paid" />
                 </div>
             </div>
-            <div class="row boarder q-my-sm q-pa-md">
+            <div class="row gBoarder q-my-sm q-pa-md">
                 <div>
                     Open in Coinbase Wallet
                 </div>
@@ -143,7 +143,7 @@
                     <q-icon size="23px" name="paid" />
                 </div>
             </div>
-            <div class="row boarder q-pa-md">
+            <div class="row gBoarder q-pa-md">
                 <div>
                     Formatic 
                </div>
@@ -165,7 +165,7 @@
                     <q-btn flat icon="close" />
                 </div>
             </div>
-            <div class="boarder q-pa-md">
+            <div class="gBoarder q-pa-md">
                 <div class="row q-py-sm"> 
                     <div>Symbol</div>
                     <q-space />
@@ -196,8 +196,8 @@
         </div>
     <!-- Confirm Buy -dialog : END-->
         <div class="q-pa-md">
-            <div class="boarder"> 
-                <div class="boarder text-center"> 
+            <div class="gBoarder"> 
+                <div class="gBoarder text-center"> 
                     <div class="q-py-md">
                     <span class="gCaption">Token:</span> wETH 
                     </div>
@@ -217,61 +217,63 @@
         </div>
         <!-- New Token Issuance  complete page Start-->
         <div class="q-pa-md">
-            <div class="boarder">
+            <div class="gBoarder">
                 <div class="row q-mt-md justify-center gSubTitleLG">
                         <div class="q-mr-sm">wETH</div>
                         <div class="q-mr-sm" >3x</div>
                         <div>LONG</div>
                 </div>
-                <div class="boarder2 q-ma-xl q-pa-md">
-                    <div class="row"> 
-                        <div>수익</div>
-                        <q-space />
-                        <div>36%</div>
+                <div class="q-mx-lg issuance">
+                    <div class="gBoarder2 q-pa-md">
+                        <div class="row"> 
+                            <div>ROI</div>
+                            <q-space />
+                            <div>36%</div>
+                        </div>
+                        <div class="row">
+                            <div>ETH price</div>
+                            <q-space />
+                            <div>$3,800</div> 
+                        </div> 
                     </div>
-                    <div class="row">
-                        <div>ETH 가격</div>
-                        <q-space />
-                        <div>$3,800</div> 
-                    </div> 
-                </div>
-                <div class="boarder2 q-ma-xl q-pa-md">
-                    <div class="row"> 
-                        <div>총평가</div>
-                        <q-space />
-                        <div>$16,800</div>
+                    <div class="gBoarder2 q-pa-md">
+                        <div class="row"> 
+                            <div>총평가</div>
+                            <q-space />
+                            <div>$16,800</div>
+                        </div>
+                        <div class="row">
+                            <div>gain and loss</div>
+                            <q-space />
+                            <div>$180</div> 
+                        </div> 
                     </div>
-                    <div class="row">
-                        <div>평가손익</div>
-                        <q-space />
-                        <div>$180</div> 
-                    </div> 
-                </div>
-                <div class="boarder2 q-ma-xl q-pa-md">
-                    <div class="row"> 
-                        <div>총매수</div>
-                        <q-space />
-                        <div>$15,000</div>
+                    <div class="gBoarder2 q-pa-md">
+                        <div class="row"> 
+                            <div>총매수</div>
+                            <q-space />
+                            <div>$15,000</div>
+                        </div>
+                        <div class="row">
+                            <div>principal</div>
+                            <q-space />
+                            <div>$500</div> 
+                        </div> 
                     </div>
-                    <div class="row">
-                        <div>원금</div>
-                        <q-space />
-                        <div>$500</div> 
-                    </div> 
-                </div>
-                <div class="boarder2 q-ma-xl q-pa-md">
-                    <div class="row"> 
-                        <div>매입가</div>
-                        <q-space />
-                        <div>$3,500</div>
+                    <div class="gBoarder2 q-pa-md">
+                        <div class="row"> 
+                            <div>purchase price</div>
+                            <q-space />
+                            <div>$3,500</div>
+                        </div>
+                        <div class="row">
+                            <div>Risk</div>
+                            <q-space />
+                            <div>2.5%</div> 
+                        </div> 
                     </div>
-                    <div class="row">
-                        <div>Risk</div>
-                        <q-space />
-                        <div>2.5%</div> 
-                    </div> 
                 </div>
-                <div class="q-mb-xl text-center">
+                <div class="q-my-lg text-center">
                     <q-btn color="primary" label="NEW"/>
                 </div>
             </div>
@@ -503,20 +505,11 @@ export default {
   margin:0 auto;
 } 
 
-.boarder {
-    border: 1px solid #bcbcbc;
-    border-radius: 7px;
-    background-color: #F2F4F4;  
-}
-
-.boarder2 {
-    border: 1px solid #bcbcbc;
-    border-radius: 7px;
-    background-color: white;  
-}
-
 .terms {
     color: #0000FF;
 }
 
+.issuance div {
+    margin:5px 0px; 
+}
 </style>

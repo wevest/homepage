@@ -8,12 +8,12 @@
             </div>
         </div>
         <!-- 청산전 asset 페이지 - START -->
-        <div class="boarder"> 
-            <div class="boarder2 q-mx-lg q-my-md"> 
+        <div class="gBoarder"> 
+            <div class="gBoarder2 q-mx-lg q-my-md"> 
                 <div class="q-pa-md text-bold">
                     Pool
                 </div>   
-                <div class="row boarder2 q-pa-md q-ma-lg">
+                <div class="row gBoarder2 q-pa-md q-ma-lg">
                     <div>
                         ADA/USDT 
                     </div>
@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-            <div class="boarder2 q-mx-lg">
+            <div class="gBoarder2 q-mx-lg">
                  <div class="q-pa-md">
                     <div class="row justify-center gSubTitleLG">
                         <div class="q-ma-xs">wETH</div>
@@ -67,10 +67,10 @@
                             <div>$500</div> 
                         </div> 
                         <div class="row justify-center"> 
-                            <div class="boarder2 q-ma-lg">
+                            <div class="gBoarder2 q-ma-lg">
                                 <q-btn color="orange" label="S/L" />
                             </div> 
-                            <div class="boarder2 q-ma-lg">
+                            <div class="gBoarder2 q-ma-lg">
                                 <q-btn color="red" label="청산"/>
                             </div> 
                         </div>
@@ -79,17 +79,17 @@
             </div>          
 
             <div class="q-mx-lg q-my-md"> 
-                <div class="row boarder2 q-pa-sm q-my-xs">
+                <div class="row gBoarder2 q-pa-sm q-my-xs">
                     <div>수수료</div>
                     <q-space />
                     <div>$13.63</div>
                 </div>
-                <div class="row boarder2 q-pa-sm q-my-xs">
+                <div class="row gBoarder2 q-pa-sm q-my-xs">
                     <div>이자농사</div>
                     <q-space />
                     <div>$13.63</div>
                 </div>
-                <div class="row boarder2 q-pa-sm q-my-xs">
+                <div class="row gBoarder2 q-pa-sm q-my-xs">
                     <div>wevest</div>
                     <q-space />
                     <div>6310.57</div>
@@ -111,7 +111,7 @@
                     <q-btn flat icon="close" />
                 </div>
             </div>
-            <div class="boarder q-pa-md">
+            <div class="gBoarder q-pa-md">
                 <div class="row q-py-sm"> 
                     <div>Symbol</div>
                     <q-space />
@@ -158,8 +158,8 @@
         <!-- Confirm Dialog -->
         <!-- 청산 완료 : START -->
         <div class="q-pa-md">
-            <div class="boarder"> 
-                <div class="boarder text-center"> 
+            <div class="gBoarder"> 
+                <div class="gBoarder text-center"> 
                     <div class="row q-mt-md justify-center">
                         <div class="text-h6 q-ma-sm">USDT</div> 
                         <div class="text-h6 q-my-sm">$16,800</div> 
@@ -184,13 +184,13 @@
                 </CTitle>
             </div>
         </div>
-        <div class="boarder q-ma-md">
+        <div class="gBoarder q-ma-md">
             <div class="q-mx-lg"> 
-                <div class="boarder2 q-my-md"> 
+                <div class="gBoarder2 q-my-md"> 
                     <div class="q-pa-md text-bold">
                         Pool
                     </div>   
-                    <div class="row boarder2 q-pa-md q-ma-lg">
+                    <div class="row gBoarder2 q-pa-md q-ma-lg">
                         <div>
                             ADA/USDT 
                         </div>
@@ -201,7 +201,7 @@
                     </div>
                 </div>
                 <div class="q-mb-md">
-                    <div class="boarder2 row q-pa-md q-mb-sm">
+                    <div class="gBoarder2 row q-pa-md q-mb-sm">
                         <div> 
                             USDT 
                         </div>
@@ -210,7 +210,7 @@
                             $680
                         </div>
                     </div> 
-                    <div class="boarder2 row q-pa-md q-mb-sm">
+                    <div class="gBoarder2 row q-pa-md q-mb-sm">
                         <div> 
                             수수료
                         </div>
@@ -219,7 +219,7 @@
                             $13.63
                         </div>
                     </div> 
-                    <div class="boarder2 row q-pa-md q-mb-sm">
+                    <div class="gBoarder2 row q-pa-md q-mb-sm">
                         <div> 
                             이자농사
                         </div>
@@ -228,7 +228,7 @@
                             $3.83
                         </div>
                     </div> 
-                    <div class="boarder2 row q-pa-md">
+                    <div class="gBoarder2 row q-pa-md">
                         <div> 
                             wevest
                         </div>
@@ -319,13 +319,13 @@ export default {
 
 <style scope> 
 
-.boarder {
+.gBoarder {
     border: 1px solid #bcbcbc;
     border-radius: 7px;
     background-color: #F2F4F4;  
 }
 
-.boarder2 {
+.gBoarder2 {
     border: 1px solid #bcbcbc;
     border-radius: 7px;
     background-color: white;  
