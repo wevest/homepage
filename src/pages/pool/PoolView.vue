@@ -1,6 +1,6 @@
 <template>
     <div class="q-pa-md">
-        <!-- 유동성 추가 전 페이지 -->
+<!-- 유동성추가전-page-START -->
         <div class="">
             <CTitle ttype='title' 
                 :title="$t('page.pool.title')" :desc="$t('page.pool.desc')" 
@@ -23,9 +23,11 @@
                 <q-btn color="primary" rounded label="Connect a wallet" />
             </div>
         </div>
-        <!-- 유동성 추가 전 페이지 -->
-        <q-separator class="q-my-lg" color="orange"  size="10px" inset />
-        <!-- 쌍 선택 -->
+<!-- 유동성추가전-page-END -->
+
+<q-separator class="q-my-lg" color="orange"  size="10px" inset />
+
+<!-- token-create-page-START -->
         <div class="">
             <CTitle ttype='title' 
                 :title="$t('page.pool.title')" :desc="$t('page.pool.desc')" 
@@ -83,9 +85,11 @@
                 <q-btn color="primary" rounded label="Connect a wallet" />
             </div>
         </div>
-        <!-- 쌍 선택  -->
-        <q-separator class="q-my-lg" color="orange" size="10px" inset />
-        <!-- 토큰선택-dialog-START -->
+<!-- token-create-page-END  -->
+        
+<q-separator class="q-my-lg" color="orange" size="10px" inset />
+        
+<!-- 토큰선택-dialog-START -->
         <q-card>
             <q-card-section>
                 <div class="q-pa-md">
@@ -162,9 +166,11 @@
                 </div>
             </q-card-section>
         </q-card>
-        <!-- 토큰선택-dialog-END -->
-        <q-separator class="q-my-lg" color="orange" size="10px" inset />
-        <!-- 유동성추가-dialog-START-->
+<!-- 토큰선택-dialog-END -->
+        
+<q-separator class="q-my-lg" color="orange" size="10px" inset />
+
+<!-- 유동성추가-dialog-START-->
         <q-card>
             <q-card-section>
                 <div class="q-ma-md"> 
@@ -188,10 +194,11 @@
                 </div>
             </q-card-section>
         </q-card>
-        <!-- 유동성추가-dialog-END-->
-        <q-separator class="q-my-lg" color="orange" size="10px" inset />
+<!-- 유동성추가-dialog-END-->
+
+<q-separator class="q-my-lg" color="orange" size="10px" inset />
         
-        <!-- Confirm-dialog-START-->
+<!-- Confirm-dialog-START-->
         <q-card> 
             <q-card-section>
                 <div class="row"> 
@@ -219,10 +226,11 @@
                 </div>
             </q-card-section>
         </q-card>
-        <!-- Confirm-dialog-END-->
-        <q-separator class="q-my-lg" color="orange" size="10px" inset />
+<!-- Confirm-dialog-END-->
 
-        <!-- Confirm Payment-dialog-START -->
+<q-separator class="q-my-lg" color="orange" size="10px" inset />
+
+<!-- Confirm-Payment-dialog-START -->
         <q-card> 
             <q-card-section>
                 <div class="q-mb-md">
@@ -249,10 +257,11 @@
 
             </q-card-section>
         </q-card>
-        <!-- Confirm Payment-dialog-END -->
-        <q-separator class="q-my-lg" color="orange" size="10px" inset />
+<!-- Confirm-Payment-dialog-END -->
 
-        <!-- 제출된 거래-dialog-START -->
+<q-separator class="q-my-lg" color="orange" size="10px" inset />
+
+<!-- 제출된거래-dialog-START -->
         <q-card> 
             <q-card-section> 
                 <div class="registered"> 
@@ -277,21 +286,44 @@
                 </div>
             </q-card-section>
         </q-card>
-        <!-- 제출된 거래-dialog-END -->
-        <q-separator class="q-my-lg" color="orange" size="10px" inset />
-
-
+<!-- 제출된거래-dialog-END -->
+<q-separator class="q-my-lg" color="orange" size="10px" inset />
+<!-- 유동성제거-page-START -->
         <div class="">
             <CTitle ttype='title' 
                 :title="$t('page.pool.title')" :desc="$t('page.pool.desc')" 
                 extraCaption="Add" @onClickTitleExtra="onClickAdd" />
         </div>
-        <div>   
-        </div>   
-        <!-- 유동성 추가 - END -->
-
+        <div> 
+            풀 개요 (유동성 리스트 화면)
+        </div>
+        <div class="row justify-around">
+            <div class="q-my-md"> 
+                <q-btn text-color="primary" label="유동성 추가" />
+            </div>
+            <div class="q-my-md"> 
+                <q-btn color="primary" label="유동성 제거" /> 
+            </div>
+        </div>
+        <div class="gBoarder text-center poolList">
+            <div class="row gBoarder2 q-pa-md"> 
+                <div> ADA/USDT </div>
+                <q-space /> 
+                <div>$360</div>
+            </div>
+            <div class="row gBoarder2 q-pa-md"> 
+                <div> DOT/USDT </div>
+                <q-space /> 
+                <div>$60,000</div>
+            </div>
+            <div class="row gBoarder2 q-pa-md"> 
+                <div> SOL/USDT </div>
+                <q-space /> 
+                <div>$99,000</div>
+            </div>
+        </div>
+<!-- 유동성제거-page-END -->
     </div>
-    
 </template>
 
 
@@ -492,4 +524,8 @@ export default {
     text-align: center;
 }
 
+.poolList div {
+    margin: 10px;
+    padding: 3px 0px;
+}
 </style>

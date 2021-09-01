@@ -3,7 +3,7 @@
     <div class="q-pa-md responsive">
         <div class="row">
             <div class="col">
-                <CTitle ttype='title' :title="$t('page.trend.title')" :desc="$t ('page.trend.desc')" 
+                <CTitle ttype='title' :title="$t('page.token.title')" :desc="$t ('page.token.desc')" 
                         extraCaption="Add" @onClickTitleExtra="onClickAdd">
                 </CTitle>          
             </div>
@@ -22,19 +22,19 @@
                     <q-list style="min-width: 150px">
                         <q-item clickable v-close-popup @click="onItemClick">
                         <q-item-section>
-                            <q-item-label>Information</q-item-label>
+                            <q-item-label>{{ $t('button.information') }}</q-item-label>
                         </q-item-section>
                         </q-item>
 
                         <q-item clickable v-close-popup @click="onItemClick">
                         <q-item-section>
-                            <q-item-label>Document</q-item-label>
+                            <q-item-label>{{ $t('button.document') }}</q-item-label>
                         </q-item-section>
                         </q-item>
 
                         <q-item clickable v-close-popup @click="onItemClick">
                         <q-item-section>
-                            <q-item-label>Code</q-item-label>
+                            <q-item-label>{{ $t('button.code') }}</q-item-label>
                         </q-item-section>
                         </q-item>
                     </q-list>
@@ -42,20 +42,18 @@
                 </q-btn>
             </div>
         </div>
-        <div class="gBoarder">
-            <div class="row q-mt-lg q-ma-md">
+        <div class="gBoarder q-pa-md">
+            <div class="row justify-between">
                 <div>
-                    <q-select rounded outlined v-model="model" :options="options" 
-                    label="Select a Token" style="width: 200px" hint="Select a token to create!." />
+                    <q-select  style="width: 200px" outlined v-model="model" :options="options" label="USDT" />
                 </div>
-                <q-space />
-                <div class="text-h6 q-pt-sm">
+                <div class="q-mt-sm text-h6">
                     0.0
                 </div>
             </div>
         </div>
         <div class="q-mt-sm gBoarder q-pa-md">
-            <div class="q-pb-sm text-subtitle2">Utilization</div>
+            <div class="q-pb-sm text-subtitle2">{{ $t('page.token.utilization.title') }}</div>
             <div class="full-width">
                 <q-btn-toggle
                 v-model="v_utilization"
@@ -70,7 +68,7 @@
             </div>    
         </div>
         <div class="row gBoarder q-pa-md q-my-sm">
-            <div class="q-pb-sm text-subtitle2">Position</div>
+            <div class="q-pb-sm text-subtitle2">{{ $t('page.token.position.title') }}</div>
             <div class="full-width">
                 <q-btn-toggle
                 v-model="v_direction"
@@ -86,7 +84,7 @@
             </div>
         </div>
         <div class="gBoarder q-pa-md">
-            <div class="q-pb-sm text-subtitle2">Leverage</div>
+            <div class="q-pb-sm text-subtitle2">{{ $t('page.token.leverage.title') }}</div>
             <div>
                 <div class="text-center">
                     <q-btn-toggle
@@ -102,120 +100,161 @@
                             {label: '1x', value: '1'},
                             {label: '2x', value: '2'},
                             {label: '3x', value: '3'},
-                        ]"  />
+                            ]"  />
                  </div>
             </div> 
         </div>
         <div class="q-mt-md">
-            <q-btn class="full-width" color="primary" outline label="Connect a wallet"/>
+            <q-btn class="full-width" rounded color="primary" outline :label="$t('button.connectWallet')"/>
         </div>
-    <!-- Connect a wallet - dialog : START : -->
-        <div class="q-pa-md">
-            <div class="row">
-                <div>
-                    지갑에 연결
+
+    <q-separator class="q-my-lg" color="orange" size="10px" inset />
+    
+    <!-- Connect-a-wallet-dialog-START : -->
+        <q-card>
+            <q-card-section>
+                <div class="row justify-between">
+                    <div class="text-h6">
+                        {{ $t('dialog.token.connectWallet.title') }}
+                    </div>
+                    <div>
+                        <q-btn flat icon="close" />
+                    </div>
                 </div>
-                <q-space />
-                <div>
-                    <q-btn flat icon="close" />
+            </q-card-section>
+            <q-card-section>
+                <div class="gBoarder q-pa-md" style="background-color: #F8F9F9"> 
+                    <div>
+                        지갑을 연결하면 Wevest 의 <span class="terms">서비스 약관</span>에 동의하고 <span class="terms">Wevest 프로토콜 면책 조항</span>을 이해했음을 인정하는 것입니다. 
+                    </div>
                 </div>
-            </div>
-            <div class="gBoarder q-pa-md q-mb-md" style="background-color: #F8F9F9"> 
-                <div>
-                    지갑을 연결하면 Wevest 의 <span class="terms">서비스 약관</span>에 동의하고 <span class="terms">Wevest 프로토콜 면책 조항</span>을 이해했음을 인정하는 것입니다. 
+            </q-card-section>
+            <q-card-actions class="q-px-md" align="center" >
+                    <q-btn class="full-width q-my-sm q-pa-xs" color="grey-2" text-color="primary" icon-right="paid" label="Wallet Name 1" />
+                    <q-btn class="full-width q-my-sm q-pa-xs" color="grey-2" text-color="primary" icon-right="paid" label="Wallet Name 2" />
+                    <q-btn class="full-width q-my-sm q-pa-xs" color="grey-2" text-color="primary" icon-right="paid" label="Wallet Name 3" />
+            </q-card-actions>
+        </q-card>
+    <!-- Connect-a-wallet-dialog-END -->
+    <q-separator class="q-my-lg" color="orange" size="10px" inset />
+
+    <!-- Confirm-Buy-dialog-START-->
+        <q-card>
+            <q-card-section class="row justify-between">
+                <div class="text-h6">
+                     {{ $t('dialog.token.confirmLong.title') }}
                 </div>
-            </div>
-            <div class="row gBoarder q-pa-md">
-                <div>
-                    Wallet Connect
-                </div>
-                <q-space />
-                <div>
-                    <q-icon size="23px" name="paid" />
-                </div>
-            </div>
-            <div class="row gBoarder q-my-sm q-pa-md">
-                <div>
-                    Open in Coinbase Wallet
-                </div>
-                <q-space />
-                <div>
-                    <q-icon size="23px" name="paid" />
-                </div>
-            </div>
-            <div class="row gBoarder q-pa-md">
-                <div>
-                    Formatic 
-               </div>
-                <q-space />
-                <div>
-                    <q-icon size="23px" name="paid" />
-                </div>
-            </div>
-        </div>
-    <!-- Connect a wallet - dialog : END -->
-    <!-- Confirm Buy -dialog : START-->
-        <div class="q-pa-md">
-            <div class="row">
-                <div class="">
-                    Confirm Buy
-                </div>
-                <q-space />
                 <div class=""> 
                     <q-btn flat icon="close" />
                 </div>
-            </div>
-            <div class="gBoarder q-pa-md">
-                <div class="row q-py-sm"> 
-                    <div>Symbol</div>
-                    <q-space />
-                    <div>BTCUSDT Perpetual</div>
+            </q-card-section>
+            <q-card-section>
+                <div class="gBoarder q-px-md">
+                    <div class="row q-py-sm"> 
+                        <div>Symbol</div>
+                        <q-space />
+                        <div>BTCUSDT Perpetual</div>
+                    </div>
+                    <div class="row q-py-sm"> 
+                        <div>Price</div>
+                        <q-space />
+                        <div>49763.08 USDT</div>       
+                    </div>
+                    <div class="row q-py-sm"> 
+                        <div>Amount</div>
+                        <q-space />
+                        <div>1012.45 USDT</div>
+                    </div>
+                    <div class="row q-py-sm"> 
+                        <div>Cost</div>
+                        <q-space />
+                        <div>331.95 USDT</div>
+                    </div>
                 </div>
-                <div class="row q-py-sm"> 
-                    <div>Price</div>
-                    <q-space />
-                    <div>49763.08 USDT</div>       
+            </q-card-section>
+            <q-card-section>
+                    <q-checkbox v-model="right" label="Don't show again. You can change this in (Futures-Preference)." />
+            </q-card-section>
+            <q-card-actions align="center">
+                <div class="q-mb-md">
+                    <q-btn class="q-pa-xs" rounded color="primary" :label="$t('button.confirmLong')" />
                 </div>
-                <div class="row q-py-sm"> 
-                    <div>Amount</div>
-                    <q-space />
-                    <div>1012.45 USDT</div>
+            </q-card-actions>
+            
+        </q-card>
+    <!-- Confirm-Buy-dialog-END-->
+    <q-separator class="q-my-lg" color="orange" size="10px" inset />
+    <!-- Confirm-Short-dialog-START-->
+        <q-card>
+            <q-card-section class="row justify-between">
+                <div class="text-h6">
+                     {{ $t('dialog.token.confirmShort.title') }}
                 </div>
-                <div class="row q-py-sm"> 
-                    <div>Cost</div>
-                    <q-space />
-                    <div>331.95 USDT</div>
+                <div class=""> 
+                    <q-btn flat icon="close" />
                 </div>
-                <div class="q-my-md">
-                   <q-checkbox v-model="right" label="Don't show again. You can change this in (Futures-Preference)." />
+            </q-card-section>
+            <q-card-section>
+                <div class="gBoarder q-px-md">
+                    <div class="row q-py-sm"> 
+                        <div>Symbol</div>
+                        <q-space />
+                        <div>BTCUSDT Perpetual</div>
+                    </div>
+                    <div class="row q-py-sm"> 
+                        <div>Price</div>
+                        <q-space />
+                        <div>49763.08 USDT</div>       
+                    </div>
+                    <div class="row q-py-sm"> 
+                        <div>Amount</div>
+                        <q-space />
+                        <div>1012.45 USDT</div>
+                    </div>
+                    <div class="row q-py-sm"> 
+                        <div>Cost</div>
+                        <q-space />
+                        <div>331.95 USDT</div>
+                    </div>
                 </div>
-                <div>
-                    <q-btn class="full-width" color="primary" label="Confirm Buy" />
+            </q-card-section>
+            <q-card-section>
+                    <q-checkbox v-model="right" label="Don't show again. You can change this in (Futures-Preference)." />
+            </q-card-section>
+            <q-card-actions align="center">
+                <div class="q-mb-md">
+                    <q-btn class="q-pa-xs" rounded color="primary" :label="$t('button.confirmShort')" />
                 </div>
-            </div>
-        </div>
-    <!-- Confirm Buy -dialog : END-->
-        <div class="q-pa-md">
-            <div class="gBoarder"> 
-                <div class="gBoarder text-center"> 
+            </q-card-actions>
+        </q-card>
+    <!-- Confirm-Short-dialog-END-->
+    <q-separator class="q-my-lg" color="orange" size="10px" inset />
+    
+    <!-- 발행완료-dialog-END -->
+        <q-card>
+            <q-card-section> 
+                <div class="text-center"> 
                     <div class="q-py-md">
-                    <span class="gCaption">Token:</span> wETH 
+                        <span class="gCaption">Token:</span> wETH 
                     </div>
                     <div class="q-py-md"> 
-                    <span class="gCaption">Reverage Ratio:</span> 3x      
+                        <span class="gCaption">Reverage Ratio:</span> 3x      
                     </div>
                     <div class="q-py-md">
-                    <span class="gCaption">position:</span> LONG 
-                    </div>
-                    <div class="">
-                        <div class="q-py-lg">
-                            <q-btn color="primary" label="발행 완료" />
-                        </div>
+                        <span class="gCaption">position:</span> LONG 
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- New Token Issuance  complete page Start-->
+            </q-card-section>
+            <q-card-actions align="center">
+                        <div class="q-py-lg">
+                            <q-btn class="q-pa-xs" rounded color="primary" :label="$t('button.completePosition')" />
+                        </div>
+            </q-card-actions>
+        </q-card>
+        <!-- 발행완료-dialog-END -->
+        <q-separator class="q-my-lg" color="orange" size="10px" inset />
+
+        <!-- 토큰생성완료-page Start-->
         <div class="q-pa-md">
             <div class="gBoarder">
                 <div class="row q-mt-md justify-center gSubTitleLG">
@@ -226,7 +265,7 @@
                 <div class="q-mx-lg issuance">
                     <div class="gBoarder2 q-pa-md">
                         <div class="row"> 
-                            <div>ROI</div>
+                            <div>{{ $t('dialog.token.roi.title') }}</div>
                             <q-space />
                             <div>36%</div>
                         </div>
@@ -238,47 +277,47 @@
                     </div>
                     <div class="gBoarder2 q-pa-md">
                         <div class="row"> 
-                            <div>총평가</div>
+                            <div>{{ $t('dialog.token.totalAmount.title') }}</div>
                             <q-space />
                             <div>$16,800</div>
                         </div>
                         <div class="row">
-                            <div>gain and loss</div>
+                            <div>{{ $t('dialog.token.valuationLoss.title') }}</div>
                             <q-space />
                             <div>$180</div> 
                         </div> 
                     </div>
                     <div class="gBoarder2 q-pa-md">
                         <div class="row"> 
-                            <div>총매수</div>
+                            <div>{{ $t('dialog.token.totalPurchase.title') }}</div>
                             <q-space />
                             <div>$15,000</div>
                         </div>
                         <div class="row">
-                            <div>principal</div>
+                            <div>{{ $t('dialog.token.principal.title') }}</div>
                             <q-space />
                             <div>$500</div> 
                         </div> 
                     </div>
                     <div class="gBoarder2 q-pa-md">
                         <div class="row"> 
-                            <div>purchase price</div>
+                            <div>{{ $t('dialog.token.purchasePrice.title') }}</div>
                             <q-space />
                             <div>$3,500</div>
                         </div>
                         <div class="row">
-                            <div>Risk</div>
+                            <div>{{ $t('dialog.token.risk.title') }}</div>
                             <q-space />
                             <div>2.5%</div> 
                         </div> 
                     </div>
                 </div>
                 <div class="q-my-lg text-center">
-                    <q-btn color="primary" label="NEW"/>
+                    <q-btn color="primary" :label="$t('button.new')"/>
                 </div>
             </div>
         </div>
-        <!-- New Token Issuance complete page End -->
+        <!-- 토큰생성완료-page End -->
     </div>
 </template>
 
