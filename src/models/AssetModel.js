@@ -122,52 +122,14 @@ export class AssetModel{
     id=null;
     symbol=null;
     name=null;
-    object_id=null;
-    object_category=null;
-    category=null;
-    first_price=null;
-    date_added=null;
-    logo_thumb=null;
-    description=null;
-    description_kr=null;
-    cmc_rank=null;
-    num_market_pairs=null;
-    total_supply=null;
-    max_supply=null;
-    circulating_supply=null;
-    platform=null;
-    token_address=null;
-    website=null;
-    source_code=null;
-    twitter=null;
-    announcement=null;
-    reddit=null;
-    chat=null;
-    tags=null;
-    
-    alltime_high=null;
-    alltime_low=null;
-    alltime_high_date=null;
-    alltime_low_date=null;
+    roi=null;
+    loss=null;
+    risk=null;
+    amount=null;
+    purchase_price=null;
+    total_purchase=null;
+    principal=null;
 
-    w52_high=null;
-    w52_low=null;
-    w52_high_date=null;
-    w52_low_date=null;
-    
-    is_deleted=null;
-    github_network_count=null;
-
-    is_selected=null;
-    exchanges=null;
-
-    like_count=null;
-    dislike_count=null;
-    portfolio_count=null;
-    average_rating=null;
-
-    ticker = new TickerModel();
-    holders = new HolderListModel();
 
     constructor() {}
 
@@ -409,23 +371,28 @@ export class AssetListModel extends baseCollection{
         });
     }
 
-    query(keyword) {
-        const _this = this;
-        
-        let reqParam = {keyword:keyword};
-        logger.log.debug("AssetListModel.query : reqParam=",reqParam);
-        return new Promise(function(resolve,reject) {            
-            APIService.queryAsset(reqParam,function(response) {
-                logger.log.debug("AssetListModel.query : response=",response);
+    addTestData() {
+        let a_asset = new AssetModel();
+        a_asset.name="wETH 3X Long";
+        a_asset.risk=2.4;
+        a_asset.loss=10;
+        a_asset.principal=100;
+        a_asset.amount=3;
+        a_asset.purchase_price=1;
 
-                const items = response.data.results;      
-                resolve(response);
-            },function(err) {
-                logger.log.debug("AssetListModel.query : err=",err);
-                reject(err);
-            });        
-        });
+        this.add(a_asset);
+
+        let a_asset2 = new AssetModel();
+        a_asset2.name="wETH 2X Short";
+        a_asset2.risk=2.4;
+        a_asset2.loss=10;
+        a_asset2.principal=100;
+        a_asset2.amount=3;
+        a_asset2.purchase_price=1;
+
+        this.add(a_asset2);
     }
+
 /*
     async load() {     
         let response = await this.fetch();
@@ -433,31 +400,6 @@ export class AssetListModel extends baseCollection{
         return response;        
     }   
 */
-    saveToCookie() {        
-        let dic_data = {'last_updated':this.last_updated, 'items': this.items};
-        //logger.log.debug("saveToCookie:=",JSON.stringify(dic_data));
-        LocalStorageService.save(Config.general.COINCODE, dic_data );
-    }
 
-    loadFromCookie() {
-        let dic_data = LocalStorageService.load(Config.general.COINCODE);
-        //logger.log.debug("Assets.loadFromCookie:=",dic_data);
-        
-        const _this = this;
 
-        if (CommonFunc.isEmptyObject(dic_data)) {
-            this.load().then( response => {
-                _this.saveToCookie();
-            });
-        } else {
-            let a_today = CommonFunc.getCurrentDatetime();
-            const diff_minutes = ((a_today-dic_data.last_updated)/1000)/60;
-            logger.log.debug("loadFromCookie:time_diff=",dic_data.last_updated,a_today,diff_minutes);
-            this.clear();
-            for (let index=0;index<dic_data.items.length;index++) {
-                this.add( AssetModel.create(dic_data.items[index]) );
-            }                
-        }
-
-    }
 }

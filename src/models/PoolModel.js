@@ -5,18 +5,10 @@ import logger from "src/error/Logger";
 import AuthService from 'src/services/authService';
 
 
-export class MessageModel{    
+export class PoolModel{    
     uuid='';
-    thread_id=null;
-    sent_at='';
-    sender=null;
-    subject='';
-    content='';
-    username=null;
-    is_sender=null;
-    deleted=false;
-    to_avatar=null;
-    to_username=null;
+    name=null;
+    tvl=null;
 
     assign(obj) {
         this.uuid=obj.uuid;
@@ -34,35 +26,15 @@ export class MessageModel{
         }
     }
 
-    sendMessage() {
-        const _this = this;
-        
-        let dic_param = {
-            token: store.getters.token, 
-            to_user:this.to_user, subject:this.subject, message:this.content
-        };
 
-        logger.log.debug("MessageModel.sendMessage - dic_param",dic_param);
-
-        return new Promise(function(resolve,reject) {
-            AuthService.postPrivateMessage(dic_param,function(response) {
-                //_this.g_data = response.data;
-                logger.log.debug("MessageModel.sendMessage - response",response.data);
-                resolve(response.data);
-            },function(err) {
-                logger.log.error("MessageModel.sendMessage - error",err);
-                reject(err);
-            });
-        });            
-    }
 
 }
 
 
-export class MessageListModel extends baseCollection {
+export class PoolListModel extends baseCollection {
 
     assign(messages) {
-        logger.log.debug("MessageListModel: messages=",messages);
+        logger.log.debug("PoolListModel: messages=",messages);
                 
         for (let index=0;index<messages.messages.length;index++) {
             //logger.log.debug("onClickMessage: loadThreadMessages=",index);
@@ -91,10 +63,16 @@ export class MessageListModel extends baseCollection {
         });            
     }
 
-    addMessage(response) {
-        let a_message = new MessageModel();
-        a_message.assign(response.data);
-        this.add(a_message);
+    addTestData() {
+        let a_pool = new PoolModel();
+        a_pool.name="ADA/USDT";
+        a_pool.tvl=1231;
+        this.add(a_pool);
+
+        let a_pool2 = new PoolModel();
+        a_pool2.name="BTC/USDT";
+        a_pool2.tvl=75341;
+        this.add(a_pool2);
     }
 
 }

@@ -31,6 +31,12 @@ const routes = [
 				meta: { transition: "overlay-right" },
 			},
 			{
+				name: "pool_detail",
+				path: "pool_detail",
+				component: () => import("pages/pool/PoolDetailView.vue"),
+				meta: { transition: "overlay-right" },
+			},
+			{
 				name: "token",
 				path: "token",
 				component: () => import("pages/token/TokenView.vue"),
@@ -49,6 +55,12 @@ const routes = [
 				meta: { transition: "overlay-right" },
 			},
 			{
+				name: "asset_detail",
+				path: "/asset_detail",
+				component: () => import("pages/asset/AssetDetailView.vue"),
+				meta: { transition: "overlay-right" },
+			},
+			{
 				name: "pool",
 				path: "/pool",
 				component: () => import("pages/pool/PoolView.vue"),
@@ -59,7 +71,6 @@ const routes = [
 				path: "ptsl",
 				component: () => import("pages/asset/PTSLView.vue"),
 			},
-
 
 			{
 				name: "error_404",

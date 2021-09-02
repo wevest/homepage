@@ -1,60 +1,152 @@
 <template>
-    
-    <div class="q-ma-md">
-        		
-		<div v-if="v_tweet.owner">
-            <div class="boxToolbar">
-			    <div class="boxAvatar">
-                    <WAvatar :avatar="v_tweet.owner.avatar_thumb" :username="v_tweet.owner.username" />
-                </div>
-                <div class="q-pa-sm boxToolbarTitle">
-					<div class="boxToolbar">
-
-                        <div class="gListTitle boxToolbarTitle">{{ v_tweet.owner.display_name }}</div>
-                        <div>
-                            <WCommandBar :data="v_tweet" :isOwner="v_is_owner" 
-                                shareBtn="" updateBtn="update" deleteBtn="delete" 
-                                @onClickUpdate="onClickUpdate" 
-                                @onClickDelete="onClickDelete" 
-                            />
-                        </div>
-
-					</div>
-
-                    <div>
-
-						<WSubinfo 
-							:pub_date="v_tweet.created_at" 
-							:like_count="v_tweet.like_count" 
-							:dislike_count="v_tweet.dislike_count" />
-
-					</div>
-				</div>
-			</div>			
-		</div>
-
-        <q-separator />
-
-        <div class="q-pt-sm gBodyLG" v-html="v_tweet.body"></div>
-         
-        <WRatingButton ref="ratingButton" :data="v_tweet" :likeCaption="$t('button.blog_like')" :dislikeCaption="$t('button.blog_dislike')" />
-
-        <q-separator class="gSeparator" />
-    
-
-        <div class="q-ma-sm" v-if="v_tweet.comments">
-<!--            
-            <div class="q-my-md"> 
-                <span class="gTextSubTitle">Comments : {{v_tweet.comments.items.length}}</span>
+    <div>
+        <div class="row">
+            <div class="col">
+                <CTitle :title="$t('page.stopLoss.title')" :desc="$t('page.stopLoss.desc')">
+                </CTitle>
             </div>
--->
-            <CommentList ref="commentBox" 
-                :data="v_tweet" :contentType="v_content_type"
-                @onCommentDelete="onClickDeleteComment" />
-
+        </div>
+        <div class="gBoarder q-pa-md"> 
+            <div class="text-bold">
+                {{ $t('page.stopLoss.coinChoice.title') }}
+            </div>
+            <div class="q-my-md">
+                <q-select  style="width: 200px" outlined v-model="v_position.asset" :options="v_assets" label="USDT" />
+            </div>
+            <div class="row justify-between">  
+                <div>주문가능</div>
+                <div class="text-right">
+                    <div>9.97777774333 DOT</div>
+                    <div >= 376,000 USDT</div>
+                </div>
+            </div>  
+            <div class="row justify-between">
+                <div class="q-my-md"> 
+                    <q-input  type="number" outlined filled v-model="v_position.portion" placeholder="수량" />
+                </div>
+                <div class="full-width">
+                    <q-btn-toggle
+                        v-model="v_position.portion"
+                        toggle-color="primary"
+                        spread
+                        :options="[
+                            {label: '25%', value: '25'},
+                            {label: '50%', value: '50'},
+                            {label: '75%', value: '75'}, 
+                            {label: '100%', value: '100'} 
+                        ]" />
+                </div>    
+            </div>
+            <div class="row justify-between"> 
+                    <div class="q-my-md" style="width: 200px"> 
+                    <q-input  type="number" filled outline v-model="v_position.stop_price" placeholder="가격" />
+                </div>
+                <div class="row q-my-md">
+                    <div class="q-mr-xs">
+                        <q-btn color="grey-5" outline text-color="grey-10" icon="add" />
+                    </div> 
+                    <div>
+                        <q-btn color="grey-5" outline text-color="grey-10" icon="remove" />
+                    </div> 
+                </div> 
+            </div>
+            <div class="q-my-md"> 
+                <q-input  class="full-width" type="number" outlined filled v-model="v_position.estimated_value" placeholder="총액" />
+            </div>
+            <div class="row justify-evenly"> 
+                <div class="q-ma-xs">
+                    <q-btn text-color="primary" label="초기화" />
+                </div>
+                <div class="q-ma-xs">
+                    <q-btn color="primary" label="Close Position" @click="onClickPosition" />
+                </div>
+            </div>
+            <q-separator class="q-my-md" />
+            <div class="text-h6 q-my-md"> 
+                보유자산(USDT)
+            </div>
+            <div> 
+                <div class="row justify-between">
+                    <div>매수평균가</div>
+                    <div>100,000,000</div>
+                </div>
+                <div class="row justify-between">
+                    <div>평가금액</div>
+                    <div>120,000,000</div>
+                </div>
+                <div class="row justify-between">
+                    <div>평가손익</div>
+                    <div style="color: red">20,000,000</div>
+                </div>
+                <div class="row justify-between">
+                    <div>수익률</div>
+                    <div style="color: red">20%</div>
+                </div>
+            </div> 
         </div>
 
-    </div>    
+        <q-dialog v-model="v_dialog_confirm" position="bottom">
+            <q-card> 
+                <q-card-section>
+                    <div class="q-my-md gDialogTitle text-center">
+                        매도 주문 확인
+                    </div>
+                    <div class="gBoarder q-pa-md text-center coinTitle"> 
+                        Polkadot (DOT/USDT)
+                    </div>
+                    <div class="coinBody">
+                        <div class="row justify-between q-ma-sm"> 
+                            <div>주문구분</div> 
+                            <div>지정가매도</div> 
+                        </div>
+                        <div class="row justify-between q-ma-sm"> 
+                            <div>주문가격</div> 
+                            <div>130,000,000</div> 
+                        </div>
+                        <div class="row justify-between q-ma-sm"> 
+                            <div>주문수량</div> 
+                            <div>30,000</div> 
+                        </div>
+                        <div class="row justify-between q-ma-sm"> 
+                            <div>주문총액</div> 
+                            <div>30,000,000</div> 
+                        </div>
+                    </div>
+                </q-card-section>
+                <q-card-actions align="center">
+                    <div class="q-ma-md">
+                        <q-btn text-color="primary" outline label="cancel" @click="onClickCancel" />
+                    </div>
+                    <div class="q-ma-md">
+                        <q-btn color="primary" label="sell confirm" @click="onClickSell"/>
+                    </div>
+                </q-card-actions>
+            </q-card>
+        </q-dialog>
+
+        <q-dialog v-model="v_dialog_notice" position="bottom">
+            <q-card>
+                <q-card-section> 
+                <div class="text-center"> 
+                    <div class="gDialogTitle q-my-md">
+                        매도 주문 접수
+                    </div>
+                    <div class="q-my-xl"> 
+                        매도주문이 정상완료되었습니다. 
+                    </div>
+                    <q-separator class="q-my-md" />
+                    <div class=""> 
+                        <q-btn flat text-color="primary" label="확인" @click="onClickDone" />
+                    </div>
+                </div>
+
+                </q-card-section>    
+            </q-card>
+        </q-dialog>
+
+    </div>
+
+
 
 </template>
 
@@ -65,23 +157,14 @@ import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 
-import {TweetModel, TweetListModel} from "src/models/TweetModel";
+import {PTSLModel} from "src/models/PositionModel";
 
-import WAvatar from "src/components/w/WAvatar";
-import WSubinfo from 'components/WSubinfo';
-import CommentBox from "components/comments/CommentBox.vue";
-import CommentList from "components/comments/CommentList.vue";
-import WRatingButton from 'components/WRatingButton';
-import WCommandBar from "components/WCommandBar.vue";
+import CTitle from 'components/CTitle';
 
 export default {
     name: 'PTSLView',
     components: {
-        WAvatar,
-        WCommandBar,
-        WSubinfo,
-        CommentList,
-        WRatingButton
+        CTitle
     },
     computed: {
         v_me() {
@@ -96,17 +179,18 @@ export default {
     },
     data() {
         return {
-            v_content_type:'twitter.tweet',
-            v_tweet: new TweetModel(),
+            v_dialog_confirm: false,
+            v_dialog_notice: false,
+            
+            v_position: new PTSLModel(),
+            v_assets: [],
         }
     },
     created() {
-        this.validateQuery();
+        //this.validateQuery();
     },
     mounted() {
         //console.log("HomeView.mounted - ");
-        logger.log.debug("TweetDetailView.mounted - symbol=",this.$route.query);
-        this.setTweet(this.$route.query);        
         this.refresh();
     },
     methods: {
@@ -122,59 +206,25 @@ export default {
             this.v_tweet.id = query.id;
         },
 
-        loadTweet() {            
-            let dicParam = {id: this.v_tweet.id};
-            
-            const _this=this;
-            let a_tweet = new TweetListModel();
-            a_tweet.load(dicParam).then(response=>{
-                logger.log.debug("TweetDetailView.loadTweet : response=",response);
-
-                _this.v_tweet.assign(response.data.results[0]);
-
-            }).catch(err=>{
-                logger.log.error("TweetDetailView.loadTweet : err=",err);
-            });
-        },
-
-        loadComment: function() {
-            const _this=this;
-
-            logger.log.debug("TweetDetailView.loadComment : v_tweet=",this.v_tweet);
-
-            this.v_tweet.comments.load(this.v_tweet.id).then( response => {
-                logger.log.debug("TweetDetailView.loadComment : response=",response);
-                _this.$refs.commentBox.setPageParameter(response);
-            });
-        },
-
         refresh() {
-            this.loadTweet();
-            this.loadComment();
         },
 
 
-        onClickUpdate() {
-            logger.log.debug("TweetDetailView.onClickUpdate : tweet=",this.v_tweet);
-            NavFunc.navTweetWriter(this,this.v_tweet.asset.id,this.v_tweet.id,this.v_tweet.body);
+        onClickDone() {
+            this.v_dialog_notice = false;
         },
 
-        onClickDelete() {                        
-            const _this = this;
-            //let dic_param = { id:this.v_post.id, token:store.getters.token};
-            logger.log.debug('TweetDetailView.onClickDelete');
-            
-            this.v_tweet.remove().then( response => {
-                CommonFunc.showOkMessage(_this,'Tweet deleted');       
-                NavFunc.navBack(_this);
-            }).catch(err=>{
-                CommonFunc.showErrorMessage(_this,err.data.msg);
-            });
-
+        onClickSell() {
+            this.v_dialog_confirm = false;
+            this.v_dialog_notice = true;
         },
 
-        onClickDeleteComment() {
-            logger.log.debug("TweetDetailView.loadTweet");
+        onClickCancel() {
+            this.v_dialog_confirm = false;
+        },
+
+        onClickPosition() {
+            this.v_dialog_confirm = true;
         }
     }
 };

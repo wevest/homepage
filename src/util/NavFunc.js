@@ -28,6 +28,22 @@ export default class NavFunc {
         a_this.$router.push(dic_param);
     }
 
+    static navPoolDetail(a_this) {
+        logger.log.debug("CommonFunc.navPoolDetail - ",a_this.$route);
+        
+        store.getters.nav.add(a_this.$route);
+        let dic_param = {name:'pool_detail',path:'pool_detail',query:{}};
+        a_this.$router.push(dic_param);
+    }
+
+    static navPTSL(a_this) {
+        logger.log.debug("CommonFunc.navPTSL - ",a_this.$route);
+        
+        store.getters.nav.add(a_this.$route);
+        let dic_param = {name:'ptsl',path:'ptsl',query:{}};
+        a_this.$router.push(dic_param);
+    }
+
     static navSignin(a_this,is_redirect=false) {
         logger.log.debug("CommonFunc.navSignin - ",a_this.$route);
         

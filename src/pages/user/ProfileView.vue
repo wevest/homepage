@@ -90,7 +90,6 @@
                 maxLength="25" moreCaption="" user="v_user"></UserFeedList>
         </div>
 
-        <MessageWriterDialog ref="messageWriter" />
 
     </div>
 
@@ -105,7 +104,7 @@ import CommonFunc from 'src/util/CommonFunc';
 import logger from "src/error/Logger";
 
 import UserModel from "src/models/UserModel";
-import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/models/MessageModel";
+//import {MessageThreadModel, MessageThreadListModel, MessageModel, MessageListModel} from "src/models/MessageModel";
 
 import AvatarCropper from "vue-avatar-cropper";
 import CTitle from 'components/CTitle';
@@ -113,7 +112,7 @@ import WButton from 'components/WButton.vue';
 import BlogList from 'components/lists/BlogList';
 import UserFeedList from 'components/lists/UserFeedList';
 import FriendList from 'components/lists/FriendList';
-import MessageWriterDialog from 'components/dialogs/MessageWriterDialog';
+//import MessageWriterDialog from 'components/dialogs/MessageWriterDialog';
 
 import ProfileBox from 'src/pages/user/component/ProfileBox';
 //import PortfolioList from 'src/pages/portfolio/component/PortfolioList';
@@ -125,7 +124,6 @@ export default {
         WButton,
         BlogList,
         AvatarCropper,
-        MessageWriterDialog,
         FriendList,
         UserFeedList,
         ProfileBox
