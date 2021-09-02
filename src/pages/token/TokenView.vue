@@ -4,7 +4,10 @@
 
       <div class="row">
         <div class="col">
-            <CTitle ttype='title' :title="$t('page.trend.title')" :desc="$t ('page.trend.desc')"></CTitle>          
+            <CTitle ttype='title' :title="$t('page.trend.title')" :desc="$t ('page.trend.desc')"
+                loadMoreCaption="Setting">
+            </CTitle>
+
         </div>      
       </div>
 
