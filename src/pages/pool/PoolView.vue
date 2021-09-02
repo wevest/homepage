@@ -327,9 +327,8 @@
 
         <div class="row justify-center q-my-md">
             <div class="q-mx-xs"> 
-                <q-select style="width: 160px" outlined v-model="model" :options="options" :label="$t('button.coinSelect')"  />
+                <q-btn label="" />
             </div>
-            <q-space />
             <div class="q-mt-sm"> 
                 <q-btn color="primary" :label="$t('button.add')" />
             </div>
