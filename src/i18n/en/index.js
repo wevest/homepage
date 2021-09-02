@@ -38,6 +38,11 @@ export default {
 				},
 			},
 		},
+		stopLoss : {
+			coinChoice : {
+				title : '보유중인 코인',
+			},
+		},
 		token : {
 			title: 'token 생성',
 			desc : '',
@@ -51,8 +56,24 @@ export default {
 				title : 'Leverage',
 			},
 		},
+		pool : {
+			title : 'Pool',
+			desc : 'pool description',
+			poolSummary : {
+				title : 'Pool',				
+			},
+			liquidityAdd : {
+				title : 'Liquidity Add',
+			},
+			poolRatio : {
+				title : 'Pooling Ratio',
+			},
+			poolListHere : {
+				title : '유동성 포지션이 여기에 표시됩니다.', 
+			},
+		}
 	},
-// diallog
+	// diallog
 	dialog : {
 		asset : {
 			roi : {
@@ -127,8 +148,29 @@ export default {
 				title : 'Principal',
 			},
 		},
+		pool : {
+			coinChoice : {
+				title : '코인선택',
+			},
+			addLiquidity : {
+				title : 'Add Liquidity',
+			},
+			checking : {
+				title : '확인을 기다리는 중 ...',
+				desc : '지갑에서 이 거래를 확인하세요!',
+				adding : 'Adding',
+			},
+			confirmPayment : {
+				title : 'Confirm Payment',
+				desc : 'This dapp is requesting an action, which could take money from your wallet. Make sure you trust this site',			
+			},
+			exploreView : {
+				title : '제출된 거래',
+				view : 'Explore 에서 보기',
+			},
+		},
 	},
-//Button 
+	//Button 
 	button: {
 		cancel : "cancel",
 		closePosition : "Close Position",
@@ -143,10 +185,17 @@ export default {
 		document : "Document",
 		emergencyKill : "Emergency Kill",
 		information : "Information",
+		addLiquidity : "Add Liquidity",
 		long : "LONG",
 		ok : "ok",
 		short : "SHORT",
 		sl : "S/L",
 		new : "NEW",
+		max : "max",
+		coinSelect : "Select Coin",
+		add : "add",
+		searchPaste : "이름 검색 또는 주소 붙여넣기",
+		manageTokenList : "토큰 목록 관리",
+		close : "ClOSE",
 	},
 }

@@ -7,20 +7,20 @@
                 extraCaption="Add" @onClickTitleExtra="onClickAdd" />
         </div>    
         <div> 
-            풀 개요 (풀의 초기 화면)
+            {{ $t('page.pool.poolSummary.title') }}
         </div>
         <div class="q-my-md text-center"> 
-            <q-btn color="primary" label="유동성 추가 전 단계" />
+            <q-btn color="primary" :label="$t('button.addLiquidity')" />
         </div>
         <div class="gBoarder2 text-center">
             <div class="q-my-lg"> 
                 <q-icon color="grey-7" size="60px" name="move_to_inbox" />
             </div>
             <div class="q-my-md gCaption"> 
-                유동성 포지션이 여기에 표시됩니다. 
+                {{ $t('page.pool.poolListHere.title..') }}
             </div>
             <div class="q-my-lg">  
-                <q-btn color="primary" rounded label="Connect a wallet" />
+                <q-btn color="primary" rounded :label="$t('button.connectWallet')" />
             </div>
         </div>
 <!-- 유동성추가전-page-END -->
@@ -34,20 +34,20 @@
                 extraCaption="Add" @onClickTitleExtra="onClickAdd" />
         </div>   
         <div> 
-            유동성 추가
+            {{ $t('page.pool.liquidityAdd.title') }}
         </div>
         <div class="row justify-center q-my-md">
             <div class="q-mx-xs"> 
-                <q-select style="width: 150px" rounded outlined v-model="model" :options="options" label="Stable Coin" hint="코인을 추가하세요!" />
+                <q-select style="width: 160px" outlined v-model="model" :options="options" :label="$t('button.coinSelect')"  />
             </div>
             <q-space />
             <div class="q-mt-sm"> 
-                <q-btn color="primary" label="ADD" />
+                <q-btn color="primary" :label="$t('button.add')" />
             </div>
         </div>
         <div class="gBoarder2 q-mb-sm q-pa-md"> 
             <div class="q-mb-sm">
-                금액
+                {{ $t('page.pool.poolRatio.title') }}
             </div>
             <div class="full-width">
                 <q-btn-toggle
@@ -79,10 +79,10 @@
                 <q-icon color="grey-7" size="60px" name="move_to_inbox" />
             </div>
             <div class="q-my-md gCaption"> 
-                유동성 포지션이 여기에 표시됩니다. 
+               {{ $t('page.pool.poolListHere.title..') }}
             </div>
             <div class="q-my-lg">  
-                <q-btn color="primary" rounded label="Connect a wallet" />
+                <q-btn color="primary" rounded :label="$t('button.connectWallet')" />
             </div>
         </div>
 <!-- token-create-page-END  -->
@@ -95,7 +95,7 @@
                 <div class="q-pa-md">
                     <div CLASS="row"> 
                         <div>
-                            토큰 선택
+                            {{ $t('dialog.pool.coinChoice.title') }}
                         </div> 
                         <q-space />
                         <div>
@@ -103,7 +103,7 @@
                         </div> 
                     </div>
                     <div> 
-                        <q-input filled v-model="ph" placeholder="이름 검색 또는 주소 붙여 넣기" :dense="dense" />
+                        <q-input filled v-model="ph" :placeholder="$t('button.searchPaste')" :dense="dense" />
                     </div>
                     <q-separator class="q-my-md" />
                     <div class="gBoarder3 q-pa-md">
@@ -161,7 +161,7 @@
                         </div>
                     </div>
                     <div>
-                        <q-btn class="full-width" text-color="primary" outline icon="edit_note" label="토큰 목록 관리" />
+                        <q-btn class="full-width" text-color="primary" outline icon="edit_note" :label="$t('button.manageTokenList')" />
                     </div>
                 </div>
             </q-card-section>
@@ -176,7 +176,7 @@
                 <div class="q-ma-md"> 
                     <div class="row q-pa-md"> 
                         <div> 
-                            유동성 추가
+                            {{ $t('dialog.pool.addLiquidity.title')}}
                         </div>
                         <q-space />
                         <div> 
@@ -189,7 +189,7 @@
                         <div> $350 </div>
                     </div>   
                     <div class="text-center q-mt-lg"> 
-                        <q-btn rounded color="primary" label="Confirm" />
+                        <q-btn rounded color="primary" :label="$t('button.confirm')" />
                     </div>        
                 </div>
             </q-card-section>
@@ -211,18 +211,18 @@
                     <q-spinner color="primary" size="4em" />
                 </div> 
                 <div class="text-center text-bold">
-                    확인을 기다리는 중    
+                    {{ $t('dialog.pool.checking.title')}}    
                 </div>
                 <div class="row justify-center q-ma-md">
                     <div class="q-mr-md"> 
-                        Adding 
+                        {{ $t('dialog.pool.checking.adding')}}
                     </div>
                     <div> 
                         51.8775 USDT
                     </div>
                 </div>
                 <div class="text-center q-mb-md">  
-                    지갑에서 이 거래를 확인하세요!
+                    {{ $t('dialog.pool.checking.desc')}}
                 </div>
             </q-card-section>
         </q-card>
@@ -235,60 +235,55 @@
             <q-card-section>
                 <div class="q-mb-md">
                     <div class="gDialogTitle"> 
-                        Confirm Payment
+                        {{ $t('dialog.pool.confirmPayment.title')}}
                     </div>
                     <div class="gCaption">
                         https://app.wevest.io/#/remove/
                     </div>
                 </div>
                 <div> 
-                    This dapp is requesting an action, which could take money from your wallet.
-                    Make sure you trust this site.
+                    {{ $t('dialog.pool.confirmPayment.desc')}}
                 </div>
                 <q-separator class="q-my-md" />
                 <div class="row justify-center">
                     <div class="q-mr-sm"> 
-                        <q-btn rounded text-color="primary" label="Cancel" />
+                        <q-btn rounded text-color="primary" :label="$t('button.cancel')" />
                     </div>
                     <div class="q-ml-sm"> 
-                        <q-btn rounded color="primary" label="Confirm" />
+                        <q-btn rounded color="primary" :label="$t('button.confirm')" />
                     </div>
                 </div>
 
             </q-card-section>
         </q-card>
+
 <!-- Confirm-Payment-dialog-END -->
-
 <q-separator class="q-my-lg" color="orange" size="10px" inset />
-
 <!-- 제출된거래-dialog-START -->
+
         <q-card> 
             <q-card-section> 
-                <div class="registered"> 
-                    <div class="row">
-                        <q-space /> 
-                        <div> 
-                            <q-btn flat icon="close" />
-                        </div> 
-                    </div>
+                <div class="" align="center"> 
                     <div class="q-my-lg"> 
                         <q-icon color="primary" size="4rem" name="arrow_circle_up" />
                     </div>
                     <div class="gDialogTitle q-my-md"> 
                         제출된 거래 
                     </div>
-                    <div class=""> 
-                        Explore에서 보기  
+                    <div class="q-py-md"> 
+                        <q-btn text-color="primary" flat :label="$t('dialog.pool.exploreView.view')" />  
                     </div>
                     <div class="q-my-md "> 
-                        <q-btn rounded color="primary" label="close" />
+                        <q-btn rounded color="primary" :label="$t('button.close')" />
                     </div>
                 </div>
             </q-card-section>
         </q-card>
+
 <!-- 제출된거래-dialog-END -->
 <q-separator class="q-my-lg" color="orange" size="10px" inset />
 <!-- 유동성제거-page-START -->
+        
         <div class="">
             <CTitle ttype='title' 
                 :title="$t('page.pool.title')" :desc="$t('page.pool.desc')" 
@@ -520,9 +515,6 @@ export default {
 
 <style scoped>
 
-.registered div {
-    text-align: center;
-}
 
 .poolList div {
     margin: 10px;
