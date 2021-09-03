@@ -197,5 +197,7 @@ export default {
 		searchPaste : "이름 검색 또는 주소 붙여넣기",
 		manageTokenList : "토큰 목록 관리",
 		close : "ClOSE",
+		liquidityAdd : "Liquidity Add",
+		liquidityRemove : "Liquidity Remove",
 	},
 }
