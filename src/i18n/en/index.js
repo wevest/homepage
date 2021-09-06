@@ -160,6 +160,11 @@ export default {
 				desc : '지갑에서 이 거래를 확인하세요!',
 				adding : 'Adding',
 			},
+			checking : {
+				title : '확인을 기다리는 중 ...',
+				desc : '지갑에서 이 거래를 확인하세요!',
+				removing : 'Removing',
+			},
 			confirmPayment : {
 				title : 'Confirm Payment',
 				desc : 'This dapp is requesting an action, which could take money from your wallet. Make sure you trust this site',			
@@ -167,6 +172,9 @@ export default {
 			exploreView : {
 				title : '제출된 거래',
 				view : 'Explore 에서 보기',
+			},
+			removeLiquidity : {
+				title : 'Remove Liquidity'
 			},
 		},
 	},
