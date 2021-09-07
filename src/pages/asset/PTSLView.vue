@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="q-ma-md"> 
         <div class="row">
             <div class="col">
                 <CTitle :title="$t('page.stopLoss.title')" :desc="$t('page.stopLoss.desc')">
@@ -7,23 +7,22 @@
             </div>
         </div>
         <div class="gBoarder q-pa-md"> 
-            <div class="text-bold">
-                {{ $t('page.stopLoss.coinChoice.title') }}
+            <div class="gSubTitle">
+                {{ $t('page.stopLoss.coinSelect.title') }}
             </div>
             <div class="q-my-md">
                 <q-select  style="width: 200px" outlined v-model="v_position.asset" :options="v_assets" label="USDT" />
             </div>
             <div class="row justify-between">  
-                <div>주문가능</div>
-                <div class="text-right">
+                <div class="gSubTitle">
+                    주문가능
+                </div>
+                <div class="text-right text-subtitle2">
                     <div>9.97777774333 DOT</div>
                     <div >= 376,000 USDT</div>
                 </div>
             </div>  
-            <div class="row justify-between">
-                <div class="q-my-md"> 
-                    <q-input  type="number" outlined filled v-model="v_position.portion" placeholder="수량" />
-                </div>
+            <div class="row q-ma-md justify-between">
                 <div class="full-width">
                     <q-btn-toggle
                         v-model="v_position.portion"
@@ -38,18 +37,28 @@
                 </div>    
             </div>
             <div class="row justify-between"> 
-                    <div class="q-my-md" style="width: 200px"> 
+                <div>
+                    수량
+                </div>
+                <div class="q-my-md full-width"> 
+                    <q-input  type="number" outlined filled v-model="v_position.portion" placeholder="수량" />
+                </div>
+                <div> 
+                    가격
+                </div>
+                <div class="q-my-md full-width" style="width: 200px"> 
                     <q-input  type="number" filled outline v-model="v_position.stop_price" placeholder="가격" />
                 </div>
-                <div class="row q-my-md">
+                <!-- <div class="row q-my-md">
                     <div class="q-mr-xs">
                         <q-btn color="grey-5" outline text-color="grey-10" icon="add" />
                     </div> 
                     <div>
                         <q-btn color="grey-5" outline text-color="grey-10" icon="remove" />
                     </div> 
-                </div> 
+                </div>  -->
             </div>
+            <div>총액</div>
             <div class="q-my-md"> 
                 <q-input  class="full-width" type="number" outlined filled v-model="v_position.estimated_value" placeholder="총액" />
             </div>
@@ -67,19 +76,19 @@
             </div>
             <div> 
                 <div class="row justify-between">
-                    <div>매수평균가</div>
+                    <div>{{ $t('page.stopLoss.asset.avgPurchase.title') }}</div>
                     <div>100,000,000</div>
                 </div>
                 <div class="row justify-between">
-                    <div>평가금액</div>
+                    <div>{{ $t('page.stopLoss.asset.value.title') }}</div>
                     <div>120,000,000</div>
                 </div>
                 <div class="row justify-between">
-                    <div>평가손익</div>
+                    <div>{{ $t('page.stopLoss.asset.pl.title') }}</div>
                     <div style="color: red">20,000,000</div>
                 </div>
                 <div class="row justify-between">
-                    <div>수익률</div>
+                    <div>{{ $t('page.stopLoss.asset.roi.title') }}</div>
                     <div style="color: red">20%</div>
                 </div>
             </div> 

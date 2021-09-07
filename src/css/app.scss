@@ -68,6 +68,11 @@
   margin: map-get($space-xl, "y") 0px map-get($space-lg, "y") 0px;
 }
 
+.gSubTitle {
+  color : #000000;
+  font-size : 18px;
+}
+
 .gListTitle {
   font-size: map-get($subtitle1, "size");
   line-height: map-get($subtitle1, "line-height");

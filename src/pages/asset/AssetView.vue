@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="gBoarder"> 
-            <div class="q-pa-md text-bold">
+            <div class="q-pa-md gSubTitle">
                 {{ $t('page.asset.pool.title') }}
             </div>  
             <div class="gBoarder2 q-mx-lg q-mb-md"> 
@@ -25,7 +25,7 @@
                     </div>
                 </div>
             </div>
-            <div class="q-pa-md text-bold">
+            <div class="q-pa-md gSubTitle">
                 {{ $t('page.asset.token.title') }}
             </div>  
             <div class="gBoarder2 q-mx-lg q-mb-sm" 
@@ -55,7 +55,7 @@
                 <q-btn color="red" :label="$t('button.emergencyKill')" />
             </div>          
 
-            <div class="q-pa-md text-bold">
+            <div class="q-pa-md gSubTitle">
                 {{ $t('page.asset.poolIncome.title') }}
             </div>  
             <div class="q-mx-lg"> 

@@ -39,8 +39,25 @@ export default {
 			},
 		},
 		stopLoss : {
-			coinChoice : {
+			title : 'Stop Loss',
+			desc : 'description',	
+			coinSelect : {
 				title : '보유중인 코인',
+			},
+			asset : {
+				title : '보유자산',
+				avgPurchase : {
+					title : '매수평균가'
+				},
+				value : {
+					title : '평가금액'
+				},
+				pl : {
+					title : '평가손익'
+				},
+				roi : {
+					title : '수익률'
+				},
 			},
 		},
 		token : {
@@ -59,21 +76,33 @@ export default {
 		pool : {
 			title : 'Pool',
 			desc : 'pool description',
-			poolSummary : {
-				title : 'Pool',				
+			poolsOverview : {
+				title : 'Pools Overview',				
 			},
-			liquidityAdd : {
-				title : 'Liquidity Add',
+			poolSummary : {
+				title : 'Pool Summary'
+			},
+			addLiquidity : {
+				title : 'Add Liquidity',
 			},
 			poolRatio : {
 				title : 'Pooling Ratio',
 			},
-			poolListHere : {
-				title : '유동성 포지션이 여기에 표시됩니다.', 
+			poolList : {
+				desc : 'Your liquidity position will appear here.', 
 			},
-		}
+		},
+		poolDetail : {
+			liquidity : {
+				title : 'Liquidity',
+			},
+			fee : {
+				title : 'Fee',
+			},
+			
+		},
 	},
-	// diallog
+	
 	dialog : {
 		asset : {
 			roi : {
@@ -149,22 +178,19 @@ export default {
 			},
 		},
 		pool : {
-			coinChoice : {
-				title : '코인선택',
-			},
 			addLiquidity : {
 				title : 'Add Liquidity',
+			},
+			coinChoice : {
+				title : '코인선택',
 			},
 			checking : {
 				title : '확인을 기다리는 중 ...',
 				desc : '지갑에서 이 거래를 확인하세요!',
 				adding : 'Adding',
-			},
-			checking : {
-				title : '확인을 기다리는 중 ...',
-				desc : '지갑에서 이 거래를 확인하세요!',
 				removing : 'Removing',
 			},
+		
 			confirmPayment : {
 				title : 'Confirm Payment',
 				desc : 'This dapp is requesting an action, which could take money from your wallet. Make sure you trust this site',			
@@ -175,6 +201,9 @@ export default {
 			},
 			removeLiquidity : {
 				title : 'Remove Liquidity'
+			},
+			connectToWallet : {
+				title : 'Connect to a wallet',
 			},
 		},
 	},
@@ -196,6 +225,7 @@ export default {
 		addLiquidity : "Add Liquidity",
 		long : "LONG",
 		ok : "ok",
+		newPosition : "New Position",
 		short : "SHORT",
 		sl : "S/L",
 		new : "NEW",
