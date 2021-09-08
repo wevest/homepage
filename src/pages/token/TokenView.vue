@@ -17,35 +17,15 @@
                 <q-btn size="12px" dense flat color="grey-8" icon="content_copy" />
             </div>
             <div class="">
-                <q-btn size="12px" dense color="grey-8" flat icon="more_vert">
-                    <q-menu>
-                    <q-list style="min-width: 150px">
-                        <q-item clickable v-close-popup @click="onItemClick">
-                        <q-item-section>
-                            <q-item-label>{{ $t('button.information') }}</q-item-label>
-                        </q-item-section>
-                        </q-item>
-
-                        <q-item clickable v-close-popup @click="onItemClick">
-                        <q-item-section>
-                            <q-item-label>{{ $t('button.document') }}</q-item-label>
-                        </q-item-section>
-                        </q-item>
-
-                        <q-item clickable v-close-popup @click="onItemClick">
-                        <q-item-section>
-                            <q-item-label>{{ $t('button.code') }}</q-item-label>
-                        </q-item-section>
-                        </q-item>
-                    </q-list>
-                    </q-menu>
-                </q-btn>
+                <WMoreButton ref="moreButtons" 
+                    :buttons="v_more_buttons" 
+                    @onClick="onClickMoreButton" />
             </div>
         </div>
         <div class="gBoarder q-pa-md">
             <div class="row justify-between">
                 <div>
-                    <q-select  style="width: 200px" outlined v-model="model" :options="options" label="USDT" />
+                    <q-select  style="width: 200px" outlined v-model="v_asset" :options="v_options" label="USDT" />
                 </div>
                 <div class="q-mt-sm text-h6">
                     0.0
@@ -71,16 +51,16 @@
             <div class="q-pb-sm text-subtitle2">{{ $t('page.token.position.title') }}</div>
             <div class="full-width">
                 <q-btn-toggle
-                v-model="v_direction"
-                spread
-                no-caps
-                toggle-color="primary"
-                color="white"
-                text-color="black"
-                :options="[
-                {label: 'LONG', value: 'long'},
-                {label: 'SHORT', value: 'short'}
-                ]"  />
+                    v-model="v_direction"
+                    spread
+                    no-caps
+                    toggle-color="primary"
+                    color="white"
+                    text-color="black"
+                    :options="[
+                    {label: 'LONG', value: 'long'},
+                    {label: 'SHORT', value: 'short'}
+                    ]"  />
             </div>
         </div>
         <div class="gBoarder q-pa-md">
@@ -105,12 +85,12 @@
             </div> 
         </div>
         <div class="q-mt-md">
-            <q-btn class="full-width" rounded color="primary" outline :label="$t('button.connectWallet')"/>
+            <q-btn class="full-width" rounded color="primary" outline :label="$t('button.connectWallet')" @click="onClickMint" />
         </div>
 
-    <q-separator class="q-my-lg" color="orange" size="10px" inset />
     
     <!-- Connect-a-wallet-dialog-START : -->
+    <q-dialog v-model="v_dialog_wallet">
         <q-card>
             <q-card-section>
                 <div class="row justify-between">
@@ -135,17 +115,19 @@
                     <q-btn class="full-width q-my-sm q-pa-xs" color="grey-2" text-color="primary" icon-right="paid" label="Wallet Name 3" />
             </q-card-actions>
         </q-card>
+    </q-dialog>
+
     <!-- Connect-a-wallet-dialog-END -->
-    <q-separator class="q-my-lg" color="orange" size="10px" inset />
 
     <!-- Confirm-Buy-dialog-START-->
+    <q-dialog v-model="v_dialog_confirm_long">
         <q-card>
             <q-card-section class="row justify-between">
                 <div class="text-h6">
                      {{ $t('dialog.token.confirmLong.title') }}
                 </div>
                 <div class=""> 
-                    <q-btn flat icon="close" />
+                    <q-btn flat icon="close" v-close-popup />
                 </div>
             </q-card-section>
             <q-card-section>
@@ -173,18 +155,21 @@
                 </div>
             </q-card-section>
             <q-card-section>
-                    <q-checkbox v-model="right" label="Don't show again. You can change this in (Futures-Preference)." />
+                    <q-checkbox v-model="v_show_confirm" label="Don't show again. You can change this in (Futures-Preference)." />
             </q-card-section>
             <q-card-actions align="center">
                 <div class="q-mb-md">
-                    <q-btn class="q-pa-xs" rounded color="primary" :label="$t('button.confirmLong')" />
+                    <q-btn class="q-pa-xs" rounded color="primary" :label="$t('button.confirmLong')" @click="onClickConfirm" />
                 </div>
             </q-card-actions>
             
         </q-card>
+    </q-dialog>
+
     <!-- Confirm-Buy-dialog-END-->
-    <q-separator class="q-my-lg" color="orange" size="10px" inset />
+    
     <!-- Confirm-Short-dialog-START-->
+    <q-dialog v-model="v_dialog_confirm_short">
         <q-card>
             <q-card-section class="row justify-between">
                 <div class="text-h6">
@@ -219,7 +204,7 @@
                 </div>
             </q-card-section>
             <q-card-section>
-                    <q-checkbox v-model="right" label="Don't show again. You can change this in (Futures-Preference)." />
+                    <q-checkbox v-model="v_show_confirm" label="Don't show again. You can change this in (Futures-Preference)." />
             </q-card-section>
             <q-card-actions align="center">
                 <div class="q-mb-md">
@@ -227,10 +212,12 @@
                 </div>
             </q-card-actions>
         </q-card>
+    </q-dialog>
+
     <!-- Confirm-Short-dialog-END-->
-    <q-separator class="q-my-lg" color="orange" size="10px" inset />
     
     <!-- 발행완료-dialog-END -->
+    <q-dialog v-model="v_dialog_done">
         <q-card>
             <q-card-section> 
                 <div class="text-center"> 
@@ -246,15 +233,17 @@
                 </div>
             </q-card-section>
             <q-card-actions align="center">
-                        <div class="q-py-lg">
-                            <q-btn class="q-pa-xs" rounded color="primary" :label="$t('button.completePosition')" />
-                        </div>
+                <div class="q-py-lg">
+                    <q-btn class="q-pa-xs" rounded color="primary" :label="$t('button.completePosition')" />
+                </div>
             </q-card-actions>
         </q-card>
-        <!-- 발행완료-dialog-END -->
-        <q-separator class="q-my-lg" color="orange" size="10px" inset />
+    </q-dialog>
+    
+    <!-- 발행완료-dialog-END -->
 
-        <!-- 토큰생성완료-page Start-->
+    <!-- 토큰생성완료-page Start-->
+    <q-dialog v-model="v_dialog_new">
         <div class="q-pa-md">
             <div class="gBoarder">
                 <div class="row q-mt-md justify-center gSubTitleLG">
@@ -313,11 +302,13 @@
                     </div>
                 </div>
                 <div class="q-my-lg text-center">
-                    <q-btn color="primary" :label="$t('button.new')"/>
+                    <q-btn color="primary" :label="$t('button.close')" v-close-popup />
                 </div>
             </div>
         </div>
-        <!-- 토큰생성완료-page End -->
+    </q-dialog>
+    <!-- 토큰생성완료-page End -->
+
     </div>
 </template>
 
@@ -327,10 +318,12 @@ import APIService from 'src/services/apiService';
 import logger from "src/error/Logger";
 
 import CTitle from 'components/CTitle';
+import WMoreButton from "src/components/WMoreButton";
 
 export default {
     components: {
         CTitle,
+        WMoreButton
     },
     data: function() {
         return {
@@ -341,11 +334,20 @@ export default {
             v_leverage: '3',
             v_utilization: '100',
             v_direction:'long',
-
-            v_page: {title: this.$t('page.trend.title'), desc:'' },
             
-            v_visible_table: false,
+            v_asset:null,
+            v_options: ['USDT'],
+            
+            v_more_buttons: this.$t('button.information')+"|"+this.$t('button.document')+"|"+this.$t('button.code'),
+                        
+            v_dialog_confirm_long: false,
+            v_dialog_confirm_short: false,
+            v_dialog_done: false,
+            v_dialog_new: false,
+            v_dialog_wallet: false,
 
+            v_show_confirm: true,
+            
         }
 
     },
@@ -417,118 +419,32 @@ export default {
         },
 
 
-        loadDailySummaryData(exchange) {
-            const _this = this;
-
-            return new Promise(function(resolve,reject) {
-                let a_today = CommonFunc.getToday(false);
-                //logger.log.debug("HomeView.loadjw52 - today=",a_today);
-                let a_start_date = CommonFunc.addDays(a_today, 30*-1 );
-                let a_end_date = CommonFunc.addDays(a_today, 1 );
-                
-                let dic_param = {start_date:a_start_date, end_date:a_end_date, freq:'D', exchange:exchange};
-                logger.log.debug("HomeView.getCryptoMarketDailySummary - dic_param=",dic_param);
-
-                APIService.getCryptoMarketDailySummary(dic_param,function(response) {
-                    _this.g_data_summary = response.data.data;
-                    logger.log.debug("HomeView.getCryptoMarketDailySummary - response",_this.g_data_summary);
-                    _this.updateAssetTable(_this.g_data_summary);
-                    //logger.log.debug("HomeView.search - json_data",_this.g_json_data);
-                    //_this.$refs.sectorTable.update(_this.g_data);
-                    resolve();
-                },function(err) {
-                    logger.log.error("HomeView.getCryptoMarketDailySummary - error",err);
-                    reject();
-                });
-            });            
+        onClickAdd() {
+            logger.log.debug('onLoad - ');
+        },
+        
+        onClickMint() {
+            this.v_dialog_confirm_long = true;
         },
 
-        updateAssetTable(json_data) {
-
-            let dic_columns = CommonFunc.getColumnDic(json_data['summary'].columns,[],[]);
-
-            let a_table_items = [];
-            
-            let row_index = json_data['summary'].values.length-2;
-            for (var col_index=0;col_index<json_data['summary'].columns.length;col_index++) {
-                var a_column = json_data['summary'].columns[col_index];
-                if (a_column.search('_')>-1) {
-                    continue;
-                }
-                
-                var a_item = { 
-                    trade_date: json_data['summary'].values[row_index][dic_columns['trade_date']],
-                    token: a_column,
-                    price: json_data['summary'].values[row_index][dic_columns[a_column]],
-                    volume: json_data['summary'].values[row_index][dic_columns[a_column+'_volume']],
-                    volume_ret: json_data['summary'].values[row_index][dic_columns[a_column+'_volume_ret']],
-                    volume_z: json_data['summary'].values[row_index][dic_columns[a_column+'_volume_zscore']],
-                    ret: json_data['summary'].values[row_index][dic_columns[a_column+'_ret']],
-                    rank_pct: json_data['summary'].values[row_index][dic_columns[a_column+'_rank']],                    
-                };                 
-                      
-                a_table_items.push(a_item);                
-            }
-
-            //this.$refs.momentumTable.update('D','',3)
-            this.$refs.assetTable.setData(a_table_items);
-
-            logger.log.debug('asset_table=',a_table_items);
-
-            return a_table_items;
+        onClickConfirm() {
+            this.v_dialog_confirm_long = false;
+            this.v_dialog_confirm_short = false;
+            this.v_dialog_new = true;
         },
 
-        updateWidget(obj,json_data,exchange) {
-            let data = json_data[exchange];
-            //logger.log.debug('data=',data);
-            let dic_columns = CommonFunc.getColumnDic(data['overall'].columns,[],[]);            
-            //logger.log.debug('dic_columns=',dic_columns);
-            let column_index = dic_columns['index_ret'];
-            let column_index2 = dic_columns['price_avg'];
-            let widget = this[obj];
+        onClickMoreButton(dicParam) {
+            logger.log.debug("MainLayout.onClickMoreButton : dicParam=",dicParam);
+            if ((dicParam.caption.toLowerCase()=='logout') || (dicParam.caption=='로그아웃')) {
+                this.onClickSignOut();
+            } else if ( (dicParam.caption.toLowerCase()=='profile') || (dicParam.caption=='프로파일')) {
+				this.onClickUser();
+			} else if ( (dicParam.caption.toLowerCase()=='bookmark') || (dicParam.caption=='북마크')) {
+				NavFunc.navBookmark(this);
+			}
 
-            for (let a_category in widget) {
-                //console.log('category=',a_category);
-                let a_value = data[a_category].values[data[a_category].values.length-1][column_index];
-                let a_index = data[a_category].values[data[a_category].values.length-1][column_index2];                
-
-                widget[a_category]['index'] = a_index;
-                widget[a_category]['endVal'] = parseFloat(CommonFunc.formatNumber(a_value*100,4));
-                if (a_value>0) {
-                    widget[a_category]['color'] = 'bg-success';
-                    widget[a_category]['arrow'] = 'angle-up';
-                } else {
-                    widget[a_category]['color'] = 'bg-danger';
-                    widget[a_category]['arrow'] = 'angle-down';
-                }                
-            }
         },
 
-        showChart(asset,dates,a_date) {
-            logger.log.debug('HomeView.showChart=',asset);        
-            //this.items_52w = json_list;
-            this.$refs.chartWinner.update('gaia_crypto_trend_upbit',asset,dates);
-        },
-
-
-        onLoad(progress) {
-            logger.log.debug('onLoad - ',progress);
-        },
-
-        onClickCategory(exchange,category) {
-            //console.log('onClickCategory - ',category);
-            if (exchange=='upbit') {
-                this.$refs.csectorUpbitChart.update(this.g_data[exchange],category);
-            } else {
-                this.$refs.csectorBithumbChart.update(this.g_data[exchange],category);                
-            }
-            
-        },
-
-        onClickTimeframe(atype,ioffset) {
-            logger.log.debug('onClickTimeframe - ',atype,ioffset);            
-            this.loadDailyOverviewData(ioffset);
-        }
 
     },
 
