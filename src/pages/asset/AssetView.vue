@@ -76,7 +76,10 @@
                 </div>
             </div>
         </div>
-        
+        <div class="q-my-lg text-center"> 
+            <q-btn flat color="primary" label="언어: English" />
+        </div>
+
         
         <!-- 청산전 asset-Page-끝-->
         <!-- Asset-detail-dialog-시작 -->
@@ -84,9 +87,11 @@
         <q-dialog v-model="v_dialog_token" position="bottom">
             <div class="gBoarder2 q-mx-lg">
                 <div class="q-pa-md">
+                    <div class="text-right">
+                        <q-btn flat size="16px" label="X" @click="onClickCloseTokenDialog" />
+                    </div>    
                     <div class="row justify-center gSubTitleLG">
                         <div class="q-ma-xs">wETH 3x Long</div>
-                        <q-btn label="X" @click="onClickCloseTokenDialog" />
                     </div>
                     <q-separator class="q-my-md" />
                     <div class="q-mx-md">

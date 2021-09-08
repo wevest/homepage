@@ -85,7 +85,7 @@
             </div> 
         </div>
         <div class="q-mt-md">
-            <q-btn class="full-width" rounded color="primary" outline :label="$t('button.connectWallet')" @click="onClickMint" />
+            <q-btn class="full-width" rounded color="primary" outline :label="$t('button.create')" @click="onClickMint" />
         </div>
 
     
@@ -162,7 +162,6 @@
                     <q-btn class="q-pa-xs" rounded color="primary" :label="$t('button.confirmLong')" @click="onClickConfirm" />
                 </div>
             </q-card-actions>
-            
         </q-card>
     </q-dialog>
 
@@ -228,7 +227,7 @@
                         <span class="gCaption">Reverage Ratio:</span> 3x      
                     </div>
                     <div class="q-py-md">
-                        <span class="gCaption">position:</span> LONG 
+                        <span class="gCaption">Position:</span> LONG 
                     </div>
                 </div>
             </q-card-section>
@@ -243,16 +242,16 @@
     <!-- 발행완료-dialog-END -->
 
     <!-- 토큰생성완료-page Start-->
-    <q-dialog v-model="v_dialog_new">
-        <div class="q-pa-md">
-            <div class="gBoarder">
-                <div class="row q-mt-md justify-center gSubTitleLG">
+    <q-dialog v-model="v_dialog_new" > 
+        <q-card >
+            <q-card-section>
+                <div class="row q-mb-md justify-center text-h6">
                         <div class="q-mr-sm">wETH</div>
                         <div class="q-mr-sm" >3x</div>
                         <div>LONG</div>
                 </div>
-                <div class="q-mx-lg issuance">
-                    <div class="gBoarder2 q-pa-md">
+                <div class="" style="min-width: 270px">
+                    <div class="gBoarder2 q-pa-sm q-my-sm" >
                         <div class="row"> 
                             <div>{{ $t('dialog.token.roi.title') }}</div>
                             <q-space />
@@ -264,7 +263,7 @@
                             <div>$3,800</div> 
                         </div> 
                     </div>
-                    <div class="gBoarder2 q-pa-md">
+                    <div class="gBoarder2 q-pa-sm q-my-sm" >
                         <div class="row"> 
                             <div>{{ $t('dialog.token.totalAmount.title') }}</div>
                             <q-space />
@@ -276,7 +275,7 @@
                             <div>$180</div> 
                         </div> 
                     </div>
-                    <div class="gBoarder2 q-pa-md">
+                    <div class="gBoarder2 q-pa-sm q-my-sm">
                         <div class="row"> 
                             <div>{{ $t('dialog.token.totalPurchase.title') }}</div>
                             <q-space />
@@ -288,7 +287,7 @@
                             <div>$500</div> 
                         </div> 
                     </div>
-                    <div class="gBoarder2 q-pa-md">
+                    <div class="gBoarder2 q-pa-sm q-my-sm" >
                         <div class="row"> 
                             <div>{{ $t('dialog.token.purchasePrice.title') }}</div>
                             <q-space />
@@ -301,11 +300,11 @@
                         </div> 
                     </div>
                 </div>
-                <div class="q-my-lg text-center">
-                    <q-btn color="primary" :label="$t('button.close')" v-close-popup />
-                </div>
-            </div>
-        </div>
+            </q-card-section>
+            <q-card-actions class="q-mb-md" align="center">
+                <q-btn color="primary" :label="$t('button.close')" v-close-popup />
+            </q-card-actions>
+        </q-card>
     </q-dialog>
     <!-- 토큰생성완료-page End -->
 

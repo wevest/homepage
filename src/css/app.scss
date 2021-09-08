@@ -18,12 +18,7 @@
   background-color: white;  
 }
 
-.gDialogTitle {
-  font-size: map-get($subtitle1, "size");
-  font-weight: map-get($text-weights, "bold");
-  line-height: map-get($subtitle2, "line-height");
-  letter-spacing: map-get($subtitle2, "letter-spacing");  
-}
+
 
 // 
 
@@ -72,6 +67,12 @@
   color : #000000;
   font-size : 18px;
 }
+.gDialgTitle {
+  color : #000000;
+  font-size : 17px;
+}
+
+
 
 .gListTitle {
   font-size: map-get($subtitle1, "size");

@@ -181,8 +181,8 @@ export default {
 			addLiquidity : {
 				title : 'Add Liquidity',
 			},
-			coinChoice : {
-				title : '코인선택',
+			tokenPick : {
+				title : '토큰선택',
 			},
 			checking : {
 				title : '확인을 기다리는 중 ...',
@@ -205,6 +205,9 @@ export default {
 			connectToWallet : {
 				title : 'Connect to a wallet',
 			},
+			selectCoin : {
+				title : 'Select Coin',
+			},
 		},
 	},
 	//Button 
@@ -219,10 +222,12 @@ export default {
 		confirmLong : "Confirm Long",
 		confirmSell : "Confirm Sell",
 		confirmShort : "Confirm Short",
+		create : 'CREATE',
 		document : "Document",
 		emergencyKill : "Emergency Kill",
 		information : "Information",
 		addLiquidity : "Add Liquidity",
+		removeLiquidity : "Remove Liquidity",
 		long : "LONG",
 		ok : "ok",
 		newPosition : "New Position",
@@ -235,7 +240,5 @@ export default {
 		searchPaste : "이름 검색 또는 주소 붙여넣기",
 		manageTokenList : "토큰 목록 관리",
 		close : "ClOSE",
-		liquidityAdd : "Liquidity Add",
-		liquidityRemove : "Liquidity Remove",
 	},
 }

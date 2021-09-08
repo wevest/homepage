@@ -10,10 +10,10 @@
         </div>
         <div class="row justify-center q-my-md">
             <div class="q-ma-sm"> 
-                <q-btn :label="$t('button.liquidityAdd')" @click="onClickAdd" />
+                <q-btn :label="$t('button.addLiquidity')" @click="onClickAdd" />
             </div>
             <div class="q-ma-sm"> 
-                <q-btn color="red" :label="$t('button.liquidityRemove')" />
+                <q-btn color="red" :label="$t('button.removeLiquidity')" />
             </div>
         </div>
 

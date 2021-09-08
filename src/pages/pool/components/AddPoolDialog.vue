@@ -7,22 +7,22 @@
         <q-dialog v-model="v_dialog_asset">
             <q-card>
                 <q-card-section>
-                    <div class="q-pa-md">
-                        <div CLASS="row"> 
-                            <div class="gSubTitle">
-                                {{ $t('dialog.pool.coinChoice.title') }}
+                    <div class="q-px-md" style="min-width: 280px">
+                        <div CLASS="row q-mb-sm"> 
+                            <div class="gDialogTitle">
+                                {{ $t('dialog.pool.tokenPick.title') }}
                             </div> 
                             <q-space />
-                            <div>
-                                <q-btn flat icon="close" v-close-popup />
+                            <div class="text-right">
+                                <q-btn size="11px" flat icon="close" v-close-popup />
                             </div> 
                         </div>
                         <div> 
-                            <q-input filled v-model="v_search" :placeholder="$t('button.searchPaste')" dense />
+                            <q-input outlined v-model="v_search" :placeholder="$t('button.searchPaste')" dense />
                         </div>
                         <q-separator class="q-my-md" />
-                        <div class="gBoarder3 q-pa-md">
-                            <div class="row q-my-sm">
+                        <div class="">
+                            <div class="row q-my-md">
                                 <div class="q-mr-sm">
                                     <q-icon size="40px" name="paid" />
                                 </div> 
@@ -31,11 +31,11 @@
                                     <div class="gCaption">Ethereum</div> 
                                 </div> 
                                 <q-space />
-                                <div class="text-h6">
+                                <div class="text-subtitle2">
                                     0.07354
                                 </div> 
                             </div>
-                            <div class="row q-my-sm">
+                            <div class="row q-my-md">
                                 <div class="q-mr-sm">
                                     <q-icon size="40px" name="paid" />
                                 </div> 
@@ -44,11 +44,11 @@
                                     <div class="gCaption">1Inch</div> 
                                 </div> 
                                 <q-space />
-                                <div class="text-h6">
+                                <div class="text-subtitle2">
                                     98.14
                                 </div> 
                             </div>
-                            <div class="row q-my-sm">
+                            <div class="row q-my-md">
                                 <div class="q-mr-sm">
                                     <q-icon size="40px" name="paid" />
                                 </div> 
@@ -57,11 +57,11 @@
                                     <div class="gCaption">AaveToken</div> 
                                 </div> 
                                 <q-space />
-                                <div class="text-h6">
+                                <div class="text-subtitle2">
                                     0
                                 </div> 
                             </div>
-                            <div class="row">
+                            <div class="row q-my-md">
                                 <div class="q-mr-sm">
                                     <q-icon size="40px" name="paid" />
                                 </div> 
@@ -70,13 +70,13 @@
                                     <div class="gCaption">Aragon Network Token</div> 
                                 </div> 
                                 <q-space />
-                                <div class="text-h6">
+                                <div class="text-subtitle2">
                                     0
                                 </div> 
                             </div>
                         </div>
                         <div>
-                            <q-btn class="full-width" text-color="primary" outline icon="edit_note" :label="$t('button.manageTokenList')" @click="onClickAsset" />
+                            <q-btn class="full-width" text-color="primary" outline :label="$t('button.confirm')" @click="onClickAsset" />
                         </div>
                     </div>
                 </q-card-section>
@@ -85,51 +85,71 @@
 
     <!-- 유동성추가1-코인선택-dialog-END -->
         <q-dialog v-model="v_dialog_portion">
-            <div class="gSubTitle"> 
-                {{ $t('page.pool.addLiquidity.title') }}
-            </div>
-            <div class="row q-my-md">
-                <div class="q-mx-xs"> 
-                    <q-select style="width: 180px" outlined v-model="v_asset" :options="v_options" :label="$t('button.coinSelect')"  />
-                </div>
-            </div>
-            <div class="gBoarder2 q-mb-sm q-pa-md"> 
-                <div class="q-mb-sm gSubTitle">
-                    {{ $t('page.pool.poolRatio.title') }}
-                </div>
-                <div class="full-width">
-                    <q-btn-toggle
-                    v-model="v_utilization"
-                    toggle-color="primary"
-                    spread
-                    :options="[
-                        {label: '0%', value: '0'},
-                        {label: '25%', value: '25'},
-                        {label: '50%', value: '50'},
-                        {label: '75%', value: '75'}, 
-                        {label: '100%', value: '100'} 
-                        ]" />
-                </div>   
-                <q-btn label="Add" @click="onClickAdd2" />
-            </div>
+            <q-card>
+                <q-card-section>
+                    <div class="q-ma-md" style="min-width: 280px"> 
+                        <div class="row">
+                            <div class="q-my-sm gSubTitle">
+                                {{ $t('page.pool.addLiquidity.title') }}
+                            </div>
+                            <q-space />
+                            <div  lass="q-my-sm gSubTitle">
+                                <q-btn flat icon="close" v-close-popup />  
+                            </div>
+                        </div>
+                            <q-separator class="q-my-md" />
+                        <div class="q-my-sm gDialogTitle">
+                            {{ $t('dialog.pool.selectCoin.title') }}
+                        </div>
+                        <div class="q-mx-xs q-my-sm"> 
+                            <q-select style="width: 180px" outlined v-model="v_asset" :options="v_options" :label="$t('button.coinSelect')"  />
+                        </div>
+                        <div class="q-my-sm gDialogTitle">
+                            {{ $t('page.pool.poolRatio.title') }}
+                        </div>
+                        <div class="gBoarder2 q-mb-sm q-pa-md"> 
+                            <div class="full-width">
+                                <q-btn-toggle
+                                v-model="v_utilization"
+                                toggle-color="primary"
+                                spread
+                                :options="[
+                                    {label: '0%', value: '0'},
+                                    {label: '25%', value: '25'},
+                                    {label: '50%', value: '50'},
+                                    {label: '75%', value: '75'}, 
+                                    {label: '100%', value: '100'} 
+                                    ]" />
+                            </div> 
+                            <div class="q-mt-lg text-center">  
+                                <q-btn class="full-width" label="Add" color="primary" @click="onClickAdd2" />
+                            </div>
+                        </div>
+                    </div>
+                </q-card-section>
+            </q-card>
         </q-dialog>
 
     <!-- 유동성추가2-dialog-START-->
         <q-dialog v-model="v_dialog_confirm">
             <q-card>
                 <q-card-section>
-                    <div class="q-ma-md"> 
-                        <div class="row q-py-md"> 
+                    <div class="" style="min-width: 280px">
+                        <div class="row"> 
                             <div class="gSubTitle"> 
                                 {{ $t('dialog.pool.addLiquidity.title')}}
                             </div>
                             <q-space />
                             <div> 
-                                <q-btn flat icon="close" v-close-popup /> 
+                                <q-btn size="14px" flat icon="close" v-close-popup /> 
                             </div>
                         </div>
+                        <q-separator class="q-my-md" />
+
                         <div class="row q-pa-md gBoarder2"> 
-                            <div>USDT 풀링추가</div> 
+                            <div>
+                                USDT <span>풀링추가 </span>
+                            </div> 
                             <q-space />
                             <div> $350 </div>
                         </div>   
@@ -147,55 +167,52 @@
     <!-- 유동성추가3-확인을기다리는중-dialog-START-->
         <q-dialog v-model="v_dialog_progress">
             <q-card> 
-                <q-card-section>
-                    <div class="row q-pa-md"> 
-                        <q-space />
-                        <div class="">
-                            <q-btn flat icon="close" v-close-popup />
+                <div style="min-width: 280px">
+                    <q-card-section>
+                        <div class="row"> 
+                            <q-space />
+                            <div class="">
+                                <q-btn flat icon="close" v-close-popup />
+                            </div>
                         </div>
-                    </div>
-                    <div class="q-my-md text-center">
-                        <q-spinner color="primary" size="4em" />
-                    </div> 
-                    <div class="text-center text-bold">
-                        {{ $t('dialog.pool.checking.title')}}    
-                    </div>
-                    <div class="row justify-center q-ma-md">
-                        <div class="q-mr-md"> 
-                            {{ $t('dialog.pool.checking.adding') }}
+                        <div class="q-my-xl text-center">
+                            <q-spinner color="primary" size="4em" />
+                        </div> 
+                        <div class="text-center text-bold">
+                            {{ $t('dialog.pool.checking.title')}}    
                         </div>
-                        <div> 
-                            51.8775 USDT
+                        <div class="row justify-center q-ma-md">
+                            <div class="q-mr-md"> 
+                                {{ $t('dialog.pool.checking.adding') }}
+                            </div>
+                            <div> 
+                                51.8775 USDT
+                            </div>
                         </div>
-                    </div>
-                    <div class="text-center q-mb-md">  
-                        {{ $t('dialog.pool.checking.desc')}}
-                    </div>
-                    
-                </q-card-section>
-
-                <q-card-section> 
-                    <div class="" align="center"> 
-                        <div class="q-my-lg"> 
-                            <q-icon color="primary" size="4rem" name="arrow_circle_up" />
+                        <div class="text-center q-mb-md">  
+                            {{ $t('dialog.pool.checking.desc')}}
                         </div>
-                        <div class="gDialogTitle q-my-md"> 
-                            제출된 거래 
+                    </q-card-section>
+                    <q-card-section> 
+                        <div class="" align="center"> 
+                            <div class="q-my-lg"> 
+                                <q-icon color="primary" size="4rem" name="arrow_circle_up" />
+                            </div>
+                            <div class="gDialogTitle q-my-md"> 
+                                제출된 거래 
+                            </div>
+                            <div class="q-py-md"> 
+                                <q-btn text-color="primary" flat :label="$t('dialog.pool.exploreView.view')" />  
+                            </div>
+                            <div class="q-my-md "> 
+                                <q-btn rounded color="primary" :label="$t('button.close')" @click="onClickDone" />
+                            </div>
                         </div>
-                        <div class="q-py-md"> 
-                            <q-btn text-color="primary" flat :label="$t('dialog.pool.exploreView.view')" />  
-                        </div>
-                        <div class="q-my-md "> 
-                            <q-btn rounded color="primary" :label="$t('button.close')" @click="onClickDone" />
-                        </div>
-                    </div>
-                </q-card-section>
-
+                    </q-card-section>
+                </div>
             </q-card>
         </q-dialog>
-
     </div>
-
 </template>
 
 
