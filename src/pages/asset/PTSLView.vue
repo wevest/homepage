@@ -6,15 +6,15 @@
                 </CTitle>
             </div>
         </div>
-        <div class="gBoarder q-pa-md"> 
-            <div class="gSubTitle">
+        <div class="gBoarder1 q-pa-md"> 
+            <div class="gPageSubTitle">
                 {{ $t('page.stopLoss.coinSelect.title') }}
             </div>
             <div class="q-my-md">
-                <q-select  style="width: 200px" outlined v-model="v_position.asset" :options="v_assets" label="USDT" />
+                <q-select  bg-color="grey-1" outlined v-model="v_position.asset" :options="v_assets" label="Select a Token" />
             </div>
             <div class="row justify-between">  
-                <div class="gSubTitle">
+                <div class="gPageSubTitle">
                     주문가능
                 </div>
                 <div class="text-right text-subtitle2">
@@ -37,17 +37,17 @@
                 </div>    
             </div>
             <div class="row justify-between"> 
-                <div>
+                <div class="gPageSubTitle">
                     수량
                 </div>
                 <div class="q-my-md full-width"> 
-                    <q-input  type="number" outlined filled v-model="v_position.portion" placeholder="수량" />
+                    <q-input  bg-color="grey-1" type="number" outlined v-model="v_position.portion" placeholder="수량" />
                 </div>
-                <div> 
+                <div class="gPageSubTitle"> 
                     가격
                 </div>
-                <div class="q-my-md full-width" style="width: 200px"> 
-                    <q-input  type="number" filled outline v-model="v_position.stop_price" placeholder="가격" />
+                <div class="q-my-md full-width"> 
+                    <q-input  bg-color="grey-1" type="number" outlined v-model="v_position.stop_price" placeholder="가격" />
                 </div>
                 <!-- <div class="row q-my-md">
                     <div class="q-mr-xs">
@@ -58,37 +58,39 @@
                     </div> 
                 </div>  -->
             </div>
-            <div>총액</div>
+            <div class="gPageSubTitle"> 
+                총액
+            </div>
             <div class="q-my-md"> 
-                <q-input  class="full-width" type="number" outlined filled v-model="v_position.estimated_value" placeholder="총액" />
+                <q-input  class="full-width" bg-color="grey-1" type="number" outlined v-model="v_position.estimated_value" placeholder="총액" />
             </div>
             <div class="row justify-evenly"> 
                 <div class="q-ma-xs">
-                    <q-btn text-color="primary" label="초기화" />
+                    <q-btn text-color="primary" label="Clear" />
                 </div>
                 <div class="q-ma-xs">
                     <q-btn color="primary" label="Close Position" @click="onClickPosition" />
                 </div>
             </div>
             <q-separator class="q-my-md" />
-            <div class="text-h6 q-my-md"> 
+            <div class="gDialogTitle q-my-md"> 
                 보유자산(USDT)
             </div>
             <div> 
                 <div class="row justify-between">
-                    <div>{{ $t('page.stopLoss.asset.avgPurchase.title') }}</div>
+                    <div class="gNameText">{{ $t('page.stopLoss.asset.avgPurchase.title') }}</div>
                     <div>100,000,000</div>
                 </div>
                 <div class="row justify-between">
-                    <div>{{ $t('page.stopLoss.asset.value.title') }}</div>
+                    <div class="gNameText">{{ $t('page.stopLoss.asset.value.title') }}</div>
                     <div>120,000,000</div>
                 </div>
                 <div class="row justify-between">
-                    <div>{{ $t('page.stopLoss.asset.pl.title') }}</div>
+                    <div class="gNameText">{{ $t('page.stopLoss.asset.pl.title') }}</div>
                     <div style="color: red">20,000,000</div>
                 </div>
                 <div class="row justify-between">
-                    <div>{{ $t('page.stopLoss.asset.roi.title') }}</div>
+                    <div class="gNameText">{{ $t('page.stopLoss.asset.roi.title') }}</div>
                     <div style="color: red">20%</div>
                 </div>
             </div> 
@@ -100,24 +102,24 @@
                     <div class="q-my-md gDialogTitle text-center">
                         매도 주문 확인
                     </div>
-                    <div class="gBoarder q-pa-md text-center coinTitle"> 
+                    <div class="gBoarder1 q-pa-md text-center"> 
                         Polkadot (DOT/USDT)
                     </div>
-                    <div class="coinBody">
+                    <div class="gBoarder1 q-mt-sm">
                         <div class="row justify-between q-ma-sm"> 
-                            <div>주문구분</div> 
+                            <div class="gNameText">주문구분</div> 
                             <div>지정가매도</div> 
                         </div>
                         <div class="row justify-between q-ma-sm"> 
-                            <div>주문가격</div> 
+                            <div class="gNameText">주문가격</div> 
                             <div>130,000,000</div> 
                         </div>
                         <div class="row justify-between q-ma-sm"> 
-                            <div>주문수량</div> 
+                            <div class="gNameText">주문수량</div> 
                             <div>30,000</div> 
                         </div>
                         <div class="row justify-between q-ma-sm"> 
-                            <div>주문총액</div> 
+                            <div class="gNameText">주문총액</div> 
                             <div>30,000,000</div> 
                         </div>
                     </div>
@@ -127,7 +129,7 @@
                         <q-btn text-color="primary" outline label="cancel" @click="onClickCancel" />
                     </div>
                     <div class="q-ma-md">
-                        <q-btn color="primary" label="sell confirm" @click="onClickSell"/>
+                        <q-btn color="primary" label="confirm" @click="onClickSell"/>
                     </div>
                 </q-card-actions>
             </q-card>
@@ -145,7 +147,7 @@
                     </div>
                     <q-separator class="q-my-md" />
                     <div class=""> 
-                        <q-btn flat text-color="primary" label="확인" @click="onClickDone" />
+                        <q-btn flat text-color="primary" label="close" @click="onClickDone" />
                     </div>
                 </div>
 

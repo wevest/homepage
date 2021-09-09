@@ -8,12 +8,12 @@
                 </CTitle>
             </div>
         </div>
-        <div class="gBoarder"> 
-            <div class="q-pa-md gSubTitle">
+        <div class="gBoarder1 q-mb-sm">
+            <div class="q-pa-md gPageSubTitle">
                 {{ $t('page.asset.pool.title') }}
             </div>  
-            <div class="gBoarder2 q-mx-lg q-mb-md"> 
-                <div class="row gBoarder2 q-pa-md q-ma-lg" @click="onClickPool(a_pool)"
+            <div class="q-mx-lg"> 
+                <div class="row gBoarder4 q-mb-sm" @click="onClickPool(a_pool)"
                     :key="index"
                     v-for="(a_pool, index) in v_pools.items">        
                     <div>
@@ -25,10 +25,32 @@
                     </div>
                 </div>
             </div>
-            <div class="q-pa-md gSubTitle">
+            <div class="q-pa-md gPageSubTitle">
+                {{ $t('page.asset.poolIncome.title') }}
+            </div>  
+            <div class="q-mx-lg"> 
+                <div class="row gBoarder4 q-mb-sm">
+                    <div class="gNameText">{{ $t('page.asset.poolIncome.feeIncome.title') }}</div>
+                    <q-space />
+                    <div>$13.63</div>
+                </div>
+                <div class="row gBoarder4 q-mb-sm">
+                    <div class="gNameText">{{ $t('page.asset.poolIncome.yieldFarming.title') }}</div>
+                    <q-space />
+                    <div>$13.63</div>
+                </div>
+                <div class="row gBoarder4 q-mb-sm">
+                    <div class="gNameText">{{ $t('page.asset.poolIncome.wevestToken.title') }}</div>
+                    <q-space />
+                    <div>6,310.57</div>
+                </div>
+            </div>
+        </div>
+        <div class="gBoarder1">
+            <div class="q-pa-md gPageSubTitle">
                 {{ $t('page.asset.token.title') }}
             </div>  
-            <div class="gBoarder2 q-mx-lg q-mb-sm" 
+            <div class="gBoarder4 q-mx-lg q-mb-sm" 
                 :key="index"
                 v-for="(a_asset, index) in v_assets.items">
                 
@@ -48,34 +70,11 @@
                         </div> 
                     </div>
                 </div>  
-
-            </div>          
-
-            <div class="q-ma-md text-center"> 
-                <q-btn color="red" :label="$t('button.emergencyKill')" />
-            </div>          
-
-            <div class="q-pa-md gSubTitle">
-                {{ $t('page.asset.poolIncome.title') }}
-            </div>  
-            <div class="q-mx-lg"> 
-                <div class="row gBoarder2 q-pa-md q-mb-sm">
-                    <div>{{ $t('page.asset.poolIncome.feeIncome.title') }}</div>
-                    <q-space />
-                    <div>$13.63</div>
-                </div>
-                <div class="row gBoarder2 q-pa-md q-mb-sm">
-                    <div>{{ $t('page.asset.poolIncome.yieldFarming.title') }}</div>
-                    <q-space />
-                    <div>$13.63</div>
-                </div>
-                <div class="row gBoarder2 q-pa-md q-mb-sm">
-                    <div>{{ $t('page.asset.poolIncome.wevestToken.title') }}</div>
-                    <q-space />
-                    <div>6310.57</div>
-                </div>
             </div>
         </div>
+        <div class="q-py-md text-center"> 
+            <q-btn color="red" :label="$t('button.emergencyKill')" />
+        </div>          
         <div class="q-my-lg text-center"> 
             <q-btn flat color="primary" label="언어: English" />
         </div>
@@ -85,12 +84,11 @@
         <!-- Asset-detail-dialog-시작 -->
         
         <q-dialog v-model="v_dialog_token" position="bottom">
-            <div class="gBoarder2 q-mx-lg">
-                <div class="q-pa-md">
+            <q-card class="q-ma-md q-pa-md">
                     <div class="text-right">
                         <q-btn flat size="16px" label="X" @click="onClickCloseTokenDialog" />
                     </div>    
-                    <div class="row justify-center gSubTitleLG">
+                    <div class="row justify-center gDialogTitle">
                         <div class="q-ma-xs">wETH 3x Long</div>
                     </div>
                     <q-separator class="q-my-md" />
@@ -131,17 +129,16 @@
                             <div>$500</div> 
                         </div> 
                         <q-separator class="q-my-md" />
-                        <div class="row justify-center"> 
-                            <div class="gBoarder2 q-ma-lg">
+                        <div class="row justify-evenly"> 
+                            <div class="">
                                 <q-btn color="orange" :label="$t('button.sl')" @click="onClickPTSL" />
                             </div> 
-                            <div class="gBoarder2 q-ma-lg">
+                            <div class="">
                                 <q-btn color="red" :label="$t('button.closePosition')" @click="onClickClosePosition" />
                             </div> 
                         </div>
                     </div>
-                </div>  
-            </div>        
+            </q-card>        
         </q-dialog>
 
         <!-- Asset-detail-dialog-끝 -->
@@ -151,7 +148,7 @@
             <q-card>
                 <q-card-section>
                     <div class="row">
-                        <div class="">
+                        <div class="gDialogTitle">
                             {{ $t('dialog.asset.closePosition.title') }}
                         </div>
                         <q-space />
@@ -159,24 +156,24 @@
                             <q-btn flat icon="close" />
                         </div>
                     </div>
-                    <div class="gBoarder q-pa-md">
+                    <div class="gBoarder1 q-pa-md">
                         <div class="row q-py-sm"> 
-                            <div>{{ $t('dialog.asset.symbol.title') }}</div>
+                            <div class="gNameText">{{ $t('dialog.asset.symbol.title') }}</div>
                             <q-space />
                             <div>BTCUSDT Perpetual</div>
                         </div>
                         <div class="row q-py-sm"> 
-                            <div>{{ $t('dialog.asset.price.title') }}</div>
+                            <div class="gNameText">{{ $t('dialog.asset.price.title') }}</div>
                             <q-space />
                             <div>49763.08 USDT</div>       
                         </div>
                         <div class="row q-py-sm"> 
-                            <div>{{ $t('dialog.asset.amount.title') }}</div>
+                            <div class="gNameText">{{ $t('dialog.asset.amount.title') }}</div>
                             <q-space />
                             <div>1012.45 USDT</div>
                         </div>
                         <div class="row q-py-sm"> 
-                            <div>{{ $t('dialog.asset.cost.title') }}</div>
+                            <div class="gNameText">{{ $t('dialog.asset.cost.title') }}</div>
                             <q-space />
                             <div>331.95 USDT</div>
                         </div>
@@ -184,7 +181,7 @@
                         <q-checkbox v-model="v_sell_check" :label="$t('dialog.asset.checkBoxMessage.title')" />
                         </div>
                         <div>
-                            <q-btn class="full-width" color="primary" :label="$t('button.confirmSell')" @click="onClickConfirm" />
+                            <q-btn class="full-width" color="primary" :label="$t('button.confirm')" @click="onClickConfirm" />
                         </div>
                     </div>
                 </q-card-section>
@@ -195,7 +192,7 @@
         <q-dialog v-model="v_dialog_notice" position="bottom">
             <q-card>
                 <q-card-section>
-                    <div class="gBoarder text-center"> 
+                    <div class="gBoarder1 text-center"> 
                         <div class="row q-mt-md justify-center">
                             <div class="text-h6 q-ma-sm">USDT</div> 
                             <div class="text-h6 q-my-sm">$16,800</div> 
@@ -340,17 +337,7 @@ export default {
   margin:0 auto;
 } 
 
-.gBoarder {
-    border: 1px solid #bcbcbc;
-    border-radius: 7px;
-    background-color: #F2F4F4;  
-}
 
-.gBoarder2 {
-    border: 1px solid #bcbcbc;
-    border-radius: 7px;
-    background-color: white;  
-}
 
 .coinTitle {
     margin:4em 8em;

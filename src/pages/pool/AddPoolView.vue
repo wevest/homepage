@@ -7,12 +7,12 @@
                 :title="$t('page.pool.title')" :desc="$t('page.pool.desc')" 
                 extraCaption="Add" @onClickTitleExtra="onClickAdd" />
         </div>   
-        <div class="gSubTitle"> 
+        <div class="gDialogTitle"> 
             {{ $t('page.pool.addLiquidity.title') }}
         </div>
         <div class="row q-my-md">
             <div class="q-mx-xs"> 
-                <q-select style="width: 180px" outlined v-model="model" :options="options" :label="$t('button.coinSelect')"  />
+                <q-select style="width: 200px" outlined v-model="model" :options="options" :label="$t('button.coinSelect')"  />
             </div>
         </div>
         <div class="gBoarder2 q-mb-sm q-pa-md"> 

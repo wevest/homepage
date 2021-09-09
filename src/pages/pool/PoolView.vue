@@ -6,15 +6,15 @@
                 :title="$t('page.pool.title')" :desc="$t('page.pool.desc')" />
         </div>
 
-        <div class="gSubTitle"> 
+        <div class="gPageSubTitle"> 
             {{ $t('page.pool.poolSummary.title') }}
         </div>
         <div class="q-my-md text-right"> 
             <q-btn color="primary" rounded :label="$t('button.newPosition')" @click="onClickAdd" />
         </div>
 
-        <div class="gBoarder text-center poolList" v-if="v_pools.items.length>0">
-            <div class="row gBoarder2 q-pa-md q-ma-lg" @click="onClickPool(a_pool)"
+        <div class="gBoarder1 text-center poolList" v-if="v_pools.items.length>0">
+            <div class="row gBoarder2" @click="onClickPool(a_pool)"
                 :key="index"
                 v-for="(a_pool, index) in v_pools.items">        
                 <div>

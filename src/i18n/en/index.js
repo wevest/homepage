@@ -12,7 +12,7 @@ export default {
 	page:{	
 		asset : {
 			title : 'asset',
-			desc : '',
+			desc : '보유자산 포트폴리오',
 			pool : {
 				title : 'Pool',
 			},
@@ -61,7 +61,7 @@ export default {
 			},
 		},
 		token : {
-			title: 'token 생성',
+			title: 'Create a Token',
 			desc : '',
 			utilization : {
 				title : 'Utilization',
@@ -143,7 +143,10 @@ export default {
 			},
 			completeClosePositionMessage : {
 				title : 'USDT로 청산한 토큰의 USDT 가격',
-			}
+			},
+			closePosition : {
+				title : 'Close Position',
+			},
 		},
 		token : {
 			connectWallet : {
@@ -182,7 +185,7 @@ export default {
 				title : 'Add Liquidity',
 			},
 			tokenPick : {
-				title : '토큰선택',
+				title : 'Select a Token',
 			},
 			checking : {
 				title : '확인을 기다리는 중 ...',
@@ -218,10 +221,7 @@ export default {
 		completePosition: "발행 완료",
 		connectWallet : "Connect A Wallet",
 		code : "Code",
-		confirm : "confirm", 
-		confirmLong : "Confirm Long",
-		confirmSell : "Confirm Sell",
-		confirmShort : "Confirm Short",
+		confirm : "confirm",
 		create : 'CREATE',
 		document : "Document",
 		emergencyKill : "Emergency Kill",
@@ -235,7 +235,7 @@ export default {
 		sl : "S/L",
 		new : "NEW",
 		max : "max",
-		coinSelect : "Select Coin",
+		coinSelect : "Search",
 		add : "add",
 		searchPaste : "이름 검색 또는 주소 붙여넣기",
 		manageTokenList : "토큰 목록 관리",

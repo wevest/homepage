@@ -27,11 +27,11 @@
                                     <q-icon size="40px" name="paid" />
                                 </div> 
                                 <div>
-                                    <div>ETH</div> 
+                                    <div class="gText">ETH</div> 
                                     <div class="gCaption">Ethereum</div> 
                                 </div> 
                                 <q-space />
-                                <div class="text-subtitle2">
+                                <div class="gValue">
                                     0.07354
                                 </div> 
                             </div>
@@ -40,11 +40,11 @@
                                     <q-icon size="40px" name="paid" />
                                 </div> 
                                 <div>
-                                    <div>1INCH</div> 
+                                    <div class="gText">1INCH</div> 
                                     <div class="gCaption">1Inch</div> 
                                 </div> 
                                 <q-space />
-                                <div class="text-subtitle2">
+                                <div class="gValue">
                                     98.14
                                 </div> 
                             </div>
@@ -53,11 +53,11 @@
                                     <q-icon size="40px" name="paid" />
                                 </div> 
                                 <div>
-                                    <div>AAVE</div> 
+                                    <div class="gText">AAVE</div> 
                                     <div class="gCaption">AaveToken</div> 
                                 </div> 
                                 <q-space />
-                                <div class="text-subtitle2">
+                                <div class="gValue">
                                     0
                                 </div> 
                             </div>
@@ -66,11 +66,11 @@
                                     <q-icon size="40px" name="paid" />
                                 </div> 
                                 <div>
-                                    <div>ANT</div> 
+                                    <div class="gText">ANT</div> 
                                     <div class="gCaption">Aragon Network Token</div> 
                                 </div> 
                                 <q-space />
-                                <div class="text-subtitle2">
+                                <div class="gValue">
                                     0
                                 </div> 
                             </div>
@@ -87,28 +87,40 @@
         <q-dialog v-model="v_dialog_portion">
             <q-card>
                 <q-card-section>
-                    <div class="q-ma-md" style="min-width: 280px"> 
+                    <div class="" style="min-width: 280px"> 
                         <div class="row">
-                            <div class="q-my-sm gSubTitle">
+                            <div class="q-my-sm gDialogTitle">
                                 {{ $t('page.pool.addLiquidity.title') }}
                             </div>
                             <q-space />
-                            <div  lass="q-my-sm gSubTitle">
+                            <div>
                                 <q-btn flat icon="close" v-close-popup />  
                             </div>
                         </div>
                             <q-separator class="q-my-md" />
-                        <div class="q-my-sm gDialogTitle">
+                        <div class="q-my-sm gText2">
                             {{ $t('dialog.pool.selectCoin.title') }}
                         </div>
-                        <div class="q-mx-xs q-my-sm"> 
-                            <q-select style="width: 180px" outlined v-model="v_asset" :options="v_options" :label="$t('button.coinSelect')"  />
+                        <div class="gBoarder1">
+                            <div class="q-mx-xs q-my-sm"> 
+                                <q-select class="full-width" bg-color="grey-1" outlined v-model="v_asset" :options="v_options" :label="$t('button.coinSelect')"  />
+                            </div>
+                            <div class="q-ma-sm">
+                                <div class="row justify-between"> 
+                                    <div class="gText">Pool Amount</div>
+                                    <div class="gValue">100,000 ADA</div>
+                                </div>
+                                <div class="row justify-between"> 
+                                    <div class="gText">Current Balance</div>
+                                    <div class="gValue">100,000,000 USDT</div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="q-my-sm gDialogTitle">
+                        <div class="q-my-sm q-pt-sm gText2">
                             {{ $t('page.pool.poolRatio.title') }}
                         </div>
-                        <div class="gBoarder2 q-mb-sm q-pa-md"> 
-                            <div class="full-width">
+                        <div class="gBoarder1"> 
+                            <div class="full-width q-pt-sm">
                                 <q-btn-toggle
                                 v-model="v_utilization"
                                 toggle-color="primary"
@@ -121,7 +133,11 @@
                                     {label: '100%', value: '100'} 
                                     ]" />
                             </div> 
-                            <div class="q-mt-lg text-center">  
+                            <div class="row justify-between q-mt-md"> 
+                                <div class="gText">Deposit Amount </div>
+                                <div class="gValue">~100,000 USDT</div>
+                            </div>
+                            <div class="q-mt-lg q-mb-md text-center">  
                                 <q-btn class="full-width" label="Add" color="primary" @click="onClickAdd2" />
                             </div>
                         </div>
@@ -134,24 +150,23 @@
         <q-dialog v-model="v_dialog_confirm">
             <q-card>
                 <q-card-section>
-                    <div class="" style="min-width: 280px">
+                    <div class="q-ma-md" style="min-width: 280px">
                         <div class="row"> 
-                            <div class="gSubTitle"> 
+                            <div class="gDialogTitle"> 
                                 {{ $t('dialog.pool.addLiquidity.title')}}
                             </div>
                             <q-space />
                             <div> 
-                                <q-btn size="14px" flat icon="close" v-close-popup /> 
+                                <q-btn dense flat icon="close" v-close-popup /> 
                             </div>
                         </div>
                         <q-separator class="q-my-md" />
-
-                        <div class="row q-pa-md gBoarder2"> 
-                            <div>
+                        <div class="row gBoarder1"> 
+                            <div class="gText2">
                                 USDT <span>풀링추가 </span>
                             </div> 
                             <q-space />
-                            <div> $350 </div>
+                            <div class="gValue2"> $350 </div>
                         </div>   
                         <div class="text-center q-mt-lg"> 
                             <q-btn rounded color="primary" :label="$t('button.confirm')" @click="onClickConfirm" />
@@ -182,14 +197,14 @@
                             {{ $t('dialog.pool.checking.title')}}    
                         </div>
                         <div class="row justify-center q-ma-md">
-                            <div class="q-mr-md"> 
+                            <div class="q-mr-md gText"> 
                                 {{ $t('dialog.pool.checking.adding') }}
                             </div>
-                            <div> 
+                            <div class="gValue2"> 
                                 51.8775 USDT
                             </div>
                         </div>
-                        <div class="text-center q-mb-md">  
+                        <div class="text-center q-mb-md gText">  
                             {{ $t('dialog.pool.checking.desc')}}
                         </div>
                     </q-card-section>

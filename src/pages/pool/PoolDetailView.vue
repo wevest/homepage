@@ -1,10 +1,10 @@
 <template>
     <div class="q-pa-md">
         <div class="row q-my-xl justify-center">
-            <div>
-                <q-icon size="40px" name="paid" />
+            <div class="q-ma-sm">
+                <q-icon size="45px" name="paid" />
             </div>   
-            <div class="text-h4">
+            <div class="gBigName">
                 ADA / USDT
             </div>
         </div>
@@ -50,20 +50,20 @@
 
         </div>
 -->        
-        <div class="gBoarder q-my-sm q-pa-md"> 
-            <div class="gDialogTitle q-my-md">
+        <div class="gBoarder1-1 q-mb-md"> 
+            <div class="gPageSubTitle q-mb-md">
                  {{  $t ('page.poolDetail.liquidity.title') }}
             </div>
-            <div class="text-h4">
+            <div class="gBigValue gBoarder4 text-right">
                 $354.28
             </div>
         </div>
         
-        <div class="gBoarder q-pa-md"> 
-            <div class="gDialogTitle q-my-md">
+        <div class="gBoarder1-1"> 
+            <div class="gPageSubTitle q-mb-md">
                 {{  $t ('page.poolDetail.fee.title') }}
             </div>
-            <div class="text-h4">
+            <div class="gBigValue gBoarder4 text-right">
                 $3.70
             </div>
         </div>

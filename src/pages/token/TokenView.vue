@@ -1,6 +1,6 @@
 <template>
 
-    <div class="q-pa-md responsive">
+    <div class="q-pa-md">
         <div class="row">
             <div class="col">
                 <CTitle ttype='title' :title="$t('page.token.title')" :desc="$t ('page.token.desc')" 
@@ -8,32 +8,32 @@
                 </CTitle>          
             </div>
         </div>
-        <div class="row q-mb-xs">
+        <div class="row">
             <q-space />
-            <div class="gBoarder2 q-px-sm q-mr-xs">
+            <div class="gBoarder2 address">
                  0x6f259637dcD74C...
             </div>
             <div>
                 <q-btn size="12px" dense flat color="grey-8" icon="content_copy" />
             </div>
-            <div class="">
+            <div class="q-ml-sm">
                 <WMoreButton ref="moreButtons" 
                     :buttons="v_more_buttons" 
                     @onClick="onClickMoreButton" />
             </div>
         </div>
-        <div class="gBoarder q-pa-md">
-            <div class="row justify-between">
+        <div class="gBoarder1-1">
+            <div class="">
                 <div>
-                    <q-select  style="width: 200px" outlined v-model="v_asset" :options="v_options" label="USDT" />
+                    <q-select bg-color="grey-1" outlined v-model="v_asset" :options="v_options" label="Select" />
                 </div>
-                <div class="q-mt-sm text-h6">
+                <div class="q-mt-sm gBigValue text-right">
                     0.0
                 </div>
             </div>
         </div>
-        <div class="q-mt-sm gBoarder q-pa-md">
-            <div class="q-pb-sm text-subtitle2">{{ $t('page.token.utilization.title') }}</div>
+        <div class="q-mt-sm gBoarder1-1 q-pa-md">
+            <div class="q-pb-sm gPageSubTitle">{{ $t('page.token.utilization.title') }}</div>
             <div class="full-width">
                 <q-btn-toggle
                 v-model="v_utilization"
@@ -47,8 +47,8 @@
                     ]" />
             </div>    
         </div>
-        <div class="row gBoarder q-pa-md q-my-sm">
-            <div class="q-pb-sm text-subtitle2">{{ $t('page.token.position.title') }}</div>
+        <div class="row gBoarder1-1 q-pa-md q-my-sm">
+            <div class="q-pb-sm gPageSubTitle">{{ $t('page.token.position.title') }}</div>
             <div class="full-width">
                 <q-btn-toggle
                     v-model="v_direction"
@@ -63,8 +63,8 @@
                     ]"  />
             </div>
         </div>
-        <div class="gBoarder q-pa-md">
-            <div class="q-pb-sm text-subtitle2">{{ $t('page.token.leverage.title') }}</div>
+        <div class="gBoarder1-1">
+            <div class="q-pb-sm gPageSubTitle">{{ $t('page.token.leverage.title') }}</div>
             <div>
                 <div class="text-center">
                     <q-btn-toggle
@@ -84,7 +84,7 @@
                  </div>
             </div> 
         </div>
-        <div class="q-mt-md">
+        <div class="q-my-md">
             <q-btn class="full-width" rounded color="primary" outline :label="$t('button.create')" @click="onClickMint" />
         </div>
 
@@ -103,7 +103,7 @@
                 </div>
             </q-card-section>
             <q-card-section>
-                <div class="gBoarder q-pa-md" style="background-color: #F8F9F9"> 
+                <div class="gBoarder1 q-pa-md" style="background-color: #F8F9F9"> 
                     <div>
                         지갑을 연결하면 Wevest 의 <span class="terms">서비스 약관</span>에 동의하고 <span class="terms">Wevest 프로토콜 면책 조항</span>을 이해했음을 인정하는 것입니다. 
                     </div>
@@ -123,7 +123,7 @@
     <q-dialog v-model="v_dialog_confirm_long">
         <q-card>
             <q-card-section class="row justify-between">
-                <div class="text-h6">
+                <div class="gDialogTitle">
                      {{ $t('dialog.token.confirmLong.title') }}
                 </div>
                 <div class=""> 
@@ -131,26 +131,26 @@
                 </div>
             </q-card-section>
             <q-card-section>
-                <div class="gBoarder q-px-md">
+                <div class="gBoarder1 q-px-md">
                     <div class="row q-py-sm"> 
-                        <div>Symbol</div>
+                        <div class="gText">Symbol</div>
                         <q-space />
-                        <div>BTCUSDT Perpetual</div>
+                        <div class="gValue">BTCUSDT Perpetual</div>
                     </div>
                     <div class="row q-py-sm"> 
-                        <div>Price</div>
+                        <div class="gText">Price</div>
                         <q-space />
-                        <div>49763.08 USDT</div>       
+                        <div class="gValue">49763.08 USDT</div>       
                     </div>
                     <div class="row q-py-sm"> 
-                        <div>Amount</div>
+                        <div clas="gText">Amount</div>
                         <q-space />
-                        <div>1012.45 USDT</div>
+                        <div class="gValue">1012.45 USDT</div>
                     </div>
                     <div class="row q-py-sm"> 
-                        <div>Cost</div>
+                        <div class="gText">Cost</div>
                         <q-space />
-                        <div>331.95 USDT</div>
+                        <div class="gValue">331.95 USDT</div>
                     </div>
                 </div>
             </q-card-section>
@@ -159,7 +159,7 @@
             </q-card-section>
             <q-card-actions align="center">
                 <div class="q-mb-md">
-                    <q-btn class="q-pa-xs" rounded color="primary" :label="$t('button.confirmLong')" @click="onClickConfirm" />
+                    <q-btn class="q-pa-xs" rounded color="primary" :label="$t('button.confirm')" @click="onClickConfirm" />
                 </div>
             </q-card-actions>
         </q-card>
@@ -179,26 +179,26 @@
                 </div>
             </q-card-section>
             <q-card-section>
-                <div class="gBoarder q-px-md">
+                <div class="gBoarder1 q-px-md">
                     <div class="row q-py-sm"> 
-                        <div>Symbol</div>
+                        <div class="gText">Symbol</div>
                         <q-space />
-                        <div>BTCUSDT Perpetual</div>
+                        <div class="gValue">BTCUSDT Perpetual</div>
                     </div>
                     <div class="row q-py-sm"> 
-                        <div>Price</div>
+                        <div class="gText">Price</div>
                         <q-space />
-                        <div>49763.08 USDT</div>       
+                        <div class="gValue">49763.08 USDT</div>       
                     </div>
                     <div class="row q-py-sm"> 
-                        <div>Amount</div>
+                        <div class="gText">Amount</div>
                         <q-space />
-                        <div>1012.45 USDT</div>
+                        <div class="gValue">1012.45 USDT</div>
                     </div>
                     <div class="row q-py-sm"> 
-                        <div>Cost</div>
+                        <div class="gText">Cost</div>
                         <q-space />
-                        <div>331.95 USDT</div>
+                        <div class="gValue">331.95 USDT</div>
                     </div>
                 </div>
             </q-card-section>
@@ -245,58 +245,58 @@
     <q-dialog v-model="v_dialog_new" > 
         <q-card >
             <q-card-section>
-                <div class="row q-mb-md justify-center text-h6">
+                <div class="row q-my-xs justify-center text-h6">
                         <div class="q-mr-sm">wETH</div>
                         <div class="q-mr-sm" >3x</div>
                         <div>LONG</div>
                 </div>
                 <div class="" style="min-width: 270px">
-                    <div class="gBoarder2 q-pa-sm q-my-sm" >
+                    <div class="gBoarder1-1 q-my-sm" >
                         <div class="row"> 
-                            <div>{{ $t('dialog.token.roi.title') }}</div>
+                            <div class="gText">{{ $t('dialog.token.roi.title') }}</div>
                             <q-space />
-                            <div>36%</div>
+                            <div class="gValue">36%</div>
                         </div>
                         <div class="row">
-                            <div>ETH price</div>
+                            <div class="gText">ETH price</div>
                             <q-space />
-                            <div>$3,800</div> 
+                            <div class="gValue">$3,800</div> 
                         </div> 
                     </div>
-                    <div class="gBoarder2 q-pa-sm q-my-sm" >
+                    <div class="gBoarder1-1 q-my-sm" >
                         <div class="row"> 
-                            <div>{{ $t('dialog.token.totalAmount.title') }}</div>
+                            <div class="gText">{{ $t('dialog.token.totalAmount.title') }}</div>
                             <q-space />
-                            <div>$16,800</div>
+                            <div class="gValue">$16,800</div>
                         </div>
                         <div class="row">
-                            <div>{{ $t('dialog.token.valuationLoss.title') }}</div>
+                            <div class="gText">{{ $t('dialog.token.valuationLoss.title') }}</div>
                             <q-space />
-                            <div>$180</div> 
+                            <div class="gValue">$180</div> 
                         </div> 
                     </div>
-                    <div class="gBoarder2 q-pa-sm q-my-sm">
+                    <div class="gBoarder1-1 q-my-sm">
                         <div class="row"> 
-                            <div>{{ $t('dialog.token.totalPurchase.title') }}</div>
+                            <div class="gText">{{ $t('dialog.token.totalPurchase.title') }}</div>
                             <q-space />
-                            <div>$15,000</div>
+                            <div class="gValue">$15,000</div>
                         </div>
                         <div class="row">
-                            <div>{{ $t('dialog.token.principal.title') }}</div>
+                            <div class="gText">{{ $t('dialog.token.principal.title') }}</div>
                             <q-space />
-                            <div>$500</div> 
+                            <div class="gValue">$500</div> 
                         </div> 
                     </div>
-                    <div class="gBoarder2 q-pa-sm q-my-sm" >
+                    <div class="gBoarder1-1 q-my-sm" >
                         <div class="row"> 
-                            <div>{{ $t('dialog.token.purchasePrice.title') }}</div>
+                            <div class="gText">{{ $t('dialog.token.purchasePrice.title') }}</div>
                             <q-space />
-                            <div>$3,500</div>
+                            <div class="gValue">$3,500</div>
                         </div>
                         <div class="row">
-                            <div>{{ $t('dialog.token.risk.title') }}</div>
+                            <div class="gText">{{ $t('dialog.token.risk.title') }}</div>
                             <q-space />
-                            <div>2.5%</div> 
+                            <div class="gValue">2.5%</div> 
                         </div> 
                     </div>
                 </div>
@@ -465,5 +465,9 @@ export default {
 
 .issuance div {
     margin:5px 0px; 
+}
+
+.address {
+    margin: -6px 5px 10px 0px;
 }
 </style>
