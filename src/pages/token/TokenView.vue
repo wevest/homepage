@@ -27,8 +27,8 @@
                 <div>
                     <q-select bg-color="grey-1" outlined v-model="v_asset" :options="v_options" label="Select" />
                 </div>
-                <div class="q-mt-sm gBigValue text-right">
-                    0.0
+                <div class="q-mt-sm gValue2 text-right">
+                   <span class="gCaption">Name:</span> 22222220.0
                 </div>
             </div>
         </div>
@@ -46,6 +46,9 @@
                     {label: '100%', value: '100'} 
                     ]" />
             </div>    
+            <div class="q-mt-sm gValue text-right">
+               <span class="gCaption">Name:</span> 12220.0
+            </div>
         </div>
         <div class="row gBoarder1-1 q-pa-md q-my-sm">
             <div class="q-pb-sm gPageSubTitle">{{ $t('page.token.position.title') }}</div>
@@ -124,7 +127,7 @@
         <q-card>
             <q-card-section class="row justify-between">
                 <div class="gDialogTitle">
-                     {{ $t('dialog.token.confirmLong.title') }}
+                     {{ $t('dialog.token.confirm.long.title') }}
                 </div>
                 <div class=""> 
                     <q-btn flat icon="close" v-close-popup />
@@ -155,7 +158,7 @@
                 </div>
             </q-card-section>
             <q-card-section>
-                    <q-checkbox v-model="v_show_confirm" label="Don't show again. You can change this in (Futures-Preference)." />
+                    <q-checkbox class="gText" v-model="v_show_confirm" :label="$t('dialog.token.confirm.checkBox.title')" />
             </q-card-section>
             <q-card-actions align="center">
                 <div class="q-mb-md">

@@ -2,8 +2,7 @@
 
     <div>
 
-    <!-- 유동성추가1-코인선택-dialog-START -->
-
+    <!-- Pool.New-Position-1-dialog-->
         <q-dialog v-model="v_dialog_asset">
             <q-card>
                 <q-card-section>
@@ -82,8 +81,8 @@
                 </q-card-section>
             </q-card>
         </q-dialog>
-
-    <!-- 유동성추가1-코인선택-dialog-END -->
+    <!-- Pool.New-Position-1-dialog-->
+    <!-- Pool.New-Position-2-dialog-->
         <q-dialog v-model="v_dialog_portion">
             <q-card>
                 <q-card-section>
@@ -107,17 +106,17 @@
                             </div>
                             <div class="q-ma-sm">
                                 <div class="row justify-between"> 
-                                    <div class="gText">Pool Amount</div>
+                                    <div class="gCaption">{{ $t('dialog.pool.pooledAmount.title') }}</div>
                                     <div class="gValue">100,000 ADA</div>
                                 </div>
                                 <div class="row justify-between"> 
-                                    <div class="gText">Current Balance</div>
+                                    <div class="gCaption">{{ $t('dialog.pool.remainingAmount.title') }}</div>
                                     <div class="gValue">100,000,000 USDT</div>
                                 </div>
                             </div>
                         </div>
                         <div class="q-my-sm q-pt-sm gText2">
-                            {{ $t('page.pool.poolRatio.title') }}
+                            {{ $t('dialog.pool.poolingAmount.title') }}
                         </div>
                         <div class="gBoarder1"> 
                             <div class="full-width q-pt-sm">
@@ -134,7 +133,7 @@
                                     ]" />
                             </div> 
                             <div class="row justify-between q-mt-md"> 
-                                <div class="gText">Deposit Amount </div>
+                                <div class="gCaption">Deposit Amount </div>
                                 <div class="gValue">~100,000 USDT</div>
                             </div>
                             <div class="q-mt-lg q-mb-md text-center">  
@@ -145,8 +144,8 @@
                 </q-card-section>
             </q-card>
         </q-dialog>
-
-    <!-- 유동성추가2-dialog-START-->
+    <!-- Pool.New-Position-2-dialog-->
+    <!-- Pool.Add-Liquidity-3-dialog-->
         <q-dialog v-model="v_dialog_confirm">
             <q-card>
                 <q-card-section>
@@ -163,7 +162,7 @@
                         <q-separator class="q-my-md" />
                         <div class="row gBoarder1"> 
                             <div class="gText2">
-                                USDT <span>풀링추가 </span>
+                                USDT <span>adding pool</span>
                             </div> 
                             <q-space />
                             <div class="gValue2"> $350 </div>
@@ -176,10 +175,10 @@
             </q-card>
         </q-dialog>
 
-    <!-- 유동성추가2-dialog-END-->
+    <!-- Pool.Add-Liquidity-3-dialog-->
 
 
-    <!-- 유동성추가3-확인을기다리는중-dialog-START-->
+    <!-- Pool.Add-Liquidity-4-dialog-->
         <q-dialog v-model="v_dialog_progress">
             <q-card> 
                 <div style="min-width: 280px">
@@ -227,6 +226,8 @@
                 </div>
             </q-card>
         </q-dialog>
+        <!-- Pool.Add-Liquidity-4-dialog-->
+
     </div>
 </template>
 

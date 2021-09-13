@@ -131,7 +131,7 @@
                         <q-separator class="q-my-md" />
                         <div class="row justify-evenly"> 
                             <div class="">
-                                <q-btn color="orange" :label="$t('button.sl')" @click="onClickPTSL" />
+                                <q-btn color="orange" :label="$t('button.stopPL')" @click="onClickPTSL" />
                             </div> 
                             <div class="">
                                 <q-btn color="red" :label="$t('button.closePosition')" @click="onClickClosePosition" />

@@ -2,26 +2,33 @@
     <div class="q-ma-md"> 
         <div class="row">
             <div class="col">
-                <CTitle :title="$t('page.stopLoss.title')" :desc="$t('page.stopLoss.desc')">
+                <CTitle :title="$t('page.stopPL.title')" :desc="$t('page.stopPL.desc')">
                 </CTitle>
             </div>
         </div>
         <div class="gBoarder1 q-pa-md"> 
-            <div class="gPageSubTitle">
-                {{ $t('page.stopLoss.coinSelect.title') }}
-            </div>
-            <div class="q-my-md">
-                <q-select  bg-color="grey-1" outlined v-model="v_position.asset" :options="v_assets" label="Select a Token" />
+            <div class="q-my-md text-h6">
+                wETH 3x Long
+                <!-- <q-select  bg-color="grey-1" outlined v-model="v_position.asset" :options="v_assets" label="Select a Token" /> -->
             </div>
             <div class="row justify-between">  
-                <div class="gPageSubTitle">
-                    주문가능
+                <div class="gCaption">
+                    Order available
                 </div>
                 <div class="text-right text-subtitle2">
                     <div>9.97777774333 DOT</div>
                     <div >= 376,000 USDT</div>
                 </div>
             </div>  
+                <div class="gPageSubTitle q-mt-md"> 
+                    Price
+                </div>
+            <div class="q-my-md full-width"> 
+                <q-input  bg-color="grey-1" type="number" outlined v-model="v_position.stop_price" placeholder="Price" />
+            </div>
+            <div class="gPageSubTitle q-mt-lg"> 
+                Amount
+            </div>
             <div class="row q-ma-md justify-between">
                 <div class="full-width">
                     <q-btn-toggle
@@ -37,32 +44,12 @@
                 </div>    
             </div>
             <div class="row justify-between"> 
-                <div class="gPageSubTitle">
-                    수량
+                <div class="q-my-sm full-width"> 
+                    <q-input  bg-color="grey-1" type="number" outlined v-model="v_position.portion" placeholder="DOT" />
                 </div>
-                <div class="q-my-md full-width"> 
-                    <q-input  bg-color="grey-1" type="number" outlined v-model="v_position.portion" placeholder="수량" />
-                </div>
-                <div class="gPageSubTitle"> 
-                    가격
-                </div>
-                <div class="q-my-md full-width"> 
-                    <q-input  bg-color="grey-1" type="number" outlined v-model="v_position.stop_price" placeholder="가격" />
-                </div>
-                <!-- <div class="row q-my-md">
-                    <div class="q-mr-xs">
-                        <q-btn color="grey-5" outline text-color="grey-10" icon="add" />
-                    </div> 
-                    <div>
-                        <q-btn color="grey-5" outline text-color="grey-10" icon="remove" />
-                    </div> 
-                </div>  -->
             </div>
-            <div class="gPageSubTitle"> 
-                총액
-            </div>
-            <div class="q-my-md"> 
-                <q-input  class="full-width" bg-color="grey-1" type="number" outlined v-model="v_position.estimated_value" placeholder="총액" />
+            <div class="q-my-sm"> 
+                <q-input  class="full-width" bg-color="grey-1" type="number" outlined v-model="v_position.estimated_value" placeholder="USDT" />
             </div>
             <div class="row justify-evenly"> 
                 <div class="q-ma-xs">
@@ -74,23 +61,23 @@
             </div>
             <q-separator class="q-my-md" />
             <div class="gDialogTitle q-my-md"> 
-                보유자산(USDT)
+                ASSET(USDT)
             </div>
             <div> 
                 <div class="row justify-between">
-                    <div class="gNameText">{{ $t('page.stopLoss.asset.avgPurchase.title') }}</div>
+                    <div class="gNameText">{{ $t('page.stopPL.asset.avgPurchase.title') }}</div>
                     <div>100,000,000</div>
                 </div>
                 <div class="row justify-between">
-                    <div class="gNameText">{{ $t('page.stopLoss.asset.value.title') }}</div>
+                    <div class="gNameText">{{ $t('page.stopPL.asset.value.title') }}</div>
                     <div>120,000,000</div>
                 </div>
                 <div class="row justify-between">
-                    <div class="gNameText">{{ $t('page.stopLoss.asset.pl.title') }}</div>
+                    <div class="gNameText">{{ $t('page.stopPL.asset.pl.title') }}</div>
                     <div style="color: red">20,000,000</div>
                 </div>
                 <div class="row justify-between">
-                    <div class="gNameText">{{ $t('page.stopLoss.asset.roi.title') }}</div>
+                    <div class="gNameText">{{ $t('page.stopPL.asset.roi.title') }}</div>
                     <div style="color: red">20%</div>
                 </div>
             </div> 
@@ -100,26 +87,26 @@
             <q-card> 
                 <q-card-section>
                     <div class="q-my-md gDialogTitle text-center">
-                        매도 주문 확인
+                        Order Confirm
                     </div>
                     <div class="gBoarder1 q-pa-md text-center"> 
                         Polkadot (DOT/USDT)
                     </div>
                     <div class="gBoarder1 q-mt-sm">
                         <div class="row justify-between q-ma-sm"> 
-                            <div class="gNameText">주문구분</div> 
-                            <div>지정가매도</div> 
+                            <div class="gNameText">Position</div> 
+                            <div>Short</div> 
                         </div>
                         <div class="row justify-between q-ma-sm"> 
-                            <div class="gNameText">주문가격</div> 
-                            <div>130,000,000</div> 
+                            <div class="gNameText">Ordered Price</div> 
+                            <div>130,000</div> 
                         </div>
                         <div class="row justify-between q-ma-sm"> 
-                            <div class="gNameText">주문수량</div> 
+                            <div class="gNameText">Ordered Amount</div> 
                             <div>30,000</div> 
                         </div>
                         <div class="row justify-between q-ma-sm"> 
-                            <div class="gNameText">주문총액</div> 
+                            <div class="gNameText">Total</div> 
                             <div>30,000,000</div> 
                         </div>
                     </div>
@@ -140,10 +127,10 @@
                 <q-card-section> 
                 <div class="text-center"> 
                     <div class="gDialogTitle q-my-md">
-                        매도 주문 접수
+                        Order recieved
                     </div>
                     <div class="q-my-xl"> 
-                        매도주문이 정상완료되었습니다. 
+                        Your order has been successfully completed.                   
                     </div>
                     <q-separator class="q-my-md" />
                     <div class=""> 

@@ -38,25 +38,22 @@ export default {
 				},
 			},
 		},
-		stopLoss : {
-			title : 'Stop Loss',
+		stopPL : {
+			title : 'Stop P/L',
 			desc : 'description',	
-			coinSelect : {
-				title : '보유중인 코인',
-			},
 			asset : {
-				title : '보유자산',
+				title : 'Asset',
 				avgPurchase : {
-					title : '매수평균가'
+					title : 'Avg. Purchase'
 				},
 				value : {
-					title : '평가금액'
+					title : 'Evaluate Price'
 				},
 				pl : {
-					title : '평가손익'
+					title : 'Evaluate P/L'
 				},
 				roi : {
-					title : '수익률'
+					title : 'Roi'
 				},
 			},
 		},
@@ -85,9 +82,6 @@ export default {
 			addLiquidity : {
 				title : 'Add Liquidity',
 			},
-			poolRatio : {
-				title : 'Pooling Ratio',
-			},
 			poolList : {
 				desc : 'Your liquidity position will appear here.', 
 			},
@@ -97,7 +91,7 @@ export default {
 				title : 'Liquidity',
 			},
 			fee : {
-				title : 'Fee',
+				title : 'Income (fees)',
 			},
 			
 		},
@@ -152,11 +146,16 @@ export default {
 			connectWallet : {
 				title : 'Connect A Wallet',
 			},
-			confirmLong : {
-				title : 'Confirm Long',
-			},
-			confirmShort : {
-				title : 'Confirm Short',
+			confirm : {
+				long : {
+					title : 'Confirm Long',
+				},
+				short : {
+					title : 'Confitm Short',
+				},
+				checkBox : {
+					title : "Don't show again. You can change this in (Futres-Preference.)",
+				},
 			},
 			roi : {
 				title : 'ROI',
@@ -184,14 +183,26 @@ export default {
 			addLiquidity : {
 				title : 'Add Liquidity',
 			},
+			currentLiquidity : {
+				title : 'Current Liquidity',
+			},
 			tokenPick : {
 				title : 'Select a Token',
 			},
 			checking : {
-				title : '확인을 기다리는 중 ...',
-				desc : '지갑에서 이 거래를 확인하세요!',
+				title : 'Waiting for confirmation',
+				desc : 'Check out the transaction in your wallet!',
 				adding : 'Adding',
 				removing : 'Removing',
+			},
+			pooledAmount : {
+				title : 'Pooled Amount'
+			},
+			poolingAmount : {
+				title : 'Pooling Amount',
+			},
+			remainingAmount : {
+				title : 'Available Balances',
 			},
 		
 			confirmPayment : {
@@ -199,8 +210,8 @@ export default {
 				desc : 'This dapp is requesting an action, which could take money from your wallet. Make sure you trust this site',			
 			},
 			exploreView : {
-				title : '제출된 거래',
-				view : 'Explore 에서 보기',
+				title : 'Submitted transaction',
+				view : 'View in Explore',
 			},
 			removeLiquidity : {
 				title : 'Remove Liquidity'
@@ -226,18 +237,18 @@ export default {
 		document : "Document",
 		emergencyKill : "Emergency Kill",
 		information : "Information",
-		addLiquidity : "Add Liquidity",
-		removeLiquidity : "Remove Liquidity",
+		addLiquidity : "Add",
+		removeLiquidity : "Remove",
 		long : "LONG",
 		ok : "ok",
 		newPosition : "New Position",
 		short : "SHORT",
-		sl : "S/L",
+		stopPL : "STOP P/L",
 		new : "NEW",
 		max : "max",
 		coinSelect : "Search",
 		add : "add",
-		searchPaste : "이름 검색 또는 주소 붙여넣기",
+		searchPaste : "Search name or paste address",
 		manageTokenList : "토큰 목록 관리",
 		close : "ClOSE",
 	},
