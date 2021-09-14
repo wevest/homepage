@@ -44,14 +44,25 @@
  .gValue {
    font-size : 14px;
    color : #000000;
-   font-weight : 500;
+   font-weight : 400;
  }
  .gValue2 {
-   font-size : 15px;
+   font-size : 14px;
    color : #000000;
    font-weight : 500;
  }
 
+ .gValue3 {
+  font-size : 15px;
+  color : #000000;
+  font-weight : 400;
+}
+
+ .gValue4 {
+  font-size : 15px;
+  color : #000000;
+  font-weight : 500;
+}
  .gText {
    font-size: 14px;
    color : #000000;
@@ -64,6 +75,12 @@
   font-weight : 400;
 }
 
+.gText3 {
+  font-size: 14px;
+  // color : #7D8D99;
+  color : #616161;
+  font-weight : 400;
+}
 
 .gCaption {
   color: #7D8D99;

@@ -7,7 +7,7 @@
         </div>
 
         <div class="gPageSubTitle"> 
-            {{ $t('page.pool.poolSummary.title') }}
+            {{ $t('page.pool.poolsOverview.title') }}
         </div>
         <div class="q-my-md text-right"> 
             <q-btn color="primary" rounded :label="$t('button.newPosition')" @click="onClickAdd" />
@@ -223,14 +223,8 @@ export default {
 
 .poolListDesc {
     color : #6E727D;
-    font-size : 17px;
+    font-size : 10px;
 }
 
-.terms {
-    color : blue;
-}
 
-.termsBox {
-    background-color: rgb(247, 248, 250);;
-} 
 </style>

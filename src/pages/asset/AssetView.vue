@@ -3,7 +3,8 @@
         <!-- 청산전 asset-Page-시작 -->
         <div class="row">
             <div class="col">
-                <CTitle :title="$t('page.asset.title')" :desc="$t('page.asset.desc')">
+                <CTitle :title="$t('page.asset.title')" :desc="$t('page.asset.desc')"
+                        extraCaption="" @onClickTitleExtra="">
                 </CTitle>
             </div>
         </div>
@@ -12,7 +13,7 @@
                 {{ $t('page.asset.pool.title') }}
             </div>  
             <div class="q-mx-lg"> 
-                <div class="row gBoarder2 q-mb-sm" @click="onClickPool(a_pool)"
+                <div class="row gBoarder4 q-mb-sm" @click="onClickPool(a_pool)"
                     :key="index"
                     v-for="(a_pool, index) in v_pools.items">        
                     <div>
@@ -24,22 +25,22 @@
                     </div>
                 </div>
             </div>
-            <div class="q-pa-md gPageSubTitle">
+            <div class="q-pa-md gText2">
                 {{ $t('page.asset.poolIncome.title') }}
             </div>  
             <div class="q-mx-lg"> 
                 <div class="row gBoarder2 q-mb-sm">
-                    <div class="gNameText">{{ $t('page.asset.poolIncome.feeIncome.title') }}</div>
+                    <div class="gText3">{{ $t('page.asset.poolIncome.feeIncome.title') }}</div>
                     <q-space />
                     <div>$13.63</div>
                 </div>
                 <div class="row gBoarder2 q-mb-sm">
-                    <div class="gNameText">{{ $t('page.asset.poolIncome.yieldFarming.title') }}</div>
+                    <div class="gText3">{{ $t('page.asset.poolIncome.yieldFarming.title') }}</div>
                     <q-space />
                     <div>$13.63</div>
                 </div>
                 <div class="row gBoarder2 q-mb-sm">
-                    <div class="gNameText">{{ $t('page.asset.poolIncome.wevestToken.title') }}</div>
+                    <div class="gText3">{{ $t('page.asset.poolIncome.wevestToken.title') }}</div>
                     <q-space />
                     <div>6,310.57</div>
                 </div>
@@ -49,7 +50,7 @@
             <div class="q-pa-md gPageSubTitle">
                 {{ $t('page.asset.token.title') }}
             </div>  
-            <div class="gBoarder2 q-mx-lg q-mb-sm" 
+            <div class="gBoarder4 q-mx-lg q-mb-sm" 
                 :key="index"
                 v-for="(a_asset, index) in v_assets.items">
                 
@@ -70,12 +71,13 @@
                     </div>
                 </div>  
             </div>
+            <div class="q-py-md text-center"> 
+                <q-btn color="red" :label="$t('button.redeem')" @click="onClickAllClear" />
+            </div>          
+
         </div>
-        <div class="q-py-md text-center"> 
-            <q-btn color="red" :label="$t('button.emergencyKill')" />
-        </div>          
         <div class="q-my-lg text-center"> 
-            <q-btn flat color="primary" label="언어: English" />
+            <q-btn flat color="primary" label="language: English" />
         </div>
 
         
@@ -103,7 +105,7 @@
                             <div>$16,800</div> 
                         </div> 
                         <div class="row q-my-sm">
-                            <div>{{ $t('dialog.asset.valuationLoss.title') }}</div>
+                            <div>{{ $t('dialog.asset.evaluationP&L.title') }}</div>
                             <q-space />
                             <div style="color:green">$180</div> 
                         </div> 
@@ -129,11 +131,13 @@
                         </div> 
                         <q-separator class="q-my-md" />
                         <div class="row justify-evenly"> 
-                            <!-- <div class="">
-                                <q-btn color="orange" :label="$t('button.stopPL')" @click="onClickPTSL" />
-                            </div>  -->
+<!--                            
                             <div class="">
-                                <q-btn color="red" :label="$t('button.closePosition')" @click="onClickClosePosition" />
+                                <q-btn color="orange" :label="$t('button.stopPL')" @click="onClickPTSL" />
+                            </div> 
+-->                            
+                            <div class="">
+                                <q-btn color="red" :label="$t('button.redeem')" @click="onClickClosePosition" />
                             </div> 
                         </div>
                     </div>
@@ -148,7 +152,7 @@
                 <q-card-section>
                     <div class="row">
                         <div class="gDialogTitle">
-                            {{ $t('dialog.asset.closePosition.title') }}
+                            {{ $t('dialog.asset.redeem.title') }}
                         </div>
                         <q-space />
                         <div class=""> 
@@ -164,12 +168,12 @@
                         <div class="row q-py-sm"> 
                             <div class="gNameText">{{ $t('dialog.asset.price.title') }}</div>
                             <q-space />
-                            <div>49763.08 USDT</div>       
+                            <div>49,763.08 USDT</div>       
                         </div>
                         <div class="row q-py-sm"> 
                             <div class="gNameText">{{ $t('dialog.asset.amount.title') }}</div>
                             <q-space />
-                            <div>1012.45 USDT</div>
+                            <div>1,012.45 USDT</div>
                         </div>
                         <div class="row q-py-sm"> 
                             <div class="gNameText">{{ $t('dialog.asset.cost.title') }}</div>
@@ -188,7 +192,7 @@
         </q-dialog>
 
 <!-- 청산 완료-Dialog-시작 -->
-        <q-dialog v-model="v_dialog_notice" position="bottom">
+        <q-dialog v-model="v_dialog_clearall" position="bottom">
             <q-card>
                 <q-card-section>
                     <div class="gBoarder1 text-center"> 
@@ -197,11 +201,11 @@
                             <div class="text-h6 q-my-sm">$16,800</div> 
                         </div>
                         <div> 
-                            {{ $t('dialog.asset.completeClosePositionMessage.title') }}
+                            {{ $t('dialog.asset.redeemComplete.title') }}
                         </div>
                         <div class="">
                             <div class="q-py-lg">
-                                <q-btn color="primary" :label="$t('button.completeClosePosition')" @click="onClickDone" />
+                                <q-btn color="primary" :label="$t('button.completeRedeem')" @click="onClickDone" />
                             </div>
                         </div>
                     </div>
@@ -247,6 +251,7 @@ export default {
             v_dialog_token: false,
             v_dialog_sell: false,
             v_dialog_notice: false,
+            v_dialog_clearall: false,
 
             v_labels: {'submit': 'Upload', 'cancel': 'Cancel'},
         }
@@ -296,7 +301,8 @@ export default {
 
         onClickToken(asset) {
             logger.log.debug("AssetView.onClickToken :",asset);
-            this.v_dialog_token = true;
+            //this.v_dialog_token = true;
+            NavFunc.navAssetDetail(this);
         },
 
         onClickCloseTokenDialog() {
@@ -318,7 +324,11 @@ export default {
         },
 
         onClickDone() {
-            this.v_dialog_notice = false;
+            this.v_dialog_clearall = false;
+        },
+
+        onClickAllClear() {
+            this.v_dialog_clearall = true;
         }
 
     },

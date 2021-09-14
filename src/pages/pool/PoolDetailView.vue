@@ -10,10 +10,10 @@
         </div>
         <div class="row justify-center q-my-md">
             <div class="q-ma-sm"> 
-                <q-btn :label="$t('button.increase')" @click="onClickAdd" />
+                <q-btn :label="$t('button.addLiquidity')" @click="onClickAdd" />
             </div>
             <div class="q-ma-sm"> 
-                <q-btn color="red" :label="$t('button.decrease')" />
+                <q-btn color="red" :label="$t('button.removeLiquidity')" @click="onClickRemove" />
             </div>
         </div>
 
@@ -99,8 +99,13 @@ export default {
 
     methods: {
         onClickAdd() {
-            this.$refs.addDialog.show();
+            this.$refs.addDialog.showExt();
+        },
+
+        onClickRemove() {
+            this.$refs.addDialog.showRemove();
         }
+
     }
 }
 

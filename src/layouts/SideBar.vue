@@ -38,7 +38,7 @@ export default {
 				children: [],
 			},
 			{
-				title: "Token", icon: "article", level: 0,
+				title: "Borrow", icon: "article", level: 0,
 				link: "#/token",
 				children: [],
 			},

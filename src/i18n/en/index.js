@@ -12,12 +12,12 @@ export default {
 	page:{	
 		asset : {
 			title : 'asset',
-			desc : '보유자산 포트폴리오',
+			desc : 'description',
 			pool : {
 				title : 'Pool',
 			},
 			token : {
-				title : 'Token',
+				title : 'Free Loan Token',
 				roi : {
 					title : 'ROI',
 				},
@@ -57,9 +57,15 @@ export default {
 				},
 			},
 		},
-		token : {
-			title: 'Create a Token',
+		borrow : {
+			title: 'Borrow',
 			desc : '',
+			targetAsset : {
+				title : 'Select target asset'
+			},
+			collateralAsset : {
+				title : 'Select collateral asset'
+			},
 			utilization : {
 				title : 'Utilization',
 			},
@@ -75,9 +81,6 @@ export default {
 			desc : 'Your liquidity positions will appear here.',
 			poolsOverview : {
 				title : 'Pools Overview',				
-			},
-			poolSummary : {
-				title : 'Pools Overview'
 			},
 			addLiquidity : {
 				title : 'Add Liquidity',
@@ -135,11 +138,11 @@ export default {
 			checkBoxMessage : {
 				title : "Don't show again. You can changes this in (Futures-Preference). ", 
 			},
-			completeClosePositionMessage : {
-				title : 'USDT로 청산한 토큰의 USDT 가격',
+			redeemComplete : {
+				title : 'Total amount liquidated in USDT',
 			},
-			closePosition : {
-				title : 'Close Position',
+			redeem : {
+				title : 'redeem',
 			},
 		},
 		token : {
@@ -163,8 +166,8 @@ export default {
 			totalAmount : {
 				title : 'Total Amount',
 			},
-			valuationLoss : {
-				title : 'Valuation Loss',
+			evaluationPL : {
+				title : 'Evaluation P&L',
 			},
 			risk : {
 				title : 'Risk',
@@ -173,13 +176,16 @@ export default {
 				title : 'Purchase Price',
 			},
 			totalPurchase : {
-				title : 'Total Purchase',
+				title : 'Total Purchase Amount',
 			},
 			principal : {
 				title : 'Principal',
 			},
 		},
 		pool : {
+			amount : {
+				title : 'Amount'
+			},
 			addLiquidity : {
 				title : 'Add Liquidity',
 			},
@@ -187,7 +193,7 @@ export default {
 				title : 'Current Liquidity',
 			},
 			tokenPick : {
-				title : 'Select a Token',
+				title : 'Add Liquidity',
 			},
 			checking : {
 				title : 'Waiting for confirmation',
@@ -199,7 +205,7 @@ export default {
 				title : 'Pooled Amount'
 			},
 			poolingAmount : {
-				title : 'Pooling Amount',
+				title : 'Amount',
 			},
 			remainingAmount : {
 				title : 'Available Balances',
@@ -220,14 +226,21 @@ export default {
 				title : 'Connect to a wallet',
 			},
 			selectCoin : {
-				title : 'Select Coin',
+				title : 'Select a token!',
+			},
+			removeToken : {
+				title : 'Remove Liquidity'
+			},
+			submitted : {
+				title : 'Submitted transaction'
 			},
 		},
 	},
 	//Button 
 	button: {
 		cancel : "cancel",
-		closePosition : "redeem",
+		redeem : "redeem",
+		completeRedeem : "Confirm",
 		completeClosePosition : "Complete Close Position",
 		completePosition: "발행 완료",
 		connectWallet : "Connect A Wallet",
@@ -237,11 +250,12 @@ export default {
 		document : "Document",
 		emergencyKill : "Emergency Kill",
 		information : "Information",
-		increase : "Increase",
-		decrease : "Decrease",
+		addLiquidity : "Add Liquidity",
+		removeLiquidity : "Remove Liquidity",
 		long : "LONG",
 		ok : "ok",
 		newPosition : "New Position",
+		remove : "Remove",
 		short : "SHORT",
 		stopPL : "STOP P/L",
 		new : "NEW",
@@ -249,7 +263,6 @@ export default {
 		coinSelect : "Search",
 		add : "add",
 		searchPaste : "Search name or paste address",
-		manageTokenList : "토큰 목록 관리",
 		close : "ClOSE",
 	},
 }

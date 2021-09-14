@@ -3,8 +3,8 @@
     <div class="q-pa-md">
         <div class="row">
             <div class="col">
-                <CTitle ttype='title' :title="$t('page.token.title')" :desc="$t ('page.token.desc')" 
-                        extraCaption="Add" @onClickTitleExtra="onClickAdd">
+                <CTitle ttype='title' :title="$t('page.borrow.title')" :desc="$t ('page.borrow.desc')" 
+                        extraCaption="" @onClickTitleExtra="">
                 </CTitle>          
             </div>
         </div>
@@ -24,16 +24,25 @@
         </div>
         <div class="gBoarder1-1">
             <div class="">
+                <div class="q-pb-sm gPageSubTitle">
+                    {{ $t('page.borrow.targetAsset.title') }}
+                </div>
+                <div>
+                    <q-select bg-color="grey-1" outlined v-model="v_asset" :options="v_options" label="Select" />
+                </div>
+                <div class="q-pb-sm q-mt-md gPageSubTitle">
+                    {{ $t('page.borrow.collateralAsset.title') }}
+                </div>                    
                 <div>
                     <q-select bg-color="grey-1" outlined v-model="v_asset" :options="v_options" label="Select" />
                 </div>
                 <div class="q-mt-sm gValue2 text-right">
-                   <span class="gCaption">Name:</span> 22222220.0
+                   <span class="gText3">Balance: </span> <span class="gBigValue">22,222,220.00</span>
                 </div>
             </div>
         </div>
         <div class="q-mt-sm gBoarder1-1 q-pa-md">
-            <div class="q-pb-sm gPageSubTitle">{{ $t('page.token.utilization.title') }}</div>
+            <div class="q-pb-sm gPageSubTitle">{{ $t('page.borrow.utilization.title') }}</div>
             <div class="full-width">
                 <q-btn-toggle
                 v-model="v_utilization"
@@ -47,11 +56,11 @@
                     ]" />
             </div>    
             <div class="q-mt-sm gValue text-right">
-               <span class="gCaption">Name:</span> 12220.0
+               <span class="gText3">Amount: </span> <span class="gBigValue">12,220.00</span>
             </div>
         </div>
         <div class="row gBoarder1-1 q-pa-md q-my-sm">
-            <div class="q-pb-sm gPageSubTitle">{{ $t('page.token.position.title') }}</div>
+            <div class="q-pb-sm gPageSubTitle">{{ $t('page.borrow.position.title') }}</div>
             <div class="full-width">
                 <q-btn-toggle
                     v-model="v_direction"
@@ -67,7 +76,7 @@
             </div>
         </div>
         <div class="gBoarder1-1">
-            <div class="q-pb-sm gPageSubTitle">{{ $t('page.token.leverage.title') }}</div>
+            <div class="q-pb-sm gPageSubTitle">{{ $t('page.borrow.leverage.title') }}</div>
             <div>
                 <div class="text-center">
                     <q-btn-toggle
@@ -98,7 +107,7 @@
             <q-card-section>
                 <div class="row justify-between">
                     <div class="text-h6">
-                        {{ $t('dialog.token.connectWallet.title') }}
+                        {{ $t('dialog.borrow.connectWallet.title') }}
                     </div>
                     <div>
                         <q-btn flat icon="close" />
@@ -246,14 +255,14 @@
 
     <!-- 토큰생성완료-page Start-->
     <q-dialog v-model="v_dialog_new" > 
-        <q-card >
+        <q-card style="min-width: 300px">
             <q-card-section>
                 <div class="row q-my-xs justify-center text-h6">
                         <div class="q-mr-sm">wETH</div>
                         <div class="q-mr-sm" >3x</div>
                         <div>LONG</div>
                 </div>
-                <div class="" style="min-width: 270px">
+                <div class="" style="min-width: 280px">
                     <div class="gBoarder1-1 q-my-sm" >
                         <div class="row"> 
                             <div class="gText">{{ $t('dialog.token.roi.title') }}</div>
@@ -273,7 +282,7 @@
                             <div class="gValue">$16,800</div>
                         </div>
                         <div class="row">
-                            <div class="gText">{{ $t('dialog.token.valuationLoss.title') }}</div>
+                            <div class="gText">{{ $t('dialog.token.evaluationPL.title') }}</div>
                             <q-space />
                             <div class="gValue">$180</div> 
                         </div> 
