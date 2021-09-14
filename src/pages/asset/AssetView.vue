@@ -3,8 +3,7 @@
         <!-- 청산전 asset-Page-시작 -->
         <div class="row">
             <div class="col">
-                <CTitle :title="$t('page.asset.title')" :desc="$t('page.asset.desc')"
-                        extraCaption="Add" @onClickTitleExtra="onClickAdd">
+                <CTitle :title="$t('page.asset.title')" :desc="$t('page.asset.desc')">
                 </CTitle>
             </div>
         </div>
@@ -84,7 +83,7 @@
         <!-- Asset-detail-dialog-시작 -->
         
         <q-dialog v-model="v_dialog_token" position="bottom">
-            <q-card class="q-ma-md q-pa-md">
+            <q-card class="q-ma-md q-pa-md" style="min-width: 280px">
                     <div class="text-right">
                         <q-btn flat size="16px" label="X" @click="onClickCloseTokenDialog" />
                     </div>    
@@ -130,9 +129,9 @@
                         </div> 
                         <q-separator class="q-my-md" />
                         <div class="row justify-evenly"> 
-                            <div class="">
+                            <!-- <div class="">
                                 <q-btn color="orange" :label="$t('button.stopPL')" @click="onClickPTSL" />
-                            </div> 
+                            </div>  -->
                             <div class="">
                                 <q-btn color="red" :label="$t('button.closePosition')" @click="onClickClosePosition" />
                             </div> 

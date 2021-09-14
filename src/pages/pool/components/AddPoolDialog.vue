@@ -213,7 +213,7 @@
                                 <q-icon color="primary" size="4rem" name="arrow_circle_up" />
                             </div>
                             <div class="gDialogTitle q-my-md"> 
-                                제출된 거래 
+                                Submitted transaction
                             </div>
                             <div class="q-py-md"> 
                                 <q-btn text-color="primary" flat :label="$t('dialog.pool.exploreView.view')" />  

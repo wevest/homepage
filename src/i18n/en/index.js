@@ -72,12 +72,12 @@ export default {
 		},
 		pool : {
 			title : 'Pool',
-			desc : 'pool description',
+			desc : 'Your liquidity positions will appear here.',
 			poolsOverview : {
 				title : 'Pools Overview',				
 			},
 			poolSummary : {
-				title : 'Pool Summary'
+				title : 'Pools Overview'
 			},
 			addLiquidity : {
 				title : 'Add Liquidity',
@@ -227,7 +227,7 @@ export default {
 	//Button 
 	button: {
 		cancel : "cancel",
-		closePosition : "Close Position",
+		closePosition : "redeem",
 		completeClosePosition : "Complete Close Position",
 		completePosition: "발행 완료",
 		connectWallet : "Connect A Wallet",
@@ -237,8 +237,8 @@ export default {
 		document : "Document",
 		emergencyKill : "Emergency Kill",
 		information : "Information",
-		addLiquidity : "Add",
-		removeLiquidity : "Remove",
+		increase : "Increase",
+		decrease : "Decrease",
 		long : "LONG",
 		ok : "ok",
 		newPosition : "New Position",
