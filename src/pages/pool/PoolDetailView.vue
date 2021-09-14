@@ -54,7 +54,7 @@
             <div class="gPageSubTitle q-mb-md">
                  {{  $t ('page.poolDetail.liquidity.title') }}
             </div>
-            <div class="gBigValue gBoarder4 text-right">
+            <div class="gBigValue gBoarder2 text-right">
                 $354.28
             </div>
         </div>
@@ -63,7 +63,7 @@
             <div class="gPageSubTitle q-mb-md">
                 {{  $t ('page.poolDetail.fee.title') }}
             </div>
-            <div class="gBigValue gBoarder4 text-right">
+            <div class="gBigValue gBoarder2 text-right">
                 $3.70
             </div>
         </div>

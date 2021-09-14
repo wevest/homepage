@@ -13,7 +13,7 @@
                 {{ $t('page.asset.pool.title') }}
             </div>  
             <div class="q-mx-lg"> 
-                <div class="row gBoarder4 q-mb-sm" @click="onClickPool(a_pool)"
+                <div class="row gBoarder2 q-mb-sm" @click="onClickPool(a_pool)"
                     :key="index"
                     v-for="(a_pool, index) in v_pools.items">        
                     <div>
@@ -29,17 +29,17 @@
                 {{ $t('page.asset.poolIncome.title') }}
             </div>  
             <div class="q-mx-lg"> 
-                <div class="row gBoarder4 q-mb-sm">
+                <div class="row gBoarder2 q-mb-sm">
                     <div class="gNameText">{{ $t('page.asset.poolIncome.feeIncome.title') }}</div>
                     <q-space />
                     <div>$13.63</div>
                 </div>
-                <div class="row gBoarder4 q-mb-sm">
+                <div class="row gBoarder2 q-mb-sm">
                     <div class="gNameText">{{ $t('page.asset.poolIncome.yieldFarming.title') }}</div>
                     <q-space />
                     <div>$13.63</div>
                 </div>
-                <div class="row gBoarder4 q-mb-sm">
+                <div class="row gBoarder2 q-mb-sm">
                     <div class="gNameText">{{ $t('page.asset.poolIncome.wevestToken.title') }}</div>
                     <q-space />
                     <div>6,310.57</div>
@@ -50,7 +50,7 @@
             <div class="q-pa-md gPageSubTitle">
                 {{ $t('page.asset.token.title') }}
             </div>  
-            <div class="gBoarder4 q-mx-lg q-mb-sm" 
+            <div class="gBoarder2 q-mx-lg q-mb-sm" 
                 :key="index"
                 v-for="(a_asset, index) in v_assets.items">
                 
