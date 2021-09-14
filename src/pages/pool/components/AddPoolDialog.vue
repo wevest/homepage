@@ -9,7 +9,7 @@
                     <div class="q-px-md" style="min-width: 280px">
                         <div CLASS="row q-mb-sm"> 
                             <div class="gDialogTitle">
-                                {{ $t('dialog.pool.tokenPick.title') }}
+                                {{ v_title }}
                             </div> 
                             <q-space />
                             <div class="text-right">
@@ -89,7 +89,7 @@
                     <div class="" style="min-width: 280px"> 
                         <div class="row">
                             <div class="q-my-sm gDialogTitle">
-                                {{ $t('page.pool.addLiquidity.title') }}
+                                {{ v_title }}
                             </div>
                             <q-space />
                             <div>
@@ -137,7 +137,7 @@
                                 <div class="gValue">~100,000 USDT</div>
                             </div>
                             <div class="q-mt-lg q-mb-md text-center">  
-                                <q-btn class="full-width" label="Add" color="primary" @click="onClickAdd2" />
+                                <q-btn class="full-width" :label="v_caption" color="primary" @click="onClickAdd2" />
                             </div>
                         </div>
                     </div>
@@ -152,7 +152,7 @@
                     <div class="q-ma-md" style="min-width: 280px">
                         <div class="row"> 
                             <div class="gDialogTitle"> 
-                                {{ $t('dialog.pool.addLiquidity.title')}}
+                                {{ v_title }}
                             </div>
                             <q-space />
                             <div> 
@@ -162,7 +162,7 @@
                         <q-separator class="q-my-md" />
                         <div class="row gBoarder1"> 
                             <div class="gText2">
-                                USDT <span>adding pool</span>
+                                USDT <span> pool</span>
                             </div> 
                             <q-space />
                             <div class="gValue2"> $350 </div>
@@ -250,6 +250,10 @@ export default {
             v_asset: null,
             v_search: null,
 
+            v_title: this.$t('dialog.pool.tokenPick.title'),
+            v_caption: this.$t('button.add'),
+            v_mode:'add',
+
             v_options: ['USDT'],
             
             v_dialog_asset: false,
@@ -263,7 +267,24 @@ export default {
     methods: {
 
         show() {
+            this.v_title = this.$t('dialog.pool.tokenPick.title');
+            this.v_caption = this.$t('button.add');
             this.v_dialog_asset = true;
+        },
+
+        showExt() {
+            this.v_title = this.$t('dialog.pool.tokenPick.title');
+            this.v_caption = this.$t('button.add');
+            this.v_dialog_asset = false;
+            this.v_dialog_portion = true;
+        },
+
+        showRemove() {
+            this.v_title = this.$t('dialog.pool.tokenRemove.title');
+            this.v_caption = this.$t('button.remove');
+
+            this.v_dialog_asset = false;
+            this.v_dialog_portion = true;
         },
 
         onClickAdd() {

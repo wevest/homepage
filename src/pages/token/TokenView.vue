@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col">
                 <CTitle ttype='title' :title="$t('page.token.title')" :desc="$t ('page.token.desc')" 
-                        extraCaption="Add" @onClickTitleExtra="onClickAdd">
+                        extraCaption="" @onClickTitleExtra="">
                 </CTitle>          
             </div>
         </div>
@@ -25,6 +25,11 @@
         <div class="gBoarder1-1">
             <div class="">
                 <div>
+                    select target asset
+                    <q-select bg-color="grey-1" outlined v-model="v_asset" :options="v_options" label="Select" />
+                </div>
+                <div>
+                    select collateral asset
                     <q-select bg-color="grey-1" outlined v-model="v_asset" :options="v_options" label="Select" />
                 </div>
                 <div class="q-mt-sm gValue2 text-right">

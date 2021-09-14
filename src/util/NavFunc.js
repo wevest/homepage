@@ -36,6 +36,14 @@ export default class NavFunc {
         a_this.$router.push(dic_param);
     }
 
+    static navAssetDetail(a_this) {
+        logger.log.debug("CommonFunc.navAssetDetail - ",a_this.$route);
+        
+        store.getters.nav.add(a_this.$route);
+        let dic_param = {name:'asset_detail',path:'asset_detail',query:{}};
+        a_this.$router.push(dic_param);
+    }
+
     static navPTSL(a_this) {
         logger.log.debug("CommonFunc.navPTSL - ",a_this.$route);
         

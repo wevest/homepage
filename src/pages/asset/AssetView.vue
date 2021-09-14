@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col">
                 <CTitle :title="$t('page.asset.title')" :desc="$t('page.asset.desc')"
-                        extraCaption="Add" @onClickTitleExtra="onClickAdd">
+                        extraCaption="" @onClickTitleExtra="">
                 </CTitle>
             </div>
         </div>
@@ -71,10 +71,11 @@
                     </div>
                 </div>  
             </div>
+            <div class="q-py-md text-center"> 
+                <q-btn color="red" :label="$t('button.clearAll')" @click="onClickAllClear" />
+            </div>          
+
         </div>
-        <div class="q-py-md text-center"> 
-            <q-btn color="red" :label="$t('button.emergencyKill')" />
-        </div>          
         <div class="q-my-lg text-center"> 
             <q-btn flat color="primary" label="언어: English" />
         </div>
@@ -130,11 +131,13 @@
                         </div> 
                         <q-separator class="q-my-md" />
                         <div class="row justify-evenly"> 
+<!--                            
                             <div class="">
                                 <q-btn color="orange" :label="$t('button.stopPL')" @click="onClickPTSL" />
                             </div> 
+-->                            
                             <div class="">
-                                <q-btn color="red" :label="$t('button.closePosition')" @click="onClickClosePosition" />
+                                <q-btn color="red" :label="$t('button.redeem')" @click="onClickClosePosition" />
                             </div> 
                         </div>
                     </div>
@@ -149,7 +152,7 @@
                 <q-card-section>
                     <div class="row">
                         <div class="gDialogTitle">
-                            {{ $t('dialog.asset.closePosition.title') }}
+                            {{ $t('dialog.asset.redeem.title') }}
                         </div>
                         <q-space />
                         <div class=""> 
@@ -189,7 +192,7 @@
         </q-dialog>
 
 <!-- 청산 완료-Dialog-시작 -->
-        <q-dialog v-model="v_dialog_notice" position="bottom">
+        <q-dialog v-model="v_dialog_clearall" position="bottom">
             <q-card>
                 <q-card-section>
                     <div class="gBoarder1 text-center"> 
@@ -202,7 +205,7 @@
                         </div>
                         <div class="">
                             <div class="q-py-lg">
-                                <q-btn color="primary" :label="$t('button.completeClosePosition')" @click="onClickDone" />
+                                <q-btn color="primary" :label="$t('button.completeRedeem')" @click="onClickDone" />
                             </div>
                         </div>
                     </div>
@@ -248,6 +251,7 @@ export default {
             v_dialog_token: false,
             v_dialog_sell: false,
             v_dialog_notice: false,
+            v_dialog_clearall: false,
 
             v_labels: {'submit': 'Upload', 'cancel': 'Cancel'},
         }
@@ -297,7 +301,8 @@ export default {
 
         onClickToken(asset) {
             logger.log.debug("AssetView.onClickToken :",asset);
-            this.v_dialog_token = true;
+            //this.v_dialog_token = true;
+            NavFunc.navAssetDetail(this);
         },
 
         onClickCloseTokenDialog() {
@@ -319,7 +324,11 @@ export default {
         },
 
         onClickDone() {
-            this.v_dialog_notice = false;
+            this.v_dialog_clearall = false;
+        },
+
+        onClickAllClear() {
+            this.v_dialog_clearall = true;
         }
 
     },
