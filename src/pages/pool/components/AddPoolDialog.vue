@@ -2,7 +2,7 @@
 
     <div>
 
-    <!-- Pool.New-Position-1-dialog-->
+    <!-- pool.dialog.new-position-->
         <q-dialog v-model="v_dialog_asset">
             <q-card>
                 <q-card-section>
@@ -81,8 +81,7 @@
                 </q-card-section>
             </q-card>
         </q-dialog>
-    <!-- Pool.New-Position-1-dialog-->
-    <!-- Pool.New-Position-2-dialog-->
+    <!--pool.dialog.add-liquidity-->
         <q-dialog v-model="v_dialog_portion">
             <q-card>
                 <q-card-section>
@@ -106,11 +105,11 @@
                             </div>
                             <div class="q-ma-sm">
                                 <div class="row justify-between"> 
-                                    <div class="gCaption">{{ $t('dialog.pool.pooledAmount.title') }}</div>
+                                    <div class="gText3">{{ $t('dialog.pool.pooledAmount.title') }}</div>
                                     <div class="gValue">100,000 ADA</div>
                                 </div>
                                 <div class="row justify-between"> 
-                                    <div class="gCaption">{{ $t('dialog.pool.remainingAmount.title') }}</div>
+                                    <div class="gText3">{{ $t('dialog.pool.remainingAmount.title') }}</div>
                                     <div class="gValue">100,000,000 USDT</div>
                                 </div>
                             </div>
@@ -133,7 +132,7 @@
                                     ]" />
                             </div> 
                             <div class="row justify-between q-mt-md"> 
-                                <div class="gCaption">{{ $t('dialog.pool.amount.title') }}</div>
+                                <div class="gText3">{{ $t('dialog.pool.amount.title') }}</div>
                                 <div class="gValue">~100,000 USDT</div>
                             </div>
                             <div class="q-mt-lg q-mb-md text-center">  
@@ -144,8 +143,7 @@
                 </q-card-section>
             </q-card>
         </q-dialog>
-    <!-- Pool.New-Position-2-dialog-->
-    <!-- Pool.Add-Liquidity-3-dialog-->
+    <!-- pool.dialog.add-liquidity.confirm-->
         <q-dialog v-model="v_dialog_confirm">
             <q-card>
                 <q-card-section>
@@ -175,10 +173,7 @@
             </q-card>
         </q-dialog>
 
-    <!-- Pool.Add-Liquidity-3-dialog-->
-
-
-    <!-- Pool.Add-Liquidity-4-dialog-->
+    <!-- pool.dialog.add-liquidity.complete-->
         <q-dialog v-model="v_dialog_progress">
             <q-card> 
                 <div style="min-width: 280px">
@@ -226,8 +221,6 @@
                 </div>
             </q-card>
         </q-dialog>
-        <!-- Pool.Add-Liquidity-4-dialog-->
-
     </div>
 </template>
 

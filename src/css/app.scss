@@ -1,5 +1,12 @@
 // app global css in SCSS form
 
+.gResponsive {
+  
+max-width: 900px;
+width: auto;
+margin:0 auto;
+} 
+
 
 .gPageTitle {
   font-size: map-get($h4, "size");
@@ -21,7 +28,7 @@
 
 .gBigName {
   color: $grey-10;
-  font-size: map-get($h4, "size");
+  font-size: map-get($h5, "size");
   letter-spacing: map-get($h5, "letter-spacing");
   font-weight: map-get($text-weights, "medium");
   margin: map-get($space-sm, "y") 0px map-get($space-sm, "y") 0px;
@@ -76,7 +83,7 @@
 }
 
 .gText3 {
-  font-size: 14px;
+  font-size: 13px;
   // color : #7D8D99;
   color : #616161;
   font-weight : 400;

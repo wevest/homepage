@@ -1,48 +1,50 @@
 <template>
-    <div class="">
-        <div class="q-ma-md q-pa-md gBoarder1">
-<!--            
-                <div class="text-right">
-                    <q-btn flat size="16px" label="X" @click="onClickCloseTokenDialog" />
-                </div>    
--->                
+    <div class="q-pa-md gResponsive">
+        <div class="row">
+            <div class="col">
+                <CTitle :title="$t('page.freeLoanToken.title')" :desc="$t('page.freeLoanToken.desc')"
+                        extraCaption="" >
+                </CTitle>
+            </div>
+        </div>
+        <div class="gBoarder1">
                 <div class="row justify-center text-h6">
                     <div class="q-ma-xs">wETH 3x Long</div>
                 </div>
                 <q-separator class="q-my-md" />
                 <div class="q-mx-md">
                     <div class="row gBoarder2"> 
-                        <div class="gText3">{{ $t('dialog.asset.roi.title') }}</div>
+                        <div class="gText3">{{ $t('page.freeLoanToken.roi.title') }}</div>
                         <q-space />
                         <div style="color:green">+36%</div>
                     </div>
                     <div class="row q-my-sm gBoarder2">
-                        <div class="gText3">{{ $t('dialog.asset.totalAmount.title') }}</div>
+                        <div class="gText3">{{ $t('page.freeLoanToken.totalAmount.title') }}</div>
                         <q-space />
                         <div>$16,800</div> 
                     </div> 
                     <div class="row q-my-sm gBoarder2">
-                        <div class="gText3">{{ $t('dialog.asset.valuationLoss.title') }}</div>
+                        <div class="gText3">{{ $t('page.freeLoanToken.evaluationPNL.title') }}</div>
                         <q-space />
                         <div style="color:green">$180</div> 
                     </div> 
                     <div class="row q-my-sm gBoarder2">
-                        <div class="gText3">{{ $t('dialog.asset.risk.title') }}</div>
+                        <div class="gText3">{{ $t('page.freeLoanToken.risk.title') }}</div>
                         <q-space />
                         <div style="color:red">2.5%</div> 
                     </div> 
                     <div class="row q-my-sm gBoarder2">
-                        <div class="gText3">{{ $t('dialog.asset.purchasePrice.title') }}</div>
+                        <div class="gText3">{{ $t('page.freeLoanToken.purchasePrice.title') }}</div>
                         <q-space />
                         <div>$3,500</div> 
                     </div> 
                     <div class="row q-my-sm gBoarder2">
-                        <div class="gText3">{{ $t('dialog.asset.totalPurchase.title') }}</div>
+                        <div class="gText3">{{ $t('page.freeLoanToken.totalPurchase.title') }}</div>
                         <q-space />
                         <div>$15,000</div> 
                     </div> 
                     <div class="row q-my-sm gBoarder2">
-                        <div class="gText3">{{ $t('dialog.asset.principal.title') }}</div>
+                        <div class="gText3">{{ $t('page.freeLoanToken.principal.title') }}</div>
                         <q-space />
                         <div>$500</div> 
                     </div> 
@@ -65,7 +67,7 @@
                 <q-card-section>
                     <div class="row">
                         <div class="gDialogTitle">
-                            {{ $t('dialog.asset.redeem.title') }}
+                            {{ $t('dialog.redeem.title') }}
                         </div>
                         <q-space />
                         <div class=""> 
@@ -74,27 +76,27 @@
                     </div>
                     <div class="gBoarder1 q-pa-md">
                         <div class="row q-py-sm"> 
-                            <div class="gNameText">{{ $t('dialog.asset.symbol.title') }}</div>
+                            <div class="gNameText">{{ $t('dialog.redeem.symbol.title') }}</div>
                             <q-space />
                             <div>BTCUSDT Perpetual</div>
                         </div>
                         <div class="row q-py-sm"> 
-                            <div class="gNameText">{{ $t('dialog.asset.price.title') }}</div>
+                            <div class="gNameText">{{ $t('dialog.redeem.price.title') }}</div>
                             <q-space />
                             <div>49,763.08 USDT</div>       
                         </div>
                         <div class="row q-py-sm"> 
-                            <div class="gNameText">{{ $t('dialog.asset.amount.title') }}</div>
+                            <div class="gNameText">{{ $t('dialog.redeem.amount.title') }}</div>
                             <q-space />
                             <div>1,012.45 USDT</div>
                         </div>
                         <div class="row q-py-sm"> 
-                            <div class="gNameText">{{ $t('dialog.asset.cost.title') }}</div>
+                            <div class="gNameText">{{ $t('dialog.redeem.cost.title') }}</div>
                             <q-space />
                             <div>331.95 USDT</div>
                         </div>
                         <div class="q-my-md">
-                        <q-checkbox v-model="v_sell_check" :label="$t('dialog.asset.checkBoxMessage.title')" />
+                        <q-checkbox v-model="v_sell_check" :label="$t('dialog.redeem.checkBox.title')" />
                         </div>
                         <div>
                             <q-btn class="full-width" color="primary" :label="$t('button.confirm')" @click="onClickConfirm" />
@@ -114,11 +116,11 @@
                             <div class="text-h6 q-my-sm">$16,800</div> 
                         </div>
                         <div> 
-                            {{ $t('dialog.asset.completeClosePositionMessage.title') }}
+                            {{ $t('dialog.redeem.completeRedemption.title') }}
                         </div>
                         <div class="">
                             <div class="q-py-lg">
-                                <q-btn color="primary" :label="$t('button.completeRedeem')" @click="onClickDone" />
+                                <q-btn color="primary" :label="$t('button.close')" @click="onClickDone" />
                             </div>
                         </div>
                     </div>

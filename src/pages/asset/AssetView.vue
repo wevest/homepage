@@ -1,10 +1,9 @@
 <template>
-    <div class="q-pa-md responsive">
-        <!-- 청산전 asset-Page-시작 -->
+    <div class="q-pa-md gResponsive">
         <div class="row">
             <div class="col">
                 <CTitle :title="$t('page.asset.title')" :desc="$t('page.asset.desc')"
-                        extraCaption="" @onClickTitleExtra="">
+                        extraCaption="">
                 </CTitle>
             </div>
         </div>
@@ -80,8 +79,7 @@
             <q-btn flat color="primary" label="language: English" />
         </div>
 
-        
-        <!-- 청산전 asset-Page-끝-->
+       
         <!-- Asset-detail-dialog-시작 -->
         
         <q-dialog v-model="v_dialog_token" position="bottom">
@@ -191,19 +189,21 @@
             </q-card>
         </q-dialog>
 <!-- 청산버튼 클릭 -->
-    <q-dialog v-model="v_dialog_confirm" persistent>
-        <q-card>
-            <q-card-section class="row items-center" >
-                <div class="full-width text-center">  
-                    <q-avatar icon="warning_amber" size="5em" color="white" text-color="warning" />
+    <q-dialog v-model="v_dialog_confirm" persistent position="bottom">
+        <q-card>  
+            <q-card-section class="items-center" >
+            <div class="gBoarder1"> 
+                <div class="text-center">  
+                    <q-avatar icon="warning_amber" size="4em" color="" text-color="warning" />
                     <span class="q-ml-sm gDialogTitle">Do you really redeem?</span>
                 </div>
-            </q-card-section>
             <q-separator class="q-mb-lg" inset/>
             <q-card-actions align="center">
                 <q-btn flat label="Cancel" text-color="primary" v-close-popup />
                 <q-btn label="Confirm" color="primary" @click="onClickConfirmRedeem" />
             </q-card-actions>
+            </div>             
+            </q-card-section>
         </q-card>
     </q-dialog>
     
@@ -363,12 +363,7 @@ export default {
 
 
 <style scope> 
-.responsive {
-    /* 모바일 반응형 */
-  max-width: 700px;
-  width: auto;
-  margin:0 auto;
-} 
+
 
 
 

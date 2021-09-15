@@ -1,6 +1,6 @@
 <template>
 
-    <div class="q-pa-md">
+    <div class="q-pa-md gResponsive">
         <div class="row">
             <div class="col">
                 <CTitle ttype='title' :title="$t('page.borrow.title')" :desc="$t ('page.borrow.desc')" 
@@ -145,22 +145,22 @@
             <q-card-section>
                 <div class="gBoarder1 q-px-md">
                     <div class="row q-py-sm"> 
-                        <div class="gText">Symbol</div>
+                        <div class="gText3">Symbol</div>
                         <q-space />
                         <div class="gValue">BTCUSDT Perpetual</div>
                     </div>
                     <div class="row q-py-sm"> 
-                        <div class="gText">Price</div>
+                        <div class="gText3">Price</div>
                         <q-space />
                         <div class="gValue">49763.08 USDT</div>       
                     </div>
                     <div class="row q-py-sm"> 
-                        <div clas="gText">Amount</div>
+                        <div class="gText3">Amount</div>
                         <q-space />
                         <div class="gValue">1012.45 USDT</div>
                     </div>
                     <div class="row q-py-sm"> 
-                        <div class="gText">Cost</div>
+                        <div class="gText3">Cost</div>
                         <q-space />
                         <div class="gValue">331.95 USDT</div>
                     </div>
@@ -193,22 +193,22 @@
             <q-card-section>
                 <div class="gBoarder1 q-px-md">
                     <div class="row q-py-sm"> 
-                        <div class="gText">Symbol</div>
+                        <div class="gText3">Symbol</div>
                         <q-space />
                         <div class="gValue">BTCUSDT Perpetual</div>
                     </div>
                     <div class="row q-py-sm"> 
-                        <div class="gText">Price</div>
+                        <div class="gText3">Price</div>
                         <q-space />
                         <div class="gValue">49763.08 USDT</div>       
                     </div>
                     <div class="row q-py-sm"> 
-                        <div class="gText">Amount</div>
+                        <div class="gText3">Amount</div>
                         <q-space />
                         <div class="gValue">1012.45 USDT</div>
                     </div>
                     <div class="row q-py-sm"> 
-                        <div class="gText">Cost</div>
+                        <div class="gText3">Cost</div>
                         <q-space />
                         <div class="gValue">331.95 USDT</div>
                     </div>
@@ -265,50 +265,50 @@
                 <div class="" style="min-width: 280px">
                     <div class="gBoarder1-1 q-my-sm" >
                         <div class="row"> 
-                            <div class="gText">{{ $t('dialog.token.roi.title') }}</div>
+                            <div class="gText3">{{ $t('dialog.token.roi.title') }}</div>
                             <q-space />
-                            <div class="gValue">36%</div>
+                            <div class="gValue" style="color: green">36%</div>
                         </div>
                         <div class="row">
-                            <div class="gText">ETH price</div>
+                            <div class="gText3">ETH price</div>
                             <q-space />
                             <div class="gValue">$3,800</div> 
                         </div> 
                     </div>
                     <div class="gBoarder1-1 q-my-sm" >
                         <div class="row"> 
-                            <div class="gText">{{ $t('dialog.token.totalAmount.title') }}</div>
+                            <div class="gText3 ">{{ $t('dialog.token.totalAmount.title') }}</div>
                             <q-space />
                             <div class="gValue">$16,800</div>
                         </div>
                         <div class="row">
-                            <div class="gText">{{ $t('dialog.token.evaluationPL.title') }}</div>
+                            <div class="gText3" >{{ $t('dialog.token.evaluationPL.title') }}</div>
                             <q-space />
-                            <div class="gValue">$180</div> 
+                            <div class="gValue" style="color: green">$180</div> 
                         </div> 
                     </div>
                     <div class="gBoarder1-1 q-my-sm">
                         <div class="row"> 
-                            <div class="gText">{{ $t('dialog.token.totalPurchase.title') }}</div>
+                            <div class="gText3">{{ $t('dialog.token.totalPurchase.title') }}</div>
                             <q-space />
                             <div class="gValue">$15,000</div>
                         </div>
                         <div class="row">
-                            <div class="gText">{{ $t('dialog.token.principal.title') }}</div>
+                            <div class="gText3">{{ $t('dialog.token.principal.title') }}</div>
                             <q-space />
                             <div class="gValue">$500</div> 
                         </div> 
                     </div>
                     <div class="gBoarder1-1 q-my-sm" >
                         <div class="row"> 
-                            <div class="gText">{{ $t('dialog.token.purchasePrice.title') }}</div>
+                            <div class="gText3">{{ $t('dialog.token.purchasePrice.title') }}</div>
                             <q-space />
                             <div class="gValue">$3,500</div>
                         </div>
                         <div class="row">
-                            <div class="gText">{{ $t('dialog.token.risk.title') }}</div>
+                            <div class="gText3">{{ $t('dialog.token.risk.title') }}</div>
                             <q-space />
-                            <div class="gValue">2.5%</div> 
+                            <div class="gValue" style="color: red">2.5%</div> 
                         </div> 
                     </div>
                 </div>

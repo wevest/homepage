@@ -1,8 +1,15 @@
 <template>
-    <div class="q-pa-md">
+    <div class="q-pa-md gResponsive">
+          <div class="row">
+            <div class="col">
+                <CTitle :title="$t('page.poolDetail.title')" :desc="$t('page.poolDetail.desc')"
+                        extraCaption="">
+                </CTitle>
+            </div>
+        </div>
         <div class="row q-my-xl justify-center">
             <div class="q-ma-sm">
-                <q-icon size="45px" name="paid" />
+                <q-icon size="40px" name="paid" />
             </div>   
             <div class="gBigName">
                 ADA / USDT
@@ -15,41 +22,7 @@
             <div class="q-ma-sm"> 
                 <q-btn color="red" :label="$t('button.removeLiquidity')" @click="onClickRemove" />
             </div>
-        </div>
-
-<!--                    
-        <div class="gBoarder2 q-mb-sm q-pa-md"> 
-            <div class="q-mb-sm gSubTitle">
-                {{ $t('page.pool.poolRatio.title') }}
-            </div>
-            <div class="full-width">
-                <q-btn-toggle
-                v-model="v_utilization"
-                toggle-color="primary"
-                spread
-                :options="[
-                    {label: '0%', value: '0'},
-                    {label: '25%', value: '25'},
-                    {label: '50%', value: '50'},
-                    {label: '75%', value: '75'}, 
-                    {label: '100%', value: '100'} 
-                    ]" />
-            </div>   
-
-            <div class="q-mt-md">
-                <q-badge color="secondary">
-                        Model: {{ basicModel }} (0 to 100, step 5)
-                        </q-badge>
-                        <q-slider
-                        v-model="basicModel"
-                        :step="5"
-                        label-always
-                        color="primary"
-                        />
-            </div>
-
-        </div>
--->        
+        </div>     
         <div class="gBoarder1-1 q-mb-md"> 
             <div class="gPageSubTitle q-mb-md">
                  {{  $t ('page.poolDetail.liquidity.title') }}
@@ -66,13 +39,9 @@
             <div class="gBigValue gBoarder2 text-right">
                 $3.70
             </div>
-        </div>
-
-<!-- 유동성추가2-dialog-START-->
-        
+        </div>        
         <AddPoolDialog ref="addDialog" />
     </div>
-
 </template>
 
 <script>

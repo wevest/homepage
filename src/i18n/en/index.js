@@ -12,7 +12,7 @@ export default {
 	page:{	
 		asset : {
 			title : 'asset',
-			desc : 'description',
+			desc : 'You can manage your all assets here!',
 			pool : {
 				title : 'Pool',
 			},
@@ -38,78 +38,17 @@ export default {
 				},
 			},
 		},
-		stopPL : {
-			title : 'Stop P/L',
-			desc : 'description',	
-			asset : {
-				title : 'Asset',
-				avgPurchase : {
-					title : 'Avg. Purchase'
-				},
-				value : {
-					title : 'Evaluate Price'
-				},
-				pl : {
-					title : 'Evaluate P/L'
-				},
-				roi : {
-					title : 'Roi'
-				},
-			},
-		},
-		borrow : {
-			title: 'Borrow',
-			desc : '',
-			targetAsset : {
-				title : 'Select target asset'
-			},
-			collateralAsset : {
-				title : 'Select collateral asset'
-			},
-			utilization : {
-				title : 'Utilization',
-			},
-			position : {
-				title :'Position',
-			},
-			leverage : {
-				title : 'Leverage',
-			},
-		},
-		pool : {
-			title : 'Pool',
-			desc : 'Your liquidity positions will appear here.',
-			poolsOverview : {
-				title : 'Pools Overview',				
-			},
-			addLiquidity : {
-				title : 'Add Liquidity',
-			},
-			poolList : {
-				desc : 'Your liquidity position will appear here.', 
-			},
-		},
-		poolDetail : {
-			liquidity : {
-				title : 'Liquidity',
-			},
-			fee : {
-				title : 'Income (fees)',
-			},
-			
-		},
-	},
-	
-	dialog : {
-		asset : {
+		freeLoanToken : {
+			title : 'Free Loan Token',
+			desc: 'Detailed Token page',
 			roi : {
 				title : 'ROI',
 			},
 			totalAmount : {
 				title : 'Total Amount',
 			},
-			valuationLoss : {
-				title : 'Valuation Loss',
+			evaluationPNL : {
+				title : 'Evaluation PNL',
 			},
 			risk : {
 				title : 'Risk',
@@ -136,13 +75,96 @@ export default {
 				title : 'Cost',
 			},
 			checkBoxMessage : {
-				title : "Don't show again. You can changes this in (Futures-Preference). ", 
+				title : "Don't show again. You can changes this in (Futures-Preference).", 
 			},
 			redeemComplete : {
 				title : 'Total amount liquidated in USDT',
 			},
 			redeem : {
 				title : 'redeem',
+			},
+		},
+		stopPL : {
+			title : 'Stop P/L',
+			desc : 'description',	
+			asset : {
+				title : 'Asset',
+				avgPurchase : {
+					title : 'Avg. Purchase'
+				},
+				value : {
+					title : 'Evaluate Price'
+				},
+				pl : {
+					title : 'Evaluate P/L'
+				},
+				roi : {
+					title : 'Roi'
+				},
+			},
+		},
+		borrow : {
+			title: 'Borrow',
+			desc : 'Use Leverage with Interest-Free Loan!',
+			targetAsset : {
+				title : 'Select target asset'
+			},
+			collateralAsset : {
+				title : 'Select collateral asset'
+			},
+			utilization : {
+				title : 'Utilization',
+			},
+			position : {
+				title :'Position',
+			},
+			leverage : {
+				title : 'Leverage',
+			},
+		},
+		pool : {
+			title : 'Pool',
+			desc : 'Manage your pool and add new positions!',
+			poolsOverview : {
+				title : 'Pools Overview',				
+			},
+			addLiquidity : {
+				title : 'Add Liquidity',
+			},
+		},
+		poolDetail : {
+			title : 'Pool Asset',
+			desc : 'Manage the asset deposited in the pool!',
+			liquidity : {
+				title : 'Liquidity',
+			},
+			fee : {
+				title : 'Income (fees)',
+			},
+			
+		},
+	},
+	
+	dialog : {
+		redeem : {
+			title : 'Redeem',
+			symbol : {
+				title: 'Symbol',
+			},
+			price : {
+				title: 'Price',
+			},
+			amount : {
+				title: 'Amount',
+			},
+			cost : {
+				title: 'Cost',
+			},
+			checkBox : {
+				title: "Don't show again. You can change this in (Futres-Preference.)",
+			},
+			completeRedemption : {
+				title :'Redemption is complete.'
 			},
 		},
 		token : {

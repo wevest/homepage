@@ -1,5 +1,4 @@
 <template>
-
 <!-- pool-add-page-START -->
     <div>
         <div class="">

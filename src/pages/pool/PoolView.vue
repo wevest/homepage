@@ -1,18 +1,16 @@
 <template>
-    <div class="q-pa-md"> 
+    <div class="q-pa-md gResponsive"> 
 <!-- pool-first-page-START -->
         <div class="">
             <CTitle ttype='title' 
                 :title="$t('page.pool.title')" :desc="$t('page.pool.desc')" />
         </div>
-
-        <div class="gPageSubTitle"> 
-            {{ $t('page.pool.poolsOverview.title') }}
-        </div>
         <div class="q-my-md text-right"> 
             <q-btn color="primary" rounded :label="$t('button.newPosition')" @click="onClickAdd" />
         </div>
-
+        <div class="gPageSubTitle q-mb-sm"> 
+            {{ $t('page.pool.poolsOverview.title') }}
+        </div>
         <div class="gBoarder1 text-center poolList" v-if="v_pools.items.length>0">
             <div class="row gBoarder2" @click="onClickPool(a_pool)"
                 :key="index"
