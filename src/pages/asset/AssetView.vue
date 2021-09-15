@@ -191,8 +191,7 @@
             </q-card>
         </q-dialog>
 <!-- 청산버튼 클릭 -->
-    <div>
-        <!-- <q-dialog v-model="confirm" persistent> -->
+    <q-dialog v-model="confirm" persistent>
         <q-card>
             <q-card-section class="row items-center" >
                 <div class="full-width text-center">  
@@ -206,8 +205,8 @@
             <q-btn label="Confirm" color="primary" v-close-popup />
             </q-card-actions>
         </q-card>
-        <!-- </q-dialog> -->
-    </div>
+    </q-dialog>
+    
 <!-- 청산버튼 클릭 -->
 <!-- 청산 완료-Dialog-시작 -->
         <q-dialog v-model="v_dialog_clearall" position="bottom">
