@@ -62,7 +62,7 @@
                     <div class="q-mx-md">
                         <div class="row justify-between"> 
                             <div>{{ $t('page.asset.token.roi.title') }}</div>
-                            <div style="color:green">{{a_asset.roi}}%</div>
+                            <div style="color:green">{{a_asset.roi}}10 %</div>
                         </div>
                         <div class="row justify-between q-my-sm">
                             <div>{{ $t('page.asset.token.risk.title') }}</div>
@@ -190,7 +190,25 @@
                 </q-card-section>
             </q-card>
         </q-dialog>
-
+<!-- 청산버튼 클릭 -->
+    <div>
+        <!-- <q-dialog v-model="confirm" persistent> -->
+        <q-card>
+            <q-card-section class="row items-center" >
+                <div class="full-width text-center">  
+            <q-avatar icon="warning_amber" size="5em" color="white" text-color="warning" />
+            <span class="q-ml-sm gDialogTitle">Do you really redeem?</span>
+                </div>
+            </q-card-section>
+            <q-separator class="q-mb-lg" inset/>
+            <q-card-actions align="center">
+            <q-btn flat label="Cancel" text-color="primary" v-close-popup />
+            <q-btn label="Confirm" color="primary" v-close-popup />
+            </q-card-actions>
+        </q-card>
+        <!-- </q-dialog> -->
+    </div>
+<!-- 청산버튼 클릭 -->
 <!-- 청산 완료-Dialog-시작 -->
         <q-dialog v-model="v_dialog_clearall" position="bottom">
             <q-card>
@@ -205,7 +223,7 @@
                         </div>
                         <div class="">
                             <div class="q-py-lg">
-                                <q-btn color="primary" :label="$t('button.completeRedeem')" @click="onClickDone" />
+                                <q-btn color="primary" :label="$t('button.close')" @click="onClickDone" />
                             </div>
                         </div>
                     </div>

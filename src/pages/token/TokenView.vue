@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col">
                 <CTitle ttype='title' :title="$t('page.borrow.title')" :desc="$t ('page.borrow.desc')" 
-                        extraCaption="" @onClickTitleExtra="">
+                        extraCaption="">
                 </CTitle>          
             </div>
         </div>
