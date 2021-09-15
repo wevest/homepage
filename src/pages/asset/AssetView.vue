@@ -191,18 +191,18 @@
             </q-card>
         </q-dialog>
 <!-- 청산버튼 클릭 -->
-    <q-dialog v-model="confirm" persistent>
+    <q-dialog v-model="v_dialog_confirm" persistent>
         <q-card>
             <q-card-section class="row items-center" >
                 <div class="full-width text-center">  
-            <q-avatar icon="warning_amber" size="5em" color="white" text-color="warning" />
-            <span class="q-ml-sm gDialogTitle">Do you really redeem?</span>
+                    <q-avatar icon="warning_amber" size="5em" color="white" text-color="warning" />
+                    <span class="q-ml-sm gDialogTitle">Do you really redeem?</span>
                 </div>
             </q-card-section>
             <q-separator class="q-mb-lg" inset/>
             <q-card-actions align="center">
-            <q-btn flat label="Cancel" text-color="primary" v-close-popup />
-            <q-btn label="Confirm" color="primary" v-close-popup />
+                <q-btn flat label="Cancel" text-color="primary" v-close-popup />
+                <q-btn label="Confirm" color="primary" @click="onClickConfirmRedeem" />
             </q-card-actions>
         </q-card>
     </q-dialog>
@@ -269,6 +269,7 @@ export default {
             v_dialog_sell: false,
             v_dialog_notice: false,
             v_dialog_clearall: false,
+            v_dialog_confirm: false,
 
             v_labels: {'submit': 'Upload', 'cancel': 'Cancel'},
         }
@@ -345,6 +346,12 @@ export default {
         },
 
         onClickAllClear() {
+            this.v_dialog_confirm = true;
+            
+        },
+
+        onClickConfirmRedeem() {
+            this.v_dialog_confirm = false;
             this.v_dialog_clearall = true;
         }
 
