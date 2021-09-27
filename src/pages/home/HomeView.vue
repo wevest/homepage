@@ -12,8 +12,9 @@
         </div>
 
         <div>
-            <MarketIndexWidget ref="indexWidget" :title="$t('page.home.marketindex.title')" @onClick="onClickIndex"/>
 <!--            
+            <MarketIndexWidget ref="indexWidget" :title="$t('page.home.marketindex.title')" @onClick="onClickIndex"/>
+
             <MarketWatchWidget ref="watchWidget" 
                 :title="$t('page.home.marketwatching.title')" :desc="$t('page.home.marketwatching.desc')"
                 :moreButton="$t('button.more')" />
@@ -87,8 +88,8 @@ import DataService from 'src/services/dataService';
 
 import WBanner from 'components/w/WBanner';
 //import CExchangeIndexChart from 'pages/home/CExchangeIndexChart';
-import MarketIndexWidget from 'pages/home/components/MarketIndexWidget';
-import MarketWatchWidget from 'pages/home/components/MarketWatchWidget';
+//import MarketIndexWidget from 'pages/home/components/MarketIndexWidget';
+//import MarketWatchWidget from 'pages/home/components/MarketWatchWidget';
 
 
 export default {
@@ -97,16 +98,6 @@ export default {
         CTitle,
         CBigLabel,
         WBanner,
-        MarketIndexWidget,
-        MarketWatchWidget,
-        BlogList,
-        AssetCard,
-    
-        AssetCommunityCard,
-        UserFeedList,
-        CaptainList,
-        ReviewStatList,
-        PortfolioCard
     },
     computed: {
         v_me() {

@@ -1,77 +1,8 @@
 <template>
     
   <div class="q-pa-md">
+
         <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>
-        
-        <div class="row q-gutter-sm">
-            <div class="col q-mt-md">
-                <CBigLabel ref='label_btc' title="abc"></CBigLabel>
-            </div>
-            <div class="col q-mt-md">
-                <CBigLabel ref='label_binance' title="abc"></CBigLabel>
-            </div>
-        
-        </div>
-
-        <div class="row q-gutter-sm">
-            <div class="col q-mt-md">
-                <CBigLabel ref='label_upbit' title="abc" :onclick="onClickUpbit"></CBigLabel>
-            </div>
-            <div class="col q-mt-md">
-                <CBigLabel ref='label_bithumb' title="abc"></CBigLabel>
-            </div>
-        </div>
-    
-
-      <div class="row q-gutter-sm">
-        <div class="col">
-          <CIndexChart ref='indexChart'></CIndexChart>
-        </div>      
-      </div>
-
-
-      <div class="row">
-          <div class="col">
-              <CTitle :title="$t('page.home_exchange.title')" :desc="$t('page.home_exchange.desc')"></CTitle>          
-
-              <q-tabs v-model="tab" class="text-grey" active-color="primary" indicated-color="primary" align="justify">
-                <q-tab name="upbit" :label="$t('name.upbit')" @click="onClickTab('upbit')" />
-                <q-tab name="bithumb" :label="$t('name.bithumb')" @click="onClickTab('bithumb')" />
-              </q-tabs>              
-          </div>
-      </div>
-
-      <div class="row q-gutter-sm">
-          <div class="col q-mt-md">
-              <CBigLabel ref='label_major' title="abc"></CBigLabel>
-          </div>
-          <div class="col q-mt-md">
-              <CBigLabel ref='label_korean' title="abc"></CBigLabel>                
-          </div>
-       </div> 
-      <div class="row q-gutter-sm">
-          <div class="col q-mt-md">
-              <CBigLabel ref='label_chinese' title="abc"></CBigLabel>
-          </div>
-          <div class="col q-mt-md">
-              <CBigLabel ref='label_nft' title="abc"></CBigLabel>
-          </div>
-      </div>    
-      <div class="row q-gutter-sm">    
-          <div class="col q-mt-md">
-              <CBigLabel ref='label_defi' title="abc"></CBigLabel>
-          </div>
-          <div class="col q-mt-md">
-              <CBigLabel ref='label_misc' title="abc"></CBigLabel>
-          </div>
-      </div>
-
-      <div class="row">
-        <div class="col">
-          <CExchangeIndexChart ref="exchangeChart"></CExchangeIndexChart>            
-          <CTopTable ref="exchangeTop"></CTopTable>
-        </div>
-      </div>
 
   </div> 
 
@@ -83,26 +14,16 @@ import { Config } from 'src/data/Config';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 import APIService from 'src/services/apiService';
-import { LoadingBar } from 'quasar';
-
-import { scroll } from 'quasar';
-const { getScrollTarget, setScrollPosition } = scroll;
 
 import CTitle from 'components/CTitle';
 import CBigLabel from 'components/CBigLabel';
-import CTopTable from 'pages/home/CTopTable';
-import CIndexChart from 'pages/home/CIndexChart';
-import CExchangeIndexChart from 'pages/home/CExchangeIndexChart';
 
 
 export default {
-  name: 'PageIndex',
+  name: 'WinView',
   components: {
       CTitle,
       CBigLabel,
-      CTopTable,
-      CIndexChart,
-      CExchangeIndexChart
   },
 
   data: function () {
