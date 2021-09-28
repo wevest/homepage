@@ -131,7 +131,7 @@
                                     {label: '100%', value: '100'} 
                                     ]" />
                             </div> 
-                            <div class="row justify-between q-mt-md"> 
+                            <div class="row justify-between"> 
                                 <div class="gText3">{{ $t('dialog.pool.amount.title') }}</div>
                                 <div class="gValue">~100,000 USDT</div>
                             </div>

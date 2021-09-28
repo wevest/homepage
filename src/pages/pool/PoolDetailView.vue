@@ -28,7 +28,7 @@
                  {{  $t ('page.poolDetail.liquidity.title') }}
             </div>
             <div class="gBigValue gBoarder2 text-right">
-                $354.28
+                $1231
             </div>
         </div>
         
