@@ -5,12 +5,18 @@
         <div>
             
             <div>
-                <q-img src="~assets/images/people.jpg" />
+                <q-img src="~assets/images/people.jpg" style="background-color: #00000; border-style:solid;border-width:10px;border-top-style:none;" />
             </div>
-            <div>
-                win-win
-            </div>
+            <div class="text-center">
+                <h3>
+                    <b>‘interest <strong>FREE</strong> loan’</b> 
+                </h3>
+                <p>
+                   The first interest free loan in history<br>
+                No interest, No maturity, Leverage available
 
+                </p>
+            </div>
         </div>
 
   </div> 

@@ -1,10 +1,10 @@
 <template>
     
-    <div class="q-ma-md" style="background-color: #74992e;">
+    <div class="q-ma-md" style="background-color: #FF8c00;">
         <div>
             
             <div style="padding:100px;">
-                <q-img src="~assets/images/asian_man.png" style="background-color: #74992e;border-style:solid;border-width:10px;border-top-style:none;" />
+                <q-img src="~assets/images/white_man.png" style="background-color: #FF8c00; border-style:solid;border-width:10px;border-top-style:none;" />
             </div>
             <div class="text-center">
                 <h3>
