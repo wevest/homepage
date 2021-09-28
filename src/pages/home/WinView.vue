@@ -1,10 +1,18 @@
 <template>
     
-  <div class="q-pa-md">
+    <div class="q-ma-md">
+        <div>
+            
+            <div>
+                <q-img src="~assets/images/asian_man.png" />
+            </div>
+            <div>
+                win-win
+            </div>
 
-        <CTitle ttype='title' :title="v_page.title" :desc="v_page.desc"></CTitle>
+        </div>
 
-  </div> 
+    </div>
 
 </template>
 
@@ -38,7 +46,6 @@ export default {
     },
     mounted: function() {
         //console.log("HomeView.mounted - ");
-        this.refresh();
     },
     updated: function() {
         //console.log("HomeView.updated");

@@ -1,6 +1,16 @@
 <template>
 
-    <div>
+    <div class="q-ma-md">
+        <div>
+            
+            <div>
+                <q-img src="~assets/images/asian_man.png" />
+            </div>
+            <div>
+                win-win
+            </div>
+
+        </div>
 
     </div>
 

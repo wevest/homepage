@@ -1,67 +1,18 @@
 <template>
     
   <div class="q-ma-md">
-<!--      
+      
         <div>
-            <CTitle ttype='title' :title="$t ('page.home.title')" :desc="$t('page.home.desc')"></CTitle>
-        </div>
--->
-        <div class="q-my-lg">
-            <WBanner :title="v_banner_title" button="" buttonLink=""
-                imgSrc="" myClass="q-py-sm text-subtitle1 text-white text-center" />
-        </div>
+            
+            <div>
+                <q-img src="~assets/images/people.jpg" />
+            </div>
+            <div>
+                win-win
+            </div>
 
-        <div>
-<!--            
-            <MarketIndexWidget ref="indexWidget" :title="$t('page.home.marketindex.title')" @onClick="onClickIndex"/>
-
-            <MarketWatchWidget ref="watchWidget" 
-                :title="$t('page.home.marketwatching.title')" :desc="$t('page.home.marketwatching.desc')"
-                :moreButton="$t('button.more')" />
--->                
         </div>
 
-<!--
-        <div>
-            <AssetCommunityCard ref='communityList' 
-                :title="$t('page.home.community.title')" :desc="$t('page.home.community.desc')"
-                maxLength="10" :moreCaption="$t('button.more')" ></AssetCommunityCard>
-        </div>
-
-        <div>
-            <PortfolioCard ref="pfVC" :title="$t('page.home.portfolio.title')" :desc="$t('page.home.portfolio.desc')"
-                maxLength="10" :moreCaption="$t('button.more')"></PortfolioCard>
-        </div>
-
-
-        <div>
-            <AssetCard ref='assetList' :title="$t('page.home.asset.title')" 
-                maxLength="10" :moreCaption="$t('button.more')" user="v_me"></AssetCard>
-        </div>                                               
-
-        <div>
-            <CaptainList ref='feedList' :title="$t('page.home.captain.title')" 
-                maxLength="10" :moreCaption="$t('button.more')" user="v_me"></CaptainList>
-        </div>                                               
-
-        <div>
-            <UserFeedList ref='feedList' :title="$t('page.home.userfeed.title')" 
-                maxLength="10" :moreCaption="$t('button.more')" user="v_me"></UserFeedList>
-        </div>                                               
-
-        <div>
-            <BlogList ref='blogList' :title="$t('page.home.blog.title')" maxLength="10" 
-                :moreCaption="$t('button.more')" 
-                category="" symbol="" objectId="-1" updateType="0"></BlogList>
-        </div>
--->
-
-<!--
-
-        <div class="col">
-            <ReviewStatList ref='reviewList' title="Review List" category="" maxLength="10" moreCaption="More"></ReviewStatList>
-        </div>
--->
   </div> 
 
 </template>
@@ -93,7 +44,7 @@ import WBanner from 'components/w/WBanner';
 
 
 export default {
-    name: 'PageIndex',
+    name: 'HomePage',
     components: {
         CTitle,
         CBigLabel,
@@ -122,7 +73,6 @@ export default {
     },
     mounted() {
         logger.log.debug("HomeView.mounted");
-        this.refresh();
     },
     updated() {
         //console.log("HomeView.updated");
