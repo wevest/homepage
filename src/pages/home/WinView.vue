@@ -1,18 +1,18 @@
 <template>
     
-    <div class="q-ma-md" style="background-color: #FF8c00;">
+    <div class="q-pa-md" style="background-color: #FF8c00;">
         <div>
             
             <div style="padding:100px;">
                 <q-img src="~assets/images/white_man.png" style="background-color: #FF8c00; border-style:solid;border-width:10px;border-top-style:none;" />
             </div>
             <div class="text-center">
-                <h3>
+                <h3 class="subTitle">
                     <b>‘win-win’</b>
                     <br>
                     for both lender and borrower
                 </h3>
-                <p>
+                <p class="subDesc">
                     Lender : more yield, transaction fee, LP tokens<br>
                     Borrower : no interest, no maturity, leverage available
                 </p>

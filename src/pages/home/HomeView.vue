@@ -1,26 +1,80 @@
 <template>
-    
-  <div class="q-ma-md">
-      
+<div>
+  <div class="q-pa-md q-py-xl" style="background-color: white;">
         <div>
-            
             <div>
-                <q-img src="~assets/images/people.jpg" style="background-color: #00000; border-style:solid;border-width:10px;border-top-style:none;" />
-            </div>
-            <div class="text-center">
-                <h3>
-                    <b>‘interest <strong>FREE</strong> loan’</b> 
-                </h3>
-                <p>
+                <h1 class="subTitle text-left">
+                    <b>Interest <span class="subTitle_bold">FREE</span> loan</b> 
+                </h1>
+                <p class="subDesc">
                    The first interest free loan in history<br>
                 No interest, No maturity, Leverage available
-
+                </p>
+            </div>
+            <div>
+                <span>Watch video</span> 
+                <q-btn flat label="more" />
+            </div>
+            <div class="text-right"> 
+                <q-btn label="PLUS"> </q-btn>
+            </div>
+        </div>
+  </div> 
+    <div class="q-pa-md q-py-xl" style="background-color: green;">
+        <div class="row justify-center">
+            <div class="text-center">
+                <h3 class="subTitle">
+                    Interest <span class="subTitle_bold">FREE</span> loan’ 
+                </h3>
+                <p class="subDesc">
+                   The existing paradigm : interest payment on loan<br>
+                    The new paradigm : interest free loan<br> 
+                </p>
+                <div>
+                    <span>Watch video</span> 
+                </div> 
+            </div>
+        </div>
+  </div> 
+    
+  <div class="q-pa-md q-py-xl" style="background-color: #03a9f4;">
+        <div class="row justify-evenly">
+            <div class="main_image">
+                <q-img src="~assets/images/people.jpg" />
+            </div>
+            <div class="text-center">
+                <h1 class="subTitle">
+                    Win-Win<br>
+                    for both lender and borrower  
+                </h1>
+                <p class="subDesc">
+                   The first <br>
+                No interest, No maturity, Leverage available
                 </p>
             </div>
         </div>
-
   </div> 
-
+     <div class="q-pa-md q-py-xl" style="background-color: #ff9800;">
+        <div class="row justify-center">
+            <div class="text-center">
+                <h1 class="subTitle">
+                    <strong>Yield Farming + Position Swap</strong><br>
+                    made it possible
+ 
+                </h1>
+                <p class="subDesc">
+                    Wevest protocol utilize ‘collateral + loan’ and position swap to setoff interest rate.<br>
+                    lenders maximize interest income through yield farming, including their own funds<br>
+                    as well as borrowers' collateral, rather than earning interest income with only their own funds,<br>
+                    and borrowers can borrow more than the collateral, with no interest and no maturities.
+                </p>
+                <div>
+                    <span>Watch video</span> 
+                </div> 
+            </div>
+        </div>
+  </div> 
+</div>
 </template>
 
 
@@ -222,4 +276,6 @@ export default {
 .box_knob {
     font-size:25px; 
 }
+
+
 </style>

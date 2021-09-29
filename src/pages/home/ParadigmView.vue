@@ -1,26 +1,23 @@
 <template>
     
-    <div class="q-ma-md" style="background-color: #FF80FA;">
-
+    <div class="q-pa-md" style="background-color: #FF80FA;">
         <div>
-            
             <div style="padding:100px;">
                 <q-img src="~assets/images/asian_woman.png" style="background-color: #FF80FA; border-style:solid;border-width:10px;border-top-style:none;" />
             </div>
                 <div class="text-center">
-                <h3>
-                    Wevest protocol paves a<br>
+                <h3 class="subTitle">
+                    wevest protocol paves a<br>
                     <strong>‘new interest paradigm’</strong>               
                 </h3>
-                <p>
+                <p class="subDesc">
                    The existing paradigm : interest payment on loan<br>
                     The new paradigm : interest free loan
-
                 </p>
-                <p>
+                <div>
                     Watch video<br>
                     Document link 
-                </p>
+                </div>
             </div>
 
         </div>

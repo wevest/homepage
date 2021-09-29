@@ -1,6 +1,6 @@
 <template>
 
-    <div class="q-ma-md" style="background-color: #00e324;">
+    <div class="q-pa-md" style="background-color: #00e324;">
 
         <div>
             
@@ -8,12 +8,12 @@
                 <q-img src="~assets/images/white_woman.png" style="background-color: #00e324; border-style:solid;border-width:10px;border-top-style:none;" />
             </div>
             <div class="text-center">
-                <h3>
+                <h3 class="subTitle">
                     <b>‘VAR and ADAPTIVE’</b>
                     <br>
                     risk management 
                 </h3>
-                <p>
+                <p class="subDesc">
                    We measure risk via var, based on the var value<br> 
                 wevest protocol dynamically adjust collateral ratio to minimize risk exposure
                 </p>
