@@ -7,12 +7,12 @@
                 <q-img src="~assets/images/asian_man.png" style="background-color: #FF0063; border-style:solid;border-width:10px;border-top-style:none;" />
             </div>
               <div class="text-center">
-                <h3 class="subTitle">
+                <h3 class="title1">
                     <b>‘Yield farming + position swap’</b>
                     <br>
                     made it possible
                 </h3>
-                <p class="subDesc">
+                <p class="description">
                 Wevest protocol utilize ‘collateral + loan’ and position swap to setoff interest rate.<br>
                 lenders maximize interest income through yield farming, including their own funds <br>
                 as well as borrowers' collateral, rather than earning interest income with only their own funds,<br>

@@ -6,11 +6,11 @@
                 <q-img src="~assets/images/asian_woman.png" style="background-color: #FF80FA; border-style:solid;border-width:10px;border-top-style:none;" />
             </div>
                 <div class="text-center">
-                <h3 class="subTitle">
+                <h3 class="title1">
                     wevest protocol paves a<br>
                     <strong>‘new interest paradigm’</strong>               
                 </h3>
-                <p class="subDesc">
+                <p class="description">
                    The existing paradigm : interest payment on loan<br>
                     The new paradigm : interest free loan
                 </p>

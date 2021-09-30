@@ -1,37 +1,33 @@
 <template>
 <div>
-  <div class="q-pa-md q-py-xl" style="background-color: white;">
+    <div class="q-pa-md" style="background-color: white;">
+        <h1 class="title3 text-left">
+            <b>Interest <span class="subTitle_bold">FREE</span> loan</b> 
+        </h1>
+        <p class="description">
+            The first interest free loan in history<br>
+            No interest, No maturity, Leverage available
+        </p>
         <div>
-            <div>
-                <h1 class="subTitle text-left">
-                    <b>Interest <span class="subTitle_bold">FREE</span> loan</b> 
-                </h1>
-                <p class="subDesc">
-                   The first interest free loan in history<br>
-                No interest, No maturity, Leverage available
-                </p>
-            </div>
-            <div>
-                <span>Watch video</span> 
-                <q-btn flat label="more" />
-            </div>
-            <div class="text-right"> 
-                <q-btn label="PLUS"> </q-btn>
-            </div>
+            <span class="watchVideo">Watch video</span> 
+            <q-btn flat icon="keyboard_arrow_right" />
         </div>
-  </div> 
-    <div class="q-pa-md q-py-xl" style="background-color: green;">
+    </div> 
+    <div class="q-pa-md q-py-xl" style="background-color: #292929;">
         <div class="row justify-center">
             <div class="text-center">
-                <h3 class="subTitle">
-                    Interest <span class="subTitle_bold">FREE</span> loan’ 
+                <h3 class="title1 textColor">
+                    <span class="title2 textColor">Wevest protocol paves a</span><br>
+                    <span class="title3 textColor">New Interest Paradigm<br>
+                    The existing </span>
                 </h3>
-                <p class="subDesc">
+                <p class="textColor">
                    The existing paradigm : interest payment on loan<br>
                     The new paradigm : interest free loan<br> 
                 </p>
                 <div>
-                    <span>Watch video</span> 
+                    <span class="textColor watchVideo">Watch video</span>
+                    <q-btn color="white" flat icon="keyboard_arrow_right"></q-btn> 
                 </div> 
             </div>
         </div>
@@ -39,17 +35,17 @@
     
   <div class="q-pa-md q-py-xl" style="background-color: #03a9f4;">
         <div class="row justify-evenly">
-            <div class="main_image">
+            <div>
                 <q-img src="~assets/images/people.jpg" />
             </div>
-            <div class="text-center">
-                <h1 class="subTitle">
-                    Win-Win<br>
-                    for both lender and borrower  
-                </h1>
-                <p class="subDesc">
-                   The first <br>
-                No interest, No maturity, Leverage available
+            <div class="text-left">
+                <p>
+                    <span class="title3">Win-Win</span><br>
+                    <span class="title2">for both lender and borrower</span>  
+                </p>
+                <p class="description q-my-lg text-justify">
+                   Lender : more yield, transaction fee, LP tokens <br>
+                   Borrower : no interest, no maturity, leverage available
                 </p>
             </div>
         </div>
@@ -57,23 +53,60 @@
      <div class="q-pa-md q-py-xl" style="background-color: #ff9800;">
         <div class="row justify-center">
             <div class="text-center">
-                <h1 class="subTitle">
+                <h1 class="title3">
                     <strong>Yield Farming + Position Swap</strong><br>
-                    made it possible
- 
+                    <span class="title1">made it possible</span> 
                 </h1>
-                <p class="subDesc">
+                <p class="description q-mb-lg">
                     Wevest protocol utilize ‘collateral + loan’ and position swap to setoff interest rate.<br>
                     lenders maximize interest income through yield farming, including their own funds<br>
                     as well as borrowers' collateral, rather than earning interest income with only their own funds,<br>
                     and borrowers can borrow more than the collateral, with no interest and no maturities.
                 </p>
                 <div>
-                    <span>Watch video</span> 
+                    <span class="watchVideo">Watch video</span> 
+                    <q-btn flat icon="keyboard_arrow_right"></q-btn> 
                 </div> 
             </div>
         </div>
-  </div> 
+    </div> 
+    <div class="q-pa-md q-py-xl" style="background-color: #1de9b6;">
+        <div>
+            <div>
+                <p class="title1 text-left">
+                    Var and adative<br>
+                    risk management 
+                </p>
+                <p class="description">
+                   We measure risk via var, based on the var value<br>
+                   wevest protocol dynamically adjust collateral ratio to<br>
+                   minimize risk exposure
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="q-pa-md q-py-xl text-center" style="background-color: #292929;">
+        <div style="color: white;">
+            Do you have ideas on how to improve wevest.io?
+        </div>
+        <div>
+            <span class="joinUs">Join us</span> 
+            <q-btn color="white" flat icon="keyboard_arrow_right" />
+        </div>
+    </div>  
+    <div class="q-pa-md q-py-xl" style="background-color: white;">
+        <h1 class="title1 text-left">
+                <b>Interest <span class="subTitle_bold">FREE</span> loan</b> 
+        </h1>
+        <p class="description">
+                The first interest free loan in history<br>
+                No interest, No maturity, Leverage available
+        </p>
+        <div>
+            <span class="watchVideo">Watch video</span> 
+            <q-btn flat icon="keyboard_arrow_right" />
+        </div>
+    </div> 
 </div>
 </template>
 
@@ -277,5 +310,8 @@ export default {
     font-size:25px; 
 }
 
+.textColor {
+    color: white;
+}
 
 </style>

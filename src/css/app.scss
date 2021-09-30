@@ -4,13 +4,19 @@
 .title1 {
   color:#292929;
   font-weight: 800;
-  font-size:50px;
+  font-size:34px;
 }
 
 .title2 {
   color:#292929;
+  font-weight: 700;
+  font-size:30px;
+}
+
+.title3 {
+  color:#292929;
   font-weight: 800;
-  font-size:40px;
+  font-size:50px;
 }
 
 .subTitle_bold {
@@ -20,12 +26,23 @@
   font-size:32px;
 }
 
-.subDesc {
+.description {
   font-size: 14px;
   color: #292929;
   line-height: 1.55;
   font-weight: 300;
 } 
+
+.watchVideo {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.joinUs {
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
 
 .main_image {
   border: solid 10px black; 
