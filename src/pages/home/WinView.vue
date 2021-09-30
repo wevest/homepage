@@ -1,25 +1,22 @@
 <template>
     
-    <div class="q-ma-md" style="background-color: #74992e;">
+    <div class="q-pa-md" style="background-color: #FF8c00;">
         <div>
-            
             <div style="padding:100px;">
-                <q-img src="~assets/images/asian_man.png" style="background-color: #74992e;border-style:solid;border-width:10px;border-top-style:none;" />
+                <q-img src="~assets/images/white_man.png" style="background-color: #FF8c00; border-style:solid;border-width:10px;border-top-style:none;" />
             </div>
             <div class="text-center">
-                <h3>
+                <h3 class="title1">
                     <b>‘win-win’</b>
                     <br>
                     for both lender and borrower
                 </h3>
-                <p>
+                <p class="description">
                     Lender : more yield, transaction fee, LP tokens<br>
                     Borrower : no interest, no maturity, leverage available
                 </p>
             </div>
-
         </div>
-
     </div>
 
 </template>
