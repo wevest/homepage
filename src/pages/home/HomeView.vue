@@ -7,7 +7,7 @@
             <div>
                 <q-img src="~assets/images/people.jpg" />
             </div>
-            <div>
+            <div class="gPageTitle">
                 win-win
             </div>
 
