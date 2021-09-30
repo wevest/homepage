@@ -1,8 +1,8 @@
 <template>
 <div>
-    <div class="q-pa-md" style="background-color: white;">
+    <div class="q-pa-xl" style="background-color: white;">
         <h1 class="title3 text-left">
-            <b>Interest <span class="subTitle_bold">FREE</span> loan</b> 
+            <b>Interest free loan</b> 
         </h1>
         <p class="description">
             The first interest free loan in history<br>
@@ -11,6 +11,9 @@
         <div>
             <span class="watchVideo">Watch video</span> 
             <q-btn flat icon="keyboard_arrow_right" />
+        </div>
+        <div class="text-right"> 
+            <q-btn size="20px" flat icon="add_circle" />
         </div>
     </div> 
     <div class="q-pa-md q-py-xl" style="background-color: #292929;">
@@ -35,8 +38,8 @@
     
   <div class="q-pa-md q-py-xl" style="background-color: #03a9f4;">
         <div class="row justify-evenly">
-            <div>
-                <q-img src="~assets/images/people.jpg" />
+            <div style="padding:100px;">
+                <q-img src="~assets/images/people.jpg" style="background-color: #FF80FA; border-style:solid;border-width:10px;border-top-style:none;"/>
             </div>
             <div class="text-left">
                 <p>
@@ -70,7 +73,7 @@
             </div>
         </div>
     </div> 
-    <div class="q-pa-md q-py-xl" style="background-color: #1de9b6;">
+    <div class="q-pa-xl q-py-xl" style="background-color: #1de9b6;">
         <div>
             <div>
                 <p class="title1 text-left">
@@ -94,19 +97,6 @@
             <q-btn color="white" flat icon="keyboard_arrow_right" />
         </div>
     </div>  
-    <div class="q-pa-md q-py-xl" style="background-color: white;">
-        <h1 class="title1 text-left">
-                <b>Interest <span class="subTitle_bold">FREE</span> loan</b> 
-        </h1>
-        <p class="description">
-                The first interest free loan in history<br>
-                No interest, No maturity, Leverage available
-        </p>
-        <div>
-            <span class="watchVideo">Watch video</span> 
-            <q-btn flat icon="keyboard_arrow_right" />
-        </div>
-    </div> 
 </div>
 </template>
 
