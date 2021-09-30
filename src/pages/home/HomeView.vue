@@ -1,34 +1,41 @@
 <template>
 <div>
-    <div class="q-pa-xl" style="background-color: white;">
-        <h1 class="title3 text-left">
-            <b>Interest free loan</b> 
-        </h1>
-        <p class="description">
-            The first interest free loan in history<br>
-            No interest, No maturity, Leverage available
-        </p>
-        <div>
-            <span class="watchVideo">Watch video</span> 
-            <q-btn flat icon="keyboard_arrow_right" />
-        </div>
-        <div class="text-right"> 
-            <q-btn size="20px" flat icon="add_circle" />
-        </div>
+    <div class="q-pa-md boxFreeloan">
+        <q-parallax>
+            <template v-slot:media>
+                <img src="~assets/images/wevest_homepage_logo.png">
+            </template>
+
+            <template v-slot:content="scope">
+                <div class="mainTitle">
+                    <h1 class="title1">
+                        Interest free loan 
+                    </h1>
+                    <p class="description">
+                        The first interest free loan in history<br>
+                        No interest, No maturity, Leverage available
+                    </p>
+                    <div>
+                        <span class="watchVideo">Watch video</span> 
+                        <q-btn flat icon="keyboard_arrow_right" />
+                    </div>
+                </div>
+            </template>
+        </q-parallax>
     </div> 
-    <div class="q-pa-md q-py-xl" style="background-color: #292929;">
+    <div class="q-pa-md boxParadigm">
         <div class="row justify-center">
             <div class="text-center">
-                <h3 class="title1 textColor">
+                <div class="title1 textColor">
                     <span class="title2 textColor">Wevest protocol paves a</span><br>
-                    <span class="title3 textColor">New Interest Paradigm<br>
-                    The existing </span>
-                </h3>
+                    <p class="title1 textColor">New Interest Paradigm<br>
+                    The existing </p>
+                </div>
                 <p class="textColor">
                    The existing paradigm : interest payment on loan<br>
                     The new paradigm : interest free loan<br> 
                 </p>
-                <div>
+                <div class="text-align:center">
                     <span class="textColor watchVideo">Watch video</span>
                     <q-btn color="white" flat icon="keyboard_arrow_right"></q-btn> 
                 </div> 
@@ -36,29 +43,33 @@
         </div>
   </div> 
     
-  <div class="q-pa-md q-py-xl" style="background-color: #03a9f4;">
-        <div class="row justify-evenly">
-            <div style="padding:100px;">
-                <q-img src="~assets/images/people.jpg" style="background-color: #FF80FA; border-style:solid;border-width:10px;border-top-style:none;"/>
+  <div class="q-pa-xl boxWin">
+        <div class="row items-center" >
+            <div class="col" style="padding:100px;">
+                <div style="background-color: #FF8c00; border-style:solid;border-width:10px;border-top-style:none;">
+                    <q-img src="~assets/images/white_woman.png" />
+                </div>
             </div>
-            <div class="text-left">
-                <p>
-                    <span class="title3">Win-Win</span><br>
-                    <span class="title2">for both lender and borrower</span>  
-                </p>
-                <p class="description q-my-lg text-justify">
-                   Lender : more yield, transaction fee, LP tokens <br>
-                   Borrower : no interest, no maturity, leverage available
-                </p>
+            <div class="col">
+                <div>
+                    <p>
+                        <span class="title3">Win-Win</span><br>
+                        <span class="title2">for both lender and borrower</span>  
+                    </p>
+                    <p class="description q-my-lg text-justify">
+                    Lender : more yield, transaction fee, LP tokens <br>
+                    Borrower : no interest, no maturity, leverage available
+                    </p>
+                </div>
             </div>
         </div>
   </div> 
-     <div class="q-pa-md q-py-xl" style="background-color: #ff9800;">
+     <div class="q-pa-xl boxFarming">
         <div class="row justify-center">
             <div class="text-center">
-                <h1 class="title3">
-                    <strong>Yield Farming + Position Swap</strong><br>
-                    <span class="title1">made it possible</span> 
+                <h1 class="title1">
+                    Yield Farming + Position Swap<br>
+                    <span class="title2-1">made it possible</span> 
                 </h1>
                 <p class="description q-mb-lg">
                     Wevest protocol utilize ‘collateral + loan’ and position swap to setoff interest rate.<br>
@@ -73,26 +84,31 @@
             </div>
         </div>
     </div> 
-    <div class="q-pa-xl q-py-xl" style="background-color: #1de9b6;">
-        <div>
-            <div>
-                <p class="title1 text-left">
-                    Var and adative<br>
-                    risk management 
-                </p>
-                <p class="description">
-                   We measure risk via var, based on the var value<br>
-                   wevest protocol dynamically adjust collateral ratio to<br>
-                   minimize risk exposure
-                </p>
+    <div class="q-pa-xl boxRisk">
+        <div class="row items-center">
+            <div class="col">
+                <div>
+                    <p class="title1 text-left">
+                        Var and adative<br>
+                        risk management 
+                    </p>
+                    <p class="description">
+                    We measure risk via var, based on the var value<br>
+                    wevest protocol dynamically adjust collateral ratio to<br>
+                    minimize risk exposure
+                    </p>
+                </div>
+            </div>
+            <div class="col iconLogo">
+                <q-img src="~assets/images/wevest_homepage_icon.png" />
             </div>
         </div>
     </div>
-    <div class="q-pa-md q-py-xl text-center" style="background-color: #292929;">
-        <div style="color: white;">
+    <div class="q-pa-xl boxFooter">
+        <div class="text-center" style="color: white;">
             Do you have ideas on how to improve wevest.io?
         </div>
-        <div>
+        <div class="text-center">
             <span class="joinUs">Join us</span> 
             <q-btn color="white" flat icon="keyboard_arrow_right" />
         </div>
@@ -296,12 +312,44 @@ export default {
 
 <style scoped>
 
-.box_knob {
-    font-size:25px; 
+.mainTitle {
+    padding: 0px 850px 250px 0px;
+}
+
+.iconLogo {
+    width: 80%;
+    height: 80%;
+}
+
+.boxFreeloan {
+    background: white;
+}
+
+.boxParadigm {
+    background-color: #000000;
+}
+
+.boxWin {
+    background-color: #009CF2;
+}
+
+.boxFarming {
+    background-color: #ff8500;
+}
+
+.boxRisk {
+    background-color: #00E6AA;
+}
+
+.boxFooter {
+    background-color: #000000;
 }
 
 .textColor {
     color: white;
 }
 
+.dot {
+    padding: 10px 10px 10px 50px;
+}
 </style>

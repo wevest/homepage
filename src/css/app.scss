@@ -2,25 +2,35 @@
 
 
 .title1 {
-  color:#292929;
+  color:#000000;
   font-weight: 800;
-  font-size:34px;
+  font-size:55px;
+}
+.title1-1 {
+  color:#000000;
+  font-weight: 500;
+  font-size:55px;
+}
+.title2 {
+  color:#000000;
+  font-weight: 700;
+  font-size:28px;
 }
 
-.title2 {
-  color:#292929;
-  font-weight: 700;
-  font-size:30px;
+.title2-1 {
+  color:#000000;
+  font-weight: 500;
+  font-size:40px;
 }
 
 .title3 {
-  color:#292929;
+  color:#000000;
   font-weight: 800;
-  font-size:50px;
+  font-size:80px;
 }
 
-.subTitle_bold {
-  color: #292929;
+.bold_sample {
+  color: #000000;
   text-transform: uppercase;
   font-weight: 800;
   font-size:32px;
@@ -28,7 +38,7 @@
 
 .description {
   font-size: 14px;
-  color: #292929;
+  color: #000000;
   line-height: 1.55;
   font-weight: 300;
 } 
@@ -39,15 +49,9 @@
 }
 
 .joinUs {
-  color: white;
+  color: #FFFFFF;
   font-size: 14px;
   font-weight: 600;
-}
-
-.main_image {
-  border: solid 10px black; 
-  border-top-width: 0px;
-  background-color: #03a9f4;  
 }
 
 // .image_boarder {
