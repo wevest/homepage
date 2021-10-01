@@ -23,30 +23,82 @@
   font-size:40px;
 }
 
-.title3 {
+.blackBig {
+  color:#000000;
+  font-weight: 300;
+  font-size:70px;
+}
+
+.blackMedium {
+  color: #000000;
+  font-weight: 300;
+  font-size:52px;
+}
+
+
+.blackBig {
   color:#000000;
   font-weight: 800;
-  font-size:80px;
+  font-size:70px;
 }
 
-.bold_sample {
+.blackSmall {
   color: #000000;
+  font-weight: 300;
+  font-size:28px;
+}
+
+.whiteMedium {
+  color: #FFFFFF;
+  font-weight: 300;
+  font-size:52px;
+}
+
+
+.whiteSmall {
+  color: #FFFFFF;
+  font-weight: 300;
+  font-size:28px;
+}
+
+
+.strong1 {
+  font-weight: 800;
+}
+
+.strong2 {
   text-transform: uppercase;
   font-weight: 800;
-  font-size:32px;
 }
 
-.description {
-  font-size: 14px;
+.descBlack {
+  font-size: 17px;
   color: #000000;
   line-height: 1.55;
   font-weight: 300;
 } 
 
-.watchVideo {
-  font-size: 14px;
+.descWhite {
+  font-size: 17px;
+  color: #FFFFFF;
+  line-height: 1.55;
+  font-weight: 300;
+} 
+
+
+.watchVideo1 {
+  font-size: 16px;
+  color: #000000;
   font-weight: 600;
 }
+
+.watchVideo2 {
+  font-size: 16px;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+
 
 .joinUs {
   color: #FFFFFF;

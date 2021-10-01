@@ -8,96 +8,92 @@
 
             <template v-slot:content="scope">
                 <div class="mainTitle">
-                    <h1 class="title1">
-                        Interest free loan 
-                    </h1>
-                    <p class="description">
+                    <div class="blackMedium q-py-lg">
+                        Interest <span class="strong2">free</span> loan 
+                    </div>
+                    <div class="descBlack q-py-md">
                         The first interest free loan in history<br>
                         No interest, No maturity, Leverage available
-                    </p>
+                    </div>
                     <div>
-                        <span class="watchVideo">Watch video</span> 
+                        <span class="watchVideo1">Watch video</span> 
                         <q-btn flat icon="keyboard_arrow_right" />
                     </div>
                 </div>
             </template>
         </q-parallax>
     </div> 
-    <div class="q-pa-md boxParadigm">
-        <div class="row justify-center">
-            <div class="text-center">
-                <div class="title1 textColor">
-                    <p class="title1 textColor">New Interest Paradigm</p>
-                </div>
-                <p class="textColor">
-                   The existing paradigm : interest payment on loan<br>
-                    The new paradigm : interest free loan<br> 
-                </p>
-                <div class="text-align:center">
-                    <span class="textColor watchVideo">Watch video</span>
-                    <q-btn color="white" flat icon="keyboard_arrow_right"></q-btn> 
-                </div> 
+    <div class="q-pa-md boxCenter boxParadigm">
+        <div class="text-center">
+            <div class="whiteMedium white q-mb-xl">
+                New <span class="strong2">Interest</span> Paradigm<br>
             </div>
+            <div class="q-mb-lg descWhite">
+                The existing paradigm : interest payment on loan<br>
+                The new paradigm : interest free loan<br> 
+            </div>
+            <div>
+                <span class="watchVideo2">Watch video</span>
+                <q-btn color="white" flat icon="keyboard_arrow_right"></q-btn> 
+            </div> 
         </div>
-  </div> 
+    </div> 
     
-  <div class="q-pa-xl boxWin">
-        <div class="row items-center" >
+    <div class="q-pa-md boxWin">
+        <div class="row items-center">
             <div class="col" style="padding:100px;">
                 <div style="background-color: #FF8c00; border-style:solid;border-width:10px;border-top-style:none;">
                     <q-img src="~assets/images/white_woman.png" />
                 </div>
             </div>
             <div class="col">
-                <div>
-                    <p>
-                        <span class="title3">Win-Win</span><br>
-                        <span class="title2">for both lender and borrower</span>  
-                    </p>
-                    <p class="description q-my-lg text-justify">
+                <div class="blackBig strong1">
+                     Win-Win
+                </div>
+                <div class="blackSmall q-pb-md">
+                    for both lender and borrower 
+                </div>
+                <div class="descBlack">
                     Lender : more yield, transaction fee, LP tokens <br>
                     Borrower : no interest, no maturity, leverage available
-                    </p>
                 </div>
-            </div>
-        </div>
-  </div> 
-     <div class="q-pa-xl boxFarming">
-        <div class="row justify-center">
-            <div class="text-center">
-                <h1 class="title1">
-                    Yield Farming + Position Swap<br>
-                    <span class="title2-1">made it possible</span> 
-                </h1>
-                <p class="description q-mb-lg">
-                    Wevest protocol utilize ‘collateral + loan’ and position swap to setoff interest rate.<br>
-                    lenders maximize interest income through yield farming, including their own funds<br>
-                    as well as borrowers' collateral, rather than earning interest income with only their own funds,<br>
-                    and borrowers can borrow more than the collateral, with no interest and no maturities.
-                </p>
-                <div>
-                    <span class="watchVideo">Watch video</span> 
-                    <q-btn flat icon="keyboard_arrow_right"></q-btn> 
-                </div> 
             </div>
         </div>
     </div> 
-    <div class="q-pa-xl boxRisk">
-        <div class="row items-center">
-            <div class="col justify-between">
+     <div class="boxCenter boxFarming">
+        <div class="text-center">
+            <div class="blackMedium q-pb-lg">
+                <span class="strong1">Yield Farming</span> + <span class="strong1">Position Swap</span><br>
+                <span class="blackSmall">made it possible</span> 
+            </div>
+            <div class="descBlack q-py-lg">
+                Wevest protocol utilize ‘collateral + loan’ and position swap to setoff interest rate.<br>
+                lenders maximize interest income through yield farming, including their own funds<br>
+                as well as borrowers' collateral, rather than earning interest income with only their own funds,<br>
+                and borrowers can borrow more than the collateral, with no interest and no maturities.
+            </div>
+            <div>
+                <span class="watchVideo1">Watch video</span> 
+                <q-btn flat icon="keyboard_arrow_right"></q-btn> 
+            </div> 
+        </div>
+    </div> 
+    <div class="q-pa-md boxRisk">
+        <div class="row">
+            <div class="col q-pl-lg items-center">
                 <div class="q-pl-xl">
-                    <p class="title1 text-left">
-                        Var and adaptive<br>
+                    <div class="blackMedium text-left">
+                        <span class="strong1">VaR and adaptive</span> <br>
                         risk management 
-                    </p>
-                    <p class="description">
-                    We measure risk via var, based on the var value<br>
-                    wevest protocol dynamically adjust collateral ratio to<br>
-                    minimize risk exposure
-                    </p>
+                    </div>
+                    <div class="descBlack q-pt-md">
+                        We measure risk via var, based on the var value<br>
+                        wevest protocol dynamically adjust collateral ratio to<br>
+                        minimize risk exposure
+                    </div>
                 </div>
             </div>
-            <div class="col iconLogo">
+            <div class="col iconImage">
                 <q-img src="~assets/images/wevest_homepage_icon.png" />
             </div>
         </div>
@@ -314,42 +310,51 @@ export default {
     padding: 0px 450px 150px 0px;
 }
 
-.iconLogo {
-    width: 80%;
-    height: 80%;
+.boxCenter {
+display: flex;
+align-items: center; 
+justify-content: center;
 }
 
 .boxFreeloan {
     background: white;
+    height: 600px;
+
 }
 
 .boxParadigm {
     background-color: #000000;
+    height: 600px;
 }
 
 .boxWin {
     background-color: #009CF2;
+    height: 600px;
+
 }
 
 .boxFarming {
     background-color: #ff8500;
+    height: 600px;
+
 }
 
 .boxRisk {
     background-color: #00E6AA;
+    height: 600px;
 }
 
 .boxFooter {
     background-color: #000000;
 }
 
-.textColor {
-    color: white;
+.white {
+    color: #FFFFFF;
 }
 
-.dot {
-    padding: 10px 10px 10px 50px;
-}
+.iconImage {
+    margin: 0px 0px 0px 0px;  
+} 
 
 
 </style>
