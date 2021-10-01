@@ -86,8 +86,8 @@
     </div> 
     <div class="q-pa-xl boxRisk">
         <div class="row items-center">
-            <div class="col">
-                <div>
+            <div class="col justify-between">
+                <div class="q-pl-xl">
                     <p class="title1 text-left">
                         Var and adative<br>
                         risk management 
@@ -313,7 +313,7 @@ export default {
 <style scoped>
 
 .mainTitle {
-    padding: 0px 850px 250px 0px;
+    padding: 0px 450px 150px 0px;
 }
 
 .iconLogo {
@@ -352,4 +352,6 @@ export default {
 .dot {
     padding: 10px 10px 10px 50px;
 }
+
+
 </style>
