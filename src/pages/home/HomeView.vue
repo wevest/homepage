@@ -27,9 +27,7 @@
         <div class="row justify-center">
             <div class="text-center">
                 <div class="title1 textColor">
-                    <span class="title2 textColor">Wevest protocol paves a</span><br>
-                    <p class="title1 textColor">New Interest Paradigm<br>
-                    The existing </p>
+                    <p class="title1 textColor">New Interest Paradigm</p>
                 </div>
                 <p class="textColor">
                    The existing paradigm : interest payment on loan<br>
@@ -89,7 +87,7 @@
             <div class="col justify-between">
                 <div class="q-pl-xl">
                     <p class="title1 text-left">
-                        Var and adative<br>
+                        Var and adaptive<br>
                         risk management 
                     </p>
                     <p class="description">
