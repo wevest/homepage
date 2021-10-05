@@ -38,18 +38,18 @@
     font-size:52px;
   }
   
-  .gBlackSmallTitle {
-    color: #000000;
-    font-weight: 300;
-    font-size:28px;
-  }
-  
   .gWhiteMediumTitle {
     color: #FFFFFF;
     font-weight: 300;
     font-size:52px;
   }
-    
+  
+  .gBlackSmallTitle {
+    color: #000000;
+    font-weight: 300;
+    font-size:28px;
+  }
+
   .gWhiteSmallText {
     color: #FFFFFF;
     font-weight: 300;
@@ -122,16 +122,15 @@
     font-size:20px;
   }
   
+  .gWhiteMediumTitle {
+    color: #FFFFFF;
+    font-weight: 300;
+    font-size:20px;
+  }
   .gBlackSmallTitle {
     color: #000000;
     font-weight: 300;
     font-size:18px;
-  }
-  
-  .gWhiteMediumTitle {
-    color: #FFFFFF;
-    font-weight: 300;
-    font-size:30px;
   }
   
   .gWhiteSmallText {
@@ -166,13 +165,13 @@
   .gWatchLinkBlack {
     font-size: 12px;
     color: #000000;
-    font-weight: 500;
+    font-weight: 400;
   }
 
   .gWatchLinkWhite {
     font-size: 12px;
     color: #FFFFFF;
-    font-weight: 500;
+    font-weight: 400;
   }
 
   .gJoinText {
@@ -183,7 +182,7 @@
 
   .gJoinTitle {
     color: #FFFFFF;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
   }
 }
