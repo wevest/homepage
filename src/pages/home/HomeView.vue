@@ -61,20 +61,20 @@
                 </div>
             </div>
         </div>
-  </div> 
-     <div class="q-pa-xl boxFarming">
-        <div class="row justify-center">
+    </div> 
+    <div class="q-pa-xl boxCenter boxFarming">
+        <div class="vertical-middle">
             <div class="text-center">
-                <h1 class="title1">
+                <div class="title1">
                     Yield Farming + Position Swap<br>
                     <span class="title2-1">made it possible</span> 
-                </h1>
-                <p class="description q-mb-lg">
+                </div>
+                <div class="description q-mb-lg">
                     Wevest protocol utilize ‘collateral + loan’ and position swap to setoff interest rate.<br>
                     lenders maximize interest income through yield farming, including their own funds<br>
                     as well as borrowers' collateral, rather than earning interest income with only their own funds,<br>
                     and borrowers can borrow more than the collateral, with no interest and no maturities.
-                </p>
+                </div>
                 <div>
                     <span class="watchVideo">Watch video</span> 
                     <q-btn flat icon="keyboard_arrow_right"></q-btn> 
@@ -331,7 +331,14 @@ export default {
     background-color: #009CF2;
 }
 
+.boxCenter {
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+}
+
 .boxFarming {
+    height:800px;
     background-color: #ff8500;
 }
 
