@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div class="q-pa-md boxFreeloan">
+    <div class="boxFreeloan">
         <q-parallax>
             <template v-slot:media>
                 <img src="~assets/images/wevest_homepage_logo.png">
@@ -21,7 +21,7 @@
                                     No interest, No maturity, Leverage available
                                 </div>
                                 <div>
-                                    <span class="gWatchVideo1">Watch video</span> 
+                                    <span class="gWatchLinkBlack">Watch video</span> 
                                     <q-btn flat icon="keyboard_arrow_right" />
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
                 The new paradigm : interest free loan<br> 
             </div>
             <div>
-                <span class="gWatchVideo2">Watch video</span>
+                <span class="gWatchLinkWhite">Watch video</span>
                 <q-btn color="white" flat icon="keyboard_arrow_right"></q-btn> 
             </div> 
         </div>
@@ -71,19 +71,19 @@
     </div> 
      <div class="boxCenter boxFarming">
         <div class="text-center">
-            <div class="gBlackMediumTitle q-pb-lg">
+            <div class="gBlackMediumTitle q-py-lg">
                 <span class="gBoldLower">Yield Farming</span> + <span class="gBoldLower">Position Swap</span><br>
                 <span class="gBlackSmallTitle">made it possible</span> 
             </div>
-            <div class="descBlack q-py-lg">
+            <div class="gDescBlack q-px-lg">
                 Wevest protocol utilize ‘collateral + loan’ and position swap to setoff interest rate.<br>
                 lenders maximize interest income through yield farming, including their own funds<br>
                 as well as borrowers' collateral, rather than earning interest income with only their own funds,<br>
                 and borrowers can borrow more than the collateral, with no interest and no maturities.
             </div>
-            <div>
-                <span class="gWatchVideo1">Watch video</span> 
-                <q-btn flat icon="keyboard_arrow_right"></q-btn> 
+            <div class="q-pa-md">
+                <span class="gWatchLinkBlack">Watch video</span> 
+                <q-btn size="12px" flat icon="keyboard_arrow_right"></q-btn> 
             </div> 
         </div>
     </div> 
