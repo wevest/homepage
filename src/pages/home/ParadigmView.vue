@@ -6,15 +6,15 @@
                 <q-img src="~assets/images/asian_woman.png" style="background-color: #FF80FA; border-style:solid;border-width:10px;border-top-style:none;" />
             </div>
                 <div class="text-center">
-                <h3 class="title1">
+                <h3 class="gBlackMediumTitle">
                     wevest protocol paves a<br>
-                    <strong>‘new interest paradigm’</strong>               
+                    <span class="gBoldText1">‘new interest paradigm’</span>               
                 </h3>
-                <p class="description">
+                <p class="gDescBlack">
                    The existing paradigm : interest payment on loan<br>
                     The new paradigm : interest free loan
                 </p>
-                <div>
+                <div class="gWatchVideoBlack">
                     Watch video<br>
                     Document link 
                 </div>

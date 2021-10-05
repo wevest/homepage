@@ -13,15 +13,15 @@
                         <div class="row">
                             <div class="col-1"></div>
                             <div class="col-11">
-                                <div class="blackMedium q-py-lg">
-                                    Interest <span class="strong2">free</span> loan 
+                                <div class="gBlackMediumTitle q-py-lg">
+                                    Interest <span class="gBoldUpper">free</span> loan 
                                 </div>
-                                <div class="descBlack q-py-md">
+                                <div class="gDescBlack q-py-md">
                                     The first interest free loan in history<br>
                                     No interest, No maturity, Leverage available
                                 </div>
                                 <div>
-                                    <span class="watchVideo1">Watch video</span> 
+                                    <span class="gWatchVideo1">Watch video</span> 
                                     <q-btn flat icon="keyboard_arrow_right" />
                                 </div>
                             </div>
@@ -34,15 +34,15 @@
     </div> 
     <div class="q-pa-md boxCenter boxParadigm">
         <div class="text-center">
-            <div class="whiteMedium white q-mb-xl">
-                New <span class="strong2">Interest</span> Paradigm<br>
+            <div class="gWhiteMediumTitle white q-mb-xl">
+                New <span class="gBoldUpper">Interest</span> Paradigm<br>
             </div>
-            <div class="q-mb-lg descWhite">
+            <div class="q-mb-lg gDescWhite">
                 The existing paradigm : interest payment on loan<br>
                 The new paradigm : interest free loan<br> 
             </div>
             <div>
-                <span class="watchVideo2">Watch video</span>
+                <span class="gWatchVideo2">Watch video</span>
                 <q-btn color="white" flat icon="keyboard_arrow_right"></q-btn> 
             </div> 
         </div>
@@ -56,13 +56,13 @@
                 </div>
             </div>
             <div class="col text-center">
-                <div class="blackBig strong1">
+                <div class="gBlackBigTitle gBoldLower">
                      Win-Win
                 </div>
-                <div class="blackSmall q-pb-md">
+                <div class="gBlackSmallText q-pb-md">
                     for both lender and borrower 
                 </div>
-                <div class="descBlack">
+                <div class="gDescBlack">
                     Lender : more yield, transaction fee, LP tokens <br>
                     Borrower : no interest, no maturity, leverage available
                 </div>
@@ -71,9 +71,9 @@
     </div> 
      <div class="boxCenter boxFarming">
         <div class="text-center">
-            <div class="blackMedium q-pb-lg">
-                <span class="strong1">Yield Farming</span> + <span class="strong1">Position Swap</span><br>
-                <span class="blackSmall">made it possible</span> 
+            <div class="gBlackMediumTitle q-pb-lg">
+                <span class="gBoldLower">Yield Farming</span> + <span class="gBoldLower">Position Swap</span><br>
+                <span class="gBlackSmallTitle">made it possible</span> 
             </div>
             <div class="descBlack q-py-lg">
                 Wevest protocol utilize ‘collateral + loan’ and position swap to setoff interest rate.<br>
@@ -82,7 +82,7 @@
                 and borrowers can borrow more than the collateral, with no interest and no maturities.
             </div>
             <div>
-                <span class="watchVideo1">Watch video</span> 
+                <span class="gWatchVideo1">Watch video</span> 
                 <q-btn flat icon="keyboard_arrow_right"></q-btn> 
             </div> 
         </div>
@@ -91,11 +91,11 @@
         <div class="row">
             <div class="col">
                 <div class="q-pl-xl items-center">
-                    <div class="blackMedium text-left">
-                        <span class="strong1">VaR and adaptive</span> <br>
+                    <div class="gBlackMediumTitle text-left">
+                        <span class="gBoldLower">VaR and adaptive</span> <br>
                         risk management 
                     </div>
-                    <div class="descBlack q-pt-md">
+                    <div class="gDescBlack q-pt-md">
                         We measure risk via var, based on the var value<br>
                         wevest protocol dynamically adjust collateral ratio to<br>
                         minimize risk exposure
@@ -110,11 +110,11 @@
         </div>
     </div>
     <div class="q-pa-xl boxFooter">
-        <div class="text-center" style="color: white;">
+        <div class="text-center gJoinText" style="color: white;">
             Do you have ideas on how to improve wevest.io?
         </div>
         <div class="text-center">
-            <span class="joinUs">Join us</span> 
+            <span class="gJoinTitle">Join us</span> 
             <q-btn color="white" flat icon="keyboard_arrow_right" />
         </div>
     </div>  
@@ -202,9 +202,6 @@ export default {
 @media screen and (min-width: 769px) {
    /* 데스크탑에서 사용될 스타일을 여기에 작성합니다. */
 
-    .mainTitle {
-        padding: 0px 450px 150px 0px;
-    }
 
     .boxImage {
         background-color: #FF8c00; 
@@ -256,6 +253,17 @@ export default {
 
 @media screen and (max-width: 768px) {
     /* 모바일에 사용될 스트일 시트를 여기에 작성합니다. */
+    .boxImage {
+        background-color: #FF8c00; 
+        border-style:solid;
+        border-width:5px;border-top-style:none;
+        margin:50px;
+        padding: 10px;
+    }
+
+    .boxIcon {
+        margin: 0px 0px 0px 0px;  
+    } 
 
     .boxWin {
         background-color: #009CF2;
