@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div class="boxFreeloan">
+    <section class="boxFreeloan">
         <q-parallax>
             <template v-slot:media>
                 <img src="~assets/images/wevest_homepage_logo.png">
@@ -31,8 +31,8 @@
                 </div>
             </template>
         </q-parallax>
-    </div> 
-    <div class="q-pa-md boxCenter boxParadigm">
+    </section> 
+    <section class="boxParadigm q-pa-md boxCenter">
         <div class="text-center">
             <div class="gWhiteMediumTitle white q-mb-xl">
                 New <span class="gBoldUpper">Interest</span> Paradigm<br>
@@ -46,12 +46,11 @@
                 <q-btn color="white" flat icon="keyboard_arrow_right"></q-btn> 
             </div> 
         </div>
-    </div> 
-    
-    <div class="q-pa-md boxWin">
-        <div class="row items-center full-height">
+    </section> 
+    <section class="boxWin q-pa-md">
+        <div class="row flex items-center full-height">
             <div class="col">
-                <div class="boxImage">
+                <div class="boxImage" style="width:70%;">
                     <q-img src="~assets/images/white_woman.png" />
                 </div>
             </div>
@@ -68,17 +67,17 @@
                 </div>
             </div>
         </div>
-    </div> 
-     <div class="boxCenter boxFarming">
+    </section> 
+     <section class="boxCenter boxFarming">
         <div class="text-center">
             <div class="gBlackMediumTitle q-py-lg">
                 <span class="gBoldLower">Yield Farming</span> + <span class="gBoldLower">Position Swap</span><br>
                 <span class="gBlackSmallTitle">made it possible</span> 
             </div>
             <div class="gDescBlack q-px-lg">
-                Wevest protocol utilize ‘collateral + loan’ and position swap to setoff interest rate.<br>
-                lenders maximize interest income through yield farming, including their own funds<br>
-                as well as borrowers' collateral, rather than earning interest income with only their own funds,<br>
+                Wevest protocol utilize ‘collateral + loan’ and position swap to setoff interest rate.
+                lenders maximize interest income through yield farming, including their own funds
+                as well as borrowers' collateral, rather than earning interest income with only their own funds,
                 and borrowers can borrow more than the collateral, with no interest and no maturities.
             </div>
             <div class="q-pa-md">
@@ -86,30 +85,31 @@
                 <q-btn size="12px" flat icon="keyboard_arrow_right"></q-btn> 
             </div> 
         </div>
-    </div> 
-    <div class="q-pa-md boxRisk">
-        <div class="row">
-            <div class="col">
+    </section> 
+    <section class="q-pa-md boxRisk">
+        <div class="flex row" >
+            <div class="col item1">
                 <div class="q-pl-xl items-center">
-                    <div class="gBlackMediumTitle text-left">
+                    <div class="gBlackMediumTitle q-pt-xl text-left">
                         <span class="gBoldLower">VaR and adaptive</span> <br>
                         risk management 
                     </div>
-                    <div class="gDescBlack q-pt-md">
-                        We measure risk via var, based on the var value<br>
-                        wevest protocol dynamically adjust collateral ratio to<br>
+                    <div class="gDescBlack q-pt-lg">
+                        We measure risk via var, based on the var value
+                        wevest protocol dynamically adjust collateral ratio to 
                         minimize risk exposure
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="boxIcon">
+            <div class="col itme2">
+                <div class="boxIcon" style="max-width:70%">
                     <q-img src="~assets/images/wevest_homepage_icon.png" />
                 </div>
             </div>
         </div>
-    </div>
-    <div class="q-pa-xl boxFooter">
+    </section>
+    
+    <section class="q-pa-xl boxFooter">
         <div class="text-center gJoinText" style="color: white;">
             Do you have ideas on how to improve wevest.io?
         </div>
@@ -117,7 +117,7 @@
             <span class="gJoinTitle">Join us</span> 
             <q-btn color="white" flat icon="keyboard_arrow_right" />
         </div>
-    </div>  
+    </section>  
 </div>
 </template>
 
@@ -193,30 +193,29 @@ export default {
 <style scoped>
 
 .boxCenter {
-    display: flex;
     align-items: center; 
     justify-content: center;
 }
 
-
 @media screen and (min-width: 769px) {
    /* 데스크탑에서 사용될 스타일을 여기에 작성합니다. */
 
+    .boxCenter {
+        display: flex;
+        align-items: center; 
+        justify-content: center;
+    }
 
     .boxImage {
+        display: block;
         background-color: #FF8c00; 
         border-style:solid;
         border-width:10px;border-top-style:none;
         margin:50px;
     }
-
+    
     .boxIcon {
-        margin: 0px 0px 0px 0px;  
-    } 
-
-    .boxWin {
-        background-color: #009CF2;
-        height: 600px;
+        display: block;
     }
 
     .boxFreeloan {
@@ -228,11 +227,10 @@ export default {
         background-color: #000000;
         height: 600px;
     }
-
-    .boxCenter {
-        display: flex;
-        align-items: center; 
-        justify-content: center;
+    
+    .boxWin {
+        background-color: #009CF2;
+        height: 600px;
     }
 
     .boxFarming {
@@ -253,6 +251,12 @@ export default {
 
 @media screen and (max-width: 768px) {
     /* 모바일에 사용될 스트일 시트를 여기에 작성합니다. */
+    .boxCenter {
+        display: flex;
+        align-items: center; 
+        justify-content: center;
+    }
+
     .boxImage {
         background-color: #FF8c00; 
         border-style:solid;
@@ -261,29 +265,21 @@ export default {
         padding: 10px;
     }
 
-    .boxIcon {
-        margin: 0px 0px 0px 0px;  
-    } 
-
-    .boxWin {
-        background-color: #009CF2;
-        height: 600px;
-    }
-
     .boxFreeloan {
         background: white;
         height: 600px;
     }
 
+    .boxWin {
+        display: flex;
+        background-color: #009CF2;
+        /* height: 600px; */
+    }
+
+
     .boxParadigm {
         background-color: #000000;
         height: 600px;
-    }
-
-    .boxCenter {
-        display: flex;
-        align-items: center; 
-        justify-content: center;
     }
 
     .boxFarming {
@@ -292,13 +288,26 @@ export default {
 
     .boxRisk {
         background-color: #00E6AA;
-        height: 600px;
+        /* height: 600px; */
     }
 
     .boxFooter {
         background-color: #000000;
     }
-
+    .flex {
+        display:flex;
+        flex-direction: row-reverse;
+        flex-flow:wrap;
+        justify-content:center;
+        width: ;
+        height: ;
+        align-content: center;
+    }
+    .flex div {
+        flex-grow: 1;
+        flex-shrink: 0;
+        flex-basis: 500px;
+    }
 }
 
 
