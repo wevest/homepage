@@ -48,7 +48,7 @@
         </div>
     </section> 
     <section class="boxWin q-pa-md">
-        <div class="row flex items-center full-height">
+        <div class="row flex items-center justify-center full-height">
             <div class="col">
                 <div class="boxImage" style="width:70%;">
                     <q-img src="~assets/images/white_woman.png" />
@@ -58,17 +58,17 @@
                 <div class="gBlackBigTitle gBoldLower">
                      Win-Win
                 </div>
-                <div class="gBlackSmallText q-pb-md">
+                <div class="gBlackSmallTitle q-pb-md">
                     for both lender and borrower 
                 </div>
-                <div class="gDescBlack">
+                <div class="gDescBlack q-pb-md">
                     Lender : more yield, transaction fee, LP tokens <br>
                     Borrower : no interest, no maturity, leverage available
                 </div>
             </div>
         </div>
     </section> 
-     <section class="boxCenter boxFarming">
+     <section class="boxCenter q-pa-md boxFarming">
         <div class="text-center">
             <div class="gBlackMediumTitle q-py-lg">
                 <span class="gBoldLower">Yield Farming</span> + <span class="gBoldLower">Position Swap</span><br>
@@ -86,13 +86,13 @@
             </div> 
         </div>
     </section> 
-    <section class="q-pa-md boxRisk">
+    <section class="q-pa-lg boxRisk">
         <div class="flex row" >
             <div class="col item1">
-                <div class="q-pl-xl items-center">
+                <div class="q-pl-lg items-center">
                     <div class="gBlackMediumTitle q-pt-xl text-left">
-                        <span class="gBoldLower">VaR and adaptive</span> <br>
-                        risk management 
+                        <span class="gBoldLower">VaR & adaptive</span> <br>
+                        <span class="gBlackSmallTitle">risk management</span> 
                     </div>
                     <div class="gDescBlack q-pt-lg">
                         We measure risk via var, based on the var value
@@ -220,7 +220,7 @@ export default {
 
     .boxFreeloan {
         background: white;
-        height: 600px;
+        height: 500px;
     }
 
     .boxParadigm {
@@ -231,6 +231,7 @@ export default {
     .boxWin {
         background-color: #009CF2;
         height: 600px;
+        justify-content: center;
     }
 
     .boxFarming {
@@ -267,7 +268,7 @@ export default {
 
     .boxFreeloan {
         background: white;
-        height: 600px;
+        height: 500px;
     }
 
     .boxWin {
@@ -300,13 +301,17 @@ export default {
         flex-flow:wrap;
         justify-content:center;
         width: ;
-        height: ;
+        height:;
         align-content: center;
+        align-items: center;
     }
     .flex div {
         flex-grow: 1;
         flex-shrink: 0;
-        flex-basis: 500px;
+        flex-basis: 300px;
+        justify-content:center;
+        align-items: center;
+
     }
 }
 
