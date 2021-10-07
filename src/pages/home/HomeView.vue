@@ -87,7 +87,7 @@
         </div>
     </section> 
     <section class="q-pa-lg boxRisk">
-        <div class="flex row" >
+        <div class="flex row items-center justify-center">
             <div class="col item1">
                 <div class="q-pl-lg items-center">
                     <div class="gBlackMediumTitle q-pt-xl text-left">
@@ -210,7 +210,7 @@ export default {
         display: block;
         background-color: #FF8c00; 
         border-style:solid;
-        border-width:10px;border-top-style:none;
+        border-width:7px;border-top-style:none;
         margin:50px;
     }
     
