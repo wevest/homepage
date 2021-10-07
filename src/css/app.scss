@@ -103,13 +103,12 @@
     font-size: 14px;
     font-weight: 500;
   }
+      
 }
 
-  
 
 
 @media screen and (max-width: 768px) {
-   /* 모바일에 사용될 스트일 시트를 여기에 작성합니다. */
   .gBlackBigTitle {
     color:#000000;
     font-weight: 300;
@@ -149,14 +148,14 @@
   }
 
   .gDescBlack {
-    font-size: 14px;
+    font-size: 13px;
     color: #000000;
     line-height: 1.55;
     font-weight: 300;
   } 
 
   .gDescWhite {
-    font-size: 14px;
+    font-size: 13px;
     color: #FFFFFF;
     line-height: 1.55;
     font-weight: 300;

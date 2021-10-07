@@ -31,12 +31,6 @@ const routes = [
 				meta: { transition: "overlay-right" },
 			},
 			{
-				name: "yield",
-				path: "yield",
-				component: () => import("pages/home/YieldView.vue"),
-				meta: { transition: "overlay-right" },
-			},
-			{
 				name: "risk",
 				path: "risk",
 				component: () => import("pages/home/RiskView.vue"),

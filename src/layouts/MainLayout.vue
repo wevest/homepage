@@ -1,7 +1,8 @@
 <template>
 	<q-layout view="lHh Lpr lFf">
 		<q-header elevated>
-			<div class="q-py-sm bg-white  text-black">
+			<div>
+<!--				
 				<q-toolbar>
 					<q-btn v-if="v_show_back_button"
 						flat dense
@@ -38,7 +39,7 @@
 					</div>
 
 				</q-toolbar>
-
+-->
 <!--
 				<q-toolbar class="col-5">
 					<q-space />
