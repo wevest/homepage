@@ -38,10 +38,10 @@
     font-size:52px;
   }
   
-  .gBlackBigTitle {
-    color:#000000;
-    font-weight: 800;
-    font-size:70px;
+  .gWhiteMediumTitle {
+    color: #FFFFFF;
+    font-weight: 300;
+    font-size:52px;
   }
   
   .gBlackSmallTitle {
@@ -49,25 +49,18 @@
     font-weight: 300;
     font-size:28px;
   }
-  
-  .gWhiteMediumTitle {
-    color: #FFFFFF;
-    font-weight: 300;
-    font-size:52px;
-  }
-    
+
   .gWhiteSmallText {
     color: #FFFFFF;
     font-weight: 300;
     font-size:28px;
   }
-  
 
-  .gBoldText1 {
+  .gBoldLower {
     font-weight: 800;
   }
   
-  .gBoldText2 {
+  .gBoldUpper {
     text-transform: uppercase;
     font-weight: 800;
   }
@@ -87,18 +80,17 @@
   } 
   
   
-  .gWatchVideo1 {
+  .gWatchBlack {
     font-size: 16px;
     color: #000000;
     font-weight: 600;
   }
   
-  .gWatchVideo2 {
+  .gWatchWhite {
     font-size: 16px;
     color: #FFFFFF;
     font-weight: 600;
   }
-  
   
   .gJoinText {
     color: #FFFFFF;
@@ -116,99 +108,33 @@
 
 
 
-
 @media screen and (max-width: 768px) {
-   /* 모바일에 사용될 스트일 시트를 여기에 작성합니다. */
-   .gBlackBigTitle {
+  .gBlackBigTitle {
     color:#000000;
     font-weight: 300;
-    font-size:2px;
+    font-size:28px;
   }
   
   .gBlackMediumTitle {
     color: #000000;
     font-weight: 300;
-    font-size:25px;
-  }
-  
-  
-  .gBlackBigTitle {
-    color:#000000;
-    font-weight: 800;
-    font-size:70px;
-  }
-  
-  .gBlackSmallTitle {
-    color: #000000;
-    font-weight: 300;
-    font-size:28px;
+    font-size:20px;
   }
   
   .gWhiteMediumTitle {
     color: #FFFFFF;
     font-weight: 300;
-    font-size:30px;
+    font-size:20px;
   }
-  
+  .gBlackSmallTitle {
+    color: #000000;
+    font-weight: 300;
+    font-size:18px;
+  }
   
   .gWhiteSmallText {
     color: #FFFFFF;
     font-weight: 300;
     font-size:28px;
   }
- 
-  .gBoldLower {
-    font-weight: 800;
-  }
-  
-  .gBoldUpper {
-    text-transform: uppercase;
-    font-weight: 800;
-  }
-  
-  .gDescBlack {
-    font-size: 11px;
-    color: #000000;
-    line-height: 1.55;
-    font-weight: 300;
-  } 
-  
-  .gDescWhite {
-    font-size: 11px;
-    color: #FFFFFF;
-    line-height: 1.55;
-    font-weight: 300;
-  } 
-  
-  
-  .gWatchVideoBlack {
-    font-size: 16px;
-    color: #000000;
-    font-weight: 600;
-  }
-  
-  .gWatchVideoWhite {
-    font-size: 16px;
-    color: #FFFFFF;
-    font-weight: 600;
-  }
-  
-  
-  .gJoinText {
-    color: #FFFFFF;
-    font-size: 10px;
-    font-weight: 300;
-  }
-  .gJoinTitle {
-    color: #FFFFFF;
-    font-size: 15px;
-    font-weight: 600;
-  }
-    
 }
-
-
-
-
-
-/* end */
