@@ -1,129 +1,167 @@
 <template>
-<div>
-    <section class="boxFreeloan">
-        <q-parallax>
-            <template v-slot:media>
-                <img src="~assets/images/wevest_homepage_logo.png">
-            </template>
+    <div>
+        <q-carousel
+            @transition="onPageChange"
+            v-model="v_slide"
+            animated swipeable navigation vertical padding arrows
+            control-color="primary"
+            transition-prev="slide-down"
+            transition-next="slide-up"            
+            class="boxCarousel rounded-borders">
+            
+            <q-carousel-slide name="landing" class="column boxLanding">
+                <div>
+                    <div class="flex items-center justify-center" v-if="v_page.landing"
+                        v-motion-roll-bottom :delay="1000">
+<!--                        
+                        v-motion :initial="v_scale.initial" :enter="v_scale.enter" :delay="1000">
+-->
+                        <q-img src="~assets/images/people.jpg" width="300px" height="300px" />
+                    </div>
+                    
+                    <div class="text-center">
 
-            <template v-slot:content="scope">
-                <div class="full-width">
-                    <div class="col"></div>
+                        <div class="gBlackMediumTitle q-py-xl">
+                            Interest <span class="gBoldUpper">free</span> loan 
+                        </div>
+                        <div class="gDescBlack">
+                            The first interest free loan in history<br>
+                            No interest, No maturity, Leverage available
+                        </div>
+                        <div>
+                            <span class="gWatchLinkBlack">Watch video</span> 
+                            <q-btn flat icon="keyboard_arrow_right" />
+                        </div>
+
+                    </div>
+                </div>
+            </q-carousel-slide>
+
+            <q-carousel-slide name="paradigm" class="column no-wrap flex-center boxParadigm">
+                <div class="row items-center justify-center">            
                     <div class="col">
-                        <div class="row">
-                            <div class="col-1"></div>
-                            <div class="col-11">
-                                <div class="gBlackMediumTitle q-py-lg">
-                                    Interest <span class="gBoldUpper">free</span> loan 
-                                </div>
-                                <div class="gDescBlack q-py-md">
-                                    The first interest free loan in history<br>
-                                    No interest, No maturity, Leverage available
-                                </div>
-                                <div>
-                                    <span class="gWatchLinkBlack">Watch video</span> 
-                                    <q-btn flat icon="keyboard_arrow_right" />
-                                </div>
+                        <div>
+                            <div class="gWhiteMediumTitle white q-mb-xl">
+                                New <span class="gBoldUpper">Interest</span> Paradigm<br>
+                            </div>
+                        </div>
+                        <div class="q-mb-lg">
+                            <div class="gDescWhite">
+                                Existing paradigm : interest payment<br>
+                                WEVEST paradigm : NO interest<br> 
+                            </div>
+                        </div>
+                        <div>
+                            <span class="gWatchLinkWhite">Watch video</span>
+                            <q-btn text-color="white" flat icon="keyboard_arrow_right"></q-btn> 
+                        </div> 
+                    </div>
+                    <div class="col">
+                        <div class="boxImage"  v-if="v_page.paradigm" 
+                            v-motion-roll-left :delay="1000">
+<!--                            
+                            v-motion :initial="v_slidedown.initial" :enter="v_slidedown.enter" :delay="200">
+-->
+
+                            <q-img src="~assets/images/white_man.png" />
+                        </div>
+                    </div>
+                </div>
+
+            </q-carousel-slide>
+
+            <q-carousel-slide name="win" class="column no-wrap flex-center boxWin">
+                <div class="row">
+                    <div class="col">
+                        <div class="boxImage"  v-if="v_page.win"
+                            v-motion-roll-top :delay="1000">
+<!--                            
+                            v-motion :initial="v_slideleft.initial" :enter="v_slideleft.enter" :delay="200">
+-->                            
+                            <q-img src="~assets/images/white_woman.png" />
+                        </div>
+                    </div>
+                    <div class="col text-center">
+                        <div class="gBlackBigTitle gBoldLower">
+                            Win-Win
+                        </div>
+                        <div class="gBlackSmallTitle">
+                            for both lender and borrower 
+                        </div>
+                        <div class="gDescBlack text-left">
+                            Lender : more yield, transaction fee, LP tokens <br>
+                            Borrower : no interest, no maturity, leverage available
+                        </div>
+                    </div>
+                </div>
+            
+            </q-carousel-slide>
+
+            <q-carousel-slide name="yield" class="column no-wrap flex-center boxYield">
+                <div class="row q-pa-xl">
+                    <div class="col">
+                        <div class="text-center gBlackMediumTitle q-py-lg">
+                            <span class="gBoldLower">Yield Farming</span> + <span class="gBoldLower">Position Swap</span><br>
+                            <span class="gBlackSmallTitle">made it possible</span> 
+                        </div>
+                        <div class="gDescBlack">
+                            Wevest protocol utilize ‘collateral + loan’ and position swap to setoff interest rate.
+                            lenders maximize interest income through yield farming, including their own funds
+                            as well as borrowers' collateral, rather than earning interest income with only their own funds,
+                            and borrowers can borrow more than the collateral, with no interest and no maturities.
+                        </div>
+                        <div>
+                            <span class="gWatchLinkBlack">Watch video</span> 
+                            <q-btn size="12px" flat icon="keyboard_arrow_right"></q-btn> 
+                        </div> 
+                    </div>
+                    <div class="col">
+                        <div class="boxImage"  v-if="v_page.yield"
+                            v-motion-roll-bottom :delay="1000">
+                            <q-img src="~assets/images/asian_woman.png" />
+                        </div>
+                    </div>
+                </div>            
+            </q-carousel-slide>
+
+            <q-carousel-slide name="risk" class="column no-wrap flex-center boxRisk">
+                <div class="row" >
+                    <div class="col"
+                        v-motion-slide-bottom :delay="1000"
+                    >
+                        <div class="boxIcon" v-if="v_page.risk">
+                            <q-img src="~assets/images/asian_man.png" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="items-center">
+                            <div class="gBlackMediumTitle q-pt-xl text-left">
+                                <span class="gBoldLower">VaR & Forward-looking</span> <br>
+                                <span class="gBlackSmallTitle">Risk Management</span> 
+                            </div>
+                            <div class="gDescBlack q-pt-lg">
+                                We measure risk via var, based on the var value
+                                wevest protocol dynamically adjust collateral ratio to 
+                                minimize risk exposure
                             </div>
                         </div>
                     </div>
-                    <div class="col"></div>                    
-                </div>
-            </template>
-        </q-parallax>
-    </section> 
-    <section class="boxParadigm q-pa-md boxCenter">
-        <div class="items-center justify-center">            
-            <div class="col">
-                <div class="gWhiteMediumTitle white q-mb-xl">
-                    New <span class="gBoldUpper">Interest</span> Paradigm<br>
-                </div>
-            </div>
-            <div class="col q-mb-lg">
-                <div class="gDescWhite">
-                    The existing paradigm : interest payment on loan<br>
-                    The new paradigm : interest free loan<br> 
-                </div>
-            </div>
-            <div class="col">
-                <span class="gWatchLinkWhite">Watch video</span>
-                <q-btn color="white" flat icon="keyboard_arrow_right"></q-btn> 
-            </div> 
+                </div>            
+            </q-carousel-slide>
 
-        </div>
-    </section> 
-    <section class="boxWin q-pa-md">
-        <div class="row flex items-center justify-center full-height">
-            <div class="col">
-                <div class="boxImage">
-                    <q-img src="~assets/images/white_woman.png" />
-                </div>
+
+        </q-carousel> 
+        
+        <div class="boxFooter q-pa-lg">
+            <div class="text-center gJoinText" style="color: white;">
+                Do you have ideas on how to improve wevest.io?
             </div>
-            <div class="col text-center">
-                <div class="gBlackBigTitle gBoldLower">
-                     Win-Win
-                </div>
-                <div class="gBlackSmallText q-pb-md">
-                    for both lender and borrower 
-                </div>
-                <div class="gDescBlack">
-                    Lender : more yield, transaction fee, LP tokens <br>
-                    Borrower : no interest, no maturity, leverage available
-                </div>
+            <div class="text-center">
+                <span class="gJoinTitle">Join us</span> 
+                <q-btn color="white" flat icon="keyboard_arrow_right" />
             </div>
-        </div>
-    </section> 
-     <section class="boxCenter boxFarming">
-        <div class="text-center">
-            <div class="gBlackMediumTitle q-py-lg">
-                <span class="gBoldLower">Yield Farming</span> + <span class="gBoldLower">Position Swap</span><br>
-                <span class="gBlackSmallTitle">made it possible</span> 
-            </div>
-            <div class="gDescBlack q-px-lg">
-                Wevest protocol utilize ‘collateral + loan’ and position swap to setoff interest rate.
-                lenders maximize interest income through yield farming, including their own funds
-                as well as borrowers' collateral, rather than earning interest income with only their own funds,
-                and borrowers can borrow more than the collateral, with no interest and no maturities.
-            </div>
-            <div class="q-pa-md">
-                <span class="gWatchLinkBlack">Watch video</span> 
-                <q-btn size="12px" flat icon="keyboard_arrow_right"></q-btn> 
-            </div> 
-        </div>
-    </section> 
-    <section class="q-pa-md boxRisk">
-        <div class="flex row items-center justify-center" >
-            <div class="col">
-                <div class="q-pl-xl items-center">
-                    <div class="gBlackMediumTitle q-pt-xl text-left">
-                        <span class="gBoldLower">VaR and adaptive</span> <br>
-                        risk management 
-                    </div>
-                    <div class="gDescBlack q-pt-lg">
-                        We measure risk via var, based on the var value
-                        wevest protocol dynamically adjust collateral ratio to 
-                        minimize risk exposure
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="boxIcon">
-                    <q-img src="~assets/images/wevest_homepage_icon.png" />
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section class="q-pa-xl boxFooter">
-        <div class="text-center gJoinText" style="color: white;">
-            Do you have ideas on how to improve wevest.io?
-        </div>
-        <div class="text-center">
-            <span class="gJoinTitle">Join us</span> 
-            <q-btn color="white" flat icon="keyboard_arrow_right" />
-        </div>
-    </section>  
-</div>
+        </div>  
+    </div>
 </template>
 
 
@@ -133,32 +171,19 @@ import NavFunc from 'src/util/NavFunc';
 import CommonFunc from 'src/util/CommonFunc';
 import logger from 'src/error/Logger';
 
-import CTitle from 'components/CTitle';
-import CBigLabel from 'components/CBigLabel';
 
-import AssetCard from 'components/cards/AssetCard';
-import BlogList from 'components/lists/BlogList';
-import AssetCommunityCard from 'components/cards/AssetCommunityCard';
-import PortfolioCard from 'components/cards/PortfolioCard';
-import ReviewStatList from 'components/lists/ReviewStatList';
-import UserFeedList from 'components/lists/UserFeedList';
-import CaptainList from 'components/lists/CaptainList';
-
-import DataService from 'src/services/dataService';
-
-import WBanner from 'components/w/WBanner';
-//import CExchangeIndexChart from 'pages/home/CExchangeIndexChart';
-//import MarketIndexWidget from 'pages/home/components/MarketIndexWidget';
-//import MarketWatchWidget from 'pages/home/components/MarketWatchWidget';
-
+// transition presets from vue-motion
+// https://motion.vueuse.org/presets.html
+//
 
 export default {
     name: 'HomePage',
-    components: {
-        CTitle,
-        CBigLabel,
-        WBanner,
-    },
+    components: {},
+/*    
+    directives: {
+        motion: motion(),
+    },    
+*/    
     computed: {
         v_me() {
             return store.getters.me;
@@ -167,18 +192,94 @@ export default {
 
     data() {
         return {
-            v_tab:'upbit',     
-            v_tab_toplist:'ret' ,
-            v_toplist_visible:false,  
-            v_page: {title:'page.home.title', desc:''},
-            v_subpage: { 
-                cwatch: { title:'page.home.cwatch.title', desc:''} 
-            },       
-            v_banner_title: "WeVest Alpha Test Starts!!!",         
+            v_slide:'landing',     
+            v_page: {
+                landing: true,
+                win: false,
+                yield: false,
+                risk: false,
+                paradigm: false
+            },
+
+            v_slideup: {
+                initial: {
+                    opacity: 0,
+                    y:800,
+                },
+                enter: {
+                    opacity: 1, 
+                    y: 10,
+                    transition: {
+                        repeat: Infinity,repeatType: 'mirror',repeatDelay: 3000,
+                    }
+
+                }
+            },
+
+            v_slidedown: {
+                initial: {
+                    opacity: 0,
+                    y:-800,
+                },
+                enter: {
+                    opacity: 1, 
+                    y: 10,
+                    transition: {
+                        repeat: Infinity,repeatType: 'mirror',repeatDelay: 1000,
+                    }
+                }
+            },
+
+            v_slideleft: {
+                initial: {
+                    opacity: 0,
+                    x:-800,
+                },
+                enter: {
+                    opacity: 1, 
+                    x: 10,
+                    transition: {
+                        repeat: Infinity,repeatType: 'mirror',repeatDelay: 1000,
+                    }
+                }
+            },
+
+            v_slideright: {
+                initial: {
+                    opacity: 0,x:4800,
+                },
+                enter: {
+                    opacity: 1, 
+                    x: 10,
+                    transition: {
+                        repeat: Infinity,repeatType: 'mirror',repeatDelay: 1000,
+                    }
+                }
+            },
+
+            v_fade: {
+                initial: {
+                    opacity: 0,
+                },
+                enter: {
+                    opacity: 1, 
+                }
+            },
+
+            v_scale: {
+                initial: {
+                    scale: 0,
+                },
+                enter: {
+                    scale: 1, 
+                }
+            },
+
         }
     },
     created() {
-        logger.log.debug("HomeView.created");
+        logger.log.debug("HomeView.created",this.$isMobile());
+        this.setParameters();
     },
     mounted() {
         logger.log.debug("HomeView.mounted");
@@ -188,7 +289,21 @@ export default {
     },
     
     methods: {
+        setParameters() {
+            logger.log.debug("HomeView.setParameters");    
 
+        },
+        
+        clearPageVar() {
+
+        },
+
+        onPageChange(newVal,oldVal) {
+            logger.log.debug("HomeView.onPageChange : ",newVal,oldVal);
+            
+            this.v_page[oldVal] = false;
+            this.v_page[newVal] = true;
+        }
     }
 };
 
@@ -197,19 +312,24 @@ export default {
 
 <style scoped>
 
+.boxCarousel {
+    height: 85vh;
+}
+
+.boxFooter {
+    height: 15vh;
+    background-color: #000000;
+}
+
 .boxCenter {
+    display: flex;
     align-items: center; 
     justify-content: center;
 }
 
+
 @media screen and (min-width: 769px) {
    /* 데스크탑에서 사용될 스타일을 여기에 작성합니다. */
-
-    .boxCenter {
-        display: flex;
-        align-items: center; 
-        justify-content: center;
-    }
 
     .boxImage {
         display: block;
@@ -223,45 +343,31 @@ export default {
     .boxIcon {
         display: block;
     }
-
-    .boxFreeloan {
+    
+    .boxLanding {
         background: white;
-        height: 600px;
     }
 
     .boxParadigm {
         background-color: #000000;
-        height: 600px;
-    }
-    
-    .boxWin {
-        background-color: #009CF2;
-        height: 600px;
     }
 
-    .boxFarming {
+    .boxWin {
+        background-color: #009CF2;
+    }
+
+    .boxYield {
         background-color: #ff8500;
-        height: 600px;
     }
 
     .boxRisk {
         background-color: #00E6AA;
-        height: 600px;
-    }
-
-    .boxFooter {
-        background-color: #000000;
     }
 
 }
 
 @media screen and (max-width: 768px) {
     /* 모바일에 사용될 스트일 시트를 여기에 작성합니다. */
-    .boxCenter {
-        display: flex;
-        align-items: center; 
-        justify-content: center;
-    }
 
     .boxImage {
         background-color: #FF8c00; 
@@ -271,49 +377,22 @@ export default {
         padding: 10px;
     }
 
-    .boxFreeloan {
+    .boxLanding {
         background: white;
-        height: 600px;
     }
 
     .boxWin {
-        display: flex;
         background-color: #009CF2;
-        /* height: 600px; */
     }
 
-
-    .boxParadigm {
-        background-color: #000000;
-        height: 600px;
-    }
-
-    .boxFarming {
+    .boxYield {
         background-color: #ff8500;
     }
 
     .boxRisk {
         background-color: #00E6AA;
-        /* height: 600px; */
     }
 
-    .boxFooter {
-        background-color: #000000;
-    }
-    .flex {
-        display:flex;
-        flex-direction: row-reverse;
-        flex-flow:wrap;
-        justify-content:center;
-        width: ;
-        height: ;
-        align-content: center;
-    }
-    .flex div {
-        flex-grow: 1;
-        flex-shrink: 0;
-        flex-basis: 500px;
-    }
 }
 
 
