@@ -99,7 +99,7 @@
 
             <q-carousel-slide name="yield" class="boxYield">
                 <div class="row items-center justify-center">
-                    <div class="col" style="min-width:250px">
+                    <div class="col q-ma-md">
                         <div class="text-center gBlackMediumTitle q-py-lg">
                             <span class="gBoldLower">Yield Farming</span> + <span class="gBoldLower">Position Swap</span><br>
                             <span class="gBlackSmallTitle">made it possible</span> 
@@ -115,7 +115,7 @@
                             <q-btn size="12px" flat icon="keyboard_arrow_right"></q-btn> 
                         </div> 
                     </div>
-                    <div class="col" style="min-width:250px">
+                    <div class="col q-ma-md">
                         <div class="boxImage4"  v-if="v_page.yield"
                             v-motion-roll-bottom :delay="1000">
                             <q-img src="~assets/images/asian_woman.png" />
@@ -125,8 +125,8 @@
             </q-carousel-slide>
 
             <q-carousel-slide name="risk" class="column no-wrap flex-center boxRisk">
-                <div class="row" >
-                    <div class="col" style="min-width:250px"
+                <div class="row flex row items-center justify-center" >
+                    <div class="col" style="min-width:440px"
                         v-motion-slide-bottom :delay="1000"
                     >
                         <div class="boxIcon boxImage5" v-if="v_page.risk">
@@ -148,10 +148,7 @@
                     </div>
                 </div>            
             </q-carousel-slide>
-
-
         </q-carousel> 
-        
         <div class="boxFooter q-pa-lg">
             <div class="text-center gJoinText" style="color: white;">
                 Do you have ideas on how to improve wevest.io?
@@ -380,7 +377,7 @@ export default {
         margin:50px;
         width: 450px;
     }
-    
+   
     .boxIcon {
         display: block;
     }
