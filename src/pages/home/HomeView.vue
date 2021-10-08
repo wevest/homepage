@@ -10,7 +10,7 @@
             class="boxCarousel rounded-borders">
             
             <q-carousel-slide name="landing" class="column flex-center boxLanding">
-                <div class="column items-center">
+                <div class="column items-center justify-center">
                     <div class="boxBaseImage boxImage1" v-if="v_page.landing"
                         v-motion-roll-bottom :delay="1000">
 <!--                        
@@ -21,18 +21,17 @@
                     
                     <div class="text-center">
 
-                        <div class="gBlackMediumTitle q-pb-md">
+                        <div class="gBlackMediumTitle q-pb-md text-left">
                             Interest <span class="gBoldUpper">free</span> loan 
                         </div>
-                        <div class="gDescBlack q-pb-md">
+                        <div class="gDescBlack q-pb-md text-left">
                             The first interest free loan in history<br>
                             No interest, No maturity, Leverage available
                         </div>
-                        <div>
+                        <div class="text-left">
                             <span class="gWatchLinkBlack">Watch video</span> 
                             <q-btn flat icon="keyboard_arrow_right" />
                         </div>
-
                     </div>
                 </div>
             </q-carousel-slide>
@@ -77,7 +76,7 @@
                     </div>
                     <div :class="v_col_text_class">
                         <div class="gBlackMediumTitle gBoldLower text-left">
-                            Win-Win game</span>
+                            Win-Win game
                         </div>
                         <div class="gBlackSmallTitle text-left q-pb-md">
                             for both lender and borrower 
@@ -387,10 +386,6 @@ export default {
         background-color: #e1bee7; 
         width: 360px;
     }
-   
-    .boxIcon {
-        display: block;
-    }
     
     .boxLanding {
         background: white;
@@ -431,8 +426,8 @@ export default {
     .boxImage1 {
         background-color: #FF8c00; 
         border-color: #000000;
-        height: 135px;
-        width: 300px;
+        height: 125px;
+        width: 280px;
   
     }
     .boxImage2 {
