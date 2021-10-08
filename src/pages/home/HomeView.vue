@@ -71,7 +71,7 @@
             </q-carousel-slide>
 
             <q-carousel-slide name="win" class="boxWin">
-                <div class="row items-center justify-center">
+                <div class="flex row items-center justify-center">
                     <div class="col text-center"> 
                         <div class="boxImage3"  v-if="v_page.win"
                             v-motion-roll-top :delay="1000">
