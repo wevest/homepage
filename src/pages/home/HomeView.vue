@@ -10,13 +10,16 @@
             class="boxCarousel rounded-borders">
             
             <q-carousel-slide name="landing" class="column flex-center boxLanding">
-                <div class="column items-center justify-center">
-                    <div class="boxBaseImage boxImage1" v-if="v_page.landing"
-                        v-motion-roll-bottom :delay="1000">
-<!--                        
-                        v-motion :initial="v_scale.initial" :enter="v_scale.enter" :delay="1000">
--->
-                        <q-img src="~assets/images/people.png" />
+                <div class="full-width items-center">                    
+                    <div class="q-ma-lg justify-center">
+                        <q-img src="~assets/images/wevest_logo_black.png" class="boxLogo" />
+                    </div>
+
+                    <div class="">
+                        <div class="flex items-center justify-center"
+                            v-if="v_page.landing" v-motion-roll-bottom :delay="v_delay">
+                            <q-img src="~assets/images/people.png" class="boxBaseImage boxImage1" />
+                        </div>
                     </div>
                     
                     <div class="text-center">
@@ -28,36 +31,35 @@
                             The first interest free loan in history<br>
                             No interest, No maturity, Leverage available
                         </div>
-                        <div class="text-left">
-                            <span class="gWatchLinkBlack">Watch video</span> 
-                            <q-btn flat icon="keyboard_arrow_right" />
-                        </div>
+                        <div class="q-pt-sm">
+                            <q-btn dense padding="0px" size="12px" label="Read Doc" flat icon-right="keyboard_arrow_right" align="left" />
+                        </div> 
                     </div>
                 </div>
             </q-carousel-slide>
 
             <q-carousel-slide name="paradigm" class="column flex-center boxParadigm">
-                <div class="row items-center justify-center">            
+                <div class="row full-height items-center justify-center">            
                     <div :class="v_col_text_class">
-                        <div class="">
+                        <div>
                             <div class="gWhiteMediumTitle white q-mb-md">
                                 New <span class="gBoldUpper">Interest</span> Paradigm<br>
                             </div>
-                        </div>
-                        <div class="q-mb-sm">
-                            <div class="gDescWhite">
-                                Existing paradigm : interest payment<br>
-                                WEVEST paradigm : NO interest<br> 
+
+                            <div class="q-mb-sm">
+                                <div class="gDescWhite">
+                                    Existing paradigm : Interest payment<br>
+                                    WEVEST paradigm : NO interest<br> 
+                                </div>
                             </div>
+                            <div class="q-pt-sm">
+                                <q-btn dense padding="0px" text-color="white" size="12px" label="Read Doc" flat icon-right="keyboard_arrow_right" align="left" />
+                            </div> 
                         </div>
-                        <div class="text-left">
-                            <span class="gWatchLinkWhite">Watch video</span>
-                            <q-btn text-color="white" flat icon="keyboard_arrow_right"></q-btn> 
-                        </div> 
                     </div>
                     <div :class="v_col_img_class">
                         <div class="flex items-center justify-center"
-                            v-if="v_page.paradigm" v-motion-roll-left :delay="1000">                        
+                            v-if="v_page.paradigm" v-motion-slide-right :delay="v_delay">                        
 
                             <q-img class="boxBaseImage boxImage2" src="~assets/images/white_man.png"  />
                         </div>
@@ -67,23 +69,28 @@
             </q-carousel-slide>
 
             <q-carousel-slide name="win" class="column flex-center boxWin">
-                <div class="row items-center justify-center">
+                <div class="row full-height items-center justify-center">
                     <div :class="v_col_img_class">
                         <div class="flex items-center justify-center"
-                            v-if="v_page.win" v-motion-roll-top :delay="1000">
+                            v-if="v_page.win" v-motion-slide-left :delay="v_delay">
                             <q-img src="~assets/images/white_woman.png" class="boxBaseImage boxImage3" />
                         </div>
                     </div>
                     <div :class="v_col_text_class">
-                        <div class="gBlackMediumTitle gBoldLower text-left">
-                            Win-Win game
-                        </div>
-                        <div class="gBlackSmallTitle text-left q-pb-md">
-                            for both lender and borrower 
-                        </div>
-                        <div class="gDescBlack text-left">
-                            Lender: more yield, transaction fee, LP tokens
-                            Borrower: no interest, no maturity, leverage available
+                        <div>
+                            <div class="gBlackMediumTitle gBoldLower text-left">
+                                <span>Win-Win game</span>
+                            </div>
+                            <div class="gBlackSmallTitle text-left q-pb-md">
+                                for both lender and borrower 
+                            </div>
+                            <div class="gDescBlack text-left">
+                                Lender: more yield, transaction fee, LP tokens
+                                Borrower: no interest, no maturity, leverage available
+                            </div>
+                            <div class="q-pt-sm">
+                                <q-btn dense padding="0px" size="12px" label="Read Doc" flat icon-right="keyboard_arrow_right" align="left" />
+                            </div> 
                         </div>
                     </div>
                 </div>
@@ -91,34 +98,36 @@
             </q-carousel-slide>
 
             <q-carousel-slide name="yield" class="column flex-center boxYield">
-                <div class="row items-center justify-center">
+                <div class="row full-height items-center justify-center">
                     <div :class="v_col_text_class">
-                        <div class="text-center gBlackMediumTitle q-pb-md text-left">
-                           <span class="gBlackSmallTitle">Why? </span> <span class="gBoldLower">Use Right Delegation</span>
-<!--    
-                            <span class="gBlackSmallTitle">made it possible</span> 
--->                            
-                        </div>
-                        <div class="gDescBlack text-left">
-                            Wevest protocol utilizes ‘collateral + loan’ to earn yield to setoff the interest rate.
-                        <div class="gDescBlack text-left q-pb-md">
-                        The yield goes to lender as interest, So borrower does not pay interest at all.
-                        </div>
-<!--                            
-                            Lenders maximize interest income through yield farming, including their own funds
-                            as well as borrowers' collateral.
-                             rather than earning interest income with only their own funds,
-                            and borrowers can borrow more than the collateral, with no interest and no maturities.
--->                            
-                        </div>
                         <div>
-                            <span class="gWatchLinkBlack">Watch video</span> 
-                            <q-btn size="12px" flat icon="keyboard_arrow_right"></q-btn> 
-                        </div> 
+                            <div class="text-center gBlackMediumTitle q-pb-md text-left">
+                            <span class="gBlackSmallTitle"></span> <span class="gBoldLower">Use Right Delegation</span>
+    <!--    
+                                <span class="gBlackSmallTitle">made it possible</span> 
+    -->                            
+                            </div>
+                            <div class="gDescBlack text-left">
+                                Wevest protocol utilizes ‘collateral + loan’ to earn yield to setoff the interest rate.
+                            <div class="gDescBlack text-left q-pb-md">
+                                The yield goes to lender as interest, So borrower does not pay interest at all.
+                            </div>
+    <!--                            
+                                Lenders maximize interest income through yield farming, including their own funds
+                                as well as borrowers' collateral.
+                                rather than earning interest income with only their own funds,
+                                and borrowers can borrow more than the collateral, with no interest and no maturities.
+    -->                            
+                            </div>
+                            <div class="q-pt-sm">
+                                <q-btn dense padding="0px" size="12px" label="Read Doc" flat icon-right="keyboard_arrow_right" align="left" />
+                            </div> 
+                        </div>
                     </div>
+
                     <div :class="v_col_img_class">
                         <div class="flex items-center justify-center"
-                            v-if="v_page.yield" v-motion-roll-bottom :delay="1000">
+                            v-if="v_page.yield" v-motion-slide-top :delay="v_delay">
                             <q-img src="~assets/images/asian_woman.png" class="boxBaseImage boxImage4" />
                         </div>
                     </div>
@@ -126,15 +135,15 @@
             </q-carousel-slide>
 
             <q-carousel-slide name="risk" class="column no-wrap flex-center boxRisk">
-                <div class="row items-center justify-center" >
+                <div class="row full-height items-center justify-center" >
                     <div :class="v_col_img_class">
                         <div class="flex items-center justify-center"    
-                            v-if="v_page.risk" v-motion-slide-bottom :delay="1000">
+                            v-if="v_page.risk" v-motion-slide-bottom :delay="v_delay">
                             <q-img src="~assets/images/asian_man.png" class="boxBaseImage boxImage5" />
                         </div>
                     </div>
                     <div :class="v_col_text_class">
-                        <div class="items-center">
+                        <div>
                             <div class="gBlackMediumTitle text-left">
                                 <span class="gBoldLower">VaR & Forward-looking</span> <br>
                                 <span class="gBlackSmallTitle">Risk Management</span> 
@@ -144,11 +153,16 @@
                                 wevest protocol dynamically adjust collateral ratio to 
                                 minimize risk exposure
                             </div>
+                            <div class="q-pt-sm">
+                                <q-btn dense padding="0px" size="12px" label="Read Risk Management Doc" flat icon-right="keyboard_arrow_right" align="left" /> <br>
+                                <q-btn dense padding="0px" size="12px" label="Read VARiM Doc" flat icon-right="keyboard_arrow_right" align="left" />
+                            </div> 
                         </div>
                     </div>
                 </div>            
             </q-carousel-slide>
         </q-carousel> 
+
         <div class="column boxFooter flex items-center justify-center">
             <div class="text-center gFooterText" style="color: white;">
                 Do you have ideas on how to improve wevest.io?
@@ -196,7 +210,9 @@ export default {
 
     data() {
         return {
-            v_slide:'landing',     
+            v_slide:'landing',   
+            v_delay: 400,
+
             v_page: {
                 landing: true,
                 win: false,
@@ -306,8 +322,8 @@ export default {
             logger.log.debug("HomeView.setParameters");    
 
             if (this.isMobile()) {
-                this.v_col_img_class = 'col-xs-8 col-sm-6 col-md-6';
-                this.v_col_text_class = 'col-xs-12 col-sm-6 col-md-6';
+                this.v_col_img_class = 'col-xs-12 col-sm-6 col-md-6 boxImageCol';
+                this.v_col_text_class = 'col-xs-12 col-sm-6 col-md-6 boxTextCol flex items-center';
             } else {
                 this.v_col_img_class = 'col boxBaseCol';
                 this.v_col_text_class = 'col boxBaseCol';
@@ -351,6 +367,14 @@ export default {
     min-width:250px;
 }
 
+.boxImageCol {
+    height: 35%;
+}
+
+.boxTextCol {
+    height: 65%;
+}
+
 @media screen and (min-width: 769px) {
    /* 데스크탑에서 사용될 스타일을 여기에 작성합니다. */
 
@@ -361,10 +385,17 @@ export default {
         border-top-style:none;
     }
 
+    .boxLogo {
+        height: 20%;
+        width: 20%;
+    }
+
     .boxImage1 {
+        /*
         background-color:#FF8c00; 
+        */
         border-color: #000000;
-        height: 360px;
+        height: 260px;
         width: 800px;
     }
     
@@ -416,6 +447,11 @@ export default {
 @media screen and (max-width: 768px) {
     /* 모바일에 사용될 스트일 시트를 여기에 작성합니다. */
 
+    .boxLogo {
+        height: 50%;
+        width: 50%;
+    }
+
     .boxBaseImage {
         margin:20px;
         border-style: solid;
@@ -433,27 +469,23 @@ export default {
     .boxImage2 {
         background-color: #bdbdbd; 
         border-color: #FFFFFF;
-        height:110px;
-        width: 150px;
+        margin: -5vh 15vw 15vh 15vw;
     }
+
      .boxImage3 {
         background-color: #ffea00; 
         border-color: #000000;
-        height:110px;
-        width: 150px;
+        margin: 0vh 15vw 15vh 15vw;
     }
     .boxImage4 {
         background-color: #64ffda; 
         border-color: #000000;
-        height:120px; 
-        width: 140px;
+        margin: -4vh 18vw 0vh 18vw;
     }
     .boxImage5 {
         background-color: #e1bee7; 
         border-color: #000000;
-        height:110px; 
-        width: 140px;
-
+        margin: -1vh 15vw 15vh 15vw;    
     }
 
     .boxLanding {
