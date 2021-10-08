@@ -9,7 +9,7 @@
             </div>
             <div class="text-center">
                 <h3 class="title1">
-                    <b>‘VAR and ADAPTIVE’</b>
+                    <b>‘VaR and adaptives’</b>
                     <br>
                     risk management 
                 </h3>
