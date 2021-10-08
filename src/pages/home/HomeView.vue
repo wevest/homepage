@@ -37,7 +37,7 @@
                 </div>
             </q-carousel-slide>
 
-            <q-carousel-slide name="paradigm" class="column no-wrap flex-center boxParadigm">
+            <q-carousel-slide name="paradigm" class="column flex-center boxParadigm">
                 <div class="row items-center justify-center">            
                     <div class="col">
                         <div>
@@ -338,6 +338,7 @@ export default {
         border-width:10px;
         border-top-style:none;
         margin:50px;
+        
     }
     
     .boxIcon {
