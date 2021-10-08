@@ -1,29 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;900&display=swap');
 
 
-.title1 {
-  color:#000000;
-  font-weight: 800;
-  font-size:55px;
-}
-.title1-1 {
-  color:#000000;
-  font-weight: 500;
-  font-size:55px;
-}
-.title2 {
-  color:#000000;
-  font-weight: 700;
-  font-size:28px;
-}
-
-.title2-1 {
-  color:#000000;
-  font-weight: 500;
-  font-size:40px;
-}
-
-
 @media screen and (min-width: 769px) {
   /* 데스크탑에서 사용될 스타일을 여기에 작성합니다. */
   .gBlackBigTitle {
@@ -92,13 +69,14 @@
     font-weight: 500;
   }
   
-  .gJoinText {
+  .gFooterText {
     color: #FFFFFF;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 400;
+    margin: 0px 10px 0px 10px;
   }
   
-  .gJoinTitle {
+  .gFooterLink {
     color: #FFFFFF;
     font-size: 14px;
     font-weight: 500;
@@ -109,6 +87,8 @@
 
 
 @media screen and (max-width: 768px) {
+/* 모바일에서 사용될 스타일을 여기에 작성합니다. */
+
   .gBlackBigTitle {
     color:#000000;
     font-weight: 300;
@@ -118,24 +98,24 @@
   .gBlackMediumTitle {
     color: #000000;
     font-weight: 300;
-    font-size:35px;
+    font-size:24px;
   }
   
   .gWhiteMediumTitle {
     color: #FFFFFF;
     font-weight: 300;
-    font-size:32px;
+    font-size:24px;
   }
   .gBlackSmallTitle {
     color: #000000;
     font-weight: 300;
-    font-size:20px;
+    font-size:19px;
   }
   
   .gWhiteSmallText {
     color: #FFFFFF;
     font-weight: 300;
-    font-size:28px;
+    font-size:20px;
   }
     
   .gBoldLower {
@@ -162,27 +142,27 @@
   } 
 
   .gWatchLinkBlack {
-    font-size: 15px;
+    font-size: 13px;
     color: #000000;
-    font-weight: 500;
+    font-weight: 400;
   }
 
   .gWatchLinkWhite {
-    font-size: 15px;
+    font-size: 13px;
     color: #FFFFFF;
-    font-weight: 500;
+    font-weight: 400;
   }
 
-  .gJoinText {
+  .gFooterText {
     color: #FFFFFF;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 300;
   }
 
-  .gJoinTitle {
+  .gFooterLink {
     color: #FFFFFF;
-    font-size: 15px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 400;
   }
 }
 

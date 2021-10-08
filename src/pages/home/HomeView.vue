@@ -9,9 +9,9 @@
             transition-next="slide-up"            
             class="boxCarousel rounded-borders">
             
-            <q-carousel-slide name="landing" class="column boxLanding">
+            <q-carousel-slide name="landing" class="column flex-center boxLanding">
                 <div class="column items-center">
-                    <div class="boxImage1" v-if="v_page.landing"
+                    <div class="boxBaseImage boxImage1" v-if="v_page.landing"
                         v-motion-roll-bottom :delay="1000">
 <!--                        
                         v-motion :initial="v_scale.initial" :enter="v_scale.enter" :delay="1000">
@@ -21,10 +21,10 @@
                     
                     <div class="text-center">
 
-                        <div class="gBlackMediumTitle q-py-md">
+                        <div class="gBlackMediumTitle q-pb-md">
                             Interest <span class="gBoldUpper">free</span> loan 
                         </div>
-                        <div class="gDescBlack">
+                        <div class="gDescBlack q-pb-md">
                             The first interest free loan in history<br>
                             No interest, No maturity, Leverage available
                         </div>
@@ -41,17 +41,17 @@
                 <div class="row items-center justify-center">            
                     <div :class="v_col_text_class">
                         <div class="">
-                            <div class="gWhiteMediumTitle white q-mb-xl">
+                            <div class="gWhiteMediumTitle white q-mb-md">
                                 New <span class="gBoldUpper">Interest</span> Paradigm<br>
                             </div>
                         </div>
-                        <div class="q-mb-lg">
+                        <div class="q-mb-sm">
                             <div class="gDescWhite">
                                 Existing paradigm : interest payment<br>
                                 WEVEST paradigm : NO interest<br> 
                             </div>
                         </div>
-                        <div class="text-center">
+                        <div class="text-left">
                             <span class="gWatchLinkWhite">Watch video</span>
                             <q-btn text-color="white" flat icon="keyboard_arrow_right"></q-btn> 
                         </div> 
@@ -67,7 +67,7 @@
 
             </q-carousel-slide>
 
-            <q-carousel-slide name="win" class="boxWin">
+            <q-carousel-slide name="win" class="column flex-center boxWin">
                 <div class="row items-center justify-center">
                     <div :class="v_col_img_class">
                         <div class="flex items-center justify-center"
@@ -76,33 +76,35 @@
                         </div>
                     </div>
                     <div :class="v_col_text_class">
-                        <div class="gBlackBigTitle gBoldLower">
-                            Win-Win
+                        <div class="gBlackMediumTitle gBoldLower text-left">
+                            Win-Win game</span>
                         </div>
-                        <div class="gBlackSmallTitle">
+                        <div class="gBlackSmallTitle text-left q-pb-md">
                             for both lender and borrower 
                         </div>
-                        <div class="gDescBlack text-center">
-                            Lender : more yield, transaction fee, LP tokens <br>
-                            Borrower : no interest, no maturity, leverage available
+                        <div class="gDescBlack text-left">
+                            Lender: more yield, transaction fee, LP tokens
+                            Borrower: no interest, no maturity, leverage available
                         </div>
                     </div>
                 </div>
             
             </q-carousel-slide>
 
-            <q-carousel-slide name="yield" class="boxYield">
+            <q-carousel-slide name="yield" class="column flex-center boxYield">
                 <div class="row items-center justify-center">
                     <div :class="v_col_text_class">
-                        <div class="text-center gBlackMediumTitle q-py-lg">
-                            <span class="gBoldLower">Why? Use Right Delegation</span><br>
+                        <div class="text-center gBlackMediumTitle q-pb-md text-left">
+                           <span class="gBlackSmallTitle">Why? </span> <span class="gBoldLower">Use Right Delegation</span>
 <!--    
                             <span class="gBlackSmallTitle">made it possible</span> 
 -->                            
                         </div>
-                        <div class="gDescBlack">
+                        <div class="gDescBlack text-left">
                             Wevest protocol utilizes ‘collateral + loan’ to earn yield to setoff the interest rate.
-                            The yield goes to lender as interest, So borrower does not pay interest at all.
+                        <div class="gDescBlack text-left q-pb-md">
+                        The yield goes to lender as interest, So borrower does not pay interest at all.
+                        </div>
 <!--                            
                             Lenders maximize interest income through yield farming, including their own funds
                             as well as borrowers' collateral.
@@ -129,7 +131,6 @@
                     <div :class="v_col_img_class">
                         <div class="flex items-center justify-center"    
                             v-if="v_page.risk" v-motion-slide-bottom :delay="1000">
-
                             <q-img src="~assets/images/asian_man.png" class="boxBaseImage boxImage5" />
                         </div>
                     </div>
@@ -149,12 +150,12 @@
                 </div>            
             </q-carousel-slide>
         </q-carousel> 
-        <div class="boxFooter q-pa-lg">
-            <div class="text-center gJoinText" style="color: white;">
+        <div class="column boxFooter flex items-center justify-center">
+            <div class="text-center gFooterText" style="color: white;">
                 Do you have ideas on how to improve wevest.io?
             </div>
             <div class="text-center">
-                <span class="gJoinTitle">Join us</span> 
+                <span class="gFooterLink">Join us</span> 
                 <q-btn color="white" flat icon="keyboard_arrow_right" />
             </div>
         </div>  
@@ -347,13 +348,6 @@ export default {
     justify-content: center;
 }
 
-.container1 {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    align-items: center;
-}
-
 .boxBaseCol {
     min-width:250px;
 }
@@ -370,9 +364,7 @@ export default {
 
     .boxImage1 {
         background-color:#FF8c00; 
-        border-style:solid;
-        border-width:6px;
-        margin:50px;
+        border-color: #000000;
         height: 360px;
         width: 800px;
     }
@@ -380,15 +372,20 @@ export default {
     .boxImage2 {
         background-color: #bdbdbd;         
         border-color: #FFFFFF;
+        width: 360px;
+
     }
      .boxImage3 {
         background-color: #ec407a; 
+        width: 360px;
     }
     .boxImage4 {
         background-color: #64ffda; 
+        width: 360px;
     }
     .boxImage5 {
         background-color: #e1bee7; 
+        width: 360px;
     }
    
     .boxIcon {
@@ -427,39 +424,41 @@ export default {
     .boxBaseImage {
         margin:20px;
         border-style: solid;
-        border-width:5px;
+        border-width:4px;
         border-top-style:none;
     }
 
     .boxImage1 {
         background-color: #FF8c00; 
-        border-style:solid;
-        border-width:5px;border-top-style:none;
-        margin:50px;
-        height: 110px;
-        width: 250px;
+        border-color: #000000;
+        height: 135px;
+        width: 300px;
   
     }
     .boxImage2 {
         background-color: #bdbdbd; 
-        border-style: solid;
-        border-width:5px;border-top-style:none;
         border-color: #FFFFFF;
+        height:110px;
+        width: 150px;
     }
      .boxImage3 {
         background-color: #ffea00; 
-        border-style:solid;
-        border-width:5px;border-top-style:none;
+        border-color: #000000;
+        height:110px;
+        width: 150px;
     }
     .boxImage4 {
         background-color: #64ffda; 
-        border-style:solid;
-        border-width:5px;
-        border-top-style:none;
-    
+        border-color: #000000;
+        height:120px; 
+        width: 140px;
     }
     .boxImage5 {
         background-color: #e1bee7; 
+        border-color: #000000;
+        height:110px; 
+        width: 140px;
+
     }
 
     .boxLanding {
@@ -508,11 +507,6 @@ export default {
     }
   }
 
-}
-
-
-.white {
-    color: #FFFFFF;
 }
 
 </style>
