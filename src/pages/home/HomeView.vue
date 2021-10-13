@@ -14,9 +14,15 @@
                     <div class="row q-ma-lg text-right">
                         <q-space />
                         <div>
-                            <q-btn flat label="github" /> 
-                            <q-btn flat label="twitter" /> 
-                            <q-btn flat label="discord" /> 
+                            <q-btn flat label="github"> 
+                                <q-img src="~assets/icons/github.png" />
+                            </q-btn>
+                            <q-btn flat label="twitter"> 
+                                <q-img src="~assets/icons/twitter.png" />
+                            </q-btn>
+                            <q-btn flat label="discord"> 
+                                <q-img src="~assets/icons/discord.png" />
+                            </q-btn>
                             <q-btn flat label="document" /> 
                             <q-btn flat label="blog" /> 
                         </div>
@@ -24,7 +30,7 @@
 
                     <div class="row q-ma-lg">
                         <q-img src="~assets/images/wevest_logo_black.png" class="boxLogo" />
-                        <div class="vertical-bottom"> We invest future </div>
+                        <div class="vertical-bottom symbolText"> We invest future </div>
                     </div>
 
                     <div class="">
@@ -181,20 +187,23 @@
             <div class="row full-width q-pa-md">
                 <div class="col">
                     <div class="column">
-                        <div> Learn </div>
-                        <q-btn flat dense align="left" label="wevest protocol" /> 
-                        <q-btn flat dense align="left" label="risk management" /> 
-                        <q-btn flat dense align="left" label="free-loan" /> 
-                        <q-btn flat dense align="left" label="benefit" /> 
+                        <div class="footerTitle q-pb-sm"> Learn </div>
+                        <q-btn flat dense align="left" text-color="grey-5" size="12px" label="wevest protocol" /> 
+                        <q-btn flat dense align="left" text-color="grey-5" size="12px" label="risk management" /> 
+                        <q-btn flat dense align="left" text-color="grey-5" size="12px" label="free-loan" /> 
+                        <q-btn flat dense align="left" text-color="grey-5" size="12px" label="benefit" /> 
                     </div>
                 </div>
+                
 
-                <div class="col">
-                    <q-btn flat text-color="white" label="github" /> 
+                <div class="col text-right">
+                    <q-btn flat label="github" > 
+                                <q-img src="~assets/icons/github.png" />
+                    </q-btn>
                     <q-btn flat text-color="white" label="twitter" /> 
                     <q-btn flat label="discord" /> 
-                    <q-btn flat label="document" /> 
-                    <q-btn flat label="blog" />             
+                    <q-btn flat icon="article" /> 
+                    <q-btn flat icon="web" />             
 
                     <div class="text-center gFooterText" style="color: white;">
                         wevest.io, we invest tomorrow! 
@@ -418,8 +427,8 @@ export default {
     }
 
     .boxLogo {
-        height: 20%;
-        width: 20%;
+        height: 13%;
+        width: 13%;
     }
 
     .boxImage1 {
