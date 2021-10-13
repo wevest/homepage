@@ -10,9 +10,21 @@
             class="boxCarousel rounded-borders">
             
             <q-carousel-slide name="landing" class="column flex-center boxLanding">
-                <div class="full-width items-center">                    
-                    <div class="q-ma-lg justify-center">
+                <div class="full-width full-height items-center">                    
+                    <div class="row q-ma-lg text-right">
+                        <q-space />
+                        <div>
+                            <q-btn flat label="github" /> 
+                            <q-btn flat label="twitter" /> 
+                            <q-btn flat label="discord" /> 
+                            <q-btn flat label="document" /> 
+                            <q-btn flat label="blog" /> 
+                        </div>
+                    </div>
+
+                    <div class="row q-ma-lg">
                         <q-img src="~assets/images/wevest_logo_black.png" class="boxLogo" />
+                        <div class="vertical-bottom"> We invest future </div>
                     </div>
 
                     <div class="">
@@ -24,10 +36,10 @@
                     
                     <div class="text-center">
 
-                        <div class="gBlackMediumTitle q-pb-md text-left">
+                        <div class="gBlackMediumTitle q-pb-md">
                             Interest <span class="gBoldUpper">free</span> loan 
                         </div>
-                        <div class="gDescBlack q-pb-md text-left">
+                        <div class="gDescBlack q-pb-md">
                             The first interest free loan in history<br>
                             No interest, No maturity, Leverage available
                         </div>
@@ -41,7 +53,7 @@
             <q-carousel-slide name="paradigm" class="column flex-center boxParadigm">
                 <div class="row full-height items-center justify-center">            
                     <div :class="v_col_text_class">
-                        <div>
+                        <div class="q-pl-lg">
                             <div class="gWhiteMediumTitle white q-mb-md">
                                 New <span class="gBoldUpper">Interest</span> Paradigm<br>
                             </div>
@@ -77,7 +89,7 @@
                         </div>
                     </div>
                     <div :class="v_col_text_class">
-                        <div>
+                        <div class="q-pl-md">
                             <div class="gBlackMediumTitle gBoldLower text-left">
                                 <span>Win-Win game</span>
                             </div>
@@ -100,7 +112,7 @@
             <q-carousel-slide name="yield" class="column flex-center boxYield">
                 <div class="row full-height items-center justify-center">
                     <div :class="v_col_text_class">
-                        <div>
+                        <div class="q-pl-lg">
                             <div class="text-center gBlackMediumTitle q-pb-md text-left">
                             <span class="gBlackSmallTitle"></span> <span class="gBoldLower">Use Right Delegation</span>
     <!--    
@@ -159,17 +171,35 @@
                             </div> 
                         </div>
                     </div>
+
                 </div>            
+
             </q-carousel-slide>
         </q-carousel> 
 
-        <div class="column boxFooter flex items-center justify-center">
-            <div class="text-center gFooterText" style="color: white;">
-                Do you have ideas on how to improve wevest.io?
-            </div>
-            <div class="text-center">
-                <span class="gFooterLink">Join us</span> 
-                <q-btn color="white" flat icon="keyboard_arrow_right" />
+        <div class="boxFooter flex items-center" v-if="v_page.risk">
+            <div class="row full-width q-pa-md">
+                <div class="col">
+                    <div class="column">
+                        <div> Learn </div>
+                        <q-btn flat dense align="left" label="wevest protocol" /> 
+                        <q-btn flat dense align="left" label="risk management" /> 
+                        <q-btn flat dense align="left" label="free-loan" /> 
+                        <q-btn flat dense align="left" label="benefit" /> 
+                    </div>
+                </div>
+
+                <div class="col">
+                    <q-btn flat text-color="white" label="github" /> 
+                    <q-btn flat text-color="white" label="twitter" /> 
+                    <q-btn flat label="discord" /> 
+                    <q-btn flat label="document" /> 
+                    <q-btn flat label="blog" />             
+
+                    <div class="text-center gFooterText" style="color: white;">
+                        wevest.io, we invest tomorrow! 
+                    </div>
+                </div>
             </div>
         </div>  
     </div>
@@ -218,7 +248,8 @@ export default {
                 win: false,
                 yield: false,
                 risk: false,
-                paradigm: false
+                paradigm: false,
+                footer: false
             },
             v_col_img_class:'col-xs-12 col-sm-6 col-md-6',
             v_col_text_class:'col-xs-12 col-sm-6 col-md-6',
@@ -349,12 +380,13 @@ export default {
 <style scoped>
 
 .boxCarousel {
-    height: 85vh;
+    height: 100vh; 
 }
 
 .boxFooter {
-    height: 15vh;
+    height: 20vh;
     background-color: #000000;
+    color: white;
 }
 
 .boxCenter {
@@ -396,7 +428,7 @@ export default {
         */
         background-color: #03a9f4; 
         border-color: #000000;
-        height: 380px;
+        height: 250px;
         width: 800px;
     }
     
