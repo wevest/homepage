@@ -394,19 +394,20 @@ export default {
         /*
         background-color:#FF8c00; 
         */
+        background-color: #03a9f4; 
         border-color: #000000;
-        height: 260px;
+        height: 380px;
         width: 800px;
     }
     
     .boxImage2 {
-        background-color: #bdbdbd;         
+        background-color: #ffccbc;         
         border-color: #FFFFFF;
         width: 360px;
 
     }
      .boxImage3 {
-        background-color: #ec407a; 
+        background-color: #ffea00; 
         width: 360px;
     }
     .boxImage4 {
@@ -460,7 +461,7 @@ export default {
     }
 
     .boxImage1 {
-        background-color: #FF8c00; 
+        background-color: #03a9f4; 
         border-color: #000000;
         height: 125px;
         width: 280px;
