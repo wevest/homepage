@@ -14,8 +14,8 @@
                     <div class="row q-ma-lg text-right">
                         <q-space />
                         <div>
-                            <q-btn flat label="github" /> 
-                            <q-btn flat label="twitter" /> 
+                            <q-btn flat label="github" icon="fab fa-github"/> 
+                            <q-btn flat label="twitter" icon="fab fa-twitter" /> 
                             <q-btn flat label="discord" /> 
                             <q-btn flat label="document" /> 
                             <q-btn flat label="blog" /> 
