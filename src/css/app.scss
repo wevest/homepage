@@ -3,6 +3,14 @@
 
 @media screen and (min-width: 769px) {
   /* 데스크탑에서 사용될 스타일을 여기에 작성합니다. */
+  .symbolText {
+    color:#000000;
+    font-weight: 600;
+    font-size:30px;
+    margin: 0px 0px 0px 20px;
+  }
+
+
   .gBlackBigTitle {
     color:#000000;
     font-weight: 300;
@@ -70,15 +78,22 @@
   }
   
   .gFooterText {
+    text-align: right;
     color: #FFFFFF;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 600;
     margin: 0px 10px 0px 10px;
   }
   
   .gFooterLink {
     color: #FFFFFF;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .footerTitle {
+    font-size: 15px;
+    color: #FFFFFF;
     font-weight: 500;
   }
       
@@ -88,6 +103,12 @@
 
 @media screen and (max-width: 768px) {
 /* 모바일에서 사용될 스타일을 여기에 작성합니다. */
+
+.symbolText {
+  color:#000000;
+  font-weight: 600;
+  font-size:20px;
+}
 
   .gBlackBigTitle {
     color:#000000;
@@ -154,9 +175,10 @@
   }
 
   .gFooterText {
+    text-align: center;
     color: #FFFFFF;
-    font-size: 13px;
-    font-weight: 300;
+    font-size: 11px;
+    font-weight: 600;
   }
 
   .gFooterLink {
@@ -164,6 +186,12 @@
     font-size: 14px;
     font-weight: 400;
   }
+  .footerTitle {
+    font-size: 15px;
+    color: #FFFFFF;
+    font-weight: 500;
+  }
+
 }
 
 

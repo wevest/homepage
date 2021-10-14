@@ -1,45 +1,50 @@
 <template>
     <div>
+        <div class="row q-ma-sm boxHeader">
+            <q-img src="~assets/images/wevest_logo_black.png" class="boxLogo" />
+            <q-space />
+            <div>
+                <q-btn class="fab fa-github icon"  size="20px" flat  /> 
+                <q-btn class="fab fa-twitter icon"  size="20px" flat />                              
+                <q-btn class="fab fa-discord icon" size="20px" flat />
+                <q-btn class="fab fa-blogger icon" size="20px" flat />                             
+                <q-btn class="far fa-file-alt icon" size="20px" flat /> 
+            </div>
+        </div>
+
         <q-carousel
             @transition="onPageChange"
             v-model="v_slide"
-            animated swipeable vertical padding arrows
+            animated swipeable vertical arrows 
+            control-type="flat"
             control-color="primary"
             transition-prev="slide-down"
             transition-next="slide-up"            
             class="boxCarousel rounded-borders">
             
-            <q-carousel-slide name="landing" class="column flex-center boxLanding">
-                <div class="full-width full-height items-center">                    
-                    <div class="row q-ma-lg text-right">
-                        <q-space />
-                        <div>
-                            <q-btn flat label="github" icon="fab fa-github"/> 
-                            <q-btn flat label="twitter" icon="fab fa-twitter" /> 
-                            <q-btn flat label="discord" /> 
-                            <q-btn flat label="document" /> 
-                            <q-btn flat label="blog" /> 
+            <q-carousel-slide name="landing" class="column boxLanding">
+                <div class="items-center2">
+
+                    <div class="q-ma-lg flex items-center justify-center">
+                        <div v-show="false">
+                            <div class="vertical-bottom symbolText"> We invest future </div>
                         </div>
                     </div>
 
-                    <div class="row q-ma-lg">
-                        <q-img src="~assets/images/wevest_logo_black.png" class="boxLogo" />
-                        <div class="vertical-bottom"> We invest future </div>
-                    </div>
+                    <div class="text-center">
+                        <div class="gBlackMediumTitle q-pb-md">
+                            Interest <span class="gBoldUpper">free</span> loan 
+                        </div>
 
-                    <div class="">
                         <div class="flex items-center justify-center"
                             v-if="v_page.landing" v-motion-roll-bottom :delay="v_delay">
-                            <q-img src="~assets/images/people.png" class="boxBaseImage boxImage1" />
+                            <q-img src="~assets/images/people.png" class="boxBaseImageExt boxImage1" />
                         </div>
                     </div>
                     
                     <div class="text-center">
 
-                        <div class="gBlackMediumTitle q-pb-md">
-                            Interest <span class="gBoldUpper">free</span> loan 
-                        </div>
-                        <div class="gDescBlack q-pb-md">
+                        <div class="gDescBlack q-py-md">
                             The first interest free loan in history<br>
                             No interest, No maturity, Leverage available
                         </div>
@@ -171,37 +176,45 @@
                             </div> 
                         </div>
                     </div>
+                </div>
+            </q-carousel-slide>
 
-                </div>            
+            <q-carousel-slide name="footer" class="column no-wrap flex-center boxFooter">
+                <div class="flex items-center" v-if="v_page.footer">
+                    <div class="row full-width q-px-md">
+                        <div class="col-4">
+                            <div class="column">
+                                <div class="footerTitle q-pb-sm"> Learn </div>
+                                <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="wevest protocol" /> 
+                                <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="risk management" /> 
+                                <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="free-loan" /> 
+                                <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="benefit" /> 
+                            </div>
+                        </div>
+                        
+                        <div class="col-4">
+                            <div class="column">
+                                <div class="footerTitle q-pb-sm"> Product </div>
+                                <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="Lending" /> 
+                            </div>
+                        </div>
 
+                        <div class="col-4">
+                            <div class="text-right">
+                                <q-btn class="fab fa-github-square icon2" size="25px" flat /> 
+                                <q-btn class="fab fa-twitter-square icon2" size="25px" flat/>    
+                                <q-btn class="fab fa-discord icon2 discord" size="25px" flat />  
+                                <q-btn class="fab fa-blogger icon2" size="25px" flat /> 
+                                <q-btn class="far fa-file-alt icon2" size="25px" flat /> 
+                            </div>
+                            <div class="q-py-md q-pr-sm text-right" style="color: white;">
+                                wevest.io
+                            </div>
+                        </div>
+                    </div>
+                </div>  
             </q-carousel-slide>
         </q-carousel> 
-
-        <div class="boxFooter flex items-center" v-if="v_page.risk">
-            <div class="row full-width q-pa-md">
-                <div class="col">
-                    <div class="column">
-                        <div> Learn </div>
-                        <q-btn flat dense align="left" label="wevest protocol" /> 
-                        <q-btn flat dense align="left" label="risk management" /> 
-                        <q-btn flat dense align="left" label="free-loan" /> 
-                        <q-btn flat dense align="left" label="benefit" /> 
-                    </div>
-                </div>
-
-                <div class="col">
-                    <q-btn flat text-color="white" label="github" /> 
-                    <q-btn flat text-color="white" label="twitter" /> 
-                    <q-btn flat label="discord" /> 
-                    <q-btn flat label="document" /> 
-                    <q-btn flat label="blog" />             
-
-                    <div class="text-center gFooterText" style="color: white;">
-                        wevest.io, we invest tomorrow! 
-                    </div>
-                </div>
-            </div>
-        </div>  
     </div>
 </template>
 
@@ -353,6 +366,8 @@ export default {
             logger.log.debug("HomeView.setParameters");    
 
             if (this.isMobile()) {
+                //this.v_col_img_class = 'col-xs-12 col-sm-6 col-md-6 boxImageCol';
+                //this.v_col_text_class = 'col-xs-12 col-sm-6 col-md-6 boxTextCol flex items-center';
                 this.v_col_img_class = 'col-xs-12 col-sm-6 col-md-6 boxImageCol';
                 this.v_col_text_class = 'col-xs-12 col-sm-6 col-md-6 boxTextCol flex items-center';
             } else {
@@ -380,11 +395,14 @@ export default {
 <style scoped>
 
 .boxCarousel {
-    height: 100vh; 
+    height: 95vh; 
+}
+
+.boxHeader {
+    height:5vh;
 }
 
 .boxFooter {
-    height: 20vh;
     background-color: #000000;
     color: white;
 }
@@ -400,16 +418,37 @@ export default {
 }
 
 .boxImageCol {
-    height: 35%;
+    /* margin-top:8vh; */
+    height: 40vh;
 }
 
 .boxTextCol {
-    height: 65%;
+    /* margin-top:5vh; */
+    height: 50vh;
 }
 
 @media screen and (min-width: 769px) {
    /* 데스크탑에서 사용될 스타일을 여기에 작성합니다. */
 
+
+    .learnBtn {
+        font-size:14px; 
+        width: 150px;
+    }   
+    .icon {
+        width:30px;
+        height:30px;
+    }
+
+    .icon2 {
+        size: 30px;
+        width:40px;
+        height:40px;
+    }
+
+    .discord {
+        padding-top:2px;
+    }
     .boxBaseImage {
         margin:50px;
         border-style: solid;
@@ -417,9 +456,16 @@ export default {
         border-top-style:none;
     }
 
+    .boxBaseImageExt {
+        margin:10px 50px 30px 50px;
+        border-style: solid;
+        border-width:5px;
+        border-top-style:none;
+    }
+
     .boxLogo {
-        height: 20%;
-        width: 20%;
+        height: 13%;
+        width: 13%;
     }
 
     .boxImage1 {
@@ -453,6 +499,7 @@ export default {
     
     .boxLanding {
         background: white;
+        align-items: center;
     }
 
     .boxParadigm {
@@ -480,9 +527,19 @@ export default {
 @media screen and (max-width: 768px) {
     /* 모바일에 사용될 스트일 시트를 여기에 작성합니다. */
 
+    .learnBtn {
+        font-size:10px;  
+        width: 120px;
+    }      
+        
+    .icon2 {
+        size: 35px;
+        width:40px;
+        height:40px;
+    }
     .boxLogo {
-        height: 50%;
-        width: 50%;
+        height: 20%;
+        width: 20%;
     }
 
     .boxBaseImage {
@@ -508,7 +565,7 @@ export default {
      .boxImage3 {
         background-color: #ffea00; 
         border-color: #000000;
-        margin: 0vh 15vw 15vh 15vw;
+        margin: 10vh 10vw 10vh 10vw;
     }
     .boxImage4 {
         background-color: #64ffda; 
@@ -518,7 +575,7 @@ export default {
     .boxImage5 {
         background-color: #e1bee7; 
         border-color: #000000;
-        margin: -1vh 15vw 15vh 15vw;    
+        margin: 10vh 10vw 10vh 10vw;    
     }
 
     .boxLanding {
