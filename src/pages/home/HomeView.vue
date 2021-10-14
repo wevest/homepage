@@ -14,17 +14,16 @@
                     <div class="row q-ma-lg text-right">
                         <q-space />
                         <div>
-                            <q-btn flat label="github"> 
-                                <q-img src="~assets/icons/github.png" />
-                            </q-btn>
-                            <q-btn flat label="twitter"> 
-                                <q-img src="~assets/icons/twitter.png" />
-                            </q-btn>
-                            <q-btn flat label="discord"> 
-                                <q-img src="~assets/icons/discord.png" />
-                            </q-btn>
-                            <q-btn flat label="document" /> 
-                            <q-btn flat label="blog" /> 
+                            <q-btn class="fab fa-github icon"  size="20px" flat  /> 
+
+                            <q-btn class="fab fa-twitter icon"  size="20px" flat /> 
+                             
+                            <q-btn class="fab fa-discord icon" size="20px" flat />
+    
+                            <q-btn class="fab fa-blogger icon" size="20px" flat /> 
+                            
+                            <q-btn class="far fa-file-alt icon" size="20px" flat /> 
+
                         </div>
                     </div>
 
@@ -184,28 +183,25 @@
         </q-carousel> 
 
         <div class="boxFooter flex items-center" v-if="v_page.risk">
-            <div class="row full-width q-pa-md">
-                <div class="col">
+            <div class="row full-width q-px-md">
+                <div class="col-5">
                     <div class="column">
                         <div class="footerTitle q-pb-sm"> Learn </div>
-                        <q-btn flat dense align="left" text-color="grey-5" size="12px" label="wevest protocol" /> 
-                        <q-btn flat dense align="left" text-color="grey-5" size="12px" label="risk management" /> 
-                        <q-btn flat dense align="left" text-color="grey-5" size="12px" label="free-loan" /> 
-                        <q-btn flat dense align="left" text-color="grey-5" size="12px" label="benefit" /> 
+                        <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="wevest protocol" /> 
+                        <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="risk management" /> 
+                        <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="free-loan" /> 
+                        <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="benefit" /> 
                     </div>
                 </div>
                 
 
-                <div class="col text-right">
-                    <q-btn flat label="github" > 
-                                <q-img src="~assets/icons/github.png" />
-                    </q-btn>
-                    <q-btn flat text-color="white" label="twitter" /> 
-                    <q-btn flat label="discord" /> 
-                    <q-btn flat icon="article" /> 
-                    <q-btn flat icon="web" />             
-
-                    <div class="text-center gFooterText" style="color: white;">
+                <div class="col-7 text-right">
+                    <q-btn class="fab fa-github-square icon2" size="25px" flat /> 
+                    <q-btn class="fab fa-twitter-square icon2" size="25px" flat/>    
+                    <q-btn class="fab fa-discord icon2 discord" size="25px" flat />  
+                    <q-btn class="fab fa-blogger icon2" size="25px" flat /> 
+                    <q-btn class="far fa-file-alt icon2" size="25px" flat /> 
+                    <div class="q-pa-md gFooterText" style="color: white;">
                         wevest.io, we invest tomorrow! 
                     </div>
                 </div>
@@ -393,7 +389,7 @@ export default {
 }
 
 .boxFooter {
-    height: 20vh;
+    height: 23vh;
     background-color: #000000;
     color: white;
 }
@@ -419,6 +415,24 @@ export default {
 @media screen and (min-width: 769px) {
    /* 데스크탑에서 사용될 스타일을 여기에 작성합니다. */
 
+    .learnBtn {
+        font-size:14px; 
+        width: 150px;
+    }   
+    .icon {
+        width:30px;
+        height:30px;
+    }
+
+    .icon2 {
+        size: 30px;
+        width:40px;
+        height:40px;
+    }
+
+    .discord {
+        padding-top:2px;
+    }
     .boxBaseImage {
         margin:50px;
         border-style: solid;
@@ -489,6 +503,16 @@ export default {
 @media screen and (max-width: 768px) {
     /* 모바일에 사용될 스트일 시트를 여기에 작성합니다. */
 
+    .learnBtn {
+        font-size:10px;  
+        width: 120px;
+    }      
+        
+    .icon2 {
+        size: 35px;
+        width:40px;
+        height:40px;
+    }
     .boxLogo {
         height: 50%;
         width: 50%;
