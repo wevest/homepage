@@ -28,8 +28,10 @@
                     </div>
 
                     <div class="row q-ma-lg">
-                        <q-img src="~assets/images/wevest_logo_black.png" class="boxLogo" />
-                        <div class="vertical-bottom symbolText"> We invest future </div>
+                        <div class="col q-mb-sm">
+                            <q-img class="boxLogo" src="~assets/images/wevest_logo_black.png" />
+                        </div>
+                        <div class="col flex items-center gSlogan"> We invest future </div>
                     </div>
 
                     <div class="">
@@ -441,8 +443,8 @@ export default {
     }
 
     .boxLogo {
-        height: 13%;
-        width: 13%;
+        width: 180px;
+        height: 45px;
     }
 
     .boxImage1 {
@@ -514,8 +516,8 @@ export default {
         height:40px;
     }
     .boxLogo {
-        height: 50%;
-        width: 50%;
+        height: 25px;
+        width: 110px;
     }
 
     .boxBaseImage {
