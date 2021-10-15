@@ -4,16 +4,17 @@
             <q-img src="~assets/images/wevest_logo_black.png" class="boxLogo" />
             <q-space />
             <div>
-                <q-btn class="fab fa-github icon"  size="20px" flat  /> 
-                <q-btn class="fab fa-twitter icon"  size="20px" flat />                              
+                <q-btn class="fab fa-github icon" size="20px" flat @click="onClickGithub" /> 
+                <q-btn class="fab fa-twitter icon" size="20px" flat @click="onClickTwitter" />
+<!--                
                 <q-btn class="fab fa-discord icon" size="20px" flat />
-                <q-btn class="fab fa-blogger icon" size="20px" flat />                             
-                <q-btn class="far fa-file-alt icon" size="20px" flat /> 
+-->                
+                <q-btn class="fab fa-blogger icon" size="20px" flat  @click="onClickBlog" />                             
+                <q-btn class="far fa-file-alt icon" size="20px" flat @click="onClickDoc"  /> 
             </div>
         </div>
 
-        <div class="fit">
-
+        <div>
             <q-carousel
                 @transition="onPageChange"
                 v-model="v_slide"
@@ -21,8 +22,9 @@
                 control-type="flat"
                 control-color="primary"
                 transition-prev="slide-down"
-                transition-next="slide-up"            
-                class="rounded-borders full-height">
+                transition-next="slide-up"     
+                :style="v_carousel_style"       
+                class="boxCarousel rounded-borders">
                 
                 <q-carousel-slide name="landing" class="column boxLanding">
                     <div class="boxFreeText items-center2">
@@ -49,7 +51,7 @@
                                 No interest, No maturity, Leverage available
                             </div>
                             <div class="q-pt-sm">
-                                <q-btn dense padding="0px" size="12px" label="Read Doc" flat icon-right="keyboard_arrow_right" align="left" />
+                                <q-btn dense padding="0px" size="12px" label="Read Doc" flat icon-right="keyboard_arrow_right" align="left" @click="onClickDoc" />
                             </div> 
                         </div>
                     </div>
@@ -70,7 +72,9 @@
                                     </div>
                                 </div>
                                 <div class="q-pt-sm">
-                                    <q-btn dense padding="0px" text-color="white" size="12px" label="Read Doc" flat icon-right="keyboard_arrow_right" align="left" />
+                                    <q-btn dense padding="0px" text-color="white" size="12px" 
+                                        label="Read Doc" flat icon-right="keyboard_arrow_right" align="left" 
+                                        @click="openLink('https://wevest-protocol-wevest.gitbook.io/wevest-protocol-1/the-great-shift-of-paradigm')" />
                                 </div> 
                             </div>
                         </div>
@@ -106,7 +110,9 @@
                                     Borrower: no interest, no maturity, leverage available
                                 </div>
                                 <div class="q-pt-sm">
-                                    <q-btn dense padding="0px" size="12px" label="Read Doc" flat icon-right="keyboard_arrow_right" align="left" />
+                                    <q-btn dense padding="0px" size="12px" label="Read Doc" 
+                                        flat icon-right="keyboard_arrow_right" align="left" 
+                                        @click="openLink('https://wevest-protocol-wevest.gitbook.io/wevest-protocol-1/value-proposition')" />
                                 </div> 
                             </div>
                         </div>
@@ -137,7 +143,9 @@
         -->                            
                                 </div>
                                 <div class="q-pt-sm">
-                                    <q-btn dense padding="0px" size="12px" label="Read Doc" flat icon-right="keyboard_arrow_right" align="left" />
+                                    <q-btn dense padding="0px" size="12px" label="Read Doc" flat 
+                                        icon-right="keyboard_arrow_right" align="left" 
+                                        @click="openLink('https://wevest-protocol-wevest.gitbook.io/wevest-protocol-1/the-great-shift-of-paradigm');" />
                                 </div> 
                             </div>
                         </div>
@@ -171,8 +179,9 @@
                                     minimize risk exposure
                                 </div>
                                 <div class="q-pt-sm">
-                                    <q-btn dense padding="0px" size="12px" label="Read Risk Management Doc" flat icon-right="keyboard_arrow_right" align="left" /> <br>
-                                    <q-btn dense padding="0px" size="12px" label="Read VARiM Doc" flat icon-right="keyboard_arrow_right" align="left" />
+                                    <q-btn dense padding="0px" size="12px" label="Read Doc" flat 
+                                        icon-right="keyboard_arrow_right" align="left" 
+                                        @click="openLink('https://wevest-protocol-wevest.gitbook.io/wevest-protocol-1/advanced-risk-management-1');" />                                    
                                 </div> 
                             </div>
                         </div>
@@ -182,30 +191,38 @@
                 <q-carousel-slide name="footer" class="column no-wrap flex-center boxFooter">
                     <div class="flex items-center" v-if="v_page.footer">
                         <div class="row full-width q-px-md">
-                            <div class="col-4">
+                            <div :class="v_col_footer_class">
                                 <div class="column">
                                     <div class="footerTitle q-pb-sm"> Learn </div>
-                                    <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="wevest protocol" /> 
-                                    <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="risk management" /> 
-                                    <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="free-loan" /> 
-                                    <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="benefit" /> 
+
+                                    <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="wevest protocol" 
+                                        @click="openLink('https://wevest-protocol-wevest.gitbook.io/wevest-protocol-1/the-great-shift-of-paradigm');" /> 
+                                    <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="free-loan" 
+                                        @click="openLink('https://wevest-protocol-wevest.gitbook.io/wevest-protocol-1/what-is-free-loan');" /> 
+                                    <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="benefit" 
+                                        @click="openLink('https://wevest-protocol-wevest.gitbook.io/wevest-protocol-1/value-proposition');" />
+                                    <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="risk management" 
+                                        @click="openLink('https://wevest-protocol-wevest.gitbook.io/wevest-protocol-1/advanced-risk-management-1');" /> 
+                                    
                                 </div>
                             </div>
                             
-                            <div class="col-4">
+                            <div :class="v_col_footer_class">
                                 <div class="column">
                                     <div class="footerTitle q-pb-sm"> Product </div>
                                     <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="Lending" /> 
                                 </div>
                             </div>
 
-                            <div class="col-4">
+                            <div :class="v_col_footer_class">
                                 <div class="text-right">
-                                    <q-btn class="fab fa-github-square icon2" size="25px" flat /> 
-                                    <q-btn class="fab fa-twitter-square icon2" size="25px" flat/>    
-                                    <q-btn class="fab fa-discord icon2 discord" size="25px" flat />  
-                                    <q-btn class="fab fa-blogger icon2" size="25px" flat /> 
-                                    <q-btn class="far fa-file-alt icon2" size="25px" flat /> 
+                                    <q-btn class="fab fa-github-square icon2" size="25px" flat @click="onClickGithub" /> 
+                                    <q-btn class="fab fa-twitter-square icon2" size="25px" flat @click="onClickTwitter" />    
+                                    <!-- 
+                                        <q-btn class="fab fa-discord icon2 discord" size="25px" flat />  
+                                    -->
+                                    <q-btn class="fab fa-blogger icon2" size="25px" flat @click="onClickBlog" /> 
+                                    <q-btn class="far fa-file-alt icon2" size="25px" flat @click="onClickDoc" /> 
                                 </div>
                                 <div class="q-py-md q-pr-sm text-right" style="color: white;">
                                     wevest.io
@@ -267,6 +284,10 @@ export default {
             },
             v_col_img_class:'col-xs-12 col-sm-6 col-md-6',
             v_col_text_class:'col-xs-12 col-sm-6 col-md-6',
+            v_col_footer_class:'col-xs-4 col-sm-12 col-md-12',
+
+            v_header_height: 50,
+            v_carousel_style: '',
 
             v_slideup: {
                 initial: {
@@ -371,22 +392,47 @@ export default {
                 //this.v_col_text_class = 'col-xs-12 col-sm-6 col-md-6 boxTextCol flex items-center';
                 this.v_col_img_class = 'col-xs-12 col-sm-6 col-md-6 boxImageCol';
                 this.v_col_text_class = 'col-xs-12 col-sm-6 col-md-6 boxTextCol flex items-center';
+                this.v_col_footer_class = 'col-4 q-pr-sm';
             } else {
                 this.v_col_img_class = 'col boxBaseCol';
                 this.v_col_text_class = 'col boxBaseCol';
+                this.v_col_footer_class = 'col-4';
             }
+            this.v_carousel_style = "height:" + (this.v_height-this.v_header_height) + "px;";
         },
         
         clearPageVar() {
 
         },
 
+        openLink(url) {
+            window.open(url, "_blank");          
+        },
+
+
         onPageChange(newVal,oldVal) {
             logger.log.debug("HomeView.onPageChange : ",newVal,oldVal);
             
             this.v_page[oldVal] = false;
             this.v_page[newVal] = true;
+        },
+
+        onClickGithub() {
+            this.openLink('http://github.com/wevest');
+        },
+
+        onClickBlog() {
+            this.openLink('https://wevest.ai');
+        },
+
+        onClickTwitter() {
+            this.openLink('https://twitter.com/wevest4');
+        },
+
+        onClickDoc() {
+            this.openLink('https://wevest-protocol-wevest.gitbook.io/wevest-protocol-1/');
         }
+
     }
 };
 
@@ -396,11 +442,12 @@ export default {
 <style scoped>
 
 .boxCarousel {
-    height: 95vh; 
+    min-height: calc(100vh-50px); 
+    height: calc(100vh-50px); 
 }
 
 .boxHeader {
-    height:5vh;
+    height:50px;
 }
 
 .boxFooter {
