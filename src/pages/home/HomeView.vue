@@ -586,9 +586,9 @@ export default {
         height:40px;
     }
     .boxLogo {
-        height: 60%;
-        width: 26%;
-        margin: 0.5vh 0vw -9vh 10vw;
+        height: 33%;
+        width: 20%;
+        margin: 1vh 0vw -9vh 4vw;
 
     }
 
