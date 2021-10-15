@@ -25,8 +25,7 @@
                 class="rounded-borders full-height">
                 
                 <q-carousel-slide name="landing" class="column boxLanding">
-                    <div class="items-center2">
-
+                    <div class="boxFreeText items-center2">
                         <div class="q-ma-lg flex items-center justify-center">
                             <div v-show="false">
                                 <div class="vertical-bottom symbolText"> We invest future </div>
@@ -45,7 +44,6 @@
                         </div>
                         
                         <div class="text-center">
-
                             <div class="gDescBlack q-py-md">
                                 The first interest free loan in history<br>
                                 No interest, No maturity, Leverage available
@@ -58,9 +56,9 @@
                 </q-carousel-slide>
 
                 <q-carousel-slide name="paradigm" class="column flex-center boxParadigm">
-                    <div class="row full-height items-center justify-center">            
+                    <div class="row full-height items-center justify-center boxInterestTotal">            
                         <div :class="v_col_text_class">
-                            <div class="q-pl-lg">
+                            <div class="boxInterestText q-pl-lg">
                                 <div class="gWhiteMediumTitle white q-mb-md">
                                     New <span class="gBoldUpper">Interest</span> Paradigm<br>
                                 </div>
@@ -541,8 +539,27 @@ export default {
         height:40px;
     }
     .boxLogo {
-        height: 20%;
-        width: 20%;
+        height: 60%;
+        width: 26%;
+        margin: 0.5vh 0vw -9vh 10vw;
+
+    }
+
+
+    .boxFreeText {
+        margin: 10vh 0vw 0vh 0vw;
+    }
+    .boxInterestText {
+        margin: 0vh 0vw -9vh 0vw;
+    }
+    .boxInterestTotal {
+        margin: -10vh 0vw 0vh 0vw;
+    }
+    .boxWinText {
+        margin: -15vh 0vw 0vh 0vw;
+    }
+    .boxVarText {
+        margin: -10vh 0vw 0vh 0vw; 
     }
 
     .boxBaseImage {
@@ -557,18 +574,14 @@ export default {
         border-color: #000000;
         height: 125px;
         width: 280px;
-  
+    
     }
     .boxImage2 {
         background-color: #bdbdbd; 
         border-color: #FFFFFF;
-        margin: -5vh 15vw 15vh 15vw;
+        width: 270px;
+        margin: -5vh 15vw 15vh 10vw;
     }
-
-    .boxWinText {
-        margin: -15vh 0vw 0vh 0vw;
-    }
-
     .boxImage3 {
         background-color: #ffea00; 
         border-color: #000000;
@@ -577,7 +590,8 @@ export default {
     .boxImage4 {
         background-color: #64ffda; 
         border-color: #000000;
-        margin: -4vh 18vw 0vh 18vw;
+        width: 270px;
+        margin: -6vh 0vw 0vh 0vw;
     }
     .boxImage5 {
         background-color: #e1bee7; 
