@@ -1,7 +1,9 @@
 <template>
     <div class="col">
         <div class="row q-ma-sm boxHeader">
-            <q-img src="~assets/images/wevest_logo_black.png" class="boxLogo" />
+            <div class="q-pl-sm">
+                <q-img src="~assets/images/wevest_logo_black.png" class="boxLogo" />
+            </div>
             <q-space />
             <div>
                 <q-btn class="fab fa-github icon" size="20px" flat @click="onClickGithub" /> 
@@ -27,7 +29,7 @@
                 class="boxCarousel rounded-borders">
                 
                 <q-carousel-slide name="landing" class="column boxLanding">
-                    <div class="boxFreeText items-center2">
+                    <div class="boxFreeTotal items-center2">
                         <div class="q-ma-lg flex items-center justify-center">
                             <div v-show="false">
                                 <div class="vertical-bottom symbolText"> We invest future </div>
@@ -45,7 +47,7 @@
                             </div>
                         </div>
                         
-                        <div class="text-center">
+                        <div class="text-center boxFreeText">
                             <div class="gDescBlack q-py-md">
                                 The first interest free loan in history<br>
                                 No interest, No maturity, Leverage available
@@ -58,9 +60,9 @@
                 </q-carousel-slide>
 
                 <q-carousel-slide name="paradigm" class="column flex-center boxParadigm">
-                    <div class="row full-height items-center justify-center boxInterestTotal">            
+                    <div class="row full-height items-center justify-center boxParadigmTotal">            
                         <div :class="v_col_text_class">
-                            <div class="boxInterestText q-pl-lg">
+                            <div class="boxParadigmText q-pl-lg">
                                 <div class="gWhiteMediumTitle white q-mb-md">
                                     New <span class="gBoldUpper">Interest</span> Paradigm<br>
                                 </div>
@@ -90,7 +92,7 @@
                 </q-carousel-slide>
 
                 <q-carousel-slide name="win" class="column flex-center boxWin">
-                    <div class="row full-height items-center justify-center">
+                    <div class="row full-height items-center justify-center boxWinTotal">
                         <div :class="v_col_img_class">
                             <div class="flex items-center justify-center"
                                 v-if="v_page.win" v-motion-slide-left :delay="v_delay">
@@ -98,14 +100,14 @@
                             </div>
                         </div>
                         <div :class="v_col_text_class">
-                            <div class="boxWinText q-pl-md">
+                            <div class="boxWinText q-pl-lg">
                                 <div class="gBlackMediumTitle gBoldLower text-left">
                                     <span>Win-Win game</span>
                                 </div>
                                 <div class="gBlackSmallTitle text-left q-pb-md">
                                     for both lender and borrower 
                                 </div>
-                                <div class="gDescBlack text-left">
+                                <div class="gDescBlack text-left q-pb-sm">
                                     Lender: more yield, transaction fee, LP tokens
                                     Borrower: no interest, no maturity, leverage available
                                 </div>
@@ -121,10 +123,10 @@
                 </q-carousel-slide>
 
                 <q-carousel-slide name="yield" class="column flex-center boxYield">
-                    <div class="row full-height items-center justify-center">
+                    <div class="row full-height items-center justify-center boxRightTotal">
                         <div :class="v_col_text_class">
                             <div class="q-pl-lg">
-                                <div class="text-center gBlackMediumTitle q-pb-md text-left">
+                                <div class="gBlackMediumTitle q-pb-md">
                                 <span class="gBlackSmallTitle"></span> <span class="gBoldLower">Use Right Delegation</span>
         <!--    
                                     <span class="gBlackSmallTitle">made it possible</span> 
@@ -160,7 +162,7 @@
                 </q-carousel-slide>
 
                 <q-carousel-slide name="risk" class="column no-wrap flex-center boxRisk">
-                    <div class="row full-height items-center justify-center" >
+                    <div class="row full-height items-center justify-center boxVarTotal" >
                         <div :class="v_col_img_class">
                             <div class="flex items-center justify-center"    
                                 v-if="v_page.risk" v-motion-slide-bottom :delay="v_delay">
@@ -168,12 +170,12 @@
                             </div>
                         </div>
                         <div :class="v_col_text_class">
-                            <div class="boxVarText">
+                            <div class="boxVarText q-pl-lg">
                                 <div class="gBlackMediumTitle text-left">
                                     <span class="gBoldLower">VaR & Forward-looking</span> <br>
                                     <span class="gBlackSmallTitle">Risk Management</span> 
                                 </div>
-                                <div class="gDescBlack q-pt-md">
+                                <div class="gDescBlack q-pt-md q-pb-md">
                                     We measure risk via var, based on the var value
                                     wevest protocol dynamically adjust collateral ratio to 
                                     minimize risk exposure
@@ -512,8 +514,7 @@ export default {
     }
 
     .boxLogo {
-        width: 180px;
-        height: 45px;
+        width: 110px;
     }
 
     .boxImage1 {
@@ -586,28 +587,44 @@ export default {
         height:40px;
     }
     .boxLogo {
-        height: 33%;
-        width: 20%;
-        margin: 1vh 0vw -9vh 4vw;
+        width: 90px;
+        margin: 0.4vh 0vw 0vh 0vw;
 
     }
 
 
+    .boxFreeTotal {
+        margin: 8vh 0vw 0vh 0vw;
+    }
     .boxFreeText {
-        margin: 10vh 0vw 0vh 0vw;
+        margin: 2vh 0vw 0vh 0vw;
     }
-    .boxInterestText {
-        margin: 0vh 0vw -9vh 0vw;
+    .boxParadigmTotal {
+        margin: -16vh 0vw 0vh 0vw;
     }
-    .boxInterestTotal {
-        margin: -10vh 0vw 0vh 0vw;
+    .boxParadigmText {
+        margin: 0vh 0vw -5vh 0vw;
+    }
+    .boxWinTotal {
+        margin: -2vh 0vw 0vh 0vw;
     }
     .boxWinText {
-        margin: -15vh 0vw 0vh 0vw;
+        margin: -18vh 0vw 0vh 0vw;
+    }
+    .boxRightTotal {
+        margin: -8vh 0vw 0vh 0vw;
+    }
+    .boxRightText {
+        margin: -8vh 0vw 0vh 0vw;
+    }
+    
+    .boxVarTotal {
+        margin: -3vh 0vw 0vh 0vw;
     }
     .boxVarText {
-        margin: -10vh 0vw 0vh 0vw; 
+        margin: -16vh 0vw 0vh 0vw; 
     }
+
 
     .boxBaseImage {
         margin:20px;
