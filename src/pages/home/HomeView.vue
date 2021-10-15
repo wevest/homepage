@@ -35,7 +35,7 @@
                         </div>
 
                         <div class="text-center">
-                            <div class="gBlackMediumTitle q-pb-md">
+                            <div class="gBlackBigTitle q-pb-lg">
                                 Interest <span class="gBoldUpper">free</span> loan 
                             </div>
 
@@ -286,7 +286,7 @@ export default {
             v_col_text_class:'col-xs-12 col-sm-6 col-md-6',
             v_col_footer_class:'col-xs-4 col-sm-12 col-md-12',
 
-            v_header_height: 50,
+            v_header_height: 30,
             v_carousel_style: '',
 
             v_slideup: {
@@ -447,7 +447,7 @@ export default {
 }
 
 .boxHeader {
-    height:50px;
+    height:30px;
 }
 
 .boxFooter {
