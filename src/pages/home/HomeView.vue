@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="col">
         <div class="row q-ma-sm boxHeader">
             <q-img src="~assets/images/wevest_logo_black.png" class="boxLogo" />
             <q-space />
@@ -12,209 +12,212 @@
             </div>
         </div>
 
-        <q-carousel
-            @transition="onPageChange"
-            v-model="v_slide"
-            animated swipeable vertical arrows 
-            control-type="flat"
-            control-color="primary"
-            transition-prev="slide-down"
-            transition-next="slide-up"            
-            class="boxCarousel rounded-borders">
-            
-            <q-carousel-slide name="landing" class="column boxLanding">
-                <div class="items-center2">
+        <div class="fit">
 
-                    <div class="q-ma-lg flex items-center justify-center">
-                        <div v-show="false">
-                            <div class="vertical-bottom symbolText"> We invest future </div>
-                        </div>
-                    </div>
+            <q-carousel
+                @transition="onPageChange"
+                v-model="v_slide"
+                animated swipeable vertical arrows 
+                control-type="flat"
+                control-color="primary"
+                transition-prev="slide-down"
+                transition-next="slide-up"            
+                class="rounded-borders full-height">
+                
+                <q-carousel-slide name="landing" class="column boxLanding">
+                    <div class="items-center2">
 
-                    <div class="text-center">
-                        <div class="gBlackMediumTitle q-pb-md">
-                            Interest <span class="gBoldUpper">free</span> loan 
+                        <div class="q-ma-lg flex items-center justify-center">
+                            <div v-show="false">
+                                <div class="vertical-bottom symbolText"> We invest future </div>
+                            </div>
                         </div>
 
-                        <div class="flex items-center justify-center"
-                            v-if="v_page.landing" v-motion-roll-bottom :delay="v_delay">
-                            <q-img src="~assets/images/people.png" class="boxBaseImageExt boxImage1" />
-                        </div>
-                    </div>
-                    
-                    <div class="text-center">
-
-                        <div class="gDescBlack q-py-md">
-                            The first interest free loan in history<br>
-                            No interest, No maturity, Leverage available
-                        </div>
-                        <div class="q-pt-sm">
-                            <q-btn dense padding="0px" size="12px" label="Read Doc" flat icon-right="keyboard_arrow_right" align="left" />
-                        </div> 
-                    </div>
-                </div>
-            </q-carousel-slide>
-
-            <q-carousel-slide name="paradigm" class="column flex-center boxParadigm">
-                <div class="row full-height items-center justify-center">            
-                    <div :class="v_col_text_class">
-                        <div class="q-pl-lg">
-                            <div class="gWhiteMediumTitle white q-mb-md">
-                                New <span class="gBoldUpper">Interest</span> Paradigm<br>
+                        <div class="text-center">
+                            <div class="gBlackMediumTitle q-pb-md">
+                                Interest <span class="gBoldUpper">free</span> loan 
                             </div>
 
-                            <div class="q-mb-sm">
-                                <div class="gDescWhite">
-                                    Existing paradigm : Interest payment<br>
-                                    WEVEST paradigm : NO interest<br> 
-                                </div>
-                            </div>
-                            <div class="q-pt-sm">
-                                <q-btn dense padding="0px" text-color="white" size="12px" label="Read Doc" flat icon-right="keyboard_arrow_right" align="left" />
-                            </div> 
-                        </div>
-                    </div>
-                    <div :class="v_col_img_class">
-                        <div class="flex items-center justify-center"
-                            v-if="v_page.paradigm" v-motion-slide-right :delay="v_delay">                        
-
-                            <q-img class="boxBaseImage boxImage2" src="~assets/images/white_man.png"  />
-                        </div>
-                    </div>
-                </div>
-
-            </q-carousel-slide>
-
-            <q-carousel-slide name="win" class="column flex-center boxWin">
-                <div class="row full-height items-center justify-center">
-                    <div :class="v_col_img_class">
-                        <div class="flex items-center justify-center"
-                            v-if="v_page.win" v-motion-slide-left :delay="v_delay">
-                            <q-img src="~assets/images/white_woman.png" class="boxBaseImage boxImage3" />
-                        </div>
-                    </div>
-                    <div :class="v_col_text_class">
-                        <div class="q-pl-md">
-                            <div class="gBlackMediumTitle gBoldLower text-left">
-                                <span>Win-Win game</span>
-                            </div>
-                            <div class="gBlackSmallTitle text-left q-pb-md">
-                                for both lender and borrower 
-                            </div>
-                            <div class="gDescBlack text-left">
-                                Lender: more yield, transaction fee, LP tokens
-                                Borrower: no interest, no maturity, leverage available
-                            </div>
-                            <div class="q-pt-sm">
-                                <q-btn dense padding="0px" size="12px" label="Read Doc" flat icon-right="keyboard_arrow_right" align="left" />
-                            </div> 
-                        </div>
-                    </div>
-                </div>
-            
-            </q-carousel-slide>
-
-            <q-carousel-slide name="yield" class="column flex-center boxYield">
-                <div class="row full-height items-center justify-center">
-                    <div :class="v_col_text_class">
-                        <div class="q-pl-lg">
-                            <div class="text-center gBlackMediumTitle q-pb-md text-left">
-                            <span class="gBlackSmallTitle"></span> <span class="gBoldLower">Use Right Delegation</span>
-    <!--    
-                                <span class="gBlackSmallTitle">made it possible</span> 
-    -->                            
-                            </div>
-                            <div class="gDescBlack text-left">
-                                Wevest protocol utilizes ‘collateral + loan’ to earn yield to setoff the interest rate.
-                            <div class="gDescBlack text-left q-pb-md">
-                                The yield goes to lender as interest, So borrower does not pay interest at all.
-                            </div>
-    <!--                            
-                                Lenders maximize interest income through yield farming, including their own funds
-                                as well as borrowers' collateral.
-                                rather than earning interest income with only their own funds,
-                                and borrowers can borrow more than the collateral, with no interest and no maturities.
-    -->                            
-                            </div>
-                            <div class="q-pt-sm">
-                                <q-btn dense padding="0px" size="12px" label="Read Doc" flat icon-right="keyboard_arrow_right" align="left" />
-                            </div> 
-                        </div>
-                    </div>
-
-                    <div :class="v_col_img_class">
-                        <div class="flex items-center justify-center"
-                            v-if="v_page.yield" v-motion-slide-top :delay="v_delay">
-                            <q-img src="~assets/images/asian_woman.png" class="boxBaseImage boxImage4" />
-                        </div>
-                    </div>
-                </div>            
-            </q-carousel-slide>
-
-            <q-carousel-slide name="risk" class="column no-wrap flex-center boxRisk">
-                <div class="row full-height items-center justify-center" >
-                    <div :class="v_col_img_class">
-                        <div class="flex items-center justify-center"    
-                            v-if="v_page.risk" v-motion-slide-bottom :delay="v_delay">
-                            <q-img src="~assets/images/asian_man.png" class="boxBaseImage boxImage5" />
-                        </div>
-                    </div>
-                    <div :class="v_col_text_class">
-                        <div>
-                            <div class="gBlackMediumTitle text-left">
-                                <span class="gBoldLower">VaR & Forward-looking</span> <br>
-                                <span class="gBlackSmallTitle">Risk Management</span> 
-                            </div>
-                            <div class="gDescBlack q-pt-md">
-                                We measure risk via var, based on the var value
-                                wevest protocol dynamically adjust collateral ratio to 
-                                minimize risk exposure
-                            </div>
-                            <div class="q-pt-sm">
-                                <q-btn dense padding="0px" size="12px" label="Read Risk Management Doc" flat icon-right="keyboard_arrow_right" align="left" /> <br>
-                                <q-btn dense padding="0px" size="12px" label="Read VARiM Doc" flat icon-right="keyboard_arrow_right" align="left" />
-                            </div> 
-                        </div>
-                    </div>
-                </div>
-            </q-carousel-slide>
-
-            <q-carousel-slide name="footer" class="column no-wrap flex-center boxFooter">
-                <div class="flex items-center" v-if="v_page.footer">
-                    <div class="row full-width q-px-md">
-                        <div class="col-4">
-                            <div class="column">
-                                <div class="footerTitle q-pb-sm"> Learn </div>
-                                <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="wevest protocol" /> 
-                                <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="risk management" /> 
-                                <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="free-loan" /> 
-                                <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="benefit" /> 
+                            <div class="flex items-center justify-center"
+                                v-if="v_page.landing" v-motion-roll-bottom :delay="v_delay">
+                                <q-img src="~assets/images/people.png" class="boxBaseImageExt boxImage1" />
                             </div>
                         </div>
                         
-                        <div class="col-4">
-                            <div class="column">
-                                <div class="footerTitle q-pb-sm"> Product </div>
-                                <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="Lending" /> 
+                        <div class="text-center">
+
+                            <div class="gDescBlack q-py-md">
+                                The first interest free loan in history<br>
+                                No interest, No maturity, Leverage available
+                            </div>
+                            <div class="q-pt-sm">
+                                <q-btn dense padding="0px" size="12px" label="Read Doc" flat icon-right="keyboard_arrow_right" align="left" />
+                            </div> 
+                        </div>
+                    </div>
+                </q-carousel-slide>
+
+                <q-carousel-slide name="paradigm" class="column flex-center boxParadigm">
+                    <div class="row full-height items-center justify-center">            
+                        <div :class="v_col_text_class">
+                            <div class="q-pl-lg">
+                                <div class="gWhiteMediumTitle white q-mb-md">
+                                    New <span class="gBoldUpper">Interest</span> Paradigm<br>
+                                </div>
+
+                                <div class="q-mb-sm">
+                                    <div class="gDescWhite">
+                                        Existing paradigm : Interest payment<br>
+                                        WEVEST paradigm : NO interest<br> 
+                                    </div>
+                                </div>
+                                <div class="q-pt-sm">
+                                    <q-btn dense padding="0px" text-color="white" size="12px" label="Read Doc" flat icon-right="keyboard_arrow_right" align="left" />
+                                </div> 
                             </div>
                         </div>
+                        <div :class="v_col_img_class">
+                            <div class="flex items-center justify-center"
+                                v-if="v_page.paradigm" v-motion-slide-right :delay="v_delay">                        
 
-                        <div class="col-4">
-                            <div class="text-right">
-                                <q-btn class="fab fa-github-square icon2" size="25px" flat /> 
-                                <q-btn class="fab fa-twitter-square icon2" size="25px" flat/>    
-                                <q-btn class="fab fa-discord icon2 discord" size="25px" flat />  
-                                <q-btn class="fab fa-blogger icon2" size="25px" flat /> 
-                                <q-btn class="far fa-file-alt icon2" size="25px" flat /> 
-                            </div>
-                            <div class="q-py-md q-pr-sm text-right" style="color: white;">
-                                wevest.io
+                                <q-img class="boxBaseImage boxImage2" src="~assets/images/white_man.png"  />
                             </div>
                         </div>
                     </div>
-                </div>  
-            </q-carousel-slide>
-        </q-carousel> 
+
+                </q-carousel-slide>
+
+                <q-carousel-slide name="win" class="column flex-center boxWin">
+                    <div class="row full-height items-center justify-center">
+                        <div :class="v_col_img_class">
+                            <div class="flex items-center justify-center"
+                                v-if="v_page.win" v-motion-slide-left :delay="v_delay">
+                                <q-img src="~assets/images/white_woman.png" class="boxBaseImage boxImage3" />
+                            </div>
+                        </div>
+                        <div :class="v_col_text_class">
+                            <div class="boxWinText q-pl-md">
+                                <div class="gBlackMediumTitle gBoldLower text-left">
+                                    <span>Win-Win game</span>
+                                </div>
+                                <div class="gBlackSmallTitle text-left q-pb-md">
+                                    for both lender and borrower 
+                                </div>
+                                <div class="gDescBlack text-left">
+                                    Lender: more yield, transaction fee, LP tokens
+                                    Borrower: no interest, no maturity, leverage available
+                                </div>
+                                <div class="q-pt-sm">
+                                    <q-btn dense padding="0px" size="12px" label="Read Doc" flat icon-right="keyboard_arrow_right" align="left" />
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                
+                </q-carousel-slide>
+
+                <q-carousel-slide name="yield" class="column flex-center boxYield">
+                    <div class="row full-height items-center justify-center">
+                        <div :class="v_col_text_class">
+                            <div class="q-pl-lg">
+                                <div class="text-center gBlackMediumTitle q-pb-md text-left">
+                                <span class="gBlackSmallTitle"></span> <span class="gBoldLower">Use Right Delegation</span>
+        <!--    
+                                    <span class="gBlackSmallTitle">made it possible</span> 
+        -->                            
+                                </div>
+                                <div class="gDescBlack text-left">
+                                    Wevest protocol utilizes ‘collateral + loan’ to earn yield to setoff the interest rate.
+                                <div class="gDescBlack text-left q-pb-md">
+                                    The yield goes to lender as interest, So borrower does not pay interest at all.
+                                </div>
+        <!--                            
+                                    Lenders maximize interest income through yield farming, including their own funds
+                                    as well as borrowers' collateral.
+                                    rather than earning interest income with only their own funds,
+                                    and borrowers can borrow more than the collateral, with no interest and no maturities.
+        -->                            
+                                </div>
+                                <div class="q-pt-sm">
+                                    <q-btn dense padding="0px" size="12px" label="Read Doc" flat icon-right="keyboard_arrow_right" align="left" />
+                                </div> 
+                            </div>
+                        </div>
+
+                        <div :class="v_col_img_class">
+                            <div class="flex items-center justify-center"
+                                v-if="v_page.yield" v-motion-slide-top :delay="v_delay">
+                                <q-img src="~assets/images/asian_woman.png" class="boxBaseImage boxImage4" />
+                            </div>
+                        </div>
+                    </div>            
+                </q-carousel-slide>
+
+                <q-carousel-slide name="risk" class="column no-wrap flex-center boxRisk">
+                    <div class="row full-height items-center justify-center" >
+                        <div :class="v_col_img_class">
+                            <div class="flex items-center justify-center"    
+                                v-if="v_page.risk" v-motion-slide-bottom :delay="v_delay">
+                                <q-img src="~assets/images/asian_man.png" class="boxBaseImage boxImage5" />
+                            </div>
+                        </div>
+                        <div :class="v_col_text_class">
+                            <div>
+                                <div class="gBlackMediumTitle text-left">
+                                    <span class="gBoldLower">VaR & Forward-looking</span> <br>
+                                    <span class="gBlackSmallTitle">Risk Management</span> 
+                                </div>
+                                <div class="gDescBlack q-pt-md">
+                                    We measure risk via var, based on the var value
+                                    wevest protocol dynamically adjust collateral ratio to 
+                                    minimize risk exposure
+                                </div>
+                                <div class="q-pt-sm">
+                                    <q-btn dense padding="0px" size="12px" label="Read Risk Management Doc" flat icon-right="keyboard_arrow_right" align="left" /> <br>
+                                    <q-btn dense padding="0px" size="12px" label="Read VARiM Doc" flat icon-right="keyboard_arrow_right" align="left" />
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </q-carousel-slide>
+
+                <q-carousel-slide name="footer" class="column no-wrap flex-center boxFooter">
+                    <div class="flex items-center" v-if="v_page.footer">
+                        <div class="row full-width q-px-md">
+                            <div class="col-4">
+                                <div class="column">
+                                    <div class="footerTitle q-pb-sm"> Learn </div>
+                                    <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="wevest protocol" /> 
+                                    <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="risk management" /> 
+                                    <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="free-loan" /> 
+                                    <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="benefit" /> 
+                                </div>
+                            </div>
+                            
+                            <div class="col-4">
+                                <div class="column">
+                                    <div class="footerTitle q-pb-sm"> Product </div>
+                                    <q-btn class="learnBtn" flat dense align="left" text-color="grey-5" label="Lending" /> 
+                                </div>
+                            </div>
+
+                            <div class="col-4">
+                                <div class="text-right">
+                                    <q-btn class="fab fa-github-square icon2" size="25px" flat /> 
+                                    <q-btn class="fab fa-twitter-square icon2" size="25px" flat/>    
+                                    <q-btn class="fab fa-discord icon2 discord" size="25px" flat />  
+                                    <q-btn class="fab fa-blogger icon2" size="25px" flat /> 
+                                    <q-btn class="far fa-file-alt icon2" size="25px" flat /> 
+                                </div>
+                                <div class="q-py-md q-pr-sm text-right" style="color: white;">
+                                    wevest.io
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                </q-carousel-slide>
+            </q-carousel> 
+        </div>
     </div>
 </template>
 
@@ -562,7 +565,11 @@ export default {
         margin: -5vh 15vw 15vh 15vw;
     }
 
-     .boxImage3 {
+    .boxWinText {
+        margin: -15vh 0vw 0vh 0vw;
+    }
+
+    .boxImage3 {
         background-color: #ffea00; 
         border-color: #000000;
         margin: 10vh 10vw 10vh 10vw;
